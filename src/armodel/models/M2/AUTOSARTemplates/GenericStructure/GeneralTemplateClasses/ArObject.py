@@ -1577,7 +1577,235 @@ class DiagnosticTroubleCodeObd(ARObject):
 
 
 class DiagnosticTroubleCodeProps(ARObject):
-    pass
+    """This element defines common Dtc properties that can be reused by different non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodePropss"""
+
+    # DiagnosticTroubleCodeProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.175, p.186
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAgingRef                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAgingRef                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticMemoryRef                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setDiagnosticMemoryRef                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addExtendedDataRecordRef                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExtendedDataRecordRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFreezeFrameRef                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFreezeFrameRefs                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImmediateNvDataStorage                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setImmediateNvDataStorage                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLegislatedFreezeFrameContentUdsObdRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setLegislatedFreezeFrameContentUdsObdRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxNumberFreezeFrameRecords             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMaxNumberFreezeFrameRecords             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPriority                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setPriority                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSignificance                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setSignificance                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSnapshotRecordContentRef                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setSnapshotRecordContentRef                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — DIAGNOSTIC-TROUBLE-CODE-PROPS appears in the ARPackage
+    # ELEMENTS choice only (AUTOSAR_00052.xsd l.5251; no other parent aggregation in the XSD), whose loop
+    # requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row
+    # homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach
+    # it — the future consumer wires it (cf. DiagnosticTroubleCodeObd, DiagnosticMemoryDestinationUserDefined,
+    # DiagnosticFunctionIdentifierInhibit, commit 27e01b079). The XSD group also carries AGING-ALLOWED,
+    # ENVIRONMENT-CAPTURE-TO-REPORTING, FDC-THRESHOLD-STORAGE-VALUE, FREEZE-FRAME-CONTENT-REF,
+    # FREEZE-FRAME-CONTENT-WWH-OBD-REF, LEGISLATED-FREEZE-FRAME-CONTENT-WWH-OBDS and MEMORY-DESTINATION-REFS
+    # with atp.Status="removed" (AUTOSAR_00052.xsd l.46452-46546) — not modeled (Rule 0015).
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to an aging algorithm in case that an aging/ unlearning of the event is allowed. Stereotypes: atpSplitable Tags: atp.Splitkey=aging
+        self.agingRef: Optional[RefType] = None
+
+        # Reference to the applicable DiagnosticMemory Destination. Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticMemory
+        self.diagnosticMemoryRef: Optional[RefType] = None
+
+        # Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=extendedDataRecord.diagnosticExtended DataRecord, extendedDataRecord.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        self.extendedDataRecordRefs: List[RefType] = []
+
+        # Define the links to a freeze frame class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=freezeFrame.diagnosticFreezeFrame, freeze Frame.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.freezeFrameRefs: List[RefType] = []
+
+        # Change description for Class immediateNvDataStorage in table "Table A.111: DiagnosticTroubleCodeProps": Switch to enable immediate storage triggering of an according event memory entry persistently to NVRAM. true: immediate non-volatile storage triggering on first occurrence and shutdown. false: immediate non-volatile storage triggering on shutdown.
+        self.immediateNvDataStorage: Optional[Boolean] = None
+
+        # This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the UDS protocol such as OBDonUDS or WWH-OBD. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=legislatedFreezeFrameContentUds Obd.diagnosticDataIdentifierSet, legislatedFreezeFrame ContentUdsObd.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.legislatedFreezeFrameContentUdsObdRef: Optional[RefType] = None
+
+        # This attribute defines the number of according freeze frame records, which can maximal be stored for this event. Therefore all these freeze frame records have the same freeze frame class.
+        self.maxNumberFreezeFrameRecords: Optional[PositiveInteger] = None
+
+        # Priority of the event, in view of full event buffer. A lower value means higher priority. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.priority: Optional[PositiveInteger] = None
+
+        # Significance of the event, which indicates additional information concerning fault classification and resolution.
+        self.significance: Optional[DiagnosticSignificanceEnum] = None
+
+        # This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=snapshotRecordContent.diagnosticData IdentifierSet, snapshotRecordContent.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        self.snapshotRecordContentRef: Optional[RefType] = None
+
+    def getAgingRef(self) -> Optional[RefType]:
+        """
+        Reference to an aging algorithm in case that an aging/ unlearning of the event is allowed. Stereotypes: atpSplitable Tags: atp.Splitkey=aging
+        """
+        return self.agingRef
+
+    def setAgingRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        Reference to an aging algorithm in case that an aging/ unlearning of the event is allowed. Stereotypes: atpSplitable Tags: atp.Splitkey=aging
+
+        A None value is a no-op and does not overwrite an existing aging reference.
+        """
+        if value is not None:
+            self.agingRef = value
+        return self
+
+    def getDiagnosticMemoryRef(self) -> Optional[RefType]:
+        """
+        Reference to the applicable DiagnosticMemory Destination. Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticMemory
+        """
+        return self.diagnosticMemoryRef
+
+    def setDiagnosticMemoryRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        Reference to the applicable DiagnosticMemory Destination. Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticMemory
+
+        A None value is a no-op and does not overwrite an existing diagnosticMemory reference.
+        """
+        if value is not None:
+            self.diagnosticMemoryRef = value
+        return self
+
+    def addExtendedDataRecordRef(self, ref: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=extendedDataRecord.diagnosticExtended DataRecord, extendedDataRecord.variationPoint.short Label vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not extend the extendedDataRecordRefs list.
+        """
+        if ref is not None:
+            self.extendedDataRecordRefs.append(ref)
+        return self
+
+    def getExtendedDataRecordRefs(self) -> List[RefType]:
+        """
+        Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=extendedDataRecord.diagnosticExtended DataRecord, extendedDataRecord.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return self.extendedDataRecordRefs
+
+    def addFreezeFrameRef(self, ref: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        Define the links to a freeze frame class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=freezeFrame.diagnosticFreezeFrame, freeze Frame.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not extend the freezeFrameRefs list.
+        """
+        if ref is not None:
+            self.freezeFrameRefs.append(ref)
+        return self
+
+    def getFreezeFrameRefs(self) -> List[RefType]:
+        """
+        Define the links to a freeze frame class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=freezeFrame.diagnosticFreezeFrame, freeze Frame.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.freezeFrameRefs
+
+    def getImmediateNvDataStorage(self) -> Optional[Boolean]:
+        """
+        Change description for Class immediateNvDataStorage in table "Table A.111: DiagnosticTroubleCodeProps": Switch to enable immediate storage triggering of an according event memory entry persistently to NVRAM. true: immediate non-volatile storage triggering on first occurrence and shutdown. false: immediate non-volatile storage triggering on shutdown.
+        """
+        return self.immediateNvDataStorage
+
+    def setImmediateNvDataStorage(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeProps:
+        """
+        Change description for Class immediateNvDataStorage in table "Table A.111: DiagnosticTroubleCodeProps": Switch to enable immediate storage triggering of an according event memory entry persistently to NVRAM. true: immediate non-volatile storage triggering on first occurrence and shutdown. false: immediate non-volatile storage triggering on shutdown.
+
+        A None value is a no-op and does not overwrite an existing immediateNvDataStorage.
+        """
+        if value is not None:
+            self.immediateNvDataStorage = value
+        return self
+
+    def getLegislatedFreezeFrameContentUdsObdRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the UDS protocol such as OBDonUDS or WWH-OBD. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=legislatedFreezeFrameContentUds Obd.diagnosticDataIdentifierSet, legislatedFreezeFrame ContentUdsObd.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.legislatedFreezeFrameContentUdsObdRef
+
+    def setLegislatedFreezeFrameContentUdsObdRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the UDS protocol such as OBDonUDS or WWH-OBD. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=legislatedFreezeFrameContentUds Obd.diagnosticDataIdentifierSet, legislatedFreezeFrame ContentUdsObd.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing legislatedFreezeFrameContentUdsObd reference.
+        """
+        if value is not None:
+            self.legislatedFreezeFrameContentUdsObdRef = value
+        return self
+
+    def getMaxNumberFreezeFrameRecords(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of according freeze frame records, which can maximal be stored for this event. Therefore all these freeze frame records have the same freeze frame class.
+        """
+        return self.maxNumberFreezeFrameRecords
+
+    def setMaxNumberFreezeFrameRecords(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeProps:
+        """
+        This attribute defines the number of according freeze frame records, which can maximal be stored for this event. Therefore all these freeze frame records have the same freeze frame class.
+
+        A None value is a no-op and does not overwrite an existing maxNumberFreezeFrameRecords.
+        """
+        if value is not None:
+            self.maxNumberFreezeFrameRecords = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """
+        Priority of the event, in view of full event buffer. A lower value means higher priority. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeProps:
+        """
+        Priority of the event, in view of full event buffer. A lower value means higher priority. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getSignificance(self) -> Optional[DiagnosticSignificanceEnum]:
+        """
+        Significance of the event, which indicates additional information concerning fault classification and resolution.
+        """
+        return self.significance
+
+    def setSignificance(self, value: Optional[DiagnosticSignificanceEnum]) -> DiagnosticTroubleCodeProps:
+        """
+        Significance of the event, which indicates additional information concerning fault classification and resolution.
+
+        A None value is a no-op and does not overwrite an existing significance.
+        """
+        if value is not None:
+            self.significance = value
+        return self
+
+    def getSnapshotRecordContentRef(self) -> Optional[RefType]:
+        """
+        This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=snapshotRecordContent.diagnosticData IdentifierSet, snapshotRecordContent.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return self.snapshotRecordContentRef
+
+    def setSnapshotRecordContentRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeProps:
+        """
+        This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=snapshotRecordContent.diagnosticData IdentifierSet, snapshotRecordContent.variationPoint.short Label vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing snapshotRecordContent reference.
+        """
+        if value is not None:
+            self.snapshotRecordContentRef = value
+        return self
 
 
 class DiagnosticTroubleCodeUds(ARObject):
@@ -2117,6 +2345,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticSignificanceEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     Identifier,

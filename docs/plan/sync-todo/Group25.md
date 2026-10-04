@@ -842,15 +842,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCodeProps` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.175, p.186
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no synced parent carries it (see note)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: no synced parent carries it (see note)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; two notes below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1341 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Steps 5/6): N/A this pass — DIAGNOSTIC-TROUBLE-CODE-PROPS appears in the ARPackage ELEMENTS choice only (AUTOSAR_00052.xsd l.5251; no other parent aggregation in the XSD), whose loop requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach it — the future consumer wires it (cf. DiagnosticTroubleCodeObd, Table 4.159).
+  - Note (Step 1): Table 4.175 renders page-split in the markdown (header rows Package/Note/Base/Aggregated-by + the aging/diagnosticMemory attribute rows above the title at l.5667-5677, the extendedDataRecord..snapshotRecordContent rows below at l.5689-5696): class Note "This element defines common Dtc properties that can be reused by different non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodePropss" (matches the XSD group annotation verbatim). Attributes in displayed order: aging (DiagnosticAging, 0..1, ref → `agingRef: Optional[RefType]`, J-1939 dtcPropsRef precedent; XSD AGING-REF), diagnosticMemory (DiagnosticMemoryDestination, 0..1, ref → `diagnosticMemoryRef: Optional[RefType]`; XSD DIAGNOSTIC-MEMORY-REF), extendedDataRecord (DiagnosticExtendedDataRecord, *, ref → `extendedDataRecordRefs: List[RefType]` + addExtendedDataRecordRef/getExtendedDataRecordRefs; XSD EXTENDED-DATA-RECORDS wrapper of unbounded DIAGNOSTIC-EXTENDED-DATA-RECORD-REF-CONDITIONAL), freezeFrame (DiagnosticFreezeFrame, *, ref → `freezeFrameRefs: List[RefType]` + addFreezeFrameRef/getFreezeFrameRefs; XSD FREEZE-FRAMES wrapper), immediateNvDataStorage (Boolean, 0..1, attr; XSD IMMEDIATE-NV-DATA-STORAGE is a plain AR:BOOLEAN), legislatedFreezeFrameContentUdsObd (DiagnosticDataIdentifierSet, 0..1, ref → `legislatedFreezeFrameContentUdsObdRef: Optional[RefType]`; markdown 0..1 wins over the XSD wrapper's pureMM.maxOccurs="-1" per Rule 0015 — wrapper structure recorded for the consumer pass: LEGISLATED-FREEZE-FRAME-CONTENT-UDS-OBDS holding an unbounded DIAGNOSTIC-DATA-IDENTIFIER-SET-REF-CONDITIONAL choice), maxNumberFreezeFrameRecords (PositiveInteger, 0..1, attr; XSD plain AR:POSITIVE-INTEGER), priority (PositiveInteger, 0..1, attr; XSD PRIORITY is POSITIVE-INTEGER-VALUE-VARIATION-POINT — markdown Type column wins per Rule 0015, serialize through the VALUE-VARIATION-POINT wrapper at the future consumer pass), significance (DiagnosticSignificanceEnum, 0..1, attr → typed Optional[DiagnosticSignificanceEnum]; XSD SIGNIFICANCE is unwrapped AR:DIAGNOSTIC-SIGNIFICANCE-ENUM — DiagnosticIndicator.type precedent; enum synced 9d20f1f7c), snapshotRecordContent (DiagnosticDataIdentifierSet, 0..1, ref → `snapshotRecordContentRef: Optional[RefType]`; same 0..1-vs-XSD-unbounded-wrapper Rule 0015 note: SNAPSHOT-RECORD-CONTENTS holding an unbounded REF-CONDITIONAL choice). The XSD group also carries AGING-ALLOWED, ENVIRONMENT-CAPTURE-TO-REPORTING, FDC-THRESHOLD-STORAGE-VALUE, FREEZE-FRAME-CONTENT-REF, FREEZE-FRAME-CONTENT-WWH-OBD-REF, LEGISLATED-FREEZE-FRAME-CONTENT-WWH-OBDS and MEMORY-DESTINATION-REFS with atp.Status="removed" (AUTOSAR_00052.xsd l.46452-46546) — not modeled (Rule 0015, recorded as findings, not deviations).
 
 - [ ] `DiagnosticSignificanceEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.176, p.187
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

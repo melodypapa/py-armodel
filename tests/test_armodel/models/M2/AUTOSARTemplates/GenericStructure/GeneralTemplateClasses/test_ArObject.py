@@ -45,6 +45,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticSignificanceEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     NameToken,
@@ -2017,3 +2018,290 @@ class TestDiagnosticTroubleCodeObdPendingReferences:
         """
         assert issubclass(DiagnosticTroubleCodeProps, ARObject)
         assert issubclass(EventObdReadinessGroup, ARObject)
+
+
+class TestDiagnosticTroubleCodeProps:
+    """
+    Test class for DiagnosticTroubleCodeProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.175, p.186
+    """
+
+    CLASS_NOTE = "This element defines common Dtc properties that can be reused by different non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodePropss"
+    AGING_REF_NOTE = "Reference to an aging algorithm in case that an aging/ unlearning of the event is allowed. Stereotypes: atpSplitable Tags: atp.Splitkey=aging"
+    DIAGNOSTIC_MEMORY_REF_NOTE = "Reference to the applicable DiagnosticMemory Destination. Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticMemory"
+    EXTENDED_DATA_RECORD_NOTE = "Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=extendedDataRecord.diagnosticExtended DataRecord, extendedDataRecord.variationPoint.short Label vh.latestBindingTime=preCompileTime"
+    FREEZE_FRAME_NOTE = "Define the links to a freeze frame class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=freezeFrame.diagnosticFreezeFrame, freeze Frame.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    IMMEDIATE_NV_DATA_STORAGE_NOTE = 'Change description for Class immediateNvDataStorage in table "Table A.111: DiagnosticTroubleCodeProps": Switch to enable immediate storage triggering of an according event memory entry persistently to NVRAM. true: immediate non-volatile storage triggering on first occurrence and shutdown. false: immediate non-volatile storage triggering on shutdown.'
+    LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE = "This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the UDS protocol such as OBDonUDS or WWH-OBD. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=legislatedFreezeFrameContentUds Obd.diagnosticDataIdentifierSet, legislatedFreezeFrame ContentUdsObd.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE = (
+        "This attribute defines the number of according freeze frame records, which can maximal be stored for this event. Therefore all these freeze frame records have the same freeze frame class."
+    )
+    PRIORITY_NOTE = "Priority of the event, in view of full event buffer. A lower value means higher priority. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    SIGNIFICANCE_NOTE = "Significance of the event, which indicates additional information concerning fault classification and resolution."
+    SNAPSHOT_RECORD_CONTENT_REF_NOTE = "This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=snapshotRecordContent.diagnosticData IdentifierSet, snapshotRecordContent.variationPoint.short Label vh.latestBindingTime=preCompileTime"
+
+    def _create_props(self) -> DiagnosticTroubleCodeProps:
+        return DiagnosticTroubleCodeProps()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeProps initializes all attributes to their defaults.
+        """
+        obj = self._create_props()
+
+        assert obj.getAgingRef() is None
+        assert obj.getDiagnosticMemoryRef() is None
+        assert obj.getExtendedDataRecordRefs() == []
+        assert obj.getFreezeFrameRefs() == []
+        assert obj.getImmediateNvDataStorage() is None
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is None
+        assert obj.getMaxNumberFreezeFrameRecords() is None
+        assert obj.getPriority() is None
+        assert obj.getSignificance() is None
+        assert obj.getSnapshotRecordContentRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeProps derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeProps.__init__.__doc__ is None
+
+    def test_get_set_aging_ref(self):
+        """
+        Test getAgingRef and setAgingRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AGING")
+        ref.setValue("/AUTOSAR/DiagnosticAgings/Aging1")
+        result = obj.setAgingRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAgingRef() is ref
+        assert obj.getAgingRef().getValue() == "/AUTOSAR/DiagnosticAgings/Aging1"
+        assert obj.getAgingRef().getDest() == "DIAGNOSTIC-AGING"
+
+        result = obj.setAgingRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAgingRef() is ref  # None is a no-op
+
+    def test_get_set_diagnostic_memory_ref(self):
+        """
+        Test getDiagnosticMemoryRef and setDiagnosticMemoryRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED")
+        ref.setValue("/AUTOSAR/DiagnosticMemoryDestinations/Memory1")
+        result = obj.setDiagnosticMemoryRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDiagnosticMemoryRef() is ref
+        assert obj.getDiagnosticMemoryRef().getValue() == "/AUTOSAR/DiagnosticMemoryDestinations/Memory1"
+        assert obj.getDiagnosticMemoryRef().getDest() == "DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED"
+
+        result = obj.setDiagnosticMemoryRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDiagnosticMemoryRef() is ref  # None is a no-op
+
+    def test_add_get_extended_data_record_refs(self):
+        """
+        Test addExtendedDataRecordRef append and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-EXTENDED-DATA-RECORD")
+        ref.setValue("/AUTOSAR/DiagnosticExtendedDataRecords/Edr1")
+        result = obj.addExtendedDataRecordRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getExtendedDataRecordRefs() == [ref]
+        assert obj.getExtendedDataRecordRefs()[0].getValue() == "/AUTOSAR/DiagnosticExtendedDataRecords/Edr1"
+        assert obj.getExtendedDataRecordRefs()[0].getDest() == "DIAGNOSTIC-EXTENDED-DATA-RECORD"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-EXTENDED-DATA-RECORD")
+        ref2.setValue("/AUTOSAR/DiagnosticExtendedDataRecords/Edr2")
+        obj.addExtendedDataRecordRef(ref2)
+        assert obj.getExtendedDataRecordRefs() == [ref, ref2]
+
+        result = obj.addExtendedDataRecordRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getExtendedDataRecordRefs() == [ref, ref2]  # None is a no-op
+
+    def test_add_get_freeze_frame_refs(self):
+        """
+        Test addFreezeFrameRef append and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-FREEZE-FRAME")
+        ref.setValue("/AUTOSAR/DiagnosticFreezeFrames/Ff1")
+        result = obj.addFreezeFrameRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getFreezeFrameRefs() == [ref]
+        assert obj.getFreezeFrameRefs()[0].getValue() == "/AUTOSAR/DiagnosticFreezeFrames/Ff1"
+        assert obj.getFreezeFrameRefs()[0].getDest() == "DIAGNOSTIC-FREEZE-FRAME"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-FREEZE-FRAME")
+        ref2.setValue("/AUTOSAR/DiagnosticFreezeFrames/Ff2")
+        obj.addFreezeFrameRef(ref2)
+        assert obj.getFreezeFrameRefs() == [ref, ref2]
+
+        result = obj.addFreezeFrameRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFreezeFrameRefs() == [ref, ref2]  # None is a no-op
+
+    def test_get_set_immediate_nv_data_storage(self):
+        """
+        Test getImmediateNvDataStorage and setImmediateNvDataStorage round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean().setValue(True)
+        result = obj.setImmediateNvDataStorage(value)
+        assert result is obj  # method chaining
+        assert obj.getImmediateNvDataStorage() is value
+        assert obj.getImmediateNvDataStorage().getValue() is True
+
+        result = obj.setImmediateNvDataStorage(None)
+        assert result is obj  # method chaining with None
+        assert obj.getImmediateNvDataStorage() is value  # None is a no-op
+
+    def test_get_set_legislated_freeze_frame_content_uds_obd_ref(self):
+        """
+        Test getLegislatedFreezeFrameContentUdsObdRef and setLegislatedFreezeFrameContentUdsObdRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER-SET")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifierSets/DidSet1")
+        result = obj.setLegislatedFreezeFrameContentUdsObdRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is ref
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef().getValue() == "/AUTOSAR/DiagnosticDataIdentifierSets/DidSet1"
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER-SET"
+
+        result = obj.setLegislatedFreezeFrameContentUdsObdRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is ref  # None is a no-op
+
+    def test_get_set_max_number_freeze_frame_records(self):
+        """
+        Test getMaxNumberFreezeFrameRecords and setMaxNumberFreezeFrameRecords round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = PositiveInteger().setValue(3)
+        result = obj.setMaxNumberFreezeFrameRecords(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberFreezeFrameRecords() is value
+        assert obj.getMaxNumberFreezeFrameRecords().getValue() == 3
+
+        result = obj.setMaxNumberFreezeFrameRecords(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberFreezeFrameRecords() is value  # None is a no-op
+
+    def test_get_set_priority(self):
+        """
+        Test getPriority and setPriority round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setPriority(value)
+        assert result is obj  # method chaining
+        assert obj.getPriority() is value
+        assert obj.getPriority().getValue() == 10
+
+        result = obj.setPriority(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPriority() is value  # None is a no-op
+
+    def test_get_set_significance(self):
+        """
+        Test getSignificance and setSignificance round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = DiagnosticSignificanceEnum().setValue(DiagnosticSignificanceEnum.FAULT)
+        result = obj.setSignificance(value)
+        assert result is obj  # method chaining
+        assert obj.getSignificance() is value
+        assert obj.getSignificance().getValue() == "fault"
+
+        result = obj.setSignificance(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSignificance() is value  # None is a no-op
+
+    def test_get_set_snapshot_record_content_ref(self):
+        """
+        Test getSnapshotRecordContentRef and setSnapshotRecordContentRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER-SET")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifierSets/DidSet2")
+        result = obj.setSnapshotRecordContentRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getSnapshotRecordContentRef() is ref
+        assert obj.getSnapshotRecordContentRef().getValue() == "/AUTOSAR/DiagnosticDataIdentifierSets/DidSet2"
+        assert obj.getSnapshotRecordContentRef().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER-SET"
+
+        result = obj.setSnapshotRecordContentRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSnapshotRecordContentRef() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adders append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getAgingRef.__doc__) == self.AGING_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setAgingRef.__doc__) == (self.AGING_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing aging reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getDiagnosticMemoryRef.__doc__) == self.DIAGNOSTIC_MEMORY_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setDiagnosticMemoryRef.__doc__) == (
+            self.DIAGNOSTIC_MEMORY_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing diagnosticMemory reference."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.addExtendedDataRecordRef.__doc__) == (
+            self.EXTENDED_DATA_RECORD_NOTE + "\n\nA None value is a no-op and does not extend the extendedDataRecordRefs list."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getExtendedDataRecordRefs.__doc__) == self.EXTENDED_DATA_RECORD_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.addFreezeFrameRef.__doc__) == (self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not extend the freezeFrameRefs list.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getFreezeFrameRefs.__doc__) == self.FREEZE_FRAME_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getImmediateNvDataStorage.__doc__) == self.IMMEDIATE_NV_DATA_STORAGE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setImmediateNvDataStorage.__doc__) == (
+            self.IMMEDIATE_NV_DATA_STORAGE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing immediateNvDataStorage."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getLegislatedFreezeFrameContentUdsObdRef.__doc__) == self.LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setLegislatedFreezeFrameContentUdsObdRef.__doc__) == (
+            self.LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing legislatedFreezeFrameContentUdsObd reference."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getMaxNumberFreezeFrameRecords.__doc__) == self.MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setMaxNumberFreezeFrameRecords.__doc__) == (
+            self.MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumberFreezeFrameRecords."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getPriority.__doc__) == self.PRIORITY_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setPriority.__doc__) == (self.PRIORITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing priority.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getSignificance.__doc__) == self.SIGNIFICANCE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setSignificance.__doc__) == (self.SIGNIFICANCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing significance.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getSnapshotRecordContentRef.__doc__) == self.SNAPSHOT_RECORD_CONTENT_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setSnapshotRecordContentRef.__doc__) == (
+            self.SNAPSHOT_RECORD_CONTENT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing snapshotRecordContent reference."
+        )
