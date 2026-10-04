@@ -260,12 +260,11 @@ class E2EProfileCompatibilityProps(ARElement):
     """
 
     # E2EProfileCompatibilityProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.25, p.808
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.93, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

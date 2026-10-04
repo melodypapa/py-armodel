@@ -62,15 +62,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `E2EProfileCompatibilityProps` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.93, p.202; also CP_TPS_SystemTemplate Table 7.25, p.808
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_E2EProfileCompatibilityProps.py, 3 passed / 0 failed tests/test_armodel/parser/test_E2EProfileCompatibilityProps.py, 7 passed / 0 failed tests/test_armodel/writer/test_writer_E2EProfileCompatibilityProps.py; neighbors: 394 passed Transformer dir + test_arxml_parser_comspec + test_writer_sw_component + test_writer_hw_lin_flexray_transform, 3 passed member_annotations; black/ruff clean, checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EndToEndProtection` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.97, p.215; also CP_TPS_SystemTemplate Table 6.55, p.384
   - module: M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py
