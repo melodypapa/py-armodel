@@ -1735,6 +1735,15 @@ DIAGNOSTIC_OBD_SUPPORT_XML_MAP = {
     "secondaryEcu": "SECONDARY-ECU",
 }
 
+#: Mapping between DiagnosticOperationCycleTypeEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OPERATION-CYCLE-TYPE-ENUM--SIMPLE).
+DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP = {
+    "ignition": "IGNITION",
+    "obdDrivingCycle": "OBD-DRIVING-CYCLE",
+    "other": "OTHER",
+    "warmup": "WARMUP",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """
@@ -11078,8 +11087,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticOperationCycle(self, element: ET.Element, cycle: DiagnosticOperationCycle):
         self.logger.debug("Read DiagnosticOperationCycle <%s>" % cycle.getShortName())
         self.readIdentifiable(element, cycle)
-        # TYPE is round-tripped as a raw literal until DiagnosticOperationCycleTypeEnum (Table 4.197, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        cycle.setType(cast(Optional[DiagnosticOperationCycleTypeEnum], self.getChildElementOptionalLiteral(element, "TYPE")))
+        cycle.setType(self._readEnumToken(element, "TYPE", DiagnosticOperationCycleTypeEnum, DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP))
 
     def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.readDiagnosticMapping(element, mapping)

@@ -11353,7 +11353,7 @@ class TestDiagnosticOperationCycle:
         """
         obj = self._make_obj()
 
-        value = DiagnosticOperationCycleTypeEnum([]).setValue("ignition")
+        value = DiagnosticOperationCycleTypeEnum().setValue(DiagnosticOperationCycleTypeEnum.IGNITION)
         result = obj.setType(value)
         assert result is obj  # method chaining
         assert obj.getType() is value

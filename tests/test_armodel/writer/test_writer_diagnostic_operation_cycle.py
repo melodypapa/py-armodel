@@ -6,9 +6,9 @@ DiagnosticOperationCycle (Base most-derived ARElement) carries one own Attribute
 row — type (DiagnosticOperationCycleTypeEnum, 0..1, attr) — written as the single
 TYPE child in the XSD group's sequenceOffset order (AUTOSAR_00052.xsd l.40289;
 the group's AUTOMATIC-END, CYCLE-AUTOSTART and CYCLE-STATUS-STORAGE elements
-carry atp.Status="removed" and are not modeled). TYPE is round-tripped as a raw
-literal until DiagnosticOperationCycleTypeEnum (Table 4.197, Group25) gains its
-literals, so the writer emits the stored field value verbatim.
+carry atp.Status="removed" and are not modeled). type round-trips as the typed
+DiagnosticOperationCycleTypeEnum (Table 4.197) literal — the enum value maps
+back to its TYPE XSD token.
 The dispatch entries are writeARPackageElement → writeDiagnosticOperationCycle
 and writeDiagnosticElement → writeDiagnosticOperationCycle (the Diagnostic
 catch-all arm of writeARPackageElementRest).
@@ -40,7 +40,7 @@ def reset_autosar():
 
 def _make_cycle(package) -> DiagnosticOperationCycle:
     cycle = package.createDiagnosticOperationCycle("OperationCycle1")
-    cycle.setType(DiagnosticOperationCycleTypeEnum([]).setValue("IGNITION"))
+    cycle.setType(DiagnosticOperationCycleTypeEnum().setValue(DiagnosticOperationCycleTypeEnum.IGNITION))
     return cycle
 
 
@@ -89,7 +89,7 @@ class TestWriteDiagnosticOperationCycle:
         """Test that writeDiagnosticElement dispatches DiagnosticOperationCycle to a DIAGNOSTIC-OPERATION-CYCLE element."""
         package = AUTOSAR.getInstance().createARPackage("DiagnosticOperationCycles")
         cycle = package.createDiagnosticOperationCycle("OperationCycle1")
-        cycle.setType(DiagnosticOperationCycleTypeEnum([]).setValue("OBD-DRIVING-CYCLE"))
+        cycle.setType(DiagnosticOperationCycleTypeEnum().setValue(DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE))
 
         parent = ET.Element("AR-PACKAGE")
         assert ARXMLWriter().writeDiagnosticElement(parent, cycle) is True
@@ -115,7 +115,8 @@ class TestWriteDiagnosticOperationCycle:
             assert cycle_2 is not None
             assert cycle_2.getShortName() == "OperationCycle1"
             assert cycle_2.getType() is not None
-            assert cycle_2.getType().getValue() == "IGNITION"
+            assert isinstance(cycle_2.getType(), DiagnosticOperationCycleTypeEnum)
+            assert cycle_2.getType().getValue() == "ignition"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

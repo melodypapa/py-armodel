@@ -1095,6 +1095,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     as a raw literal (getChildElementOptionalLiteral/setChildElementOptionalLiteral + cast); switch to
     _readEnumToken/_writeEnumToken when the enum gains its literals (precedent TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION).
     Base DiagnosticCommonElement (Table 4.1) contributes no XML (<xsd:sequence/>) — no base helper needed beyond readIdentifiable.
+    RESOLVED 2026-10-04: DiagnosticOperationCycleTypeEnum synced — TYPE rewired to _readEnumToken/_writeEnumToken with DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP in both parser and writer.
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -1107,15 +1108,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticOperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.197, p.201
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-tripped on the consuming class (DiagnosticOperationCycle TYPE asserts strengthened in test_diagnostic_operation_cycle.py / test_writer_diagnostic_operation_cycle.py)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the enum itself (no own XML element); consumer rewire done: DiagnosticOperationCycle TYPE flipped from getChildElementOptionalLiteral/setChildElementOptionalLiteral+cast to _readEnumToken/_writeEnumToken with DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP in both parser and writer (015af36ca precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; XSD literals POWER and TIME (AUTOSAR_00052.xsd l.134872/l.134878) carry atp.Status="removed" and are absent from the markdown table — not modeled per Rule 0015, recorded as a finding note)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2133 passed / 0 failed: test_PrimitiveTypes.py + test_ARPackage.py + test_diagnostic_operation_cycle.py + test_writer_diagnostic_operation_cycle.py + test_member_annotations.py + test_group21_36_stub_classes.py; parser+writer regression 7670 passed / 0 failed); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticAging` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.198, p.202
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

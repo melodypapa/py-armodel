@@ -2225,7 +2225,37 @@ class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
 
 
 class DiagnosticOperationCycleTypeEnum(AREnum):
-    pass
+    """
+    Operation cycles types used to identify certain Operation cycles with a certain semantics.
+    """
+
+    # DiagnosticOperationCycleTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.197, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Ignition ON / OFF cycle Tags: atp.EnumerationLiteralIndex=0
+    IGNITION = "ignition"
+
+    # OBD Driving cycle Tags: atp.EnumerationLiteralIndex=1
+    OBD_DRIVING_CYCLE = "obdDrivingCycle"
+
+    # further operation cycle Tags: atp.EnumerationLiteralIndex=2
+    OTHER = "other"
+
+    # OBD Warm up cycle Tags: atp.EnumerationLiteralIndex=5
+    WARMUP = "warmup"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticOperationCycleTypeEnum.IGNITION,
+                DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE,
+                DiagnosticOperationCycleTypeEnum.OTHER,
+                DiagnosticOperationCycleTypeEnum.WARMUP,
+            ]
+        )
 
 
 class DiagnosticPeriodicRateCategoryEnum(AREnum):

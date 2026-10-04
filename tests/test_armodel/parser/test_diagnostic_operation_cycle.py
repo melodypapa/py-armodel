@@ -6,14 +6,14 @@ DiagnosticOperationCycle (Base most-derived ARElement) carries one own Attribute
 row — type (DiagnosticOperationCycleTypeEnum, 0..1, attr) — read as the single
 TYPE child (AUTOSAR_00052.xsd l.40330; the group's AUTOMATIC-END,
 CYCLE-AUTOSTART and CYCLE-STATUS-STORAGE elements carry atp.Status="removed" and
-are not modeled). TYPE is round-tripped as a raw literal until
-DiagnosticOperationCycleTypeEnum (Table 4.197, Group25) gains its literals, so
-the reader asserts the raw XML token verbatim.
+are not modeled). type round-trips as the typed DiagnosticOperationCycleTypeEnum
+(Table 4.197) literal — the TYPE XSD token maps to the enum value.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_operation_cycle.py
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticOperationCycleTypeEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -32,11 +32,12 @@ class TestReadDiagnosticOperationCycle:
         cycle = self._read(parser, "<SHORT-NAME>OperationCycle1</SHORT-NAME>")
         assert cycle.getShortName() == "OperationCycle1"
 
-    def test_read_sets_type_raw_literal(self, parser):
-        """Test that TYPE is read as a raw literal while its enum is a stub."""
+    def test_read_sets_type_token(self, parser):
+        """Test that the TYPE token is read as the typed enum literal."""
         cycle = self._read(parser, "<TYPE>IGNITION</TYPE>")
         assert cycle.getType() is not None
-        assert cycle.getType().getValue() == "IGNITION"
+        assert isinstance(cycle.getType(), DiagnosticOperationCycleTypeEnum)
+        assert cycle.getType().getValue() == "ignition"
 
     def test_read_empty_leaves_fields_none(self, parser):
         """Test that an element without own children leaves every field None (empty wrapper case)."""

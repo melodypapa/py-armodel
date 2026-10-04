@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
@@ -2692,3 +2693,52 @@ class TestDiagnosticObdSupportEnum:
         enum.setValue(DiagnosticObdSupportEnum.PRIMARY_ECU)
 
         assert enum.getValue() == "primaryEcu"
+
+
+class TestDiagnosticOperationCycleTypeEnum:
+    """
+    Test class for DiagnosticOperationCycleTypeEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.197, p.201
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "ignition",
+            "obdDrivingCycle",
+            "other",
+            "warmup",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum member values.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+
+        assert DiagnosticOperationCycleTypeEnum.IGNITION == "ignition"
+        assert DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE == "obdDrivingCycle"
+        assert DiagnosticOperationCycleTypeEnum.OTHER == "other"
+        assert DiagnosticOperationCycleTypeEnum.WARMUP == "warmup"
+
+        assert enum.validateEnumValue("ignition") is True
+        assert enum.validateEnumValue("obdDrivingCycle") is True
+        assert enum.validateEnumValue("other") is True
+        assert enum.validateEnumValue("warmup") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum instantiability and getValue.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+        enum.setValue(DiagnosticOperationCycleTypeEnum.WARMUP)
+
+        assert enum.getValue() == "warmup"
