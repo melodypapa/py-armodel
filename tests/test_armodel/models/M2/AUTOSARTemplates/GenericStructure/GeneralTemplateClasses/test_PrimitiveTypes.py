@@ -46,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticSignificanceEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -2801,3 +2802,46 @@ class TestDiagnosticOperationCycleTypeEnum:
         enum.setValue(DiagnosticOperationCycleTypeEnum.WARMUP)
 
         assert enum.getValue() == "warmup"
+
+
+class TestDiagnosticSignificanceEnum:
+    """
+    Test class for DiagnosticSignificanceEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.176, p.187
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticSignificanceEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticSignificanceEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "fault",
+            "occurence",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticSignificanceEnum member values.
+        """
+        enum = DiagnosticSignificanceEnum()
+
+        assert DiagnosticSignificanceEnum.FAULT == "fault"
+        assert DiagnosticSignificanceEnum.OCCURENCE == "occurence"
+
+        assert enum.validateEnumValue("fault") is True
+        assert enum.validateEnumValue("occurence") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticSignificanceEnum instantiability and getValue.
+        """
+        enum = DiagnosticSignificanceEnum()
+        enum.setValue(DiagnosticSignificanceEnum.OCCURENCE)
+
+        assert enum.getValue() == "occurence"

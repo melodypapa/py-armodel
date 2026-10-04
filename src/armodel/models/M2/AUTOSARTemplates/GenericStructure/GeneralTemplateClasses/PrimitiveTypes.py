@@ -2415,7 +2415,29 @@ class DiagnosticResponseToEcuResetEnum(AREnum):
 
 
 class DiagnosticSignificanceEnum(AREnum):
-    pass
+    """
+    Significance level of a diagnostic event.
+    """
+
+    # DiagnosticSignificanceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.176, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Failure, which affects the component/ECU itself. Tags: atp.EnumerationLiteralIndex=0
+    FAULT = "fault"
+
+    # Issue, which indicates additional information concerning insufficient system behavior. Tags: atp.EnumerationLiteralIndex=1
+    OCCURENCE = "occurence"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticSignificanceEnum.FAULT,
+                DiagnosticSignificanceEnum.OCCURENCE,
+            ]
+        )
 
 
 class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
