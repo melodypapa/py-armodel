@@ -2258,9 +2258,14 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `transformationDescription` | `—` | `transformationDescription` | `EndToEndTransformationDescription` | — | type (spec many vs py single) |
+No deviations — the stale `type (spec many vs py single)` row on `transformationDescription` is removed (Rule 0001.4 stale row): the "many" came only from the XSD (`pureMM.maxOccurs="-1"` after atpVariation resolution, AUTOSAR_00052.xsd group TRANSFORMATION-TECHNOLOGY line 125800), while the PDF Table 4.87 row is Mult `0..1` — the single `Optional[TransformationDescription]` field is PDF-correct (Rule 0015).
+
+## `TransformationDescription`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 199
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
+
+No deviations — abstract Class (Table 4.89) with no own `Attribute` rows; Base `ARObject, Describable` modeled as `Describable` (already stamped); the atpVariation capability on the aggregation row `TransformationTechnology.transformationDescription` is carried by the `VariationPointCapable` mixin (Rule 0020; XSD group TRANSFORMATION-DESCRIPTION line 125461 holds VARIATION-POINT), with reader/writer coverage via the reusable `readTransformationDescription`/`writeTransformationDescription` helpers.
 
 ## `EndToEndTransformationComSpecProps`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 200

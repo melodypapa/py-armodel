@@ -183,10 +183,12 @@ class TransformationDescription(Describable, VariationPointCapable, ABC):
     """
 
     # TransformationDescription method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.6, p.771
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.89, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent);
+    # the class's XML group (VARIATION-POINT) is covered by the reusable readTransformationDescription / writeTransformationDescription helpers
+    # (parser/writer call readVariationPointCapable / writeVariationPointCapable at this level; concrete subclasses inherit the coverage).
 
     def __init__(self):
         if type(self) is TransformationDescription:

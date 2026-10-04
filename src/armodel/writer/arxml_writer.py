@@ -16262,6 +16262,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTransformationDescription(self, element: ET.Element, desc: TransformationDescription):
         self.writeDescribable(element, desc)
+        self.writeVariationPointCapable(element, desc)
 
     def writeEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
         if desc is not None:

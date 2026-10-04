@@ -12760,6 +12760,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTransformationDescription(self, element: ET.Element, desc: TransformationDescription):
         self.readDescribable(element, desc)
+        self.readVariationPointCapable(element, desc)
 
     def readEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
         self.readTransformationDescription(element, desc)
