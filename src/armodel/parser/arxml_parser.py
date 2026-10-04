@@ -579,6 +579,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimEventGroup,
     DiagnosticFreezeFrame,
     DiagnosticFunctionIdentifier,
+    DiagnosticIndicator,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
@@ -650,6 +651,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -11822,6 +11824,11 @@ class ARXMLParser(AbstractARXMLParser):
         request_vehicle_info.setInfoTypeRef(self.getChildElementOptionalRefType(element, "INFO-TYPE-REF"))
         request_vehicle_info.setRequestVehicleInformationClassRef(self.getChildElementOptionalRefType(element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF"))
 
+    def readDiagnosticIndicator(self, element: ET.Element, indicator: DiagnosticIndicator):
+        self.logger.debug("Read DiagnosticIndicator <%s>" % indicator.getShortName())
+        self.readIdentifiable(element, indicator)
+        indicator.setType(cast(Optional[DiagnosticIndicatorTypeEnum], self.getChildElementOptionalLiteral(element, "TYPE")))
+
     def readDiagnosticInfoType(self, element: ET.Element, info_type: DiagnosticInfoType):
         self.logger.debug("Read DiagnosticInfoType <%s>" % info_type.getShortName())
         self.readIdentifiable(element, info_type)
@@ -16712,6 +16719,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
             identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
             self.readDiagnosticFunctionIdentifier(child_element, identifier)
+        elif tag_name == "DIAGNOSTIC-INDICATOR":
+            indicator = parent.createDiagnosticIndicator(self.getShortName(child_element))
+            self.readDiagnosticIndicator(child_element, indicator)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
@@ -17084,6 +17094,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
             identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
             self.readDiagnosticFunctionIdentifier(child_element, identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-INDICATOR":
+            indicator = parent.createDiagnosticIndicator(self.getShortName(child_element))
+            self.readDiagnosticIndicator(child_element, indicator)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

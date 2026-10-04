@@ -921,6 +921,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(io_control)
         return cast(DiagnosticIOControl, self.getReferrableElement(short_name, DiagnosticIOControl))
 
+    def createDiagnosticIndicator(self, short_name: str) -> DiagnosticIndicator:
+        """
+        Creates a new DiagnosticIndicator with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIndicator: Definition of an indicator.
+
+        Args:
+            short_name: The short name for the new DiagnosticIndicator
+
+        Returns:
+            The newly created or existing DiagnosticIndicator instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIndicator):
+            element = DiagnosticIndicator(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIndicator, self.getReferrableElement(short_name, DiagnosticIndicator))
+
     def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
         """
         Creates a new DiagnosticIoControlClass with the given short name,
@@ -4545,6 +4563,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationPropsSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
@@ -7572,7 +7591,38 @@ class DiagnosticIOControl(ARElement):
 
 
 class DiagnosticIndicator(ARElement):
-    pass
+    """
+    Definition of an indicator. Tags: atp.recommendedPackage=DiagnosticIndicators
+    """
+
+    # DiagnosticIndicator method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.199, p.203
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.type: Optional[DiagnosticIndicatorTypeEnum] = None
+
+    def getType(self) -> Optional[DiagnosticIndicatorTypeEnum]:
+        """
+        Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.type
+
+    def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> DiagnosticIndicator:
+        """
+        Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class DiagnosticInfoType(ARElement):

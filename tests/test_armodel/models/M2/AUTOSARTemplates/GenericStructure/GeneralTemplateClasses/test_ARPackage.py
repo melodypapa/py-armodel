@@ -8,6 +8,7 @@ import inspect
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import DiagnosticCommonElement
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticServiceInstance
@@ -72,6 +73,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimFunctionMapping,
     DiagnosticFreezeFrame,
     DiagnosticFunctionIdentifier,
+    DiagnosticIndicator,
     DiagnosticInfoType,
     DiagnosticInhibitSourceEventMapping,
     DiagnosticIOControl,
@@ -10423,6 +10425,89 @@ class TestDiagnosticFunctionIdentifier:
         assert ar_root.getReferrableElement("FID1", DiagnosticFunctionIdentifier) is obj
 
         duplicate = ar_root.createDiagnosticFunctionIdentifier("FID1")
+        assert duplicate is obj
+
+
+class TestDiagnosticIndicator:
+    """
+    Test class for DiagnosticIndicator functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.199, p.203
+
+    DiagnosticIndicator is concrete (XSD complexType
+    DIAGNOSTIC-INDICATOR abstract="false") with one own Attribute
+    row in displayed order. type (DiagnosticIndicatorTypeEnum,
+    Table 4.200) is a synced enum and is exercised as a real enum
+    instance.
+    """
+
+    CLASS_NOTE = "Definition of an indicator. Tags: atp.recommendedPackage=DiagnosticIndicators"
+
+    TYPE_NOTE = "Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _make_obj(self) -> DiagnosticIndicator:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticIndicator(ar_root, "TestIndicator")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestIndicator"
+        assert isinstance(obj, DiagnosticIndicator)
+        assert isinstance(obj, ARElement)
+        assert obj.getType() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticIndicator.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIndicator.__init__.__doc__ is None
+
+    def test_get_set_type(self):
+        """
+        Round-trips type; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticIndicatorTypeEnum().setValue("malfunction")
+        result = obj.setType(value)
+        assert result is obj  # method chaining
+        assert obj.getType() is value
+        assert obj.getType().getValue() == "malfunction"
+
+        result = obj.setType(None)
+        assert result is obj  # method chaining with None
+        assert obj.getType() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Test that every accessor docstring is the spec Note verbatim (setters append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIndicator.getType.__doc__) == self.TYPE_NOTE
+        assert inspect.cleandoc(DiagnosticIndicator.setType.__doc__) == (self.TYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing type.")
+
+    def test_create_diagnostic_indicator(self):
+        """
+        Test that ARPackage.createDiagnosticIndicator appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticIndicator("Indicator1")
+
+        assert isinstance(obj, DiagnosticIndicator)
+        assert obj.getShortName() == "Indicator1"
+        assert ar_root.getReferrableElement("Indicator1", DiagnosticIndicator) is obj
+
+        duplicate = ar_root.createDiagnosticIndicator("Indicator1")
         assert duplicate is obj
 
 
