@@ -1043,3 +1043,164 @@ class TestAbstractRequiredPortPrototypeSpecContract:
     def test_member_order(self):
         """Exactly the one Table 3.3 attribute row after the base attrs."""
         assert list(vars(self._make()).keys())[-1:] == ["requiredComSpecs"]
+
+
+SW_COMPONENT_TYPE_CLASS_NOTE = "Base class for AUTOSAR software components."
+
+SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "consistencyNeeds": "This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.",
+    "port": "The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.",
+    "portGroup": "A port group being part of this component.",
+    "swcMappingConstraint": "Reference to constraints that are valid for this SwComponentType.",
+    "swComponentDocumentation": "This adds a documentation to the SwComponentType.",
+    "unitGroup": "This allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.",
+}
+
+SW_COMPONENT_TYPE_MEMBERS = [
+    "consistencyNeeds",
+    "ports",
+    "portGroups",
+    "swcMappingConstraintsRefs",
+    "swComponentDocumentation",
+    "unitGroupRefs",
+]
+
+
+class ConcreteSwComponentType(SwComponentType):
+    pass
+
+
+class Test_SwComponentType_Spec:
+    """Spec pins for SwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.1, p.65)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ConcreteSwComponentType(ar_root, "Swc")
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(SwComponentType, ARElement)
+        assert issubclass(SwComponentType, ARObject)
+
+    def test_abstract_guard(self):
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        with pytest.raises(TypeError, match="SwComponentType is an abstract class"):
+            SwComponentType(ar_root, "swc")
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(SwComponentType.__doc__) == SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert SwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getConsistencyNeeds() == []
+        assert swc.getPorts() == []
+        assert swc.getPortGroups() == []
+        assert swc.getSwcMappingConstraintsRefs() == []
+        assert swc.getSwComponentDocumentation() is None
+        assert swc.getUnitGroupRefs() == []
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == SW_COMPONENT_TYPE_MEMBERS
+
+    def test_docstrings_verbatim(self):
+        getter_notes = {
+            SwComponentType.getConsistencyNeeds: SW_COMPONENT_TYPE_MEMBER_NOTES["consistencyNeeds"],
+            SwComponentType.getPorts: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.getPortGroups: SW_COMPONENT_TYPE_MEMBER_NOTES["portGroup"],
+            SwComponentType.getSwcMappingConstraintsRefs: SW_COMPONENT_TYPE_MEMBER_NOTES["swcMappingConstraint"],
+            SwComponentType.getSwComponentDocumentation: SW_COMPONENT_TYPE_MEMBER_NOTES["swComponentDocumentation"],
+            SwComponentType.getUnitGroupRefs: SW_COMPONENT_TYPE_MEMBER_NOTES["unitGroup"],
+        }
+        for getter, note in getter_notes.items():
+            assert getter.__doc__ is not None, getter.__name__
+            assert getter.__doc__.strip().split("\n")[0] == note, getter.__name__
+        setter_notes = {
+            SwComponentType.createConsistencyNeeds: SW_COMPONENT_TYPE_MEMBER_NOTES["consistencyNeeds"],
+            SwComponentType.createPPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createRPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createPRPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createPortGroup: SW_COMPONENT_TYPE_MEMBER_NOTES["portGroup"],
+            SwComponentType.addSwcMappingConstraintRef: SW_COMPONENT_TYPE_MEMBER_NOTES["swcMappingConstraint"],
+            SwComponentType.setSwComponentDocumentation: SW_COMPONENT_TYPE_MEMBER_NOTES["swComponentDocumentation"],
+            SwComponentType.addUnitGroupRef: SW_COMPONENT_TYPE_MEMBER_NOTES["unitGroup"],
+        }
+        for setter, note in setter_notes.items():
+            assert setter.__doc__ is not None, setter.__name__
+            assert note in setter.__doc__, setter.__name__
+        for setter, member in [
+            (SwComponentType.addSwcMappingConstraintRef, "swcMappingConstraintsRefs"),
+            (SwComponentType.setSwComponentDocumentation, "swComponentDocumentation"),
+            (SwComponentType.addUnitGroupRef, "unitGroupRefs"),
+        ]:
+            assert (
+                "A None value is a no-op and does not overwrite an existing %s." % member in setter.__doc__ or "A None value is a no-op and does not append anything." in setter.__doc__
+            ), setter.__name__
+
+    def test_get_set_sw_component_documentation(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
+
+        swc = self._make()
+        doc = SwComponentDocumentation()
+        assert swc == swc.setSwComponentDocumentation(doc)
+        assert swc.getSwComponentDocumentation() is doc
+        assert swc == swc.setSwComponentDocumentation(None)
+        assert swc.getSwComponentDocumentation() is doc
+
+    def test_add_get_swc_mapping_constraint_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Constraints/Mapping1")
+        assert swc == swc.addSwcMappingConstraintRef(ref)
+        assert swc.getSwcMappingConstraintsRefs() == [ref]
+        swc.addSwcMappingConstraintRef(None)
+        assert swc.getSwcMappingConstraintsRefs() == [ref]
+
+    def test_add_get_unit_group_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Units/Group1")
+        assert swc == swc.addUnitGroupRef(ref)
+        assert swc.getUnitGroupRefs() == [ref]
+        swc.addUnitGroupRef(None)
+        assert swc.getUnitGroupRefs() == [ref]
+
+    def test_create_consistency_needs_duplicate_returns_existing(self):
+        swc = self._make()
+        needs = swc.createConsistencyNeeds("Needs")
+        assert needs.short_name == "Needs"
+        assert swc.createConsistencyNeeds("Needs") is needs
+        assert swc.getConsistencyNeeds() == [needs]
+
+    def test_create_port_group_duplicate_returns_existing(self):
+        swc = self._make()
+        group = swc.createPortGroup("Group")
+        assert group.short_name == "Group"
+        assert swc.createPortGroup("Group") is group
+
+    def test_type_hints(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation as SwComponentDocumentation
+
+        hints = typing.get_type_hints(SwComponentType.setSwComponentDocumentation)
+        assert hints["value"] == typing.Optional[SwComponentDocumentation]
+        assert hints["return"] is SwComponentType
+        hints = typing.get_type_hints(SwComponentType.addSwcMappingConstraintRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is SwComponentType
+        hints = typing.get_type_hints(SwComponentType.addUnitGroupRef)
+        assert hints["value"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(SwComponentType.getSwComponentDocumentation)
+        assert hints["return"] == typing.Optional[SwComponentDocumentation]
+        hints = typing.get_type_hints(SwComponentType.getPorts)
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype as PortPrototype
+
+        assert hints["return"] == typing.List[PortPrototype]

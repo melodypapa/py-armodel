@@ -1725,13 +1725,13 @@ The previous `dataTransformation` "type (spec many vs py single)" row was stale 
 ## `SwComponentType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 65
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `consistencyNeeds` | `List[ARObject]` | `consistencyNeeds` | `ConsistencyNeeds` | aggr | Table 4.99 class not yet implemented — ARObject placeholder; reader/writer pending |
-| `swcMappingConstraintsRefs` | `List[RefType]` | `swcMappingConstraintRefs` | `Ref (SwComponentMappingConstraints)` | Refs | class not in markdown/PDF — skipped per user; RefType placeholder |
-| `unitGroupRefs` | `List[RefType]` | `unitGroupRefs` | `Ref (UnitGroup)` | Refs | `UnitGroup` not yet synced (stub); RefType placeholder |
+| — *(no deviation)* | — | — | — | — | No deviations — all six Table 3.1 attributes (consistencyNeeds, port, portGroup, swcMappingConstraint, swComponentDocumentation, unitGroup) are modeled with full reader/writer coverage; the earlier placeholder rows (ConsistencyNeeds/UnitGroup/MappingConstraints) are removed — ConsistencyNeeds and UnitGroup are implemented, and swcMappingConstraint/unitGroup are ref-kind (RefType DEST), needing no aggregate class. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy checklist without the release column and a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.1, p.65 (abstract Class; page-split render — the consistencyNeeds chunk precedes the caption, port..unitGroup follow it; displayed order kept). Base fixed from `AtpType` to `ARElement` per the spec Base chain (most-derived; Package/Note/Base rows verified against FO_TPS_AbstractPlatformSpecification Table 3.5, p.22 — row-identical, nothing merged). Docstrings wiped and rewritten verbatim from the markdown Notes (Stereotypes/Tags tails dropped); `SwComponentDocumentation` moved from `TYPE_CHECKING`-only to a bottom-of-module runtime import so `get_type_hints` pins resolve (Rule 0003/0005). `getPPortPrototypes`/`getRPortPrototypes`/`getPRPortPrototypes`/`getPortPrototypes` kept as added convenience getters (no spec rows). VP: none of the four hierarchy classes is an XSD VARIATION-POINT anchor — the atpVariation stereotypes on the aggr rows land on the member classes (PortPrototype etc., Rule 0020); the mixin is correctly absent. Reader/writer verified against the XSD group SW-COMPONENT-TYPE element order (SW-COMPONENT-DOCUMENTATIONS sequenceOffset=-10 first) — no edit needed. No Rule 0001.10 missing classes (`SwComponentMappingConstraints` is ref-DEST only). `# Spec verified:` withheld (batch 9b).
 
 ## `SwComponentDocumentation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 698

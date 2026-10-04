@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING, cast
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
@@ -44,9 +44,6 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
         ConsistencyNeeds,
     )
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
-        SwComponentDocumentation,
-    )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
         SwcInternalBehavior,
     )
@@ -55,33 +52,33 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-class SwComponentType(AtpType, ABC):
+class SwComponentType(ARElement, ABC):
     """
     Base class for AUTOSAR software components.
     """
 
     # SwComponentType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.1, p.64
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConsistencyNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsistencyNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createPPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createRPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createPRPortPrototype        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPorts                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPRPortPrototypes          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPortPrototypes            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createPortGroup              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPortGroups                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwcMappingConstraintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwcMappingConstraintsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addUnitGroupRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitGroupRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.1, p.65
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConsistencyNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsistencyNeeds           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPPortPrototype          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRPortPrototype          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createPRPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPorts                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPPortPrototypes            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRPortPrototypes            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPRPortPrototypes           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortPrototypes             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createPortGroup               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortGroups                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwcMappingConstraintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcMappingConstraintsRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentDocumentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addUnitGroupRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitGroupRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwComponentType:
@@ -91,7 +88,7 @@ class SwComponentType(AtpType, ABC):
         # This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
         self.consistencyNeeds: List[ConsistencyNeeds] = []
 
-        # The PortPrototypes through which this SwComponent Type can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
+        # The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         self.ports: List[PortPrototype] = []
 
         # A port group being part of this component.
@@ -108,14 +105,8 @@ class SwComponentType(AtpType, ABC):
 
     def createConsistencyNeeds(self, short_name: str) -> ConsistencyNeeds:
         """
-        Creates a ConsistencyNeeds owned by the enclosing SwComponentType.
+        This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
         Returns the existing ConsistencyNeeds when the short name already exists.
-
-        Args:
-            short_name: The short name of the ConsistencyNeeds
-
-        Returns:
-            The created or existing ConsistencyNeeds
         """
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
 
@@ -127,23 +118,14 @@ class SwComponentType(AtpType, ABC):
 
     def getConsistencyNeeds(self) -> List[ConsistencyNeeds]:
         """
-        Gets the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
-
-        Returns:
-            List of ConsistencyNeeds instances
+        This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
         """
         return self.consistencyNeeds
 
     def createPPortPrototype(self, short_name: str) -> PPortPrototype:
         """
-        Creates a PPortPrototype of this SwComponentType. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
+        The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         Returns the existing PPortPrototype when the short name already exists.
-
-        Args:
-            short_name: The short name of the PPortPrototype
-
-        Returns:
-            The created or existing PPortPrototype
         """
         if not self.IsReferrableElementExists(short_name, PPortPrototype):
             prototype = PPortPrototype(self, short_name)
@@ -153,14 +135,8 @@ class SwComponentType(AtpType, ABC):
 
     def createRPortPrototype(self, short_name: str) -> RPortPrototype:
         """
-        Creates an RPortPrototype of this SwComponentType. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
+        The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         Returns the existing RPortPrototype when the short name already exists.
-
-        Args:
-            short_name: The short name of the RPortPrototype
-
-        Returns:
-            The created or existing RPortPrototype
         """
         if not self.IsReferrableElementExists(short_name, RPortPrototype):
             prototype = RPortPrototype(self, short_name)
@@ -170,14 +146,8 @@ class SwComponentType(AtpType, ABC):
 
     def createPRPortPrototype(self, short_name: str) -> PRPortPrototype:
         """
-        Creates a PRPortPrototype of this SwComponentType. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
+        The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         Returns the existing PRPortPrototype when the short name already exists.
-
-        Args:
-            short_name: The short name of the PRPortPrototype
-
-        Returns:
-            The created or existing PRPortPrototype
         """
         if not self.IsReferrableElementExists(short_name, PRPortPrototype):
             prototype = PRPortPrototype(self, short_name)
@@ -187,59 +157,38 @@ class SwComponentType(AtpType, ABC):
 
     def getPorts(self) -> List[PortPrototype]:
         """
-        Gets the PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
-
-        Returns:
-            List of PortPrototype instances
+        The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         """
         return self.ports
 
     def getPPortPrototypes(self) -> List[PPortPrototype]:
         """
         Convenience getter for the PPortPrototype instances aggregated by this SwComponentType.
-
-        Returns:
-            List of PPortPrototype instances
         """
         return list(sorted([c for c in self.ports if isinstance(c, PPortPrototype)], key=lambda o: o.short_name))
 
     def getRPortPrototypes(self) -> List[RPortPrototype]:
         """
         Convenience getter for the RPortPrototype instances aggregated by this SwComponentType.
-
-        Returns:
-            List of RPortPrototype instances
         """
         return list(sorted([c for c in self.ports if isinstance(c, RPortPrototype)], key=lambda o: o.short_name))
 
     def getPRPortPrototypes(self) -> List[PRPortPrototype]:
         """
         Convenience getter for the PRPortPrototype instances aggregated by this SwComponentType.
-
-        Returns:
-            List of PRPortPrototype instances
         """
         return list(sorted([c for c in self.ports if isinstance(c, PRPortPrototype)], key=lambda o: o.short_name))
 
     def getPortPrototypes(self) -> List[PortPrototype]:
         """
         Convenience getter for all PortPrototype instances aggregated by this SwComponentType.
-
-        Returns:
-            List of PortPrototype instances
         """
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
 
     def createPortGroup(self, short_name: str) -> PortGroup:
         """
-        Creates a PortGroup being part of this component.
+        A port group being part of this component.
         Returns the existing PortGroup when the short name already exists.
-
-        Args:
-            short_name: The short name of the PortGroup
-
-        Returns:
-            The created or existing PortGroup
         """
         if not self.IsReferrableElementExists(short_name, PortGroup):
             port_group = PortGroup(self, short_name)
@@ -249,23 +198,14 @@ class SwComponentType(AtpType, ABC):
 
     def getPortGroups(self) -> List[PortGroup]:
         """
-        Gets the PortGroups being part of this component.
-
-        Returns:
-            List of PortGroup instances
+        A port group being part of this component.
         """
         return self.portGroups
 
     def addSwcMappingConstraintRef(self, value: Optional[RefType]) -> SwComponentType:
         """
-        Adds a reference to constraints that are valid for this SwComponentType.
+        Reference to constraints that are valid for this SwComponentType.
         A None value is a no-op and does not append anything.
-
-        Args:
-            value: The SwComponentMappingConstraints reference to add
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.swcMappingConstraintsRefs.append(value)
@@ -273,32 +213,20 @@ class SwComponentType(AtpType, ABC):
 
     def getSwcMappingConstraintsRefs(self) -> List[RefType]:
         """
-        Gets the references to constraints that are valid for this SwComponentType.
-
-        Returns:
-            List of RefType instances
+        Reference to constraints that are valid for this SwComponentType.
         """
         return self.swcMappingConstraintsRefs
 
     def getSwComponentDocumentation(self) -> Optional[SwComponentDocumentation]:
         """
-        Gets the documentation that is added to the SwComponentType.
-
-        Returns:
-            SwComponentDocumentation, or None if not set
+        This adds a documentation to the SwComponentType.
         """
         return self.swComponentDocumentation
 
     def setSwComponentDocumentation(self, value: Optional[SwComponentDocumentation]) -> SwComponentType:
         """
-        Sets the documentation that is added to the SwComponentType.
-        A None value is a no-op and does not overwrite an existing documentation.
-
-        Args:
-            value: The SwComponentDocumentation to set
-
-        Returns:
-            self for method chaining
+        This adds a documentation to the SwComponentType.
+        A None value is a no-op and does not overwrite an existing swComponentDocumentation.
         """
         if value is not None:
             self.swComponentDocumentation = value
@@ -306,14 +234,8 @@ class SwComponentType(AtpType, ABC):
 
     def addUnitGroupRef(self, value: Optional[RefType]) -> SwComponentType:
         """
-        Adds a reference which allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
+        This allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
         A None value is a no-op and does not append anything.
-
-        Args:
-            value: The UnitGroup reference to add
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.unitGroupRefs.append(value)
@@ -321,10 +243,7 @@ class SwComponentType(AtpType, ABC):
 
     def getUnitGroupRefs(self) -> List[RefType]:
         """
-        Gets the references which allow for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
-
-        Returns:
-            List of RefType instances
+        This allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
         """
         return self.unitGroupRefs
 
@@ -1301,3 +1220,6 @@ class ServiceSwComponentType(AtomicSwComponentType):
 
 class ParameterSwComponentType(SwComponentType):
     pass
+
+
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation  # noqa: E402
