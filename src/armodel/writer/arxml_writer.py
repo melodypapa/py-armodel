@@ -8786,7 +8786,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", array_element.getArraySizeHandling())
             self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", array_element.getArraySizeSemantics())
             self.setChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF", array_element.getIndexDataTypeRef())
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", array_element.getMaxNumberOfElements())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", array_element.getMaxNumberOfElements())
 
     def writeApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
         self.logger.debug("writeApplicationArrayDataType %s" % data_type.getShortName())

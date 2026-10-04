@@ -193,15 +193,69 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ApplicationArrayElement` — ApplicationCompositeElementDataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.9, p.252
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (reader/writer columns but no release column) — stale
+    `# Spec verified: R23-11` marker removed at session start, full re-sync, stamp WITHHELD
+    this batch. Concrete Class (not Enumeration); Base most-derived =
+    `ApplicationCompositeElementDataPrototype` — already stamped R23-11 (Table 5.30, p.306,
+    6-column with release) — not a stub, no base sync needed. 4 attrs, all 0..1:
+    arraySizeHandling (attr ArraySizeHandlingEnum — stamped R23-11 Table 5.11),
+    arraySizeSemantics (attr ArraySizeSemanticsEnum — stamped R23-11 Table 5.10),
+    indexDataType (ref → indexDataTypeRef, RefType), maxNumberOfElements (attr
+    PositiveInteger). maxNumberOfElements carries atpVariation but Kind=attr → attribute-value
+    variation only; XSD group L2846 anchors NO VARIATION-POINT → not VP-capable. XSD group
+    XML order = ARRAY-SIZE-HANDLING, ARRAY-SIZE-SEMANTICS, INDEX-DATA-TYPE-REF,
+    MAX-NUMBER-OF-ELEMENTS — matches markdown displayed order and existing reader/writer.
+    Rule 0001.3 gap: reader uses getChildElementOptionalNumericalValue (looser Numerical)
+    where the spec-typed getChildElementOptionalPositiveInteger exists (writer
+    setChildElementOptionalPositiveInteger already a one-line delegation) → Step 6 upgrade.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 8 failed / 7 passed: genuine Red on the 8
+    accessor docstring-verbatim pins (stale `Args:`/`Returns:` blocks); behavioral tests passed
+    (impl already conforms — vacuous behavioral Red portion, noted). Bare-str enum setter calls
+    and int-valued PositiveInteger in the legacy test replaced with typed primitives (Rule 0006)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec
+    cross-check both directions clean: 4 own attrs all 0..1 → Optional[T] PEP 526 members in
+    markdown order with blank-line blocks, guarded self-returning setters, indexDataTypeRef
+    kind suffix, most-derived base ApplicationCompositeElementDataPrototype; no createXxx —
+    no Referrable children; behavioral subset 6 passed; docstring Green lands with Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — ApplicationArrayElement block wiped (class
+    docstring, 8 accessor docstrings' `Args:`/`Returns:` blocks, 4 inline `__init__` comments)
+    and rewritten verbatim from the markdown Notes; maxNumberOfElements inline comment dropped
+    the `Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime` tail (Rule
+    0012.2.5.2); guarded setters carry the None-no-op sentence; 31 passed test_DataPrototypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_ApplicationArrayElement.py (3 reader tests: field values incl. enums/index ref dest +
+    empty-wrapper + no-ELEMENT cases) and tests/test_armodel/writer/test_writer_ApplicationArrayElement.py
+    (XSD-order + unset-omits + 2 save→reload round-trips through the ARPackage dispatch).
+    First run: 2 failed / 5 passed — both failures the genuine Red
+    `isinstance(getMaxNumberOfElements(), PositiveInteger)` (reader's looser Numerical, Rule
+    0001.3); writer-side tests passed
+  - [x] Step 6 — Update parser & writer (Green) — parser: readApplicationArrayElement
+    MAX-NUMBER-OF-ELEMENTS upgraded getChildElementOptionalNumericalValue → spec-typed
+    getChildElementOptionalPositiveInteger (Rule 0001.3; cast dropped); writer:
+    setApplicationArrayElement upgraded setChildElementOptionalNumericalValue →
+    setChildElementOptionalPositiveInteger (matched leaf pair, one-line delegation, identical
+    serialization); element order unchanged (ARRAY-SIZE-HANDLING, ARRAY-SIZE-SEMANTICS,
+    INDEX-DATA-TYPE-REF, MAX-NUMBER-OF-ELEMENTS = XSD group order); no chained mutators;
+    13 passed incl. ApplicationArrayDataType reader/writer neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column added (was
+    Rule 0023 legacy: reader/writer columns but no release tokens); rows in source order;
+    stale `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md,
+    `## ApplicationArrayElement`, No-deviations summary + batch Note); no stale rows (none existed);
+    the Rule 0001.3 Numerical→PositiveInteger reader/writer upgrade was a to-fix, fixed in Step 6
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (41 passed / 0 failed
+    tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/test_DataPrototypes.py,
+    tests/test_armodel/parser/test_ApplicationArrayElement.py,
+    tests/test_armodel/writer/test_writer_ApplicationArrayElement.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 590 passed Datatype model dir +
+    parser/writer test_sender_rec_array_type_mapping + test_arxml_parser_orchestrators +
+    test_indexed_array_element + test_writer_impl_types_ports + test_writer_data_types;
+    black/ruff/flake8 clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection
+    commit); checklist==methods + coverage verified via set-based script; targeted lossless round-trip
+    over AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml: 42/42 ApplicationArrayDataType
+    entries identical, maxNumberOfElements materializes as PositiveInteger); 9b deferred to batch
+    confirmation (user instruction)
 
 - [ ] `ArraySizeSemanticsEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.10, p.253; also CP_TPS_DiagnosticExtractTemplate Table 4.10, p.43
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py

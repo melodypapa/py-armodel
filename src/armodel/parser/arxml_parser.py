@@ -9182,7 +9182,7 @@ class ARXMLParser(AbstractARXMLParser):
             array_element.setArraySizeHandling(cast(Optional[ArraySizeHandlingEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING")))
             array_element.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
             array_element.setIndexDataTypeRef(self.getChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF"))
-            array_element.setMaxNumberOfElements(cast(Optional[PositiveInteger], self.getChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS")))
+            array_element.setMaxNumberOfElements(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS"))
 
     def readApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
         self.logger.debug("Read ApplicationArrayDataType <%s>" % data_type.getShortName())
