@@ -2135,7 +2135,33 @@ class DiagnosticIumprKindEnum(AREnum):
 
 
 class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
-    pass
+    """
+    Trigger types to allocate an event memory entry.
+    """
+
+    # DiagnosticMemoryEntryStorageTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.168, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Status information of UDS DTC status bit 3 Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED = "confirmed"
+
+    # Threshold to allocate an event memory entry and to capture the Freeze Frame. Tags: atp.EnumerationLiteralIndex=1
+    FDC_THRESHOLD = "fdcThreshold"
+
+    # Status information of UDS DTC status bit 0. Tags: atp.EnumerationLiteralIndex=3
+    TEST_FAILED = "testFailed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED,
+                DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD,
+                DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED,
+            ]
+        )
 
 
 class DiagnosticObdSupportEnum(AREnum):

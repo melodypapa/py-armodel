@@ -14,11 +14,11 @@ subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance and assert
 field values / XSD sequenceOffset child order.
 
-clearDtcLimitation and eventDisplacementStrategy are written through the
-_enumToken path against their synced enums; memoryEntryStorageTrigger,
+clearDtcLimitation, eventDisplacementStrategy and memoryEntryStorageTrigger are
+written through the _enumToken path against their synced enums;
 statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
-are round-tripped as raw literals until their enums (Tables 4.168, 4.171,
-4.172, Group25) gain their literals.
+are round-tripped as raw literals until their enums (Tables 4.171, 4.172,
+Group25) gain their literals.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_memory_destination.py
 """
@@ -63,7 +63,7 @@ def _make_destination() -> _ConcreteDiagnosticMemoryDestination:
     destination.setDtcStatusAvailabilityMask(PositiveInteger().setValue(255))
     destination.setEventDisplacementStrategy(DiagnosticEventDisplacementStrategyEnum().setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC))
     destination.setMaxNumberOfEventEntries(PositiveInteger().setValue(10))
-    destination.setMemoryEntryStorageTrigger(DiagnosticMemoryEntryStorageTriggerEnum([]).setValue("CONFIRMED"))
+    destination.setMemoryEntryStorageTrigger(DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD))
     destination.setStatusBitHandlingTestFailedSinceLastClear(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum([]).setValue("STATUS-BIT-NORMAL"))
     destination.setStatusBitStorageTestFailed(Boolean().setValue(False))
     destination.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("CONFIGURED"))
@@ -96,7 +96,7 @@ class TestWriteDiagnosticMemoryDestination:
         assert parent.find("DTC-STATUS-AVAILABILITY-MASK").text == "255"
         assert parent.find("EVENT-DISPLACEMENT-STRATEGY").text == "PRIO-OCC"
         assert parent.find("MAX-NUMBER-OF-EVENT-ENTRIES").text == "10"
-        assert parent.find("MEMORY-ENTRY-STORAGE-TRIGGER").text == "CONFIRMED"
+        assert parent.find("MEMORY-ENTRY-STORAGE-TRIGGER").text == "FDC-THRESHOLD"
         assert parent.find("STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR").text == "STATUS-BIT-NORMAL"
         assert parent.find("STATUS-BIT-STORAGE-TEST-FAILED").text == "false"
         assert parent.find("TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION").text == "CONFIGURED"
@@ -131,7 +131,8 @@ class TestWriteDiagnosticMemoryDestination:
         assert reloaded.getMaxNumberOfEventEntries() is not None
         assert reloaded.getMaxNumberOfEventEntries().getValue() == 10
         assert reloaded.getMemoryEntryStorageTrigger() is not None
-        assert reloaded.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
+        assert isinstance(reloaded.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
+        assert reloaded.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
         assert reloaded.getStatusBitHandlingTestFailedSinceLastClear() is not None
         assert reloaded.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-NORMAL"
         assert reloaded.getStatusBitStorageTestFailed() is not None

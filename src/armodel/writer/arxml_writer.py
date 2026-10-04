@@ -1394,6 +1394,14 @@ DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
     "prioOcc": "PRIO-OCC",
 }
 
+#: Mapping between DiagnosticMemoryEntryStorageTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-MEMORY-ENTRY-STORAGE-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "testFailed": "TEST-FAILED",
+}
+
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "iso11992_4": "ISO-11992-4",
     "iso14229_1": "ISO-14229-1",
@@ -14898,8 +14906,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "DTC-STATUS-AVAILABILITY-MASK", destination.getDtcStatusAvailabilityMask())
         self._writeEnumToken(element, "EVENT-DISPLACEMENT-STRATEGY", destination.getEventDisplacementStrategy(), DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP)
         self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-EVENT-ENTRIES", destination.getMaxNumberOfEventEntries())
-        # MEMORY-ENTRY-STORAGE-TRIGGER is round-tripped as a raw literal until DiagnosticMemoryEntryStorageTriggerEnum (Table 4.168, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        self.setChildElementOptionalLiteral(element, "MEMORY-ENTRY-STORAGE-TRIGGER", cast(ARLiteral, destination.getMemoryEntryStorageTrigger()))
+        self._writeEnumToken(element, "MEMORY-ENTRY-STORAGE-TRIGGER", destination.getMemoryEntryStorageTrigger(), DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP)
         # STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal until DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum (Table 4.171, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         self.setChildElementOptionalLiteral(element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR", cast(ARLiteral, destination.getStatusBitHandlingTestFailedSinceLastClear()))
         self.setChildElementOptionalBooleanValue(element, "STATUS-BIT-STORAGE-TEST-FAILED", destination.getStatusBitStorageTestFailed())

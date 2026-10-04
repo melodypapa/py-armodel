@@ -663,11 +663,11 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     exists (abstract group embedded in the concrete subclass elements), so no ARPackage factory and no dispatch branches —
     those land with the concrete subclass syncs queued next; precedent: DiagnosticCondition 48dbae418)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1316 passed / 0 failed: test_ArObject.py + test_diagnostic_memory_destination.py + test_writer_diagnostic_memory_destination.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
-  - Note (Step 8): pending references — memoryEntryStorageTrigger / statusBitHandlingTestFailedSinceLastClear /
-    typeOfFreezeFrameRecordNumeration are typed by their spec enums (Tables 4.168 / 4.171 / 4.172, queued later in
+  - Note (Step 8): pending references — statusBitHandlingTestFailedSinceLastClear /
+    typeOfFreezeFrameRecordNumeration are typed by their spec enums (Tables 4.171 / 4.172, queued later in
     Group25, still literal-less stubs); round-tripped as raw literals via getChildElementOptionalLiteral /
     setChildElementOptionalLiteral + cast (DiagnosticEcuInstanceProps.obdSupport interim pattern); rewire to
-    _readEnumToken/_writeEnumToken when the enums sync. The already-synced clearDtcLimitation /
+    _readEnumToken/_writeEnumToken when the enums sync. RESOLVED 2026-10-04: memoryEntryStorageTrigger — DiagnosticMemoryEntryStorageTriggerEnum synced (Table 4.168) — MEMORY-ENTRY-STORAGE-TRIGGER now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP (CONFIRMED/FDC-THRESHOLD/TEST-FAILED); XML form unchanged. The already-synced clearDtcLimitation /
     eventDisplacementStrategy are wired through _readEnumToken/_writeEnumToken with new module-level maps
     DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP / DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP (parser + writer).
   - Note (Step 8): consumers — only the not-yet-synced concrete subclasses aggregate the group ("Aggregated by
@@ -676,15 +676,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticMemoryEntryStorageTriggerEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.168, p.183
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-tripped on the consuming class (DiagnosticMemoryDestination MEMORY-ENTRY-STORAGE-TRIGGER asserts strengthened in test_diagnostic_memory_destination.py / test_writer_diagnostic_memory_destination.py)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the enum itself (no own XML element); consumer rewire done: DiagnosticMemoryDestination MEMORY-ENTRY-STORAGE-TRIGGER flipped from getChildElementOptionalLiteral/setChildElementOptionalLiteral+cast to _readEnumToken/_writeEnumToken with DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP in both parser and writer (015af36ca precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; XSD simpleType additionally carries PENDING with atp.Status="removed" (AUTOSAR_00052.xsd l.134727) — absent from the markdown table, not modeled per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1524 passed / 0 failed: test_PrimitiveTypes.py + test_ArObject.py + test_diagnostic_memory_destination.py + test_writer_diagnostic_memory_destination.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticClearDtcLimitationEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.169, p.183
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

@@ -38,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
     DiagnosticIumprKindEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticResponseOnEventActionEnum,
@@ -2595,3 +2596,49 @@ class TestDiagnosticIumprKindEnum:
         enum.setValue(DiagnosticIumprKindEnum.OBSERVER_BASED)
 
         assert enum.getValue() == "observerBased"
+
+
+class TestDiagnosticMemoryEntryStorageTriggerEnum:
+    """
+    Test class for DiagnosticMemoryEntryStorageTriggerEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.168, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "confirmed",
+            "fdcThreshold",
+            "testFailed",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum member values.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+
+        assert DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED == "confirmed"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED == "testFailed"
+
+        assert enum.validateEnumValue("confirmed") is True
+        assert enum.validateEnumValue("fdcThreshold") is True
+        assert enum.validateEnumValue("testFailed") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum instantiability and getValue.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+        enum.setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD)
+
+        assert enum.getValue() == "fdcThreshold"

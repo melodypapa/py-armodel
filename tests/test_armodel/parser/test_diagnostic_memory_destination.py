@@ -13,11 +13,11 @@ they are synced (Rule 0001.7 abstract-XML-bearing-base clause). Both concrete
 subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance.
 
-clearDtcLimitation and eventDisplacementStrategy are read through the
-_enumToken path against their synced enums; memoryEntryStorageTrigger,
+clearDtcLimitation, eventDisplacementStrategy and memoryEntryStorageTrigger are
+read through the _enumToken path against their synced enums;
 statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
-are round-tripped as raw literals until their enums (Tables 4.168, 4.171,
-4.172, Group25) gain their literals.
+are round-tripped as raw literals until their enums (Tables 4.171, 4.172,
+Group25) gain their literals.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_destination.py
 """
@@ -25,6 +25,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticMemoryDestination
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticMemoryEntryStorageTriggerEnum
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -75,11 +76,12 @@ class TestReadDiagnosticMemoryDestination:
         assert destination.getMaxNumberOfEventEntries() is not None
         assert destination.getMaxNumberOfEventEntries().getValue() == 10
 
-    def test_read_sets_memory_entry_storage_trigger_as_raw_literal(self, parser):
-        """Test that MEMORY-ENTRY-STORAGE-TRIGGER is round-tripped as a raw literal while its enum is a stub."""
+    def test_read_sets_memory_entry_storage_trigger(self, parser):
+        """Test that the MEMORY-ENTRY-STORAGE-TRIGGER token is read as the typed enum literal."""
         destination = self._read(parser, "<MEMORY-ENTRY-STORAGE-TRIGGER>CONFIRMED</MEMORY-ENTRY-STORAGE-TRIGGER>")
         assert destination.getMemoryEntryStorageTrigger() is not None
-        assert destination.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
+        assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
+        assert destination.getMemoryEntryStorageTrigger().getValue() == "confirmed"
 
     def test_read_sets_status_bit_handling_test_failed_since_last_clear_as_raw_literal(self, parser):
         """Test that STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal while its enum is a stub."""
@@ -131,7 +133,9 @@ class TestReadDiagnosticMemoryDestination:
         assert destination.getDtcStatusAvailabilityMask().getValue() == 255
         assert destination.getEventDisplacementStrategy().getValue() == "full"
         assert destination.getMaxNumberOfEventEntries().getValue() == 10
-        assert destination.getMemoryEntryStorageTrigger().getValue() == "FDC-THRESHOLD"
+        assert destination.getMemoryEntryStorageTrigger() is not None
+        assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
+        assert destination.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
         assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-AGING-AND-DISPLACEMENT"
         assert destination.getStatusBitStorageTestFailed().value is True
         assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"

@@ -1553,11 +1553,11 @@ class TestDiagnosticMemoryDestination:
 
     def test_get_set_memory_entry_storage_trigger(self):
         """
-        Test getMemoryEntryStorageTrigger and setMemoryEntryStorageTrigger round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        Test getMemoryEntryStorageTrigger and setMemoryEntryStorageTrigger round-trip and None no-op.
         """
         obj = self._create_destination()
 
-        value = DiagnosticMemoryEntryStorageTriggerEnum([]).setValue("confirmed")
+        value = DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED)
         result = obj.setMemoryEntryStorageTrigger(value)
         assert result is obj  # method chaining
         assert obj.getMemoryEntryStorageTrigger() is value

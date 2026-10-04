@@ -1574,6 +1574,14 @@ DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
     "prioOcc": "PRIO-OCC",
 }
 
+#: Mapping between DiagnosticMemoryEntryStorageTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-MEMORY-ENTRY-STORAGE-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "testFailed": "TEST-FAILED",
+}
+
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "iso11992_4": "ISO-11992-4",
     "iso14229_1": "ISO-14229-1",
@@ -11422,8 +11430,7 @@ class ARXMLParser(AbstractARXMLParser):
         destination.setDtcStatusAvailabilityMask(self.getChildElementOptionalPositiveInteger(element, "DTC-STATUS-AVAILABILITY-MASK"))
         destination.setEventDisplacementStrategy(self._readEnumToken(element, "EVENT-DISPLACEMENT-STRATEGY", DiagnosticEventDisplacementStrategyEnum, DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP))
         destination.setMaxNumberOfEventEntries(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-EVENT-ENTRIES"))
-        # MEMORY-ENTRY-STORAGE-TRIGGER is round-tripped as a raw literal until DiagnosticMemoryEntryStorageTriggerEnum (Table 4.168, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        destination.setMemoryEntryStorageTrigger(cast(Optional[DiagnosticMemoryEntryStorageTriggerEnum], self.getChildElementOptionalLiteral(element, "MEMORY-ENTRY-STORAGE-TRIGGER")))
+        destination.setMemoryEntryStorageTrigger(self._readEnumToken(element, "MEMORY-ENTRY-STORAGE-TRIGGER", DiagnosticMemoryEntryStorageTriggerEnum, DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP))
         # STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR is round-tripped as a raw literal until DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum (Table 4.171, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
         destination.setStatusBitHandlingTestFailedSinceLastClear(
             cast(Optional[DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum], self.getChildElementOptionalLiteral(element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR"))
