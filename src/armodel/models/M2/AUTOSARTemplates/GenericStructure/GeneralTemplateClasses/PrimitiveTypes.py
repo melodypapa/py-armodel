@@ -1997,7 +1997,29 @@ class DiagnosticEventDisplacementStrategyEnum(AREnum):
 
 
 class DiagnosticEventKindEnum(AREnum):
-    pass
+    """
+    Applicability of the diagnostic event.
+    """
+
+    # DiagnosticEventKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.154, p.167
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event is assigned to a BSW module. Tags: atp.EnumerationLiteralIndex=0
+    BSW = "bsw"
+
+    # The event is assigned to a SWC. Tags: atp.EnumerationLiteralIndex=1
+    SWC = "swc"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventKindEnum.BSW,
+                DiagnosticEventKindEnum.SWC,
+            ]
+        )
 
 
 class DiagnosticEventWindowTimeEnum(AREnum):

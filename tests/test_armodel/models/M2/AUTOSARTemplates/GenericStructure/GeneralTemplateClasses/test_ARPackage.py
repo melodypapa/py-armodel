@@ -9737,9 +9737,7 @@ class TestDiagnosticEvent:
     DiagnosticEvent is concrete (XSD complexType DIAGNOSTIC-EVENT abstract="false")
     with nine own Attribute rows in displayed order. The markdown table carries no
     class-level Note row — the class docstring is the XSD complexType documentation
-    verbatim. DiagnosticEventKindEnum (Table 4.154) is a literal-less stub queued in
-    Group25 — it is instantiated through the AREnum constructor with an empty literal
-    sequence.
+    verbatim.
     """
 
     CLASS_NOTE = "This element is used to configure DiagnosticEvents."
@@ -9879,14 +9877,10 @@ class TestDiagnosticEvent:
     def test_get_set_event_kind(self):
         """
         Round-trips eventKind; None is a no-op.
-
-        DiagnosticEventKindEnum is a stub until its own sync
-        (Table 4.154, queued in Group25) — it is instantiated through the
-        AREnum constructor with an empty literal sequence.
         """
         obj = self._make_obj()
 
-        value = DiagnosticEventKindEnum([]).setValue("bsw")
+        value = DiagnosticEventKindEnum().setValue(DiagnosticEventKindEnum.BSW)
         result = obj.setEventKind(value)
         assert result is obj  # method chaining
         assert obj.getEventKind() is value

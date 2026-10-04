@@ -1498,6 +1498,13 @@ DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
     "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
 }
 
+#: Mapping between DiagnosticEventKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_KIND_XML_MAP = {
+    "bsw": "BSW",
+    "swc": "SWC",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -14211,7 +14218,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for indicator in indicators:
                 self.writeDiagnosticConnectedIndicator(indicators_element, indicator)
         self._writeEnumToken(child_element, "EVENT-CLEAR-ALLOWED", event.getEventClearAllowed(), DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP)
-        self.setChildElementOptionalLiteral(child_element, "EVENT-KIND", cast(ARLiteral, event.getEventKind()))
+        self._writeEnumToken(child_element, "EVENT-KIND", event.getEventKind(), DIAGNOSTIC_EVENT_KIND_XML_MAP)
         self.setChildElementOptionalBooleanValue(child_element, "PRESTORAGE-FREEZE-FRAME", event.getPrestorageFreezeFrame())
         self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", event.getPrestoredFreezeframeStoredInNvm())
         self.setChildElementOptionalBooleanValue(child_element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE", event.getRecoverableInSameOperationCycle())

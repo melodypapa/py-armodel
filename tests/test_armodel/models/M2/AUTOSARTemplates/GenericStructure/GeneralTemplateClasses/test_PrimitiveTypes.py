@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
     DiagnosticEventDisplacementStrategyEnum,
+    DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
@@ -2507,3 +2508,46 @@ class TestDiagnosticEventDisplacementStrategyEnum:
         enum.setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
 
         assert enum.getValue() == "prioOcc"
+
+
+class TestDiagnosticEventKindEnum:
+    """
+    Test class for DiagnosticEventKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.154, p.167
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventKindEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "bsw",
+            "swc",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventKindEnum member values.
+        """
+        enum = DiagnosticEventKindEnum()
+
+        assert DiagnosticEventKindEnum.BSW == "bsw"
+        assert DiagnosticEventKindEnum.SWC == "swc"
+
+        assert enum.validateEnumValue("bsw") is True
+        assert enum.validateEnumValue("swc") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventKindEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventKindEnum()
+        enum.setValue(DiagnosticEventKindEnum.SWC)
+
+        assert enum.getValue() == "swc"

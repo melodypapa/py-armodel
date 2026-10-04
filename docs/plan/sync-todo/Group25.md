@@ -507,7 +507,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - note (Step 1 finding, rule-compliant, no deviation): confirmationThreshold — markdown Type column PositiveInteger wins over the XSD element type POSITIVE-INTEGER-VALUE-VARIATION-POINT (Rule 0015); modeled Optional[PositiveInteger], serialized through the VALUE-VARIATION-POINT wrapper element (precedent readDiagnosticConnectedIndicator HEALING-CYCLE-COUNTER-THRESHOLD).
   - note (Step 1 finding, rule-compliant, no deviation): markdown hard-wrap inserts spaces inside camelCase identifiers in the Note texts (Freeze Frames → FreezeFrames, ClearPrestored FreezeFrame → ClearPrestoredFreezeFrame, connected Indicator.variationPoint.shortLabel → connectedIndicator.variationPoint.shortLabel); reconstructed per the XSD documentation (Rule 0015) — docstrings stay verbatim otherwise.
   - note (pending reference, not a deviation): eventClearAllowed is typed to DiagnosticEventClearAllowedEnum (Table 4.153, queued later in this file) which is still a literal-less stub — EVENT-CLEAR-ALLOWED round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair with cast bridges; flip to _readEnumToken/_writeEnumToken with the XSD token map (ALWAYS/NEVER) when the enum's literals land (DiagnosticConnectedIndicator.behavior precedent, rewired in faf970371). RESOLVED 2026-10-04: DiagnosticEventClearAllowedEnum synced (Table 4.153) — EVENT-CLEAR-ALLOWED now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP (ALWAYS/REQUIRES-CALLBACK-EXECUTION); XML form unchanged.
-  - note (pending reference, not a deviation): eventKind is typed to DiagnosticEventKindEnum (Table 4.154, queued later in this file) which is still a literal-less stub — EVENT-KIND round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair with cast bridges; flip to _readEnumToken/_writeEnumToken with the XSD token map (BSW/SWC) when the enum's literals land (same precedent).
+  - note (pending reference, not a deviation): eventKind is typed to DiagnosticEventKindEnum (Table 4.154, queued later in this file) which is still a literal-less stub — EVENT-KIND round-trips as a raw literal via the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair with cast bridges; flip to _readEnumToken/_writeEnumToken with the XSD token map (BSW/SWC) when the enum's literals land (same precedent). RESOLVED 2026-10-04: DiagnosticEventKindEnum synced (Table 4.154) — EVENT-KIND now round-trips typed via _readEnumToken/_writeEnumToken with DIAGNOSTIC_EVENT_KIND_XML_MAP (BSW/SWC); XML form unchanged.
 
 - [ ] `DiagnosticClearEventAllowedBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.150, p.166
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
@@ -550,15 +550,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticEventKindEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.154, p.167
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-tripped on the consuming class (DiagnosticEvent EVENT-KIND asserts strengthened in test_diagnostic_event.py / test_writer_diagnostic_event.py)
+  - [x] Step 6 — Update parser & writer (Green) — N/A for the enum itself (no own XML element); consumer rewire done: DiagnosticEvent EVENT-KIND flipped from getChildElementOptionalLiteral/setChildElementOptionalLiteral+cast to _readEnumToken/_writeEnumToken with DIAGNOSTIC_EVENT_KIND_XML_MAP (2bae14448 precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; the XSD simpleType carries exactly the two markdown literals bsw/swc with tokens BSW/SWC, no atp.Status="removed" literal to exclude)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2040 passed / 0 failed: test_PrimitiveTypes.py + test_ARPackage.py + test_diagnostic_event.py + test_writer_diagnostic_event.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticConnectedIndicatorBehaviorEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.155, p.168
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

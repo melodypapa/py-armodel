@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Union, cast
+from typing import List, Optional, Union
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -1659,6 +1659,13 @@ DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
 DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
     "always": "ALWAYS",
     "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
+}
+
+#: Mapping between DiagnosticEventKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_KIND_XML_MAP = {
+    "bsw": "BSW",
+    "swc": "SWC",
 }
 
 
@@ -10716,8 +10723,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticConnectedIndicator(indicator_element, indicator)
             event.addConnectedIndicator(indicator)
         event.setEventClearAllowed(self._readEnumToken(element, "EVENT-CLEAR-ALLOWED", DiagnosticEventClearAllowedEnum, DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP))
-        # EVENT-KIND is round-tripped as a raw literal until DiagnosticEventKindEnum (Table 4.154, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        event.setEventKind(cast(Optional[DiagnosticEventKindEnum], self.getChildElementOptionalLiteral(element, "EVENT-KIND")))
+        event.setEventKind(self._readEnumToken(element, "EVENT-KIND", DiagnosticEventKindEnum, DIAGNOSTIC_EVENT_KIND_XML_MAP))
         event.setPrestorageFreezeFrame(self.getChildElementOptionalBooleanValue(element, "PRESTORAGE-FREEZE-FRAME"))
         event.setPrestoredFreezeframeStoredInNvm(self.getChildElementOptionalBooleanValue(element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM"))
         event.setRecoverableInSameOperationCycle(self.getChildElementOptionalBooleanValue(element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE"))

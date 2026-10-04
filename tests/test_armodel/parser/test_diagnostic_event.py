@@ -11,14 +11,14 @@ EVENT-CLEAR-ALLOWED → EVENT-KIND → PRESTORAGE-FREEZE-FRAME →
 PRESTORED-FREEZEFRAME-STORED-IN-NVM → RECOVERABLE-IN-SAME-OPERATION-CYCLE.
 
 EVENT-CLEAR-ALLOWED round-trips as the typed DiagnosticEventClearAllowedEnum
-(Table 4.153) literal; EVENT-KIND still round-trips as a raw literal until
-DiagnosticEventKindEnum (Table 4.154) gains its literals (queued in Group25).
+(Table 4.153) literal; EVENT-KIND round-trips as the typed DiagnosticEventKindEnum
+(Table 4.154) literal.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_event.py
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticEventClearAllowedEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticEventClearAllowedEnum, DiagnosticEventKindEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -72,11 +72,12 @@ class TestReadDiagnosticEvent:
         assert isinstance(event.getEventClearAllowed(), DiagnosticEventClearAllowedEnum)
         assert event.getEventClearAllowed().getValue() == "always"
 
-    def test_read_sets_event_kind_raw_literal(self, parser):
-        """Test that EVENT-KIND is read as a raw literal while DiagnosticEventKindEnum is a stub."""
+    def test_read_sets_event_kind(self, parser):
+        """Test that the EVENT-KIND token is read as the typed enum literal."""
         event = self._read(parser, "<EVENT-KIND>BSW</EVENT-KIND>")
         assert event.getEventKind() is not None
-        assert event.getEventKind().getValue() == "BSW"
+        assert isinstance(event.getEventKind(), DiagnosticEventKindEnum)
+        assert event.getEventKind().getValue() == "bsw"
 
     def test_read_sets_boolean_attributes(self, parser):
         """Test that the three BOOLEAN attributes are read into their fields."""

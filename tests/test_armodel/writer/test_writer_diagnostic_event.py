@@ -11,8 +11,8 @@ PRESTORED-FREEZEFRAME-STORED-IN-NVM → RECOVERABLE-IN-SAME-OPERATION-CYCLE.
 The dispatch entry is writeARPackageElement → writeDiagnosticEvent.
 
 EVENT-CLEAR-ALLOWED round-trips as the typed DiagnosticEventClearAllowedEnum
-(Table 4.153) literal; EVENT-KIND still round-trips as a raw literal until
-DiagnosticEventKindEnum (Table 4.154) gains its literals (queued in Group25).
+(Table 4.153) literal; EVENT-KIND round-trips as the typed DiagnosticEventKindEnum
+(Table 4.154) literal.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_event.py
 """
@@ -64,7 +64,7 @@ class TestWriteDiagnosticEvent:
         indicator.setIndicatorRef(RefType().setValue("/DiagnosticExtract/Indicator1"))
         event.addConnectedIndicator(indicator)
         event.setEventClearAllowed(DiagnosticEventClearAllowedEnum().setValue(DiagnosticEventClearAllowedEnum.ALWAYS))
-        event.setEventKind(DiagnosticEventKindEnum([]).setValue("BSW"))
+        event.setEventKind(DiagnosticEventKindEnum().setValue(DiagnosticEventKindEnum.BSW))
         event.setPrestorageFreezeFrame(Boolean().setValue(True))
         event.setPrestoredFreezeframeStoredInNvm(Boolean().setValue(False))
         event.setRecoverableInSameOperationCycle(Boolean().setValue(True))
@@ -154,7 +154,9 @@ class TestWriteDiagnosticEvent:
             assert event_2.getEventClearAllowed() is not None
             assert isinstance(event_2.getEventClearAllowed(), DiagnosticEventClearAllowedEnum)
             assert event_2.getEventClearAllowed().getValue() == "always"
-            assert event_2.getEventKind().getValue() == "BSW"
+            assert event_2.getEventKind() is not None
+            assert isinstance(event_2.getEventKind(), DiagnosticEventKindEnum)
+            assert event_2.getEventKind().getValue() == "bsw"
             assert event_2.getPrestorageFreezeFrame().value is True
             assert event_2.getPrestoredFreezeframeStoredInNvm().value is False
             assert event_2.getRecoverableInSameOperationCycle().value is True
