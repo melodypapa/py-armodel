@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List, Optional, Union
+from typing import Any, List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
@@ -97,7 +97,17 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.Serv
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship, BswEntryRelationshipEnum, BswEntryRelationshipSet, BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswCallType,
+    BswEntryKindEnum,
+    BswEntryRelationship,
+    BswEntryRelationshipEnum,
+    BswEntryRelationshipSet,
+    BswExecutionContext,
+    BswModuleClientServerEntry,
+    BswModuleEntry,
+    SwServiceImplPolicyEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.InstanceRefs import PModeInSystemInstanceRef
@@ -119,6 +129,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
     ConstantSpecificationMapping,
     ConstantSpecificationMappingSet,
     NotAvailableValueSpecification,
@@ -128,8 +140,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArrayImplPolicyEnum, ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum, ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior, ReentrancyLevelEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     ImplementationElementInParameterInstanceRef,
@@ -145,9 +157,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     McFunctionDataRefSet,
+    RptAccessEnum,
     RptComponent,
+    RptEnablerImplTypeEnum,
     RptExecutableEntity,
     RptExecutableEntityEvent,
+    RptExecutionControlEnum,
+    RptPreparationEnum,
     RptServicePoint,
     RptSupportData,
     RptSwPrototypingAccess,
@@ -179,23 +195,31 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     CryptoServiceJobNeeds,
     CryptoServiceNeeds,
     DevelopmentError,
-    DiagnosticControlNeeds,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
+    DiagnosticClearDtcNotificationEnum,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticComponentNeeds,
+    DiagnosticControlNeeds,
+    DiagnosticDenominatorConditionEnum,
     DiagnosticEnableConditionNeeds,
-    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventNeeds,
+    DiagnosticIndicatorTypeEnum,
     DiagnosticIoControlNeeds,
+    DiagnosticMonitorUpdateKindEnum,
     DiagnosticOperationCycleNeeds,
+    DiagnosticProcessingStyleEnum,
     DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
+    DiagnosticValueAccessEnum,
     DiagnosticValueNeeds,
     DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
@@ -205,16 +229,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
-    DiagnosticClearDtcNotificationEnum,
-    DiagnosticProcessingStyleEnum,
-    DiagnosticRoutineTypeEnum,
-    DiagnosticServiceRequestCallbackTypeEnum,
-    DiagnosticValueAccessEnum,
     DtcFormatTypeEnum,
     DtcKindEnum,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
+    EventAcceptanceStatusEnum,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
     FurtherActionByteNeeds,
@@ -226,19 +246,28 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     J1939DcmDm19Support,
     J1939RmIncomingRequestServiceNeeds,
     J1939RmOutgoingRequestServiceNeeds,
+    MaxCommModeEnum,
     NvBlockNeeds,
+    NvBlockNeedsReliabilityEnum,
+    NvBlockNeedsWritingPriorityEnum,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
+    ObdRatioConnectionKindEnum,
     ObdRatioDenominatorNeeds,
     ObdRatioServiceNeeds,
+    OperationCycleTypeEnum,
     PossibleErrorReaction,
+    RamBlockStatusControlEnum,
     RoleBasedDataAssignment,
     RuntimeError,
     SecureOnBoardCommunicationNeeds,
     ServiceDependency,
+    ServiceDiagnosticRelevanceEnum,
     ServiceNeeds,
+    ServiceProviderEnum,
+    StorageConditionStatusEnum,
     SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
     SymbolicNameProps,
@@ -249,9 +278,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xFacUserNeeds,
     V2xMUserNeeds,
     VendorSpecificServiceNeeds,
+    VerificationStatusIndicationModeEnum,
     WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationControlEnum,
     SignalServiceTranslationElementProps,
     SignalServiceTranslationEventProps,
     SignalServiceTranslationProps,
@@ -270,6 +301,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescription,
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
@@ -420,10 +452,12 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticCompareTypeEnum,
     DiagnosticEnvBswModeElement,
     DiagnosticEnvCompareCondition,
+    DiagnosticEnvConditionFormula,
+    DiagnosticEnvConditionFormulaPart,
     DiagnosticEnvDataCondition,
     DiagnosticEnvDataElementCondition,
-    DiagnosticEnvConditionFormula,
     DiagnosticEnvModeCondition,
+    DiagnosticEnvModeElement,
     DiagnosticEnvSwcModeElement,
     DiagnosticEnvironmentalCondition,
     DiagnosticLogicalOperatorEnum,
@@ -466,6 +500,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucCommonAttributes,
     EcucConditionFormula,
     EcucConditionSpecification,
+    EcucConfigurationClassEnum,
+    EcucConfigurationVariantEnum,
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
@@ -480,9 +516,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFloatParamDef,
     EcucForeignReferenceDef,
     EcucFunctionNameDef,
-    EcucLinkerSymbolDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
+    EcucLinkerSymbolDef,
     EcucModuleDef,
     EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
@@ -492,9 +528,10 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucQuery,
     EcucQueryExpression,
     EcucReferenceDef,
-    EcucUriReferenceDef,
+    EcucScopeEnum,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
+    EcucUriReferenceDef,
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
@@ -531,6 +568,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.SpecialDataDef import (
     SdgAggregationWithVariation,
+    SdgAttribute,
     SdgClass,
     SdgDef,
     SdgForeignReference,
@@ -662,13 +700,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
     AclScopeEnum,
+    AlignmentType,
     AnyServiceInstanceId,
     AnyVersionString,
-    ARLiteral,
+    ArgumentDirectionEnum,
+    BaseTypeEncodingString,
     Boolean,
     ByteOrderEnum,
     CIdentifier,
+    CategoryString,
     DateTime,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -680,25 +722,36 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DisplayFormatString,
     Identifier,
     Integer,
     IntervalTypeEnum,
     Ip4AddressString,
     Ip6AddressString,
+    Limit,
     MacAddressString,
+    McdIdentifier,
     MimeTypeString,
+    MonotonyEnum,
     NameToken,
     NameTokens,
+    NativeDeclarationString,
     Numerical,
     PositiveInteger,
+    PositiveUnlimitedInteger,
     PrimitiveIdentifier,
     Ref,
     RefType,
     ReferrableSubtypesEnum,
+    RegularExpression,
+    RevisionLabelString,
     SectionInitializationPolicyType,
     String,
-    UriString,
+    SymbolString,
+    TRefType,
+    TimeValue,
     UnlimitedInteger,
+    UriString,
     VerbatimString,
     VerbatimStringPlain,
     ViewTokens,
@@ -756,26 +809,31 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
-    ModeSwitchedAckRequest,
+    HandleInvalidEnum,
+    HandleOutOfRangeEnum,
+    HandleOutOfRangeStatusEnum,
+    HandleTimeoutEnum,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
+    ModeSwitchedAckRequest,
     NonqueuedReceiverComSpec,
     NonqueuedSenderComSpec,
     NvProvideComSpec,
     NvRequireComSpec,
+    PPortComSpec,
     ParameterProvideComSpec,
     ParameterRequireComSpec,
-    PPortComSpec,
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
+    RPortComSpec,
     ReceiverComSpec,
     ReceptionComSpecProps,
-    RPortComSpec,
     SenderComSpec,
     ServerComSpec,
     TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
     TransmissionComSpecProps,
+    TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
@@ -840,6 +898,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
     ApplicationDataType,
     ApplicationPrimitiveDataType,
     ApplicationRecordDataType,
+    ArraySizeHandlingEnum,
     AutosarDataType,
     DataTypeMap,
     DataTypeMappingSet,
@@ -864,6 +923,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, ModeSwitchEventTriggeredActivity, NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ApplicationCompositeDataTypeSubElementRef,
     ArgumentDataPrototype,
     ClientServerApplicationErrorMapping,
     ClientServerInterface,
@@ -873,6 +933,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     DataInterface,
     DataPrototypeMapping,
     InvalidationPolicy,
+    MappingDirectionEnum,
     MetaDataItem,
     MetaDataItemSet,
     ModeDeclarationMapping,
@@ -883,17 +944,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ParameterInterface,
     PortInterface,
     PortInterfaceMappingSet,
-    TriggerInterfaceMapping,
     SenderReceiverInterface,
+    ServerArgumentImplPolicyEnum,
     SubElementMapping,
-    ApplicationCompositeDataTypeSubElementRef,
     TextTableMapping,
     TextTableValuePair,
     TriggerInterface,
+    TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -958,14 +1019,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
+    DataTypePolicyEnum,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
-    SenderReceiverToSignalGroupMapping,
-    SenderReceiverToSignalMapping,
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
+    SenderReceiverToSignalGroupMapping,
+    SenderReceiverToSignalMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
@@ -980,7 +1042,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming, TtcanTriggerType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
@@ -1010,8 +1072,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
-    EthTcpIpIcmpProps,
-    EthTcpIpProps,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
@@ -1023,28 +1083,32 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
+    DhcpServerConfiguration,
+    EthTcpIpIcmpProps,
+    EthTcpIpProps,
     EthernetCluster,
-    GlobalTimeCouplingPortProps,
-    PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
+    EthernetCouplingPortSchedulerEnum,
     EthernetPriorityRegeneration,
-    DhcpServerConfiguration,
+    EthernetSwitchVlanEgressTaggingEnum,
+    GenericTp,
+    GlobalTimeCouplingPortProps,
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
+    PlcaProps,
     SdClientConfig,
     SdServerConfig,
-    VlanMembership,
-    GenericTp,
+    TcpIpIcmpv4Props,
+    TcpIpIcmpv6Props,
+    TcpProps,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
-    UdpTp,
-    TcpProps,
     UdpProps,
-    TcpIpIcmpv4Props,
-    TcpIpIcmpv6Props,
+    UdpTp,
+    VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -1112,17 +1176,18 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
+    PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
-    StaticSocketConnection,
     SocketAddress,
-    TcpRoleEnum,
-    UdpChecksumCalculationEnum,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipServiceVersion,
+    StaticSocketConnection,
+    TcpRoleEnum,
+    UdpChecksumCalculationEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
@@ -1165,6 +1230,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, PduMappingDefaultValue, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
+    ContainedIPduCollectionSemanticsEnum,
     ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
@@ -1176,6 +1242,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     GeneralPurposePdu,
     IPdu,
     IPduPort,
+    IPduSignalProcessingEnum,
     IPduTiming,
     ISignal,
     ISignalGroup,
@@ -1185,10 +1252,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalProps,
     ISignalToIPduMapping,
     ISignalTriggering,
+    ISignalTypeEnum,
     MultiplexedIPdu,
     MultiplexedPart,
-    NmPdu,
     NPdu,
+    NmPdu,
     Pdu,
     PduTriggering,
     PdurIPduGroup,
@@ -1197,10 +1265,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     SecureCommunicationProps,
     SecureCommunicationPropsSet,
     SecuredIPdu,
+    SecuredPduHeaderEnum,
     SegmentPosition,
     StaticPart,
     SystemSignal,
     SystemSignalGroup,
+    TransferPropertyEnum,
+    TriggerMode,
     UserDefinedIPdu,
     UserDefinedPdu,
 )
@@ -1219,7 +1290,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CommunicationCycle,
     CycleCounter,
     CycleRepetition,
+    CycleRepetitionType,
+    FlexrayChannelName,
     PhysicalChannel,
+    PncGatewayTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
@@ -1229,10 +1303,10 @@ from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import EcuPartition
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
+    AbsoluteTolerance,
     CyclicTiming,
     EventControlledTiming,
     ModeDrivenTransmissionModeCondition,
-    AbsoluteTolerance,
     RelativeTolerance,
     TimeRangeType,
     TransmissionModeCondition,
@@ -1249,17 +1323,20 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
     CanNmClusterCoupling,
-    CanNmNode,
     CanNmEcu,
+    CanNmNode,
     FlexrayNmCluster,
     FlexrayNmClusterCoupling,
     FlexrayNmEcu,
+    FlexrayNmScheduleVariant,
+    J1939NmAddressConfigurationCapabilityEnum,
     J1939NmCluster,
     J1939NmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
     NmConfig,
+    NmCoordinatorRoleEnum,
     NmEcu,
     NmNode,
     UdpNmCluster,
@@ -1271,13 +1348,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import Applicat
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
-    DataPrototypeInPortInterfaceRef,
+    DataIdModeEnum,
     DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInPortInterfaceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
     DataPrototypeTransformationProps,
     DataTransformation,
+    DataTransformationKindEnum,
     DataTransformationSet,
     E2EProfileCompatibilityProps,
+    EndToEndProfileBehaviorEnum,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
@@ -1288,6 +1368,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    TransformerClassEnum,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -1331,8 +1412,9 @@ from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguag
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    DisplayPresentationEnum,
     SwBitRepresentation,
     SwCalibrationAccessEnum,
     SwDataDefProps,
@@ -1344,7 +1426,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     ValueList,
 )
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType, SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
@@ -1397,12 +1479,13 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LanguageSpecific,
+    LEnum,
     LLongName,
     LOverviewParagraph,
     LParagraph,
     LPlainText,
     LVerbatim,
+    LanguageSpecific,
     MixedContentForLongName,
     MixedContentForOverviewParagraph,
     MixedContentForUnitNames,
@@ -1776,7 +1859,7 @@ class ARXMLParser(AbstractARXMLParser):
         # MATCHING-CRITERION-REF and VALUE both carry minOccurs="0" in the XSD
         # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CONDITION) — an empty
         # POST-BUILD-VARIANT-CONDITION is schema-legal and parses to an empty model.
-        condition.setMatchingCriterionRef(self.getChildElementOptionalRefType(element, "MATCHING-CRITERION-REF"))
+        condition.setMatchingCriterionRef(cast(RefType, self.getChildElementOptionalRefType(element, "MATCHING-CRITERION-REF")))
         condition.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
         return condition
 
@@ -1785,7 +1868,7 @@ class ARXMLParser(AbstractARXMLParser):
         # VARIANT-CRITERION-REF, VALUE and ANNOTATIONS all carry minOccurs="0" in the XSD
         # (AUTOSAR_00052.xsd group POST-BUILD-VARIANT-CRITERION-VALUE) — an empty
         # POST-BUILD-VARIANT-CRITERION-VALUE is schema-legal and parses to an empty model.
-        value.setVariantCriterionRef(self.getChildElementOptionalRefType(element, "VARIANT-CRITERION-REF"))
+        value.setVariantCriterionRef(cast(RefType, self.getChildElementOptionalRefType(element, "VARIANT-CRITERION-REF")))
         value.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
@@ -1848,11 +1931,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDocRevision(self, element: ET.Element, revision: DocRevision):
         revision.setDate(self.getChildElementOptionalDateTime(element, "DATE"))
-        revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
+        revision.setIssuedBy(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ISSUED-BY")))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
         revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
         revision.setRevisionLabelP2(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-2"))
-        revision.setState(self.getChildElementOptionalLiteral(element, "STATE"))
+        revision.setState(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "STATE")))
 
         self.readDocRevisionModifications(element, revision)
 
@@ -1866,21 +1949,21 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DocRevision <%s>" % tag_name)
 
-    def getAdminData(self, element: ET.Element, key: str) -> AdminData:
+    def getAdminData(self, element: ET.Element, key: str) -> Optional[AdminData]:
         admin_data = None
         child_element = self.find(element, key)
         if child_element is not None:
             # self.logger.debug("Read AdminData")
             admin_data = AdminData()
             self.readARObject(child_element, admin_data)
-            admin_data.setLanguage(self.getChildElementOptionalLiteral(child_element, "LANGUAGE"))
+            admin_data.setLanguage(cast(Optional[LEnum], self.getChildElementOptionalLiteral(child_element, "LANGUAGE")))
             admin_data.setUsedLanguages(self.getMultiLanguagePlainText(child_element, "USED-LANGUAGES"))
 
             self.readAdminDataSdgs(child_element, admin_data)
             self.readAdminDataDocRevisions(child_element, admin_data)
         return admin_data
 
-    def getFileInfoComment(self, element: ET.Element, key: str) -> FileInfoComment:
+    def getFileInfoComment(self, element: ET.Element, key: str) -> Optional[FileInfoComment]:
         file_info_comment = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -1919,7 +2002,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferrable(element, referrable)
         referrable.setLongName1(self.getSingleLanguageLongName(element, "LONG-NAME-1"))
 
-    def getCaption(self, element: ET.Element, key: str) -> Caption:
+    def getCaption(self, element: ET.Element, key: str) -> Optional[Caption]:
         caption = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -1934,7 +2017,7 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             identifiable.addAnnotation(annotation)
 
-        identifiable.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        identifiable.setCategory(cast(Union[CategoryString, str], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         identifiable.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         identifiable.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
 
@@ -1965,9 +2048,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
         for child_element in self.findall(element, "L-4"):
             l4 = LLongName()
-            l4.setValue(child_element.text)
+            l4.setValue(cast(str, child_element.text))
             if "L" in child_element.attrib:
-                l4.setL(child_element.attrib["L"])  # noqa: E741
+                l4.setL(cast(Optional[LEnum], child_element.attrib["L"]))  # noqa: E741
             self.readMixedContentForLongName(child_element, l4)
             long_name.addL4(l4)
 
@@ -1986,7 +2069,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TT":
                 content.setTt(self.readTt(inline))
 
-    def getBr(self, element: ET.Element, key: str) -> Br:
+    def getBr(self, element: ET.Element, key: str) -> Optional[Br]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -1995,12 +2078,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(child_element, br)
         return br
 
-    def getStd(self, element: ET.Element, key: str) -> Std:
+    def getStd(self, element: ET.Element, key: str) -> Optional[Std]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
 
-        std = Std(None, "STD")
+        std = Std(cast(ARObject, None), "STD")
         self.readSingleLanguageReferrable(child_element, std)
         if "DATE" in child_element.attrib:
             std.setDate(DateTime().setValue(child_element.attrib["DATE"]))
@@ -2013,12 +2096,12 @@ class ARXMLParser(AbstractARXMLParser):
         std.setUrl(self.getUrl(child_element, "URL"))
         return std
 
-    def getXdoc(self, element: ET.Element, key: str) -> Xdoc:
+    def getXdoc(self, element: ET.Element, key: str) -> Optional[Xdoc]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
 
-        xdoc = Xdoc(None, "XDOC")
+        xdoc = Xdoc(cast(ARObject, None), "XDOC")
         self.readSingleLanguageReferrable(child_element, xdoc)
         if "DATE" in child_element.attrib:
             xdoc.setDate(DateTime().setValue(child_element.attrib["DATE"]))
@@ -2033,28 +2116,28 @@ class ARXMLParser(AbstractARXMLParser):
         xdoc.setUrl(self.getUrl(child_element, "URL"))
         return xdoc
 
-    def getXfile(self, element: ET.Element, key: str) -> Xfile:
+    def getXfile(self, element: ET.Element, key: str) -> Optional[Xfile]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
 
-        xfile = Xfile(None, "XFILE")
+        xfile = Xfile(cast(ARObject, None), "XFILE")
         self.readSingleLanguageReferrable(child_element, xfile)
         xfile.setUrl(self.getUrl(child_element, "URL"))
         xfile.setTool(self.getChildElementOptionalString(child_element, "TOOL"))
         xfile.setToolVersion(self.getChildElementOptionalString(child_element, "TOOL-VERSION"))
         return xfile
 
-    def getXrefTarget(self, element: ET.Element, key: str) -> XrefTarget:
+    def getXrefTarget(self, element: ET.Element, key: str) -> Optional[XrefTarget]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
 
-        target = XrefTarget(None, self.getShortName(child_element))
+        target = XrefTarget(cast(ARObject, None), self.getShortName(child_element))
         self.readSingleLanguageReferrable(child_element, target)
         return target
 
-    def getXref(self, element: ET.Element, key: str) -> Xref:
+    def getXref(self, element: ET.Element, key: str) -> Optional[Xref]:
         child_element = self.find(element, key) if key != "." else element
         if child_element is None:
             return None
@@ -2129,7 +2212,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readMixedContentForParagraph(element, paragraph)
         paragraph.setValue(element.text or "")
         if "L" in element.attrib:
-            paragraph.setL(element.attrib["L"])
+            paragraph.setL(cast(Optional[LEnum], element.attrib["L"]))
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
@@ -2167,7 +2250,7 @@ class ARXMLParser(AbstractARXMLParser):
             tt.setTexRender(String().setValue(element.attrib["TEX-RENDER"]))
         return tt
 
-    def getMultilanguageLongName(self, element: ET.Element, key: str) -> MultilanguageLongName:
+    def getMultilanguageLongName(self, element: ET.Element, key: str) -> Optional[MultilanguageLongName]:
         long_name = None
         child_element = self.find(element, "%s" % key)
         if child_element is not None:
@@ -2180,7 +2263,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readMixedStringText(element, long_name)
         self.readMixedContentForLongName(element, long_name)
 
-    def getSingleLanguageLongName(self, element: ET.Element, key: str) -> SingleLanguageLongName:
+    def getSingleLanguageLongName(self, element: ET.Element, key: str) -> Optional[SingleLanguageLongName]:
         long_name = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2192,7 +2275,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readMixedStringText(element, unit_names)
         self.readMixedContentForUnitNames(element, unit_names)
 
-    def getSingleLanguageUnitNames(self, element: ET.Element, key: str) -> SingleLanguageUnitNames:
+    def getSingleLanguageUnitNames(self, element: ET.Element, key: str) -> Optional[SingleLanguageUnitNames]:
         unit_names = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2226,7 +2309,7 @@ class ARXMLParser(AbstractARXMLParser):
             content.setSub(Superscript().setValue(element.attrib["SUB"]))
         if "SUP" in element.attrib:
             content.setSup(Superscript().setValue(element.attrib["SUP"]))
-        content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
+        content.setTraceRef(cast(Optional[Traceable], self.getChildElementOptionalRefType(element, "TRACE-REF")))
         tt_element = self.find(element, "TT")
         if tt_element is not None:
             content.setTt(self.readTt(tt_element))
@@ -2242,7 +2325,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readMixedContentForOverviewParagraph(element, paragraph)
         self.readMixedStringText(element, paragraph)
         if "L" in element.attrib:
-            paragraph.setL(element.attrib["L"])
+            paragraph.setL(cast(Optional[LEnum], element.attrib["L"]))
 
     def readMixedContentForVerbatim(self, element: ET.Element, content: MixedContentForVerbatim):
         br = self.getBr(element, "BR")
@@ -2262,15 +2345,15 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "L-2"):
             l2 = LOverviewParagraph()
             self.readARObject(child_element, l2)
-            l2.setValue(child_element.text)
+            l2.setValue(cast(str, child_element.text))
             if "L" in child_element.attrib:
-                l2.setL(child_element.attrib["L"])  # noqa: E741
+                l2.setL(cast(Optional[LEnum], child_element.attrib["L"]))  # noqa: E741
             if "BLUEPRINT-VALUE" in child_element.attrib:
                 l2.setBlueprintValue(String().setValue(child_element.attrib["BLUEPRINT-VALUE"]))
             self.readMixedContentForOverviewParagraph(child_element, l2)
             paragraph.addL2(l2)
 
-    def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
+    def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> Optional[MultiLanguageOverviewParagraph]:
         paragraph = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2325,7 +2408,7 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
         return instance_ref
 
-    def getAutosarVariableRef(self, element: ET.Element, key: str) -> AutosarVariableRef:
+    def getAutosarVariableRef(self, element: ET.Element, key: str) -> Optional[AutosarVariableRef]:
         child_element = self.find(element, key)
         instance_ref = None
         if child_element is not None:
@@ -2340,11 +2423,11 @@ class ARXMLParser(AbstractARXMLParser):
                     implementation_ref.addContextDataPrototypeRef(ref)
                 implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
                 instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
-            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
+            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(cast(ET.Element, self.find(child_element, "AUTOSAR-VARIABLE-IREF"))))
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 
-    def getNvBlockDataMapping(self, element: ET.Element, key: str) -> NvBlockDataMapping:
+    def getNvBlockDataMapping(self, element: ET.Element, key: str) -> Optional[NvBlockDataMapping]:
         child_element = self.find(element, key)
         mapping = None
         if child_element is not None:
@@ -2367,8 +2450,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "BULK-NV-BLOCK")
         if child_element is not None:
             prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
-            block = descriptor.createBulkNvBlock(self.getShortName(prototype_element))
-            self.readVariableDataPrototype(prototype_element, block)
+            block = descriptor.createBulkNvBlock(self.getShortName(cast(ET.Element, prototype_element)))
+            self.readVariableDataPrototype(cast(ET.Element, prototype_element), block)
         for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
             mapping = NvBlockDataMapping()
             self.readNvBlockDataMapping(child_element, mapping)
@@ -2462,7 +2545,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         self.readIdentifiable(element, prototype)
-        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
+        prototype.setTypeTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "TYPE-TREF")))
         sw_calibration_access = self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS")
         if sw_calibration_access is not None:
             prototype.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(sw_calibration_access.getValue()))
@@ -2513,7 +2596,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCanEnterRefs(element, entity)
         self.readExclusiveAreaNestingOrderRefs(element, entity)
         entity.setMinimumStartInterval(self.getChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL"))
-        entity.setReentrancyLevel(self.getChildElementOptionalLiteral(element, "REENTRANCY-LEVEL"))
+        entity.setReentrancyLevel(cast(Optional[ReentrancyLevelEnum], self.getChildElementOptionalLiteral(element, "REENTRANCY-LEVEL")))
         self.readRunsInsideRefs(element, entity)
         entity.setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
 
@@ -2544,7 +2627,7 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read BswModeSwitchEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
-        event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
+        event.setActivation(cast(ModeActivationKind, self.getChildElementOptionalLiteral(element, "ACTIVATION")))
         for child_element in self.findall(element, "MODE-IREFS/MODE-IREF"):
             event.addModeIRef(self.getModeInBswModuleDescriptionInstanceRef(child_element))
 
@@ -2567,10 +2650,11 @@ class ARXMLParser(AbstractARXMLParser):
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
         event.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
-        if event.getPeriod() is None:
+        period = event.getPeriod()
+        if period is None:
             self.logger.warning("Period of BswTimingEvent <%s> is invalid." % event.getShortName())
         else:
-            self.logger.debug(" Period: <%f, %s>" % (event.getPeriod().getValue(), event.getPeriod().getText()))
+            self.logger.debug(" Period: <%f, %s>" % (cast(float, period.getValue()), period.getText()))
 
     def readBswDataReceivedEvent(self, element: ET.Element, event: BswDataReceivedEvent):
         # self.logger.debug("Read BswDataReceivedEvent <%s>" % event.getShortName())
@@ -2593,7 +2677,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readVariationPointCapable(element, policy)
         return policy
 
-    def getBswModeSwitchAckRequest(self, element: ET.Element, key: str) -> BswModeSwitchAckRequest:
+    def getBswModeSwitchAckRequest(self, element: ET.Element, key: str) -> Optional[BswModeSwitchAckRequest]:
         request = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -2684,22 +2768,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getRoleBasedDataTypeAssignment(self, element: ET.Element) -> RoleBasedDataTypeAssignment:
         assignment = RoleBasedDataTypeAssignment()
-        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        assignment.setRole(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "ROLE")))
         assignment.setUsedImplementationDataTypeRef(self.getChildElementOptionalRefType(element, "USED-IMPLEMENTATION-DATA-TYPE-REF"))
         return assignment
 
     def readServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
-        self.readIdentifiable(element, dependency)
+        self.readIdentifiable(element, cast(Identifiable, dependency))
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
                 dependency.setAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
-        dependency.setDiagnosticRelevance(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE"))
+        dependency.setDiagnosticRelevance(cast(Optional[ServiceDiagnosticRelevanceEnum], self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE")))
         self.readSymbolicNameProps(element, dependency)
 
-    def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> BswServiceDependencyIdent:
+    def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> Optional[BswServiceDependencyIdent]:
         ident_element = self.find(element, "IDENT")
         if ident_element is not None:
             return BswServiceDependencyIdent(dependency, self.getShortName(ident_element))
@@ -2716,7 +2800,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getRoleBasedBswModuleEntryAssignment(self, element: ET.Element) -> RoleBasedBswModuleEntryAssignment:
         assignment = RoleBasedBswModuleEntryAssignment()
         assignment.setAssignedEntryRef(self.getChildElementOptionalRefType(element, "ASSIGNED-ENTRY-REF"))
-        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        assignment.setRole(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "ROLE")))
         self.readVariationPointCapable(element, assignment)
         return assignment
 
@@ -2744,8 +2828,8 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-MGR-NEEDS":
                 short_name = self.getShortName(child_element)
-                needs = BswMgrNeeds(dependency, short_name)
-                self.readBswMgrNeeds(child_element, needs)
+                needs: ARObject = BswMgrNeeds(dependency, short_name)
+                self.readBswMgrNeeds(child_element, cast(BswMgrNeeds, needs))
             elif tag_name == "CRYPTO-KEY-MANAGEMENT-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoKeyManagementNeeds(dependency, short_name)
@@ -2973,7 +3057,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
-            dependency.setServiceNeeds(needs)
+            dependency.setServiceNeeds(cast(Optional[ServiceNeeds], needs))
 
     def readBswServiceDependency(self, element: ET.Element, dependency: BswServiceDependency):
         self.readARObject(element, dependency)
@@ -3025,9 +3109,9 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setCyclicWritingPeriod(self.getChildElementOptionalTimeValue(element, "CYCLIC-WRITING-PERIOD"))
         needs.setNDataSets(self.getChildElementOptionalPositiveInteger(element, "N-DATA-SETS"))
         needs.setNRomBlocks(self.getChildElementOptionalPositiveInteger(element, "N-ROM-BLOCKS"))
-        needs.setRamBlockStatusControl(self.getChildElementOptionalLiteral(element, "RAM-BLOCK-STATUS-CONTROL"))
+        needs.setRamBlockStatusControl(cast(Optional[RamBlockStatusControlEnum], self.getChildElementOptionalLiteral(element, "RAM-BLOCK-STATUS-CONTROL")))
         needs.setReadonly(self.getChildElementOptionalBooleanValue(element, "READONLY"))
-        needs.setReliability(self.getChildElementOptionalLiteral(element, "RELIABILITY"))
+        needs.setReliability(cast(Optional[NvBlockNeedsReliabilityEnum], self.getChildElementOptionalLiteral(element, "RELIABILITY")))
         needs.setResistantToChangedSw(self.getChildElementOptionalBooleanValue(element, "RESISTANT-TO-CHANGED-SW"))
         needs.setRestoreAtStart(self.getChildElementOptionalBooleanValue(element, "RESTORE-AT-START"))
         needs.setSelectBlockForFirstInitAll(self.getChildElementOptionalBooleanValue(element, "SELECT-BLOCK-FOR-FIRST-INIT-ALL"))
@@ -3041,7 +3125,7 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setWriteOnlyOnce(self.getChildElementOptionalBooleanValue(element, "WRITE-ONLY-ONCE"))
         needs.setWriteVerification(self.getChildElementOptionalBooleanValue(element, "WRITE-VERIFICATION"))
         needs.setWritingFrequency(self.getChildElementOptionalPositiveInteger(element, "WRITING-FREQUENCY"))
-        needs.setWritingPriority(self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY"))
+        needs.setWritingPriority(cast(Optional[NvBlockNeedsWritingPriorityEnum], self.getChildElementOptionalLiteral(element, "WRITING-PRIORITY")))
 
     def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.readServiceNeeds(element, needs)
@@ -3071,7 +3155,7 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setApplicationDataTypeRef(self.getChildElementOptionalRefType(element, "APPLICATION-DATA-TYPE-REF"))
         needs.setEventNeedsRef(self.getChildElementOptionalRefType(element, "EVENT-NEEDS-REF"))
         needs.setUnitAndScalingId(self.getChildElementOptionalPositiveInteger(element, "UNIT-AND-SCALING-ID"))
-        needs.setUpdateKind(self.getChildElementOptionalLiteral(element, "UPDATE-KIND"))
+        needs.setUpdateKind(cast(Optional[DiagnosticMonitorUpdateKindEnum], self.getChildElementOptionalLiteral(element, "UPDATE-KIND")))
 
     def readObdPidServiceNeeds(self, element: ET.Element, needs: ObdPidServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -3081,13 +3165,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readObdRatioServiceNeeds(self, element: ET.Element, needs: ObdRatioServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setConnectionType(self.getChildElementOptionalLiteral(element, "CONNECTION-TYPE"))
+        needs.setConnectionType(cast(Optional[ObdRatioConnectionKindEnum], self.getChildElementOptionalLiteral(element, "CONNECTION-TYPE")))
         needs.setRateBasedMonitoredEventRef(self.getChildElementOptionalRefType(element, "RATE-BASED-MONITORED-EVENT-REF"))
         needs.setUsedFidRef(self.getChildElementOptionalRefType(element, "USED-FID-REF"))
 
     def readObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
         self.readServiceNeeds(element, needs)
-        needs.setDenominatorCondition(self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION"))
+        needs.setDenominatorCondition(cast(Optional[DiagnosticDenominatorConditionEnum], self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION")))
 
     def readDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):
         self.readServiceNeeds(element, needs)
@@ -3119,7 +3203,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
         self.readServiceNeeds(element, needs)
-        needs.setVerificationStatusIndicationMode(self.getChildElementOptionalLiteral(element, "VERIFICATION-STATUS-INDICATION-MODE"))
+        needs.setVerificationStatusIndicationMode(cast(Optional[VerificationStatusIndicationModeEnum], self.getChildElementOptionalLiteral(element, "VERIFICATION-STATUS-INDICATION-MODE")))
 
     def readIdsMgrCustomTimestampNeeds(self, element: ET.Element, needs: IdsMgrCustomTimestampNeeds):
         self.readServiceNeeds(element, needs)
@@ -3159,14 +3243,14 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDiagRoutineType(self._readEnumToken(element, "DIAG-ROUTINE-TYPE", DiagnosticRoutineTypeEnum, DIAGNOSTIC_ROUTINE_TYPE_XML_MAP))
-        needs.setRidNumber(self.getChildElementOptionalIntegerValue(element, "RID-NUMBER"))
+        needs.setRidNumber(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(element, "RID-NUMBER")))
 
     def readDiagnosticValueNeeds(self, element: ET.Element, needs: DiagnosticValueNeeds):
         # self.logger.debug("Read DiagnosticValueNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
         needs.setDiagnosticValueAccess(self._readEnumToken(element, "DIAGNOSTIC-VALUE-ACCESS", DiagnosticValueAccessEnum, DIAGNOSTIC_VALUE_ACCESS_XML_MAP))
-        needs.setDidNumber(self.getChildElementOptionalIntegerValue(element, "DID-NUMBER"))
+        needs.setDidNumber(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(element, "DID-NUMBER")))
         needs.setFixedLength(self.getChildElementOptionalBooleanValue(element, "FIXED-LENGTH"))
         needs.setProcessingStyle(self._readEnumToken(element, "PROCESSING-STYLE", DiagnosticProcessingStyleEnum, DIAGNOSTIC_PROCESSING_STYLE_XML_MAP))
 
@@ -3182,10 +3266,10 @@ class ARXMLParser(AbstractARXMLParser):
         algorithm.setCounterPassedThreshold(self.getChildElementOptionalIntegerValue(element, "COUNTER-PASSED-THRESHOLD"))
 
     def readDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
-        self.readDiagnosticCapabilityElement(element, algorithm)
+        self.readDiagnosticCapabilityElement(element, cast(DiagnosticCapabilityElement, algorithm))
 
     def readDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
-        self.readDiagnosticCapabilityElement(element, algorithm)
+        self.readDiagnosticCapabilityElement(element, cast(DiagnosticCapabilityElement, algorithm))
         algorithm.setTimeBasedFdcThresholdStorageValue(self.getChildElementOptionalTimeValue(element, "TIME-BASED-FDC-THRESHOLD-STORAGE-VALUE"))
         algorithm.setTimeFailedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-FAILED-THRESHOLD"))
         algorithm.setTimePassedThreshold(self.getChildElementOptionalTimeValue(element, "TIME-PASSED-THRESHOLD"))
@@ -3197,11 +3281,9 @@ class ARXMLParser(AbstractARXMLParser):
                 algorithm = needs.createDiagEventDebounceCounterBased(self.getShortName(child_element))
                 self.readDiagEventDebounceCounterBased(child_element, algorithm)
             elif tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
-                algorithm = needs.createDiagEventDebounceMonitorInternal(self.getShortName(child_element))
-                self.readDiagEventDebounceMonitorInternal(child_element, algorithm)
+                self.readDiagEventDebounceMonitorInternal(child_element, needs.createDiagEventDebounceMonitorInternal(self.getShortName(child_element)))
             elif tag_name == "DIAG-EVENT-DEBOUNCE-TIME-BASED":
-                algorithm = needs.createDiagEventDebounceTimeBased(self.getShortName(child_element))
-                self.readDiagEventDebounceTimeBased(child_element, algorithm)
+                self.readDiagEventDebounceTimeBased(child_element, needs.createDiagEventDebounceTimeBased(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
 
@@ -3235,7 +3317,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticEnableConditionNeeds(self, element: ET.Element, needs: DiagnosticEnableConditionNeeds):
         # self.logger.debug("Read DiagnosticEnableConditionNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
+        needs.setInitialStatus(cast(Optional[EventAcceptanceStatusEnum], self.getChildElementOptionalLiteral(element, "INITIAL-STATUS")))
 
     def readDiagnosticEventManagerNeeds(self, element: ET.Element, needs: DiagnosticEventManagerNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -3243,7 +3325,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
         # self.logger.debug("Read DiagnosticOperationCycleNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setOperationCycle(self.getChildElementOptionalLiteral(element, "OPERATION-CYCLE"))
+        needs.setOperationCycle(cast(Optional[OperationCycleTypeEnum], self.getChildElementOptionalLiteral(element, "OPERATION-CYCLE")))
 
     def readDiagnosticRequestFileTransferNeeds(self, element: ET.Element, needs: DiagnosticRequestFileTransferNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
@@ -3251,12 +3333,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
         # self.logger.debug("Read DiagnosticStorageConditionNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
-        needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
+        needs.setInitialStatus(cast(Optional[StorageConditionStatusEnum], self.getChildElementOptionalLiteral(element, "INITIAL-STATUS")))
 
     def readIndicatorStatusNeeds(self, element: ET.Element, needs: IndicatorStatusNeeds):
         # self.logger.debug("Read IndicatorStatusNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
-        needs.setType(self.getChildElementOptionalLiteral(element, "TYPE"))
+        needs.setType(cast(Optional[DiagnosticIndicatorTypeEnum], self.getChildElementOptionalLiteral(element, "TYPE")))
 
     def readJ1939DcmDm19Support(self, element: ET.Element, needs: J1939DcmDm19Support):
         self.readServiceNeeds(element, needs)
@@ -3309,7 +3391,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readComMgrUserNeeds(self, element: ET.Element, needs: ComMgrUserNeeds):
         # self.logger.debug("Read ComMgrUserNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
-        needs.setMaxCommMode(self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE"))
+        needs.setMaxCommMode(cast(Optional[MaxCommModeEnum], self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE")))
 
     def readSupervisedEntityCheckpointNeeds(self, element: ET.Element, needs: SupervisedEntityCheckpointNeeds):
         self.readServiceNeeds(element, needs)
@@ -3373,8 +3455,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TRACED-FAILURES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "DEVELOPMENT-ERROR":
-                failure = needs.createDevelopmentError(self.getShortName(child_element))
-                self.readDevelopmentError(child_element, failure)
+                failure: ARObject = needs.createDevelopmentError(self.getShortName(child_element))
+                self.readDevelopmentError(child_element, cast(DevelopmentError, failure))
             elif tag_name == "RUNTIME-ERROR":
                 failure = needs.createRuntimeError(self.getShortName(child_element))
                 self.readRuntimeError(child_element, failure)
@@ -3388,8 +3470,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "NV-BLOCK-NEEDS":
-                needs = parent.createNvBlockNeeds(self.getShortName(child_element))
-                self.readNvBlockNeeds(child_element, needs)
+                needs: ARObject = parent.createNvBlockNeeds(self.getShortName(child_element))
+                self.readNvBlockNeeds(child_element, cast(NvBlockNeeds, needs))
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
                 needs = parent.createDiagnosticCommunicationManagerNeeds(self.getShortName(child_element))
                 self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
@@ -3750,8 +3832,8 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             short_name = self.getShortName(child_element)
             if tag_name == "TD-EVENT-VFB-REFERENCE":
-                event = TDEventVfbReference(extension, short_name)
-                self.readTDEventVfbReference(child_element, event)
+                event: ARObject = TDEventVfbReference(extension, short_name)
+                self.readTDEventVfbReference(child_element, cast(TDEventVfbReference, event))
             elif tag_name == "TD-EVENT-VFB":
                 event = TDEventVfb(extension, short_name)
                 self.readTDEventVfb(child_element, event)
@@ -3812,8 +3894,8 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
-            extension.addReferrableElement(event)
-            extension.addTimingDescription(event)
+            extension.addReferrableElement(cast(Referrable, event))
+            extension.addTimingDescription(cast(Optional[TimingDescription], event))
 
     def readTDEventVfb(self, element: ET.Element, event: TDEventVfb):
         self.readTimingDescriptionEvent(element, event)
@@ -4395,7 +4477,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/SWC-EXCLUSIVE-AREA-POLICY"):
             policy = SwcExclusiveAreaPolicy()
-            policy.setApiPrinciple(self.getChildElementOptionalLiteral(child_element, "API-PRINCIPLE"))
+            policy.setApiPrinciple(cast(Optional[ApiPrincipleEnum], self.getChildElementOptionalLiteral(child_element, "API-PRINCIPLE")))
             policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF"))
             behavior.addExclusiveAreaPolicy(policy)
 
@@ -4517,14 +4599,11 @@ class ARXMLParser(AbstractARXMLParser):
                 point = entity.createBswAsynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallPoint(child_element, point)
             elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT":
-                point = entity.createBswAsynchronousServerCallResultPoint(self.getShortName(child_element))
-                self.readBswAsynchronousServerCallResultPoint(child_element, point)
+                self.readBswAsynchronousServerCallResultPoint(child_element, entity.createBswAsynchronousServerCallResultPoint(self.getShortName(child_element)))
             elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
-                point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
-                self.readBswSynchronousServerCallPoint(child_element, point)
+                self.readBswSynchronousServerCallPoint(child_element, entity.createBswSynchronousServerCallPoint(self.getShortName(child_element)))
             elif tag_name == "BSW-DIRECT-CALL-POINT":
-                point = entity.createBswDirectCallPoint(self.getShortName(child_element))
-                self.readBswDirectCallPoint(child_element, point)
+                self.readBswDirectCallPoint(child_element, entity.createBswDirectCallPoint(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Call Point <%s>" % tag_name)
 
@@ -4571,11 +4650,9 @@ class ARXMLParser(AbstractARXMLParser):
                 entity = behavior.createBswCalledEntity(self.getShortName(child_element))
                 self.readBswCalledEntity(child_element, entity)
             elif tag_name == "BSW-SCHEDULABLE-ENTITY":
-                entity = behavior.createBswSchedulableEntity(self.getShortName(child_element))
-                self.readBswSchedulableEntity(child_element, entity)
+                self.readBswSchedulableEntity(child_element, behavior.createBswSchedulableEntity(self.getShortName(child_element)))
             elif tag_name == "BSW-INTERRUPT-ENTITY":
-                entity = behavior.createBswInterruptEntity(self.getShortName(child_element))
-                self.readBswInterruptEntity(child_element, entity)
+                self.readBswInterruptEntity(child_element, behavior.createBswInterruptEntity(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
@@ -4587,45 +4664,36 @@ class ARXMLParser(AbstractARXMLParser):
         event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
 
     def readBswOperationInvokedEvent(self, element: ET.Element, event: BswOperationInvokedEvent):
-        self.readBswEvent(element, event)
+        self.readBswEvent(element, cast(BswScheduleEvent, event))
         event.setEntryRef(self.getChildElementOptionalRefType(element, "ENTRY-REF"))
 
     def readBswInternalBehaviorEvents(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "BSW-MODE-SWITCH-EVENT":
-                event = behavior.createBswModeSwitchEvent(self.getShortName(child_element))
-                self.readBswModeSwitchEvent(child_element, event)
+                event: ARObject = behavior.createBswModeSwitchEvent(self.getShortName(child_element))
+                self.readBswModeSwitchEvent(child_element, cast(BswModeSwitchEvent, event))
             elif tag_name == "BSW-MODE-MANAGER-ERROR-EVENT":
-                event = behavior.createBswModeManagerErrorEvent(self.getShortName(child_element))
-                self.readBswModeManagerErrorEvent(child_element, event)
+                self.readBswModeManagerErrorEvent(child_element, behavior.createBswModeManagerErrorEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-MODE-SWITCHED-ACK-EVENT":
-                event = behavior.createBswModeSwitchedAckEvent(self.getShortName(child_element))
-                self.readBswModeSwitchedAckEvent(child_element, event)
+                self.readBswModeSwitchedAckEvent(child_element, behavior.createBswModeSwitchedAckEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-TIMING-EVENT":
-                event = behavior.createBswTimingEvent(self.getShortName(child_element))
-                self.readBswTimingEvent(child_element, event)
+                self.readBswTimingEvent(child_element, behavior.createBswTimingEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-DATA-RECEIVED-EVENT":
-                event = behavior.createBswDataReceivedEvent(self.getShortName(child_element))
-                self.readBswDataReceivedEvent(child_element, event)
+                self.readBswDataReceivedEvent(child_element, behavior.createBswDataReceivedEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-INTERNAL-TRIGGER-OCCURRED-EVENT":
-                event = behavior.createBswInternalTriggerOccurredEvent(self.getShortName(child_element))
-                self.readBswInternalTriggerOccurredEvent(child_element, event)
+                self.readBswInternalTriggerOccurredEvent(child_element, behavior.createBswInternalTriggerOccurredEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-BACKGROUND-EVENT":
-                event = behavior.createBswBackgroundEvent(self.getShortName(child_element))
-                self.readBswBackgroundEvent(child_element, event)
+                self.readBswBackgroundEvent(child_element, behavior.createBswBackgroundEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT":
-                event = behavior.createBswExternalTriggerOccurredEvent(self.getShortName(child_element))
-                self.readBswExternalTriggerOccurredEvent(child_element, event)
+                self.readBswExternalTriggerOccurredEvent(child_element, behavior.createBswExternalTriggerOccurredEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-OPERATION-INVOKED-EVENT":
-                event = behavior.createBswOperationInvokedEvent(self.getShortName(child_element))
-                self.readBswOperationInvokedEvent(child_element, event)
+                self.readBswOperationInvokedEvent(child_element, behavior.createBswOperationInvokedEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
-                event = behavior.createBswAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
-                self.readBswAsynchronousServerCallReturnsEvent(child_element, event)
+                self.readBswAsynchronousServerCallReturnsEvent(child_element, behavior.createBswAsynchronousServerCallReturnsEvent(self.getShortName(child_element)))
             elif tag_name == "BSW-INTERRUPT-EVENT":
                 event = behavior.createBswInterruptEvent(self.getShortName(child_element))
-                self.readBswEvent(child_element, event)
+                self.readBswEvent(child_element, cast(BswScheduleEvent, event))
             elif tag_name == "BSW-OS-TASK-EXECUTION-EVENT":
                 event = behavior.createBswOsTaskExecutionEvent(self.getShortName(child_element))
                 self.readBswEvent(child_element, event)
@@ -4785,7 +4853,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "AR-TYPED-PER-INSTANCE-MEMORYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "VARIABLE-DATA-PROTOTYPE":
-                memory = VariableDataPrototype(self, self.getShortName(child_element))
+                memory = VariableDataPrototype(cast(ARObject, self), self.getShortName(child_element))
                 self.readVariableDataPrototype(child_element, memory)
                 behavior.addArTypedPerInstanceMemory(memory)
             else:
@@ -4794,7 +4862,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getBswExclusiveAreaPolicy(self, element: ET.Element) -> BswExclusiveAreaPolicy:
         policy = BswExclusiveAreaPolicy()
         self.readBswApiOptions(element, policy)
-        policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
+        policy.setApiPrinciple(cast(Optional[ApiPrincipleEnum], self.getChildElementOptionalLiteral(element, "API-PRINCIPLE")))
         policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
         self.readVariationPointCapable(element, policy)
         return policy
@@ -4831,7 +4899,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PER-INSTANCE-PARAMETERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "PARAMETER-DATA-PROTOTYPE":
-                parameter = ParameterDataPrototype(self, self.getShortName(child_element))
+                parameter = ParameterDataPrototype(cast(ARObject, self), self.getShortName(child_element))
                 self.readParameterDataPrototype(child_element, parameter)
                 behavior.addPerInstanceParameter(parameter)
             else:
@@ -5054,7 +5122,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read BswModuleDescription <%s>" % desc.getShortName())
 
         self.readIdentifiable(element, desc)
-        desc.setModuleId(self.getChildElementOptionalNumericalValue(element, "MODULE-ID"))
+        desc.setModuleId(cast(PositiveInteger, self.getChildElementOptionalNumericalValue(element, "MODULE-ID")))
         self.readBswModuleDescriptionExpectedEntryRefs(element, desc)
         self.readBswModuleDescriptionImplementedEntryRefs(element, desc)
         self.readBswModuleDescriptionProvidedModeGroups(element, desc)
@@ -5100,7 +5168,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.readIdentifiable(element, arg)
-        arg.setDirection(self.getChildElementOptionalLiteral(element, "DIRECTION"))
+        arg.setDirection(cast(Optional[ArgumentDirectionEnum], self.getChildElementOptionalLiteral(element, "DIRECTION")))
         arg.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
         arg.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
@@ -5126,22 +5194,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleEntryArguments(element, entry)
         entry.setIsReentrant(self.getChildElementOptionalBooleanValue(element, "IS-REENTRANT"))
         entry.setIsSynchronous(self.getChildElementOptionalBooleanValue(element, "IS-SYNCHRONOUS"))
-        entry.setServiceId(self.getChildElementOptionalNumericalValue(element, "SERVICE-ID"))
-        entry.setCallType(self.getChildElementOptionalLiteral(element, "CALL-TYPE"))
-        entry.setExecutionContext(self.getChildElementOptionalLiteral(element, "EXECUTION-CONTEXT"))
-        entry.setSwServiceImplPolicy(self.getChildElementOptionalLiteral(element, "SW-SERVICE-IMPL-POLICY"))
-        entry.setBswEntryKind(self.getChildElementOptionalLiteral(element, "BSW-ENTRY-KIND"))
-        entry.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
-        entry.setFunctionPrototypeEmitter(self.getChildElementOptionalLiteral(element, "FUNCTION-PROTOTYPE-EMITTER"))
+        entry.setServiceId(cast(Optional[PositiveInteger], self.getChildElementOptionalNumericalValue(element, "SERVICE-ID")))
+        entry.setCallType(cast(Optional[BswCallType], self.getChildElementOptionalLiteral(element, "CALL-TYPE")))
+        entry.setExecutionContext(cast(Optional[BswExecutionContext], self.getChildElementOptionalLiteral(element, "EXECUTION-CONTEXT")))
+        entry.setSwServiceImplPolicy(cast(Optional[SwServiceImplPolicyEnum], self.getChildElementOptionalLiteral(element, "SW-SERVICE-IMPL-POLICY")))
+        entry.setBswEntryKind(cast(Optional[BswEntryKindEnum], self.getChildElementOptionalLiteral(element, "BSW-ENTRY-KIND")))
+        entry.setRole(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "ROLE")))
+        entry.setFunctionPrototypeEmitter(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "FUNCTION-PROTOTYPE-EMITTER")))
         self.readBswModuleEntryReturnType(element, entry)
 
     def readEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.readARObject(element, engineering_obj)
-        engineering_obj.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        engineering_obj.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        engineering_obj.setShortLabel(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
+        engineering_obj.setCategory(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         for child_element in self.findall(element, "REVISION-LABELS/REVISION-LABEL"):
             engineering_obj.addRevisionLabel(self.getChildElementOptionalRevisionLabelString(child_element, "."))
-        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
+        engineering_obj.setDomain(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "DOMAIN")))
 
     def getAutosarEngineeringObject(self, element: ET.Element) -> AutosarEngineeringObject:
         obj = AutosarEngineeringObject()
@@ -5178,10 +5246,10 @@ class ARXMLParser(AbstractARXMLParser):
             for compiler_element in self.findall(child_element, "COMPILER"):
                 compiler = impl.createCompiler(self.getShortName(compiler_element))
                 self.readIdentifiable(compiler_element, compiler)
-                compiler.setName(self.getChildElementOptionalLiteral(compiler_element, "NAME"))
-                compiler.setOptions(self.getChildElementOptionalLiteral(compiler_element, "OPTIONS"))
-                compiler.setVendor(self.getChildElementOptionalLiteral(compiler_element, "VENDOR"))
-                compiler.setVersion(self.getChildElementOptionalLiteral(compiler_element, "VERSION"))
+                compiler.setName(cast(Optional[String], self.getChildElementOptionalLiteral(compiler_element, "NAME")))
+                compiler.setOptions(cast(Optional[String], self.getChildElementOptionalLiteral(compiler_element, "OPTIONS")))
+                compiler.setVendor(cast(Optional[String], self.getChildElementOptionalLiteral(compiler_element, "VENDOR")))
+                compiler.setVersion(cast(Optional[String], self.getChildElementOptionalLiteral(compiler_element, "VERSION")))
 
     def readLinker(self, element: ET.Element, impl: Implementation):
         child_element = self.find(element, "LINKERS")
@@ -5189,10 +5257,10 @@ class ARXMLParser(AbstractARXMLParser):
             for linker in self.findall(child_element, "LINKER"):
                 linker_obj = impl.createLinker(self.getShortName(linker))
                 self.readIdentifiable(linker, linker_obj)
-                linker_obj.setName(self.getChildElementOptionalLiteral(linker, "NAME"))
-                linker_obj.setOptions(self.getChildElementOptionalLiteral(linker, "OPTIONS"))
-                linker_obj.setVendor(self.getChildElementOptionalLiteral(linker, "VENDOR"))
-                linker_obj.setVersion(self.getChildElementOptionalLiteral(linker, "VERSION"))
+                linker_obj.setName(cast(Optional[String], self.getChildElementOptionalLiteral(linker, "NAME")))
+                linker_obj.setOptions(cast(Optional[String], self.getChildElementOptionalLiteral(linker, "OPTIONS")))
+                linker_obj.setVendor(cast(Optional[String], self.getChildElementOptionalLiteral(linker, "VENDOR")))
+                linker_obj.setVersion(cast(Optional[String], self.getChildElementOptionalLiteral(linker, "VERSION")))
 
     def readDependencyOnArtifact(self, element: ET.Element, impl: Implementation, key: str, create):
         child_element = self.find(element, key)
@@ -5250,13 +5318,13 @@ class ARXMLParser(AbstractARXMLParser):
             interval.setUpperBound(upper_bound)
 
     def readHardwareConfiguration(self, element: ET.Element, config: HardwareConfiguration):
-        config.setAdditionalInformation(self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION"))
-        config.setProcessorMode(self.getChildElementOptionalLiteral(element, "PROCESSOR-MODE"))
-        config.setProcessorSpeed(self.getChildElementOptionalLiteral(element, "PROCESSOR-SPEED"))
+        config.setAdditionalInformation(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION")))
+        config.setProcessorMode(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-MODE")))
+        config.setProcessorSpeed(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-SPEED")))
 
     def readSoftwareContext(self, element: ET.Element, context: SoftwareContext):
-        context.setInput(self.getChildElementOptionalLiteral(element, "INPUT"))
-        context.setState(self.getChildElementOptionalLiteral(element, "STATE"))
+        context.setInput(cast(Optional[String], self.getChildElementOptionalLiteral(element, "INPUT")))
+        context.setState(cast(Optional[String], self.getChildElementOptionalLiteral(element, "STATE")))
 
     def readMemorySectionLocation(self, element: ET.Element, location):
         location.setProvidedMemoryRef(self.getChildElementOptionalRefType(element, "PROVIDED-MEMORY-REF"))
@@ -5325,7 +5393,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRoughEstimateOfExecutionTime(self, element: ET.Element, execution_time: RoughEstimateOfExecutionTime):
         self.readExecutionTime(element, execution_time)
-        execution_time.setAdditionalInformation(self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION"))
+        execution_time.setAdditionalInformation(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION")))
         estimated_element = self.find(element, "ESTIMATED-EXECUTION-TIME")
         if estimated_element is not None:
             estimated = MultidimensionalTime()
@@ -5339,14 +5407,11 @@ class ARXMLParser(AbstractARXMLParser):
                 execution_time = consumption.createAnalyzedExecutionTime(self.getShortName(child_element))
                 self.readAnalyzedExecutionTime(child_element, execution_time)
             elif tag_name == "MEASURED-EXECUTION-TIME":
-                execution_time = consumption.createMeasuredExecutionTime(self.getShortName(child_element))
-                self.readMeasuredExecutionTime(child_element, execution_time)
+                self.readMeasuredExecutionTime(child_element, consumption.createMeasuredExecutionTime(self.getShortName(child_element)))
             elif tag_name == "ROUGH-ESTIMATE-OF-EXECUTION-TIME":
-                execution_time = consumption.createRoughEstimateOfExecutionTime(self.getShortName(child_element))
-                self.readRoughEstimateOfExecutionTime(child_element, execution_time)
+                self.readRoughEstimateOfExecutionTime(child_element, consumption.createRoughEstimateOfExecutionTime(self.getShortName(child_element)))
             elif tag_name == "SIMULATED-EXECUTION-TIME":
-                execution_time = consumption.createSimulatedExecutionTime(self.getShortName(child_element))
-                self.readSimulatedExecutionTime(child_element, execution_time)
+                self.readSimulatedExecutionTime(child_element, consumption.createSimulatedExecutionTime(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Execution Time: <%s>" % tag_name)
 
@@ -5369,7 +5434,7 @@ class ARXMLParser(AbstractARXMLParser):
         usage.setAverageMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "AVERAGE-MEMORY-CONSUMPTION"))
         usage.setMaximumMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-MEMORY-CONSUMPTION"))
         usage.setMinimumMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-MEMORY-CONSUMPTION"))
-        usage.setTestPattern(self.getChildElementOptionalLiteral(element, "TEST-PATTERN"))
+        usage.setTestPattern(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TEST-PATTERN")))
 
     def readRoughEstimateHeapUsage(self, element: ET.Element, usage: RoughEstimateHeapUsage):
         self.readHeapUsage(element, usage)
@@ -5386,11 +5451,9 @@ class ARXMLParser(AbstractARXMLParser):
                 usage = consumption.createMeasuredHeapUsage(self.getShortName(child_element))
                 self.readMeasuredHeapUsage(child_element, usage)
             elif tag_name == "ROUGH-ESTIMATE-HEAP-USAGE":
-                usage = consumption.createRoughEstimateHeapUsage(self.getShortName(child_element))
-                self.readRoughEstimateHeapUsage(child_element, usage)
+                self.readRoughEstimateHeapUsage(child_element, consumption.createRoughEstimateHeapUsage(self.getShortName(child_element)))
             elif tag_name == "WORST-CASE-HEAP-USAGE":
-                usage = consumption.createWorstCaseHeapUsage(self.getShortName(child_element))
-                self.readWorstCaseHeapUsage(child_element, usage)
+                self.readWorstCaseHeapUsage(child_element, consumption.createWorstCaseHeapUsage(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Heap Usage: <%s>" % tag_name)
 
@@ -5410,7 +5473,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ACCESS-COUNT-SETS/ACCESS-COUNT-SET"):
             access_count_set = AccessCountSet()
             consumption.addAccessCountSet(access_count_set)
-            access_count_set.setCountProfile(self.getChildElementOptionalLiteral(child_element, "COUNT-PROFILE"))
+            access_count_set.setCountProfile(cast(Optional[NameToken], self.getChildElementOptionalLiteral(child_element, "COUNT-PROFILE")))
             for count_element in self.findall(child_element, "ACCESS-COUNTS/ACCESS-COUNT"):
                 count = AccessCount()
                 count.setAccessPointRef(self.getChildElementOptionalRefType(count_element, "ACCESS-POINT-REF"))
@@ -5442,7 +5505,7 @@ class ARXMLParser(AbstractARXMLParser):
         usage.setAverageMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "AVERAGE-MEMORY-CONSUMPTION"))
         usage.setMaximumMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-MEMORY-CONSUMPTION"))
         usage.setMinimumMemoryConsumption(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-MEMORY-CONSUMPTION"))
-        usage.setTestPattern(self.getChildElementOptionalLiteral(element, "TEST-PATTERN"))
+        usage.setTestPattern(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TEST-PATTERN")))
 
     def readWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
         self.readStackUsage(element, usage)
@@ -5455,11 +5518,9 @@ class ARXMLParser(AbstractARXMLParser):
                 usage = consumption.createRoughEstimateStackUsage(self.getShortName(child_element))
                 self.readRoughEstimateStackUsage(child_element, usage)
             elif tag_name == "MEASURED-STACK-USAGE":
-                usage = consumption.createMeasuredStackUsage(self.getShortName(child_element))
-                self.readMeasuredStackUsage(child_element, usage)
+                self.readMeasuredStackUsage(child_element, consumption.createMeasuredStackUsage(self.getShortName(child_element)))
             elif tag_name == "WORST-CASE-STACK-USAGE":
-                usage = consumption.createWorstCaseStackUsage(self.getShortName(child_element))
-                self.readWorstCaseStackUsage(child_element, usage)
+                self.readWorstCaseStackUsage(child_element, consumption.createWorstCaseStackUsage(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Stack Usages: <%s>" % tag_name)
 
@@ -5493,9 +5554,9 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "HW-ELEMENT-REFS/HW-ELEMENT-REF"):
             impl.addHwElementRef(ref)
         impl.setBuildActionManifestRef(self.getChildElementOptionalRefType(element, "BUILD-ACTION-MANIFESTS/BUILD-ACTION-MANIFEST-REF-CONDITIONAL/BUILD-ACTION-MANIFEST-REF"))
-        impl.setSwVersion(self.getChildElementOptionalLiteral(element, "SW-VERSION"))
+        impl.setSwVersion(cast(Optional[RevisionLabelString], self.getChildElementOptionalLiteral(element, "SW-VERSION")))
         impl.setSwcBswMappingRef(self.getChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF"))
-        impl.setUsedCodeGenerator(self.getChildElementOptionalLiteral(element, "USED-CODE-GENERATOR"))
+        impl.setUsedCodeGenerator(cast(Optional[String], self.getChildElementOptionalLiteral(element, "USED-CODE-GENERATOR")))
         impl.setVendorId(self.getChildElementOptionalPositiveInteger(element, "VENDOR-ID"))
         mc_support_element = self.find(element, "MC-SUPPORT")
         if mc_support_element is not None:
@@ -5523,8 +5584,8 @@ class ARXMLParser(AbstractARXMLParser):
             support.setRptSupportData(rpt_support_data)
 
     def readMcSwEmulationMethodSupport(self, element: ET.Element, support: McSwEmulationMethodSupport):
-        support.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        support.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        support.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
+        support.setCategory(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         support.setBaseReferenceRef(self.getChildElementOptionalRefType(element, "BASE-REFERENCE-REF"))
         for child_element in self.findall(element, "ELEMENT-GROUPS/MC-PARAMETER-ELEMENT-GROUP"):
             group = McParameterElementGroup()
@@ -5534,7 +5595,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readVariationPointCapable(element, support)
 
     def readMcParameterElementGroup(self, element: ET.Element, group: McParameterElementGroup):
-        group.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        group.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         group.setRamLocationRef(self.getChildElementOptionalRefType(element, "RAM-LOCATION-REF"))
         group.setRomLocationRef(self.getChildElementOptionalRefType(element, "ROM-LOCATION-REF"))
 
@@ -5554,9 +5615,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMcDataAccessDetails(self, element: ET.Element, details: McDataAccessDetails):
         for child_element in self.findall(element, "RTE-EVENT-IREFS/RTE-EVENT-IREF"):
-            iref = RteEventInEcuInstanceRef()
-            self.readRteEventInEcuInstanceRef(child_element, iref)
-            details.addRteEventIRef(iref)
+            iref: ARObject = RteEventInEcuInstanceRef()
+            self.readRteEventInEcuInstanceRef(child_element, cast(RteEventInEcuInstanceRef, iref))
+            details.addRteEventIRef(cast(Optional[RteEventInEcuInstanceRef], iref))
         for child_element in self.findall(element, "VARIABLE-ACCESS-IREFS/VARIABLE-ACCESS-IREF"):
             iref = VariableAccessInEcuInstanceRef()
             self.readVariableAccessInEcuInstanceRef(child_element, iref)
@@ -5564,15 +5625,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
-        instance.setDisplayIdentifier(self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER"))
+        instance.setDisplayIdentifier(cast(Optional[McdIdentifier], self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER")))
         instance.setFlatMapEntryRef(self.getChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF"))
         instance_in_memory_element = self.find(element, "INSTANCE-IN-MEMORY")
         if instance_in_memory_element is not None:
             instance_in_memory = ImplementationElementInParameterInstanceRef()
             self.readImplementationElementInParameterInstanceRef(instance_in_memory_element, instance_in_memory)
             instance.setInstanceInMemory(instance_in_memory)
-        instance.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
-        instance.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        instance.setRole(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "ROLE")))
+        instance.setSymbol(cast(Optional[SymbolString], self.getChildElementOptionalLiteral(element, "SYMBOL")))
         mc_data_access_details_element = self.find(element, "MC-DATA-ACCESS-DETAILS")
         if mc_data_access_details_element is not None:
             details = McDataAccessDetails()
@@ -5606,23 +5667,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readVariationPointCapable(element, assignment)
 
     def readRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
-        access.setRptHookAccess(self.getChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS"))
-        access.setRptReadAccess(self.getChildElementOptionalLiteral(element, "RPT-READ-ACCESS"))
-        access.setRptWriteAccess(self.getChildElementOptionalLiteral(element, "RPT-WRITE-ACCESS"))
+        access.setRptHookAccess(cast(Optional[RptAccessEnum], self.getChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS")))
+        access.setRptReadAccess(cast(Optional[RptAccessEnum], self.getChildElementOptionalLiteral(element, "RPT-READ-ACCESS")))
+        access.setRptWriteAccess(cast(Optional[RptAccessEnum], self.getChildElementOptionalLiteral(element, "RPT-WRITE-ACCESS")))
 
     def readRptImplPolicy(self, element: ET.Element, policy: RptImplPolicy):
-        policy.setRptEnablerImplType(self.getChildElementOptionalLiteral(element, "RPT-ENABLER-IMPL-TYPE"))
-        policy.setRptPreparationLevel(self.getChildElementOptionalLiteral(element, "RPT-PREPARATION-LEVEL"))
+        policy.setRptEnablerImplType(cast(Optional[RptEnablerImplTypeEnum], self.getChildElementOptionalLiteral(element, "RPT-ENABLER-IMPL-TYPE")))
+        policy.setRptPreparationLevel(cast(Optional[RptPreparationEnum], self.getChildElementOptionalLiteral(element, "RPT-PREPARATION-LEVEL")))
 
     def readRptExecutableEntityProperties(self, element: ET.Element, properties: RptExecutableEntityProperties):
         properties.setMaxRptEventId(self.getChildElementOptionalPositiveInteger(element, "MAX-RPT-EVENT-ID"))
         properties.setMinRptEventId(self.getChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID"))
-        properties.setRptExecutionControl(self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL"))
-        properties.setRptServicePoint(self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT"))
+        properties.setRptExecutionControl(cast(Optional[RptExecutionControlEnum], self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")))
+        properties.setRptServicePoint(cast(Optional[RptServicePointEnum], self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT")))
 
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))
-        service_point.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        service_point.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
 
     def readRptExecutableEntityEvent(self, element: ET.Element, event: RptExecutableEntityEvent):
         for ref in self.getChildElementRefTypeList(element, "EXECUTION-CONTEXT-REFS/EXECUTION-CONTEXT-REF"):
@@ -5659,7 +5720,7 @@ class ARXMLParser(AbstractARXMLParser):
             assignment = RoleBasedMcDataAssignment()
             self.readRoleBasedMcDataAssignment(assignment_element, assignment)
             entity.addRptWrite(assignment)
-        entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        entity.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
 
     def readRptComponent(self, element: ET.Element, component: RptComponent):
         for assignment_element in self.findall(element, "MC-DATA-ASSIGNMENTS/ROLE-BASED-MC-DATA-ASSIGNMENT"):
@@ -5701,12 +5762,12 @@ class ARXMLParser(AbstractARXMLParser):
         return invocator
 
     def readBuildEngineeringObject(self, element: ET.Element, engineering_object: BuildEngineeringObject) -> BuildEngineeringObject:
-        engineering_object.setFileType(self.getChildElementOptionalLiteral(element, "FILE-TYPE"))
+        engineering_object.setFileType(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "FILE-TYPE")))
         engineering_object.setIntendedFilename(self.getChildElementOptionalUriString(element, "INTENDED-FILENAME"))
-        engineering_object.setParentCategory(self.getChildElementOptionalLiteral(element, "PARENT-CATEGORY"))
-        engineering_object.setParentShortLabel(self.getChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL"))
-        engineering_object.setShortLabelPattern(self.getChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN"))
-        engineering_object.setFileTypePattern(self.getChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN"))
+        engineering_object.setParentCategory(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "PARENT-CATEGORY")))
+        engineering_object.setParentShortLabel(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL")))
+        engineering_object.setShortLabelPattern(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN")))
+        engineering_object.setFileTypePattern(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN")))
         return engineering_object
 
     def readBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement) -> BuildActionIoElement:
@@ -5802,9 +5863,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswImplementation(self, element: ET.Element, impl: BswImplementation):
         self.logger.debug("Read BswImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
-        impl.setArReleaseVersion(self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION"))
+        impl.setArReleaseVersion(cast(Optional[RevisionLabelString], self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")))
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
-        impl.setVendorApiInfix(self.getChildElementOptionalLiteral(element, "VENDOR-API-INFIX"))
+        impl.setVendorApiInfix(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "VENDOR-API-INFIX")))
         self.readBswImplementationPreconfiguredConfigurationRefs(element, impl)
         self.readBswImplementationRecommendedConfigurationRefs(element, impl)
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
@@ -5853,10 +5914,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getRunnableEntityArgument(self, element: ET.Element) -> RunnableEntityArgument:
         argument = RunnableEntityArgument()
-        argument.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        argument.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
         return argument
 
-    def getParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str) -> ParameterInAtomicSWCTypeInstanceRef:
+    def getParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str) -> Optional[ParameterInAtomicSWCTypeInstanceRef]:
         parameter_iref = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -5868,7 +5929,7 @@ class ARXMLParser(AbstractARXMLParser):
             parameter_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return parameter_iref
 
-    def getAutosarParameterRef(self, element: ET.Element, key: str) -> AutosarParameterRef:
+    def getAutosarParameterRef(self, element: ET.Element, key: str) -> Optional[AutosarParameterRef]:
         parameter = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6087,8 +6148,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readConsistencyNeedsRegDoesNotRequireStabilitys(element, consistency_needs)
         self.readConsistencyNeedsRegRequiresStabilitys(element, consistency_needs)
 
-    def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
-        instance_ref = None
+    def getModeGroupIRef(self, element: ET.Element, key: str) -> Optional[ModeGroupInAtomicSwcInstanceRef]:
+        instance_ref: Optional[Union[PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef]] = None
         for child_element in self.findall(element, "%s/*" % key):
             tag_name = self.getTagName(child_element)
             if tag_name == "P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF":
@@ -6277,7 +6338,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readAutosarDataPrototype(self, element: ET.Element, prototype: AutosarDataPrototype):
         self.readDataPrototype(element, prototype)
-        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
+        prototype.setTypeTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "TYPE-TREF")))
 
     def readParameterDataPrototype(self, element: ET.Element, prototype: ParameterDataPrototype):
         self.readAutosarDataPrototype(element, prototype)
@@ -6294,7 +6355,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "VALUE/*")
         if child_element is not None:
             argument_value.setValue(self.getValueSpecification(child_element, self.getTagName(child_element)))
-        argument_value.setValueTypeTRef(self.getChildElementOptionalRefType(element, "VALUE-TYPE-TREF"))
+        argument_value.setValueTypeTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "VALUE-TYPE-TREF")))
         return argument_value
 
     def readSwcInternalBehaviorPortAPIOptions(self, element: ET.Element, behavior: SwcInternalBehavior):
@@ -6387,47 +6448,36 @@ class ARXMLParser(AbstractARXMLParser):
                 event = parent.createTimingEvent(self.getShortName(child_element))
                 self.readTimingEvent(child_element, event)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
-                event = parent.createSwcModeSwitchEvent(self.getShortName(child_element))
-                self.readSwcModeSwitchEvent(child_element, event)
+                self.readSwcModeSwitchEvent(child_element, parent.createSwcModeSwitchEvent(self.getShortName(child_element)))
             elif tag_name == "OPERATION-INVOKED-EVENT":
-                event = parent.createOperationInvokedEvent(self.getShortName(child_element))
-                self.readOperationInvokedEvent(child_element, event)
+                self.readOperationInvokedEvent(child_element, parent.createOperationInvokedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-RECEIVED-EVENT":
-                event = parent.createDataReceivedEvent(self.getShortName(child_element))
-                self.readDataReceivedEvent(child_element, event)
+                self.readDataReceivedEvent(child_element, parent.createDataReceivedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-RECEIVE-ERROR-EVENT":
-                event = parent.createDataReceiveErrorEvent(self.getShortName(child_element))
-                self.readDataReceiveErrorEvent(child_element, event)
+                self.readDataReceiveErrorEvent(child_element, parent.createDataReceiveErrorEvent(self.getShortName(child_element)))
             elif tag_name == "INTERNAL-TRIGGER-OCCURRED-EVENT":
-                event = parent.createInternalTriggerOccurredEvent(self.getShortName(child_element))
-                self.readInternalTriggerOccurredEvent(child_element, event)
+                self.readInternalTriggerOccurredEvent(child_element, parent.createInternalTriggerOccurredEvent(self.getShortName(child_element)))
             elif tag_name == "INIT-EVENT":
-                event = parent.createInitEvent(self.getShortName(child_element))
-                self.readInitEvent(child_element, event)
+                self.readInitEvent(child_element, parent.createInitEvent(self.getShortName(child_element)))
             elif tag_name == "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
-                event = parent.createAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
-                self.readAsynchronousServerCallReturnsEvent(child_element, event)
+                self.readAsynchronousServerCallReturnsEvent(child_element, parent.createAsynchronousServerCallReturnsEvent(self.getShortName(child_element)))
             elif tag_name == "MODE-SWITCHED-ACK-EVENT":
-                event = parent.createModeSwitchedAckEvent(self.getShortName(child_element))
-                self.readModeSwitchedAckEvent(child_element, event)
+                self.readModeSwitchedAckEvent(child_element, parent.createModeSwitchedAckEvent(self.getShortName(child_element)))
             elif tag_name == "BACKGROUND-EVENT":
-                event = parent.createBackgroundEvent(self.getShortName(child_element))
-                self.readBackgroundEvent(child_element, event)
+                self.readBackgroundEvent(child_element, parent.createBackgroundEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-SEND-COMPLETED-EVENT":
-                event = parent.createDataSendCompletedEvent(self.getShortName(child_element))
-                self.readDataSendCompletedEvent(child_element, event)
+                self.readDataSendCompletedEvent(child_element, parent.createDataSendCompletedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-WRITE-COMPLETED-EVENT":
-                event = parent.createDataWriteCompletedEvent(self.getShortName(child_element))
-                self.readDataWriteCompletedEvent(child_element, event)
+                self.readDataWriteCompletedEvent(child_element, parent.createDataWriteCompletedEvent(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 
-    def getSwPointerTargetProps(self, element: ET.Element, key: str) -> SwPointerTargetProps:
+    def getSwPointerTargetProps(self, element: ET.Element, key: str) -> Optional[SwPointerTargetProps]:
         child_element = self.find(element, key)
         props = None
         if child_element is not None:
             props = SwPointerTargetProps()
-            props.setTargetCategory(self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY"))
+            props.setTargetCategory(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY")))
             props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             props.setFunctionPointerSignatureRef(self.getChildElementOptionalRefType(child_element, "FUNCTION-POINTER-SIGNATURE-REF"))
         return props
@@ -6436,17 +6486,17 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "SW-POINTER-TARGET-PROPS")
         if child_element is not None:
             sw_pointer_target_props = SwPointerTargetProps()
-            sw_pointer_target_props.setTargetCategory(self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY"))
+            sw_pointer_target_props.setTargetCategory(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY")))
             sw_pointer_target_props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             sw_pointer_target_props.setFunctionPointerSignatureRef(self.getChildElementOptionalRefType(child_element, "FUNCTION-POINTER-SIGNATURE-REF"))
             parent.swPointerTargetProps = sw_pointer_target_props
 
-    def getSwTextProps(self, element: ET.Element, key: str) -> SwTextProps:
+    def getSwTextProps(self, element: ET.Element, key: str) -> Optional[SwTextProps]:
         child_element = self.find(element, key)
         props = None
         if child_element is not None:
             props = SwTextProps()
-            props.setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
+            props.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
             props.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
             props.setSwFillCharacter(self.getChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER"))
             props.setSwMaxTextSize(self.getChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE"))
@@ -6454,9 +6504,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):
         self.readARObject(element, specific)
-        specific.setValue(element.text)
+        specific.setValue(cast(str, element.text))
         if "L" in element.attrib:
-            specific.setL(element.attrib["L"])  # noqa E741
+            specific.setL(cast(Optional[LEnum], element.attrib["L"]))  # noqa E741
 
     def readWhitespaceControlled(self, element: ET.Element, specific: Union[Sd, WhitespaceControlled]):
         xml_space = element.attrib.get("{http://www.w3.org/XML/1998/namespace}space")
@@ -6471,7 +6521,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMixedContentForParagraph(child_element, l1)
             l1.setValue(child_element.text or "")
             if "L" in child_element.attrib:
-                l1.setL(child_element.attrib["L"])  # noqa E741
+                l1.setL(cast(Optional[LEnum], child_element.attrib["L"]))  # noqa E741
             results.append(l1)
         return results
 
@@ -6517,7 +6567,7 @@ class ARXMLParser(AbstractARXMLParser):
             result.append(list)
         return result
 
-    def getGraphic(self, element: ET.Element, key: str) -> Graphic:
+    def getGraphic(self, element: ET.Element, key: str) -> Optional[Graphic]:
         graphic = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6601,7 +6651,7 @@ class ARXMLParser(AbstractARXMLParser):
         if "TITLE" in element.attrib:
             area.setTitle(String().setValue(element.attrib["TITLE"]))
 
-    def getArea(self, element: ET.Element, key: str) -> Area:
+    def getArea(self, element: ET.Element, key: str) -> Optional[Area]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -6643,7 +6693,7 @@ class ARXMLParser(AbstractARXMLParser):
         if "TITLE" in element.attrib:
             map_obj.setTitle(String().setValue(element.attrib["TITLE"]))
 
-    def getMap(self, element: ET.Element, key: str) -> Map:
+    def getMap(self, element: ET.Element, key: str) -> Optional[Map]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -6652,7 +6702,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readMap(child_element, map_obj)
         return map_obj
 
-    def getUrl(self, element: ET.Element, key: str) -> Url:
+    def getUrl(self, element: ET.Element, key: str) -> Optional[Url]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -6668,11 +6718,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readLGraphic(self, element: ET.Element, graphic: LGraphic):
         self.readARObject(element, graphic)
         if "L" in element.attrib:
-            graphic.setL(element.attrib["L"])  # noqa E741
+            graphic.setL(cast(Optional[LEnum], element.attrib["L"]))  # noqa E741
         graphic.setGraphic(self.getGraphic(element, "GRAPHIC"))
         graphic.setMap(self.getMap(element, "MAP"))
 
-    def getLGraphic(self, element: ET.Element, key: str) -> LGraphic:
+    def getLGraphic(self, element: ET.Element, key: str) -> Optional[LGraphic]:
         graphic = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6835,7 +6885,7 @@ class ARXMLParser(AbstractARXMLParser):
             result.append(figure)
         return result
 
-    def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> MultiLanguagePlainText:
+    def getMultiLanguagePlainText(self, element: ET.Element, key: str) -> Optional[MultiLanguagePlainText]:
         paragraph = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6845,7 +6895,7 @@ class ARXMLParser(AbstractARXMLParser):
                 paragraph.addL10(l10)
         return paragraph
 
-    def getNote(self, element: ET.Element, key: str) -> Note:
+    def getNote(self, element: ET.Element, key: str) -> Optional[Note]:
         note = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6859,20 +6909,20 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTraceable(self, element: ET.Element, traceable: Traceable):
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
-            ref = RefType().setValue(trace_ref.text)
+            ref = RefType().setValue(cast(str, trace_ref.text))
             if "BASE" in trace_ref.attrib:
                 ref.setBase(trace_ref.attrib["BASE"])
             if "DEST" in trace_ref.attrib:
                 ref.setDest(trace_ref.attrib["DEST"])
             traceable.addTraceRef(ref)
 
-    def getTraceableText(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> TraceableText:
+    def getTraceableText(self, element: ET.Element, key: str, block: Optional["DocumentationBlock"] = None) -> Optional[TraceableText]:
         traceable_text = None
         child_element = self.find(element, key)
         if child_element is not None:
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
-            traceable_text = TraceableText(block, short_name)
+            traceable_text = TraceableText(block, cast(str, short_name))
             self.readARObject(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
@@ -6898,31 +6948,31 @@ class ARXMLParser(AbstractARXMLParser):
             self.readTable(table_element, table)
             traceable_table.setTable(table)
 
-    def getTraceableTable(self, element: ET.Element, key: str, parent: ARObject = None) -> TraceableTable:
+    def getTraceableTable(self, element: ET.Element, key: str, parent: Optional[ARObject] = None) -> Optional[TraceableTable]:
         traceable_table = None
         child_element = self.find(element, key)
         if child_element is not None:
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
-            traceable_table = TraceableTable(parent, short_name)
+            traceable_table = TraceableTable(parent, cast(str, short_name))
             self.readTraceableTable(child_element, traceable_table)
         return traceable_table
 
-    def getStructuredReq(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> StructuredReq:
+    def getStructuredReq(self, element: ET.Element, key: str, block: Optional["DocumentationBlock"] = None) -> Optional[StructuredReq]:
         structured_req = None
         child_element = self.find(element, key)
         if child_element is not None:
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
-            structured_req = StructuredReq(block, short_name)
+            structured_req = StructuredReq(block, cast(str, short_name))
             self.readIdentifiable(child_element, structured_req)
             self.readTraceable(child_element, structured_req)
             date = self.getChildElementOptionalLiteral(child_element, "DATE")
             if date is not None:
                 structured_req.setDate(DateTime().setValue(date.getValue()))
-            structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
-            structured_req.setIssuedBy(self.getChildElementOptionalLiteral(child_element, "ISSUED-BY"))
-            structured_req.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
+            structured_req.setImportance(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "IMPORTANCE")))
+            structured_req.setIssuedBy(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "ISSUED-BY")))
+            structured_req.setType(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "TYPE")))
             structured_req.setDescription(self.getDocumentationBlock(child_element, "DESCRIPTION"))
             structured_req.setRationale(self.getDocumentationBlock(child_element, "RATIONALE"))
             for applies_to in self.findall(child_element, "APPLIES-TO-DEPENDENCIES/APPLIES-TO"):
@@ -6935,7 +6985,7 @@ class ARXMLParser(AbstractARXMLParser):
             structured_req.setSupportingMaterial(self.getDocumentationBlock(child_element, "SUPPORTING-MATERIAL"))
             structured_req.setRemark(self.getDocumentationBlock(child_element, "REMARK"))
             for tested_item_ref in self.findall(child_element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
-                ref = RefType().setValue(tested_item_ref.text)
+                ref = RefType().setValue(cast(str, tested_item_ref.text))
                 if "DEST" in tested_item_ref.attrib:
                     ref.setDest(tested_item_ref.attrib["DEST"])
                 structured_req.addTestedItemRef(ref)
@@ -6949,7 +6999,7 @@ class ARXMLParser(AbstractARXMLParser):
             def_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
         return def_item
 
-    def getDefList(self, element: ET.Element, key: str) -> DefList:
+    def getDefList(self, element: ET.Element, key: str) -> Optional[DefList]:
         def_list = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -6977,7 +7027,7 @@ class ARXMLParser(AbstractARXMLParser):
         labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
         return labeled_item
 
-    def getLabeledList(self, element: ET.Element, key: str) -> LabeledList:
+    def getLabeledList(self, element: ET.Element, key: str) -> Optional[LabeledList]:
         labeled_list = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7001,7 +7051,7 @@ class ARXMLParser(AbstractARXMLParser):
             results.append(l2)
         return results
 
-    def getMultiLanguageVerbatim(self, element: ET.Element, key: str) -> MultiLanguageVerbatim:
+    def getMultiLanguageVerbatim(self, element: ET.Element, key: str) -> Optional[MultiLanguageVerbatim]:
         verbatim = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7026,7 +7076,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getMsrQueryArg(self, element: ET.Element) -> MsrQueryArg:
         msr_query_arg = MsrQueryArg()
         self.readARObject(element, msr_query_arg)
-        msr_query_arg.setArg(self.getChildElementOptionalLiteral(element, "ARG"))
+        msr_query_arg.setArg(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ARG")))
         if "SI" in element.attrib:
             msr_query_arg.setSi(NameToken().setValue(element.attrib["SI"]))
         return msr_query_arg
@@ -7034,13 +7084,13 @@ class ARXMLParser(AbstractARXMLParser):
     def getMsrQueryProps(self, element: ET.Element) -> MsrQueryProps:
         msr_query_props = MsrQueryProps()
         self.readARObject(element, msr_query_props)
-        msr_query_props.setComment(self.getChildElementOptionalLiteral(element, "COMMENT"))
-        msr_query_props.setMsrQueryName(self.getChildElementOptionalLiteral(element, "MSR-QUERY-NAME"))
+        msr_query_props.setComment(cast(Optional[String], self.getChildElementOptionalLiteral(element, "COMMENT")))
+        msr_query_props.setMsrQueryName(cast(Optional[String], self.getChildElementOptionalLiteral(element, "MSR-QUERY-NAME")))
         for msr_query_arg in self.findall(element, "MSR-QUERY-ARG"):
             msr_query_props.addMsrQueryArg(self.getMsrQueryArg(msr_query_arg))
         return msr_query_props
 
-    def getMsrQueryP2(self, element: ET.Element, key: str) -> MsrQueryP2:
+    def getMsrQueryP2(self, element: ET.Element, key: str) -> Optional[MsrQueryP2]:
         msr_query_p2 = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7052,7 +7102,7 @@ class ARXMLParser(AbstractARXMLParser):
             msr_query_p2.setMsrQueryResultP2(self.getDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2"))
         return msr_query_p2
 
-    def getMlFormula(self, element: ET.Element, key: str) -> MlFormula:
+    def getMlFormula(self, element: ET.Element, key: str) -> Optional[MlFormula]:
         formula = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7085,7 +7135,7 @@ class ARXMLParser(AbstractARXMLParser):
         block.setTrace(self.getTraceableText(element, "TRACE", block))
         block.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
-    def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
+    def getDocumentationBlock(self, element: ET.Element, key: str) -> Optional[DocumentationBlock]:
         block = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7124,12 +7174,12 @@ class ARXMLParser(AbstractARXMLParser):
         for proxy_element in self.findall(element, "SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY"):
             props.addSwVariableRef(self.readSwVariableRefProxy(proxy_element))
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
-        props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
+        props.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(element, "MONOTONY")))
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
         props.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
-        props.setSwMaxAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MAX-AXIS-POINTS"))
-        props.setSwMinAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MIN-AXIS-POINTS"))
+        props.setSwMaxAxisPoints(cast(Optional[Integer], self.getChildElementOptionalNumericalValue(element, "SW-MAX-AXIS-POINTS")))
+        props.setSwMinAxisPoints(cast(Optional[Integer], self.getChildElementOptionalNumericalValue(element, "SW-MIN-AXIS-POINTS")))
         props.setDataConstrRef(self.getChildElementOptionalRefType(element, "DATA-CONSTR-REF"))
         child_element = self.find(element, "SW-AXIS-GENERIC")
         if child_element is not None:
@@ -7163,9 +7213,9 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwAxisGrouped(self, element: ET.Element) -> SwAxisGrouped:
         props = SwAxisGrouped()
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
-        props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
+        props.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(element, "MONOTONY")))
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
-        props.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
+        props.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
         child_element = self.find(element, "SW-CALPRM-REF-PROXY")
         if child_element is not None:
             props.setSwCalprmRef(self.readSwCalprmRefProxy(child_element))
@@ -7173,16 +7223,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
         axis = SwCalprmAxis()
-        axis.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
-        axis.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        axis.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
+        axis.setCategory(cast(Optional[CalprmAxisCategoryEnum], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         child_element = self.find(element, "SW-AXIS-INDIVIDUAL")
         if child_element is not None:
             axis.setSwCalprmAxisTypeProps(self.getSwAxisIndividual(child_element))
         child_element = self.find(element, "SW-AXIS-GROUPED")
         if child_element is not None:
             axis.setSwCalprmAxisTypeProps(self.getSwAxisGrouped(child_element))
-        axis.setSwCalibrationAccess(self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS"))
-        axis.setDisplayFormat(self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT"))
+        axis.setSwCalibrationAccess(cast(Optional[SwCalibrationAccessEnum], self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS")))
+        axis.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT")))
 
         return axis
 
@@ -7199,7 +7249,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             props.setInvalidValue(self.getValueSpecification(child_element, self.getTagName(child_element)))
 
-    def getSwDataDefProps(self, element: ET.Element, key: str) -> SwDataDefProps:
+    def getSwDataDefProps(self, element: ET.Element, key: str) -> Optional[SwDataDefProps]:
         child_element = self.find(element, key)
         sw_data_def_props = None
         if child_element is not None:
@@ -7215,26 +7265,26 @@ class ARXMLParser(AbstractARXMLParser):
                 for annotation in self.getAnnotations(conditional_tag):
                     sw_data_def_props.addAnnotation(annotation)
 
-                sw_data_def_props.setDisplayPresentation(self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION"))
+                sw_data_def_props.setDisplayPresentation(cast(Optional[DisplayPresentationEnum], self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION")))
                 sw_data_def_props.setBaseTypeRef(self.getChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF"))
                 sw_data_def_props.setDataConstrRef(self.getChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF"))
                 sw_data_def_props.setCompuMethodRef(self.getChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF"))
                 sw_data_def_props.setSwAddrMethodRef(self.getChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF"))
-                sw_data_def_props.setSwAlignment(self.getChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT"))
-                sw_data_def_props.setSwImplPolicy(self.getChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY"))
+                sw_data_def_props.setSwAlignment(cast(Optional[AlignmentType], self.getChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT")))
+                sw_data_def_props.setSwImplPolicy(cast(Optional[SwImplPolicyEnum], self.getChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY")))
                 sw_data_def_props.setSwIntendedResolution(self.getChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION"))
                 sw_data_def_props.setImplementationDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF"))
                 sw_data_def_props.setStepSize(self.getChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE"))
-                sw_data_def_props.setSwCalibrationAccess(self.getChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS"))
+                sw_data_def_props.setSwCalibrationAccess(cast(Optional[SwCalibrationAccessEnum], self.getChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS")))
                 sw_data_def_props.setSwCalprmAxisSet(self.getSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET"))
                 sw_data_def_props.setSwPointerTargetProps(self.getSwPointerTargetProps(conditional_tag, "SW-POINTER-TARGET-PROPS"))
                 sw_data_def_props.setSwTextProps(self.getSwTextProps(conditional_tag, "SW-TEXT-PROPS"))
                 sw_data_def_props.setSwRecordLayoutRef(self.getChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF"))
                 sw_data_def_props.setValueAxisDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF"))
                 sw_data_def_props.setUnitRef(self.getChildElementOptionalRefType(conditional_tag, "UNIT-REF"))
-                sw_data_def_props.setDisplayFormat(self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT"))
-                sw_data_def_props.setAdditionalNativeTypeQualifier(self.getChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER"))
-                sw_data_def_props.setSwInterpolationMethod(self.getChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD"))
+                sw_data_def_props.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT")))
+                sw_data_def_props.setAdditionalNativeTypeQualifier(cast(Optional[NativeDeclarationString], self.getChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER")))
+                sw_data_def_props.setSwInterpolationMethod(cast(Optional[Identifier], self.getChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD")))
                 sw_data_def_props.setSwIsVirtual(self.getChildElementOptionalBooleanValue(conditional_tag, "SW-IS-VIRTUAL"))
                 self.readSwDataDefProsInvalidValue(conditional_tag, sw_data_def_props)
                 self.readSwDataDefPropsBits(conditional_tag, sw_data_def_props)
@@ -7349,13 +7399,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readApplicationRecordDataTypeElements(element, data_type)
 
     def readImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: ImplementationDataTypeElement):
-        self.readAutosarDataType(element, impl_data_type_element)
-        impl_data_type_element.setArrayImplPolicy(self.getChildElementOptionalLiteral(element, "ARRAY-IMPL-POLICY"))
+        self.readAutosarDataType(element, cast(AutosarDataType, impl_data_type_element))
+        impl_data_type_element.setArrayImplPolicy(cast(Optional[ArrayImplPolicyEnum], self.getChildElementOptionalLiteral(element, "ARRAY-IMPL-POLICY")))
         impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
-        impl_data_type_element.setArraySizeHandling(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING"))
-        impl_data_type_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS"))
+        impl_data_type_element.setArraySizeHandling(cast(Optional[ArraySizeHandlingEnum], self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING")))
+        impl_data_type_element.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS")))
         impl_data_type_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
-        self.readImplementationDataTypeSubElements(element, impl_data_type_element)
+        self.readImplementationDataTypeSubElements(element, cast(ImplementationDataType, impl_data_type_element))
 
     def readImplementationDataTypeSubElements(self, element: ET.Element, parent: ImplementationDataType):
         for child_element in self.findall(element, "SUB-ELEMENTS/*"):
@@ -7369,25 +7419,25 @@ class ARXMLParser(AbstractARXMLParser):
     def readImplementationDataType(self, element: ET.Element, data_type: ImplementationDataType):
         self.logger.debug("Read ImplementationDataType <%s>" % data_type.getShortName())
         self.readAutosarDataType(element, data_type)
-        data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
+        data_type.setDynamicArraySizeProfile(cast(Optional[String], self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE")))
         data_type.setIsStructWithOptionalElement(self.getChildElementOptionalBooleanValue(element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT"))
         self.readImplementationDataTypeSubElements(element, data_type)
         self.readImplementationDataTypeSymbolProps(element, data_type)
-        data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
+        data_type.setTypeEmitter(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "TYPE-EMITTER")))
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
         definition.setBaseTypeSize(self.getChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE"))
-        definition.setBaseTypeEncoding(self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING"))
+        definition.setBaseTypeEncoding(cast(Optional[BaseTypeEncodingString], self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING")))
         definition.setMemAlignment(self.getChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT"))
-        definition.setByteOrder(self.getChildElementOptionalLiteral(element, "BYTE-ORDER"))
-        definition.setNativeDeclaration(self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION"))
+        definition.setByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "BYTE-ORDER")))
+        definition.setNativeDeclaration(cast(Optional[NativeDeclarationString], self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION")))
 
     def readSwBaseType(self, element: ET.Element, data_type: SwBaseType):
         self.logger.debug("Read SwBaseType <%s>" % data_type.getShortName())
         self.readIdentifiable(element, data_type)
         self.readBaseTypeDirectDefinition(element, data_type.getBaseTypeDefinition())
 
-    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:  # noqa E501
+    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]:  # noqa E501
         child_element = self.find(element, key)
         iref = None
         if child_element is not None:
@@ -7412,8 +7462,8 @@ class ARXMLParser(AbstractARXMLParser):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
         com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
-        com_spec.setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE"))
-        com_spec.setHandleOutOfRangeStatus(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS"))
+        com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
+        com_spec.setHandleOutOfRangeStatus(cast(Optional[HandleOutOfRangeStatusEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS")))
         com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
         com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
         com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
@@ -7422,13 +7472,13 @@ class ARXMLParser(AbstractARXMLParser):
             com_spec.setReceptionProps(reception_props)
         replace_with = self.find(element, "REPLACE-WITH")
         if replace_with is not None:
-            variable_access = VariableAccess(None, self.getShortName(replace_with))
+            variable_access = VariableAccess(cast(ARObject, None), self.getShortName(replace_with))
             self.readVariableAccess(replace_with, variable_access)
             com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
         self.readTransformationComSpecPropss(element, com_spec)
 
-    def getReceptionComSpecProps(self, element: ET.Element, key: str) -> ReceptionComSpecProps:
+    def getReceptionComSpecProps(self, element: ET.Element, key: str) -> Optional[ReceptionComSpecProps]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -7459,8 +7509,8 @@ class ARXMLParser(AbstractARXMLParser):
             return None
         tag_name = self.getTagName(child)
         if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
-            props = EndToEndTransformationComSpecProps()
-            self.readTransformationComSpecProps(child, props)
+            props: Union[EndToEndTransformationComSpecProps, UserDefinedTransformationComSpecProps] = EndToEndTransformationComSpecProps()
+            self.readTransformationComSpecProps(child, cast(TransformationComSpecProps, props))
             return props
         elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
             props = UserDefinedTransformationComSpecProps()
@@ -7545,14 +7595,14 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.logger.debug("readApplicationValueSpecification Category %s" % value_spec.category)
 
-    def getChildValueSpecification(self, element: ET.Element, key: str) -> ValueSpecification:
+    def getChildValueSpecification(self, element: ET.Element, key: str) -> Optional[ValueSpecification]:
         value_spec = None
         child_element = self.find(element, key + "/*")
         if child_element is not None:
             value_spec = self.getValueSpecification(child_element, self.getTagName(child_element))
         return value_spec
 
-    def getInitValue(self, element: ET.Element) -> ValueSpecification:
+    def getInitValue(self, element: ET.Element) -> Optional[ValueSpecification]:
         return self.getChildValueSpecification(element, "INIT-VALUE")
 
     def readRPortComSpec(self, element: ET.Element, com_spec: RPortComSpec):
@@ -7598,12 +7648,12 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec = NonqueuedReceiverComSpec()
         self.readARObject(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.setAliveTimeout(self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT"))
+        com_spec.setAliveTimeout(cast(Optional[TimeValue], self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT")))
         com_spec.setEnableUpdate(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE"))
         com_spec.setHandleDataStatus(self.getChildElementOptionalBooleanValue(element, "HANDLE-DATA-STATUS"))
         com_spec.setHandleNeverReceived(self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED"))
         com_spec.setFilter(self.getDataFilter(element, "FILTER"))
-        com_spec.setHandleTimeoutType(self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE"))
+        com_spec.setHandleTimeoutType(cast(Optional[HandleTimeoutEnum], self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE")))
         com_spec.setInitValue(self.getInitValue(element))
         com_spec.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
         return com_spec
@@ -7627,24 +7677,24 @@ class ARXMLParser(AbstractARXMLParser):
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
     def readAbstractRequiredPortPrototype(self, element: ET.Element, prototype: AbstractRequiredPortPrototype):
-        self.readRequiredComSpec(element, prototype)
+        self.readRequiredComSpec(element, cast(RPortPrototype, prototype))
 
     def readPPortPrototype(self, element: ET.Element, prototype: PPortPrototype):
         # self.logger.debug("Read PPortPrototype %s" % prototype.getShortName())
         self.readIdentifiable(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
-        prototype.setProvidedInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF"))
+        prototype.setProvidedInterfaceTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF")))
         self.readPortPrototype(element, prototype)
 
     def readAbstractProvidedPortPrototype(self, element: ET.Element, prototype: AbstractProvidedPortPrototype):
-        self.readProvidedComSpec(element, prototype)
+        self.readProvidedComSpec(element, cast(PPortPrototype, prototype))
 
     def readRPortPrototype(self, element: ET.Element, prototype: RPortPrototype):
         # self.logger.debug("Read RPortPrototype %s" % prototype.getShortName())
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         prototype.setMayBeUnconnected(self.getChildElementOptionalBooleanValue(element, "MAY-BE-UNCONNECTED"))
-        prototype.setRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF"))
+        prototype.setRequiredInterfaceTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF")))
         self.readPortPrototype(element, prototype)
 
     def readPRPortPrototype(self, element: ET.Element, prototype: PRPortPrototype):
@@ -7652,67 +7702,67 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
-        prototype.setProvidedRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF"))
+        prototype.setProvidedRequiredInterfaceTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF")))
         self.readPortPrototype(element, prototype)
 
     def readPortPrototype(self, element: ET.Element, prototype: PortPrototype):
         for child in self.findall(element, "CLIENT-SERVER-ANNOTATIONS/CLIENT-SERVER-ANNOTATION"):
-            annotation = ClientServerAnnotation()
-            annotation.setOperationRef(self.getChildElementOptionalRefType(child, "OPERATION-REF"))
-            prototype.addClientServerAnnotation(annotation)
-        child = self.find(element, "DELEGATED-PORT-ANNOTATION")
-        if child is not None:
-            annotation = DelegatedPortAnnotation()
-            signal_fan = self.getChildElementOptionalLiteral(child, "SIGNAL-FAN")
+            cs_annotation = ClientServerAnnotation()
+            cs_annotation.setOperationRef(self.getChildElementOptionalRefType(child, "OPERATION-REF"))
+            prototype.addClientServerAnnotation(cs_annotation)
+        delegated_element = self.find(element, "DELEGATED-PORT-ANNOTATION")
+        if delegated_element is not None:
+            dp_annotation = DelegatedPortAnnotation()
+            signal_fan = self.getChildElementOptionalLiteral(delegated_element, "SIGNAL-FAN")
             if signal_fan is not None:
-                annotation.setSignalFan(SignalFanEnum().setValue(signal_fan.getValue()))
-            prototype.setDelegatedPortAnnotation(annotation)
+                dp_annotation.setSignalFan(SignalFanEnum().setValue(signal_fan.getValue()))
+            prototype.setDelegatedPortAnnotation(dp_annotation)
         for child in self.findall(element, "IO-HW-ABSTRACTION-SERVER-ANNOTATIONS/IO-HW-ABSTRACTION-SERVER-ANNOTATION"):
-            annotation = IoHwAbstractionServerAnnotation()
+            io_annotation = IoHwAbstractionServerAnnotation()
             filtering_debouncing = self.getChildElementOptionalLiteral(child, "FILTERING-DEBOUNCING")
             if filtering_debouncing is not None:
-                annotation.setFilteringDebouncing(FilterDebouncingEnum().setValue(filtering_debouncing.getValue()))
+                io_annotation.setFilteringDebouncing(FilterDebouncingEnum().setValue(filtering_debouncing.getValue()))
             pulse_test = self.getChildElementOptionalLiteral(child, "PULSE-TEST")
             if pulse_test is not None:
-                annotation.setPulseTest(PulseTestEnum().setValue(pulse_test.getValue()))
-            annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
+                io_annotation.setPulseTest(PulseTestEnum().setValue(pulse_test.getValue()))
+            io_annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
             age_element = self.find(child, "AGE")
             if age_element is not None:
                 age = MultidimensionalTime()
                 self.readMultidimensionalTime(age_element, age)
-                annotation.setAge(age)
-            annotation.setArgumentRef(self.getChildElementOptionalRefType(child, "ARGUMENT-REF"))
-            annotation.setBswResolution(self.getChildElementOptionalFloatValue(child, "BSW-RESOLUTION"))
-            annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
-            annotation.setFailureMonitoringRef(self.getChildElementOptionalRefType(child, "FAILURE-MONITORING-REF"))
-            prototype.addIoHwAbstractionServerAnnotation(annotation)
+                io_annotation.setAge(age)
+            io_annotation.setArgumentRef(self.getChildElementOptionalRefType(child, "ARGUMENT-REF"))
+            io_annotation.setBswResolution(self.getChildElementOptionalFloatValue(child, "BSW-RESOLUTION"))
+            io_annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
+            io_annotation.setFailureMonitoringRef(self.getChildElementOptionalRefType(child, "FAILURE-MONITORING-REF"))
+            prototype.addIoHwAbstractionServerAnnotation(io_annotation)
         for child in self.findall(element, "MODE-PORT-ANNOTATIONS/MODE-PORT-ANNOTATION"):
-            annotation = ModePortAnnotation()
-            annotation.setModeGroupRef(self.getChildElementOptionalRefType(child, "MODE-GROUP-REF"))
-            prototype.addModePortAnnotation(annotation)
+            mode_annotation = ModePortAnnotation()
+            mode_annotation.setModeGroupRef(self.getChildElementOptionalRefType(child, "MODE-GROUP-REF"))
+            prototype.addModePortAnnotation(mode_annotation)
         for child in self.findall(element, "NV-DATA-PORT-ANNOTATIONS/NV-DATA-PORT-ANNOTATION"):
-            annotation = NvDataPortAnnotation()
-            annotation.setVariableRef(self.getChildElementOptionalRefType(child, "VARIABLE-REF"))
-            prototype.addNvDataPortAnnotation(annotation)
+            nv_annotation = NvDataPortAnnotation()
+            nv_annotation.setVariableRef(self.getChildElementOptionalRefType(child, "VARIABLE-REF"))
+            prototype.addNvDataPortAnnotation(nv_annotation)
         for child in self.findall(element, "PARAMETER-PORT-ANNOTATIONS/PARAMETER-PORT-ANNOTATION"):
-            annotation = ParameterPortAnnotation()
-            annotation.setParameterRef(self.getChildElementOptionalRefType(child, "PARAMETER-REF"))
-            prototype.addParameterPortAnnotation(annotation)
+            prm_annotation = ParameterPortAnnotation()
+            prm_annotation.setParameterRef(self.getChildElementOptionalRefType(child, "PARAMETER-REF"))
+            prototype.addParameterPortAnnotation(prm_annotation)
         for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-RECEIVER-ANNOTATION"):
-            annotation = SenderReceiverAnnotation()
-            annotation.setComputed(self.getChildElementOptionalBooleanValue(child, "COMPUTED"))
-            annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
+            sender_annotation = SenderReceiverAnnotation()
+            sender_annotation.setComputed(self.getChildElementOptionalBooleanValue(child, "COMPUTED"))
+            sender_annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
             limit_kind = self.getChildElementOptionalLiteral(child, "LIMIT-KIND")
             if limit_kind is not None:
-                annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
+                sender_annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
             processing_kind = self.getChildElementOptionalLiteral(child, "PROCESSING-KIND")
             if processing_kind is not None:
-                annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
-            prototype.addSenderReceiverAnnotation(annotation)
+                sender_annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+            prototype.addSenderReceiverAnnotation(sender_annotation)
         for child in self.findall(element, "TRIGGER-PORT-ANNOTATIONS/TRIGGER-PORT-ANNOTATION"):
-            annotation = TriggerPortAnnotation()
-            annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
-            prototype.addTriggerPortAnnotation(annotation)
+            trigger_annotation = TriggerPortAnnotation()
+            trigger_annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
+            prototype.addTriggerPortAnnotation(trigger_annotation)
 
     def readSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         for child_element in self.findall(element, "PORTS/*"):
@@ -7721,15 +7771,13 @@ class ARXMLParser(AbstractARXMLParser):
                 prototype = sw_component.createPPortPrototype(self.getShortName(child_element))
                 self.readPPortPrototype(child_element, prototype)
             elif tag_name == "R-PORT-PROTOTYPE":
-                prototype = sw_component.createRPortPrototype(self.getShortName(child_element))
-                self.readRPortPrototype(child_element, prototype)
+                self.readRPortPrototype(child_element, sw_component.createRPortPrototype(self.getShortName(child_element)))
             elif tag_name == "PR-PORT-PROTOTYPE":
-                prototype = sw_component.createPRPortPrototype(self.getShortName(child_element))
-                self.readPRPortPrototype(child_element, prototype)
+                self.readPRPortPrototype(child_element, sw_component.createPRPortPrototype(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Port Prototype <%s>" % tag_name)
 
-    def readTransmissionAcknowledgementRequest(self, element: ET.Element) -> TransmissionAcknowledgementRequest:
+    def readTransmissionAcknowledgementRequest(self, element: ET.Element) -> Optional[TransmissionAcknowledgementRequest]:
         child_element = self.find(element, "TRANSMISSION-ACKNOWLEDGE")
         if child_element is not None:
             acknowledge = TransmissionAcknowledgementRequest()
@@ -7738,14 +7786,14 @@ class ARXMLParser(AbstractARXMLParser):
             return acknowledge
         return None
 
-    def getTransmissionComSpecProps(self, element: ET.Element, key: str) -> TransmissionComSpecProps:
+    def getTransmissionComSpecProps(self, element: ET.Element, key: str) -> Optional[TransmissionComSpecProps]:
         child_element = self.find(element, key)
         if child_element is not None:
             props = TransmissionComSpecProps()
             self.readARObject(child_element, props)
             props.setDataUpdatePeriod(self.getChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD"))
             props.setMinimumSendInterval(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-SEND-INTERVAL"))
-            props.setTransmissionMode(self.getChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE"))
+            props.setTransmissionMode(cast(Optional[TransmissionModeDefinitionEnum], self.getChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE")))
             return props
         return None
 
@@ -7754,7 +7802,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE"))
+        com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
         com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element))
         com_spec.setTransmissionProps(self.getTransmissionComSpecProps(element, "TRANSMISSION-PROPS"))
@@ -7796,8 +7844,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
-                props = EndToEndTransformationComSpecProps()
-                self.readEndToEndTransformationComSpecProps(child_element, props)
+                props: ARObject = EndToEndTransformationComSpecProps()
+                self.readEndToEndTransformationComSpecProps(child_element, cast(EndToEndTransformationComSpecProps, props))
                 com_spec.addTransformationComSpecProps(props)
             elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
                 props = UserDefinedTransformationComSpecProps()
@@ -7829,7 +7877,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSenderComSpec(element, com_spec)
         return com_spec
 
-    def getModeSwitchedAckRequest(self, element: ET.Element, key: str) -> ModeSwitchedAckRequest:
+    def getModeSwitchedAckRequest(self, element: ET.Element, key: str) -> Optional[ModeSwitchedAckRequest]:
         request = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -7883,7 +7931,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readPortGroupOuterPortRefs(self, element: ET.Element, parent: PortGroup):
         for child_element in self.findall(element, "OUTER-PORTS/PORT-PROTOTYPE-REF-CONDITIONAL"):
-            parent.addOuterPortRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
+            parent.addOuterPortRef(cast(RefType, self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF")))
 
     def readPortGroup(self, element: ET.Element, parent: SwComponentType):
         short_name = self.getShortName(element)
@@ -7983,7 +8031,7 @@ class ARXMLParser(AbstractARXMLParser):
         predefined = PredefinedChapter()
         chapter_model_element = self.find(element, "CHAPTER-MODEL")
         if chapter_model_element is not None:
-            predefined.setChapterModel(self.readChapterModel(chapter_model_element, None))
+            predefined.setChapterModel(self.readChapterModel(chapter_model_element, cast(Chapter, None)))
         return predefined
 
     def readDocumentationContext(self, element: ET.Element, parent: ARObject) -> DocumentationContext:
@@ -8074,8 +8122,8 @@ class ARXMLParser(AbstractARXMLParser):
             min_typ_max.setMax(Numerical().setValue(max_element.text))
         return min_typ_max
 
-    def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
-        result = None
+    def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> Optional["TopicContentOrMsrQuery"]:
+        result: Optional[TopicContentOrMsrQuery] = None
         msr_query_p1_element = self.find(element, "MSR-QUERY-P-1")
         topic_content_element = self.find(element, "TOPIC-CONTENT")
         if msr_query_p1_element is not None or topic_content_element is not None:
@@ -8097,11 +8145,11 @@ class ARXMLParser(AbstractARXMLParser):
             msr_query_p1.setMsrQueryResultP1(self.readTopicContent(topic_content, msr_query_p1))
         return msr_query_p1
 
-    def getMsrQueryP1(self, element: ET.Element, key: str) -> MsrQueryP1:
+    def getMsrQueryP1(self, element: ET.Element, key: str) -> Optional[MsrQueryP1]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
-        return self.readMsrQueryP1(child_element, None)
+        return self.readMsrQueryP1(child_element, cast(ARObject, None))
 
     def readTopicContent(self, element: ET.Element, parent: ARObject) -> TopicContent:
         topic_content = TopicContent()
@@ -8118,7 +8166,7 @@ class ARXMLParser(AbstractARXMLParser):
         if traceable_table_element is not None:
             short_name_element = self.find(traceable_table_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else "TRACEABLE-TABLE"
-            traceable_table = topic_content.createTraceableTable(short_name)
+            traceable_table = topic_content.createTraceableTable(cast(str, short_name))
             self.readTraceableTable(traceable_table_element, traceable_table)
         return topic_content
 
@@ -8146,11 +8194,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMsrQueryResultTopic1(msr_query_result_topic1, msr_query_topic1, result)
         return msr_query_topic1
 
-    def getMsrQueryTopic1(self, element: ET.Element, key: str) -> MsrQueryTopic1:
+    def getMsrQueryTopic1(self, element: ET.Element, key: str) -> Optional[MsrQueryTopic1]:
         result = None
         child_element = self.find(element, key)
         if child_element is not None:
-            result = self.readMsrQueryTopic1(child_element, None)
+            result = self.readMsrQueryTopic1(child_element, cast(Chapter, None))
         return result
 
     def readMsrQueryResultChapter(self, element: ET.Element, parent: ARObject, result: MsrQueryResultChapter):
@@ -8161,9 +8209,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readMsrQueryResultTopic1(self, element: ET.Element, parent: ARObject, result: MsrQueryResultTopic1):
         self.readARObject(element, result)
         for child_element in self.findall(element, "TOPIC-1"):
-            result.addTopic1(self.readTopic1(child_element, parent))
+            result.addTopic1(self.readTopic1(child_element, cast(Chapter, parent)))
 
-    def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> MsrQueryResultChapter:
+    def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> Optional[MsrQueryResultChapter]:
         result = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -8171,7 +8219,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMsrQueryResultChapter(child_element, result, result)
         return result
 
-    def getMsrQueryResultTopic1(self, element: ET.Element, key: str) -> MsrQueryResultTopic1:
+    def getMsrQueryResultTopic1(self, element: ET.Element, key: str) -> Optional[MsrQueryResultTopic1]:
         result = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -8251,8 +8299,7 @@ class ARXMLParser(AbstractARXMLParser):
             descriptor = sw_component.createBulkNvDataDescriptor(self.getShortName(child_element))
             self.readBulkNvDataDescriptor(child_element, descriptor)
         for child_element in self.findall(element, "NV-BLOCK-DESCRIPTORS/NV-BLOCK-DESCRIPTOR"):
-            descriptor = sw_component.createNvBlockDescriptor(self.getShortName(child_element))
-            self.readNvBlockDescriptor(child_element, descriptor)
+            self.readNvBlockDescriptor(child_element, sw_component.createNvBlockDescriptor(self.getShortName(child_element)))
 
     def readPPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
         self.readARObject(element, p_port_in_composition_instance_ref)
@@ -8315,11 +8362,9 @@ class ARXMLParser(AbstractARXMLParser):
                 connector = parent.createAssemblySwConnector(self.getShortName(child_element))
                 self.readAssemblySwConnector(child_element, connector)
             elif tag_name == "DELEGATION-SW-CONNECTOR":
-                connector = parent.createDelegationSwConnector(self.getShortName(child_element))
-                self.readDelegationSwConnector(child_element, connector)
+                self.readDelegationSwConnector(child_element, parent.createDelegationSwConnector(self.getShortName(child_element)))
             elif tag_name == "PASS-THROUGH-SW-CONNECTOR":
-                connector = parent.createPassThroughSwConnector(self.getShortName(child_element))
-                self.readPassThroughSwConnector(child_element, connector)
+                self.readPassThroughSwConnector(child_element, parent.createPassThroughSwConnector(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SwConnector <%s>" % tag_name)
 
@@ -8395,7 +8440,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(refined_event_element, refined_event)
             self.readInstanceEventInCompositionInstanceRef(refined_event_element, refined_event)
             props.setRefinedEventIRef(refined_event)
-        props.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        props.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         self.readVariationPointCapable(element, props)
 
     def readInstantiationTimingEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
@@ -8466,7 +8511,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "INVALIDATION-POLICYS/INVALIDATION-POLICY"):
             policy = InvalidationPolicy()
             policy.setDataElementRef(self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF"))
-            policy.setHandleInvalid(self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID"))
+            policy.setHandleInvalid(cast(Optional[HandleInvalidEnum], self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")))
             sr_interface.addInvalidationPolicy(policy)
 
     def readSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
@@ -8499,8 +8544,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readArgumentDataPrototype(self, element: ET.Element, prototype: ArgumentDataPrototype):
         self.readAutosarDataPrototype(element, prototype)
-        prototype.setDirection(self.getChildElementOptionalLiteral(element, "DIRECTION"))
-        prototype.setServerArgumentImplPolicy(self.getChildElementOptionalLiteral(element, "SERVER-ARGUMENT-IMPL-POLICY"))
+        prototype.setDirection(cast(Optional[ArgumentDirectionEnum], self.getChildElementOptionalLiteral(element, "DIRECTION")))
+        prototype.setServerArgumentImplPolicy(cast(Optional[ServerArgumentImplPolicyEnum], self.getChildElementOptionalLiteral(element, "SERVER-ARGUMENT-IMPL-POLICY")))
 
     def readClientServerOperationArguments(self, element: ET.Element, operation: ClientServerOperation):
         for child_element in self.findall(element, "ARGUMENTS/*"):
@@ -8542,7 +8587,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortInterface(self, element: ET.Element, port_interface: PortInterface):
         self.readIdentifiable(element, port_interface)
         port_interface.setIsService(self.getChildElementOptionalBooleanValue(element, "IS-SERVICE"))
-        port_interface.setServiceKind(self.getChildElementOptionalLiteral(element, "SERVICE-KIND"))
+        port_interface.setServiceKind(cast(Optional[ServiceProviderEnum], self.getChildElementOptionalLiteral(element, "SERVICE-KIND")))
 
     def readParameterInterfaceParameters(self, element: ET.Element, param_interface: ParameterInterface):
         for child_element in self.findall(element, "PARAMETERS/*"):
@@ -8581,9 +8626,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readClientServerInterfaceOperations(element, cs_interface)
         self.readPossibleErrors(element, cs_interface)
 
-    def getCompuConstContent(self, element: ET.Element) -> CompuConstContent:
+    def getCompuConstContent(self, element: ET.Element) -> Optional[CompuConstContent]:
         child_element = self.find(element, "*")
-        content = None
+        content: Optional[Union[CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent]] = None
         if child_element is not None:
             tag_name = self.getTagName(child_element)
             if tag_name == "VF":
@@ -8599,7 +8644,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported CompuConstContent <%s>" % tag_name)
         return content
 
-    def getCompuConst(self, element: ET.Element, key: str) -> CompuConst:
+    def getCompuConst(self, element: ET.Element, key: str) -> Optional[CompuConst]:
         compu_const = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -8615,7 +8660,7 @@ class ARXMLParser(AbstractARXMLParser):
             contents = CompuScaleConstantContents()
             contents.compuConst = CompuConst()
             contents.compuConst.compuConstContentType = CompuConstTextContent()
-            contents.compuConst.compuConstContentType.vt = ARLiteral()
+            contents.compuConst.compuConstContentType.vt = cast(VerbatimString, ARLiteral())
             contents.compuConst.compuConstContentType.vt.setValue(child_element.text)
             parent.compuScaleContents = contents
 
@@ -8642,17 +8687,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
         self.readARObject(element, compu_scale)
-        compu_scale.setA2lDisplayText(self.getChildElementOptionalLiteral(element, "A2L-DISPLAY-TEXT"))
-        compu_scale.setCompuInverseValue(self.getCompuConst(element, "COMPU-INVERSE-VALUE"))
-        compu_scale.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-        compu_scale.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
-        compu_scale.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
-        compu_scale.setMask(self.getChildElementOptionalPositiveInteger(element, "MASK"))
-        compu_scale.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
-        compu_scale.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+        compu_scale.setA2lDisplayText(cast(String, self.getChildElementOptionalLiteral(element, "A2L-DISPLAY-TEXT")))
+        compu_scale.setCompuInverseValue(cast(CompuConst, self.getCompuConst(element, "COMPU-INVERSE-VALUE")))
+        compu_scale.setShortLabel(cast(Identifier, self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
+        compu_scale.setSymbol(cast(CIdentifier, self.getChildElementOptionalLiteral(element, "SYMBOL")))
+        compu_scale.setDesc(cast(MultiLanguageOverviewParagraph, self.getMultiLanguageOverviewParagraph(element, "DESC")))
+        compu_scale.setMask(cast(PositiveUnlimitedInteger, self.getChildElementOptionalPositiveInteger(element, "MASK")))
+        compu_scale.setLowerLimit(cast(Limit, self.getChildLimitElement(element, "LOWER-LIMIT")))
+        compu_scale.setUpperLimit(cast(Limit, self.getChildLimitElement(element, "UPPER-LIMIT")))
         self.readCompuScaleContents(element, compu_scale)
 
-    def getCompuScales(self, element: ET.Element) -> CompuScales:
+    def getCompuScales(self, element: ET.Element) -> Optional[CompuScales]:
         compu_scales = None
         compu_scales_tag = self.find(element, "COMPU-SCALES")
         if compu_scales_tag is not None:
@@ -8663,7 +8708,7 @@ class ARXMLParser(AbstractARXMLParser):
                 compu_scales.addCompuScale(compu_scale)
         return compu_scales
 
-    def getCompu(self, element: ET.Element, key: str) -> Compu:
+    def getCompu(self, element: ET.Element, key: str) -> Optional[Compu]:
         child_element = self.find(element, key)
         compu = None
         if child_element is not None:
@@ -8676,7 +8721,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
         self.logger.debug("Read CompuMethod <%s>" % compu_method.getShortName())
         self.readIdentifiable(element, compu_method)
-        compu_method.setDisplayFormat(self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT"))
+        compu_method.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT")))
         compu_method.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         compu_method.setCompuInternalToPhys(self.getCompu(element, "COMPU-INTERNAL-TO-PHYS"))
         compu_method.setCompuPhysToInternal(self.getCompu(element, "COMPU-PHYS-TO-INTERNAL"))
@@ -8745,7 +8790,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         self.readARObject(element, value_spec)
-        value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        value_spec.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         self.readVariationPointCapable(element, value_spec)
         # self.logger.debug("read ValueSpecification")
 
@@ -8753,7 +8798,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec = ApplicationValueSpecification()
         self.readValueSpecification(element, value_spec)
         value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
-        value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        value_spec.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         value_spec.setSwValueCont(self.getSwValueCont(element))
         return value_spec
 
@@ -8785,20 +8830,20 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
             value_spec.addArgument(self.getRuleArguments(child_element))
-        value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
+        value_spec.setMaxSizeToFill(cast(Optional[Integer], self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL")))
         return value_spec
 
     def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
         cont = RuleBasedAxisCont()
         self.readARObject(element, cont)
-        cont.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        cont.setCategory(cast(Optional[CalprmAxisCategoryEnum], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         cont.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         cont.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
-        cont.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
-        cont.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(element, "RULE-BASED-VALUES")))
+        cont.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
+        cont.setRuleBasedValues(self.getRuleBasedValueSpecification(cast(ET.Element, self.find(element, "RULE-BASED-VALUES"))))
         return cont
 
-    def getRuleBasedValueCont(self, element: ET.Element) -> RuleBasedValueCont:
+    def getRuleBasedValueCont(self, element: ET.Element) -> Optional[RuleBasedValueCont]:
         cont = None
         child_element = self.find(element, "SW-VALUE-CONT")
         if child_element is not None:
@@ -8806,13 +8851,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(child_element, cont)
             cont.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
             cont.setSwArraysize(self.getValueList(child_element, "SW-ARRAYSIZE"))
-            cont.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(child_element, "RULE-BASED-VALUES")))
+            cont.setRuleBasedValues(self.getRuleBasedValueSpecification(cast(ET.Element, self.find(child_element, "RULE-BASED-VALUES"))))
         return cont
 
     def getApplicationRuleBasedValueSpecification(self, element: ET.Element) -> ApplicationRuleBasedValueSpecification:
         value_spec = ApplicationRuleBasedValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         for child_element in self.findall(element, "SW-AXIS-CONTS/RULE-BASED-AXIS-CONT"):
             value_spec.addSwAxisCont(self.getRuleBasedAxisCont(child_element))
         value_spec.setSwValueCont(self.getRuleBasedValueCont(element))
@@ -8823,16 +8868,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readValueSpecification(element, value_spec)
         value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTS/*"):
-            value_spec.addArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
+            value_spec.addArgument(cast(CompositeValueSpecification, self.getValueSpecification(child_element, self.getTagName(child_element))))
         for child_element in self.findall(element, "COMPOUND-PRIMITIVE-ARGUMENTS/*"):
-            value_spec.addCompoundPrimitiveArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
+            value_spec.addCompoundPrimitiveArgument(cast(CompositeRuleBasedValueArgument, self.getValueSpecification(child_element, self.getTagName(child_element))))
         value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getNumericalValueSpecification(self, element: ET.Element) -> NumericalValueSpecification:
         value_spec = NumericalValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        value_spec.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         value_spec.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
         return value_spec
 
@@ -8840,7 +8885,7 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Get TextValueSpecification")
         value_spec = TextValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        value_spec.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         value_spec.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return value_spec
 
@@ -8876,7 +8921,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getNumericalRuleBasedValueSpecification(self, element: ET.Element) -> NumericalRuleBasedValueSpecification:
         value_spec = NumericalRuleBasedValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(element, "RULE-BASED-VALUES")))
+        value_spec.setRuleBasedValues(self.getRuleBasedValueSpecification(cast(ET.Element, self.find(element, "RULE-BASED-VALUES"))))
         return value_spec
 
     def getConstantSpecificationMapping(self, element: ET.Element) -> ConstantSpecificationMapping:
@@ -8886,7 +8931,8 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setImplConstantRef(self.getChildElementOptionalRefType(element, "IMPL-CONSTANT-REF"))
         return mapping
 
-    def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
+    def getValueSpecification(self, element: ET.Element, tag_name: str) -> Optional[ValueSpecification]:
+        value_spec: Optional[ValueSpecification] = None
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":
             value_spec = self.getApplicationValueSpecification(element)
         elif tag_name == "APPLICATION-RULE-BASED-VALUE-SPECIFICATION":
@@ -8940,7 +8986,7 @@ class ARXMLParser(AbstractARXMLParser):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
-            constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
+            constrs.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(child_element, "MONOTONY")))
             parent.setInternalConstrs(constrs)
 
     def readScaleConstr(self, element: ET.Element) -> ScaleConstr:
@@ -8964,7 +9010,7 @@ class ARXMLParser(AbstractARXMLParser):
             constrs.setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
-            constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
+            constrs.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(child_element, "MONOTONY")))
             for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
@@ -9005,7 +9051,7 @@ class ARXMLParser(AbstractARXMLParser):
             for value in self.getChildElementPositiveIntegerValueList(child_element, "DATA-ID"):
                 parent.addDataId(value)
 
-    def getEndToEndDescription(self, element: ET.Element, key: str) -> EndToEndDescription:
+    def getEndToEndDescription(self, element: ET.Element, key: str) -> Optional[EndToEndDescription]:
         child_element = self.find(element, key)
         desc = None
         if child_element is not None:
@@ -9040,7 +9086,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, prototype)
         for child_element in self.findall(element, "RECEIVER-IREFS/RECEIVER-IREF"):
             prototype.addReceiverIref(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
-        prototype.setSenderIref(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "SENDER-IREF")))
+        prototype.setSenderIref(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "SENDER-IREF"))))
         prototype.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
@@ -9101,7 +9147,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readImplementationProps(self, element: ET.Element, props: ImplementationProps):
         self.readReferrable(element, props)
-        props.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+        props.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
 
     def readSymbolProps(self, element: ET.Element, props: SymbolProps):
         self.readImplementationProps(element, props)
@@ -9124,7 +9170,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
         self.readDataPrototype(element, prototype)
-        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
+        prototype.setTypeTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "TYPE-TREF")))
 
     def readApplicationArrayElement(self, element: ET.Element, parent: ApplicationArrayDataType):
         child_element = self.find(element, "ELEMENT")
@@ -9133,18 +9179,18 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("Read ApplicationArrayElement %s" % short_name)
             array_element = parent.createApplicationArrayElement(short_name)
             self.readApplicationCompositeElementDataPrototype(child_element, array_element)
-            array_element.setArraySizeHandling(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING"))
-            array_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
+            array_element.setArraySizeHandling(cast(Optional[ArraySizeHandlingEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING")))
+            array_element.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
             array_element.setIndexDataTypeRef(self.getChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF"))
-            array_element.setMaxNumberOfElements(self.getChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS"))
+            array_element.setMaxNumberOfElements(cast(Optional[PositiveInteger], self.getChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS")))
 
     def readApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
         self.logger.debug("Read ApplicationArrayDataType <%s>" % data_type.getShortName())
         self.readApplicationCompositeDataType(element, data_type)
-        data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
+        data_type.setDynamicArraySizeProfile(cast(Optional[String], self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE")))
         self.readApplicationArrayElement(element, data_type)
 
-    def getSwRecordLayoutV(self, element: ET.Element, key: str) -> SwRecordLayoutV:
+    def getSwRecordLayoutV(self, element: ET.Element, key: str) -> Optional[SwRecordLayoutV]:
         child_element = self.find(element, key)
         layout_v = None
         if child_element is not None:
@@ -9166,7 +9212,7 @@ class ARXMLParser(AbstractARXMLParser):
         content.setSwRecordLayoutV(self.getSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V"))
         group.setSwRecordLayoutGroupContentType(content)
 
-    def getSwRecordLayoutGroup(self, element: ET.Element, key: str) -> SwRecordLayoutGroup:
+    def getSwRecordLayoutGroup(self, element: ET.Element, key: str) -> Optional[SwRecordLayoutGroup]:
         child_element = self.find(element, key)
         group = None
         if child_element is not None:
@@ -9197,7 +9243,7 @@ class ARXMLParser(AbstractARXMLParser):
         if memory_allocation_keyword_policy is not None:
             method.setMemoryAllocationKeywordPolicy(MemoryAllocationKeywordPolicyType().setValue(memory_allocation_keyword_policy.getValue()))
         for option in self.getChildElementLiteralValueList(element, "OPTIONS/OPTION"):
-            method.addOption(option)
+            method.addOption(cast(Identifier, option))
         section_initialization_policy = self.getChildElementOptionalLiteral(element, "SECTION-INITIALIZATION-POLICY")
         if section_initialization_policy is not None:
             method.setSectionInitializationPolicy(SectionInitializationPolicyType().setValue(section_initialization_policy.getValue()))
@@ -9315,7 +9361,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.raiseError("Unsupported timing requirement <%s>" % tag_name)
             return
         short_name = self.getShortName(element)
-        constraint = None
+        constraint: Optional[TimingConstraint] = None
         if tag_name == "AGE-CONSTRAINT":
             constraint = AgeConstraint(extension, short_name)
             self.readAgeConstraint(element, constraint)
@@ -9355,7 +9401,7 @@ class ARXMLParser(AbstractARXMLParser):
         else:
             self.raiseError("Unsupported timing requirement <%s>" % tag_name)
             return
-        extension.addReferrableElement(constraint)
+        extension.addReferrableElement(cast(Referrable, constraint))
         if key == "TIMING-GUARANTEES":
             extension.addTimingGuarantee(constraint)
         else:
@@ -9421,7 +9467,7 @@ class ARXMLParser(AbstractARXMLParser):
             tx_behavior.setValue(tx_behavior_literal.getValue())
             triggering.setCanFrameTxBehavior(tx_behavior)
         triggering.setCanXlFrameTriggeringProps(self.getCanXlFrameTriggeringProps(element, "CAN-XL-FRAME-TRIGGERING-PROPS"))
-        triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
+        triggering.setIdentifier(cast(Optional[Integer], self.getChildElementOptionalNumericalValue(element, "IDENTIFIER")))
         triggering.setJ1939requestable(self.getChildElementOptionalBooleanValue(element, "J-1939-REQUESTABLE"))
         triggering.setRxIdentifierRange(self.getRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
         triggering.setRxMask(self.getChildElementOptionalPositiveInteger(element, "RX-MASK"))
@@ -9437,7 +9483,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % tag_name)
 
-    def getCanXlFrameTriggeringProps(self, element: ET.Element, key: str) -> CanXlFrameTriggeringProps:
+    def getCanXlFrameTriggeringProps(self, element: ET.Element, key: str) -> Optional[CanXlFrameTriggeringProps]:
         props = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -9464,7 +9510,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCycleRepetition(self, element: ET.Element, cycle: CycleRepetition):
         self.readCommunicationCycle(element, cycle)
         cycle.setBaseCycle(self.getChildElementOptionalIntegerValue(element, "BASE-CYCLE"))
-        cycle.setCycleRepetition(self.getChildElementOptionalLiteral(element, "CYCLE-REPETITION"))
+        cycle.setCycleRepetition(cast(Optional[CycleRepetitionType], self.getChildElementOptionalLiteral(element, "CYCLE-REPETITION")))
 
     def readFlexrayAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: FlexrayAbsolutelyScheduledTiming):
         for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
@@ -9513,7 +9559,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, timing)
         self.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
         timing.setTimeMark(self.getChildElementOptionalIntegerValue(element, "TIME-MARK"))
-        timing.setTrigger(self.getChildElementOptionalLiteral(element, "TRIGGER"))
+        timing.setTrigger(cast(Optional[TtcanTriggerType], self.getChildElementOptionalLiteral(element, "TRIGGER")))
 
     def readFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
         self.logger.debug("Read FlexrayFrameTriggering %s" % triggering.getShortName())
@@ -9555,7 +9601,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL"):
-            channel.addCommConnectorRef(self.getChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF"))
+            channel.addCommConnectorRef(cast(RefType, self.getChildElementOptionalRefType(child_element, "COMMUNICATION-CONNECTOR-REF")))
 
     def readPhysicalChannelFrameTriggerings(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "FRAME-TRIGGERINGS/*"):
@@ -9564,11 +9610,9 @@ class ARXMLParser(AbstractARXMLParser):
                 triggering = channel.createCanFrameTriggering(self.getShortName(child_element))
                 self.readCanFrameTriggering(child_element, triggering)
             elif tag_name == "LIN-FRAME-TRIGGERING":
-                triggering = channel.createLinFrameTriggering(self.getShortName(child_element))
-                self.readLinFrameTriggering(child_element, triggering)
+                self.readLinFrameTriggering(child_element, channel.createLinFrameTriggering(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-FRAME-TRIGGERING":
-                triggering = channel.createFlexrayFrameTriggering(self.getShortName(child_element))
-                self.readFlexrayFrameTriggering(child_element, triggering)
+                self.readFlexrayFrameTriggering(child_element, channel.createFlexrayFrameTriggering(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
 
@@ -9800,12 +9844,12 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             configuration = Ipv6Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
-            configuration.setDefaultRouter(self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER"))
+            configuration.setDefaultRouter(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER")))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
                 self.readARType(address, literal)
                 literal.setValue(address.text)
-                configuration.addDnsServerAddress(literal)
+                configuration.addDnsServerAddress(cast(Optional[Ip6AddressString], literal))
             configuration.setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST"))
             configuration.setHopCount(self.getChildElementOptionalPositiveInteger(element, "HOP-COUNT"))
             keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
@@ -9814,7 +9858,7 @@ class ARXMLParser(AbstractARXMLParser):
                 keep.setValue(keep_literal.getValue())
                 configuration.setIpAddressKeepBehavior(keep)
             configuration.setIpAddressPrefixLength(self.getChildElementOptionalPositiveInteger(element, "IP-ADDRESS-PREFIX-LENGTH"))
-            configuration.setIpv6Address(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS"))
+            configuration.setIpv6Address(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")))
             source_literal = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE")
             if source_literal is not None:
                 source = Ipv6AddressSourceEnum()
@@ -9832,7 +9876,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
 
-    def getDoIpEntity(self, element: ET.Element, key: str) -> DoIpEntity:
+    def getDoIpEntity(self, element: ET.Element, key: str) -> Optional[DoIpEntity]:
         entity = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -9844,7 +9888,7 @@ class ARXMLParser(AbstractARXMLParser):
                 entity.setDoIpEntityRole(e)
         return entity
 
-    def getTimeSynchronization(self, element: ET.Element, key: str) -> TimeSynchronization:
+    def getTimeSynchronization(self, element: ET.Element, key: str) -> Optional[TimeSynchronization]:
         sync = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -9883,7 +9927,7 @@ class ARXMLParser(AbstractARXMLParser):
         if ref is not None:
             master.setTimeSyncServerRef(ref)
 
-    def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
+    def getInfrastructureServices(self, element: ET.Element, key: str) -> Optional[InfrastructureServices]:
         services = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -9949,7 +9993,7 @@ class ARXMLParser(AbstractARXMLParser):
                 enum_value = RuntimeAddressConfigurationEnum()
                 enum_value.setValue(runtime_port_configuration.getValue())
                 connection.setRuntimePortConfiguration(enum_value)
-            connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+            connection.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
             connection.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
             connection.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
             connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"))
@@ -9983,7 +10027,7 @@ class ARXMLParser(AbstractARXMLParser):
         for pdu in self.getSocketConnectionPdus(element):
             bundle.addPdu(pdu)
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
-        bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+        bundle.setUdpChecksumHandling(cast(Optional[UdpChecksumCalculationEnum], self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING")))
         self.readVariationPointCapable(element, bundle)
 
     def readTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
@@ -10023,7 +10067,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
 
-    def getTpPort(self, element: ET.Element, key: str) -> TpPort:
+    def getTpPort(self, element: ET.Element, key: str) -> Optional[TpPort]:
         port = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10040,17 +10084,17 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX"))
         tp.setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME"))
         tp.setKeepAlives(self.getChildElementOptionalBooleanValue(element, "KEEP-ALIVES"))
-        tp.setNaglesAlgorithm(self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM"))
+        tp.setNaglesAlgorithm(cast(Optional[Boolean], self.getChildElementOptionalLiteral(element, "NAGLES-ALGORITHM")))
         tp.setReceiveWindowMin(self.getChildElementOptionalPositiveInteger(element, "RECEIVE-WINDOW-MIN"))
         tp.setTcpRetransmissionTimeout(self.getChildElementOptionalTimeValue(element, "TCP-RETRANSMISSION-TIMEOUT"))
         tp.setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
     def readGenericTp(self, element: ET.Element, tp: GenericTp):
-        tp.setTpAddress(self.getChildElementOptionalLiteral(element, "TP-ADDRESS"))
-        tp.setTpTechnology(self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY"))
+        tp.setTpAddress(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-ADDRESS")))
+        tp.setTpTechnology(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY")))
 
-    def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> TransportProtocolConfiguration:
-        configuration = None
+    def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> Optional[TransportProtocolConfiguration]:
+        configuration: Optional[TransportProtocolConfiguration] = None
         child_element = self.find(element, "%s/*" % key)
         if child_element is not None:
             tag_name = self.getTagName(child_element)
@@ -10071,7 +10115,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             group.addRoutingGroupRef(ref)
 
-    def getRequestResponseDelay(self, element: ET.Element, key: str) -> RequestResponseDelay:
+    def getRequestResponseDelay(self, element: ET.Element, key: str) -> Optional[RequestResponseDelay]:
         delay = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10080,7 +10124,7 @@ class ARXMLParser(AbstractARXMLParser):
             delay.setMinValue(self.getChildElementOptionalTimeValue(child_element, "MIN-VALUE"))
         return delay
 
-    def getSdClientConfig(self, element: ET.Element, key: str) -> SdClientConfig:
+    def getSdClientConfig(self, element: ET.Element, key: str) -> Optional[SdClientConfig]:
         config = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10193,7 +10237,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ConsumedServiceInstances <%s>" % tag_name)
 
-    def getInitialSdDelayConfig(self, element: ET.Element, key: str) -> InitialSdDelayConfig:
+    def getInitialSdDelayConfig(self, element: ET.Element, key: str) -> Optional[InitialSdDelayConfig]:
         config = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10249,7 +10293,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, config)
         config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
 
-    def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
+    def getSdServerConfig(self, element: ET.Element, key: str) -> Optional[SdServerConfig]:
         config = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10382,7 +10426,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection <%s>" % tag_name)
 
-    def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
+    def getSoAdConfig(self, element: ET.Element, key: str) -> Optional[SoAdConfig]:
         child_element = self.find(element, key)
         config = None
         if child_element is not None:
@@ -10406,7 +10450,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayPhysicalChannel(self, element: ET.Element, channel: FlexrayPhysicalChannel):
         self.readPhysicalChannel(element, channel)
-        channel.setChannelName(self.getChildElementOptionalLiteral(element, "CHANNEL-NAME"))
+        channel.setChannelName(cast(Optional[FlexrayChannelName], self.getChildElementOptionalLiteral(element, "CHANNEL-NAME")))
 
     def readCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         for child_element in self.findall(element, "PHYSICAL-CHANNELS/*"):
@@ -10427,12 +10471,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
 
     def readCommunicationCluster(self, element: ET.Element, cluster: CommunicationCluster):
-        cluster.setBaudrate(self.getChildElementOptionalNumericalValue(element, "BAUDRATE"))
+        cluster.setBaudrate(cast(Optional[PositiveUnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "BAUDRATE")))
         self.readCommunicationClusterPhysicalChannels(element, cluster)
-        cluster.setProtocolName(self.getChildElementOptionalLiteral(element, "PROTOCOL-NAME"))
-        cluster.setProtocolVersion(self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION"))
+        cluster.setProtocolName(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL-NAME")))
+        cluster.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION")))
 
-    def getCanClusterBusOffRecovery(self, element: ET.Element, key: str) -> CanClusterBusOffRecovery:
+    def getCanClusterBusOffRecovery(self, element: ET.Element, key: str) -> Optional[CanClusterBusOffRecovery]:
         recovery = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -10447,8 +10491,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
         self.readCommunicationCluster(element, cluster)
         cluster.setBusOffRecovery(self.getCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY"))
-        cluster.setCanFdBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE"))
-        cluster.setCanXlBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE"))
+        cluster.setCanFdBaudrate(cast(Optional[PositiveUnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE")))
+        cluster.setCanXlBaudrate(cast(Optional[PositiveUnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE")))
 
     def readLinCluster(self, element: ET.Element, cluster: LinCluster):
         self.logger.debug("Read LinCluster <%s>" % cluster.getShortName())
@@ -11219,9 +11263,9 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "ALL-PHYSICAL-CHANNELS/ALL-PHYSICAL-CHANNELS-REF"):
             com_control_class.addAllPhysicalChannel(ref)
         for child_element in self.findall(element, "SPECIFIC-CHANNELS/DIAGNOSTIC-COM-CONTROL-SPECIFIC-CHANNEL"):
-            channel = DiagnosticComControlSpecificChannel()
-            self.readDiagnosticComControlSpecificChannel(child_element, channel)
-            com_control_class.addSpecificChannel(channel)
+            channel: ARObject = DiagnosticComControlSpecificChannel()
+            self.readDiagnosticComControlSpecificChannel(child_element, cast(DiagnosticComControlSpecificChannel, channel))
+            com_control_class.addSpecificChannel(cast(Optional[DiagnosticComControlSpecificChannel], channel))
         for child_element in self.findall(element, "SUB-NODE-CHANNELS/DIAGNOSTIC-COM-CONTROL-SUB-NODE-CHANNEL"):
             channel = DiagnosticComControlSubNodeChannel()
             self.readDiagnosticComControlSubNodeChannel(child_element, channel)
@@ -11418,9 +11462,9 @@ class ARXMLParser(AbstractARXMLParser):
             for child_element in parts_element:
                 tag_name = self.getTagName(child_element)
                 if tag_name == "DIAGNOSTIC-ENV-CONDITION-FORMULA":
-                    part = DiagnosticEnvConditionFormula()
-                    self.readDiagnosticEnvConditionFormula(child_element, part)
-                    formula.addPart(part)
+                    part: ARObject = DiagnosticEnvConditionFormula()
+                    self.readDiagnosticEnvConditionFormula(child_element, cast(DiagnosticEnvConditionFormula, part))
+                    formula.addPart(cast(Optional[DiagnosticEnvConditionFormulaPart], part))
                 elif tag_name == "DIAGNOSTIC-ENV-DATA-CONDITION":
                     part = DiagnosticEnvDataCondition()
                     self.readDiagnosticEnvDataCondition(child_element, part)
@@ -11455,13 +11499,13 @@ class ARXMLParser(AbstractARXMLParser):
                 if tag_name == "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT":
                     short_name_element = self.find(child_element, "SHORT-NAME")
                     short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-SWC-MODE-ELEMENT"
-                    mode_element = DiagnosticEnvSwcModeElement(condition, short_name)
-                    self.readDiagnosticEnvSwcModeElement(child_element, mode_element)
-                    condition.addModeElement(mode_element)
+                    mode_element: ARObject = DiagnosticEnvSwcModeElement(condition, cast(str, short_name))
+                    self.readDiagnosticEnvSwcModeElement(child_element, cast(DiagnosticEnvSwcModeElement, mode_element))
+                    condition.addModeElement(cast(Optional[DiagnosticEnvModeElement], mode_element))
                 elif tag_name == "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT":
                     short_name_element = self.find(child_element, "SHORT-NAME")
                     short_name = short_name_element.text if short_name_element is not None else "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT"
-                    mode_element = DiagnosticEnvBswModeElement(condition, short_name)
+                    mode_element = DiagnosticEnvBswModeElement(condition, cast(str, short_name))
                     self.readDiagnosticEnvBswModeElement(child_element, mode_element)
                     condition.addModeElement(mode_element)
                 else:
@@ -11471,13 +11515,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferrable(element, mode_element)
         mode_iref_element = self.find(element, "MODE-IREF")
         if mode_iref_element is not None:
-            mode_element.setModeIRef(self.getPModeInSystemInstanceRef(mode_iref_element))
+            mode_element.setModeIRef(cast(Optional[RefType], self.getPModeInSystemInstanceRef(mode_iref_element)))
 
     def readDiagnosticEnvBswModeElement(self, element: ET.Element, mode_element: DiagnosticEnvBswModeElement):
         self.readReferrable(element, mode_element)
         mode_iref_element = self.find(element, "MODE-IREF")
         if mode_iref_element is not None:
-            mode_element.setModeIRef(self.getModeInBswModuleDescriptionInstanceRef(mode_iref_element))
+            mode_element.setModeIRef(cast(Optional[RefType], self.getModeInBswModuleDescriptionInstanceRef(mode_iref_element)))
 
     def readDiagnosticEventWindow(self, element: ET.Element, event_window: DiagnosticEventWindow):
         self.logger.debug("Read DiagnosticEventWindow")
@@ -11730,12 +11774,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, table)
         self.readDiagnosticServiceTableDiagnosticConnectionRefs(element, table)
         table.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
-        table.setProtocolKind(self.getChildElementOptionalLiteral(element, "PROTOCOL-KIND"))
+        table.setProtocolKind(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "PROTOCOL-KIND")))
         for ref in self.getChildElementRefTypeList(element, "SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF"):
             table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
-        position.setSegmentByteOrder(self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER"))
+        position.setSegmentByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER")))
         position.setSegmentLength(self.getChildElementOptionalIntegerValue(element, "SEGMENT-LENGTH"))
         position.setSegmentPosition(self.getChildElementOptionalIntegerValue(element, "SEGMENT-POSITION"))
 
@@ -11805,22 +11849,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read MultiplexedIPdu <%s>" % ipdu.getShortName())
         self.readIPdu(element, ipdu)
         self.readMultiplexedIPduDynamicParts(element, ipdu)
-        ipdu.setSelectorFieldByteOrder(self.getChildElementOptionalLiteral(element, "SELECTOR-FIELD-BYTE-ORDER"))
+        ipdu.setSelectorFieldByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SELECTOR-FIELD-BYTE-ORDER")))
         ipdu.setSelectorFieldLength(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-LENGTH"))
         ipdu.setSelectorFieldStartPosition(self.getChildElementOptionalIntegerValue(element, "SELECTOR-FIELD-START-POSITION"))
         self.readMultiplexedIPduStaticParts(element, ipdu)
-        ipdu.setTriggerMode(self.getChildElementOptionalLiteral(element, "TRIGGER-MODE"))
+        ipdu.setTriggerMode(cast(Optional[TriggerMode], self.getChildElementOptionalLiteral(element, "TRIGGER-MODE")))
         ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def readUserDefinedIPdu(self, element: ET.Element, ipdu: UserDefinedIPdu):
         self.logger.debug("Read UserDefinedIPdu <%s>" % ipdu.getShortName())
         self.readIPdu(element, ipdu)
-        ipdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
+        ipdu.setCddType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "CDD-TYPE")))
 
     def readUserDefinedPdu(self, element: ET.Element, pdu: UserDefinedPdu):
         self.logger.debug("Read UserDefinedPdu <%s>" % pdu.getShortName())
         self.readPdu(element, pdu)
-        pdu.setCddType(self.getChildElementOptionalLiteral(element, "CDD-TYPE"))
+        pdu.setCddType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "CDD-TYPE")))
 
     def readGeneralPurposePdu(self, element: ET.Element, pdu: GeneralPurposePdu):
         self.logger.debug("Read GeneralPurposePdu <%s>" % pdu.getShortName())
@@ -11884,8 +11928,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "DO-IP-LOGIC-ADDRESS-PROPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "DO-IP-LOGIC-TARGET-ADDRESS-PROPS":
-                props = address.createDoIpLogicTargetAddressProps(self.getShortName(child_element))
-                self.readIdentifiable(child_element, props)
+                props: ARObject = address.createDoIpLogicTargetAddressProps(self.getShortName(child_element))
+                self.readIdentifiable(child_element, cast(Identifiable, props))
             elif tag_name == "DO-IP-LOGIC-TESTER-ADDRESS-PROPS":
                 props = address.createDoIpLogicTesterAddressProps(self.getShortName(child_element))
                 self.readIdentifiable(child_element, props)
@@ -11938,9 +11982,9 @@ class ARXMLParser(AbstractARXMLParser):
             annotation = Annotation()
             self.readGeneralAnnotation(annotation_element, annotation)
             attribute_value.setAnnotation(annotation)
-        attribute_value.setHwAttributeDefRef(self.getChildElementOptionalRefType(element, "HW-ATTRIBUTE-DEF-REF"))
-        attribute_value.setV(self.getChildElementOptionalNumerical(element, "V"))
-        attribute_value.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
+        attribute_value.setHwAttributeDefRef(cast(RefType, self.getChildElementOptionalRefType(element, "HW-ATTRIBUTE-DEF-REF")))
+        attribute_value.setV(cast(Numerical, self.getChildElementOptionalNumerical(element, "V")))
+        attribute_value.setVt(cast(VerbatimString, self.getChildElementOptionalVerbatimString(element, "VT")))
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             attribute_value.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
@@ -11956,7 +12000,7 @@ class ARXMLParser(AbstractARXMLParser):
         # abstract and every concrete subclass (HwElement, HwType, HwPin, HwPinGroup) is an
         # Identifiable per its own spec Base — so the shared reader walks the Identifiable chain
         # and picks up UUID/DESC/CATEGORY/ADMIN-DATA/INTRODUCTION (Rule 0013.1).
-        self.readIdentifiable(element, entity)
+        self.readIdentifiable(element, cast(Identifiable, entity))
         entity.setHwTypeRef(self.getChildElementOptionalRefType(element, "HW-TYPE-REF"))
         self.readHwDescriptionEntityHwCategoryRefs(element, entity)
         self.readHwDescriptionEntityHwAttributeValues(element, entity)
@@ -11984,11 +12028,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readHwDescriptionEntity(element, hw_pin)
         for function_name_element in self.findall(element, "FUNCTION-NAMES/FUNCTION-NAME"):
             if function_name_element.text is not None:
-                hw_pin.addFunctionName(function_name_element.text)
+                hw_pin.addFunctionName(cast(String, function_name_element.text))
         packaging_pin_name_element = self.find(element, "PACKAGING-PIN-NAME")
         if packaging_pin_name_element is not None and packaging_pin_name_element.text is not None:
-            hw_pin.setPackagingPinName(packaging_pin_name_element.text)
-        hw_pin.setPinNumber(self.getChildElementOptionalIntegerValue(element, "PIN-NUMBER"))
+            hw_pin.setPackagingPinName(cast(String, packaging_pin_name_element.text))
+        hw_pin.setPinNumber(cast(Integer, self.getChildElementOptionalIntegerValue(element, "PIN-NUMBER")))
 
     def readHwElementHwPinGroups(self, element: ET.Element, hw_element: HwElement):
         for child_element in self.findall(element, "HW-PIN-GROUPS/*"):
@@ -12049,8 +12093,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "HW-ATTRIBUTE-LITERALS/HW-ATTRIBUTE-LITERAL-DEF"):
             literal_def = attribute_def.createHwAttributeLiteral(self.getShortName(child_element))
             self.readHwAttributeLiteralDef(child_element, literal_def)
-        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
-        attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
+        attribute_def.setIsRequired(cast(Boolean, self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED")))
+        attribute_def.setUnitRef(cast(RefType, self.getChildElementOptionalRefType(element, "UNIT-REF")))
 
     def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
         self.readIdentifiable(element, literal_def)
@@ -12081,7 +12125,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readPduToFrameMapping %s" % short_name)
             mapping = parent.createPduToFrameMapping(short_name)
             self.readIdentifiable(child_element, mapping)
-            mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER"))
+            mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")))
             mapping.setPduRef(self.getChildElementOptionalRefType(child_element, "PDU-REF"))
             mapping.setStartPosition(self.getChildElementOptionalIntegerValue(child_element, "START-POSITION"))
             mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
@@ -12098,16 +12142,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readPdu(self, element: ET.Element, pdu: Pdu):
         self.readIdentifiable(element, pdu)
         pdu.setHasDynamicLength(self.getChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH"))
-        pdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+        pdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
 
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)
         mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
         mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
-        mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER"))
-        mapping.setStartPosition(self.getChildElementOptionalIntegerValue(element, "START-POSITION"))
-        mapping.setTransferProperty(self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY"))
-        mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION"))
+        mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER")))
+        mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalIntegerValue(element, "START-POSITION")))
+        mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY")))
+        mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION")))
 
     def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):
@@ -12126,19 +12170,19 @@ class ARXMLParser(AbstractARXMLParser):
         pdu.setNmVoteInformation(self.getChildElementOptionalBooleanValue(element, "NM-VOTE-INFORMATION"))
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
-    def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
+    def readContainedIPduProps(self, element: ET.Element) -> Optional[ContainedIPduProps]:
         props = None
         child_element = self.find(element, "CONTAINED-I-PDU-PROPS")
         if child_element is not None:
             props = ContainedIPduProps()
-            props.setCollectionSemantics(self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS"))
+            props.setCollectionSemantics(cast(Optional[ContainedIPduCollectionSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS")))
             props.setContainedPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF"))
             props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
             props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
             props.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
             props.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
             props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
-            props.setTrigger(self.getChildElementOptionalLiteral(child_element, "TRIGGER"))
+            props.setTrigger(cast(Optional[PduCollectionTriggerEnum], self.getChildElementOptionalLiteral(child_element, "TRIGGER")))
             props.setUpdateIndicationBitPosition(self.getChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION"))
         return props
 
@@ -12155,7 +12199,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIPdu(element, i_pdu)
         i_pdu.setDiagPduType(self.getChildElementOptionalLiteral(element, "DIAG-PDU-TYPE"))
 
-    def getSecureCommunicationProps(self, element: ET.Element, key: str) -> SecureCommunicationProps:
+    def getSecureCommunicationProps(self, element: ET.Element, key: str) -> Optional[SecureCommunicationProps]:
         props = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -12182,14 +12226,14 @@ class ARXMLParser(AbstractARXMLParser):
         i_pdu.setPayloadRef(self.getChildElementOptionalRefType(element, "PAYLOAD-REF"))
         i_pdu.setSecureCommunicationProps(self.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS"))
         i_pdu.setUseAsCryptographicIPdu(self.getChildElementOptionalBooleanValue(element, "USE-AS-CRYPTOGRAPHIC-I-PDU"))
-        i_pdu.setUseSecuredPduHeader(self.getChildElementOptionalLiteral(element, "USE-SECURED-PDU-HEADER"))
+        i_pdu.setUseSecuredPduHeader(cast(Optional[SecuredPduHeaderEnum], self.getChildElementOptionalLiteral(element, "USE-SECURED-PDU-HEADER")))
 
     def readNmNode(self, element: ET.Element, nm_node: NmNode):
         self.readIdentifiable(element, nm_node)
 
         nm_node.setControllerRef(self.getChildElementOptionalRefType(element, "CONTROLLER-REF"))
         nm_node.setNmCoordCluster(self.getChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER"))
-        nm_node.setNmCoordinatorRole(self.getChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE"))
+        nm_node.setNmCoordinatorRole(cast(Optional[NmCoordinatorRoleEnum], self.getChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE")))
         nm_node.setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF"))
         nm_node.setNmNodeId(self.getChildElementOptionalIntegerValue(element, "NM-NODE-ID"))
         nm_node.setNmPassiveModeEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PASSIVE-MODE-ENABLED"))
@@ -12216,7 +12260,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
         self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
-        nm_node.setAddressConfigurationCapability(self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY"))
+        nm_node.setAddressConfigurationCapability(cast(Optional[J1939NmAddressConfigurationCapabilityEnum], self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY")))
         nm_node.setNodeName(self.getJ1939NodeName(element, "NODE-NAME"))
 
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
@@ -12224,17 +12268,15 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "NM-NODES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-NODE":
-                nm_node = cluster.createCanNmNode(self.getShortName(child_element))
-                self.readCanNmNode(child_element, nm_node)
+                nm_node: ARObject = cluster.createCanNmNode(self.getShortName(child_element))
+                self.readCanNmNode(child_element, cast(CanNmNode, nm_node))
             elif tag_name == "UDP-NM-NODE":
-                nm_node = cluster.createUdpNmNode(self.getShortName(child_element))
-                self.readUdpNmNode(child_element, nm_node)
+                self.readUdpNmNode(child_element, cluster.createUdpNmNode(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-NM-NODE":
                 nm_node = cluster.createFlexrayNmNode(self.getShortName(child_element))
                 self.readNmNode(child_element, nm_node)
             elif tag_name == "J-1939-NM-NODE":
-                nm_node = cluster.createJ1939NmNode(self.getShortName(child_element))
-                self.readJ1939NmNode(child_element, nm_node)
+                self.readJ1939NmNode(child_element, cluster.createJ1939NmNode(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
@@ -12257,7 +12299,7 @@ class ARXMLParser(AbstractARXMLParser):
         coupling = FlexrayNmClusterCoupling()
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
-        coupling.setNmScheduleVariant(self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT"))
+        coupling.setNmScheduleVariant(cast(Optional[FlexrayNmScheduleVariant], self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT")))
         return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
@@ -12276,7 +12318,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("read NmCluster %s" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
         cluster.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF"))
-        cluster.setNmChannelId(self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID"))
+        cluster.setNmChannelId(cast(Optional[Integer], self.getChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID")))
         cluster.setNmChannelSleepMaster(self.getChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER"))
         self.readNmClusterNmNodes(element, cluster)
         cluster.setNmNodeDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-NODE-DETECTION-ENABLED"))
@@ -12345,14 +12387,11 @@ class ARXMLParser(AbstractARXMLParser):
                 cluster = nm_config.createCanNmCluster(self.getShortName(child_element))
                 self.readCanNmCluster(child_element, cluster)
             elif tag_name == "UDP-NM-CLUSTER":
-                cluster = nm_config.createUdpNmCluster(self.getShortName(child_element))
-                self.readUdpNmCluster(child_element, cluster)
+                self.readUdpNmCluster(child_element, nm_config.createUdpNmCluster(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-NM-CLUSTER":
-                cluster = nm_config.createFlexrayNmCluster(self.getShortName(child_element))
-                self.readFlexrayNmCluster(child_element, cluster)
+                self.readFlexrayNmCluster(child_element, nm_config.createFlexrayNmCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-NM-CLUSTER":
-                cluster = nm_config.createJ1939NmCluster(self.getShortName(child_element))
-                self.readJ1939NmCluster(child_element, cluster)
+                self.readJ1939NmCluster(child_element, nm_config.createJ1939NmCluster(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported Nm Cluster <%s>" % tag_name)
 
@@ -12556,7 +12595,7 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setFlowControlRef(self.getChildElementOptionalRefType(element, "FLOW-CONTROL-REF"))
         connection.setLinTpNSduRef(self.getChildElementOptionalRefType(element, "LIN-TP-N-SDU-REF"))
         connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
-        self.readTpConnectionReceiverRefs(element, connection)
+        self.readTpConnectionReceiverRefs(element, cast(CanTpConnection, connection))
         connection.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
         connection.setTimeoutCs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CS"))
@@ -12689,7 +12728,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataTransformation(self, element: ET.Element, dtf: DataTransformation):
         self.readIdentifiable(element, dtf)
-        dtf.setDataTransformationKind(self.getChildElementOptionalLiteral(element, "DATA-TRANSFORMATION-KIND"))
+        dtf.setDataTransformationKind(cast(Optional[DataTransformationKindEnum], self.getChildElementOptionalLiteral(element, "DATA-TRANSFORMATION-KIND")))
         dtf.setExecuteDespiteDataUnavailability(self.getChildElementOptionalBooleanValue(element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY"))
         self.readDataTransformationTransformerChainRefs(element, dtf)
 
@@ -12702,7 +12741,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DataTransformation <%s>" % tag_name)
 
-    def getBufferProperties(self, element: ET.Element, key: str) -> BufferProperties:
+    def getBufferProperties(self, element: ET.Element, key: str) -> Optional[BufferProperties]:
         properties = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -12715,7 +12754,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, desc)
 
         desc.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
-        desc.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        desc.setCategory(cast(Optional[CategoryString], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         desc.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         desc.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
 
@@ -12727,7 +12766,7 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setClearFromValidToInvalid(self.getChildElementOptionalBooleanValue(element, "CLEAR-FROM-VALID-TO-INVALID"))
         desc.setCounterOffset(self.getChildElementOptionalPositiveInteger(element, "COUNTER-OFFSET"))
         desc.setCrcOffset(self.getChildElementOptionalPositiveInteger(element, "CRC-OFFSET"))
-        desc.setDataIdMode(self.getChildElementOptionalLiteral(element, "DATA-ID-MODE"))
+        desc.setDataIdMode(cast(Optional[DataIdModeEnum], self.getChildElementOptionalLiteral(element, "DATA-ID-MODE")))
         desc.setDataIdNibbleOffset(self.getChildElementOptionalPositiveInteger(element, "DATA-ID-NIBBLE-OFFSET"))
         desc.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF"))
         desc.setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER"))
@@ -12739,8 +12778,8 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setMinOkStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INVALID"))
         desc.setMinOkStateValid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-VALID"))
         desc.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
-        desc.setProfileBehavior(self.getChildElementOptionalLiteral(element, "PROFILE-BEHAVIOR"))
-        desc.setProfileName(self.getChildElementOptionalLiteral(element, "PROFILE-NAME"))
+        desc.setProfileBehavior(cast(Optional[EndToEndProfileBehaviorEnum], self.getChildElementOptionalLiteral(element, "PROFILE-BEHAVIOR")))
+        desc.setProfileName(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "PROFILE-NAME")))
         desc.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
         desc.setUpperHeaderBitsToShift(self.getChildElementOptionalPositiveInteger(element, "UPPER-HEADER-BITS-TO-SHIFT"))
         desc.setWindowSizeInit(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INIT"))
@@ -12762,10 +12801,10 @@ class ARXMLParser(AbstractARXMLParser):
         tech.setBufferProperties(self.getBufferProperties(element, "BUFFER-PROPERTIES"))
         tech.setHasInternalState(self.getChildElementOptionalBooleanValue(element, "HAS-INTERNAL-STATE"))
         tech.setNeedsOriginalData(self.getChildElementOptionalBooleanValue(element, "NEEDS-ORIGINAL-DATA"))
-        tech.setProtocol(self.getChildElementOptionalLiteral(element, "PROTOCOL"))
+        tech.setProtocol(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL")))
         self.readTransformationTechnologyTransformationDescriptions(element, tech)
-        tech.setTransformerClass(self.getChildElementOptionalLiteral(element, "TRANSFORMER-CLASS"))
-        tech.setVersion(self.getChildElementOptionalLiteral(element, "VERSION"))
+        tech.setTransformerClass(cast(Optional[TransformerClassEnum], self.getChildElementOptionalLiteral(element, "TRANSFORMER-CLASS")))
+        tech.setVersion(cast(Optional[String], self.getChildElementOptionalLiteral(element, "VERSION")))
 
     def readDataTransformationSetTransformationTechnologies(self, element: ET.Element, dtf_set: DataTransformationSet):
         for child_element in self.findall(element, "TRANSFORMATION-TECHNOLOGYS/*"):
@@ -12789,12 +12828,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readKeywordClassifications(self, element: ET.Element, keyword: Keyword):
         for literal in self.getChildElementLiteralValueList(element, "CLASSIFICATIONS/CLASSIFICATION"):
-            keyword.addClassification(literal)
+            keyword.addClassification(cast(Optional[NameToken], literal))
 
     def readKeyword(self, element: ET.Element, keyword: Keyword):
         # self.logger.debug("Read Keyword <%s>" % keyword.getShortName())
         self.readIdentifiable(element, keyword)
-        keyword.setAbbrName(self.getChildElementOptionalLiteral(element, "ABBR-NAME"))
+        keyword.setAbbrName(cast(Optional[NameToken], self.getChildElementOptionalLiteral(element, "ABBR-NAME")))
         self.readKeywordClassifications(element, keyword)
 
     def readKeywordSetKeywords(self, element: ET.Element, keyword_set: KeywordSet):
@@ -12808,16 +12847,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readKeywordSet(self, element: ET.Element, keyword_set: KeywordSet):
         self.logger.debug("Read KeywordSet <%s>" % keyword_set.getShortName())
-        self.readARElement(element, keyword_set)
+        self.readARElement(element, cast(ARElement, keyword_set))
         self.readKeywordSetKeywords(element, keyword_set)
 
     def readPortPrototypeBlueprint(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
         self.logger.debug("Read PortPrototypeBlueprint <%s>" % blueprint.getShortName())
-        self.readARElement(element, blueprint)
+        self.readARElement(element, cast(ARElement, blueprint))
         self.readPortPrototypeBlueprintInitValues(element, blueprint)
         blueprint.setInterfaceRef(self.getChildElementOptionalRefType(element, "INTERFACE-REF"))
-        self.readProvidedComSpec(element, blueprint)
-        self.readRequiredComSpec(element, blueprint)
+        self.readProvidedComSpec(element, cast(PPortPrototype, blueprint))
+        self.readRequiredComSpec(element, cast(RPortPrototype, blueprint))
 
     def readPortPrototypeBlueprintInitValues(self, element: ET.Element, blueprint: PortPrototypeBlueprint):
         for child_element in self.findall(element, "INIT-VALUES/*"):
@@ -12855,7 +12894,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readModeDeclarationMappingSet(self, element: ET.Element, mapping_set: ModeDeclarationMappingSet):
         self.logger.debug("Read ModeDeclarationMappingSet <%s>" % mapping_set.getShortName())
-        self.readARElement(element, mapping_set)
+        self.readARElement(element, cast(ARElement, mapping_set))
         self.readModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
 
     def readEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
@@ -12866,16 +12905,16 @@ class ARXMLParser(AbstractARXMLParser):
         def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY"))
         def_element.setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
         def_element.setUpperMultiplicityInfinite(self.getChildElementOptionalBooleanValue(element, "UPPER-MULTIPLICITY-INFINITE"))
-        def_element.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
+        def_element.setScope(cast(Optional[EcucScopeEnum], self.getChildElementOptionalLiteral(element, "SCOPE")))
 
     def readEcucModuleDefSupportedConfigVariants(self, element: ET.Element, module_def: EcucModuleDef):
         for variant in self.getChildElementLiteralValueList(element, "SUPPORTED-CONFIG-VARIANTS/SUPPORTED-CONFIG-VARIANT"):
-            module_def.addSupportedConfigVariant(variant)
+            module_def.addSupportedConfigVariant(cast(Optional[EcucConfigurationVariantEnum], variant))
 
     def readEcucAbstractConfigurationClass(self, element: ET.Element, cfg_class: EcucAbstractConfigurationClass):
         self.readARObject(element, cfg_class)
-        cfg_class.setConfigClass(self.getChildElementOptionalLiteral(element, "CONFIG-CLASS"))
-        cfg_class.setConfigVariant(self.getChildElementOptionalLiteral(element, "CONFIG-VARIANT"))
+        cfg_class.setConfigClass(cast(Optional[EcucConfigurationClassEnum], self.getChildElementOptionalLiteral(element, "CONFIG-CLASS")))
+        cfg_class.setConfigVariant(cast(Optional[EcucConfigurationVariantEnum], self.getChildElementOptionalLiteral(element, "CONFIG-VARIANT")))
 
     def readEcucMultiplicityConfigurationClass(self, element: ET.Element, cfg_class: EcucMultiplicityConfigurationClass):
         self.readEcucAbstractConfigurationClass(element, cfg_class)
@@ -12916,7 +12955,7 @@ class ARXMLParser(AbstractARXMLParser):
                     uri_ref.setBase(child_element.attrib["BASE"])
                 if "DEST" in child_element.attrib:
                     uri_ref.setDest(child_element.attrib["DEST"])
-                uri_ref.setValue(child_element.text)
+                uri_ref.setValue(cast(str, child_element.text))
                 uri_refs.append(uri_ref)
             else:
                 self.notImplemented("Unsupported DestinationUriRef <%s>" % tag_name)
@@ -12956,8 +12995,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "CONTAINERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-PARAM-CONF-CONTAINER-DEF":
-                container_def = policy.createEcucParamConfContainerDef(self.getShortName(child_element))
-                self.readEcucParamConfContainerDef(child_element, container_def)
+                container_def: ARObject = policy.createEcucParamConfContainerDef(self.getShortName(child_element))
+                self.readEcucParamConfContainerDef(child_element, cast(EcucParamConfContainerDef, container_def))
             elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
                 container_def = policy.createEcucChoiceContainerDef(self.getShortName(child_element))
                 self.readEcucChoiceContainerDef(child_element, container_def)
@@ -12968,8 +13007,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PARAMETERS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
-                param_def = policy.createEcucBooleanParamDef(self.getShortName(child_element))
-                self.readEcucBooleanParamDef(child_element, param_def)
+                param_def: ARObject = policy.createEcucBooleanParamDef(self.getShortName(child_element))
+                self.readEcucBooleanParamDef(child_element, cast(EcucBooleanParamDef, param_def))
             elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
                 param_def = policy.createEcucAddInfoParamDef(self.getShortName(child_element))
                 self.readEcucAddInfoParamDef(child_element, param_def)
@@ -13001,8 +13040,8 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "REFERENCES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-SYMBOLIC-NAME-REFERENCE-DEF":
-                ref_def = policy.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
-                self.readEcucSymbolicNameReferenceDef(child_element, ref_def)
+                ref_def: ARObject = policy.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
+                self.readEcucSymbolicNameReferenceDef(child_element, cast(EcucSymbolicNameReferenceDef, ref_def))
             elif tag_name == "ECUC-REFERENCE-DEF":
                 ref_def = policy.createEcucReferenceDef(self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
@@ -13040,12 +13079,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucDefinitionElement(element, common_attrs)
         for cfg_class in self.getEcucMultiplicityConfigurationClasses(element):
             common_attrs.addMultiplicityConfigClass(cfg_class)
-        common_attrs.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
+        common_attrs.setOrigin(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ORIGIN")))
         common_attrs.setPostBuildVariantMultiplicity(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY"))
         common_attrs.setPostBuildVariantValue(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-VALUE"))
         common_attrs.setRequiresIndex(self.getChildElementOptionalBooleanValue(element, "REQUIRES-INDEX"))
-        for cfg_class in self.getEcucValueConfigurationClasses(element):
-            common_attrs.addValueConfigClass(cfg_class)
+        for value_cfg_class in self.getEcucValueConfigurationClasses(element):
+            common_attrs.addValueConfigClass(value_cfg_class)
 
     def readEcucParameterDef(self, element: ET.Element, param_def: EcucParameterDef):
         self.readEcucCommonAttributes(element, param_def)
@@ -13063,14 +13102,14 @@ class ARXMLParser(AbstractARXMLParser):
             derivation.setCalculationFormula(self.readEcucParameterDerivationFormula(calc_formula))
         for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
             query = derivation.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, query)
+            self.readEcucQuery(query_element, cast(EcucQuery, query))
         derivation.setInformalFormula(self.getMlFormula(child_element, "INFORMAL-FORMULA"))
         return derivation
 
     def readEcucParameterDerivationFormula(self, element: ET.Element) -> EcucParameterDerivationFormula:
         formula = EcucParameterDerivationFormula()
-        formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
-        formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
+        formula.setEcucQueryRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF")))
+        formula.setEcucQueryStringRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF")))
         return formula
 
     def readEcucConditionFormula(self, element: ET.Element) -> EcucConditionFormula:
@@ -13089,16 +13128,16 @@ class ARXMLParser(AbstractARXMLParser):
             cond.setConditionFormula(self.readEcucConditionFormula(formula_element))
         for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
             query = cond.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, query)
-        cond.setInformalFormula(self.getMlFormula(child_element, "INFORMAL-FORMULA"))
+            self.readEcucQuery(query_element, cast(EcucQuery, query))
+        cond.setInformalFormula(cast(MlFormula, self.getMlFormula(child_element, "INFORMAL-FORMULA")))
         return cond
 
     def readEcucValidationCondition(self, element: ET.Element) -> EcucValidationCondition:
-        vc = EcucValidationCondition(None, self.getShortName(element))
+        vc = EcucValidationCondition(cast(ARObject, None), self.getShortName(element))
         self.readIdentifiable(element, vc)
         for query_element in self.findall(element, "ECUC-QUERYS/ECUC-QUERY"):
             query = vc.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, query)
+            self.readEcucQuery(query_element, cast(EcucQuery, query))
         formula_element = self.find(element, "VALIDATION-FORMULA")
         if formula_element is not None:
             vc.setValidationFormula(self.readEcucConditionFormula(formula_element))
@@ -13127,43 +13166,43 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractStringParamDef(self, element: ET.Element, param_def: EcucAbstractStringParamDef):
         self.readEcucParameterDef(element, param_def)
-        param_def.setDefaultValue(self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE"))
-        param_def.setMaxLength(self.getChildElementOptionalIntegerValue(element, "MAX-LENGTH"))
-        param_def.setMinLength(self.getChildElementOptionalIntegerValue(element, "MIN-LENGTH"))
-        param_def.setRegularExpression(self.getChildElementOptionalLiteral(element, "REGULAR-EXPRESSION"))
+        param_def.setDefaultValue(cast(Optional[VerbatimString], self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE")))
+        param_def.setMaxLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(element, "MAX-LENGTH")))
+        param_def.setMinLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(element, "MIN-LENGTH")))
+        param_def.setRegularExpression(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(element, "REGULAR-EXPRESSION")))
 
     def readEcucStringParamDef(self, element: ET.Element, param_def: EcucStringParamDef):
         self.readEcucParameterDef(element, param_def)
         child_element = self.find(element, "ECUC-STRING-PARAM-DEF-VARIANTS/ECUC-STRING-PARAM-DEF-CONDITIONAL")
         if child_element is not None:
-            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
-            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
-            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
-            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+            param_def.setDefaultValue(cast(Optional[VerbatimString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE")))
+            param_def.setMinLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH")))
+            param_def.setMaxLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH")))
+            param_def.setRegularExpression(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION")))
 
     def readEcucMultilineStringParamDef(self, element: ET.Element, param_def: EcucMultilineStringParamDef):
         self.readEcucParameterDef(element, param_def)
         child_element = self.find(element, "ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS/ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
         if child_element is not None:
-            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
-            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
-            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
-            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+            param_def.setDefaultValue(cast(Optional[VerbatimString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE")))
+            param_def.setMinLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH")))
+            param_def.setMaxLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH")))
+            param_def.setRegularExpression(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION")))
 
     def readEcucLinkerSymbolDef(self, element: ET.Element, param_def: EcucLinkerSymbolDef):
         self.readEcucParameterDef(element, param_def)
         child_element = self.find(element, "ECUC-LINKER-SYMBOL-DEF-VARIANTS/ECUC-LINKER-SYMBOL-DEF-CONDITIONAL")
         if child_element is not None:
-            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
-            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
-            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
-            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+            param_def.setDefaultValue(cast(Optional[VerbatimString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE")))
+            param_def.setMinLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH")))
+            param_def.setMaxLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH")))
+            param_def.setRegularExpression(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION")))
 
     def readEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
         self.readEcucParameterDef(element, param_def)
-        param_def.setDefaultValue(self.getChildElementOptionalIntegerValue(element, "DEFAULT-VALUE"))
-        param_def.setMax(self.getChildElementOptionalIntegerValue(element, "MAX"))
-        param_def.setMin(self.getChildElementOptionalIntegerValue(element, "MIN"))
+        param_def.setDefaultValue(cast(UnlimitedInteger, self.getChildElementOptionalIntegerValue(element, "DEFAULT-VALUE")))
+        param_def.setMax(cast(UnlimitedInteger, self.getChildElementOptionalIntegerValue(element, "MAX")))
+        param_def.setMin(cast(UnlimitedInteger, self.getChildElementOptionalIntegerValue(element, "MIN")))
 
     def readEcucFloatParamDef(self, element: ET.Element, param_def: EcucFloatParamDef):
         self.readEcucParameterDef(element, param_def)
@@ -13174,7 +13213,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucEnumerationLiteral(self, element: ET.Element, literal: EcucEnumerationLiteralDef):
         self.readIdentifiable(element, literal)
         literal.setEcucCond(self.readEcucConditionSpecification(element))
-        literal.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
+        literal.setOrigin(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ORIGIN")))
 
     def readEcucEnumerationParamDefLiterals(self, element: ET.Element, literal_def: EcucEnumerationParamDef):
         for child_element in self.findall(element, "LITERALS/*"):
@@ -13187,17 +13226,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucEnumerationParamDef(self, element: ET.Element, param_def: EcucEnumerationParamDef):
         self.readEcucParameterDef(element, param_def)
-        param_def.setDefaultValue(self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE"))
+        param_def.setDefaultValue(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "DEFAULT-VALUE")))
         self.readEcucEnumerationParamDefLiterals(element, param_def)
 
     def readEcucFunctionNameDef(self, element: ET.Element, ref_def: EcucFunctionNameDef):
         self.readEcucParameterDef(element, ref_def)
         child_element = self.find(element, "ECUC-FUNCTION-NAME-DEF-VARIANTS/ECUC-FUNCTION-NAME-DEF-CONDITIONAL")
         if child_element is not None:
-            ref_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
-            ref_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
-            ref_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
-            ref_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+            ref_def.setDefaultValue(cast(Optional[VerbatimString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE")))
+            ref_def.setMinLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH")))
+            ref_def.setMaxLength(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH")))
+            ref_def.setRegularExpression(cast(Optional[RegularExpression], self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION")))
 
     def readEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "PARAMETERS/*"):
@@ -13206,29 +13245,21 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = container_def.createEcucBooleanParamDef(self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
             elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
-                param_def = container_def.createEcucAddInfoParamDef(self.getShortName(child_element))
-                self.readEcucAddInfoParamDef(child_element, param_def)
+                self.readEcucAddInfoParamDef(child_element, container_def.createEcucAddInfoParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-STRING-PARAM-DEF":
-                param_def = container_def.createEcucStringParamDef(self.getShortName(child_element))
-                self.readEcucStringParamDef(child_element, param_def)
+                self.readEcucStringParamDef(child_element, container_def.createEcucStringParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-INTEGER-PARAM-DEF":
-                param_def = container_def.createEcucIntegerParamDef(self.getShortName(child_element))
-                self.readEcucIntegerParamDef(child_element, param_def)
+                self.readEcucIntegerParamDef(child_element, container_def.createEcucIntegerParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-FLOAT-PARAM-DEF":
-                param_def = container_def.createEcucFloatParamDef(self.getShortName(child_element))
-                self.readEcucFloatParamDef(child_element, param_def)
+                self.readEcucFloatParamDef(child_element, container_def.createEcucFloatParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-ENUMERATION-PARAM-DEF":
-                param_def = container_def.createEcucEnumerationParamDef(self.getShortName(child_element))
-                self.readEcucEnumerationParamDef(child_element, param_def)
+                self.readEcucEnumerationParamDef(child_element, container_def.createEcucEnumerationParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-FUNCTION-NAME-DEF":
-                param_def = container_def.createEcucFunctionNameDef(self.getShortName(child_element))
-                self.readEcucFunctionNameDef(child_element, param_def)
+                self.readEcucFunctionNameDef(child_element, container_def.createEcucFunctionNameDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-MULTILINE-STRING-PARAM-DEF":
-                param_def = container_def.createEcucMultilineStringParamDef(self.getShortName(child_element))
-                self.readEcucMultilineStringParamDef(child_element, param_def)
+                self.readEcucMultilineStringParamDef(child_element, container_def.createEcucMultilineStringParamDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-LINKER-SYMBOL-DEF":
-                param_def = container_def.createEcucLinkerSymbolDef(self.getShortName(child_element))
-                self.readEcucLinkerSymbolDef(child_element, param_def)
+                self.readEcucLinkerSymbolDef(child_element, container_def.createEcucLinkerSymbolDef(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Parameter <%s>" % tag_name)
 
@@ -13262,12 +13293,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucInstanceReferenceDef(self, element: ET.Element, ref_def: EcucInstanceReferenceDef):
         self.readEcucAbstractExternalReferenceDef(element, ref_def)
-        ref_def.setDestinationContext(self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT"))
-        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
+        ref_def.setDestinationContext(cast(Optional[String], self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT")))
+        ref_def.setDestinationType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE")))
 
     def readEcucForeignReferenceDef(self, element: ET.Element, ref_def: EcucForeignReferenceDef):
         self.readEcucAbstractExternalReferenceDef(element, ref_def)
-        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
+        ref_def.setDestinationType(cast(Optional[String], self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE")))
 
     def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "REFERENCES/*"):
@@ -13276,20 +13307,15 @@ class ARXMLParser(AbstractARXMLParser):
                 ref_def = container_def.createEcucSymbolicNameReferenceDef(self.getShortName(child_element))
                 self.readEcucSymbolicNameReferenceDef(child_element, ref_def)
             elif tag_name == "ECUC-REFERENCE-DEF":
-                ref_def = container_def.createEcucReferenceDef(self.getShortName(child_element))
-                self.readEcucReferenceDef(child_element, ref_def)
+                self.readEcucReferenceDef(child_element, container_def.createEcucReferenceDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-URI-REFERENCE-DEF":
-                ref_def = container_def.createEcucUriReferenceDef(self.getShortName(child_element))
-                self.readEcucUriReferenceDef(child_element, ref_def)
+                self.readEcucUriReferenceDef(child_element, container_def.createEcucUriReferenceDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-CHOICE-REFERENCE-DEF":
-                ref_def = container_def.createEcucChoiceReferenceDef(self.getShortName(child_element))
-                self.readEcucChoiceReferenceDef(child_element, ref_def)
+                self.readEcucChoiceReferenceDef(child_element, container_def.createEcucChoiceReferenceDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
-                ref_def = container_def.createEcucInstanceReferenceDef(self.getShortName(child_element))
-                self.readEcucInstanceReferenceDef(child_element, ref_def)
+                self.readEcucInstanceReferenceDef(child_element, container_def.createEcucInstanceReferenceDef(self.getShortName(child_element)))
             elif tag_name == "ECUC-FOREIGN-REFERENCE-DEF":
-                ref_def = container_def.createEcucForeignReferenceDef(self.getShortName(child_element))
-                self.readEcucForeignReferenceDef(child_element, ref_def)
+                self.readEcucForeignReferenceDef(child_element, container_def.createEcucForeignReferenceDef(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
 
@@ -13300,8 +13326,7 @@ class ARXMLParser(AbstractARXMLParser):
                 sub_container_def = container_def.createEcucParamConfContainerDef(self.getShortName(child_element))
                 self.readEcucParamConfContainerDef(child_element, sub_container_def)
             elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
-                sub_container_def = container_def.createEcucChoiceContainerDef(self.getShortName(child_element))
-                self.readEcucChoiceContainerDef(child_element, sub_container_def)
+                self.readEcucChoiceContainerDef(child_element, container_def.createEcucChoiceContainerDef(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SubContainer <%s>" % tag_name)
 
@@ -13331,15 +13356,14 @@ class ARXMLParser(AbstractARXMLParser):
                 container_def = module_def.createEcucParamConfContainerDef(self.getShortName(child_element))
                 self.readEcucParamConfContainerDef(child_element, container_def)
             elif tag_name == "ECUC-CHOICE-CONTAINER-DEF":
-                container_def = module_def.createEcucChoiceContainerDef(self.getShortName(child_element))
-                self.readEcucChoiceContainerDef(child_element, container_def)
+                self.readEcucChoiceContainerDef(child_element, module_def.createEcucChoiceContainerDef(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Container <%s>" % tag_name)
 
     def readEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         self.logger.debug("Read EcucModuleDef <%s>" % module_def.getShortName())
         self.readEcucDefinitionElement(element, module_def)
-        module_def.setApiServicePrefix(self.getChildElementOptionalLiteral(element, "API-SERVICE-PREFIX"))
+        module_def.setApiServicePrefix(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "API-SERVICE-PREFIX")))
         module_def.setPostBuildVariantSupport(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-SUPPORT"))
         module_def.setRefinedModuleDefRef(self.getChildElementOptionalRefType(element, "REFINED-MODULE-DEF-REF"))
         self.readEcucModuleDefSupportedConfigVariants(element, module_def)
@@ -13347,7 +13371,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucDefinitionCollection(self, element: ET.Element, collection: EcucDefinitionCollection):
         self.logger.debug("Read EcucDefinitionCollection <%s>" % collection.getShortName())
-        self.readARElement(element, collection)
+        self.readARElement(element, cast(ARElement, collection))
         module_refs = self.getChildElementRefTypeList(element, "MODULE-REFS/MODULE-REF")
         for module_ref in module_refs:
             collection.addModuleRef(module_ref)
@@ -13358,7 +13382,7 @@ class ARXMLParser(AbstractARXMLParser):
         system_const.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
-        value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
+        value.setSwSystemconstRef(cast(RefType, self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF")))
         value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
@@ -13453,8 +13477,8 @@ class ARXMLParser(AbstractARXMLParser):
                 tag_name = self.getTagName(child_element)
                 short_name = self.getShortName(child_element)
                 if tag_name == "SDG-AGGREGATION-WITH-VARIATION":
-                    attribute = SdgAggregationWithVariation(sdg_class, short_name)
-                    self.readSdgAggregationWithVariation(child_element, attribute)
+                    attribute: ARObject = SdgAggregationWithVariation(sdg_class, short_name)
+                    self.readSdgAggregationWithVariation(child_element, cast(SdgAggregationWithVariation, attribute))
                 elif tag_name == "SDG-FOREIGN-REFERENCE-WITH-VARIATION":
                     attribute = SdgForeignReferenceWithVariation(sdg_class, short_name)
                     self.readSdgForeignReferenceWithVariation(child_element, attribute)
@@ -13472,7 +13496,7 @@ class ARXMLParser(AbstractARXMLParser):
                     self.readSdgReference(child_element, attribute)
                 else:
                     continue
-                sdg_class.addAttribute(attribute)
+                sdg_class.addAttribute(cast(SdgAttribute, attribute))
 
     def readSdgClassSdgConstraintRefs(self, element: ET.Element, sdg_class: SdgClass):
         for ref in self.getChildElementRefTypeList(
@@ -13540,26 +13564,26 @@ class ARXMLParser(AbstractARXMLParser):
     def readPostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
         self.logger.debug("Read PostBuildVariantCriterion <%s>" % criterion.getShortName())
         self.readIdentifiable(element, criterion)
-        criterion.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+        criterion.setCompuMethodRef(cast(RefType, self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF")))
 
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
-    def getCanControllerFdConfiguration(self, element: ET.Element, key: str) -> CanControllerFdConfiguration:
+    def getCanControllerFdConfiguration(self, element: ET.Element, key: str) -> Optional[CanControllerFdConfiguration]:
         configuration = None
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerFdConfiguration()
-            configuration.setPaddingValue(self.getChildElementOptionalIntegerValue(child_element, "PADDING-VALUE"))
-            configuration.setPropSeg(self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG"))
-            configuration.setSspOffset(self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET"))
-            configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH"))
-            configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
-            configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
+            configuration.setPaddingValue(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PADDING-VALUE")))
+            configuration.setPropSeg(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG")))
+            configuration.setSspOffset(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET")))
+            configuration.setSyncJumpWidth(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH")))
+            configuration.setTimeSeg1(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1")))
+            configuration.setTimeSeg2(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2")))
             configuration.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
         return configuration
 
-    def getFlexrayFifoRange(self, element: ET.Element, key: str) -> FlexrayFifoRange:
+    def getFlexrayFifoRange(self, element: ET.Element, key: str) -> Optional[FlexrayFifoRange]:
         fifo_range = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13568,7 +13592,7 @@ class ARXMLParser(AbstractARXMLParser):
             fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MIN"))
         return fifo_range
 
-    def getFlexrayFifoConfiguration(self, element: ET.Element, key: str) -> FlexrayFifoConfiguration:
+    def getFlexrayFifoConfiguration(self, element: ET.Element, key: str) -> Optional[FlexrayFifoConfiguration]:
         configuration = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13586,7 +13610,7 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setMsgIdMatch(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH"))
         return configuration
 
-    def getCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerFdConfigurationRequirements:
+    def getCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str) -> Optional[CanControllerFdConfigurationRequirements]:
         requirements = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13603,24 +13627,24 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))  # NOQA E501
         return requirements
 
-    def getCanControllerXlConfiguration(self, element: ET.Element, key: str) -> CanControllerXlConfiguration:
+    def getCanControllerXlConfiguration(self, element: ET.Element, key: str) -> Optional[CanControllerXlConfiguration]:
         configuration = None
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerXlConfiguration()
             configuration.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
-            configuration.setPropSeg(self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG"))
-            configuration.setPwmL(self.getChildElementOptionalIntegerValue(child_element, "PWM-L"))
-            configuration.setPwmO(self.getChildElementOptionalIntegerValue(child_element, "PWM-O"))
-            configuration.setPwmS(self.getChildElementOptionalIntegerValue(child_element, "PWM-S"))
-            configuration.setSspOffset(self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET"))
-            configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH"))
-            configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
-            configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
+            configuration.setPropSeg(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG")))
+            configuration.setPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-L")))
+            configuration.setPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-O")))
+            configuration.setPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-S")))
+            configuration.setSspOffset(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET")))
+            configuration.setSyncJumpWidth(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH")))
+            configuration.setTimeSeg1(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1")))
+            configuration.setTimeSeg2(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2")))
             configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return configuration
 
-    def getCanControllerConfiguration(self, element: ET.Element, key: str) -> CanControllerConfiguration:
+    def getCanControllerConfiguration(self, element: ET.Element, key: str) -> Optional[CanControllerConfiguration]:
         configuration = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13635,23 +13659,23 @@ class ARXMLParser(AbstractARXMLParser):
         configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-1"))
         configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(element, "TIME-SEG-2"))
 
-    def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
+    def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> Optional[CanControllerXlConfigurationRequirements]:
         requirements = None
         child_element = self.find(element, key)
         if child_element is not None:
             requirements = CanControllerXlConfigurationRequirements()
             requirements.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
             requirements.setMaxNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT"))
-            requirements.setMaxPwmL(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-L"))
-            requirements.setMaxPwmO(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-O"))
-            requirements.setMaxPwmS(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-S"))
+            requirements.setMaxPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-L")))
+            requirements.setMaxPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-O")))
+            requirements.setMaxPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-S")))
             requirements.setMaxSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT"))
             requirements.setMaxSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH"))
             requirements.setMaxTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MAX-TRCV-DELAY-COMPENSATION-OFFSET"))
             requirements.setMinNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MIN-NUMBER-OF-TIME-QUANTA-PER-BIT"))
-            requirements.setMinPwmL(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-L"))
-            requirements.setMinPwmO(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-O"))
-            requirements.setMinPwmS(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-S"))
+            requirements.setMinPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-L")))
+            requirements.setMinPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-O")))
+            requirements.setMinPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-S")))
             requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT"))
             requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH"))
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
@@ -13751,7 +13775,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
-        scheduler.setPortScheduler(self.getChildElementOptionalLiteral(element, "PORT-SCHEDULER"))
+        scheduler.setPortScheduler(cast(Optional[EthernetCouplingPortSchedulerEnum], self.getChildElementOptionalLiteral(element, "PORT-SCHEDULER")))
         for ref in self.getChildElementRefTypeList(element, "PREDECESSOR-REFS/PREDECESSOR-REF"):
             scheduler.addPredecessorRef(ref)
 
@@ -13759,11 +13783,11 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COUPLING-PORT-FIFO":
-                item = details.createCouplingPortFifo(self.getShortName(child_element))
-                self.readCouplingPortFifo(child_element, item)
+                structure_item = details.createCouplingPortFifo(self.getShortName(child_element))
+                self.readCouplingPortFifo(child_element, structure_item)
             elif tag_name == "COUPLING-PORT-SCHEDULER":
-                item = details.createCouplingPortScheduler(self.getShortName(child_element))
-                self.readCouplingPortScheduler(child_element, item)
+                scheduler_item = details.createCouplingPortScheduler(self.getShortName(child_element))
+                self.readCouplingPortScheduler(child_element, scheduler_item)
             else:
                 self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % tag_name)
 
@@ -13822,7 +13846,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "V-LAN-REFS/V-LAN-REF"):
             policy.addVlanRef(ref)
 
-    def getPlcaProps(self, element: ET.Element, key: str) -> PlcaProps:
+    def getPlcaProps(self, element: ET.Element, key: str) -> Optional[PlcaProps]:
         props = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13832,7 +13856,7 @@ class ARXMLParser(AbstractARXMLParser):
             props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
         return props
 
-    def getGlobalTimeProps(self, element: ET.Element, key: str) -> GlobalTimeCouplingPortProps:
+    def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13867,9 +13891,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read MacSecCryptoAlgoConfig")
         capability = self.getChildElementOptionalLiteral(element, "CAPABILITY")
         if capability is not None:
-            e = MacSecCapabilityEnum()
+            e: ARLiteral = MacSecCapabilityEnum()
             e.setValue(capability.getValue())
-            config.setCapability(e)
+            config.setCapability(cast(Optional[MacSecCapabilityEnum], e))
         wrapper = self.find(element, "CIPHER-SUITE-CONFIGS")
         if wrapper is not None:
             for child_element in self.findall(wrapper, "MAC-SEC-CIPHER-SUITE-CONFIG"):
@@ -13879,7 +13903,7 @@ class ARXMLParser(AbstractARXMLParser):
         if confidentiality_offset is not None:
             e = MacSecConfidentialityOffsetEnum()
             e.setValue(confidentiality_offset.getValue())
-            config.setConfidentialityOffset(e)
+            config.setConfidentialityOffset(cast(Optional[MacSecConfidentialityOffsetEnum], e))
         config.setReplayProtection(self.getChildElementOptionalBooleanValue(element, "REPLAY-PROTECTION"))
         config.setReplayProtectionWindow(self.getChildElementOptionalPositiveInteger(element, "REPLAY-PROTECTION-WINDOW"))
 
@@ -13924,7 +13948,7 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             props = MacSecProps()
             props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
-            props.setMacSecKayConfig(self.getMacSecLocalKayProps(self.find(element, "MAC-SEC-KAY-CONFIG")))
+            props.setMacSecKayConfig(self.getMacSecLocalKayProps(cast(ET.Element, self.find(element, "MAC-SEC-KAY-CONFIG"))))
             on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
             if on_fail_permissive_mode is not None:
                 e = MacSecFailPermissiveModeEnum()
@@ -13934,7 +13958,7 @@ class ARXMLParser(AbstractARXMLParser):
             props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
         return props
 
-    def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
+    def getCouplingPortDetails(self, element: ET.Element, key: str) -> Optional[CouplingPortDetails]:
         details = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13947,7 +13971,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCouplingPortDetailsRatePolicys(child_element, details)
         return details
 
-    def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:
+    def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[DhcpServerConfiguration]:
         config = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -13961,22 +13985,22 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = Ipv4DhcpServerConfiguration()
-            config.setAddressRangeLowerBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
-            config.setAddressRangeUpperBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
-            config.setDefaultGateway(self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY"))
+            config.setAddressRangeLowerBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
+            config.setAddressRangeUpperBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
+            config.setDefaultGateway(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
                 self.readARType(address, literal)
                 literal.setValue(address.text)
-                config.addDnsServerAddress(literal)
-            config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
+                config.addDnsServerAddress(cast(Optional[Ip4AddressString], literal))
+            config.setNetworkMask(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK")))
         return config
 
     def getPduActivationRoutingGroup(self, element: ET.Element) -> Optional[PduActivationRoutingGroup]:
         group = None
         if element is not None:
-            group = PduActivationRoutingGroup(None, self.getShortName(element))
+            group = PduActivationRoutingGroup(cast(ARObject, None), self.getShortName(element))
             self.readIdentifiable(element, group)
             control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
             if control_type_literal is not None:
@@ -13992,7 +14016,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getStaticSocketConnection(self, element: ET.Element) -> Optional[StaticSocketConnection]:
         connection = None
         if element is not None:
-            connection = StaticSocketConnection(None, self.getShortName(element))
+            connection = StaticSocketConnection(cast(ARObject, None), self.getShortName(element))
             self.readIdentifiable(element, connection)
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF"):
                 connection.addIPduIdentifierRef(ref)
@@ -14011,22 +14035,22 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = Ipv6DhcpServerConfiguration()
-            config.setAddressRangeLowerBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
-            config.setAddressRangeUpperBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
-            config.setDefaultGateway(self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY"))
+            config.setAddressRangeLowerBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
+            config.setAddressRangeUpperBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
+            config.setDefaultGateway(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
                 self.readARType(address, literal)
                 literal.setValue(address.text)
-                config.addDnsServerAddress(literal)
-            config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
+                config.addDnsServerAddress(cast(Optional[Ip6AddressString], literal))
+            config.setNetworkMask(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK")))
         return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
         membership.setDefaultPriority(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PRIORITY"))
         membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
-        membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY"))
+        membership.setSendActivity(cast(Optional[EthernetSwitchVlanEgressTaggingEnum], self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY")))
         membership.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
 
     def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
@@ -14043,9 +14067,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, port)
         connection_negotiation_behavior = self.getChildElementOptionalLiteral(element, "CONNECTION-NEGOTIATION-BEHAVIOR")
         if connection_negotiation_behavior is not None:
-            e = EthernetConnectionNegotiationEnum()
+            e: ARLiteral = EthernetConnectionNegotiationEnum()
             e.setValue(connection_negotiation_behavior.getValue())
-            port.setConnectionNegotiationBehavior(e)
+            port.setConnectionNegotiationBehavior(cast(Optional[EthernetConnectionNegotiationEnum], e))
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
         port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
         for child_element in self.findall(element, "MAC-SEC-PROPS"):
@@ -14056,13 +14080,13 @@ class ARXMLParser(AbstractARXMLParser):
         if coupling_port_role is not None:
             e = CouplingPortRoleEnum()
             e.setValue(coupling_port_role.getValue())
-            port.setCouplingPortRole(e)
+            port.setCouplingPortRole(cast(Optional[CouplingPortRoleEnum], e))
         port.setDefaultVlanRef(self.getChildElementOptionalRefType(element, "DEFAULT-VLAN-REF"))
         mac_layer_type = self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE")
         if mac_layer_type is not None:
             e = EthernetMacLayerTypeEnum()
             e.setValue(mac_layer_type.getValue())
-            port.setMacLayerType(e)
+            port.setMacLayerType(cast(Optional[EthernetMacLayerTypeEnum], e))
         for ref in self.getChildElementRefTypeList(element, "MAC-MULTICAST-ADDRESS-REFS/MAC-MULTICAST-ADDRESS-REF"):
             port.addMacMulticastAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "PNC-MAPPING-REFS/PNC-MAPPING-REF"):
@@ -14071,12 +14095,12 @@ class ARXMLParser(AbstractARXMLParser):
         if receive_activity is not None:
             e = EthernetSwitchVlanIngressTagEnum()
             e.setValue(receive_activity.getValue())
-            port.setReceiveActivity(e)
+            port.setReceiveActivity(cast(Optional[EthernetSwitchVlanIngressTagEnum], e))
         physical_layer_type = self.getChildElementOptionalLiteral(element, "PHYSICAL-LAYER-TYPE")
         if physical_layer_type is not None:
             e = EthernetPhysicalLayerTypeEnum()
             e.setValue(physical_layer_type.getValue())
-            port.setPhysicalLayerType(e)
+            port.setPhysicalLayerType(cast(Optional[EthernetPhysicalLayerTypeEnum], e))
         self.readCouplingPortVlanMemberships(element, port)
         port.setVlanModifierRef(self.getChildElementOptionalRefType(element, "VLAN-MODIFIER-REF"))
         port.setWakeupSleepOnDatalineConfigRef(self.getChildElementOptionalRefType(element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF"))
@@ -14114,7 +14138,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)
-        controller.setProtocolVersion(self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION"))
+        controller.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROTOCOL-VERSION")))
 
     def readLinMaster(self, element: ET.Element, controller: LinMaster):
         self.logger.debug("Read LinMaster %s" % controller.getShortName())
@@ -14129,7 +14153,7 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE"))
             controller.setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
 
-    def getLinErrorResponse(self, element: ET.Element, key: str) -> LinErrorResponse:
+    def getLinErrorResponse(self, element: ET.Element, key: str) -> Optional[LinErrorResponse]:
         response = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14137,7 +14161,7 @@ class ARXMLParser(AbstractARXMLParser):
             response.setResponseErrorRef(self.getChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF"))
         return response
 
-    def getLinConfigurableFrame(self, element: ET.Element, key: str) -> LinConfigurableFrame:
+    def getLinConfigurableFrame(self, element: ET.Element, key: str) -> Optional[LinConfigurableFrame]:
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14146,7 +14170,7 @@ class ARXMLParser(AbstractARXMLParser):
             frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
         return frame
 
-    def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> LinOrderedConfigurableFrame:
+    def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> Optional[LinOrderedConfigurableFrame]:
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14155,7 +14179,7 @@ class ARXMLParser(AbstractARXMLParser):
             frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
         return frame
 
-    def getLinSlaveConfig(self, element: ET.Element, key: str) -> LinSlaveConfig:
+    def getLinSlaveConfig(self, element: ET.Element, key: str) -> Optional[LinSlaveConfig]:
         config = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14175,19 +14199,19 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(child_element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                frame = LinConfigurableFrame()
-                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                config.addLinConfigurableFrame(frame)
+                configurable_frame = LinConfigurableFrame()
+                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
+                config.addLinConfigurableFrame(configurable_frame)
         config.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
         ordered_wrapper = self.find(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                frame = LinOrderedConfigurableFrame()
-                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                config.addLinOrderedConfigurableFrame(frame)
-        config.setProtocolVersion(self.getChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION"))
+                ordered_frame = LinOrderedConfigurableFrame()
+                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
+                config.addLinOrderedConfigurableFrame(ordered_frame)
+        config.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION")))
         config.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
         config.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
         return config
@@ -14200,27 +14224,24 @@ class ARXMLParser(AbstractARXMLParser):
                 controller = instance.createCanCommunicationController(self.getShortName(child_element))
                 self.readCanCommunicationController(child_element, controller)
             elif tag_name == "ETHERNET-COMMUNICATION-CONTROLLER":
-                controller = instance.createEthernetCommunicationController(self.getShortName(child_element))
-                self.readEthernetCommunicationController(child_element, controller)
+                self.readEthernetCommunicationController(child_element, instance.createEthernetCommunicationController(self.getShortName(child_element)))
             elif tag_name == "LIN-MASTER":
-                controller = instance.createLinMaster(self.getShortName(child_element))
-                self.readLinMaster(child_element, controller)
+                self.readLinMaster(child_element, instance.createLinMaster(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONTROLLER":
-                controller = instance.createFlexrayCommunicationController(self.getShortName(child_element))
-                self.readFlexrayCommunicationController(child_element, controller)
+                self.readFlexrayCommunicationController(child_element, instance.createFlexrayCommunicationController(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
     def readCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
         self.readIdentifiable(element, port)
-        port.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
+        port.setCommunicationDirection(cast(Optional[CommunicationDirectionType], self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")))
 
     def readFramePort(self, element: ET.Element, port: FramePort):
         self.readCommConnectorPort(element, port)
 
     def readIPduPort(self, element: ET.Element, port: IPduPort):
         self.readCommConnectorPort(element, port)
-        port.setIPduSignalProcessing(self.getChildElementOptionalLiteral(element, "I-PDU-SIGNAL-PROCESSING"))
+        port.setIPduSignalProcessing(cast(Optional[IPduSignalProcessingEnum], self.getChildElementOptionalLiteral(element, "I-PDU-SIGNAL-PROCESSING")))
         port.setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION"))
         port.setTimestampRxAcceptanceWindow(self.getChildElementOptionalTimeValue(element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW"))
         port.setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS"))
@@ -14230,7 +14251,7 @@ class ARXMLParser(AbstractARXMLParser):
         port.setDataFilter(self.getDataFilter(element, "DATA-FILTER"))
         port.setDdsQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-QOS-PROFILE-REF"))
         port.setFirstTimeout(self.getChildElementOptionalTimeValue(element, "FIRST-TIMEOUT"))
-        port.setHandleInvalid(self.getChildElementOptionalLiteral(element, "HANDLE-INVALID"))
+        port.setHandleInvalid(cast(Optional[HandleInvalidEnum], self.getChildElementOptionalLiteral(element, "HANDLE-INVALID")))
         port.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
 
     def readCommunicationConnectorEcuCommPortInstances(self, element: ET.Element, connector: CommunicationConnector):
@@ -14241,11 +14262,9 @@ class ARXMLParser(AbstractARXMLParser):
                 port = connector.createFramePort(self.getShortName(child_element))
                 self.readFramePort(child_element, port)
             elif tag_name == "I-PDU-PORT":
-                port = connector.createIPduPort(self.getShortName(child_element))
-                self.readIPduPort(child_element, port)
+                self.readIPduPort(child_element, connector.createIPduPort(self.getShortName(child_element)))
             elif tag_name == "I-SIGNAL-PORT":
-                port = connector.createISignalPort(self.getShortName(child_element))
-                self.readISignalPort(child_element, port)
+                self.readISignalPort(child_element, connector.createISignalPort(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported EcuCommPortInstances <%s>" % tag_name)
 
@@ -14257,8 +14276,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommunicationConnectorEcuCommPortInstances(element, connector)
         for mask in self.findall(element, "PNC-FILTER-ARRAY-MASKS/PNC-FILTER-ARRAY-MASK"):
             if mask.text is not None:
-                connector.addPncFilterArrayMask(int(mask.text.strip()))
-        connector.setPncGatewayType(self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE"))
+                connector.addPncFilterArrayMask(cast(Optional[PositiveInteger], int(mask.text.strip())))
+        connector.setPncGatewayType(cast(Optional[PncGatewayTypeEnum], self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE")))
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
@@ -14282,17 +14301,17 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                frame = LinConfigurableFrame()
-                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                connector.addLinConfigurableFrame(frame)
+                configurable_frame = LinConfigurableFrame()
+                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
+                connector.addLinConfigurableFrame(configurable_frame)
         ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                frame = LinOrderedConfigurableFrame()
-                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                connector.addLinOrderedConfigurableFrame(frame)
+                ordered_frame = LinOrderedConfigurableFrame()
+                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
+                connector.addLinOrderedConfigurableFrame(ordered_frame)
         connector.setScheduleChangeNextTimeBase(self.getChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE"))
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
@@ -14308,14 +14327,11 @@ class ARXMLParser(AbstractARXMLParser):
                 connector = instance.createCanCommunicationConnector(self.getShortName(child_element))
                 self.readCanCommunicationConnector(child_element, connector)
             elif tag_name == "ETHERNET-COMMUNICATION-CONNECTOR":
-                connector = instance.createEthernetCommunicationConnector(self.getShortName(child_element))
-                self.readEthernetCommunicationConnector(child_element, connector)
+                self.readEthernetCommunicationConnector(child_element, instance.createEthernetCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "LIN-COMMUNICATION-CONNECTOR":
-                connector = instance.createLinCommunicationConnector(self.getShortName(child_element))
-                self.readLinCommunicationConnector(child_element, connector)
+                self.readLinCommunicationConnector(child_element, instance.createLinCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONNECTOR":
-                connector = instance.createFlexrayCommunicationConnector(self.getShortName(child_element))
-                self.readFlexrayCommunicationConnector(child_element, connector)
+                self.readFlexrayCommunicationConnector(child_element, instance.createFlexrayCommunicationConnector(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Communication Connector <%s>" % tag_name)
 
@@ -14493,7 +14509,7 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setSleepModeSupported(self.getChildElementOptionalBooleanValue(element, "SLEEP-MODE-SUPPORTED"))
         instance.setTcpIpIcmpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-ICMP-PROPS-REF"))
         instance.setTcpIpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-PROPS-REF"))
-        instance.setV2xSupported(self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED"))
+        instance.setV2xSupported(cast(Any, self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED")))
         instance.setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
     def getFrameMappings(self, element: ET.Element) -> List[FrameMapping]:
@@ -14536,7 +14552,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
-    def getTargetIPduRef(self, element, key: str) -> TargetIPduRef:
+    def getTargetIPduRef(self, element, key: str) -> Optional[TargetIPduRef]:
         i_pdu_ref = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14573,21 +14589,21 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read Gateway <%s>" % gateway.getShortName())
         self.readIdentifiable(element, gateway)
         gateway.setEcuRef(self.getChildElementOptionalRefType(element, "ECU-REF"))
-        for mapping in self.getFrameMappings(element):
-            gateway.addFrameMapping(mapping)
-        for mapping in self.getIPduMappings(element):
-            gateway.addIPduMapping(mapping)
-        for mapping in self.getISignalMappings(element):
-            gateway.addSignalMapping(mapping)
+        for frame_mapping in self.getFrameMappings(element):
+            gateway.addFrameMapping(frame_mapping)
+        for ipdu_mapping in self.getIPduMappings(element):
+            gateway.addIPduMapping(ipdu_mapping)
+        for signal_mapping in self.getISignalMappings(element):
+            gateway.addSignalMapping(signal_mapping)
 
     def readISignal(self, element: ET.Element, signal: ISignal):
         self.logger.debug("Read ISignal <%s>" % signal.getShortName())
         self.readIdentifiable(element, signal)
         signal.setDataTransformationRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"))
-        signal.setDataTypePolicy(self.getChildElementOptionalLiteral(element, "DATA-TYPE-POLICY"))
-        signal.setISignalType(self.getChildElementOptionalLiteral(element, "I-SIGNAL-TYPE"))
+        signal.setDataTypePolicy(cast(Optional[DataTypePolicyEnum], self.getChildElementOptionalLiteral(element, "DATA-TYPE-POLICY")))
+        signal.setISignalType(cast(Optional[ISignalTypeEnum], self.getChildElementOptionalLiteral(element, "I-SIGNAL-TYPE")))
         signal.setInitValue(self.getInitValue(element))
-        signal.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+        signal.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
         signal.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         signal.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
         signal.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
@@ -14598,16 +14614,16 @@ class ARXMLParser(AbstractARXMLParser):
         props_element = self.find(element, "I-SIGNAL-PROPS")
         if props_element is not None:
             props = ISignalProps()
-            props.setHandleOutOfRange(self.getChildElementOptionalLiteral(props_element, "HANDLE-OUT-OF-RANGE"))
+            props.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(props_element, "HANDLE-OUT-OF-RANGE")))
             signal.setISignalProps(props)
 
     def readISignalTransformationISignalProps(self, element: ET.Element, signal: ISignal):
         for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
-                props = EndToEndTransformationISignalProps()
-                self.readEndToEndTransformationISignalProps(child_element, props)
-                signal.addTransformationISignalProps(props)
+                props: ARObject = EndToEndTransformationISignalProps()
+                self.readEndToEndTransformationISignalProps(child_element, cast(EndToEndTransformationISignalProps, props))
+                signal.addTransformationISignalProps(cast(Optional[TransformationISignalProps], props))
             elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = SOMEIPTransformationISignalProps()
                 self.readSOMEIPTransformationISignalProps(child_element, props)
@@ -14624,7 +14640,7 @@ class ARXMLParser(AbstractARXMLParser):
             ref = self.getChildElementOptionalRefType(child_element, "ECUC-MODULE-CONFIGURATION-VALUES-REF")
             if ref is not None:
                 parent.addEcucValueRef(ref)
-            self.logger.debug("EcucValue <%s> of EcucValueCollection <%s> has been added", ref.value, parent.getShortName())
+                self.logger.debug("EcucValue <%s> of EcucValueCollection <%s> has been added", ref.value, parent.getShortName())
 
     def readEcucValueCollection(self, element: ET.Element, collection: EcucValueCollection):
         self.logger.debug("Read EcucValueCollection <%s>" % collection.getShortName())
@@ -14707,9 +14723,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PARAMETER-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "BOOLEAN-VALUE":
-                value = BooleanValue()
-                self.readBooleanValue(child_element, value)
-                container.addParameterValue(value)
+                value: ARObject = BooleanValue()
+                self.readBooleanValue(child_element, cast(BooleanValue, value))
+                container.addParameterValue(cast(ParameterValue, value))
             elif tag_name == "ENUMERATION-VALUE":
                 value = EnumerationValue()
                 self.readEnumerationValue(child_element, value)
@@ -14760,7 +14776,7 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R3.2.3 <MODULE-CONFIGURATION> element (Table 3.30): DEFINITION-REF, IMPLEMENTATION-CONFIG-VARIANT, MODULE-DESCRIPTION-REF, CONTAINERS."""
         self.readIdentifiable(element, module_configuration)
         module_configuration.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        module_configuration.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
+        module_configuration.setImplementationConfigVariant(cast(Optional[EcucConfigurationVariantEnum], self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT")))
         module_configuration.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
         for child_element in self.findall(element, "CONTAINERS/*"):
             tag_name = self.getTagName(child_element)
@@ -14794,9 +14810,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PARAMETER-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-TEXTUAL-PARAM-VALUE":
-                param_value = EcucTextualParamValue()
-                self.readEcucTextualParamValue(child_element, param_value)
-                container_value.addParameterValue(param_value)
+                param_value: ARObject = EcucTextualParamValue()
+                self.readEcucTextualParamValue(child_element, cast(EcucTextualParamValue, param_value))
+                container_value.addParameterValue(cast(EcucParameterValue, param_value))
             elif tag_name == "ECUC-NUMERICAL-PARAM-VALUE":
                 param_value = EcucNumericalParamValue()
                 self.readEcucNumericalParamValue(child_element, param_value)
@@ -14820,7 +14836,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucAbstractReferenceValue(element, value)
         value.setValueRef(self.getChildElementOptionalRefType(element, "VALUE-REF"))
 
-    def getAnyInstanceRef(self, element: ET.Element, key) -> AnyInstanceRef:
+    def getAnyInstanceRef(self, element: ET.Element, key) -> Optional[AnyInstanceRef]:
         instance_ref = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -14843,9 +14859,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "REFERENCE-VALUES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ECUC-REFERENCE-VALUE":
-                value = EcucReferenceValue()
-                self.readEcucReferenceValue(child_element, value)
-                container_value.addReferenceValue(value)
+                value: ARObject = EcucReferenceValue()
+                self.readEcucReferenceValue(child_element, cast(EcucReferenceValue, value))
+                container_value.addReferenceValue(cast(EcucAbstractReferenceValue, value))
             elif tag_name == "ECUC-INSTANCE-REFERENCE-VALUE":
                 value = EcucInstanceReferenceValue()
                 self.readEcucInstanceReferenceValue(child_element, value)
@@ -14855,7 +14871,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.readIdentifiable(element, container_value)
-        container_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        container_value.setDefinitionRef(cast(RefType, self.getChildElementOptionalRefType(element, "DEFINITION-REF")))
         container_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         self.readEcucContainerValueParameterValues(element, container_value)
         self.readEcucContainerValueReferenceValues(element, container_value)
@@ -14892,11 +14908,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
-        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        values.setEcucDefEdition(self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION"))
-        values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
-        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
-        values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
+        values.setDefinitionRef(cast(RefType, self.getChildElementOptionalRefType(element, "DEFINITION-REF")))
+        values.setEcucDefEdition(cast(RevisionLabelString, self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION")))
+        values.setImplementationConfigVariant(cast(EcucConfigurationVariantEnum, self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT")))
+        values.setModuleDescriptionRef(cast(RefType, self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF")))
+        values.setPostBuildVariantUsed(cast(Boolean, self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED")))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 
     def readPhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
@@ -15018,9 +15034,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
-                props = EndToEndTransformationISignalProps()
-                self.readEndToEndTransformationISignalProps(child_element, props)
-                group.addTransformationISignalProps(props)
+                props: ARObject = EndToEndTransformationISignalProps()
+                self.readEndToEndTransformationISignalProps(child_element, cast(EndToEndTransformationISignalProps, props))
+                group.addTransformationISignalProps(cast(TransformationISignalProps, props))
             elif tag_name == "SOMEIP-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = SOMEIPTransformationISignalProps()
                 self.readSOMEIPTransformationISignalProps(child_element, props)
@@ -15069,7 +15085,7 @@ class ARXMLParser(AbstractARXMLParser):
             props.addControlPncRef(ref_type)
         for ref_type in self.getChildElementRefTypeList(element, "CONTROL-PROVIDED-EVENT-GROUP-REFS/CONTROL-PROVIDED-EVENT-GROUP-REF"):
             props.addControlProvidedEventGroupRef(ref_type)
-        props.setServiceControl(self.getChildElementOptionalLiteral(element, "SERVICE-CONTROL"))
+        props.setServiceControl(cast(Optional[SignalServiceTranslationControlEnum], self.getChildElementOptionalLiteral(element, "SERVICE-CONTROL")))
         for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS"):
             event_props = props.createSignalServiceTranslationEventProps(self.getShortName(child_element))
             self.readSignalServiceTranslationEventProps(child_element, event_props)
@@ -15082,7 +15098,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSignalServiceTranslationElementProps(child_element, element_props)
         event_props.setSafeTranslation(self.getChildElementOptionalBooleanValue(element, "SAFE-TRANSLATION"))
         event_props.setSecureTranslation(self.getChildElementOptionalBooleanValue(element, "SECURE-TRANSLATION"))
-        event_props.setTranslationTarget(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "TRANSLATION-TARGET")))
+        event_props.setTranslationTarget(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "TRANSLATION-TARGET"))))
 
     def readSignalServiceTranslationElementProps(self, element: ET.Element, element_props: SignalServiceTranslationElementProps):
         self.logger.debug("Read SignalServiceTranslationElementProps <%s>" % element_props.getShortName())
@@ -15097,12 +15113,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, mapping)
             mapping.setISignalRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-REF"))
             mapping.setISignalGroupRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF"))
-            mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER"))
-            mapping.setStartPosition(self.getChildElementOptionalNumericalValue(child_element, "START-POSITION"))
-            mapping.setTransferProperty(self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY"))
-            mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+            mapping.setPackingByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")))
+            mapping.setStartPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")))
+            mapping.setTransferProperty(cast(Optional[TransferPropertyEnum], self.getChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY")))
+            mapping.setUpdateIndicationBitPosition(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION")))
 
-    def getDataFilter(self, element: ET.Element, key: str) -> DataFilter:
+    def getDataFilter(self, element: ET.Element, key: str) -> Optional[DataFilter]:
         filter = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15129,7 +15145,7 @@ class ARXMLParser(AbstractARXMLParser):
             result.append(condition)
         return result
 
-    def getTimeRangeType(self, element: ET.Element, key: str) -> TimeRangeType:
+    def getTimeRangeType(self, element: ET.Element, key: str) -> Optional[TimeRangeType]:
         time_range = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15139,17 +15155,17 @@ class ARXMLParser(AbstractARXMLParser):
                 absolute_element = self.find(tolerance_element, "ABSOLUTE-TOLERANCE")
                 relative_element = self.find(tolerance_element, "RELATIVE-TOLERANCE")
                 if absolute_element is not None:
-                    tolerance = AbsoluteTolerance()
-                    tolerance.setAbsolute(self.getChildElementOptionalTimeValue(absolute_element, "ABSOLUTE"))
-                    time_range.setTolerance(tolerance)
+                    abs_tolerance = AbsoluteTolerance()
+                    abs_tolerance.setAbsolute(self.getChildElementOptionalTimeValue(absolute_element, "ABSOLUTE"))
+                    time_range.setTolerance(abs_tolerance)
                 elif relative_element is not None:
-                    tolerance = RelativeTolerance()
-                    tolerance.setRelative(self.getChildElementOptionalIntegerValue(relative_element, "RELATIVE"))
-                    time_range.setTolerance(tolerance)
+                    rel_tolerance = RelativeTolerance()
+                    rel_tolerance.setRelative(self.getChildElementOptionalIntegerValue(relative_element, "RELATIVE"))
+                    time_range.setTolerance(rel_tolerance)
             time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))
         return time_range
 
-    def getCyclicTiming(self, element: ET.Element, key: str) -> CyclicTiming:
+    def getCyclicTiming(self, element: ET.Element, key: str) -> Optional[CyclicTiming]:
         timing = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15158,7 +15174,7 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setTimePeriod(self.getTimeRangeType(child_element, "TIME-PERIOD"))
         return timing
 
-    def getEventControlledTiming(self, element: ET.Element, key: str) -> EventControlledTiming:
+    def getEventControlledTiming(self, element: ET.Element, key: str) -> Optional[EventControlledTiming]:
         timing = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15167,7 +15183,7 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setRepetitionPeriod(self.getTimeRangeType(child_element, "REPETITION-PERIOD"))
         return timing
 
-    def getTransmissionModeTiming(self, element: ET.Element, key: str) -> TransmissionModeTiming:
+    def getTransmissionModeTiming(self, element: ET.Element, key: str) -> Optional[TransmissionModeTiming]:
         timing = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15177,7 +15193,7 @@ class ARXMLParser(AbstractARXMLParser):
             timing.setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
         return timing
 
-    def getTransmissionModeDeclaration(self, element: ET.Element, key: str) -> TransmissionModeDeclaration:
+    def getTransmissionModeDeclaration(self, element: ET.Element, key: str) -> Optional[TransmissionModeDeclaration]:
         decl = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -15190,13 +15206,13 @@ class ARXMLParser(AbstractARXMLParser):
                 condition = ModeDrivenTransmissionModeCondition()
                 self.readModeDrivenTransmissionModeCondition(condition_element, condition)
                 decl.addModeDrivenTrueCondition(condition)
-            for condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
-                decl.addTransmissionModeCondition(condition)
+            for tm_condition in self.getTransmissionModeConditions(child_element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION"):
+                decl.addTransmissionModeCondition(tm_condition)
             decl.setTransmissionModeFalseTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-FALSE-TIMING"))
             decl.setTransmissionModeTrueTiming(self.getTransmissionModeTiming(child_element, "TRANSMISSION-MODE-TRUE-TIMING"))
         return decl
 
-    def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> IPduTiming:
+    def getISignalIPduIPduTimingSpecification(self, element: ET.Element) -> Optional[IPduTiming]:
         timing = None
         child_element = self.find(element, "I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING")
         if child_element is not None:
@@ -15245,26 +15261,28 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignalIPdu(self, element: ET.Element, ipdu: ISignalIPdu):
         self.logger.debug("Read ISignalIPdu <%s>" % ipdu.getShortName())
         self.readIdentifiable(element, ipdu)
-        ipdu.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
+        ipdu.setLength(cast(Optional[UnlimitedInteger], self.getChildElementOptionalNumericalValue(element, "LENGTH")))
         ipdu.setIPduTimingSpecification(self.getISignalIPduIPduTimingSpecification(element))
         self.readISignalToPduMappings(element, ipdu)
         ipdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
-    def getISignalIPduRefs(self, element: ET.Element) -> List[RefType]:
+    def getISignalIPduRefs(self, element: ET.Element) -> Optional[List[RefType]]:
         ref_types = []
         for child_element in self.findall(element, "I-SIGNAL-I-PDUS/I-SIGNAL-I-PDU-REF-CONDITIONAL"):
-            ref_types.append(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-I-PDU-REF"))
+            ref_types.append(cast(RefType, self.getChildElementOptionalRefType(child_element, "I-SIGNAL-I-PDU-REF")))
         return ref_types
 
     def readISignalIPduGroup(self, element: ET.Element, group: ISignalIPduGroup):
         self.logger.debug("Read ISignalIPduGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
-        group.setCommunicationDirection(self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION"))
-        group.setCommunicationMode(self.getChildElementOptionalLiteral(element, "COMMUNICATION-MODE"))
+        group.setCommunicationDirection(cast(Optional[CommunicationDirectionType], self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")))
+        group.setCommunicationMode(cast(Optional[String], self.getChildElementOptionalLiteral(element, "COMMUNICATION-MODE")))
         for ref_type in self.getChildElementRefTypeList(element, "CONTAINED-I-SIGNAL-I-PDU-GROUP-REFS/CONTAINED-I-SIGNAL-I-PDU-GROUP-REF"):
             group.addContainedISignalIPduGroupRef(ref_type)
-        for ref_type in self.getISignalIPduRefs(element):
-            group.addISignalIPduRef(ref_type)
+        isignal_ipdu_refs = self.getISignalIPduRefs(element)
+        if isignal_ipdu_refs is not None:
+            for ref_type in isignal_ipdu_refs:
+                group.addISignalIPduRef(ref_type)
         for ref_type in self.getChildElementRefTypeList(element, "NM-PDUS/NM-PDU-REF-CONDITIONAL/NM-PDU-REF"):
             group.addNmPduRef(ref_type)
 
@@ -15287,7 +15305,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         self.readDataMapping(element, mapping)
-        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
+        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "DATA-ELEMENT-IREF"))))
         sender_to_signal_element = self.find(element, "SENDER-TO-SIGNAL-TEXT-TABLE-MAPPING")
         if sender_to_signal_element is not None:
             mapping.setSenderToSignalTextTableMapping(self.getTextTableMapping(sender_to_signal_element))
@@ -15308,9 +15326,9 @@ class ARXMLParser(AbstractARXMLParser):
             if type_mapping_element is not None:
                 tag_name = self.getTagName(type_mapping_element)
                 if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
-                    type_mapping = SenderRecArrayTypeMapping()
-                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
-                    mapping.setComplexTypeMapping(type_mapping)
+                    type_mapping: ARObject = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, cast(SenderRecArrayTypeMapping, type_mapping))
+                    mapping.setComplexTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
                 elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
                     type_mapping = SenderRecRecordTypeMapping()
                     self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
@@ -15340,8 +15358,8 @@ class ARXMLParser(AbstractARXMLParser):
             if type_mapping_element is not None:
                 tag_name = self.getTagName(type_mapping_element)
                 if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
-                    type_mapping = SenderRecArrayTypeMapping()
-                    self.readSenderRecArrayTypeMapping(type_mapping_element, type_mapping)
+                    type_mapping: ARObject = SenderRecArrayTypeMapping()
+                    self.readSenderRecArrayTypeMapping(type_mapping_element, cast(SenderRecArrayTypeMapping, type_mapping))
                     mapping.setComplexTypeMapping(type_mapping)
                 elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
                     type_mapping = SenderRecRecordTypeMapping()
@@ -15392,9 +15410,9 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             tag_name = self.getTagName(child_element)
             if tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
-                type_mapping = SenderRecRecordTypeMapping()
-                self.readSenderRecRecordTypeMapping(child_element, type_mapping)
-                mapping.setTypeMapping(type_mapping)
+                type_mapping: ARObject = SenderRecRecordTypeMapping()
+                self.readSenderRecRecordTypeMapping(child_element, cast(SenderRecRecordTypeMapping, type_mapping))
+                mapping.setTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
             elif tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
                 type_mapping = SenderRecArrayTypeMapping()
                 self.readSenderRecArrayTypeMapping(child_element, type_mapping)
@@ -15404,7 +15422,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSenderReceiverToSignalGroupMapping(self, element: ET.Element, mapping: SenderReceiverToSignalGroupMapping):
         self.readDataMapping(element, mapping)
-        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "DATA-ELEMENT-IREF")))
+        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "DATA-ELEMENT-IREF"))))
         mapping.setSignalGroupRef(self.getChildElementOptionalRefType(element, "SIGNAL-GROUP-REF"))
         self.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -15528,8 +15546,7 @@ class ARXMLParser(AbstractARXMLParser):
                 crypto_mapping = mapping.createSecOcCryptoServiceMapping(self.getShortName(child_element))
                 self.readSecOcCryptoServiceMapping(child_element, crypto_mapping)
             elif tag_name == "TLS-CRYPTO-SERVICE-MAPPING":
-                crypto_mapping = mapping.createTlsCryptoServiceMapping(self.getShortName(child_element))
-                self.readTlsCryptoServiceMapping(child_element, crypto_mapping)
+                self.readTlsCryptoServiceMapping(child_element, mapping.createTlsCryptoServiceMapping(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported CryptoServiceMapping %s" % tag_name)
 
@@ -15548,19 +15565,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, rule)
         literal = self.getChildElementOptionalLiteral(element, "DIRECTION")
         if literal is not None:
-            e = CommunicationDirectionType()
+            e: ARLiteral = CommunicationDirectionType()
             e.setValue(literal.getValue())
-            rule.setDirection(e)
+            rule.setDirection(cast(Optional[CommunicationDirectionType], e))
         literal = self.getChildElementOptionalLiteral(element, "HEADER-TYPE")
         if literal is not None:
             e = IPsecHeaderTypeEnum()
             e.setValue(literal.getValue())
-            rule.setHeaderType(e)
+            rule.setHeaderType(cast(Optional[IPsecHeaderTypeEnum], e))
         literal = self.getChildElementOptionalLiteral(element, "IP-PROTOCOL")
         if literal is not None:
             e = IPsecIpProtocolEnum()
             e.setValue(literal.getValue())
-            rule.setIpProtocol(e)
+            rule.setIpProtocol(cast(Optional[IPsecIpProtocolEnum], e))
         for ref in self.getChildElementRefTypeList(element, "LOCAL-CERTIFICATE-REFS/LOCAL-CERTIFICATE-REF"):
             rule.addLocalCertificateRef(ref)
         rule.setLocalId(self.getChildElementOptionalString(element, "LOCAL-ID"))
@@ -15570,12 +15587,12 @@ class ARXMLParser(AbstractARXMLParser):
         if literal is not None:
             e = IPsecModeEnum()
             e.setValue(literal.getValue())
-            rule.setMode(e)
+            rule.setMode(cast(Optional[IPsecModeEnum], e))
         literal = self.getChildElementOptionalLiteral(element, "POLICY")
         if literal is not None:
             e = IPsecPolicyEnum()
             e.setValue(literal.getValue())
-            rule.setPolicy(e)
+            rule.setPolicy(cast(Optional[IPsecPolicyEnum], e))
         rule.setPreSharedKeyRef(self.getChildElementOptionalRefType(element, "PRE-SHARED-KEY-REF"))
         rule.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-CERTIFICATE-REFS/REMOTE-CERTIFICATE-REF"):
@@ -15632,14 +15649,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, certificate)
         family = self.getChildElementOptionalLiteral(element, "ALGORITHM-FAMILY")
         if family is not None:
-            e = CryptoCertificateAlgorithmFamilyEnum()
+            e: ARLiteral = CryptoCertificateAlgorithmFamilyEnum()
             e.setValue(family.getValue())
-            certificate.setAlgorithmFamily(e)
+            certificate.setAlgorithmFamily(cast(Optional[CryptoCertificateAlgorithmFamilyEnum], e))
         fmt = self.getChildElementOptionalLiteral(element, "FORMAT")
         if fmt is not None:
             e = CryptoCertificateFormatEnum()
             e.setValue(fmt.getValue())
-            certificate.setFormat(e)
+            certificate.setFormat(cast(Optional[CryptoCertificateFormatEnum], e))
         certificate.setMaximumLength(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-LENGTH"))
         certificate.setNextHigherCertificateRef(self.getChildElementOptionalRefType(element, "NEXT-HIGHER-CERTIFICATE-REF"))
         certificate.setServerNameIdentification(self.getChildElementOptionalString(element, "SERVER-NAME-IDENTIFICATION"))
@@ -15771,7 +15788,7 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(child_element, "CALIBRATION-PARAMETER-VALUE-SET-REFS/CALIBRATION-PARAMETER-VALUE-SET-REF"):
                 prototype.addCalibrationParameterValueSetRef(ref)
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF"))
-            prototype.setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
+            prototype.setSoftwareCompositionTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF")))
             try:
                 document = AUTOSAR.getInstance()
                 document.setRootSwCompositionPrototype(prototype)
@@ -15794,7 +15811,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readClientIdDefinition(self, element: ET.Element, id_definition: ClientIdDefinition):
         self.readIdentifiable(element, id_definition)
         id_definition.setClientId(self.getChildElementOptionalNumerical(element, "CLIENT-ID"))
-        id_definition.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(self.find(element, "CLIENT-SERVER-OPERATION-IREF")))
+        id_definition.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(cast(ET.Element, self.find(element, "CLIENT-SERVER-OPERATION-IREF"))))
 
     def readClientIdDefinitionSet(self, element: ET.Element, id_definition_set: ClientIdDefinitionSet):
         self.logger.debug("Read ClientIdDefinitionSet <%s>" % id_definition_set.getShortName())
@@ -15807,7 +15824,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readInterpolationRoutine(self, element: ET.Element, interpolation_routine: InterpolationRoutine):
         self.logger.debug("Read InterpolationRoutine")
-        interpolation_routine.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        interpolation_routine.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
         interpolation_routine.setIsDefault(self.getChildElementOptionalBooleanValue(element, "IS-DEFAULT"))
         interpolation_routine.setInterpolationRoutineRef(self.getChildElementOptionalRefType(element, "INTERPOLATION-ROUTINE-REF"))
 
@@ -15831,7 +15848,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentPrototypeAssignment(self, element: ET.Element, assignment: SwComponentPrototypeAssignment):
         self.readARObject(element, assignment)
-        assignment.setSwComponentIRef(self.getComponentInSystemInstanceRef(self.find(element, "SW-COMPONENT-IREF")))
+        assignment.setSwComponentIRef(self.getComponentInSystemInstanceRef(cast(ET.Element, self.find(element, "SW-COMPONENT-IREF"))))
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             if isinstance(assignment, VariationPointCapable):
@@ -15871,7 +15888,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, system)
         self.readSystemDocumentations(element, system)
         self.readSystemClientIdDefinitionSetRefs(element, system)
-        system.setContainerIPduHeaderByteOrder(self.getChildElementOptionalLiteral(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER"))
+        system.setContainerIPduHeaderByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER")))
         system.setEcuExtractVersion(self.getChildElementOptionalRevisionLabelString(element, "ECU-EXTRACT-VERSION"))
         self.readSystemFibexElementRefs(element, system)
         self.readSystemInterpolationRoutineMappingSetRefs(element, system)
@@ -15889,7 +15906,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read GenericEthernetFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
 
-    def getLifeCyclePeriod(self, element: ET.Element, key: str) -> LifeCyclePeriod:
+    def getLifeCyclePeriod(self, element: ET.Element, key: str) -> Optional[LifeCyclePeriod]:
         child_element = self.find(element, key)
         period = None
         if child_element is not None:
@@ -16004,7 +16021,7 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setBitfieldTextTableMaskFirst(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-FIRST"))
         mapping.setBitfieldTextTableMaskSecond(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-SECOND"))
         mapping.setIdenticalMapping(self.getChildElementOptionalBooleanValue(element, "IDENTICAL-MAPPING"))
-        mapping.setMappingDirection(self.getChildElementOptionalLiteral(element, "MAPPING-DIRECTION"))
+        mapping.setMappingDirection(cast(Optional[MappingDirectionEnum], self.getChildElementOptionalLiteral(element, "MAPPING-DIRECTION")))
         for pair_element in self.findall(element, "VALUE-PAIRS/TEXT-TABLE-VALUE-PAIR"):
             mapping.addValuePair(self.getTextTableValuePair(pair_element))
         return mapping
@@ -16100,14 +16117,11 @@ class ARXMLParser(AbstractARXMLParser):
                 mapping = mapping_set.createVariableAndParameterInterfaceMapping(self.getShortName(child_element))
                 self.readVariableAndParameterInterfaceMapping(child_element, mapping)
             elif tag_name == "CLIENT-SERVER-INTERFACE-MAPPING":
-                mapping = mapping_set.createClientServerInterfaceMapping(self.getShortName(child_element))
-                self.readClientServerInterfaceMapping(child_element, mapping)
+                self.readClientServerInterfaceMapping(child_element, mapping_set.createClientServerInterfaceMapping(self.getShortName(child_element)))
             elif tag_name == "MODE-INTERFACE-MAPPING":
-                mapping = mapping_set.createModeInterfaceMapping(self.getShortName(child_element))
-                self.readModeInterfaceMapping(child_element, mapping)
+                self.readModeInterfaceMapping(child_element, mapping_set.createModeInterfaceMapping(self.getShortName(child_element)))
             elif tag_name == "TRIGGER-INTERFACE-MAPPING":
-                mapping = mapping_set.createTriggerInterfaceMapping(self.getShortName(child_element))
-                self.readTriggerInterfaceMapping(child_element, mapping)
+                self.readTriggerInterfaceMapping(child_element, mapping_set.createTriggerInterfaceMapping(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported PortInterfaceMapping <%s>" % tag_name)
 
@@ -16181,8 +16195,7 @@ class ARXMLParser(AbstractARXMLParser):
                 consistency_needs = parent.createConsistencyNeeds(self.getShortName(child_element))
                 self.readConsistencyNeeds(child_element, consistency_needs)
             elif tag_name == "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE":
-                type = parent.createComplexDeviceDriverSwComponentType(self.getShortName(child_element))
-                self.readComplexDeviceDriverSwComponentType(child_element, type)
+                self.readComplexDeviceDriverSwComponentType(child_element, parent.createComplexDeviceDriverSwComponentType(self.getShortName(child_element)))
             elif tag_name == "SWC-IMPLEMENTATION":
                 impl = parent.createSwcImplementation(self.getShortName(child_element))
                 self.readSwcImplementation(child_element, impl)
@@ -16190,14 +16203,11 @@ class ARXMLParser(AbstractARXMLParser):
                 data_type = parent.createApplicationDeferredDataType(self.getShortName(child_element))
                 self.readApplicationDeferredDataType(child_element, data_type)
             elif tag_name == "APPLICATION-PRIMITIVE-DATA-TYPE":
-                data_type = parent.createApplicationPrimitiveDataType(self.getShortName(child_element))
-                self.readApplicationPrimitiveDataType(child_element, data_type)
+                self.readApplicationPrimitiveDataType(child_element, parent.createApplicationPrimitiveDataType(self.getShortName(child_element)))
             elif tag_name == "APPLICATION-RECORD-DATA-TYPE":
-                data_type = parent.createApplicationRecordDataType(self.getShortName(child_element))
-                self.readApplicationRecordDataType(child_element, data_type)
+                self.readApplicationRecordDataType(child_element, parent.createApplicationRecordDataType(self.getShortName(child_element)))
             elif tag_name == "SW-BASE-TYPE":
-                data_type = parent.createSwBaseType(self.getShortName(child_element))
-                self.readSwBaseType(child_element, data_type)
+                self.readSwBaseType(child_element, parent.createSwBaseType(self.getShortName(child_element)))
             elif tag_name == "COMPU-METHOD":
                 compu_method = parent.createCompuMethod(self.getShortName(child_element))
                 self.readCompuMethod(child_element, compu_method)
@@ -16232,11 +16242,9 @@ class ARXMLParser(AbstractARXMLParser):
                 mapping = parent.createSwcBswMapping(self.getShortName(child_element))
                 self.readSwcBswMapping(child_element, mapping)
             elif tag_name == "BSW-IMPLEMENTATION":
-                impl = parent.createBswImplementation(self.getShortName(child_element))
-                self.readBswImplementation(child_element, impl)
+                self.readBswImplementation(child_element, parent.createBswImplementation(self.getShortName(child_element)))
             elif tag_name == "IMPLEMENTATION-DATA-TYPE":
-                data_type = parent.createImplementationDataType(self.getShortName(child_element))
-                self.readImplementationDataType(child_element, data_type)
+                self.readImplementationDataType(child_element, parent.createImplementationDataType(self.getShortName(child_element)))
             elif tag_name == "CLIENT-SERVER-INTERFACE":
                 cs_interface = parent.createClientServerInterface(self.getShortName(child_element))
                 self.readClientServerInterface(child_element, cs_interface)
@@ -16244,11 +16252,9 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_component = parent.createApplicationSwComponentType(self.getShortName(child_element))
                 self.readApplicationSwComponentType(child_element, sw_component)
             elif tag_name == "ECU-ABSTRACTION-SW-COMPONENT-TYPE":
-                sw_component = parent.createEcuAbstractionSwComponentType(self.getShortName(child_element))
-                self.readEcuAbstractionSwComponentType(child_element, sw_component)
+                self.readEcuAbstractionSwComponentType(child_element, parent.createEcuAbstractionSwComponentType(self.getShortName(child_element)))
             elif tag_name == "APPLICATION-ARRAY-DATA-TYPE":
-                data_type = parent.createApplicationArrayDataType(self.getShortName(child_element))
-                self.readApplicationArrayDataType(child_element, data_type)
+                self.readApplicationArrayDataType(child_element, parent.createApplicationArrayDataType(self.getShortName(child_element)))
             elif tag_name == "SW-RECORD-LAYOUT":
                 layout = parent.createSwRecordLayout(self.getShortName(child_element))
                 self.readSwRecordLayout(child_element, layout)
@@ -16259,17 +16265,13 @@ class ARXMLParser(AbstractARXMLParser):
                 trigger_if = parent.createTriggerInterface(self.getShortName(child_element))
                 self.readTriggerInterface(child_element, trigger_if)
             elif tag_name == "SERVICE-SW-COMPONENT-TYPE":
-                sw_component = parent.createServiceSwComponentType(self.getShortName(child_element))
-                self.readServiceSwComponentType(child_element, sw_component)
+                self.readServiceSwComponentType(child_element, parent.createServiceSwComponentType(self.getShortName(child_element)))
             elif tag_name == "SENSOR-ACTUATOR-SW-COMPONENT-TYPE":
-                sw_component = parent.createSensorActuatorSwComponentType(self.getShortName(child_element))
-                self.readSensorActuatorSwComponentType(child_element, sw_component)
+                self.readSensorActuatorSwComponentType(child_element, parent.createSensorActuatorSwComponentType(self.getShortName(child_element)))
             elif tag_name == "NV-BLOCK-SW-COMPONENT-TYPE":
-                sw_component = parent.createNvBlockSwComponentType(self.getShortName(child_element))
-                self.readNvBlockSwComponentType(child_element, sw_component)
+                self.readNvBlockSwComponentType(child_element, parent.createNvBlockSwComponentType(self.getShortName(child_element)))
             elif tag_name == "SERVICE-PROXY-SW-COMPONENT-TYPE":
-                sw_component = parent.createServiceProxySwComponentType(self.getShortName(child_element))
-                self.readServiceProxySwComponentType(child_element, sw_component)
+                self.readServiceProxySwComponentType(child_element, parent.createServiceProxySwComponentType(self.getShortName(child_element)))
             elif tag_name == "DATA-TYPE-MAPPING-SET":
                 mapping_set = parent.createDataTypeMappingSet(self.getShortName(child_element))
                 self.readDataTypeMappingSet(child_element, mapping_set)
@@ -16292,32 +16294,26 @@ class ARXMLParser(AbstractARXMLParser):
                 pdu = parent.createNmPdu(self.getShortName(child_element))
                 self.readNmPdu(child_element, pdu)
             elif tag_name == "N-PDU":
-                pdu = parent.createNPdu(self.getShortName(child_element))
-                self.readNPdu(child_element, pdu)
+                self.readNPdu(child_element, parent.createNPdu(self.getShortName(child_element)))
             elif tag_name == "DCM-I-PDU":
                 i_pdu = parent.createDcmIPdu(self.getShortName(child_element))
                 self.readDcmIPdu(child_element, i_pdu)
             elif tag_name == "SECURED-I-PDU":
-                i_pdu = parent.createSecuredIPdu(self.getShortName(child_element))
-                self.readSecuredIPdu(child_element, i_pdu)
+                self.readSecuredIPdu(child_element, parent.createSecuredIPdu(self.getShortName(child_element)))
             elif tag_name == "NM-CONFIG":
                 config = parent.createNmConfig(self.getShortName(child_element))
                 self.readNmConfig(child_element, config)
             elif tag_name == "CAN-TP-CONFIG":
-                config = parent.createCanTpConfig(self.getShortName(child_element))
-                self.readCanTpConfig(child_element, config)
+                self.readCanTpConfig(child_element, parent.createCanTpConfig(self.getShortName(child_element)))
             elif tag_name == "LIN-TP-CONFIG":
-                config = parent.createLinTpConfig(self.getShortName(child_element))
-                self.readLinTpConfig(child_element, config)
+                self.readLinTpConfig(child_element, parent.createLinTpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
             elif tag_name == "CP-SOFTWARE-CLUSTER":
-                cluster = parent.createCpSoftwareCluster(self.getShortName(child_element))
-                self.readCpSoftwareCluster(child_element, cluster)
+                self.readCpSoftwareCluster(child_element, parent.createCpSoftwareCluster(self.getShortName(child_element)))
             elif tag_name == "INTERPOLATION-ROUTINE-MAPPING-SET":
-                mapping_set = parent.createInterpolationRoutineMappingSet(self.getShortName(child_element))
-                self.readInterpolationRoutineMappingSet(child_element, mapping_set)
+                self.readInterpolationRoutineMappingSet(child_element, parent.createInterpolationRoutineMappingSet(self.getShortName(child_element)))
             elif tag_name == "SYSTEM":
                 system = parent.createSystem(self.getShortName(child_element))
                 self.readSystem(child_element, system)
@@ -16325,53 +16321,41 @@ class ARXMLParser(AbstractARXMLParser):
                 instance = parent.createEcuInstance(self.getShortName(child_element))
                 self.readEcuInstance(child_element, instance)
             elif tag_name == "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP":
-                group = parent.createConsumedProvidedServiceInstanceGroup(self.getShortName(child_element))
-                self.readConsumedProvidedServiceInstanceGroup(child_element, group)
+                self.readConsumedProvidedServiceInstanceGroup(child_element, parent.createConsumedProvidedServiceInstanceGroup(self.getShortName(child_element)))
             elif tag_name == "GATEWAY":
                 gateway = parent.createGateway(self.getShortName(child_element))
                 self.readGateway(child_element, gateway)
             elif tag_name == "I-SIGNAL-I-PDU-GROUP":
-                group = parent.createISignalIPduGroup(self.getShortName(child_element))
-                self.readISignalIPduGroup(child_element, group)
+                self.readISignalIPduGroup(child_element, parent.createISignalIPduGroup(self.getShortName(child_element)))
             elif tag_name == "PDUR-I-PDU-GROUP":
-                group = parent.createPdurIPduGroup(self.getShortName(child_element))
-                self.readPdurIPduGroup(child_element, group)
+                self.readPdurIPduGroup(child_element, parent.createPdurIPduGroup(self.getShortName(child_element)))
             elif tag_name == "CAN-CLUSTER":
-                cluster = parent.createCanCluster(self.getShortName(child_element))
-                self.readCanCluster(child_element, cluster)
+                self.readCanCluster(child_element, parent.createCanCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-CLUSTER":
-                cluster = parent.createJ1939Cluster(self.getShortName(child_element))
-                self.readJ1939Cluster(child_element, cluster)
+                self.readJ1939Cluster(child_element, parent.createJ1939Cluster(self.getShortName(child_element)))
             elif tag_name == "CAN-FRAME":
-                frame = parent.createCanFrame(self.getShortName(child_element))
-                self.readCanFrame(child_element, frame)
+                self.readCanFrame(child_element, parent.createCanFrame(self.getShortName(child_element)))
             elif tag_name == "I-SIGNAL":
                 signal = parent.createISignal(self.getShortName(child_element))
                 self.readISignal(child_element, signal)
             elif tag_name == "I-SIGNAL-GROUP":
-                group = parent.createISignalGroup(self.getShortName(child_element))
-                self.readISignalGroup(child_element, group)
+                self.readISignalGroup(child_element, parent.createISignalGroup(self.getShortName(child_element)))
             elif tag_name == "I-SIGNAL-I-PDU":
-                i_pdu = parent.createISignalIPdu(self.getShortName(child_element))
-                self.readISignalIPdu(child_element, i_pdu)
+                self.readISignalIPdu(child_element, parent.createISignalIPdu(self.getShortName(child_element)))
             elif tag_name == "SYSTEM-SIGNAL":
-                signal = parent.createSystemSignal(self.getShortName(child_element))
-                self.readSystemSignal(child_element, signal)
+                self.readSystemSignal(child_element, parent.createSystemSignal(self.getShortName(child_element)))
             elif tag_name == "SYSTEM-SIGNAL-GROUP":
-                group = parent.createSystemSignalGroup(self.getShortName(child_element))
-                self.readSystemSignalGroup(child_element, group)
+                self.readSystemSignalGroup(child_element, parent.createSystemSignalGroup(self.getShortName(child_element)))
             elif tag_name == "SIGNAL-SERVICE-TRANSLATION-PROPS-SET":
                 props_set = parent.createSignalServiceTranslationPropsSet(self.getShortName(child_element))
                 self.readSignalServiceTranslationPropsSet(child_element, props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
-                collection = parent.createEcucValueCollection(self.getShortName(child_element))
-                self.readEcucValueCollection(child_element, collection)
+                self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
             elif tag_name == "ETH-TCP-IP-PROPS":
                 props = parent.createEthTcpIpProps(self.getShortName(child_element))
                 self.readEthTcpIpProps(child_element, props)
             elif tag_name == "ETH-TCP-IP-ICMP-PROPS":
-                props = parent.createEthTcpIpIcmpProps(self.getShortName(child_element))
-                self.readEthTcpIpIcmpProps(child_element, props)
+                self.readEthTcpIpIcmpProps(child_element, parent.createEthTcpIpIcmpProps(self.getShortName(child_element)))
             elif tag_name == "OS-TASK-PROXY":
                 proxy = parent.createOsTaskProxy(self.getShortName(child_element))
                 self.readOsTaskProxy(child_element, proxy)
@@ -16388,8 +16372,7 @@ class ARXMLParser(AbstractARXMLParser):
                 param_interface = parent.createParameterInterface(self.getShortName(child_element))
                 self.readParameterInterface(child_element, param_interface)
             elif tag_name == "GENERIC-ETHERNET-FRAME":
-                frame = parent.createGenericEthernetFrame(self.getShortName(child_element))
-                self.readGenericEthernetFrame(child_element, frame)
+                self.readGenericEthernetFrame(child_element, parent.createGenericEthernetFrame(self.getShortName(child_element)))
             elif tag_name == "LIFE-CYCLE-INFO-SET":
                 info_set = parent.createLifeCycleInfoSet(self.getShortName(child_element))
                 self.readLifeCycleInfoSet(child_element, info_set)
@@ -16397,11 +16380,9 @@ class ARXMLParser(AbstractARXMLParser):
                 map = parent.createFlatMap(self.getShortName(child_element))
                 self.readFlatMap(child_element, map)
             elif tag_name == "PORT-INTERFACE-MAPPING-SET":
-                mapping_set = parent.createPortInterfaceMappingSet(self.getShortName(child_element))
-                self.readPortInterfaceMappingSet(child_element, mapping_set)
+                self.readPortInterfaceMappingSet(child_element, parent.createPortInterfaceMappingSet(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-CLUSTER":
-                cluster = parent.createEthernetCluster(self.getShortName(child_element))
-                self.readEthernetCluster(child_element, cluster)
+                self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)
@@ -16421,8 +16402,7 @@ class ARXMLParser(AbstractARXMLParser):
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)
             elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
-                did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
-                self.readDiagnosticDynamicDataIdentifier(child_element, did)
+                self.readDiagnosticDynamicDataIdentifier(child_element, parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element)))
             elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER":
                 dddi = parent.createDiagnosticDynamicallyDefineDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDynamicallyDefineDataIdentifier(child_element, dddi)
@@ -16602,8 +16582,7 @@ class ARXMLParser(AbstractARXMLParser):
             verification = parent.createDiagnosticVerifyCertificateBidirectional(self.getShortName(child_element))
             self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
         elif tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
-            verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
-            self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            self.readDiagnosticVerifyCertificateUnidirectional(child_element, parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element)))
         elif tag_name.startswith("DIAGNOSTIC-"):
             if not self.readDiagnosticPackageElement(tag_name, child_element, parent):
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
@@ -16611,14 +16590,11 @@ class ARXMLParser(AbstractARXMLParser):
             mapping = parent.createCpSwClusterToDiagEventMapping(self.getShortName(child_element))
             self.readCpSwClusterToDiagEventMapping(child_element, mapping)
         elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-DATA-ELEM-MAPPING":
-            mapping = parent.createCpSwClusterResourceToDiagDataElemMapping(self.getShortName(child_element))
-            self.readCpSwClusterResourceToDiagDataElemMapping(child_element, mapping)
+            self.readCpSwClusterResourceToDiagDataElemMapping(child_element, parent.createCpSwClusterResourceToDiagDataElemMapping(self.getShortName(child_element)))
         elif tag_name == "CP-SW-CLUSTER-TO-DIAG-ROUTINE-SUBFUNCTION-MAPPING":
-            mapping = parent.createCpSwClusterToDiagRoutineSubfunctionMapping(self.getShortName(child_element))
-            self.readCpSwClusterToDiagRoutineSubfunctionMapping(child_element, mapping)
+            self.readCpSwClusterToDiagRoutineSubfunctionMapping(child_element, parent.createCpSwClusterToDiagRoutineSubfunctionMapping(self.getShortName(child_element)))
         elif tag_name == "CP-SW-CLUSTER-RESOURCE-TO-DIAG-FUNCTION-ID-MAPPING":
-            mapping = parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element))
-            self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, mapping)
+            self.readCpSwClusterResourceToDiagFunctionIdMapping(child_element, parent.createCpSwClusterResourceToDiagFunctionIdMapping(self.getShortName(child_element)))
         elif tag_name == "DLT-CONTEXT":
             context = parent.createDltContext(self.getShortName(child_element))
             self.readDltContext(child_element, context)
@@ -16632,17 +16608,14 @@ class ARXMLParser(AbstractARXMLParser):
             i_pdu = parent.createMultiplexedIPdu(self.getShortName(child_element))
             self.readMultiplexedIPdu(child_element, i_pdu)
         elif tag_name == "USER-DEFINED-I-PDU":
-            i_pdu = parent.createUserDefinedIPdu(self.getShortName(child_element))
-            self.readUserDefinedIPdu(child_element, i_pdu)
+            self.readUserDefinedIPdu(child_element, parent.createUserDefinedIPdu(self.getShortName(child_element)))
         elif tag_name == "USER-DEFINED-PDU":
             pdu = parent.createUserDefinedPdu(self.getShortName(child_element))
             self.readUserDefinedPdu(child_element, pdu)
         elif tag_name == "GENERAL-PURPOSE-PDU":
-            pdu = parent.createGeneralPurposePdu(self.getShortName(child_element))
-            self.readGeneralPurposePdu(child_element, pdu)
+            self.readGeneralPurposePdu(child_element, parent.createGeneralPurposePdu(self.getShortName(child_element)))
         elif tag_name == "GENERAL-PURPOSE-I-PDU":
-            i_pdu = parent.createGeneralPurposeIPdu(self.getShortName(child_element))
-            self.readGeneralPurposeIPdu(child_element, i_pdu)
+            self.readGeneralPurposeIPdu(child_element, parent.createGeneralPurposeIPdu(self.getShortName(child_element)))
         elif tag_name == "SECURE-COMMUNICATION-PROPS-SET":
             prop_set = parent.createSecureCommunicationPropsSet(self.getShortName(child_element))
             self.readSecureCommunicationPropsSet(child_element, prop_set)
@@ -16653,11 +16626,9 @@ class ARXMLParser(AbstractARXMLParser):
             scheme = parent.createCryptoSignatureScheme(self.getShortName(child_element))
             self.readCryptoSignatureScheme(child_element, scheme)
         elif tag_name == "CRYPTO-SERVICE-CERTIFICATE":
-            certificate = parent.createCryptoServiceCertificate(self.getShortName(child_element))
-            self.readCryptoServiceCertificate(child_element, certificate)
+            self.readCryptoServiceCertificate(child_element, parent.createCryptoServiceCertificate(self.getShortName(child_element)))
         elif tag_name == "IP-SEC-CONFIG-PROPS":
-            props = parent.createIPSecConfigProps(self.getShortName(child_element))
-            self.readIPSecConfigProps(child_element, props)
+            self.readIPSecConfigProps(child_element, parent.createIPSecConfigProps(self.getShortName(child_element)))
         elif tag_name == "CRYPTO-SERVICE-PRIMITIVE":
             primitive = parent.createCryptoServicePrimitive(self.getShortName(child_element))
             self.readCryptoServicePrimitive(child_element, primitive)
@@ -16671,14 +16642,11 @@ class ARXMLParser(AbstractARXMLParser):
             config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdClientServiceInstanceConfig(child_element, config)
         elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
-            config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
-            self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
+            self.readSomeipSdClientEventGroupTimingConfig(child_element, parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element)))
         elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
-            config = parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element))
-            self.readSomeipSdServerEventGroupTimingConfig(child_element, config)
+            self.readSomeipSdServerEventGroupTimingConfig(child_element, parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element)))
         elif tag_name == "DO-IP-TP-CONFIG":
-            config = parent.createDoIpTpConfig(self.getShortName(child_element))
-            self.readDoIpTpConfig(child_element, config)
+            self.readDoIpTpConfig(child_element, parent.createDoIpTpConfig(self.getShortName(child_element)))
         elif tag_name == "HW-ELEMENT":
             hw_element = parent.createHwElement(self.getShortName(child_element))
             self.readHwElement(child_element, hw_element)
@@ -16698,8 +16666,7 @@ class ARXMLParser(AbstractARXMLParser):
             transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
             self.readDataTransformationSet(child_element, transformation_set)
         elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
-            props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
-            self.readE2EProfileCompatibilityProps(child_element, props)
+            self.readE2EProfileCompatibilityProps(child_element, parent.createE2EProfileCompatibilityProps(self.getShortName(child_element)))
         elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
             tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
             self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
@@ -16719,8 +16686,7 @@ class ARXMLParser(AbstractARXMLParser):
             module_def = parent.createEcucModuleDef(self.getShortName(child_element))
             self.readEcucModuleDef(child_element, module_def)
         elif tag_name == "ECUC-DEFINITION-COLLECTION":
-            collection = parent.createEcucDefinitionCollection(self.getShortName(child_element))
-            self.readEcucDefinitionCollection(child_element, collection)
+            self.readEcucDefinitionCollection(child_element, parent.createEcucDefinitionCollection(self.getShortName(child_element)))
         elif tag_name == "ECUC-DESTINATION-URI-DEF-SET":
             uri_def_set = parent.createEcucDestinationUriDefSet(self.getShortName(child_element))
             self.readEcucDestinationUriDefSet(child_element, uri_def_set)
@@ -16758,14 +16724,12 @@ class ARXMLParser(AbstractARXMLParser):
             firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
             self.readStateDependentFirewall(child_element, firewall)
         elif tag_name == "PLATFORM-MODULE-ETHERNET-ENDPOINT-CONFIGURATION":
-            configuration = parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element))
-            self.readPlatformModuleEthernetEndpointConfiguration(child_element, configuration)
+            self.readPlatformModuleEthernetEndpointConfiguration(child_element, parent.createPlatformModuleEthernetEndpointConfiguration(self.getShortName(child_element)))
         elif tag_name == "MC-FUNCTION":
             func = parent.createMcFunction(self.getShortName(child_element))
             self.readMcFunction(child_element, func)
         elif tag_name == "MC-GROUP":
-            group = parent.createMcGroup(self.getShortName(child_element))
-            self.readMcGroup(child_element, group)
+            self.readMcGroup(child_element, parent.createMcGroup(self.getShortName(child_element)))
         elif tag_name == "ACL-PERMISSION":
             acl_permission = parent.createAclPermission(self.getShortName(child_element))
             self.readAclPermission(child_element, acl_permission)
@@ -16779,8 +16743,7 @@ class ARXMLParser(AbstractARXMLParser):
             acl_role = parent.createAclRole(self.getShortName(child_element))
             self.readAclRole(child_element, acl_role)
         elif tag_name == "LIFE-CYCLE-STATE-DEFINITION-GROUP":
-            group = parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element))
-            self.readLifeCycleStateDefinitionGroup(child_element, group)
+            self.readLifeCycleStateDefinitionGroup(child_element, parent.createLifeCycleStateDefinitionGroup(self.getShortName(child_element)))
         elif tag_name == "VIEW-MAP-SET":
             view_map_set = parent.createViewMapSet(self.getShortName(child_element))
             self.readViewMapSet(child_element, view_map_set)
@@ -16809,8 +16772,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticDataIdentifier(child_element, did)
             return True
         if tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
-            did = parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element))
-            self.readDiagnosticDynamicDataIdentifier(child_element, did)
+            self.readDiagnosticDynamicDataIdentifier(child_element, parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-PROTOCOL":
             protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
@@ -16849,100 +16811,76 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticServiceSwMapping(child_element, mapping)
             return True
         if tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
-            mapping = parent.createDiagnosticEventPortMapping(self.getShortName(child_element))
-            self.readDiagnosticEventPortMapping(child_element, mapping)
+            self.readDiagnosticEventPortMapping(child_element, parent.createDiagnosticEventPortMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
-            mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))
-            self.readDiagnosticOperationCyclePortMapping(child_element, mapping)
+            self.readDiagnosticOperationCyclePortMapping(child_element, parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
-            mapping = parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element))
-            self.readDiagnosticEnableConditionPortMapping(child_element, mapping)
+            self.readDiagnosticEnableConditionPortMapping(child_element, parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
-            mapping = parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element))
-            self.readDiagnosticStorageConditionPortMapping(child_element, mapping)
+            self.readDiagnosticStorageConditionPortMapping(child_element, parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-AUTH-TRANSMIT-CERTIFICATE-MAPPING":
-            mapping = parent.createDiagnosticAuthTransmitCertificateMapping(self.getShortName(child_element))
-            self.readDiagnosticAuthTransmitCertificateMapping(child_element, mapping)
+            self.readDiagnosticAuthTransmitCertificateMapping(child_element, parent.createDiagnosticAuthTransmitCertificateMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-SECURITY-EVENT-REPORTING-MODE-MAPPING":
-            mapping = parent.createDiagnosticSecurityEventReportingModeMapping(self.getShortName(child_element))
-            self.readDiagnosticSecurityEventReportingModeMapping(child_element, mapping)
+            self.readDiagnosticSecurityEventReportingModeMapping(child_element, parent.createDiagnosticSecurityEventReportingModeMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-DEM-PROVIDED-DATA-MAPPING":
-            mapping = parent.createDiagnosticDemProvidedDataMapping(self.getShortName(child_element))
-            self.readDiagnosticDemProvidedDataMapping(child_element, mapping)
+            self.readDiagnosticDemProvidedDataMapping(child_element, parent.createDiagnosticDemProvidedDataMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-MASTER-TO-SLAVE-EVENT-MAPPING":
-            mapping = parent.createDiagnosticMasterToSlaveEventMapping(self.getShortName(child_element))
-            self.readDiagnosticMasterToSlaveEventMapping(child_element, mapping)
+            self.readDiagnosticMasterToSlaveEventMapping(child_element, parent.createDiagnosticMasterToSlaveEventMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-SECURITY-EVENT-MAPPING":
-            mapping = parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToSecurityEventMapping(child_element, mapping)
+            self.readDiagnosticEventToSecurityEventMapping(child_element, parent.createDiagnosticEventToSecurityEventMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-INHIBIT-SOURCE-EVENT-MAPPING":
-            mapping = parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element))
-            self.readDiagnosticInhibitSourceEventMapping(child_element, mapping)
+            self.readDiagnosticInhibitSourceEventMapping(child_element, parent.createDiagnosticInhibitSourceEventMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-MAPPING":
-            mapping = parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element))
-            self.readDiagnosticFimAliasEventMapping(child_element, mapping)
+            self.readDiagnosticFimAliasEventMapping(child_element, parent.createDiagnosticFimAliasEventMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP":
-            mapping = parent.createDiagnosticFimAliasEventGroup(self.getShortName(child_element))
-            self.readDiagnosticFimAliasEventGroup(child_element, mapping)
+            self.readDiagnosticFimAliasEventGroup(child_element, parent.createDiagnosticFimAliasEventGroup(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-FIM-ALIAS-EVENT-GROUP-MAPPING":
-            mapping = parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element))
-            self.readDiagnosticFimAliasEventGroupMapping(child_element, mapping)
+            self.readDiagnosticFimAliasEventGroupMapping(child_element, parent.createDiagnosticFimAliasEventGroupMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
-            mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
-            self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)
+            self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
-            mapping = parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element))
-            self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, mapping)
+            self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-J-1939-SPN-MAPPING":
-            mapping = parent.createDiagnosticJ1939SpnMapping(self.getShortName(child_element))
-            self.readDiagnosticJ1939SpnMapping(child_element, mapping)
+            self.readDiagnosticJ1939SpnMapping(child_element, parent.createDiagnosticJ1939SpnMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-J-1939-NODE":
-            mapping = parent.createDiagnosticJ1939Node(self.getShortName(child_element))
-            self.readDiagnosticJ1939Node(child_element, mapping)
+            self.readDiagnosticJ1939Node(child_element, parent.createDiagnosticJ1939Node(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-J-1939-SW-MAPPING":
-            mapping = parent.createDiagnosticJ1939SwMapping(self.getShortName(child_element))
-            self.readDiagnosticJ1939SwMapping(child_element, mapping)
+            self.readDiagnosticJ1939SwMapping(child_element, parent.createDiagnosticJ1939SwMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-FIM-FUNCTION-MAPPING":
-            mapping = parent.createDiagnosticFimFunctionMapping(self.getShortName(child_element))
-            self.readDiagnosticFimFunctionMapping(child_element, mapping)
+            self.readDiagnosticFimFunctionMapping(child_element, parent.createDiagnosticFimFunctionMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-DEBOUNCE-ALGORITHM-MAPPING":
-            mapping = parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, mapping)
+            self.readDiagnosticEventToDebounceAlgorithmMapping(child_element, parent.createDiagnosticEventToDebounceAlgorithmMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-ENABLE-CONDITION-GROUP-MAPPING":
-            mapping = parent.createDiagnosticEventToEnableConditionGroupMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToEnableConditionGroupMapping(child_element, mapping)
+            self.readDiagnosticEventToEnableConditionGroupMapping(child_element, parent.createDiagnosticEventToEnableConditionGroupMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-OPERATION-CYCLE-MAPPING":
-            mapping = parent.createDiagnosticEventToOperationCycleMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToOperationCycleMapping(child_element, mapping)
+            self.readDiagnosticEventToOperationCycleMapping(child_element, parent.createDiagnosticEventToOperationCycleMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-STORAGE-CONDITION-GROUP-MAPPING":
-            mapping = parent.createDiagnosticEventToStorageConditionGroupMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToStorageConditionGroupMapping(child_element, mapping)
+            self.readDiagnosticEventToStorageConditionGroupMapping(child_element, parent.createDiagnosticEventToStorageConditionGroupMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-UDS-MAPPING":
-            mapping = parent.createDiagnosticEventToTroubleCodeUdsMapping(self.getShortName(child_element))
-            self.readDiagnosticEventToTroubleCodeUdsMapping(child_element, mapping)
+            self.readDiagnosticEventToTroubleCodeUdsMapping(child_element, parent.createDiagnosticEventToTroubleCodeUdsMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-SESSION":
             session = parent.createDiagnosticSession(self.getShortName(child_element))
@@ -17017,8 +16955,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDiagnosticVerifyCertificateBidirectional(child_element, verification)
             return True
         if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
-            verification = parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element))
-            self.readDiagnosticVerifyCertificateUnidirectional(child_element, verification)
+            self.readDiagnosticVerifyCertificateUnidirectional(child_element, parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
             identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))
@@ -17263,12 +17200,12 @@ class ARXMLParser(AbstractARXMLParser):
         if child is not None:
             ipv4_rule = self.find(child, "IPV-4-RULE")
             if ipv4_rule is not None:
-                rule_obj = Ipv4Rule()
-                self.readIpv4Rule(ipv4_rule, rule_obj)
-                rule.setNetworkLayerRule(rule_obj)
+                rule_obj: ARObject = Ipv4Rule()
+                self.readIpv4Rule(ipv4_rule, cast(Ipv4Rule, rule_obj))
+                rule.setNetworkLayerRule(cast(Optional[NetworkLayerRule], rule_obj))
             elif self.find(child, "IPV-6-RULE") is not None:
                 rule_obj = Ipv6Rule()
-                self.readIpv6Rule(self.find(child, "IPV-6-RULE"), rule_obj)
+                self.readIpv6Rule(cast(ET.Element, self.find(child, "IPV-6-RULE")), rule_obj)
                 rule.setNetworkLayerRule(rule_obj)
             else:
                 rule.setNetworkLayerRule(NetworkLayerRule())
@@ -17308,9 +17245,9 @@ class ARXMLParser(AbstractARXMLParser):
             for map_element in list(maps_parent):
                 tag_name = self.getTagName(map_element)
                 if tag_name == "BLUEPRINT-MAPPING":
-                    blueprint_map = BlueprintMapping()
-                    self.readBlueprintMapping(map_element, blueprint_map)
-                    blueprint_mapping_set.addBlueprintMap(blueprint_map)
+                    blueprint_map: ARObject = BlueprintMapping()
+                    self.readBlueprintMapping(map_element, cast(BlueprintMapping, blueprint_map))
+                    blueprint_mapping_set.addBlueprintMap(cast(Optional[AtpBlueprintMapping], blueprint_map))
                 elif tag_name == "PORT-INTERFACE-BLUEPRINT-MAPPING":
                     blueprint_map = PortInterfaceBlueprintMapping()
                     self.readPortInterfaceBlueprintMapping(map_element, blueprint_map)
@@ -17468,7 +17405,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readReferenceBases(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "REFERENCE-BASES/REFERENCE-BASE"):
             base = ReferenceBase()
-            base.setShortLabel(self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL"))
+            base.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "SHORT-LABEL")))
             base.setIsDefault(self.getChildElementOptionalBooleanValue(child_element, "IS-DEFAULT"))
             base.setIsGlobal(self.getChildElementOptionalBooleanValue(child_element, "IS-GLOBAL"))
             base.setBaseIsThisPackage(self.getChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE"))
@@ -17509,18 +17446,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read AclObjectSet <%s>" % acl_object_set.getShortName())
         self.readIdentifiable(element, acl_object_set)
         for child_element in self.findall(element, "ACL-OBJECT-CLASSS/ACL-OBJECT-CLASS"):
-            literal = ReferrableSubtypesEnum()
+            literal: ARLiteral = ReferrableSubtypesEnum()
             literal.setValue(child_element.text)
-            acl_object_set.addAclObjectClass(literal)
+            acl_object_set.addAclObjectClass(cast(Optional[ReferrableSubtypesEnum], literal))
         acl_scope = self.find(element, "ACL-SCOPE")
         if acl_scope is not None:
-            literal = None
+            acl_literal: Optional[str] = None
             for literal_name, token in ACL_SCOPE_XML_MAP.items():
                 if token == acl_scope.text:
-                    literal = literal_name
+                    acl_literal = literal_name
                     break
-            if literal is not None:
-                acl_object_set.setAclScope(AclScopeEnum().setValue(literal))
+            if acl_literal is not None:
+                acl_object_set.setAclScope(AclScopeEnum().setValue(acl_literal))
             else:
                 self.notImplemented("Unsupported ACL-SCOPE <%s>" % acl_scope.text)
         acl_object_set.setCollectionRef(self.getChildElementOptionalRefType(element, "COLLECTION-REF"))
@@ -17662,6 +17599,6 @@ class ARXMLParser(AbstractARXMLParser):
         document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
         document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))
         document.setIntroduction(self.getDocumentationBlock(root, "INTRODUCTION"))
-        self.readARPackages(root, document)
+        self.readARPackages(root, cast(ARPackage, document))
 
         document.reload()
