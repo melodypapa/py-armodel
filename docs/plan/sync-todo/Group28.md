@@ -438,15 +438,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BaseType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.26, p.292
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — re-verified: Table 5.26 (markdown L8477-8496, page-split render) = abstract Class, Package M2::MSR::AsamHdo::BaseTypes, exactly 1 attr (baseTypeDefinition / BaseTypeDefinition / 1 / aggr); XSD group BASE-TYPE (AUTOSAR_00052.xsd L8384) flattens a 0..1 choice of BASE-TYPE-DIRECT-DEFINITION; p.292 per pdf_page.py
+  - [x] Step 2 — Write model class unit test (Red) — re-verified: TestBaseType covers abstract-instantiation guard, base shape (ARElement most-derived), defaults via concrete subclass SwBaseType, class-docstring pin incl. constr_1910, accessor-docstring pins, get/set round-trip + None no-op, one-level-down definition values; no gaps found
+  - [x] Step 3 — Implement model class (Green) — re-verified: ABC instantiation guard, PEP 526 member `self.baseTypeDefinition: BaseTypeDirectDefinition = BaseTypeDirectDefinition()` (Mult 1 plain T, matches getter return), blank line between member blocks, setter returns self, `(parent, short_name)` per ARElement base
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — re-verified: class docstring = Note verbatim with constr_1910 appended; inline comment/getter/setter = "This is the actual definition of the base type." verbatim (Tags tail dropped), setter appends only the None-no-op sentence; no __init__ docstring; no stale wording
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — re-verified: parser test_SwBaseType.py asserts field values incl. per-attribute isolation and empty-element case; writer test_writer_SwBaseType.py asserts element order vs the XSD group, unset-omits, and populated/empty save→reload round-trips
+  - [x] Step 6 — Update parser & writer (Green) — re-verified: reader readSwBaseType → readIdentifiable + readBaseTypeDirectDefinition(getBaseTypeDefinition()) — flattened XML, never calls setBaseTypeDefinition; writer writeSwBaseType → writeIdentifiable + setBaseTypeDirectDefinition; element order = XSD sequenceOffset 70/90/100/110/120 (MAX-BASE-TYPE-SIZE 80 atp.Status=removed, not modeled); matched name pairs, no chained mutators
+  - [x] Step 7 — Update checklist comment — re-verified: 6-column rows in source order (getter first for the scalar pair), # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.26, p.292, every row R23-11, reader [—] on both accessors / writer [x] on the getter per the flattened-XML split; stamp correctly withheld
+  - [x] Step 8 — Deviations — tracker reconciled: superseded legacy `## BaseType` entry (stale p.291 citation + stale `type` deviation row, resolved by the new-style entry as a spec-type refinement) removed from docs/examples/method_deviation_by_class.md; single current No-deviations section kept
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (187 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/ + tests/test_armodel/parser/test_SwBaseType.py + tests/test_armodel/writer/test_writer_SwBaseType.py; 3 passed tests/test_armodel/models/test_member_annotations.py; black/ruff clean; checklist==methods verified; lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ByteOrderEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.27, p.297; also CP_TPS_SystemTemplate Table 7.12, p.779; also CP_TPS_DiagnosticExtractTemplate Table 4.22, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py

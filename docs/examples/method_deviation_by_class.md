@@ -1629,15 +1629,6 @@ No deviations among the modeled members — all five Table 5.24 attributes (`bas
 
 **Note:** Batch re-sync 2026-10-04 (Group28 row; Rule 0023 legacy checklist — no per-row release column, stale p.290 citation; stale `# Spec verified: R23-11` marker removed at session start, stamp WITHHELD pending the 9b batch confirmation, user instruction). Entry page citation corrected 290 → 291 per pdf_page.py; the `maxBaseTypeSize` accepted row retained (`atp.Status="removed"` in the XSD group AND absent from the PDF Attribute column — Rule 0001.3/0015, stays not modeled). Model Red genuine on the accessor-docstring pin (all 5 setters carried the stale two-paragraph None-no-op form → rewritten to the inline batch convention); module adopted PEP 563 + bare self-ref returns (6 quoted returns unquoted — 5 on this class + 1 on `BaseType.setBaseTypeDefinition`, same-change rule, RunnableEntityGroup precedent). Reader/writer tests extended per-attribute on both sides (parser `test_SwBaseType.py` isolated reads incl. the UPPERCASE XSD BYTE-ORDER form read verbatim; writer `test_writer_SwBaseType.py` isolated emissions incl. the camelCase member-value form) — parser/writer source unchanged (coverage pre-existed in XSD order, vacuous reader/writer Red noted). Referenced types: base `BaseTypeDefinition` (Table 5.23, synced this batch), `BaseTypeEncodingString` (Table 5.25), `ByteOrderEnum` (Table 5.27, queued for its own Group28 pass) — all exist and are behaviorally complete; no missing classes.
 
-## `BaseType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 291
-- **Package:** `M2::MSR::AsamHdo::BaseTypes`
-- **Source:** `src/armodel/models/M2/MSR/AsamHdo/BaseTypes.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `baseTypeDefinition` | `BaseTypeDirectDefinition` | `baseTypeDefinition` | `BaseTypeDefinition` | aggr | type (PDF abstract BaseTypeDefinition vs py BaseTypeDirectDefinition; the abstract aggregated type is instantiated as the concrete subtype) |
-
 ## `BuildActionIoElement`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 369 (Table 10.3)
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`
