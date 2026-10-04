@@ -462,6 +462,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
+    DiagnosticOperationCycle,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -14522,6 +14523,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ACTUAL-EVENT-REF", mapping.getActualEventRef())
         self.setChildElementOptionalRefType(child_element, "ALIAS-EVENT-REF", mapping.getAliasEventRef())
 
+    def writeDiagnosticOperationCycle(self, element: ET.Element, cycle: DiagnosticOperationCycle):
+        self.logger.debug("Write DiagnosticOperationCycle %s" % cycle.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE")
+        self.writeIdentifiable(child_element, cycle)
+        # TYPE is round-tripped as a raw literal until DiagnosticOperationCycleTypeEnum (Table 4.197, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        self.setChildElementOptionalLiteral(child_element, "TYPE", cast(ARLiteral, cycle.getType()))
+
     def writeDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.logger.debug("Write DiagnosticOperationCyclePortMapping %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING")
@@ -16609,6 +16617,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticCustomServiceClass(element, ar_element)
         elif isinstance(ar_element, DiagnosticCustomServiceInstance):
             self.writeDiagnosticCustomServiceInstance(element, ar_element)
+        elif isinstance(ar_element, DiagnosticOperationCycle):
+            self.writeDiagnosticOperationCycle(element, ar_element)
         elif isinstance(ar_element, DiagnosticProtocol):
             self.writeDiagnosticProtocol(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
@@ -16946,6 +16956,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticIumprGroup):
             self.writeDiagnosticIumprGroup(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticOperationCycle):
+            self.writeDiagnosticOperationCycle(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticOperationCyclePortMapping):
             self.writeDiagnosticOperationCyclePortMapping(element, ar_element)

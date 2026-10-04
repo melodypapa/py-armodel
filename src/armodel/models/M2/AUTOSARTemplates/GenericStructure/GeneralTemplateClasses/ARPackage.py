@@ -420,6 +420,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventKindEnum,
     DiagnosticIumprKindEnum,
     DiagnosticObdSupportEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -3887,6 +3888,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticEnableConditionPortMapping(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticEnableConditionPortMapping, self.getReferrableElement(short_name, DiagnosticEnableConditionPortMapping))
+
+    def createDiagnosticOperationCycle(self, short_name: str) -> DiagnosticOperationCycle:
+        """
+        Creates a new DiagnosticOperationCycle with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticOperationCycle: Definition of an operation cycle that is the base of the event qualifying and for Dem scheduling.
+
+        Args:
+            short_name: The short name for the new DiagnosticOperationCycle
+
+        Returns:
+            The newly created or existing DiagnosticOperationCycle instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticOperationCycle):
+            element = DiagnosticOperationCycle(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticOperationCycle, self.getReferrableElement(short_name, DiagnosticOperationCycle))
 
     def createDiagnosticOperationCyclePortMapping(self, short_name: str) -> DiagnosticOperationCyclePortMapping:
         """
@@ -8725,7 +8744,36 @@ class DiagnosticMemoryIdentifier(ARElement):
 
 
 class DiagnosticOperationCycle(ARElement):
-    pass
+    """Definition of an operation cycle that is the base of the event qualifying and for Dem scheduling. Tags: atp.recommendedPackage=DiagnosticOperationCycles"""
+
+    # DiagnosticOperationCycle method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.196, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Operation cycles types for the Dem.
+        self.type: Optional[DiagnosticOperationCycleTypeEnum] = None
+
+    def getType(self) -> Optional[DiagnosticOperationCycleTypeEnum]:
+        """
+        Operation cycles types for the Dem.
+        """
+        return self.type
+
+    def setType(self, value: Optional[DiagnosticOperationCycleTypeEnum]) -> DiagnosticOperationCycle:
+        """
+        Operation cycles types for the Dem.
+
+        A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):

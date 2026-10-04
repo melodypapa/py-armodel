@@ -592,6 +592,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryAddressableRangeAccess,
     DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
+    DiagnosticOperationCycle,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -708,6 +709,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticPeriodicRateCategoryEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
@@ -11073,6 +11075,12 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
         mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
 
+    def readDiagnosticOperationCycle(self, element: ET.Element, cycle: DiagnosticOperationCycle):
+        self.logger.debug("Read DiagnosticOperationCycle <%s>" % cycle.getShortName())
+        self.readIdentifiable(element, cycle)
+        # TYPE is round-tripped as a raw literal until DiagnosticOperationCycleTypeEnum (Table 4.197, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
+        cycle.setType(cast(Optional[DiagnosticOperationCycleTypeEnum], self.getChildElementOptionalLiteral(element, "TYPE")))
+
     def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setOperationCycleRef(self.getChildElementOptionalRefType(element, "OPERATION-CYCLE-REF"))
@@ -16752,6 +16760,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ECU-INSTANCE-PROPS":
                 props = parent.createDiagnosticEcuInstanceProps(self.getShortName(child_element))
                 self.readDiagnosticEcuInstanceProps(child_element, props)
+            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE":
+                cycle = parent.createDiagnosticOperationCycle(self.getShortName(child_element))
+                self.readDiagnosticOperationCycle(child_element, cycle)
             elif tag_name == "DIAGNOSTIC-PROTOCOL":
                 protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
                 self.readDiagnosticProtocol(child_element, protocol)
@@ -17249,6 +17260,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-IUMPR-GROUP":
             iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
             self.readDiagnosticIumprGroup(child_element, iumpr_group)
+            return True
+        if tag_name == "DIAGNOSTIC-OPERATION-CYCLE":
+            cycle = parent.createDiagnosticOperationCycle(self.getShortName(child_element))
+            self.readDiagnosticOperationCycle(child_element, cycle)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             mapping = parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element))

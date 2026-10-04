@@ -97,6 +97,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryByAddress,
     DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
+    DiagnosticOperationCycle,
     DiagnosticOperationCyclePortMapping,
     DiagnosticParameterElementAccess,
     DiagnosticParameterIdentifier,
@@ -157,6 +158,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventKindEnum,
     DiagnosticIumprKindEnum,
     DiagnosticObdSupportEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
@@ -11299,3 +11301,85 @@ class TestDiagnosticDataIdentifierSet:
             self.DATA_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not extend the dataIdentifierRefs list."
         )
         assert inspect.cleandoc(DiagnosticDataIdentifierSet.getDataIdentifierRefs.__doc__) == self.DATA_IDENTIFIER_NOTE
+
+
+class TestDiagnosticOperationCycle:
+    """
+    Test class for DiagnosticOperationCycle functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.196, p.201
+
+    DiagnosticOperationCycle is an ARElement aggregated by ARPackage.element with a
+    single own attribute type (DiagnosticOperationCycleTypeEnum, 0..1, attr) — the
+    XSD group (AUTOSAR_00052.xsd l.40289) additionally lists AUTOMATIC-END,
+    CYCLE-AUTOSTART and CYCLE-STATUS-STORAGE, but all three carry
+    atp.Status="removed" and are not modeled (Rule 0015).
+    """
+
+    CLASS_NOTE = "Definition of an operation cycle that is the base of the event qualifying and for Dem scheduling. Tags: atp.recommendedPackage=DiagnosticOperationCycles"
+    TYPE_NOTE = "Operation cycles types for the Dem."
+
+    def _make_obj(self) -> DiagnosticOperationCycle:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticOperationCycle(ar_root, "TestOperationCycle")
+
+    def test_initialization(self):
+        """
+        Test that the class instantiates on the ARElement chain with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestOperationCycle"
+        assert isinstance(obj, DiagnosticOperationCycle)
+        assert isinstance(obj, ARElement)
+        assert obj.getType() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticOperationCycle.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticOperationCycle.__init__.__doc__ is None
+
+    def test_get_set_type(self):
+        """
+        Round-trips the own type attribute; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = DiagnosticOperationCycleTypeEnum([]).setValue("ignition")
+        result = obj.setType(value)
+        assert result is obj  # method chaining
+        assert obj.getType() is value
+        assert obj.getType().getValue() == "ignition"
+
+        result = obj.setType(None)
+        assert result is obj  # method chaining with None
+        assert obj.getType() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticOperationCycle.getType.__doc__) == self.TYPE_NOTE
+        assert inspect.cleandoc(DiagnosticOperationCycle.setType.__doc__) == (self.TYPE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing type.")
+
+    def test_create_diagnostic_operation_cycle(self):
+        """
+        Test that ARPackage.createDiagnosticOperationCycle appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticOperationCycle("OperationCycle1")
+
+        assert isinstance(obj, DiagnosticOperationCycle)
+        assert obj.getShortName() == "OperationCycle1"
+        assert ar_root.getReferrableElement("OperationCycle1", DiagnosticOperationCycle) is obj
+
+        duplicate = ar_root.createDiagnosticOperationCycle("OperationCycle1")
+        assert duplicate is obj

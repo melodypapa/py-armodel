@@ -1087,15 +1087,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticOperationCycle` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.196, p.201
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain (md Table 4.196) most-derived = ARElement — matches the row. Attribute (displayed order):
+    1. type (DiagnosticOperationCycleTypeEnum, 0..1, attr) → type: Optional[DiagnosticOperationCycleTypeEnum]; XSD child TYPE
+       (AUTOSAR_00052.xsd l.40321). The XSD group (l.40289) additionally lists AUTOMATIC-END, CYCLE-AUTOSTART and
+       CYCLE-STATUS-STORAGE, all atp.Status="removed" — NOT modeled (Rule 0015).
+  - note (pending reference): DiagnosticOperationCycleTypeEnum (Table 4.197, next row) is still a stub — TYPE is round-tripped
+    as a raw literal (getChildElementOptionalLiteral/setChildElementOptionalLiteral + cast); switch to
+    _readEnumToken/_writeEnumToken when the enum gains its literals (precedent TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION).
+    Base DiagnosticCommonElement (Table 4.1) contributes no XML (<xsd:sequence/>) — no base helper needed beyond readIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; removed-atp.Status XSD elements AUTOMATIC-END/CYCLE-AUTOSTART/CYCLE-STATUS-STORAGE not modeled per Rule 0015, and the still-stub DiagnosticOperationCycleTypeEnum interim raw-literal round-trip are note bullets, not deviations)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1926 passed / 0 failed: test_ARPackage.py + test_diagnostic_operation_cycle.py + test_writer_diagnostic_operation_cycle.py + test_member_annotations.py + test_group21_36_stub_classes.py; parser+writer regression 7666 passed / 4 failed — the 4 failures pre-exist on HEAD from the DiagnosticMemoryEntryStorageTriggerEnum commit and are out of scope); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticOperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.197, p.201
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
