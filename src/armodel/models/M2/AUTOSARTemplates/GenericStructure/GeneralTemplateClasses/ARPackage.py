@@ -3505,6 +3505,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(CpSwClusterToDiagEventMapping, self.getReferrableElement(short_name, CpSwClusterToDiagEventMapping))
 
+    def createDiagnosticFimAliasEvent(self, short_name: str) -> DiagnosticFimAliasEvent:
+        """
+        Creates a new DiagnosticFimAliasEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEvent: This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEvent
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEvent instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFimAliasEvent):
+            element = DiagnosticFimAliasEvent(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFimAliasEvent, self.getReferrableElement(short_name, DiagnosticFimAliasEvent))
+
     def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
         """
         Creates a new DiagnosticFimAliasEventGroup with the given short name,
@@ -7018,7 +7036,15 @@ class DiagnosticExtendedDataRecord(ARElement):
 
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
-    pass
+    """This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created. Tags: atp.recommendedPackage=DiagnosticFimAliasEvents"""
+
+    # DiagnosticFimAliasEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.212, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):

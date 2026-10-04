@@ -64,6 +64,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventToTroubleCodeJ1939Mapping,
     DiagnosticEventToTroubleCodeUdsMapping,
     DiagnosticExtendedDataRecord,
+    DiagnosticFimAliasEvent,
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticFimAliasEventMapping,
@@ -10159,6 +10160,64 @@ class TestDiagnosticExtendedDataRecord:
         assert ar_root.getReferrableElement("Record1", DiagnosticExtendedDataRecord) is obj
 
         duplicate = ar_root.createDiagnosticExtendedDataRecord("Record1")
+        assert duplicate is obj
+
+
+class TestDiagnosticFimAliasEvent:
+    """
+    Test class for DiagnosticFimAliasEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.212, p.214
+
+    DiagnosticFimAliasEvent is concrete but its table carries no Attribute rows
+    (the XSD group DIAGNOSTIC-FIM-ALIAS-EVENT is an empty sequence) — it is an
+    identity-only concrete marker over the abstract base DiagnosticAbstractAliasEvent
+    (Table 4.213); round-trip is driven by the concrete sibling
+    DiagnosticFimAliasEventGroup (Table 5.35).
+    """
+
+    CLASS_NOTE = "This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created. Tags: atp.recommendedPackage=DiagnosticFimAliasEvents"
+
+    def _make_obj(self) -> DiagnosticFimAliasEvent:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticFimAliasEvent(ar_root, "TestFimAliasEvent")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestFimAliasEvent"
+        assert isinstance(obj, DiagnosticFimAliasEvent)
+        assert isinstance(obj, DiagnosticAbstractAliasEvent)
+        assert isinstance(obj, ARElement)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticFimAliasEvent.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFimAliasEvent.__init__.__doc__ is None
+
+    def test_create_diagnostic_fim_alias_event(self):
+        """
+        Test that ARPackage.createDiagnosticFimAliasEvent appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticFimAliasEvent("FimAliasEvent1")
+
+        assert isinstance(obj, DiagnosticFimAliasEvent)
+        assert obj.getShortName() == "FimAliasEvent1"
+        assert ar_root.getReferrableElement("FimAliasEvent1", DiagnosticFimAliasEvent) is obj
+
+        duplicate = ar_root.createDiagnosticFimAliasEvent("FimAliasEvent1")
         assert duplicate is obj
 
 
