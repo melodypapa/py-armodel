@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -172,41 +172,85 @@ class TestApplicationCompositeDataType:
 
 
 class TestApplicationArrayDataType:
-    """Test class for ApplicationArrayDataType class."""
+    """Heritage / API tests for the synced ApplicationArrayDataType (Table 5.8)."""
 
-    def test_application_array_data_type_initialization(self):
-        """Test ApplicationArrayDataType initialization and methods."""
+    def test_initialization(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
 
         assert array_type.parent == ar_root
         assert array_type.short_name == "TestApplicationArrayDataType"
-        assert array_type.swDataDefProps is None
         assert array_type.dynamicArraySizeProfile is None
+        assert array_type.element is None
+        assert array_type.getDynamicArraySizeProfile() is None
         assert array_type.getApplicationArrayElement() is None
+        assert array_type.getSwDataDefProps() is None
 
-        # Test swDataDefProps methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+    def test_base_shape(self):
+        assert ApplicationArrayDataType.__bases__[0] is ApplicationCompositeDataType
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+        assert isinstance(array_type, ApplicationDataType)
+        assert isinstance(array_type, AutosarDataType)
+        assert isinstance(array_type, ARElement)
+        assert isinstance(array_type, Identifiable)
+        assert isinstance(array_type, ARObject)
 
-        sw_data_def = SwDataDefProps()
-        array_type.setSwDataDefProps(sw_data_def)
-        assert array_type.getSwDataDefProps() == sw_data_def
+    def test_class_docstring_matches_spec_note(self):
+        assert ApplicationArrayDataType.__doc__.strip() == (
+            "An application data type which is an array, each element is of the same application data type.\n\n"
+            "    [constr_1907] Existence of attribute ApplicationArrayDataType.element: For each ApplicationArrayDataType, "
+            "the aggregation of ApplicationArrayElement in the role element shall exist at the time when the RTE is generated."
+        )
 
-        # Test dynamicArraySizeProfile methods
-        profile = "test_profile"
-        array_type.setDynamicArraySizeProfile(profile)
-        assert array_type.getDynamicArraySizeProfile() == profile
+    def test_get_set_dynamic_array_size_profile(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+        profile = String().setValue("FIXED_LENGTH")
 
-        # Test createApplicationArrayElement and related methods
+        assert array_type.setDynamicArraySizeProfile(profile) is array_type
+        assert array_type.getDynamicArraySizeProfile() is profile
+
+        array_type.setDynamicArraySizeProfile(None)
+        assert array_type.getDynamicArraySizeProfile() is profile
+
+    def test_get_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ApplicationArrayDataType.getDynamicArraySizeProfile.__doc__.strip() == ("Specifies the profile which the array will follow if it is a variable size array.")
+
+    def test_set_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ApplicationArrayDataType.setDynamicArraySizeProfile.__doc__.strip() == (
+            "Specifies the profile which the array will follow if it is a variable size array. " "A None value is a no-op and does not overwrite an existing dynamicArraySizeProfile."
+        )
+
+    def test_get_application_array_element_docstring_verbatim(self):
+        assert ApplicationArrayDataType.getApplicationArrayElement.__doc__.strip() == (
+            "This association implements the concept of an array element. That is, in some cases it is necessary to be "
+            "able to identify single array elements, e.g. as input values for an interpolation routine."
+        )
+
+    def test_create_application_array_element_docstring_verbatim(self):
+        assert ApplicationArrayDataType.createApplicationArrayElement.__doc__.strip() == (
+            "This association implements the concept of an array element. That is, in some cases it is necessary to be "
+            "able to identify single array elements, e.g. as input values for an interpolation routine."
+        )
+
+    def test_create_application_array_element(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+
         array_element = array_type.createApplicationArrayElement("TestArrayElement")
         assert array_element is not None
         assert array_element.short_name == "TestArrayElement"
         assert array_element.parent == array_type
-        assert array_type.element == array_element
+        assert array_type.element is array_element
+        assert array_type.getApplicationArrayElement() is array_element
 
-        # Test getApplicationArrayElement accessor for the element aggregation
-        assert array_type.getApplicationArrayElement() == array_element
+        duplicate = array_type.createApplicationArrayElement("TestArrayElement")
+        assert duplicate is array_element
 
 
 class TestApplicationRecordDataType:

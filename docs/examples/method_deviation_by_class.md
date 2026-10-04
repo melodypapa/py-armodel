@@ -2280,13 +2280,13 @@ No deviations — abstract Class (Table 4.89) with no own `Attribute` rows; Base
 **Note:** Batch sync 2026-10-04 (Group28 row 4; Rule 0023 legacy checklist re-sync). The stale `naming` row claiming source `windowSizeInit` maps to spec `windowSize` is removed (Rule 0014 stale row): the spec row is `windowSizeInit` (Table 4.92), while `windowSize` is the deprecated XSD-only attribute above. Two reader/writer to-fix defects found and fixed in this pass (rows removed per Rule 0014): (1) reader/writer used element tag `E2E-PROFILE-COMPATIBILITY-PROPS-REF` where the XSD spells `E-2-E-PROFILE-COMPATIBILITY-PROPS-REF` — XSD-valid files silently lost the ref; (2) writer `writeReceiverComSpec` dispatched E2E props through the base `writeTransformationComSpecProps` helper, dropping all 16 attributes for receiver com specs (Rule 0001.7 aggregator-coverage violation) — replaced with the shared `writeTransformationComSpecPropss` dispatcher.
 
 ## `ApplicationArrayDataType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 252
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 252  | **table:** Table 5.8
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `applicationArrayElement` | `—` | `element` | `ApplicationArrayElement` | — | type (spec one vs py list) |
+No deviations — both Table 5.8 attributes are modeled with spec shapes: `dynamicArraySizeProfile` (String, `0..1`, attr), `element` (ApplicationArrayElement, `0..1`, aggr → Referrable child, so `createApplicationArrayElement(short_name)` + `getApplicationArrayElement()` per Rule 0001.6) — each `Optional[T]` PEP 526 member + guarded accessors with full reader/writer coverage. Base most-derived `ApplicationCompositeDataType` (Table 5.6, p.241, already stamped). Stale row removed this pass: `applicationArrayElement` / `type (spec one vs py list)` described a superseded shape — the field is the spec-named `element`, `Optional[ApplicationArrayElement]` (py single), matching the PDF `0..1`.
+
+**Note:** Batch re-sync 2026-10-04 (Group28 row; pre-release-column checklist with stale `# Spec verified: R23-11` stamp — the marker was removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction). Class docstring rewritten verbatim from the markdown Note (`Tags:` tail dropped per ApplicationRecordDataType/SwTextProps convention) with constr_1907 appended; accessor docstrings wiped and rewritten verbatim (Args/Returns blocks and the "Named getApplicationArrayElement…" rationale sentence removed). One Rule 0001.11 fix: the `element` accessor pair reordered mutator-first (create before get). Reader/writer coverage and ARPackage dispatch pre-existed in XSD group order (DYNAMIC-ARRAY-SIZE-PROFILE [then] ELEMENT) — no parser/writer change; round-trip tests added on both sides. Referenced member type `ApplicationArrayElement` (Table 5.9) is queued separately in Group28 — no missing classes; FO_TPS AbstractPlatformSpecification Table 3.16, p.35 rendering is identical (SWCT defining doc cited).
 
 ## `ParameterInAtomicSWCTypeInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 319
