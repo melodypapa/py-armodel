@@ -128,6 +128,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticServiceMappingDiagTarget,
     DiagnosticServiceSwMapping,
     DiagnosticSessionControl,
+    DiagnosticStorageCondition,
     DiagnosticStorageConditionGroup,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
@@ -9761,6 +9762,82 @@ class TestDiagnosticEnableCondition:
         assert ar_root.getReferrableElement("EnableCondition1", DiagnosticEnableCondition) is obj
 
         duplicate = ar_root.createDiagnosticEnableCondition("EnableCondition1")
+        assert duplicate is obj
+
+
+class TestDiagnosticStorageCondition:
+    """
+    Test class for DiagnosticStorageCondition functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.186, p.194
+
+    DiagnosticStorageCondition is concrete but its table carries no Attribute rows
+    (the XSD group DIAGNOSTIC-STORAGE-CONDITION is an empty sequence) — every field
+    (initValue) is inherited from the abstract base DiagnosticCondition
+    (Table 4.184), so defaults and the base accessors are exercised on the
+    concrete class itself.
+    """
+
+    CLASS_NOTE = "Specification of a storage condition. Tags: atp.recommendedPackage=DiagnosticConditions"
+
+    def _make_obj(self) -> DiagnosticStorageCondition:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticStorageCondition(ar_root, "TestStorageCondition")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and the inherited defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestStorageCondition"
+        assert isinstance(obj, DiagnosticStorageCondition)
+        assert isinstance(obj, DiagnosticCondition)
+        assert isinstance(obj, DiagnosticCommonElement)
+        assert isinstance(obj, ARElement)
+        assert obj.getInitValue() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticStorageCondition.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticStorageCondition.__init__.__doc__ is None
+
+    def test_get_set_init_value(self):
+        """
+        Round-trips the inherited initValue; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        init_value = Boolean().setValue(True)
+        result = obj.setInitValue(init_value)
+        assert result is obj  # method chaining
+        assert obj.getInitValue() is init_value
+        assert obj.getInitValue().value is True
+
+        result = obj.setInitValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInitValue() is init_value  # None is a no-op
+
+    def test_create_diagnostic_storage_condition(self):
+        """
+        Test that ARPackage.createDiagnosticStorageCondition appends a new element and returns the existing one on a duplicate short name.
+        """
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        obj = ar_root.createDiagnosticStorageCondition("StorageCondition1")
+
+        assert isinstance(obj, DiagnosticStorageCondition)
+        assert obj.getShortName() == "StorageCondition1"
+        assert ar_root.getReferrableElement("StorageCondition1", DiagnosticStorageCondition) is obj
+
+        duplicate = ar_root.createDiagnosticStorageCondition("StorageCondition1")
         assert duplicate is obj
 
 

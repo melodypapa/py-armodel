@@ -3890,6 +3890,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticEnableCondition, self.getReferrableElement(short_name, DiagnosticEnableCondition))
 
+    def createDiagnosticStorageCondition(self, short_name: str) -> DiagnosticStorageCondition:
+        """
+        Creates a new DiagnosticStorageCondition with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageCondition: Specification of a storage condition..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageCondition
+
+        Returns:
+            The newly created or existing DiagnosticStorageCondition instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticStorageCondition):
+            element = DiagnosticStorageCondition(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticStorageCondition, self.getReferrableElement(short_name, DiagnosticStorageCondition))
+
     def createDiagnosticEnableConditionGroup(self, short_name: str) -> DiagnosticEnableConditionGroup:
         """
         Creates a new DiagnosticEnableConditionGroup with the given short name,
@@ -10404,7 +10422,15 @@ class DiagnosticSessionControl(ARElement):
 
 
 class DiagnosticStorageCondition(DiagnosticCondition):
-    pass
+    """Specification of a storage condition. Tags: atp.recommendedPackage=DiagnosticConditions"""
+
+    # DiagnosticStorageCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.186, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):

@@ -527,6 +527,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticEventToStorageConditionGroupMapping,
     DiagnosticEventToTroubleCodeUdsMapping,
     DiagnosticSessionControl,
+    DiagnosticStorageCondition,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     DiagnosticWriteDataByIdentifier,
@@ -14120,6 +14121,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, enable_condition)
         self.writeDiagnosticCondition(child_element, enable_condition)
 
+    def writeDiagnosticStorageCondition(self, element: ET.Element, storage_condition: DiagnosticStorageCondition):
+        self.logger.debug("Write DiagnosticStorageCondition %s" % storage_condition.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-STORAGE-CONDITION")
+        self.writeIdentifiable(child_element, storage_condition)
+        self.writeDiagnosticCondition(child_element, storage_condition)
+
     def writeDiagnosticEnableConditionGroup(self, element: ET.Element, enable_condition_group: DiagnosticEnableConditionGroup):
         self.logger.debug("Write DiagnosticEnableConditionGroup %s" % enable_condition_group.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-ENABLE-CONDITION-GROUP")
@@ -16807,6 +16814,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticRoutineControl(element, ar_element)
         elif isinstance(ar_element, DiagnosticRoutineControlClass):
             self.writeDiagnosticRoutineControlClass(element, ar_element)
+        elif isinstance(ar_element, DiagnosticStorageCondition):
+            self.writeDiagnosticStorageCondition(element, ar_element)
         elif isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
         elif isinstance(ar_element, DiagnosticReadDataByIdentifier):
@@ -17229,6 +17238,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticProofOfOwnership):
             self.writeDiagnosticProofOfOwnership(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticStorageCondition):
+            self.writeDiagnosticStorageCondition(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticVerifyCertificateBidirectional):
             self.writeDiagnosticVerifyCertificateBidirectional(element, ar_element)

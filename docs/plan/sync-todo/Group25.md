@@ -997,15 +997,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticStorageCondition` — DiagnosticCondition — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.186, p.194
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; concrete class whose table carries no Attribute rows (dash row; XSD
+    group DIAGNOSTIC-STORAGE-CONDITION is an empty sequence, complexType abstract="false"), so the class reduces to
+    __init__ over the synced abstract base DiagnosticCondition (initValue inherited, base helpers reused) and the
+    checklist is __init__-only per the DiagnosticEnableCondition precedent)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1936 passed / 0 failed: test_ARPackage.py + test_diagnostic_storage_condition.py + test_writer_diagnostic_storage_condition.py + test_member_annotations.py + test_group21_36_stub_classes.py; parser+writer regression 7688 passed / 0 failed); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 1): Table 4.186 is a concrete Class with zero Attribute rows; XSD group
+    DIAGNOSTIC-STORAGE-CONDITION (AUTOSAR_00052.xsd l.45629) is an empty `<xsd:sequence/>`
+    and the complexType (l.45638) is abstract="false". Base chain names DiagnosticCondition
+    (most-derived, synced in 48dbae418) — stub base already correct. Note = "Specification of
+    a storage condition. Tags: atp.recommendedPackage=DiagnosticConditions". Aggregated by
+    ARPackage.element → createDiagnosticStorageCondition factory + dispatch branches
+    (readARPackageElementsRest after DIAGNOSTIC-ROUTINE-CONTROL-CLASS and
+    readDiagnosticPackageElement before DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING per XSD
+    order; writeARPackageElementRest after DiagnosticRoutineControlClass and
+    writeDiagnosticElement after DiagnosticProofOfOwnership per XSD offsets 5202 < 5241 < 5256).
+    Referenced classes: DiagnosticCondition (synced), Boolean (synced primitive) — no stubs referenced.
+  - Note (Steps 5/6): reader readDiagnosticStorageCondition = readIdentifiable +
+    readDiagnosticCondition; writer writeDiagnosticStorageCondition = DIAGNOSTIC-STORAGE-CONDITION
+    subelement + writeIdentifiable + writeDiagnosticCondition (DIAGNOSTIC-COMMON-ELEMENT and
+    DIAGNOSTIC-STORAGE-CONDITION groups are empty sequences).
 
 - [ ] `DiagnosticDebounceAlgorithmProps` — Identifiable — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.187, p.196
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
