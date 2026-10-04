@@ -48,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseToEcuResetEnum,
     DiagnosticSignificanceEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagRequirementIdString,
@@ -2889,3 +2890,46 @@ class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
         enum.setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT)
 
         assert enum.getValue() == "statusBitAgingAndDisplacement"
+
+
+class TestDiagnosticTestResultUpdateEnum:
+    """
+    Test class for DiagnosticTestResultUpdateEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.202, p.205
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTestResultUpdateEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "always",
+            "steady",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTestResultUpdateEnum member values.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+
+        assert DiagnosticTestResultUpdateEnum.ALWAYS == "always"
+        assert DiagnosticTestResultUpdateEnum.STEADY == "steady"
+
+        assert enum.validateEnumValue("always") is True
+        assert enum.validateEnumValue("steady") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTestResultUpdateEnum instantiability and getValue.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+        enum.setValue(DiagnosticTestResultUpdateEnum.STEADY)
+
+        assert enum.getValue() == "steady"

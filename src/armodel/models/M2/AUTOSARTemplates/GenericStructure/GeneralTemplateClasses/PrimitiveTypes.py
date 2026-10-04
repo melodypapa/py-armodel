@@ -2467,7 +2467,29 @@ class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
 
 
 class DiagnosticTestResultUpdateEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to define the update behavior of a DiagnosticTestResult.
+    """
+
+    # DiagnosticTestResultUpdateEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.202, p.205
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Any DTR result reported by the monitor is used by the Dem. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # The Dem accepts reported DTRs only when the configured debouncing mechanism is stable at the FAIL or PASS limit. Tags: atp.EnumerationLiteralIndex=1
+    STEADY = "steady"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTestResultUpdateEnum.ALWAYS,
+                DiagnosticTestResultUpdateEnum.STEADY,
+            ]
+        )
 
 
 class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
