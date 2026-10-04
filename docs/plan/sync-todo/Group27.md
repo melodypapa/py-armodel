@@ -128,39 +128,45 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucAbstractReferenceValue` — EcucIndexableValue — R23-11 CP_TPS_ECUConfiguration Table 2.53, p.131
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (79 passed model+gate+round-trips; ecuc+VP subset 609; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `b5f923241`
+  - note (Step 1): abstract Class, Base most-derived EcucIndexableValue (+ABC guard); attrs annotation (* aggr), definition (0..1 ref), isAutoValue (0..1 attr); variationPoint arbitration: Table 2.53 has NO variationPoint row → VariationPointCapable mixin removed per Rule 0015 (XSD VARIATION-POINT at l.51058 is the atpVariation artifact "Applicable for: EcucContainerValue.referenceValue", same pattern as ECUC-PARAMETER-VALUE), writer+reader removed symmetrically, VP-suite test re-pinned; no deviations; no stamp (batch 9b)
 
 - [ ] `EcucReferenceValue` — EcucAbstractReferenceValue — R23-11 CP_TPS_ECUConfiguration Table 2.54, p.132
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (79 model suite green; ecuc+VP subset 609; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `5986011aa`
+  - note (Step 1): concrete Class, Base EcucAbstractReferenceValue; single attr value (Referrable 0..1 ref → valueRef, XSD l.53483); reader/writer already spec-correct (verified, no change); writer omit-empty VALUE-REF serialization kept deliberately (pinned by pre-existing test_writer_ecuc_values_variant tests); no deviations; no stamp (batch 9b)
 
 - [ ] `EcucInstanceReferenceValue` — EcucAbstractReferenceValue — R23-11 CP_TPS_ECUConfiguration Table 2.55, p.134
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (79 model suite green; ecuc+VP subset 609; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `9d34a1517`
+  - note (Step 1): concrete Class, Base EcucAbstractReferenceValue; single attr value (AtpFeature 0..1 iref → valueIRef: Optional[AnyInstanceRef], Note names InstanceRef implemented by AnyInstanceRef; XSD VALUE-IREF = ANY-INSTANCE-REF); rules.md queued fix (accessors on wrong field) verified already resolved; observation deferred to AnyInstanceRef sync: shared helpers read/write BASE-REF that XSD marks atpDerived; no deviations; no stamp (batch 9b)
 
 - [ ] `HwDescriptionEntity` — Referrable — R23-11 CP_TPS_ECUResourceTemplate Table 2.1, p.15
   - module: M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py
