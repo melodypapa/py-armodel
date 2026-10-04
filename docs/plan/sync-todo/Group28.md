@@ -474,15 +474,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ParameterInAtomicSWCTypeInstanceRef` — AtpInstanceRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.36, p.319
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/InstanceRefsUsage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (767 passed / 0 failed: test_InstanceRefsUsage.py + test_parameter_in_atomic_swc_type_instance_ref.py [parser] + test_parameter_in_atomic_swc_type_instance_ref.py [writer] + test_autosar_parameter_ref.py [parser+writer] + test_arxml_parser_orchestrators.py + test_arxml_parser_handlers.py + test_writer_swc_behavior.py + test_member_annotations.py); black clean / ruff clean on all 6 changed files; mypy 1 pre-existing error only (writer:7526, EndToEndProtection commit — not chased); set-based checklist==methods OK, no stale `# Spec verified:` in the block; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ArParameterInImplementationDataInstanceRef` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.38, p.324
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

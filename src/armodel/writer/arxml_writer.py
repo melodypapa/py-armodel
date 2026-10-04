@@ -4686,10 +4686,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: Optional[ParameterInAtomicSWCTypeInstanceRef]):
         if parameter_iref is not None:
             child_element = ET.SubElement(element, key)
-            for ref in parameter_iref.getContextDataPrototypeRefs():
-                self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", parameter_iref.getPortPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", parameter_iref.getRootParameterDataPrototypeRef())
+            for ref in parameter_iref.getContextDataPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", parameter_iref.getTargetDataPrototypeRef())
 
     def setAutosarParameterRef(self, element: ET.Element, key: str, parameter_ref: Optional[AutosarParameterRef]):

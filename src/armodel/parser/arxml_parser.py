@@ -5922,10 +5922,10 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             parameter_iref = ParameterInAtomicSWCTypeInstanceRef()
-            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
-                parameter_iref.addContextDataPrototypeRef(ref)
             parameter_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
             parameter_iref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                parameter_iref.addContextDataPrototypeRef(ref)
             parameter_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return parameter_iref
 
