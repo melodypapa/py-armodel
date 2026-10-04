@@ -155,15 +155,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwTextProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.7, p.250
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column; cited BSWModuleDescriptionTemplate
+    Table D.72) — stale `# Spec verified: R23-11` marker removed at session start, full
+    re-sync, stamp WITHHELD this batch. Defining table = SWCT Table 5.7, p.250 (page-split:
+    Class/Package/Note/Base + arraySizeSemantics/baseType/swFillCharacter render before the
+    caption, swMaxTextSize after). Base ARObject confirmed (XSD complexType SW-TEXT-PROPS
+    L116546 refs AR-OBJECT group only). 4 attrs, all 0..1: arraySizeSemantics (attr,
+    ArraySizeSemanticsEnum — stamped R23-11), baseType (ref SwBaseType → baseTypeRef),
+    swFillCharacter/swMaxTextSize (attr Integer). swMaxTextSize row carries atpVariation but
+    Kind=attr → attribute-value variation only; XSD group L116499 anchors NO VARIATION-POINT →
+    not VP-capable. XSD group XML order = ARRAY-SIZE-SEMANTICS, SW-MAX-TEXT-SIZE (20),
+    BASE-TYPE-REF (30), SW-FILL-CHARACTER (40); reader/writer emit BASE-TYPE-REF and
+    SW-FILL-CHARACTER before SW-MAX-TEXT-SIZE → order fix needed (Step 6). Model impl +
+    docstrings already conform (vacuous model Red expected).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 5 passed tests/test_armodel/models/M2/MSR/DataDictionary/test_DataDefProperties.py::TestSwTextProps (init defaults + 4 get/set round-trip + None no-op)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (base ARObject, 4 Optional[T] PEP 526 members in markdown order, guarded self-returning setters, baseTypeRef kind suffix all in place; field-to-spec cross-check both directions clean)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwTextProps block wiped and rewritten verbatim from the markdown Notes; every docstring (class + 4 inline comments + 8 accessor docstrings) diffed character-for-character against the Notes — text already verbatim, rewrite is content-identical (no stale wording found)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_element_order_matches_xsd_group failed (writer emits ARRAY-SIZE-SEMANTICS, BASE-TYPE-REF, SW-FILL-CHARACTER, SW-MAX-TEXT-SIZE — markdown order, not XSD); reader tests passed (vacuous Red, find-based read is order-independent); 6 passed / 1 failed across the two new files
+  - [x] Step 6 — Update parser & writer (Green) — parser getSwTextProps + writer setSwTextProps reordered to XSD group order (ARRAY-SIZE-SEMANTICS, SW-MAX-TEXT-SIZE, BASE-TYPE-REF, SW-FILL-CHARACTER); 7 passed
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, citation FIXED to defining SWCT Table 5.7 p.250 (was legacy BSWModuleDescriptionTemplate Table D.72), stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry updated (docs/examples/method_deviation_by_class.md): citation moved D.72→Table 5.7, stale no-deviation table row replaced with summary + batch Note
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (3 passed / 0 failed tests/test_armodel/parser/test_SwTextProps.py, 4 passed / 0 failed tests/test_armodel/writer/test_writer_SwTextProps.py, 5 passed / 0 failed tests/test_armodel/models/M2/MSR/DataDictionary/test_DataDefProperties.py::TestSwTextProps, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 175 passed DataDictionary model dir, 46 passed test_LogAndTraceExtract (only other test referencing SwTextProps), 59 passed parser/writer test_instantiation_data_def_props + test_implementation_data_type_element + test_data_prototype + test_abstract_arxml_writer, 4 passed test_autosar_data_type; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified; no integration fixture carries SW-TEXT-PROPS — order fix cannot affect the integration round-trip); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationArrayDataType` — ApplicationCompositeDataType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.8, p.252; also FO_TPS_AbstractPlatformSpecification Table 3.16, p.35
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py

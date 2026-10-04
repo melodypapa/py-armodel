@@ -3913,9 +3913,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SW-TEXT-PROPS")
             self.writeARObject(child_element, props)
             self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", props.getArraySizeSemantics())
+            self.setChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE", props.getSwMaxTextSize())
             self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", props.getBaseTypeRef())
             self.setChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER", props.getSwFillCharacter())
-            self.setChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE", props.getSwMaxTextSize())
 
     def setApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
         self.writeAutosarDataType(element, data_type)

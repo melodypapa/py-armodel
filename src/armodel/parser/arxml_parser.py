@@ -6497,9 +6497,9 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             props = SwTextProps()
             props.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
+            props.setSwMaxTextSize(self.getChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE"))
             props.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
             props.setSwFillCharacter(self.getChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER"))
-            props.setSwMaxTextSize(self.getChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE"))
         return props
 
     def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):

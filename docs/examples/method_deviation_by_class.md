@@ -1549,13 +1549,13 @@ Aligned to `class_check_rules.md` on 2026-08-08 (Table 7.61, p.613). Base `ARObj
 | — *(missing)* | `—` | `swDataDefPropsVariant` | `SwDataDefPropsConditional` | — | missing |
 
 ## `SwTextProps`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 343
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 250  | **table:** Table 5.7
 - **Package:** `M2::MSR::DataDictionary::DataDefProperties`
 - **Source:** `src/armodel/models/M2/MSR/DataDictionary/DataDefProperties.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(no deviation)* | — | — | — | — | Aligned to Table D.72 (R23-11): `arraySizeSemantics`, `baseTypeRef`, `swFillCharacter`, `swMaxTextSize` all present with reader/writer; fabricated `encoding`/`format` fields removed. |
+No deviations — all four Table 5.7 attributes are modeled with spec shapes: `arraySizeSemantics` (ArraySizeSemanticsEnum, `0..1`, attr), `baseType` (SwBaseType, `0..1`, ref → `baseTypeRef`, Kind-suffix per Rule 0001.5), `swFillCharacter` (Integer, `0..1`, attr), `swMaxTextSize` (Integer, `0..1`, attr) — each `Optional[T]` PEP 526 member + guarded `get/setXxx` pair with full reader/writer coverage. Base most-derived `ARObject` (XSD complexType `SW-TEXT-PROPS`, `AUTOSAR_00052.xsd` L116546, refs AR-OBJECT group only). `swMaxTextSize` carries the `atpVariation` stereotype but its Kind is `attr` → attribute-value variation only (XSD types the element `INTEGER-VALUE-VARIATION-POINT`; PDF type `Integer` wins per Rule 0015); XSD group `SW-TEXT-PROPS` (L116499) anchors NO `VARIATION-POINT` → not VP-capable.
+
+**Note:** Batch re-sync 2026-10-04 (Group28 row; Rule 0023 legacy checklist — pre-release-column format with stale `# Spec verified: R23-11` stamp citing the reproducing BSWModuleDescriptionTemplate Table D.72; the marker was removed at session start, the citation FIXED to the defining SWCT Table 5.7 p.250, and the stamp stays WITHHELD pending the 9b batch confirmation, user instruction). Table 5.7 is page-split (p.249→250): the markdown renders the Class/Package/Note/Base/Aggregated-by rows + `arraySizeSemantics`/`baseType`/`swFillCharacter` before the caption and `swMaxTextSize` after it — displayed order is the class member order; XSD element order is independent (ARRAY-SIZE-SEMANTICS, SW-MAX-TEXT-SIZE [20], BASE-TYPE-REF [30], SW-FILL-CHARACTER [40]). Model Red vacuous (impl already conformed — base, members, guarded setters, verbatim docstrings all in place; noted). The genuine fix of this pass: reader `getSwTextProps` and writer `setSwTextProps` emitted the four child elements in markdown order (SW-MAX-TEXT-SIZE last), violating the XSD sequenceOffset — both reordered to the group order (writer Red genuine: `test_write_element_order_matches_xsd_group` failed with `['ARRAY-SIZE-SEMANTICS', 'BASE-TYPE-REF', 'SW-FILL-CHARACTER', 'SW-MAX-TEXT-SIZE']` before the fix). Aggregator dispatch pre-exists both sides (parser `getSwDataDefProps` / writer `setSwDataDefProps` call sites) — unchanged. Referenced member type `ArraySizeSemanticsEnum` (Table 5.10) is stamped R23-11; no missing classes.
 
 ## `DocumentationBlock`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 287

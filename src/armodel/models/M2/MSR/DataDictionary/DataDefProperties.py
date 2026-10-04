@@ -996,18 +996,17 @@ class SwTextProps(ARObject):
     """
 
     # SwTextProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.72, p.343
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArraySizeSemantics    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArraySizeSemantics    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBaseTypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwFillCharacter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwFillCharacter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwMaxTextSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwMaxTextSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.7, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySizeSemantics    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeSemantics    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBaseTypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwFillCharacter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwFillCharacter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwMaxTextSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwMaxTextSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
