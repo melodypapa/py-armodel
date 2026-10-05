@@ -411,7 +411,26 @@ class TestNonqueuedSenderComSpec:
 
 
 class TestClientComSpec:
-    """Test class for ClientComSpec class."""
+    """Test class for ClientComSpec class (Table 4.77)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.77 Notes copied verbatim."""
+        assert ClientComSpec.__doc__.strip() == "Client-specific communication attributes (RPortPrototype typed by ClientServerInterface)."
+        timeout_note = "This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response)."
+        assert ClientComSpec.getEndToEndCallResponseTimeout.__doc__.strip() == timeout_note
+        assert ClientComSpec.setEndToEndCallResponseTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout."
+        operation_note = "This represents the corresponding ClientServerOperation."
+        assert ClientComSpec.getOperationRef.__doc__.strip() == operation_note
+        assert ClientComSpec.setOperationRef.__doc__.strip() == operation_note + " A None value is a no-op and does not overwrite an existing operationRef."
+        transformation_note = "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        assert ClientComSpec.addTransformationComSpecProps.__doc__.strip() == transformation_note + " A None value is a no-op and does not append anything."
+        assert ClientComSpec.getTransformationComSpecProps.__doc__.strip() == transformation_note
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, RPortComSpec (Table 4.77); most-derived base RPortComSpec."""
+        com_spec = ClientComSpec()
+        assert isinstance(com_spec, RPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_client_com_spec_initialization(self):
         """Test ClientComSpec initialization and methods."""

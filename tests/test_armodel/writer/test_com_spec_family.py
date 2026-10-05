@@ -21,7 +21,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     TransmissionAcknowledgementRequest,
     TransmissionComSpecProps,
     TransmissionModeDefinitionEnum,
+    UserDefinedTransformationComSpecProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -93,15 +95,64 @@ class TestRPortComSpecRoundTrip:
         _, _, r_port = _new_document_with_ports()
 
         com_spec = ClientComSpec()
+        com_spec.setEndToEndCallResponseTimeout(TimeValue().setValue("1.5"))
         com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+        e2e_props = EndToEndTransformationComSpecProps()
+        max_delta_counter = PositiveInteger()
+        max_delta_counter.setValue("2")
+        e2e_props.setMaxDeltaCounter(max_delta_counter)
+        com_spec.addTransformationComSpecProps(e2e_props)
         r_port.addRequiredComSpec(com_spec)
 
         _, r_port_2 = _round_trip_ports(AUTOSAR.getInstance())
 
         com_specs = r_port_2.getRequiredComSpecs()
         assert len(com_specs) == 1
+        assert com_specs[0].getEndToEndCallResponseTimeout().getValue() == 1.5
         assert com_specs[0].getOperationRef().getValue() == "/Swc/Iface/Op"
         assert com_specs[0].getOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+        transformation_props = com_specs[0].getTransformationComSpecProps()
+        assert len(transformation_props) == 2
+        assert isinstance(transformation_props[0], UserDefinedTransformationComSpecProps)
+        assert isinstance(transformation_props[1], EndToEndTransformationComSpecProps)
+        assert transformation_props[1].getMaxDeltaCounter().getValue() == 2
+
+    def test_client_com_spec_xml_element_order_matches_xsd(self):
+        """Writer emission order follows the XSD CLIENT-COM-SPEC group sequence (Rule 0001.11)."""
+        document, _, r_port = _new_document_with_ports()
+
+        com_spec = ClientComSpec()
+        com_spec.setEndToEndCallResponseTimeout(TimeValue().setValue("1.5"))
+        com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+        r_port.addRequiredComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        com_spec_element = root.find(".//{*}R-PORT-PROTOTYPE/{*}REQUIRED-COM-SPECS/{*}CLIENT-COM-SPEC")
+        tags = [child.tag.split("}")[-1] for child in com_spec_element]
+        client_tags = [
+            "END-TO-END-CALL-RESPONSE-TIMEOUT",
+            "OPERATION-REF",
+            "TRANSFORMATION-COM-SPEC-PROPSS",
+        ]
+        emitted = [tag for tag in tags if tag in client_tags]
+        assert emitted == client_tags
+
+    def test_client_com_spec_empty_props_no_wrapper(self):
+        """A ClientComSpec without transformationComSpecProps emits no TRANSFORMATION-COM-SPEC-PROPSS wrapper and re-parses to []."""
+        document, _, r_port = _new_document_with_ports()
+
+        com_spec = ClientComSpec()
+        com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        r_port.addRequiredComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        com_spec_element = root.find(".//{*}CLIENT-COM-SPEC")
+        assert com_spec_element.find("{*}TRANSFORMATION-COM-SPEC-PROPSS") is None
+
+        _, r_port_2 = _round_trip_ports(document)
+        assert r_port_2.getRequiredComSpecs()[0].getTransformationComSpecProps() == []
 
     def test_empty_required_com_specs(self):
         _, _, r_port = _new_document_with_ports()

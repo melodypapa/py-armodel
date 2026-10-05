@@ -546,15 +546,14 @@ class ClientComSpec(RPortComSpec):
 
     # ClientComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.77, p.187
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEndToEndCallResponseTimeout [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEndToEndCallResponseTimeout [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -576,8 +575,7 @@ class ClientComSpec(RPortComSpec):
 
     def setEndToEndCallResponseTimeout(self, value: Optional[TimeValue]) -> ClientComSpec:
         """
-        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
-        A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
+        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response). A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
         """
         if value is not None:
             self.endToEndCallResponseTimeout = value
@@ -591,8 +589,7 @@ class ClientComSpec(RPortComSpec):
 
     def setOperationRef(self, value: Optional[RefType]) -> ClientComSpec:
         """
-        This represents the corresponding ClientServerOperation.
-        A None value is a no-op and does not overwrite an existing operationRef.
+        This represents the corresponding ClientServerOperation. A None value is a no-op and does not overwrite an existing operationRef.
         """
         if value is not None:
             self.operationRef = value
@@ -600,8 +597,7 @@ class ClientComSpec(RPortComSpec):
 
     def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ClientComSpec:
         """
-        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
-        A None value is a no-op and does not append anything.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation. A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.transformationComSpecProps.append(value)
