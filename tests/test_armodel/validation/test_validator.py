@@ -69,7 +69,13 @@ class TestARXMLValidator:
         assert len(errors) == 1
         assert errors[0].domain == "syntax"
 
-    def test_resolver_resolves_sibling_import(self):
+    def test_resolver_falls_back_to_shared_xml_xsd(self):
         importing_xsd = os.path.join(DATA_DIR, "importing_autosar.xsd")
         schema = get_schema(importing_xsd)
         assert schema.validate(etree.fromstring(VALID_DOC.encode("utf-8")))
+
+    def test_resolver_resolves_sibling_import(self):
+        importing_xsd = os.path.join(DATA_DIR, "importing_local.xsd")
+        schema = get_schema(importing_xsd)
+        assert schema is not None
+        assert schema.validate(etree.fromstring('<HOST xmlns="http://example.org/host"/>'.encode("utf-8")))

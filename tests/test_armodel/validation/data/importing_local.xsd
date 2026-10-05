@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://example.org/host"
+            elementFormDefault="qualified">
+  <xsd:import namespace="http://example.org/local" schemaLocation="imported_local.xsd"/>
+  <xsd:element name="HOST" type="xsd:string"/>
+</xsd:schema>
