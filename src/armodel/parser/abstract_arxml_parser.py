@@ -49,6 +49,7 @@ class AbstractARXMLParser(ABC):
         self.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         self.options = {}
         self.options["warning"] = False
+        self.options["validate"] = True
         self.logger = logging.getLogger()
 
         self._processOptions(options=options)
@@ -64,6 +65,8 @@ class AbstractARXMLParser(ABC):
         if options:
             if "warning" in options:
                 self.options["warning"] = options["warning"]
+            if "validate" in options:
+                self.options["validate"] = options["validate"]
 
     def raiseError(self, error_msg):
         if self.options["warning"] is True:

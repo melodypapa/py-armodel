@@ -10,7 +10,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 FULL_SYSTEM_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd">
   <AR-PACKAGES>
     <AR-PACKAGE>
       <SHORT-NAME>Systems</SHORT-NAME>
@@ -93,7 +93,7 @@ J1939_SHARED_ADDRESS_CLUSTER_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
 """
 
 COM_MANAGEMENT_MAPPING_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd">
   <AR-PACKAGES>
     <AR-PACKAGE>
       <SHORT-NAME>Systems</SHORT-NAME>
@@ -122,8 +122,8 @@ COM_MANAGEMENT_MAPPING_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
                     </COM-MANAGEMENT-PORT-GROUP-IREF>
                   </COM-MANAGEMENT-PORT-GROUP-IREFS>
                   <PHYSICAL-CHANNEL-REFS>
-                    <PHYSICAL-CHANNEL-REF DEST="CAN-COMMUNICATION-CONNECTOR">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel</PHYSICAL-CHANNEL-REF>
-                    <PHYSICAL-CHANNEL-REF DEST="CAN-COMMUNICATION-CONNECTOR">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel2</PHYSICAL-CHANNEL-REF>
+                    <PHYSICAL-CHANNEL-REF DEST="CAN-PHYSICAL-CHANNEL">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel</PHYSICAL-CHANNEL-REF>
+                    <PHYSICAL-CHANNEL-REF DEST="CAN-PHYSICAL-CHANNEL">/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel2</PHYSICAL-CHANNEL-REF>
                   </PHYSICAL-CHANNEL-REFS>
                   <VARIATION-POINT>
                     <SHORT-LABEL>VP_COMMAP</SHORT-LABEL>
@@ -323,9 +323,9 @@ class TestSystemTemplate:
         channel_refs = com_mapping.getPhysicalChannelRefs()
         assert len(channel_refs) == 2
         assert channel_refs[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel"
-        assert channel_refs[0].getDest() == "CAN-COMMUNICATION-CONNECTOR"
+        assert channel_refs[0].getDest() == "CAN-PHYSICAL-CHANNEL"
         assert channel_refs[1].getValue() == "/CanSystem/CLUSTERS/CanNetwork/CHANNELS/CanChannel2"
-        assert channel_refs[1].getDest() == "CAN-COMMUNICATION-CONNECTOR"
+        assert channel_refs[1].getDest() == "CAN-PHYSICAL-CHANNEL"
 
         variation_point = com_mapping.getVariationPoint()
         assert variation_point is not None

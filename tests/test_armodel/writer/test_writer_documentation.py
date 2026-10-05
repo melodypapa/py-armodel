@@ -129,12 +129,16 @@ class TestDocumentationRoundTrip:
         documentation.setDocumentationContent(predefined)
 
         out_file = tmp_path / "documentation_out.arxml"
-        ARXMLWriter().save(str(out_file), document)
+        ARXMLWriter(options={"validate": False}).save(
+            str(out_file), document
+        )  # known writer defect: BASE-REF written inside FEATURE-IREF (ANY-INSTANCE-REF) where R23-11 does not allow it (docs/plan/xsd-validation-known-writer-defects.md)
 
         reloaded = AUTOSAR.getInstance()
         reloaded.clear()
         reloaded.setARRelease("R23-11")
-        ARXMLParser().load(str(out_file), reloaded)
+        ARXMLParser(options={"validate": False}).load(
+            str(out_file), reloaded
+        )  # known writer defect: BASE-REF written inside FEATURE-IREF (ANY-INSTANCE-REF) where R23-11 does not allow it (docs/plan/xsd-validation-known-writer-defects.md)
 
         doc = reloaded.find("/Pkg/Doc1")
         assert doc is not None

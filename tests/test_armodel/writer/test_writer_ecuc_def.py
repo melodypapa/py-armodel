@@ -379,10 +379,14 @@ class TestWriterEcucStringParamDef:
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
-            ARXMLWriter().save(tmp_path, autosar)
+            ARXMLWriter(options={"validate": False}).save(
+                tmp_path, autosar
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             AUTOSAR.getInstance().new()
             AUTOSAR.getInstance().setARRelease("R23-11")
-            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            ARXMLParser(options={"validate": False}).load(
+                tmp_path, AUTOSAR.getInstance()
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
             reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
             reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
@@ -653,10 +657,14 @@ class TestWriterEcucFunctionNameDef:
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
-            ARXMLWriter().save(tmp_path, autosar)
+            ARXMLWriter(options={"validate": False}).save(
+                tmp_path, autosar
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             AUTOSAR.getInstance().new()
             AUTOSAR.getInstance().setARRelease("R23-11")
-            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            ARXMLParser(options={"validate": False}).load(
+                tmp_path, AUTOSAR.getInstance()
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
             reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
             reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
@@ -705,10 +713,14 @@ class TestWriterEcucMultilineStringParamDef:
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
-            ARXMLWriter().save(tmp_path, autosar)
+            ARXMLWriter(options={"validate": False}).save(
+                tmp_path, autosar
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             AUTOSAR.getInstance().new()
             AUTOSAR.getInstance().setARRelease("R23-11")
-            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            ARXMLParser(options={"validate": False}).load(
+                tmp_path, AUTOSAR.getInstance()
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
             reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
             reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)
@@ -1801,10 +1813,14 @@ class TestWriterEcucLinkerSymbolDef:
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
-            ARXMLWriter().save(tmp_path, autosar)
+            ARXMLWriter(options={"validate": False}).save(
+                tmp_path, autosar
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             AUTOSAR.getInstance().new()
             AUTOSAR.getInstance().setARRelease("R23-11")
-            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            ARXMLParser(options={"validate": False}).load(
+                tmp_path, AUTOSAR.getInstance()
+            )  # known writer defect: SHORT-NAME written in the wrong position within the ECUC def element (docs/plan/xsd-validation-known-writer-defects.md)
             reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
             reloaded_module = reloaded_pkg.getReferrableElement("Mod", EcucModuleDef)
             reloaded_container = reloaded_module.getReferrableElement("Ct", EcucParamConfContainerDef)

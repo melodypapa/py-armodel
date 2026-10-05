@@ -53,7 +53,7 @@ class TestReadViewMapSet:
                 <SHORT-NAME>MyViewMapSet</SHORT-NAME>
                 <VIEW-MAPS>
                     <VIEW-MAP>
-                        <SHORT-NAME>Map-1</SHORT-NAME>
+                        <SHORT-NAME>Map1</SHORT-NAME>
                         <ROLE>AR_SystemDescription_SystemExtract</ROLE>
                     </VIEW-MAP>
                     <VIEW-MAP>
@@ -67,7 +67,7 @@ class TestReadViewMapSet:
 
         view_maps = view_map_set.getViewMaps()
         assert len(view_maps) == 2
-        assert view_maps[0].getShortName() == "Map-1"
+        assert view_maps[0].getShortName() == "Map1"
         assert view_maps[0].getRole().getValue() == "AR_SystemDescription_SystemExtract"
         assert view_maps[1].getShortName() == "Map-2"
 
@@ -97,7 +97,7 @@ class TestReadViewMapSet:
                     <SHORT-NAME>MyViewMapSet</SHORT-NAME>
                     <VIEW-MAPS>
                         <VIEW-MAP>
-                            <SHORT-NAME>Map-1</SHORT-NAME>
+                            <SHORT-NAME>Map1</SHORT-NAME>
                         </VIEW-MAP>
                     </VIEW-MAPS>
                 </VIEW-MAP-SET>
@@ -117,7 +117,7 @@ class TestReadViewMapSet:
             view_map_sets = document.getARPackages()[0].getViewMapSets()
             assert len(view_map_sets) == 1
             assert view_map_sets[0].getShortName() == "MyViewMapSet"
-            assert view_map_sets[0].getViewMaps()[0].getShortName() == "Map-1"
+            assert view_map_sets[0].getViewMaps()[0].getShortName() == "Map1"
         finally:
             os.remove(file_path)
 
@@ -132,7 +132,7 @@ class TestReadViewMap:
         view_map_set = _make_view_map_set()
         element = ET.fromstring(
             f"""<VIEW-MAP xmlns='{NS}'>
-                <SHORT-NAME>Map-1</SHORT-NAME>
+                <SHORT-NAME>Map1</SHORT-NAME>
                 <ROLE>AR_AbstractSystemDescription_SystemDescription</ROLE>
                 <FIRST-ELEMENT-REFS>
                     <FIRST-ELEMENT-REF DEST="COLLECTION">/AUTOSAR/FirstColl</FIRST-ELEMENT-REF>
@@ -155,7 +155,7 @@ class TestReadViewMap:
             </VIEW-MAP>"""
         )
 
-        view_map = view_map_set.createViewMap("Map-1")
+        view_map = view_map_set.createViewMap("Map1")
         parser.readViewMap(element, view_map)
 
         assert view_map.getRole().getValue() == "AR_AbstractSystemDescription_SystemDescription"
@@ -180,11 +180,11 @@ class TestReadViewMap:
         view_map_set = _make_view_map_set()
         element = ET.fromstring(
             f"""<VIEW-MAP xmlns='{NS}'>
-                <SHORT-NAME>Map-1</SHORT-NAME>
+                <SHORT-NAME>Map1</SHORT-NAME>
             </VIEW-MAP>"""
         )
 
-        view_map = view_map_set.createViewMap("Map-1")
+        view_map = view_map_set.createViewMap("Map1")
         parser.readViewMap(element, view_map)
 
         assert view_map.getRole() is None

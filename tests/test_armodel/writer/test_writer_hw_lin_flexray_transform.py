@@ -1101,7 +1101,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         desc.setClearFromValidToInvalid(flag)
         desc.setCounterOffset(PositiveInteger().setValue("5"))
         desc.setCrcOffset(PositiveInteger().setValue("10"))
-        desc.setDataIdMode(_literal("all16Bit"))
+        desc.setDataIdMode(_literal("ALL-16-BIT"))
         desc.setDataIdNibbleOffset(PositiveInteger().setValue("2"))
         ref = RefType()
         ref.setValue("/E2E/Props")
@@ -1116,7 +1116,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         desc.setMinOkStateInvalid(PositiveInteger().setValue("1"))
         desc.setMinOkStateValid(PositiveInteger().setValue("2"))
         desc.setOffset(PositiveInteger().setValue("0"))
-        desc.setProfileBehavior(_literal("R-4-2"))
+        desc.setProfileBehavior(_literal("R-4--2"))
         desc.setProfileName(_literal("Profile1"))
         desc.setSyncCounterInit(PositiveInteger().setValue("0"))
         desc.setUpperHeaderBitsToShift(PositiveInteger().setValue("0"))
@@ -1150,7 +1150,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         assert desc.getClearFromValidToInvalid().getValue() is True
         assert desc.getCounterOffset().getValue() == 5
         assert desc.getCrcOffset().getValue() == 10
-        assert desc.getDataIdMode().getValue() == "all16Bit"
+        assert desc.getDataIdMode().getValue() == "ALL-16-BIT"
         assert desc.getDataIdNibbleOffset().getValue() == 2
         ref = desc.getE2eProfileCompatibilityPropsRef()
         assert ref is not None and ref.getValue() == "/E2E/Props"
@@ -1164,7 +1164,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         assert desc.getMinOkStateInvalid().getValue() == 1
         assert desc.getMinOkStateValid().getValue() == 2
         assert desc.getOffset().getValue() == 0
-        assert desc.getProfileBehavior().getValue() == "R-4-2"
+        assert desc.getProfileBehavior().getValue() == "R-4--2"
         assert desc.getProfileName().getValue() == "Profile1"
         assert desc.getSyncCounterInit().getValue() == 0
         assert desc.getUpperHeaderBitsToShift().getValue() == 0

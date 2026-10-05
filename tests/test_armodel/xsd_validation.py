@@ -1,41 +1,27 @@
 """Shared helper to validate ARXML fragments against the AUTOSAR XSD schema.
 
-The AUTOSAR_00046.xsd schema imports the W3C ``xml.xsd`` namespace schema,
-which is not shipped alongside it. We therefore install a custom
-``etree.Resolver`` that maps relative ``import``/``include`` filenames to the
-sibling ``autosar/R4.4.0/xsd/`` directory, so lxml can resolve ``xml.xsd``.
+Delegates to :mod:`armodel.validation.validator` so the test-suite helper and the
+runtime validator share one implementation and one schema cache. Defaults to the
+bundled R4.4.0 schema (AUTOSAR_00046.xsd), matching the original behavior of this
+helper.
 """
 
 import os
 
-from lxml import etree
+from armodel.validation.validator import SCHEMA_DIR, ARXMLValidator
 
-XSD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "autosar", "R4.4.0", "xsd")
+XSD_DIR = os.path.join(SCHEMA_DIR, "R4.4.0")
 XSD_PATH = os.path.join(XSD_DIR, "AUTOSAR_00046.xsd")
-
-
-class _AUTOSARResolver(etree.Resolver):
-    def resolve(self, url, id, context):
-        candidate = os.path.join(XSD_DIR, os.path.basename(url))
-        if os.path.exists(candidate):
-            return self.resolve_filename(candidate, context)
-        return None
-
-
-def get_schema():
-    """Return a compiled lxml XMLSchema for AUTOSAR_00046.xsd (cached)."""
-    parser = etree.XMLParser()
-    parser.resolvers.add(_AUTOSARResolver())
-    return etree.XMLSchema(etree.parse(XSD_PATH, parser))
 
 
 def is_valid(xml):
     """Return True when the given XML byte/string is valid per the AUTOSAR XSD."""
-    return get_schema().validate(etree.fromstring(xml.encode("utf-8") if isinstance(xml, str) else xml))
+    data = xml.encode("utf-8") if isinstance(xml, str) else xml
+    return ARXMLValidator(XSD_PATH).validate_bytes(data) == []
 
 
 def assert_valid(xml):
     """Assert that the given XML byte/string is valid per the AUTOSAR XSD."""
-    schema = get_schema()
-    result = schema.validate(etree.fromstring(xml.encode("utf-8") if isinstance(xml, str) else xml))
-    assert result, "XML does not validate against AUTOSAR_00046.xsd:\n%s" % "\n".join(str(e) for e in schema.error_log[:10])
+    data = xml.encode("utf-8") if isinstance(xml, str) else xml
+    errors = ARXMLValidator(XSD_PATH).validate_bytes(data)
+    assert errors == [], "XML does not validate against AUTOSAR_00046.xsd:\n%s" % "\n".join("line %s: %s" % (error.line, error.message) for error in errors)

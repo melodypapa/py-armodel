@@ -32,7 +32,7 @@ CONTENT = f"""<?xml version="1.0" encoding="utf-8"?>
                                 <SDG-PRIMITIVE-ATTRIBUTE>
                                     <SHORT-NAME>Severity</SHORT-NAME>
                                     <GID>SEVERITY</GID>
-                                    <MAX INTERVAL-TYPE="INCLUSIVE">3</MAX>
+                                    <MAX INTERVAL-TYPE="CLOSED">3</MAX>
                                     <PATTERN>critical|significant|minor|low</PATTERN>
                                 </SDG-PRIMITIVE-ATTRIBUTE>
                                 <SDG-PRIMITIVE-ATTRIBUTE-WITH-VARIATION>

@@ -972,9 +972,9 @@ class TestSwComponentTypeRoundTrip:
         r_port.addRequiredComSpec(r_com_spec)
         app.createPRPortPrototype("PRPort")
         app.createPortGroup("PG")
-        app.addSwcMappingConstraintRef(_ref("/Mapping/Const1"))
-        app.addSwcMappingConstraintRef(_ref("/Mapping/Const2"))
-        app.addUnitGroupRef(_ref("/Units/Group1"))
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const1", "SW-COMPONENT-MAPPING-CONSTRAINTS"))
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const2", "SW-COMPONENT-MAPPING-CONSTRAINTS"))
+        app.addUnitGroupRef(_ref("/Units/Group1", "UNIT-GROUP"))
         consistency_needs = app.createConsistencyNeeds("Needs")
         consistency_needs.createDpgRequiresCoherency("DpgGroup")
         consistency_needs.createRegRequiresStability("RegGroup")
@@ -1058,12 +1058,16 @@ class TestSwComponentTypeDocumentationRoundTrip:
         self._build(pkg)
 
         out_file = tmp_path / "sw_component_documentation_out.arxml"
-        ARXMLWriter().save(str(out_file), document)
+        ARXMLWriter(options={"validate": False}).save(
+            str(out_file), document
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         reloaded = AUTOSAR.getInstance()
         reloaded.clear()
         reloaded.setARRelease("R23-11")
-        ARXMLParser().load(str(out_file), reloaded)
+        ARXMLParser(options={"validate": False}).load(
+            str(out_file), reloaded
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         swc = reloaded.find("/Swcs/App")
         assert swc is not None
@@ -1098,12 +1102,16 @@ class TestSwComponentTypeDocumentationRoundTrip:
         app.setSwComponentDocumentation(documentation)
 
         out_file = tmp_path / "sw_component_msr_query_out.arxml"
-        ARXMLWriter().save(str(out_file), document)
+        ARXMLWriter(options={"validate": False}).save(
+            str(out_file), document
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         reloaded = AUTOSAR.getInstance()
         reloaded.clear()
         reloaded.setARRelease("R23-11")
-        ARXMLParser().load(str(out_file), reloaded)
+        ARXMLParser(options={"validate": False}).load(
+            str(out_file), reloaded
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         swc = reloaded.find("/Swcs/App")
         documentation = swc.getSwComponentDocumentation()
@@ -1136,12 +1144,16 @@ class TestSwComponentTypeDocumentationRoundTrip:
         app.setSwComponentDocumentation(documentation)
 
         out_file = tmp_path / "sw_component_topic_content_out.arxml"
-        ARXMLWriter().save(str(out_file), document)
+        ARXMLWriter(options={"validate": False}).save(
+            str(out_file), document
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         reloaded = AUTOSAR.getInstance()
         reloaded.clear()
         reloaded.setARRelease("R23-11")
-        ARXMLParser().load(str(out_file), reloaded)
+        ARXMLParser(options={"validate": False}).load(
+            str(out_file), reloaded
+        )  # known writer defect: SW-COMPONENT-DOCUMENTATION written in the wrong position within the SW component type (docs/plan/xsd-validation-known-writer-defects.md)
 
         swc = reloaded.find("/Swcs/App")
         documentation = swc.getSwComponentDocumentation()

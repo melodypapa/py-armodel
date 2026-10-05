@@ -24,7 +24,7 @@ class TestPortInterfaceServiceAttributesRoundTrip:
         is_service.setValue("true")
         cs.setIsService(is_service)
 
-        service_kind = ServiceProviderEnum().setValue(ServiceProviderEnum.COM_MANAGER)
+        service_kind = ServiceProviderEnum().setValue("COM-MANAGER")
         cs.setServiceKind(service_kind)
 
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
@@ -43,9 +43,9 @@ class TestPortInterfaceServiceAttributesRoundTrip:
             assert cs_2.getIsService() is not None
             assert cs_2.getIsService().getValue() is True
 
-            # serviceKind round-trips as the literal text "comManager"
+            # serviceKind round-trips as the literal text "COM-MANAGER"
             assert cs_2.getServiceKind() is not None
-            assert cs_2.getServiceKind().getText() == "comManager"
+            assert cs_2.getServiceKind().getText() == "COM-MANAGER"
         finally:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)

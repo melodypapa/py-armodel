@@ -1287,6 +1287,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
+from armodel.validation import ARXMLValidator
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
 #: (AR:BINDING-TIME-ENUM--SIMPLE).
@@ -18364,6 +18365,26 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ARPackage <%s>" % type(pkg))
 
+    def _validateDocument(self, root, filename):
+        if self.options["validate"] is False:
+            return
+        data = ET.tostring(root, encoding="UTF-8")
+        validator = ARXMLValidator.for_document(data)
+        if validator is None:
+            self.logger.warning("No XSD schema found for <%s>; validation skipped" % filename)
+            return
+        errors = validator.validate_bytes(data)
+        if not errors:
+            return
+        if self.options["warning"] is True:
+            for error in errors:
+                self.logger.warning("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+            return
+        for error in errors:
+            self.logger.error("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+        first = errors[0]
+        raise ValueError("Generated ARXML file <%s> failed schema validation with %d error(s) (first: line %s, col %s: %s)" % (filename, len(errors), first.line, first.column, first.message))
+
     def save(self, filename, document: AUTOSAR):
         self.logger.info("Saving %s ..." % filename)
 
@@ -18391,4 +18412,5 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
             self.writeARPackages(root, document.getARPackages())
 
+        self._validateDocument(root, filename)
         self.saveToFile(filename, root)

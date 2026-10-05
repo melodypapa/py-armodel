@@ -55,7 +55,7 @@ class TestDataTransformationRoundTrip:
     def test_round_trip_field_values(self, tmp_path):
         document, package, dtf_set = _build_document()
         dtf = dtf_set.createDataTransformation("Chain")
-        dtf.setDataTransformationKind(DataTransformationKindEnum().setValue(DataTransformationKindEnum.ASYMMETRIC_TO_BYTE_ARRAY))
+        dtf.setDataTransformationKind(DataTransformationKindEnum().setValue("ASYMMETRIC-TO-BYTE-ARRAY"))
         dtf.setExecuteDespiteDataUnavailability(Boolean().setValue(True))
         ref = RefType()
         ref.setDest("TRANSFORMATION-TECHNOLOGY")
@@ -78,7 +78,7 @@ class TestDataTransformationRoundTrip:
         dtf2 = dtf_set2.getDataTransformations()[0]
         assert isinstance(dtf2, DataTransformation)
         assert dtf2.getShortName() == "Chain"
-        assert dtf2.getDataTransformationKind().getValue() == "asymmetricToByteArray"
+        assert dtf2.getDataTransformationKind().getValue() == "ASYMMETRIC-TO-BYTE-ARRAY"
         assert dtf2.getExecuteDespiteDataUnavailability().getValue() is True
         assert len(dtf2.getTransformerChainRefs()) == 1
         assert dtf2.getTransformerChainRefs()[0].getValue() == "/Transformers/Set/Serializer"
@@ -113,7 +113,7 @@ class TestTransformationTechnologyRoundTrip:
         desc = EndToEndTransformationDescription()
         desc.setCrcOffset(PositiveInteger().setValue("8"))
         tech.setTransformationDescription(desc)
-        tech.setTransformerClass(TransformerClassEnum().setValue(TransformerClassEnum.SAFETY))
+        tech.setTransformerClass(TransformerClassEnum().setValue("SAFETY"))
         tech.setVersion(String().setValue("2.0"))
 
         file_name = str(tmp_path / "technology.arxml")
@@ -136,7 +136,7 @@ class TestTransformationTechnologyRoundTrip:
         desc2 = tech2.getTransformationDescription()
         assert isinstance(desc2, EndToEndTransformationDescription)
         assert desc2.getCrcOffset().getValue() == 8
-        assert tech2.getTransformerClass().getValue() == "safety"
+        assert tech2.getTransformerClass().getValue() == "SAFETY"
         assert tech2.getVersion().getValue() == "2.0"
 
     def test_element_order_and_empty_wrappers(self):
