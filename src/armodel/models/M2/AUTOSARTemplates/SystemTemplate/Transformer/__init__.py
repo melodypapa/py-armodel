@@ -22,9 +22,9 @@ class DataTransformationKindEnum(AREnum):
     """
 
     # DataTransformationKindEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.40, p.150
-    # Spec verified: R23-11
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.40, p.150 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The DataTransformation shall only be applied to the receiving end only, i.e. transform from byte array to data type. Tags: atp.EnumerationLiteralIndex=0
     ASYMMETRIC_FROM_BYTE_ARRAY = "asymmetricFromByteArray"

@@ -570,15 +570,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DataTransformationKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.40, p.150
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — serialized as the DATA-TRANSFORMATION-KIND attribute value on DataTransformation)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — round-tripped on the consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (enum test 4 passed; transformer suite 119; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): already at the current bar — 3 literals verified 1:1 in displayed order (asymmetricFromByteArray/asymmetricToByteArray/symmetric, indices 0/1/2), registration tuple and Note verbatim; stale `# Spec verified:` removed for batch 9b; checklist normalized to the 6-col `__init__`-row variant; Steps 5/6 N/A (serialized as DATA-TRANSFORMATION-KIND on DataTransformation); no deviations; no stamp (batch 9b)
 
 - [ ] `SenderReceiverAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.41, p.152
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
