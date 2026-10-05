@@ -122,6 +122,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13130 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RunMode` (input · R23-11 markdown · Table 6.94)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
   - Note: NEW row (recorded 2026-09-28: LinScheduleTable.runMode member type was missing from the codebase and had no Phase 0 queue row — implemented + synced in commit fe2818958, Rule 0001.10/0017 row-parity; same pattern as the TriggerMode/SecuredPduHeaderEnum NEW rows) — AREnum at M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py; Table 6.94, p.432 (CP_TPS_SystemTemplate); literals RunContinuous="RunContinuous", runOnce="runOnce"; serialized as an attribute value on the consuming LinScheduleTable (Rules 0010–0011).
   - [x] Step 1 — Sync members & description from spec — executed inside the fe2818958 pass (Table 6.94 located, literals extracted in displayed order)
   - [x] Step 2 — Write model class unit test (Red) — executed inside the fe2818958 pass (TestRunMode in mirrored test_LinCommunication.py: member presence/values + instantiability)
