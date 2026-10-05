@@ -866,8 +866,7 @@ class MappingDirectionEnum(AREnum):
     """
 
     # MappingDirectionEnum method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
