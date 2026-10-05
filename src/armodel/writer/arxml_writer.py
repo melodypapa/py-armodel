@@ -11333,6 +11333,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if formula is None:
             return
         formula_element = ET.SubElement(element, "CALCULATION-FORMULA")
+        self.writeARObject(formula_element, formula)
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
 
@@ -11340,6 +11341,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if formula is None:
             return
         formula_element = ET.SubElement(element, key)
+        self.writeARObject(formula_element, formula)
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
 
@@ -11380,6 +11382,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         expr = query.getEcucQueryExpression()
         if expr is not None:
             expr_element = ET.SubElement(element, "ECUC-QUERY-EXPRESSION")
+            self.writeARObject(expr_element, expr)
             self.setChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-GLOBAL-REF", expr.getConfigElementDefGlobalRef())
             self.setChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF", expr.getConfigElementDefLocalRef())
 
@@ -11508,6 +11511,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for uri_ref in uri_refs:
                 if isinstance(uri_ref, EcucDestinationUriDefRefType):
                     ref_element = ET.SubElement(child_element, "DESTINATION-URI-REF")
+                    self.writeARObject(ref_element, uri_ref)
                     base = uri_ref.getBase()
                     if base is not None:
                         ref_element.attrib["BASE"] = base
@@ -13751,7 +13755,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "VALUE", enumeration_value.getValue())
 
     def writeConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
-        """Write the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF without a forced DEST attribute)."""
+        """Write the R3.2.3 abstract ConfigReferenceValue members (S/T, DEFINITION-REF without a forced DEST attribute)."""
+        self.writeARObject(element, config_reference_value)
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", config_reference_value.getDefinitionRef())
 
     def writeReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):

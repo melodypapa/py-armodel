@@ -13422,6 +13422,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "DESTINATION-URI-REF":
                 uri_ref = EcucDestinationUriDefRefType()
+                self.readARObject(child_element, uri_ref)
                 if "BASE" in child_element.attrib:
                     uri_ref.setBase(child_element.attrib["BASE"])
                 if "DEST" in child_element.attrib:
@@ -13579,12 +13580,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucParameterDerivationFormula(self, element: ET.Element) -> EcucParameterDerivationFormula:
         formula = EcucParameterDerivationFormula()
+        self.readARObject(element, formula)
         formula.setEcucQueryRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF")))
         formula.setEcucQueryStringRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF")))
         return formula
 
     def readEcucConditionFormula(self, element: ET.Element) -> EcucConditionFormula:
         formula = EcucConditionFormula()
+        self.readARObject(element, formula)
         formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
         formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
         return formula
@@ -13624,6 +13627,7 @@ class ARXMLParser(AbstractARXMLParser):
         expr_element = self.find(element, "ECUC-QUERY-EXPRESSION")
         if expr_element is not None:
             expr = EcucQueryExpression()
+            self.readARObject(expr_element, expr)
             expr.setConfigElementDefGlobalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-GLOBAL-REF"))
             expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
             query.setEcucQueryExpression(expr)
@@ -15174,7 +15178,8 @@ class ARXMLParser(AbstractARXMLParser):
         enumeration_value.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
-        """Read the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF; DEST optional in legacy files)."""
+        """Read the R3.2.3 abstract ConfigReferenceValue members (S/T, DEFINITION-REF; DEST optional in legacy files)."""
+        self.readARObject(element, config_reference_value)
         config_reference_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
 
     def readReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):
