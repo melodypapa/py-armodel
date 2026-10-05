@@ -940,7 +940,25 @@ class TestParameterProvideComSpec:
 
 
 class TestTransmissionComSpecProps:
-    """Test class for TransmissionComSpecProps class."""
+    """Test class for TransmissionComSpecProps class (Table 4.70)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.70 Notes copied verbatim."""
+        assert TransmissionComSpecProps.__doc__.strip() == "This meta-class defines a set of transmission attributes which the application software is assumed to implement."
+        data_update_period_note = "This attribute defines the period in which the application is assumed to transmit the respective data."
+        assert TransmissionComSpecProps.getDataUpdatePeriod.__doc__.strip() == data_update_period_note
+        assert TransmissionComSpecProps.setDataUpdatePeriod.__doc__.strip() == data_update_period_note + " A None value is a no-op and does not overwrite an existing dataUpdatePeriod."
+        minimum_send_interval_note = "This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure."
+        assert TransmissionComSpecProps.getMinimumSendInterval.__doc__.strip() == minimum_send_interval_note
+        assert TransmissionComSpecProps.setMinimumSendInterval.__doc__.strip() == minimum_send_interval_note + " A None value is a no-op and does not overwrite an existing minimumSendInterval."
+        transmission_mode_note = "The attribute defines the mode in which the application is assumed to transmit the respective data."
+        assert TransmissionComSpecProps.getTransmissionMode.__doc__.strip() == transmission_mode_note
+        assert TransmissionComSpecProps.setTransmissionMode.__doc__.strip() == transmission_mode_note + " A None value is a no-op and does not overwrite an existing transmissionMode."
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject (Table 4.70); the class is concrete and instantiable."""
+        props = TransmissionComSpecProps()
+        assert isinstance(props, ARObject)
 
     def test_initialization(self):
         """Test TransmissionComSpecProps field defaults."""

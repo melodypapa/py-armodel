@@ -1390,6 +1390,14 @@ HANDLE_TIMEOUT_XML_MAP = {
     "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
+#: Mapping between TransmissionModeDefinitionEnum literal values and their XML element text
+#: (AR:TRANSMISSION-MODE-DEFINITION-ENUM--SIMPLE).
+TRANSMISSION_MODE_DEFINITION_XML_MAP = {
+    "cyclic": "CYCLIC",
+    "cyclicAndOnChange": "CYCLIC-AND-ON-CHANGE",
+    "triggered": "TRIGGERED",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -2352,7 +2360,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, props)
             self.setChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD", props.getDataUpdatePeriod())
             self.setChildElementOptionalTimeValue(child_element, "MINIMUM-SEND-INTERVAL", props.getMinimumSendInterval())
-            self.setChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE", props.getTransmissionMode())
+            self._writeEnumToken(child_element, "TRANSMISSION-MODE", props.getTransmissionMode(), TRANSMISSION_MODE_DEFINITION_XML_MAP)
 
     def writeSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
         self.writeARObject(element, com_spec)

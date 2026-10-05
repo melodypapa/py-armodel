@@ -115,7 +115,7 @@ class TestGetNonqueuedSenderComSpec:
             <TRANSMISSION-PROPS>
                 <DATA-UPDATE-PERIOD>0.01</DATA-UPDATE-PERIOD>
                 <MINIMUM-SEND-INTERVAL>0.1</MINIMUM-SEND-INTERVAL>
-                <TRANSMISSION-MODE>triggered</TRANSMISSION-MODE>
+                <TRANSMISSION-MODE>TRIGGERED</TRANSMISSION-MODE>
             </TRANSMISSION-PROPS>
             <TRANSMISSION-ACKNOWLEDGE>
                 <TIMEOUT>0.5</TIMEOUT>
@@ -131,6 +131,15 @@ class TestGetNonqueuedSenderComSpec:
         assert props.getTransmissionMode().getValue() == "triggered"
         assert result.getTransmissionAcknowledge() is not None
         assert result.getTransmissionAcknowledge().getTimeout().getValue() == 0.5
+
+    def test_transmission_mode_token_mapped_to_camel_literal(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            "<TRANSMISSION-PROPS><TRANSMISSION-MODE>CYCLIC-AND-ON-CHANGE</TRANSMISSION-MODE></TRANSMISSION-PROPS>",
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        assert result.getTransmissionProps().getTransmissionMode().getValue() == "cyclicAndOnChange"
 
     def test_without_transmission_props(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

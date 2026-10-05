@@ -1653,6 +1653,14 @@ HANDLE_TIMEOUT_XML_MAP = {
     "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
+#: Mapping between TransmissionModeDefinitionEnum literal values and their XML element text
+#: (AR:TRANSMISSION-MODE-DEFINITION-ENUM--SIMPLE).
+TRANSMISSION_MODE_DEFINITION_XML_MAP = {
+    "cyclic": "CYCLIC",
+    "cyclicAndOnChange": "CYCLIC-AND-ON-CHANGE",
+    "triggered": "TRIGGERED",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -8111,7 +8119,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(child_element, props)
             props.setDataUpdatePeriod(self.getChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD"))
             props.setMinimumSendInterval(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-SEND-INTERVAL"))
-            props.setTransmissionMode(cast(Optional[TransmissionModeDefinitionEnum], self.getChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE")))
+            props.setTransmissionMode(self._readEnumToken(child_element, "TRANSMISSION-MODE", TransmissionModeDefinitionEnum, TRANSMISSION_MODE_DEFINITION_XML_MAP))
             return props
         return None
 

@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
     TransmissionAcknowledgementRequest,
     TransmissionComSpecProps,
+    TransmissionModeDefinitionEnum,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.parser.arxml_parser import ARXMLParser
@@ -346,3 +347,85 @@ class TestSenderComSpecRoundTrip:
         emitted = [tag for tag in tags if tag in sender_tags]
         expected = [tag for tag in sender_tags if tag in set(tags)]
         assert emitted == expected
+
+
+def _new_transmission_com_spec_props():
+    props = TransmissionComSpecProps()
+    props.setDataUpdatePeriod(TimeValue().setValue("0.01"))
+    props.setMinimumSendInterval(TimeValue().setValue("0.2"))
+    props.setTransmissionMode(TransmissionModeDefinitionEnum().setValue(TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE))
+    return props
+
+
+class TestTransmissionComSpecPropsRoundTrip:
+    def test_transmission_com_spec_props_round_trip(self):
+        """TransmissionComSpecProps attributes round-trip inside TRANSMISSION-PROPS with field values intact."""
+        document, p_port, _ = _new_document_with_ports()
+
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setTransmissionProps(_new_transmission_com_spec_props())
+        p_port.addProvidedComSpec(com_spec)
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        com_spec_2 = p_port_2.getProvidedComSpecs()[0]
+        props = com_spec_2.getTransmissionProps()
+        assert isinstance(props, TransmissionComSpecProps)
+        assert props.getDataUpdatePeriod().getValue() == 0.01
+        assert props.getMinimumSendInterval().getValue() == 0.2
+        assert props.getTransmissionMode().getValue() == "cyclicAndOnChange"
+
+    def test_transmission_mode_xml_carries_xsd_token(self):
+        """TRANSMISSION-MODE is written as the XSD token and read back as the camelCase literal (TRANSMISSION_MODE_DEFINITION_XML_MAP)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setTransmissionProps(_new_transmission_com_spec_props())
+        p_port.addProvidedComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        mode_element = root.find(".//{*}TRANSMISSION-PROPS/{*}TRANSMISSION-MODE")
+        assert mode_element.text == "CYCLIC-AND-ON-CHANGE"
+
+        p_port_2, _ = _round_trip_ports(document)
+        props_2 = p_port_2.getProvidedComSpecs()[0].getTransmissionProps()
+        assert props_2.getTransmissionMode().getValue() == "cyclicAndOnChange"
+
+    def test_transmission_com_spec_props_schema_valid_output(self):
+        """A save carrying TRANSMISSION-PROPS must pass the bundled R23-11 XSD when schema location is set."""
+        document, p_port, _ = _new_document_with_ports()
+        document.schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd"
+
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setTransmissionAcknowledge(TransmissionAcknowledgementRequest().setTimeout(TimeValue().setValue("2.5")))
+        com_spec.setTransmissionProps(_new_transmission_com_spec_props())
+        p_port.addProvidedComSpec(com_spec)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+        com_spec_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0].getPPortPrototypes()[0].getProvidedComSpecs()[0]
+        assert com_spec_2.getTransmissionAcknowledge().getTimeout().getValue() == 2.5
+        props_2 = com_spec_2.getTransmissionProps()
+        assert props_2.getDataUpdatePeriod().getValue() == 0.01
+        assert props_2.getMinimumSendInterval().getValue() == 0.2
+        assert props_2.getTransmissionMode().getValue() == "cyclicAndOnChange"
+
+    def test_empty_transmission_props_round_trip(self):
+        """A SenderComSpec without transmissionProps round-trips with the field unset."""
+        document, p_port, _ = _new_document_with_ports()
+
+        p_port.addProvidedComSpec(NonqueuedSenderComSpec())
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        com_spec_2 = p_port_2.getProvidedComSpecs()[0]
+        assert com_spec_2.getTransmissionProps() is None
+        assert com_spec_2.getTransmissionAcknowledge() is None

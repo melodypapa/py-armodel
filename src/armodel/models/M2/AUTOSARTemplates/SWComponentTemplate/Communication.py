@@ -223,16 +223,15 @@ class TransmissionComSpecProps(ARObject):
     """
 
     # TransmissionComSpecProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.179
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.180
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -254,8 +253,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
-        This attribute defines the period in which the application is assumed to transmit the respective data.
-        A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
+        This attribute defines the period in which the application is assumed to transmit the respective data. A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
         """
         if value is not None:
             self.dataUpdatePeriod = value
@@ -269,8 +267,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setMinimumSendInterval(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
-        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
-        A None value is a no-op and does not overwrite an existing minimumSendInterval.
+        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure. A None value is a no-op and does not overwrite an existing minimumSendInterval.
         """
         if value is not None:
             self.minimumSendInterval = value
@@ -284,8 +281,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setTransmissionMode(self, value: Optional[TransmissionModeDefinitionEnum]) -> TransmissionComSpecProps:
         """
-        The attribute defines the mode in which the application is assumed to transmit the respective data.
-        A None value is a no-op and does not overwrite an existing transmissionMode.
+        The attribute defines the mode in which the application is assumed to transmit the respective data. A None value is a no-op and does not overwrite an existing transmissionMode.
         """
         if value is not None:
             self.transmissionMode = value

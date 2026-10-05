@@ -2237,6 +2237,17 @@ stale marker removed, re-stamp deferred to the batch 9b.
 
 **Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified both attributes both directions against Table 4.69, the verbatim Notes, and the XSD NONQUEUED-SENDER-COM-SPEC group element order DATA-FILTER → INIT-VALUE; the legacy 5-column checklist was normalized to the 6-column format and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader unchanged (`readSenderComSpec` base call + own attrs); writer's base call moved into `writeSenderComSpec` (see the SenderComSpec row). The former `dataFilter` "missing" row was stale — the accessor pair exists. No Rule 0001.10 missing classes. No stamp (batch 9b).
 
+## `TransmissionComSpecProps`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 180
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | All 3 spec attributes implemented (`dataUpdatePeriod`, `minimumSendInterval`, `transmissionMode`, each `0..1` → `Optional[T]`); reader/writer coverage complete. |
+
+**Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified all 3 attributes both directions against Table 4.70, the verbatim Notes, member order, and the XSD TRANSMISSION-COM-SPEC-PROPS group element order DATA-UPDATE-PERIOD → MINIMUM-SEND-INTERVAL → TRANSMISSION-MODE; Base `ARObject` per the table (XSD complexType refs `AR:AR-OBJECT` only); the legacy 5-column checklist was normalized to the 6-column format, the page citation corrected to p.180 per `pdf_page.py`, and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader/writer: `TRANSMISSION-MODE` routed through the new `TRANSMISSION_MODE_DEFINITION_XML_MAP` + `_readEnumToken`/`_writeEnumToken` in `getTransmissionComSpecProps`/`writeTransmissionComSpecProps` so the XML carries the XSD tokens (`CYCLIC`/`CYCLIC-AND-ON-CHANGE`/`TRIGGERED`) while the model keeps the camelCase literals; `readARObject`/`writeARObject` base calls unchanged. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
 ## `ClientComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 187
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`

@@ -249,7 +249,7 @@ class TestWriteSenderComSpec:
         assert transmission_props is not None
         assert transmission_props.find("DATA-UPDATE-PERIOD") is not None
         assert transmission_props.find("MINIMUM-SEND-INTERVAL") is not None
-        assert transmission_props.find("TRANSMISSION-MODE").text == "triggered"
+        assert transmission_props.find("TRANSMISSION-MODE").text == "TRIGGERED"
 
     def test_write_nonqueued_sender_comspec_with_data_filter(self, writer):
         com_spec = NonqueuedSenderComSpec()
