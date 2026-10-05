@@ -14,5 +14,7 @@ enforces byte equality).
 | R3.2.3 | AUTOSAR.xsd | AUTOSAR R3.2.3 XSD, mirrored at `autosar/R3.2.3/xsd/` |
 
 `xml.xsd` is the W3C XML namespace schema imported by the R23-11/R4.4.0/R4.3.1
-schemas; it is copied next to each importing schema so every directory is
-self-contained.
+schemas. A single shared copy lives at the schemas root (not inside any release
+directory); the validator's resolver falls back to the schemas root when an
+import is not found next to the importing schema, so every release directory
+stays self-contained without duplicating the file.

@@ -54,7 +54,7 @@ include-package-data = true
 where = ["src"]
 
 [tool.setuptools.package-data]
-"armodel.validation" = ["schemas/*/*.xsd", "schemas/README.md"]
+"armodel.validation" = ["schemas/*/*.xsd", "schemas/xml.xsd", "schemas/README.md"]
 
 [tool.setuptools.dynamic]
 version = {attr = "armodel.__version__"}

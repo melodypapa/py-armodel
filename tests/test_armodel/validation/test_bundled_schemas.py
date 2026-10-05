@@ -27,6 +27,12 @@ def test_bundled_schemas_match_repo_copies(release, xsd_name):
     assert _sha256(bundled) == _sha256(repo)
 
 
+def test_shared_xml_xsd_matches_repo_copy():
+    bundled = os.path.join(SCHEMA_DIR, "xml.xsd")
+    repo = os.path.join(REPO_ROOT, "autosar", "R4.4.0", "xsd", "xml.xsd")
+    assert _sha256(bundled) == _sha256(repo)
+
+
 @pytest.mark.slow
 @pytest.mark.parametrize("release,xsd_name", BUNDLED_SCHEMAS)
 def test_bundled_schema_compiles(release, xsd_name):

@@ -21,13 +21,18 @@ _CACHE_LOCK = threading.Lock()
 
 
 class _AUTOSARResolver(etree.Resolver):
-    def __init__(self, schema_dir: str) -> None:
+    def __init__(self, schema_dir: str, fallback_dir: Optional[str] = None) -> None:
         self.schema_dir = schema_dir
+        self.fallback_dir = fallback_dir
 
     def resolve(self, url, id, context):
         candidate = os.path.join(self.schema_dir, os.path.basename(url))
         if os.path.exists(candidate):
             return self.resolve_filename(candidate, context)
+        if self.fallback_dir is not None:
+            fallback_candidate = os.path.join(self.fallback_dir, os.path.basename(url))
+            if os.path.exists(fallback_candidate):
+                return self.resolve_filename(fallback_candidate, context)
         return None
 
 
@@ -54,7 +59,7 @@ def get_schema(xsd_path: str) -> etree.XMLSchema:
     with _CACHE_LOCK:
         if key not in _SCHEMA_CACHE:
             parser = etree.XMLParser()
-            parser.resolvers.add(_AUTOSARResolver(os.path.dirname(key)))
+            parser.resolvers.add(_AUTOSARResolver(os.path.dirname(key), fallback_dir=SCHEMA_DIR))
             _SCHEMA_CACHE[key] = etree.XMLSchema(etree.parse(key, parser))
         return _SCHEMA_CACHE[key]
 
@@ -84,7 +89,7 @@ class ARXMLValidator(object):
 
     def validate_bytes(self, data: bytes) -> List[ValidationError]:
         parser = etree.XMLParser()
-        parser.resolvers.add(_AUTOSARResolver(os.path.dirname(os.path.realpath(self.xsd_path))))
+        parser.resolvers.add(_AUTOSARResolver(os.path.dirname(os.path.realpath(self.xsd_path)), fallback_dir=SCHEMA_DIR))
         try:
             document = etree.fromstring(data, parser)
         except etree.XMLSyntaxError as e:
