@@ -4,7 +4,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu, NmEcu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu, NmCoordinator, NmEcu
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -60,6 +60,30 @@ class TestParseNmEcu:
         ecu = _parse_nm_ecu(xml)
         assert len(ecu.getBusDependentNmEcus()) == 1
         assert isinstance(ecu.getBusDependentNmEcus()[0], CanNmEcu)
+
+    def test_parse_nm_ecu_nm_coordinator(self):
+        xml = (
+            "<NmEcu xmlns='%s'>"
+            "<NM-COORDINATOR>"
+            "<INDEX>1</INDEX>"
+            "<NM-COORD-SYNC-SUPPORT>true</NM-COORD-SYNC-SUPPORT>"
+            "<NM-GLOBAL-COORDINATOR-TIME>2.5</NM-GLOBAL-COORDINATOR-TIME>"
+            "<NM-NODE-REFS>"
+            "<NM-NODE-REF DEST='NM-NODE'>/Clusters/Can1/node</NM-NODE-REF>"
+            "</NM-NODE-REFS>"
+            "</NM-COORDINATOR>"
+            "</NmEcu>" % NS
+        )
+        ecu = _parse_nm_ecu(xml)
+        coordinator = ecu.getNmCoordinator()
+        assert isinstance(coordinator, NmCoordinator)
+        assert coordinator.getIndex().getValue() == 1
+        assert coordinator.getNmCoordSyncSupport().getValue() is True
+        assert coordinator.getNmGlobalCoordinatorTime().getValue() == 2.5
+        nodes = coordinator.getNmNodes()
+        assert len(nodes) == 1
+        assert nodes[0].getDest() == "NM-NODE"
+        assert nodes[0].getValue() == "/Clusters/Can1/node"
 
     def test_parse_nm_ecu_ignores_cluster_level_attributes(self):
         xml = "<NmEcu xmlns='%s'><NM-NODE-DETECTION-ENABLED>true</NM-NODE-DETECTION-ENABLED></NmEcu>" % NS

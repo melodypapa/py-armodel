@@ -2435,7 +2435,7 @@ class TestNmConfigHandlers:
         assert node.getNmCoordCluster().getValue() == 2
         assert node.getNmCoordinatorRole().getValue() == "active"
 
-    def test_getCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
+    def test_readCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
             "<COUPLED-CLUSTER-REF DEST='NM-CLUSTER'>/cluster</COUPLED-CLUSTER-REF>"
@@ -2443,10 +2443,13 @@ class TestNmConfigHandlers:
             "<NM-BUSLOAD-REDUCTION-ENABLED>true</NM-BUSLOAD-REDUCTION-ENABLED>",
             root_tag="CAN-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.getCanNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmClusterCoupling
+
+        coupling = CanNmClusterCoupling()
+        parser.readCanNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
-    def test_getUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
+    def test_readUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
             "<COUPLED-CLUSTER-REF DEST='NM-CLUSTER'>/cluster</COUPLED-CLUSTER-REF>"
@@ -2454,7 +2457,10 @@ class TestNmConfigHandlers:
             "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>",
             root_tag="UDP-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.getUdpNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import UdpNmClusterCoupling
+
+        coupling = UdpNmClusterCoupling()
+        parser.readUdpNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
     def test_readNmConfigNmClusterCouplings_can(self, parser):

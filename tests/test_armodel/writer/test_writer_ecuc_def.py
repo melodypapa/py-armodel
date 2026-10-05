@@ -37,12 +37,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     Boolean,
     CIdentifier,
+    DateTime,
     Float,
     IntervalTypeEnum,
     Limit,
     PositiveInteger,
     RefType,
     RegularExpression,
+    String,
     UnlimitedInteger,
     VerbatimString,
 )
@@ -1269,6 +1271,24 @@ class TestWriterEcucQuery:
         finally:
             os.unlink(tmp_path)
 
+    def test_writes_query_expression_checksum_and_timestamp(self, writer):
+        container = _make_container()
+        param = container.createEcucIntegerParamDef("P")
+        derivation = EcucDerivationSpecification()
+        query = derivation.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        expr.setChecksum(String().setValue("ABCD"))
+        expr.setTimestamp(DateTime().setValue("2026-10-05T00:00:00Z"))
+        expr.setConfigElementDefGlobalRef(_ref("/Pkg/Mod/Ct", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        query.setEcucQueryExpression(expr)
+        param.setDerivation(derivation)
+        parent = _parent()
+        writer.writeEcucParameterDef(parent, param)
+        expr_el = parent.find("DERIVATION/ECUC-QUERYS/ECUC-QUERY/ECUC-QUERY-EXPRESSION")
+        assert expr_el is not None
+        assert expr_el.get("S") == "ABCD"
+        assert expr_el.get("T") == "2026-10-05T00:00:00Z"
+
 
 class TestEcucDestinationUriPolicyWriter:
     def test_round_trip_full_policy(self, writer):
@@ -1461,6 +1481,21 @@ class TestWriterEcucDerivationSpecification:
         assert query.find("ECUC-QUERY-EXPRESSION/CONFIG-ELEMENT-DEF-GLOBAL-REF").text == "/Def/Global"
         assert derivation.find("INFORMAL-FORMULA") is not None
 
+    def test_writes_calculation_formula_checksum_and_timestamp(self, writer):
+        container = _make_container()
+        param = container.createEcucBooleanParamDef("P")
+        derivation = self._build_derivation()
+        calc = derivation.getCalculationFormula()
+        calc.setChecksum(String().setValue("ABCD"))
+        calc.setTimestamp(DateTime().setValue("2026-10-05T00:00:00Z"))
+        param.setDerivation(derivation)
+        parent = _parent()
+        writer.writeEcucParameterDef(parent, param)
+        calc_el = parent.find("DERIVATION/CALCULATION-FORMULA")
+        assert calc_el is not None
+        assert calc_el.get("S") == "ABCD"
+        assert calc_el.get("T") == "2026-10-05T00:00:00Z"
+
     def test_writes_no_derivation(self, writer):
         container = _make_container()
         param = container.createEcucBooleanParamDef("P")
@@ -1537,6 +1572,23 @@ class TestWriterEcucConditionFormula:
         assert formula_el is not None
         assert formula_el.find("ECUC-QUERY-REF").text == "/Ref/Query1"
         assert formula_el.find("ECUC-QUERY-STRING-REF").text == "/Ref/Query2"
+
+    def test_writes_checksum_and_timestamp(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConditionSpecification
+
+        container = _make_container()
+        formula = self._build_formula()
+        formula.setChecksum(String().setValue("ABCD"))
+        formula.setTimestamp(DateTime().setValue("2026-10-05T00:00:00Z"))
+        cond = EcucConditionSpecification()
+        cond.setConditionFormula(formula)
+        container.setEcucCond(cond)
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        formula_el = parent.find("ECUC-COND/CONDITION-FORMULA")
+        assert formula_el is not None
+        assert formula_el.get("S") == "ABCD"
+        assert formula_el.get("T") == "2026-10-05T00:00:00Z"
 
     def test_writes_none(self, writer):
         container = _make_container()
@@ -1807,6 +1859,18 @@ class TestWriterEcucDestinationUriRefs:
         parent = _parent()
         writer.setEcucDestinationUriRefs(parent, [])
         assert len(parent) == 0
+
+    def test_emit_checksum_and_timestamp(self, writer):
+        uri_ref = EcucDestinationUriDefRefType()
+        uri_ref.setValue("/Mod/UriDef")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+        uri_ref.setChecksum(String().setValue("ABCD"))
+        uri_ref.setTimestamp(DateTime().setValue("2026-10-05T00:00:00Z"))
+        parent = _parent()
+        writer.setEcucDestinationUriRefs(parent, [uri_ref])
+        child = parent.find("DESTINATION-URI-REFS").find("DESTINATION-URI-REF")
+        assert child.attrib["S"] == "ABCD"
+        assert child.attrib["T"] == "2026-10-05T00:00:00Z"
 
     def test_round_trip(self, writer):
         import os

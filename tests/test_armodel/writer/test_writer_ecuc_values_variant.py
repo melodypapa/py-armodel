@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    DateTime,
     Float,
     Numerical,
     RefType,
@@ -1238,6 +1239,15 @@ class TestConfigReferenceValueWrite:
         parent = _parent()
         writer.writeConfigReferenceValue(parent, obj)
         assert parent.find("DEFINITION-REF") is None
+
+    def test_write_checksum_and_timestamp(self, writer):
+        obj = _R3ConfigReferenceValueStub()
+        obj.setChecksum(String().setValue("ABCD"))
+        obj.setTimestamp(DateTime().setValue("2026-10-05T00:00:00Z"))
+        parent = _parent()
+        writer.writeConfigReferenceValue(parent, obj)
+        assert parent.attrib["S"] == "ABCD"
+        assert parent.attrib["T"] == "2026-10-05T00:00:00Z"
 
 
 class TestReferenceValueWrite:

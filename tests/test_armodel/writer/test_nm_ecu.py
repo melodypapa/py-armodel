@@ -4,8 +4,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmEcu
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmCoordinator, NmEcu
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -43,11 +43,27 @@ def _time(value):
     return time_value
 
 
+def _integer(value):
+    integer = Integer()
+    integer.setValue(value)
+    return integer
+
+
+def _new_coordinator():
+    coordinator = NmCoordinator()
+    coordinator.setIndex(_integer(1))
+    coordinator.setNmCoordSyncSupport(_bool(True))
+    coordinator.setNmGlobalCoordinatorTime(_time("2.5"))
+    coordinator.addNmNode(_ref("NM-NODE", "/Clusters/Can1/node"))
+    return coordinator
+
+
 def _new_ecu():
     ecu = NmEcu(MockParent(), "NmEcu")
     ecu.setEcuInstanceRef(_ref("ECU-INSTANCE", "/Topology/Ecu1"))
     ecu.setNmBusSynchronizationEnabled(_bool(True))
     ecu.setNmComControlEnabled(_bool(False))
+    ecu.setNmCoordinator(_new_coordinator())
     ecu.setNmCycletimeMainFunction(_time("0.05"))
     ecu.setNmPduRxIndicationEnabled(_bool(True))
     ecu.setNmRemoteSleepIndEnabled(_bool(False))
@@ -60,6 +76,7 @@ _SPEC_ELEMENT_ORDER = [
     "ECU-INSTANCE-REF",
     "NM-BUS-SYNCHRONIZATION-ENABLED",
     "NM-COM-CONTROL-ENABLED",
+    "NM-COORDINATOR",
     "NM-CYCLETIME-MAIN-FUNCTION",
     "NM-PDU-RX-INDICATION-ENABLED",
     "NM-REMOTE-SLEEP-IND-ENABLED",
@@ -94,3 +111,11 @@ class TestWriteNmEcu:
         assert ecu.getNmRemoteSleepIndEnabled().getValue() is False
         assert ecu.getNmStateChangeIndEnabled().getValue() is True
         assert ecu.getNmUserDataEnabled().getValue() is True
+        coordinator = ecu.getNmCoordinator()
+        assert isinstance(coordinator, NmCoordinator)
+        assert coordinator.getIndex().getValue() == 1
+        assert coordinator.getNmCoordSyncSupport().getValue() is True
+        assert coordinator.getNmGlobalCoordinatorTime().getValue() == 2.5
+        nodes = coordinator.getNmNodes()
+        assert len(nodes) == 1
+        assert nodes[0].getValue() == "/Clusters/Can1/node"

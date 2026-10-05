@@ -1387,6 +1387,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     J1939NodeName,
     NmCluster,
     NmConfig,
+    NmCoordinator,
     NmCoordinatorRoleEnum,
     NmEcu,
     NmNode,
@@ -12732,37 +12733,43 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
-    def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
-        coupling = CanNmClusterCoupling()
+    def readCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
+        self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED"))
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
-        return coupling
+        self.readVariationPointCapable(element, coupling)
 
-    def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
-        coupling = UdpNmClusterCoupling()
+    def readUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
+        self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
-        return coupling
+        self.readVariationPointCapable(element, coupling)
 
-    def getFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
-        coupling = FlexrayNmClusterCoupling()
+    def readFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
+        self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmScheduleVariant(cast(Optional[FlexrayNmScheduleVariant], self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT")))
-        return coupling
+        self.readVariationPointCapable(element, coupling)
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
+                can_coupling = CanNmClusterCoupling()
+                self.readCanNmClusterCoupling(child_element, can_coupling)
+                nm_config.addNmClusterCouplings(can_coupling)
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
+                udp_coupling = UdpNmClusterCoupling()
+                self.readUdpNmClusterCoupling(child_element, udp_coupling)
+                nm_config.addNmClusterCouplings(udp_coupling)
             elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getFlexrayNmClusterCoupling(child_element))
+                flexray_coupling = FlexrayNmClusterCoupling()
+                self.readFlexrayNmClusterCoupling(child_element, flexray_coupling)
+                nm_config.addNmClusterCouplings(flexray_coupling)
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
@@ -12882,12 +12889,25 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 
+    def readNmCoordinator(self, element: ET.Element, coordinator: NmCoordinator):
+        self.readARObject(element, coordinator)
+        for ref in self.getChildElementRefTypeList(element, "NM-NODE-REFS/NM-NODE-REF"):
+            coordinator.addNmNode(ref)
+        coordinator.setIndex(self.getChildElementOptionalIntegerValue(element, "INDEX"))
+        coordinator.setNmCoordSyncSupport(self.getChildElementOptionalBooleanValue(element, "NM-COORD-SYNC-SUPPORT"))
+        coordinator.setNmGlobalCoordinatorTime(self.getChildElementOptionalTimeValue(element, "NM-GLOBAL-COORDINATOR-TIME"))
+
     def readNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
         self.readIdentifiable(element, nm_ecu)
         self.readBusDependentNmEcus(element, nm_ecu)
         nm_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         nm_ecu.setNmBusSynchronizationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUS-SYNCHRONIZATION-ENABLED"))
         nm_ecu.setNmComControlEnabled(self.getChildElementOptionalBooleanValue(element, "NM-COM-CONTROL-ENABLED"))
+        child_element = self.find(element, "NM-COORDINATOR")
+        if child_element is not None:
+            coordinator = NmCoordinator()
+            self.readNmCoordinator(child_element, coordinator)
+            nm_ecu.setNmCoordinator(coordinator)
         nm_ecu.setNmCycletimeMainFunction(self.getChildElementOptionalTimeValue(element, "NM-CYCLETIME-MAIN-FUNCTION"))
         nm_ecu.setNmPduRxIndicationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PDU-RX-INDICATION-ENABLED"))
         nm_ecu.setNmRemoteSleepIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REMOTE-SLEEP-IND-ENABLED"))
@@ -13403,6 +13423,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "DESTINATION-URI-REF":
                 uri_ref = EcucDestinationUriDefRefType()
+                self.readARObject(child_element, uri_ref)
                 if "BASE" in child_element.attrib:
                     uri_ref.setBase(child_element.attrib["BASE"])
                 if "DEST" in child_element.attrib:
@@ -13560,12 +13581,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucParameterDerivationFormula(self, element: ET.Element) -> EcucParameterDerivationFormula:
         formula = EcucParameterDerivationFormula()
+        self.readARObject(element, formula)
         formula.setEcucQueryRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF")))
         formula.setEcucQueryStringRef(cast(RefType, self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF")))
         return formula
 
     def readEcucConditionFormula(self, element: ET.Element) -> EcucConditionFormula:
         formula = EcucConditionFormula()
+        self.readARObject(element, formula)
         formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
         formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
         return formula
@@ -13605,6 +13628,7 @@ class ARXMLParser(AbstractARXMLParser):
         expr_element = self.find(element, "ECUC-QUERY-EXPRESSION")
         if expr_element is not None:
             expr = EcucQueryExpression()
+            self.readARObject(expr_element, expr)
             expr.setConfigElementDefGlobalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-GLOBAL-REF"))
             expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
             query.setEcucQueryExpression(expr)
@@ -15155,7 +15179,8 @@ class ARXMLParser(AbstractARXMLParser):
         enumeration_value.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
-        """Read the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF; DEST optional in legacy files)."""
+        """Read the R3.2.3 abstract ConfigReferenceValue members (S/T, DEFINITION-REF; DEST optional in legacy files)."""
+        self.readARObject(element, config_reference_value)
         config_reference_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
 
     def readReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):
