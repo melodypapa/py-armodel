@@ -1,6 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu, NmEcu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu, NmCoordinator, NmEcu
 
 
 class MockParent(ARObject):
@@ -72,7 +72,7 @@ class TestNmEcu:
 
     def test_get_set_nm_coordinator(self):
         ecu = NmEcu(MockParent(), "NmEcu")
-        coordinator = CanNmEcu()
+        coordinator = NmCoordinator()
         assert ecu.setNmCoordinator(coordinator) is ecu
         assert ecu.getNmCoordinator() is coordinator
         ecu.setNmCoordinator(None)

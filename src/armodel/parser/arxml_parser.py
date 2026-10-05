@@ -1386,6 +1386,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     J1939NodeName,
     NmCluster,
     NmConfig,
+    NmCoordinator,
     NmCoordinatorRoleEnum,
     NmEcu,
     NmNode,
@@ -12887,12 +12888,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 
+    def getNmCoordinator(self, element: ET.Element) -> Optional[NmCoordinator]:
+        coordinator = None
+        child_element = self.find(element, "NM-COORDINATOR")
+        if child_element is not None:
+            coordinator = NmCoordinator()
+            self.readARObject(child_element, coordinator)
+            for ref in self.getChildElementRefTypeList(child_element, "NM-NODE-REFS/NM-NODE-REF"):
+                coordinator.addNmNode(ref)
+            coordinator.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+            coordinator.setNmCoordSyncSupport(self.getChildElementOptionalBooleanValue(child_element, "NM-COORD-SYNC-SUPPORT"))
+            coordinator.setNmGlobalCoordinatorTime(self.getChildElementOptionalTimeValue(child_element, "NM-GLOBAL-COORDINATOR-TIME"))
+        return coordinator
+
     def readNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
         self.readIdentifiable(element, nm_ecu)
         self.readBusDependentNmEcus(element, nm_ecu)
         nm_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         nm_ecu.setNmBusSynchronizationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUS-SYNCHRONIZATION-ENABLED"))
         nm_ecu.setNmComControlEnabled(self.getChildElementOptionalBooleanValue(element, "NM-COM-CONTROL-ENABLED"))
+        nm_ecu.setNmCoordinator(self.getNmCoordinator(element))
         nm_ecu.setNmCycletimeMainFunction(self.getChildElementOptionalTimeValue(element, "NM-CYCLETIME-MAIN-FUNCTION"))
         nm_ecu.setNmPduRxIndicationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PDU-RX-INDICATION-ENABLED"))
         nm_ecu.setNmRemoteSleepIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REMOTE-SLEEP-IND-ENABLED"))
