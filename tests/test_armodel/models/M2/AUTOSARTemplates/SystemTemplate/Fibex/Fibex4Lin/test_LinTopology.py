@@ -71,6 +71,9 @@ LIN_SLAVE_CONFIG_PROTOCOL_VERSION_NOTE = "Version specifier for a communication 
 LIN_SLAVE_CONFIG_SUPPLIER_ID_NOTE = "LIN Supplier ID."
 LIN_SLAVE_CONFIG_VARIANT_ID_NOTE = "Specifies the Variant ID."
 LIN_SLAVE_CONFIG_IDENT_CLASS_NOTE = "This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig."
+LIN_CONFIGURABLE_FRAME_CLASS_NOTE = "Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command."
+LIN_CONFIGURABLE_FRAME_FRAME_NOTE = "Reference to a Frame that is processed by the slave node."
+LIN_CONFIGURABLE_FRAME_MESSAGE_ID_NOTE = "MessageId for the referenced frame"
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
@@ -756,9 +759,19 @@ class TestLinCommunicationConnector:
 
 
 class TestLinConfigurableFrame:
-    """
-    Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command.
-    """
+    """Test cases for LinConfigurableFrame (Table 3.44, p.99)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.44: ARObject)"""
+        assert issubclass(LinConfigurableFrame, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.44)"""
+        assert inspect.cleandoc(LinConfigurableFrame.__doc__).strip() == LIN_CONFIGURABLE_FRAME_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinConfigurableFrame.__init__.__doc__ is None
 
     def test_initialization(self):
         obj = LinConfigurableFrame()
@@ -767,6 +780,11 @@ class TestLinConfigurableFrame:
         assert obj.parent is None
         assert obj.getFrameRef() is None
         assert obj.getMessageId() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.44: frame, messageId)"""
+        source = inspect.getsource(LinConfigurableFrame.__init__)
+        assert source.index("self.frameRef") < source.index("self.messageId")
 
     def test_get_set_frame_ref(self):
         obj = LinConfigurableFrame()
@@ -786,6 +804,20 @@ class TestLinConfigurableFrame:
 
         assert obj == obj.setMessageId(None)
         assert obj.getMessageId() == 42
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.44)"""
+        self._assert_docstring(LinConfigurableFrame.getFrameRef, LIN_CONFIGURABLE_FRAME_FRAME_NOTE)
+        self._assert_docstring(LinConfigurableFrame.setFrameRef, LIN_CONFIGURABLE_FRAME_FRAME_NOTE, "frameRef")
+
+        self._assert_docstring(LinConfigurableFrame.getMessageId, LIN_CONFIGURABLE_FRAME_MESSAGE_ID_NOTE)
+        self._assert_docstring(LinConfigurableFrame.setMessageId, LIN_CONFIGURABLE_FRAME_MESSAGE_ID_NOTE, "messageId")
 
     def test_type_annotations(self):
         import ast

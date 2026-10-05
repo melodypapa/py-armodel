@@ -14710,9 +14710,14 @@ class ARXMLParser(AbstractARXMLParser):
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
-            frame = LinConfigurableFrame()
-            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
-            frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
+            frame = self.readLinConfigurableFrame(child_element)
+        return frame
+
+    def readLinConfigurableFrame(self, child_element: ET.Element) -> LinConfigurableFrame:
+        frame = LinConfigurableFrame()
+        self.readARObject(child_element, frame)
+        frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+        frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
         return frame
 
     def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> Optional[LinOrderedConfigurableFrame]:
@@ -14745,10 +14750,7 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(child_element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                configurable_frame = LinConfigurableFrame()
-                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                config.addLinConfigurableFrame(configurable_frame)
+                config.addLinConfigurableFrame(self.readLinConfigurableFrame(frame_element))
         config.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
         ordered_wrapper = self.find(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
@@ -14857,10 +14859,7 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                configurable_frame = LinConfigurableFrame()
-                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                connector.addLinConfigurableFrame(configurable_frame)
+                connector.addLinConfigurableFrame(self.readLinConfigurableFrame(frame_element))
         ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):

@@ -882,15 +882,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinConfigurableFrame` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.44, p.99
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Rule 0023/0012.3 re-run of a legacy 5-column checklist (no release column) carrying a stale R23-11 spec-verified stamp — marker removed, checklist rebuilt 6-column, re-stamp deferred to batch 9b. Table 3.44 Note "Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command."; Base = ARObject; Aggregated by LinCommunicationConnector.linConfigurableFrame + LinSlaveConfig.linConfigurableFrame (both consumers already wired); two own attrs 0..1 in displayed order — frame (LinFrame, ref → frameRef Optional[RefType] per Rule 0001.5), messageId (PositiveInteger, attr); no `*` aggr / Referrable children (get/set accessors only). XSD group LIN-CONFIGURABLE-FRAME (AUTOSAR_00052.xsd line 77074) = FRAME-REF (DEST LIN-FRAME--SUBTYPES-ENUM), MESSAGE-ID (XSD order = markdown row order); complexType (line 77104) = AR-OBJECT group + LIN-CONFIGURABLE-FRAME group + AR-OBJECT attributeGroup; element serialized inside the LIN-CONFIGURABLE-FRAMES wrapper in both consumers (lines 77000/77781 — consumer path per Rule 0001.7). Drifts to fix: reader/writer drop inherited S/T — the parser constructs inline in getLinConfigurableFrame + both consumer loops and the writer setLinConfigurableFrame, none calling read/writeARObject (Rule 0025).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale `# Spec verified: R23-11` marker removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column (release column, `[—]` glyphs). Model surface already at bar (ARObject base, frameRef `Optional[RefType]` ref-kind + messageId `Optional[PositiveInteger]` 0..1 in displayed order, PEP 526 + blank lines, docstrings byte-identical to the markdown Notes after wipe/rewrite — mechanical diff: 0 deltas across class Note + 2 inline comments + 4 accessor docstrings, pinned by the new model-test verbatim asserts), so the model TDD pair was born GREEN (LinSlaveConfigIdent/FlexrayFifoRange precedent). Reader/writer fixed to XSD ground truth in this pass (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): the XSD complexType LIN-CONFIGURABLE-FRAME (AUTOSAR_00052.xsd line 77104) = AR-OBJECT group + LIN-CONFIGURABLE-FRAME group + AR-OBJECT attributeGroup, but all three parser construction sites (entry helper getLinConfigurableFrame + the inline loops in readLinSlaveConfig and readLinCommunicationConnector) and the writer setLinConfigurableFrame skipped the base helpers — inherited S/T silently dropped in both directions (Rule 0025). Fixed by consolidating parser construction into a new readLinConfigurableFrame helper (getLinSlaveConfig→readLinSlaveConfig precedent) that calls readARObject exactly once, with both consumer loops + getLinConfigurableFrame delegating to it via addLinConfigurableFrame mutators, and by adding writeARObject to setLinConfigurableFrame (single construction site; audit BASE clean both directions). No fabrication, no flattening; both attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer XML element order = XSD LIN-CONFIGURABLE-FRAME group sequenceOffset FRAME-REF, MESSAGE-ID — the two orders coincide); no `*` aggr / Referrable children (get/set accessors only).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2394+8170+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinOrderedConfigurableFrame` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.45, p.99
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
