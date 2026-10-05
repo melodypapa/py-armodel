@@ -46,7 +46,7 @@ class TcpOptionFilterList(Identifiable):
 
 class TcpOptionFilterSet(ARElement):
     """
-    Set of TcpOptionFilterLists.
+    Set of TcpOptionFilterLists. Tags: atp.recommendedPackage=TcpOptionFilterSets
     """
 
     # TcpOptionFilterSet method parity checklist:

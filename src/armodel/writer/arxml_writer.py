@@ -10065,6 +10065,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
+        self.writeARObject(child_element, condition)
         refs = condition.getModeDeclarationRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
@@ -16102,6 +16103,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         if position is not None:
             child_element = ET.SubElement(element, "SEGMENT-POSITION")
+            self.writeARObject(child_element, position)
             self.setChildElementOptionalLiteral(child_element, "SEGMENT-BYTE-ORDER", position.getSegmentByteOrder())
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-LENGTH", position.getSegmentLength())
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-POSITION", position.getSegmentPosition())
@@ -16117,6 +16119,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported DynamicPart <%s>" % type(position))
 
     def writeMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.writeARObject(element, part)
         self.writeMultiplexedPartSegmentPositions(element, part)
 
     def writeDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):
@@ -16596,32 +16599,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             conditions_tag = ET.SubElement(element, key)
             for condition in conditions:
                 child_element = ET.SubElement(conditions_tag, "TRANSMISSION-MODE-CONDITION")
+                self.writeARObject(child_element, condition)
                 self.setDataFilter(child_element, "DATA-FILTER", condition.getDataFilter())
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF", condition.getISignalInIPduRef())
 
     def setTimeRangeType(self, element: ET.Element, key: str, time_range: Optional[TimeRangeType]):
         if time_range is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, time_range)
             tolerance = time_range.getTolerance()
             if isinstance(tolerance, AbsoluteTolerance):
                 tolerance_element = ET.SubElement(child_element, "TOLERANCE")
                 absolute_element = ET.SubElement(tolerance_element, "ABSOLUTE-TOLERANCE")
+                self.writeARObject(absolute_element, tolerance)
                 self.setChildElementOptionalTimeValue(absolute_element, "ABSOLUTE", tolerance.getAbsolute())
             elif isinstance(tolerance, RelativeTolerance):
                 tolerance_element = ET.SubElement(child_element, "TOLERANCE")
                 relative_element = ET.SubElement(tolerance_element, "RELATIVE-TOLERANCE")
+                self.writeARObject(relative_element, tolerance)
                 self.setChildElementOptionalIntegerValue(relative_element, "RELATIVE", tolerance.getRelative())
             self.setChildElementOptionalTimeValue(child_element, "VALUE", time_range.getValue())
 
     def setEventControlledTiming(self, element: ET.Element, key: str, timing: Optional[EventControlledTiming]):
         if timing is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS", timing.getNumberOfRepetitions())
             self.setTimeRangeType(child_element, "REPETITION-PERIOD", timing.getRepetitionPeriod())
 
     def setCyclicTiming(self, element: ET.Element, key: str, timing: Optional[CyclicTiming]):
         if timing is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setTimeRangeType(child_element, "TIME-OFFSET", timing.getTimeOffset())
             self.setTimeRangeType(child_element, "TIME-PERIOD", timing.getTimePeriod())
 
@@ -16629,12 +16638,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if timing is not None:
             self.logger.debug("Set TransmissionModeTiming of <%s>" % key)
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setCyclicTiming(child_element, "CYCLIC-TIMING", timing.getCyclicTiming())
             self.setEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING", timing.getEventControlledTiming())
 
     def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl: Optional[TransmissionModeDeclaration]):
         if decl is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, decl)
             false_conditions = decl.getModeDrivenFalseConditions()
             if len(false_conditions) > 0:
                 false_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-FALSE-CONDITIONS")

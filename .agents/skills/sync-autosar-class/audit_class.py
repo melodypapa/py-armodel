@@ -25,11 +25,10 @@ eyeball these — see Rule 0024 / 0025 in rules.md):
            Rule 0013.1 forbids calling it *twice*; this catches never calling it
            at all, which is the same silent data loss in the other direction.
 
-  DOC      class / `__init__` member / accessor docstrings carry no `Tags:` or
-           `Stereotypes:` tail (Rule 0012.2.5.2). Enum *literal* comments are
-           exempt and reported as INFO: the converted markdown renders
-           `atp.EnumerationLiteralIndex` as part of the literal description, and
-           the repo's stamped enums keep it.
+  DOC      `__init__` carries no docstring (Rule 0012.2.4). A `Tags:`/`Stereotypes:`
+           tail in a class / `__init__` member / accessor docstring is **expected**
+           and reported as INFO — the spec `Note` is copied verbatim including the
+           tail (Rule 0012.2.5.3), and ~1000 stamped sites do the same.
 
   SPECLINE the `# Spec:` line is in canonical Rule 0002 form for a single-corpus
            class, or the R4.3.1-fallback form, or an explicit dual-line combine
@@ -365,32 +364,37 @@ def check_specline(rep: Report, cls: str, blk_lines: Sequence[str]) -> None:
 
 
 def check_docs(rep: Report, node: ast.ClassDef, blk_lines: Sequence[str], enum: bool) -> None:
+    """`__init__` must have no docstring (Rule 0012.2.4) — that is the only failure
+    here.
+
+    A `Tags:` / `Stereotypes:` tail is **expected**: the spec `Note` is copied
+    verbatim including the tail, at every level (Rule 0012.2.5.3). It is reported
+    as `INFO` so a reviewer can see it, never as something to strip.
+    """
     tail = re.compile(r"\b(?:Tags|Stereotypes):")
+    where: List[str] = []
     cls_doc = ast.get_docstring(node) or ""
     if tail.search(cls_doc):
-        rep.fail("DOC", "class docstring carries a `Tags:`/`Stereotypes:` tail — drop it (Rule 0012.2.5.2): %r" % cls_doc.strip()[:90])
+        where.append("class")
+    has_init_doc = False
     for fn in [n for n in node.body if isinstance(n, ast.FunctionDef)]:
         if fn.name == "__init__":
             if ast.get_docstring(fn) is not None:
-                rep.fail("DOC", "`__init__` has a docstring — the class Note belongs in the class docstring only (Rule 0012.2.4)")
+                has_init_doc = True
             continue
         d = ast.get_docstring(fn) or ""
         if tail.search(d):
-            rep.fail("DOC", "`%s` docstring carries a `Tags:`/`Stereotypes:` tail — the spec Note is the semantic sentence only (Rule 0012.2.5.2): %r" % (fn.name, d.strip()[:90]))
-    for i, line in enumerate(blk_lines):
-        if tail.search(line) and "no methods" not in line and "enum value form" not in line:
-            rep.warn("DOC", "checklist block line carries a `Tags:`/`Stereotypes:` tail: %r" % line[:90])
-    if enum:
-        literals = [n for n in node.body if isinstance(n, ast.Assign)]
-        kept = 0
-        for n in literals:
-            for t in n.targets:
-                if isinstance(t, ast.Name) and t.id.isupper():
-                    kept += 1
-        if kept:
-            rep.info("DOC", "enum with %d literal(s): `Tags: atp.EnumerationLiteralIndex=…` is PART of the markdown literal description and is intentionally kept" % kept)
+            where.append("`%s`" % fn.name)
+    if has_init_doc:
+        rep.fail("DOC", "`__init__` has a docstring — the class Note belongs in the class docstring only (Rule 0012.2.4)")
+    if where:
+        rep.info(
+            "DOC", "`Tags:`/`Stereotypes:` tail kept verbatim in %d place(s) (%s) — expected per Rule 0012.2.5.3, nothing to fix" % (len(where), ", ".join(where[:4]) + ("…" if len(where) > 4 else ""))
+        )
     else:
-        rep.ok("DOC", "no `Tags:`/`Stereotypes:` tail in class/attribute docstrings")
+        rep.ok("DOC", "no `Tags:`/`Stereotypes:` tail present (fine — the tail is kept when the spec Note has one)")
+    if not has_init_doc:
+        rep.ok("DOC", "`__init__` has no docstring")
 
 
 def collect_calls(path: Path) -> Dict[str, Set[str]]:

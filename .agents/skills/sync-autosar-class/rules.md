@@ -982,11 +982,11 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
    2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
-       attribute's `Note` (markdown) semantic sentence, copied verbatim (drop
-       `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id. The member is
-       then declared **directly below the comment** as a PEP 526 annotated assignment —
-       `self.<attr>: Optional[T] = None` / `self.<attr>: List[T] = []` (never a trailing
-       `# type:` comment on a bare assignment; Rule 0003).
+       attribute's `Note` (markdown) semantic sentence, copied verbatim — **including any
+       `Stereotypes:`/`Tags:` tail** (see 0012.2.5.3); append any `constr_*` wording + id.
+       The member is then declared **directly below the comment** as a PEP 526 annotated
+       assignment — `self.<attr>: Optional[T] = None` / `self.<attr>: List[T] = []`
+       (never a trailing `# type:` comment on a bare assignment; Rule 0003).
    3. Getter docstring: the spec `Note` **copied verbatim from the markdown** + constraint
       — never summarize or rephrase into "Gets the value of X"; for an `iref`, name the
       concrete `<name>InstanceRef` class.
@@ -2059,25 +2059,42 @@ audit of rows that have **no** marker, and it never applies to a batch 9b: confi
 classes at once is precisely the situation where the per-class verification is most
 likely to have been skipped and least likely to be noticed.
 
-### 0012.2.5.3 — `Tags:`/`Stereotypes:` tails: attribute Notes vs enum literals *(clarified after the Group16 batch-9b closeout, 2026-10-05)*
+### 0012.2.5.3 — `Tags:`/`Stereotypes:` tails are kept verbatim *(settled 2026-10-05 after the Group15 review; supersedes the earlier "drop the tail" reading)*
 
-Rule 0012.2.5.2 says to drop the `Stereotypes:`/`Tags:` tail from an attribute `Note`.
-Group16 showed the boundary being drawn in the wrong place in both directions, so state
-it explicitly:
+The spec `Note` is copied **verbatim, including any `Stereotypes:` / `Tags:` tail** — at
+every level: the class docstring, the `__init__` member comment, the getter/setter
+docstrings, and the `AREnum` literal comment. The tail is not a rendering artefact to be
+cleaned up; it carries real metadata (`atpSplitable`, `atp.Splitkey`,
+`atp.recommendedPackage`, `atp.Status`, `xml.sequenceOffset`, `vh.latestBindingTime`,
+`atp.EnumerationLiteralIndex`) that the markdown renders as part of the same cell.
 
-- **Strip the tail** from the **class docstring**, from every `__init__` **member
-  comment**, and from every **accessor docstring** — those carry the attribute's
-  semantic sentence, and the tag metadata is a rendering artefact of the converted
-  markdown.
-- **Keep the tail** on an **`AREnum` literal comment.** The converted markdown renders
-  the literal's description cell as
-  `Static configuration is used to obtain the address information. Tags: atp.EnumerationValue=0`
-  — for a literal, the index/tag *is* part of the description cell, there is no separate
-  attribute `Note` to strip it from, and the repo's already-stamped enums keep it
-  (compare `DoIpEntityRoleEnum`, `PduCollectionTriggerEnum`, `TimeSyncTechnologyEnum`).
-  Stripping it there would make the enum diverge from every sibling.
+**Why this is stated and why it reverses the earlier wording.** Rule 0012.2.5.2 used to
+carry an inline "(drop `Stereotypes:`/`Tags:` tail)" parenthetical, and 0012.2.5.3 (added
+2026-10-05 during the Group16 closeout) generalised that into "strip from class / member /
+accessor docstrings". Counting the repo settled it the other way:
 
-`audit_class.py DOC` encodes exactly this split: it fails on a tail in the class /
-member / accessor docstrings and reports the enum literal case as `INFO`.
+| Location | Stamped sites that KEEP the tail |
+|---|---|
+| class docstrings | 107 |
+| method docstrings | 968 |
+| `__init__` member comments | 543 |
+| enum literal comments | 160 |
+
+Those are **stamped** classes — i.e. classes that already passed a 9b gate, including
+explicit user confirmations as recent as 2026-09-26/27 (`NumericalValueSpecification.getValue`
+keeps `Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime.`;
+`CryptoKeySlot` keeps `Tags: atp.Status=candidate`). Stripping the tail makes a class
+diverge from ~1000 siblings for no functional gain, and it is not something a reviewer can
+judge consistently — which is exactly how Group16's three drops (`TcpOptionFilterSet`,
+`TpPort`, `NetworkEndpoint`) ended up inconsistent with their own neighbours.
+
+**Practical consequences:**
+
+- Do **not** "clean up" a tail during a wipe-and-rewrite (0012.2.3). Copy the `Note` cell
+  as it renders, tail included. The one thing the wipe removes is *stale* wording from a
+  previous release.
+- `audit_class.py DOC` reports a tail as `INFO`, not `FAIL` — there is nothing to fix.
+- If a tail genuinely looks wrong (a stale release token inside the tag, say), that is a
+  spec-drift question for the owning table, not a formatting cleanup.
 
 

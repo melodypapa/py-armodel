@@ -9796,6 +9796,7 @@ class ARXMLParser(AbstractARXMLParser):
             triggering.addTriggerIPduSendCondition(condition)
 
     def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        self.readARObject(element, condition)
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
             condition.addModeDeclarationRef(ref)
 
@@ -12227,6 +12228,7 @@ class ARXMLParser(AbstractARXMLParser):
             table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
+        self.readARObject(element, position)
         position.setSegmentByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER")))
         position.setSegmentLength(self.getChildElementOptionalIntegerValue(element, "SEGMENT-LENGTH"))
         position.setSegmentPosition(self.getChildElementOptionalIntegerValue(element, "SEGMENT-POSITION"))
@@ -12242,6 +12244,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported DynamicPart <%s>" % tag_name)
 
     def readMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.readARObject(element, part)
         self.readMultiplexedPartSegmentPositions(element, part)
 
     def readDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):
@@ -15592,6 +15595,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_elements = self.findall(element, key)
         for child_element in child_elements:
             condition = TransmissionModeCondition()
+            self.readARObject(child_element, condition)
             condition.setDataFilter(self.getDataFilter(child_element, "DATA-FILTER"))
             condition.setISignalInIPduRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF"))
             result.append(condition)
@@ -15602,16 +15606,19 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             time_range = TimeRangeType()
+            self.readARObject(child_element, time_range)
             tolerance_element = self.find(child_element, "TOLERANCE")
             if tolerance_element is not None:
                 absolute_element = self.find(tolerance_element, "ABSOLUTE-TOLERANCE")
                 relative_element = self.find(tolerance_element, "RELATIVE-TOLERANCE")
                 if absolute_element is not None:
                     abs_tolerance = AbsoluteTolerance()
+                    self.readARObject(absolute_element, abs_tolerance)
                     abs_tolerance.setAbsolute(self.getChildElementOptionalTimeValue(absolute_element, "ABSOLUTE"))
                     time_range.setTolerance(abs_tolerance)
                 elif relative_element is not None:
                     rel_tolerance = RelativeTolerance()
+                    self.readARObject(relative_element, rel_tolerance)
                     rel_tolerance.setRelative(self.getChildElementOptionalIntegerValue(relative_element, "RELATIVE"))
                     time_range.setTolerance(rel_tolerance)
             time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))
@@ -15622,6 +15629,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             timing = CyclicTiming()
+            self.readARObject(child_element, timing)
             timing.setTimeOffset(self.getTimeRangeType(child_element, "TIME-OFFSET"))
             timing.setTimePeriod(self.getTimeRangeType(child_element, "TIME-PERIOD"))
         return timing
@@ -15631,6 +15639,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             timing = EventControlledTiming()
+            self.readARObject(child_element, timing)
             timing.setNumberOfRepetitions(self.getChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS"))
             timing.setRepetitionPeriod(self.getTimeRangeType(child_element, "REPETITION-PERIOD"))
         return timing
@@ -15641,6 +15650,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             # self.logger.debug("Get TransmissionModeTiming of <%s>" % key)
             timing = TransmissionModeTiming()
+            self.readARObject(child_element, timing)
             timing.setCyclicTiming(self.getCyclicTiming(child_element, "CYCLIC-TIMING"))
             timing.setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
         return timing
@@ -15650,6 +15660,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             decl = TransmissionModeDeclaration()
+            self.readARObject(child_element, decl)
             for condition_element in self.findall(child_element, "MODE-DRIVEN-FALSE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"):
                 condition = ModeDrivenTransmissionModeCondition()
                 self.readModeDrivenTransmissionModeCondition(condition_element, condition)

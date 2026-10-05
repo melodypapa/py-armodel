@@ -5,7 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpO
     TcpOptionFilterSet,
 )
 
-CLASS_NOTE = """Set of TcpOptionFilterLists."""
+CLASS_NOTE = """Set of TcpOptionFilterLists. Tags: atp.recommendedPackage=TcpOptionFilterSets"""
 
 
 class TestTcpOptionFilterSet:

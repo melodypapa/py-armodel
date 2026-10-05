@@ -18,10 +18,12 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    DateTime,
     Integer,
     Numerical,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
@@ -364,6 +366,8 @@ class TestWriterTransmissionModeConditions:
         filter1.setDataFilterType(_literal("maskedNewDiffersX"))
         cond1.setDataFilter(filter1)
         cond1.setISignalInIPduRef(_ref("/sig", "I-SIGNAL-IN-I-PDU"))
+        cond1.setChecksum(String().setValue("1234"))
+        cond1.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         cond2 = TransmissionModeCondition()
         filter2 = DataFilter()
         filter2.setDataFilterType(_literal("never"))
@@ -375,6 +379,9 @@ class TestWriterTransmissionModeConditions:
         assert len(conditions) == 2
         assert conditions[0].find("DATA-FILTER") is not None
         assert conditions[0].find("I-SIGNAL-IN-I-PDU-REF") is not None
+        # AR:AR-OBJECT S/T written on each condition (Rule 0025)
+        assert conditions[0].get("S") == "1234"
+        assert conditions[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setTransmissionModeConditions_empty(self, writer):
         parent = _parent()
@@ -386,10 +393,14 @@ class TestWriterTimeRangeType:
     def test_setTimeRangeType_full(self, writer):
         time_range = TimeRangeType()
         time_range.setValue(_time(0.1))
+        time_range.setChecksum(String().setValue("1234"))
+        time_range.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setTimeRangeType(parent, "TIME-RANGE", time_range)
         assert parent[0].tag == "TIME-RANGE"
         assert parent[0].find("VALUE") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setTimeRangeType_none(self, writer):
         parent = _parent()
@@ -404,11 +415,15 @@ class TestWriterEventControlledTiming:
         rep_period = TimeRangeType()
         rep_period.setValue(_time(0.01))
         timing.setRepetitionPeriod(rep_period)
+        timing.setChecksum(String().setValue("1234"))
+        timing.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setEventControlledTiming(parent, "EVENT-CONTROLLED-TIMING", timing)
         assert parent[0].tag == "EVENT-CONTROLLED-TIMING"
         assert parent[0].find("NUMBER-OF-REPETITIONS") is not None
         assert parent[0].find("REPETITION-PERIOD") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setEventControlledTiming_none(self, writer):
         parent = _parent()
@@ -425,11 +440,15 @@ class TestWriterCyclicTiming:
         period = TimeRangeType()
         period.setValue(_time(0.1))
         timing.setTimePeriod(period)
+        timing.setChecksum(String().setValue("1234"))
+        timing.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setCyclicTiming(parent, "CYCLIC-TIMING", timing)
         assert parent[0].tag == "CYCLIC-TIMING"
         assert parent[0].find("TIME-OFFSET") is not None
         assert parent[0].find("TIME-PERIOD") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setCyclicTiming_none(self, writer):
         parent = _parent()

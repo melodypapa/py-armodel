@@ -12,9 +12,14 @@ from armodel.models import AUTOSAR
 NS = "http://autosar.org/schema/r4.0"
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    """Wrap an inner XML fragment in a root element bound to the AUTOSAR NS."""
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", attrs: str = "") -> ET.Element:
+    """Wrap an inner XML fragment in a root element bound to the AUTOSAR NS.
+
+    ``attrs`` is spliced onto the root tag verbatim, e.g.
+    ``attrs=' S="1234" T="2024-01-01T00:00:00Z"'`` — used to pin the
+    ``AR:AR-OBJECT`` checksum/timestamp round-trip (Rule 0025).
+    """
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}'{attrs}>{inner}</{root_tag}>")
 
 
 def _autosar_root():
