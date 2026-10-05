@@ -392,3 +392,16 @@ class AutosarVariableRef(ARObject):
         if value is not None:
             self.localVariableRef = value
         return self
+
+
+# Cycle-breaker: SwCalprmRefProxy/SwVariableRefProxy (MSR::DataDictionary::DatadictionaryProxies)
+# annotate their arParameter/autosarVariable members with these classes, but the package cycle
+# (DataElements -> DataDefProperties -> DatadictionaryProxies) forbids both a top-level import
+# there and a bottom-of-module import back into this package (the SwcInternalBehavior __init__
+# chain re-enters a partially initialized CommonStructure). The names are therefore published
+# into that module's globals here — after both classes are fully defined — so its PEP 563
+# annotations stay runtime-resolvable for the get_type_hints pins on Python 3.8 (bpo-39291).
+import armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies as _datadictionary_proxies  # noqa: E402
+
+setattr(_datadictionary_proxies, "AutosarParameterRef", AutosarParameterRef)
+setattr(_datadictionary_proxies, "AutosarVariableRef", AutosarVariableRef)

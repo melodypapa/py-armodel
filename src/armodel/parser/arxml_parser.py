@@ -7479,12 +7479,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwCalprmAxisTypeProps(element, props)
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
         props.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
-        ar_parameter = self.getAutosarParameterRef(element, "AR-PARAMETER")
-        mc_data_instance_ref = self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF")
-        if ar_parameter is not None or mc_data_instance_ref is not None:
-            calprm = SwCalprmRefProxy()
-            calprm.setArParameter(ar_parameter)
-            calprm.setMcDataInstanceRef(mc_data_instance_ref)
+        calprm = SwCalprmRefProxy()
+        self.readSwCalprmRefProxyContent(element, calprm)
+        if calprm.getArParameter() is not None or calprm.getMcDataInstanceRef() is not None:
             props.setSwCalprmRef(calprm)
         return props
 
@@ -7634,12 +7631,9 @@ class ARXMLParser(AbstractARXMLParser):
             if args_element is not None:
                 args = SwDataDependencyArgs()
                 self.readARObject(args_element, args)
-                ar_parameter = self.getAutosarParameterRef(args_element, "AR-PARAMETER")
-                mc_data_instance_ref = self.getChildElementOptionalRefType(args_element, "MC-DATA-INSTANCE-REF")
-                if ar_parameter is not None or mc_data_instance_ref is not None:
-                    calprm = SwCalprmRefProxy()
-                    calprm.setArParameter(ar_parameter)
-                    calprm.setMcDataInstanceRef(mc_data_instance_ref)
+                calprm = SwCalprmRefProxy()
+                self.readSwCalprmRefProxyContent(args_element, calprm)
+                if calprm.getArParameter() is not None or calprm.getMcDataInstanceRef() is not None:
                     args.setSwCalprmRef(calprm)
                 variable = self.getAutosarVariableRef(args_element, "AUTOSAR-VARIABLE")
                 var_ref = self.getChildElementOptionalRefType(args_element, "MC-DATA-INSTANCE-VAR-REF")
@@ -7651,11 +7645,10 @@ class ARXMLParser(AbstractARXMLParser):
                 dependency.setSwDataDependencyArgs(args)
             props.setSwDataDependency(dependency)
 
-    def readSwCalprmRefProxy(self, element: ET.Element) -> SwCalprmRefProxy:
-        proxy = SwCalprmRefProxy()
+    def readSwCalprmRefProxyContent(self, element: ET.Element, proxy: SwCalprmRefProxy):
+        """Read the SW-CALPRM-REF-PROXY group members (AR-PARAMETER, MC-DATA-INSTANCE-REF) inline into the proxy."""
         proxy.setArParameter(self.getAutosarParameterRef(element, "AR-PARAMETER"))
         proxy.setMcDataInstanceRef(self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF"))
-        return proxy
 
     def readSwRefTiming(self, element: ET.Element, props: SwDataDefProps):
         refresh_timing_element = self.find(element, "SW-REFRESH-TIMING")

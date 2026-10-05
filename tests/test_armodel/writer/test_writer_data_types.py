@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     VerbatimString,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
@@ -214,6 +215,81 @@ class TestSwAxisGroupedWriter:
         assert child.tag == "SW-GENERIC-AXIS-PARAM-TYPE"
         assert child.find("SHORT-NAME").text == "param"
         assert child.find("DATA-CONSTR-REF").text == "/constraints/axis"
+
+    def test_set_sw_axis_grouped_writes_calprm_ref_proxy_content_inline(self, writer):
+        """The SW-CALPRM-REF-PROXY group members (AR-PARAMETER, MC-DATA-INSTANCE-REF) are written inline in XSD group order — no wrapper element named after the group."""
+        proxy = SwCalprmRefProxy()
+        proxy.setArParameter(AutosarParameterRef().setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/params/shift")))
+        proxy.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/mc/instances/axis1"))
+        props = SwAxisGrouped()
+        props.setSwCalprmRef(proxy)
+
+        parent = _parent()
+        writer.setSwAxisGrouped(parent, props)
+
+        child = parent[0]
+        assert child.tag == "SW-AXIS-GROUPED"
+        assert child.find("SW-CALPRM-REF-PROXY") is None
+        assert [element.tag for element in child if element.tag in ("AR-PARAMETER", "MC-DATA-INSTANCE-REF")] == ["AR-PARAMETER", "MC-DATA-INSTANCE-REF"]
+        local_ref = child.find("AR-PARAMETER/LOCAL-PARAMETER-REF")
+        assert local_ref.text == "/params/shift"
+        assert local_ref.attrib.get("DEST") == "PARAMETER-DATA-PROTOTYPE"
+        mc_ref = child.find("MC-DATA-INSTANCE-REF")
+        assert mc_ref.text == "/mc/instances/axis1"
+        assert mc_ref.attrib.get("DEST") == "MC-DATA-INSTANCE"
+
+
+class TestSwCalprmRefProxyRoundTrip:
+    def test_round_trip_via_sw_axis_grouped(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("SharedAxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisGrouped()
+        props.setSharedAxisTypeRef(_ref("SW-AXIS-TYPE", "/axis/types/shared"))
+        props.setSwAxisIndex(_literal("1"))
+        proxy = SwCalprmRefProxy()
+        proxy.setArParameter(AutosarParameterRef().setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/params/shift")))
+        proxy.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/mc/instances/axis1"))
+        props.setSwCalprmRef(proxy)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisGrouped)
+            assert props_2.getSharedAxisTypeRef().getValue() == "/axis/types/shared"
+            assert props_2.getSwAxisIndex().getValue() == "1"
+            proxy_2 = props_2.getSwCalprmRef()
+            assert proxy_2 is not None
+            local_ref_2 = proxy_2.getArParameter().getLocalParameterRef()
+            assert local_ref_2.getValue() == "/params/shift"
+            assert local_ref_2.getDest() == "PARAMETER-DATA-PROTOTYPE"
+            assert proxy_2.getMcDataInstanceRef().getValue() == "/mc/instances/axis1"
+            assert proxy_2.getMcDataInstanceRef().getDest() == "MC-DATA-INSTANCE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
 
 class TestSwGenericAxisParamWriter:

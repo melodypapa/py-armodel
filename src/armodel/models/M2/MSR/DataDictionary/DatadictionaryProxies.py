@@ -71,13 +71,12 @@ class SwCalprmRefProxy(ARObject):
 
     # SwCalprmRefProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.56, p.370
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArParameter           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArParameter           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMcDataInstanceRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMcDataInstanceRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArParameter        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArParameter        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcDataInstanceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcDataInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
