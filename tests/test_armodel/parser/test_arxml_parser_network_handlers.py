@@ -2446,7 +2446,7 @@ class TestNmConfigHandlers:
         coupling = parser.readCanNmClusterCoupling(element)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
-    def test_getUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
+    def test_readUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
             "<COUPLED-CLUSTER-REF DEST='NM-CLUSTER'>/cluster</COUPLED-CLUSTER-REF>"
@@ -2454,7 +2454,7 @@ class TestNmConfigHandlers:
             "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>",
             root_tag="UDP-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.getUdpNmClusterCoupling(element)
+        coupling = parser.readUdpNmClusterCoupling(element)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
     def test_readNmConfigNmClusterCouplings_can(self, parser):

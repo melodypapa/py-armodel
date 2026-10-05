@@ -12742,7 +12742,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readVariationPointCapable(element, coupling)
         return coupling
 
-    def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
+    def readUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
         coupling = UdpNmClusterCoupling()
         self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
@@ -12766,7 +12766,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "CAN-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.readCanNmClusterCoupling(child_element))
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
+                nm_config.addNmClusterCouplings(self.readUdpNmClusterCoupling(child_element))
             elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.getFlexrayNmClusterCoupling(child_element))
             else:
