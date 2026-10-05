@@ -1,10 +1,10 @@
 """Writer round-trip tests for FlexrayCommunicationController (Table 3.30, p.86).
 
-XML element order per XSD complexType FLEXRAY-COMMUNICATION-CONTROLLER:
-WAKE-UP-BY-CONTROLLER-SUPPORTED (COMMUNICATION-CONTROLLER group) before the
-FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS wrapper, whose CONDITIONAL carries the
-FLEXRAY-COMMUNICATION-CONTROLLER-CONTENT leaves in XSD group order. Coverage runs
-through the COMM-CONTROLLERS dispatch on writeEcuInstanceCommControllers.
+XML element order per XSD complexType FLEXRAY-COMMUNICATION-CONTROLLER: the outer
+element carries SHORT-NAME then FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS; its
+CONDITIONAL carries WAKE-UP-BY-CONTROLLER-SUPPORTED (COMMUNICATION-CONTROLLER-CONTENT)
+followed by the FLEXRAY-COMMUNICATION-CONTROLLER-CONTENT leaves in XSD group order.
+Coverage runs through the COMM-CONTROLLERS dispatch on writeEcuInstanceCommControllers.
 """
 
 import xml.etree.ElementTree as ET
@@ -54,6 +54,8 @@ XSD_ORDER = [
     "TWO-KEY-SLOT-MODE",
     "WAKE-UP-PATTERN",
 ]
+
+CONDITIONAL_ORDER = ["WAKE-UP-BY-CONTROLLER-SUPPORTED"] + XSD_ORDER
 
 
 @pytest.fixture(autouse=True)
@@ -143,10 +145,10 @@ class TestWriteFlexrayCommunicationController:
         parent = _write_instance(_new_instance_with_controller())
         controller_tag = parent.find("COMM-CONTROLLERS/FLEXRAY-COMMUNICATION-CONTROLLER")
         assert controller_tag is not None
-        assert [child.tag for child in controller_tag] == ["SHORT-NAME", "WAKE-UP-BY-CONTROLLER-SUPPORTED", "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS"]
+        assert [child.tag for child in controller_tag] == ["SHORT-NAME", "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS"]
         conditional_tag = controller_tag.find("FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS/FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         assert conditional_tag is not None
-        assert [child.tag for child in conditional_tag] == XSD_ORDER
+        assert [child.tag for child in conditional_tag] == CONDITIONAL_ORDER
 
     def test_write_field_values(self):
         parent = _write_instance(_new_instance_with_controller())
@@ -158,8 +160,7 @@ class TestWriteFlexrayCommunicationController:
         assert conditional_tag.find("SECOND-KEY-SLOT-ID").text == "21"
         assert conditional_tag.find("MICROTICK-DURATION").text == "0.05"
         assert conditional_tag.find("WAKE-UP-PATTERN").text == "22"
-        controller_tag = parent.find("COMM-CONTROLLERS/FLEXRAY-COMMUNICATION-CONTROLLER")
-        assert controller_tag.find("WAKE-UP-BY-CONTROLLER-SUPPORTED").text == "true"
+        assert conditional_tag.find("WAKE-UP-BY-CONTROLLER-SUPPORTED").text == "true"
         fifo_tag = conditional_tag.find("FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION")
         assert fifo_tag is not None
         assert fifo_tag.find("FIFO-DEPTH").text == "8"

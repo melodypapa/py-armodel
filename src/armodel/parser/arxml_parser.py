@@ -13136,9 +13136,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
         self.readIdentifiable(element, controller)
-        self.readCommunicationController(element, controller)
         child_element = self.find(element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS/FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
+            self.readCommunicationController(child_element, controller)
             controller.setAcceptedStartupRange(self.getChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE"))
             controller.setAllowHaltDueToClock(self.getChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK"))
             controller.setAllowPassiveToActive(self.getChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE"))
