@@ -180,6 +180,14 @@ class TestDisplayPresentationEnum:
         assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "presentationContinuous"
         assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "presentationDiscrete"
 
+    def test_display_presentation_enum_set_value_round_trip(self):
+        """The enum is instantiable and setValue round-trips each Table 5.107 literal (Rule 0011)."""
+        continuous = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_CONTINUOUS)
+        assert continuous.getValue() == "presentationContinuous"
+
+        discrete = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_DISCRETE)
+        assert discrete.getValue() == "presentationDiscrete"
+
 
 class TestSwBitRepresentation:
     """Test class for SwBitRepresentation class (SWCT Table 5.41, p.333, R23-11)."""

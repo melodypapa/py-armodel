@@ -84,10 +84,9 @@ class DisplayPresentationEnum(AREnum):
 
     # DisplayPresentationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.107, p.432
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.displayPresentation
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwDataDefProps.displayPresentation (DISPLAY-PRESENTATION element; UPPERCASE XSD token via DISPLAY_PRESENTATION_XML_MAP, parser _readEnumToken / writer _writeEnumToken)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The presentation of data shall form a continuous graph between data points. Tags: atp.EnumerationLiteralIndex=0
     PRESENTATION_CONTINUOUS = "presentationContinuous"
