@@ -1653,6 +1653,17 @@ HANDLE_TIMEOUT_XML_MAP = {
     "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
+#: Mapping between HandleOutOfRangeEnum literal values and their XML element text
+#: (AR:HANDLE-OUT-OF-RANGE-ENUM--SIMPLE).
+HANDLE_OUT_OF_RANGE_XML_MAP = {
+    "default": "DEFAULT",
+    "externalReplacement": "EXTERNAL-REPLACEMENT",
+    "ignore": "IGNORE",
+    "invalid": "INVALID",
+    "none": "NONE",
+    "saturate": "SATURATE",
+}
+
 #: Mapping between TransmissionModeDefinitionEnum literal values and their XML element text
 #: (AR:TRANSMISSION-MODE-DEFINITION-ENUM--SIMPLE).
 TRANSMISSION_MODE_DEFINITION_XML_MAP = {
@@ -7748,7 +7759,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
+        com_spec.setHandleOutOfRange(self._readEnumToken(element, "HANDLE-OUT-OF-RANGE", HandleOutOfRangeEnum, HANDLE_OUT_OF_RANGE_XML_MAP))
         com_spec.setHandleOutOfRangeStatus(cast(Optional[HandleOutOfRangeStatusEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS")))
         com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
         com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
@@ -8128,7 +8139,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
+        com_spec.setHandleOutOfRange(self._readEnumToken(element, "HANDLE-OUT-OF-RANGE", HandleOutOfRangeEnum, HANDLE_OUT_OF_RANGE_XML_MAP))
         com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element))
         com_spec.setTransmissionProps(self.getTransmissionComSpecProps(element, "TRANSMISSION-PROPS"))
@@ -15226,7 +15237,7 @@ class ARXMLParser(AbstractARXMLParser):
         props_element = self.find(element, "I-SIGNAL-PROPS")
         if props_element is not None:
             props = ISignalProps()
-            props.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(props_element, "HANDLE-OUT-OF-RANGE")))
+            props.setHandleOutOfRange(self._readEnumToken(props_element, "HANDLE-OUT-OF-RANGE", HandleOutOfRangeEnum, HANDLE_OUT_OF_RANGE_XML_MAP))
             signal.setISignalProps(props)
 
     def readISignalTransformationISignalProps(self, element: ET.Element, signal: ISignal):

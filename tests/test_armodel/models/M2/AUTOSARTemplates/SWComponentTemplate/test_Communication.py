@@ -1488,26 +1488,36 @@ class TestQueuedReceiverComSpec:
 
 
 class TestHandleOutOfRangeEnum:
-    """Test cases for HandleOutOfRangeEnum class."""
+    """Test cases for HandleOutOfRangeEnum class (Table 4.72)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.72 Note copied verbatim."""
+        assert HandleOutOfRangeEnum.__doc__.strip() == "A value of this type is taken for controlling the range checking behavior of the AUTOSAR RTE."
 
     def test_members(self):
-        """Test HandleOutOfRangeEnum member values."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
-
+        """Test HandleOutOfRangeEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleOutOfRangeEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            HandleOutOfRangeEnum.DEFAULT,
+            HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT,
+            HandleOutOfRangeEnum.IGNORE,
+            HandleOutOfRangeEnum.INVALID,
+            HandleOutOfRangeEnum.NONE,
+            HandleOutOfRangeEnum.SATURATE,
+        ]
         assert HandleOutOfRangeEnum.DEFAULT == "default"
         assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT == "externalReplacement"
         assert HandleOutOfRangeEnum.IGNORE == "ignore"
         assert HandleOutOfRangeEnum.INVALID == "invalid"
         assert HandleOutOfRangeEnum.NONE == "none"
         assert HandleOutOfRangeEnum.SATURATE == "saturate"
-        assert HandleOutOfRangeEnum.DEFAULT in values
-        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT in values
-        assert HandleOutOfRangeEnum.IGNORE in values
-        assert HandleOutOfRangeEnum.INVALID in values
-        assert HandleOutOfRangeEnum.NONE in values
-        assert HandleOutOfRangeEnum.SATURATE in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleOutOfRangeEnum()
+        enum.setValue(HandleOutOfRangeEnum.SATURATE)
+        assert enum.getValue() == "saturate"
 
 
 class TestReceptionComSpecProps:

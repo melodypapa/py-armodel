@@ -506,7 +506,7 @@ class TestWritePPortComSpec:
         assert queued_tag is not None
         assert queued_tag.find("DATA-ELEMENT-REF").text == "/vdp/QueuedElem"
         assert queued_tag.find("DATA-ELEMENT-REF").get("DEST") == "VARIABLE-DATA-PROTOTYPE"
-        assert queued_tag.find("HANDLE-OUT-OF-RANGE").text == "saturate"
+        assert queued_tag.find("HANDLE-OUT-OF-RANGE").text == "SATURATE"
         assert queued_tag.find("USES-END-TO-END-PROTECTION").text == "true"
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -582,7 +582,7 @@ class TestWriteReceiverComSpec:
         props = SwDataDefProps()
         props.setSwCalprmAxisSet(SwCalprmAxisSet())
         com_spec.setNetworkRepresentation(props)
-        com_spec.setHandleOutOfRange(_literal("keep"))
+        com_spec.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.IGNORE))
         com_spec.setHandleOutOfRangeStatus(_literal("set-status"))
         com_spec.setMaxDeltaCounterInit(_positive_int(1))
         com_spec.setMaxNoNewOrRepeatedData(_positive_int(2))

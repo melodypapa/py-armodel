@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
     InterpolationRoutine,
     InterpolationRoutineMapping,
@@ -1255,7 +1256,7 @@ class TestWriterISignal:
 
         sig = _make_isignal()
         props = ISignalProps()
-        props.setHandleOutOfRange(_literal("DEFAULT"))
+        props.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.DEFAULT))
         sig.setISignalProps(props)
         parent = _parent()
         writer.writeISignal(parent, sig)

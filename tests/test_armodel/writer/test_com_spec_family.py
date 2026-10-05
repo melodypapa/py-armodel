@@ -212,6 +212,26 @@ class TestReceiverComSpecRoundTrip:
         com_spec_2 = r_port_2.getRequiredComSpecs()[0]
         assert com_spec_2.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
 
+    def test_handle_out_of_range_xml_carries_xsd_token(self):
+        """HANDLE-OUT-OF-RANGE is written as the XSD token and read back as the camelCase literal (HANDLE_OUT_OF_RANGE_XML_MAP)."""
+        document, p_port, r_port = _new_document_with_ports()
+
+        sender = NonqueuedSenderComSpec()
+        sender.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT))
+        p_port.addProvidedComSpec(sender)
+
+        receiver = NonqueuedReceiverComSpec()
+        receiver.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.SATURATE))
+        r_port.addRequiredComSpec(receiver)
+
+        root = _write_and_load_raw(document)
+        assert root.find(".//{*}NONQUEUED-SENDER-COM-SPEC/{*}HANDLE-OUT-OF-RANGE").text == "EXTERNAL-REPLACEMENT"
+        assert root.find(".//{*}NONQUEUED-RECEIVER-COM-SPEC/{*}HANDLE-OUT-OF-RANGE").text == "SATURATE"
+
+        p_port_2, r_port_2 = _round_trip_ports(document)
+        assert p_port_2.getProvidedComSpecs()[0].getHandleOutOfRange().getValue() == "externalReplacement"
+        assert r_port_2.getRequiredComSpecs()[0].getHandleOutOfRange().getValue() == "saturate"
+
     def test_nonqueued_receiver_com_spec_schema_valid_output(self):
         """A save carrying HANDLE-TIMEOUT-TYPE must pass the bundled R23-11 XSD when schema location is set."""
         document, _, r_port = _new_document_with_ports()
@@ -219,6 +239,7 @@ class TestReceiverComSpecRoundTrip:
 
         com_spec = NonqueuedReceiverComSpec()
         com_spec.setAliveTimeout(TimeValue().setValue("1.5"))
+        com_spec.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.NONE))
         com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE))
         r_port.addRequiredComSpec(com_spec)
 
@@ -234,6 +255,7 @@ class TestReceiverComSpecRoundTrip:
 
         com_spec_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0].getRPortPrototypes()[0].getRequiredComSpecs()[0]
         assert com_spec_2.getHandleTimeoutType().getValue() == "replace"
+        assert com_spec_2.getHandleOutOfRange().getValue() == "none"
         assert com_spec_2.getAliveTimeout().getValue() == 1.5
 
     def test_receiver_com_spec_xml_element_order_matches_xsd(self):

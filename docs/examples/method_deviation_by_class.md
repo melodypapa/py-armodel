@@ -2259,6 +2259,25 @@ stale marker removed, re-stamp deferred to the batch 9b.
 
 **Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified the attribute both directions against Table 4.71, the verbatim Note, and the XSD TRANSMISSION-ACKNOWLEDGEMENT-REQUEST group (TIMEOUT); Base `ARObject` per the table (XSD complexType refs `AR:AR-OBJECT` only); the class docstring now carries the Table 4.71 Note verbatim with the class-level `[constr_1892]` row appended (Rule 0012.2.4); the legacy 5-column checklist was normalized to the 6-column format and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader/writer unchanged — `readTransmissionAcknowledgementRequest`/`writeTransmissionAcknowledgementRequest` call `readARObject`/`writeARObject` (audit `BASE` pass, S/T round-trip pinned by test). No Rule 0001.10 missing classes. No stamp (batch 9b).
 
+## `HandleOutOfRangeEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 180 *(also cited: `AUTOSAR_CP_TPS_SystemTemplate.pdf` Table 6.11, p.323)*
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+No deviations — members `DEFAULT`/`EXTERNAL_REPLACEMENT`/`IGNORE`/`INVALID`/`NONE`/`SATURATE` match the Table 4.72
+literals `default`/`externalReplacement`/`ignore`/`invalid`/`none`/`saturate` 1:1 (UPPER_CASE member names, member
+values = spec literals exactly, indexes 0-5 per `atp.EnumerationLiteralIndex`); class docstring = Table 4.72 Note
+verbatim; standalone `AREnum` (Steps 5/6 N/A for the enum itself — serialized as the `ISignalProps`/`ReceiverComSpec`/
+`SenderComSpec` `handleOutOfRange` attribute value and round-tripped there); legacy checklist normalized to the
+6-column format, stale marker removed, re-stamp deferred to the batch 9b.
+
+**Reader/writer note (consuming sites):** all three `HANDLE-OUT-OF-RANGE` read/write sites (`readReceiverComSpec`,
+`readSenderComSpec`, `readISignalProps` / `writeReceiverComSpec`, `writeSenderComSpec`, `writeISignalProps`) are now
+routed through the new `HANDLE_OUT_OF_RANGE_XML_MAP` + `_readEnumToken`/`_writeEnumToken` so the XML carries the XSD
+tokens (`DEFAULT`/`EXTERNAL-REPLACEMENT`/`IGNORE`/`INVALID`/`NONE`/`SATURATE` per
+`AR:HANDLE-OUT-OF-RANGE-ENUM--SIMPLE`) while the model keeps the camelCase literals. No Rule 0001.10 missing classes.
+No stamp (batch 9b).
+
 ## `ClientComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 187
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`

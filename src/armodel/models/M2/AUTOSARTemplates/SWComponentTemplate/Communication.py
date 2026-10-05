@@ -1604,8 +1604,9 @@ class HandleOutOfRangeEnum(AREnum):
 
     # HandleOutOfRangeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.72, p.180
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignalProps.handleOutOfRange, ReceiverComSpec.handleOutOfRange, SenderComSpec.handleOutOfRange
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE will use the initValue if the actual value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=0
     DEFAULT = "default"

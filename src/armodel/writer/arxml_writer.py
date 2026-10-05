@@ -1390,6 +1390,17 @@ HANDLE_TIMEOUT_XML_MAP = {
     "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
+#: Mapping between HandleOutOfRangeEnum literal values and their XML element text
+#: (AR:HANDLE-OUT-OF-RANGE-ENUM--SIMPLE).
+HANDLE_OUT_OF_RANGE_XML_MAP = {
+    "default": "DEFAULT",
+    "externalReplacement": "EXTERNAL-REPLACEMENT",
+    "ignore": "IGNORE",
+    "invalid": "INVALID",
+    "none": "NONE",
+    "saturate": "SATURATE",
+}
+
 #: Mapping between TransmissionModeDefinitionEnum literal values and their XML element text
 #: (AR:TRANSMISSION-MODE-DEFINITION-ENUM--SIMPLE).
 TRANSMISSION_MODE_DEFINITION_XML_MAP = {
@@ -2370,7 +2381,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for representation in representations:
                 self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
-        self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
+        self._writeEnumToken(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange(), HANDLE_OUT_OF_RANGE_XML_MAP)
         self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.writeTransmissionAcknowledgementRequest(element, com_spec.getTransmissionAcknowledge())
         self.writeTransmissionComSpecProps(element, com_spec.getTransmissionProps())
@@ -2488,7 +2499,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for representation in representations:
                 self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
-        self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
+        self._writeEnumToken(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange(), HANDLE_OUT_OF_RANGE_XML_MAP)
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS", com_spec.getHandleOutOfRangeStatus())
         self.setChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT", cast(Integer, com_spec.getMaxDeltaCounterInit()))
         self.setChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA", cast(Integer, com_spec.getMaxNoNewOrRepeatedData()))
@@ -13733,7 +13744,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         props = signal.getISignalProps()
         if props is not None:
             child_element = ET.SubElement(element, "I-SIGNAL-PROPS")
-            self.setChildElementOptionalLiteral(child_element, "HANDLE-OUT-OF-RANGE", props.getHandleOutOfRange())
+            self._writeEnumToken(child_element, "HANDLE-OUT-OF-RANGE", props.getHandleOutOfRange(), HANDLE_OUT_OF_RANGE_XML_MAP)
 
     def writeISignalDataTransformation(self, element: ET.Element, signal: ISignal):
         data_transformation_ref = signal.getDataTransformationRef()
