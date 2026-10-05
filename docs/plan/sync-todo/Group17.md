@@ -160,7 +160,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations (fixed in step notes: bare-T 0..1 fields → PEP 526 Optional[T]; untyped accessors → typed guarded self-returning; fabricated docstrings → Table 6.81/6.82 Notes verbatim + constr rows 9124/9125 + 9126/9127; old 4-column checklists → 6-column with `# Spec:` line + release column; REPORT: member type FlexrayAbsolutelyScheduledTiming (Table 6.82, p.423) existed as a STUB (untyped accessors, bare-T field, fabricated docstring, no `# Spec:` line) — synced in this pass per Rule 0001.10 (own table in hand, same module); no missing classes otherwise — Base FrameTriggering stamped R23-11 Table 6.79, CommunicationCycle/CycleCounter/CycleRepetition stamped R23-11 Tables 6.83/6.84/6.85, Boolean/PositiveInteger primitives exist; no FlexrayMacId-type gap (task example did not apply). Deviation trackers docs/examples/method_deviation_by_class.md + _v2.md have NO entries for FlexrayFrameTriggering or FlexrayAbsolutelyScheduledTiming — nothing stale (only a `## FlexrayFrame` v2 entry, different class); no open deviations, no placeholders; R23-11 Mult 0..1 for allowDynamicLSduLength/payloadPreambleIndicator kept (R4.3.1 render shows 1 — R23-11 wins; XSD minOccurs=0 agrees))
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13171 passed / 0 failed, lint + black clean; 9b CONFIRMED 2026-10-05 (Group17 batch stamp) — `# Spec verified: R23-11` written
 
-- [ ] `FlexrayAbsolutelyScheduledTiming` — ARObject — R23-11 markdown · Table 6.82
+- [x] `FlexrayAbsolutelyScheduledTiming` — ARObject — R23-11 markdown · Table 6.82
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayCommunication.py
   - Note: NEW row (recorded 2026-09-28: FlexrayFrameTriggering.communicationCycle member type existed as a STUB — untyped accessors, bare-T field, fabricated docstring, no `# Spec:` line — and was fully synced in commit 33a54c26d without own queue row, Rule 0001.10/0017 row-parity) — module M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayCommunication.py; Table 6.82, p.423 (CP_TPS_SystemTemplate); attrs communicationCycle (CommunicationCycle, aggr) + slotID (PositiveInteger); Notes verbatim + constr_9126/9127; serialized inside the consuming FlexrayFrameTriggering element.
   - [x] Step 1 — Sync members & description from spec — executed inside the 33a54c26d pass (Table 6.82 located, rows extracted in displayed order)
@@ -171,7 +171,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — no edits needed (existing typed leaf helpers already value-correct — verified in the pass)
   - [x] Step 7 — Update checklist comment — executed inside the 33a54c26d pass (6-column format, release column R23-11)
   - [x] Step 8 — Deviations — none recorded in the 33a54c26d pass
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 within commit 33a54c26d (13171 passed / 0 failed, lint + black clean); 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28 within commit 33a54c26d (13171 passed / 0 failed, lint + black clean); 9b CONFIRMED 2026-10-05 (Group17 batch stamp) — `# Spec verified: R23-11` written
 
 - [ ] `FlexrayCommunicationConnector` (input · R23-11 markdown · Table 3.33)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
