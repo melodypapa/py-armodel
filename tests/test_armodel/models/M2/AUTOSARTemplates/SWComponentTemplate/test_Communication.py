@@ -944,7 +944,23 @@ class TestModeSwitchSenderComSpec:
 
 
 class TestParameterProvideComSpec:
-    """Test class for ParameterProvideComSpec class."""
+    """Test class for ParameterProvideComSpec class (Table 4.82)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.82 Notes copied verbatim."""
+        assert ParameterProvideComSpec.__doc__.strip() == '"Communication" specification that applies to parameters on the provided side of a connection.'
+        init_value_note = "The initial value applicable for the corresponding ParameterDataPrototype."
+        assert ParameterProvideComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert ParameterProvideComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        parameter_note = "The ParameterDataPrototype to which the Parameter ComSpec applies."
+        assert ParameterProvideComSpec.getParameterRef.__doc__.strip() == parameter_note
+        assert ParameterProvideComSpec.setParameterRef.__doc__.strip() == parameter_note + " A None value is a no-op and does not overwrite an existing parameterRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, PPortComSpec (Table 4.82); most-derived base PPortComSpec."""
+        com_spec = ParameterProvideComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_parameter_provide_com_spec_initialization(self):
         """Test ParameterProvideComSpec field defaults."""

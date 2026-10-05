@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     HandleTimeoutEnum,
     NonqueuedReceiverComSpec,
     NonqueuedSenderComSpec,
+    ParameterProvideComSpec,
     ReceptionComSpecProps,
     ServerComSpec,
     TransmissionAcknowledgementRequest,
@@ -114,6 +115,46 @@ class TestPPortComSpecRoundTrip:
         p_port_2, _ = _round_trip_ports(AUTOSAR.getInstance())
 
         assert p_port_2.getProvidedComSpecs() == []
+
+
+class TestParameterProvideComSpecRoundTrip:
+    def test_parameter_provide_com_spec_round_trip(self):
+        """ParameterProvideComSpec attributes round-trip with field values intact (writePPortComSpec dispatch)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        com_spec = ParameterProvideComSpec()
+        com_spec.setInitValue(TextValueSpecification().setValue(VerbatimString().setValue("init")))
+        com_spec.setParameterRef(_ref("/Swc/Iface/Param", "PARAMETER-DATA-PROTOTYPE"))
+        p_port.addProvidedComSpec(com_spec)
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        com_specs = p_port_2.getProvidedComSpecs()
+        assert len(com_specs) == 1
+        assert isinstance(com_specs[0], ParameterProvideComSpec)
+        assert isinstance(com_specs[0].getInitValue(), TextValueSpecification)
+        assert com_specs[0].getInitValue().getValue().getValue() == "init"
+        assert com_specs[0].getParameterRef().getValue() == "/Swc/Iface/Param"
+        assert com_specs[0].getParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+
+    def test_parameter_provide_com_spec_xml_element_order_matches_xsd(self):
+        """Writer emission order follows the XSD PARAMETER-PROVIDE-COM-SPEC group sequence (Rule 0001.11)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        com_spec = ParameterProvideComSpec()
+        com_spec.setInitValue(TextValueSpecification().setValue(VerbatimString().setValue("init")))
+        com_spec.setParameterRef(_ref("/Swc/Iface/Param", "PARAMETER-DATA-PROTOTYPE"))
+        p_port.addProvidedComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        com_spec_element = root.find(".//{*}P-PORT-PROTOTYPE/{*}PROVIDED-COM-SPECS/{*}PARAMETER-PROVIDE-COM-SPEC")
+        tags = [child.tag.split("}")[-1] for child in com_spec_element]
+        provide_tags = [
+            "INIT-VALUE",
+            "PARAMETER-REF",
+        ]
+        emitted = [tag for tag in tags if tag in provide_tags]
+        assert emitted == provide_tags
 
 
 class TestRPortComSpecRoundTrip:

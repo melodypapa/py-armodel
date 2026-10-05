@@ -1164,13 +1164,12 @@ class ParameterProvideComSpec(PPortComSpec):
 
     # ParameterProvideComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.82, p.192
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1189,8 +1188,7 @@ class ParameterProvideComSpec(PPortComSpec):
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> ParameterProvideComSpec:
         """
-        The initial value applicable for the corresponding ParameterDataPrototype.
-        A None value is a no-op and does not overwrite an existing initValue.
+        The initial value applicable for the corresponding ParameterDataPrototype. A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value
@@ -1204,8 +1202,7 @@ class ParameterProvideComSpec(PPortComSpec):
 
     def setParameterRef(self, value: Optional[RefType]) -> ParameterProvideComSpec:
         """
-        The ParameterDataPrototype to which the Parameter ComSpec applies.
-        A None value is a no-op and does not overwrite an existing parameterRef.
+        The ParameterDataPrototype to which the Parameter ComSpec applies. A None value is a no-op and does not overwrite an existing parameterRef.
         """
         if value is not None:
             self.parameterRef = value
