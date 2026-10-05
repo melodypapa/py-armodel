@@ -12888,7 +12888,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 
-    def getNmCoordinator(self, element: ET.Element) -> Optional[NmCoordinator]:
+    def readNmCoordinator(self, element: ET.Element) -> Optional[NmCoordinator]:
         coordinator = None
         child_element = self.find(element, "NM-COORDINATOR")
         if child_element is not None:
@@ -12907,7 +12907,7 @@ class ARXMLParser(AbstractARXMLParser):
         nm_ecu.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
         nm_ecu.setNmBusSynchronizationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUS-SYNCHRONIZATION-ENABLED"))
         nm_ecu.setNmComControlEnabled(self.getChildElementOptionalBooleanValue(element, "NM-COM-CONTROL-ENABLED"))
-        nm_ecu.setNmCoordinator(self.getNmCoordinator(element))
+        nm_ecu.setNmCoordinator(self.readNmCoordinator(element))
         nm_ecu.setNmCycletimeMainFunction(self.getChildElementOptionalTimeValue(element, "NM-CYCLETIME-MAIN-FUNCTION"))
         nm_ecu.setNmPduRxIndicationEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PDU-RX-INDICATION-ENABLED"))
         nm_ecu.setNmRemoteSleepIndEnabled(self.getChildElementOptionalBooleanValue(element, "NM-REMOTE-SLEEP-IND-ENABLED"))
