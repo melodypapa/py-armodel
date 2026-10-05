@@ -569,6 +569,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -9374,6 +9375,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, unit_group)
         for ref in self.getChildElementRefTypeList(element, "UNIT-REFS/UNIT-REF"):
             unit_group.addUnitRef(ref)
+
+    def readPhysicalDimensionMapping(self, element: ET.Element, mapping: PhysicalDimensionMapping):
+        self.logger.debug("Read PhysicalDimensionMapping")
+        self.readARObject(element, mapping)
+        mapping.setFirstPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "FIRST-PHYSICAL-DIMENSION-REF"))
+        mapping.setSecondPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "SECOND-PHYSICAL-DIMENSION-REF"))
 
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")

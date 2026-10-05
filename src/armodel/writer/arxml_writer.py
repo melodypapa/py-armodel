@@ -552,6 +552,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewMap, ViewMapSet
@@ -4584,6 +4585,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_element = ET.SubElement(child_element, "UNIT-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_element, "UNIT-REF", ref)
+
+    def writePhysicalDimensionMapping(self, element: ET.Element, mapping: PhysicalDimensionMapping):
+        self.logger.debug("writePhysicalDimensionMapping")
+        child_element = ET.SubElement(element, "PHYSICAL-DIMENSION-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "FIRST-PHYSICAL-DIMENSION-REF", mapping.getFirstPhysicalDimensionRef())
+        self.setChildElementOptionalRefType(child_element, "SECOND-PHYSICAL-DIMENSION-REF", mapping.getSecondPhysicalDimensionRef())
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)

@@ -2064,7 +2064,57 @@ class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
 
 
 class PhysicalDimensionMapping(ARObject):
-    pass
+    """This class represents a specific mapping between two PhysicalDimensions."""
+
+    # PhysicalDimensionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.77, p.399
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstPhysicalDimensionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstPhysicalDimensionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        self.firstPhysicalDimensionRef: Optional[RefType] = None
+
+        # This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        self.secondPhysicalDimensionRef: Optional[RefType] = None
+
+    def getFirstPhysicalDimensionRef(self) -> Optional[RefType]:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        """
+        return self.firstPhysicalDimensionRef
+
+    def setFirstPhysicalDimensionRef(self, value: Optional[RefType]) -> PhysicalDimensionMapping:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+
+        A None value is a no-op and does not overwrite an existing firstPhysicalDimensionRef.
+        """
+        if value is not None:
+            self.firstPhysicalDimensionRef = value
+        return self
+
+    def getSecondPhysicalDimensionRef(self) -> Optional[RefType]:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        """
+        return self.secondPhysicalDimensionRef
+
+    def setSecondPhysicalDimensionRef(self, value: Optional[RefType]) -> PhysicalDimensionMapping:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+
+        A None value is a no-op and does not overwrite an existing secondPhysicalDimensionRef.
+        """
+        if value is not None:
+            self.secondPhysicalDimensionRef = value
+        return self
 
 
 class PrimitiveAttributeCondition(AttributeCondition):

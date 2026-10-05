@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -2609,4 +2610,121 @@ class TestEventObdReadinessGroup:
         assert inspect.cleandoc(EventObdReadinessGroup.getEventObdReadinessGroup.__doc__) == self.EVENT_OBD_READINESS_GROUP_NOTE
         assert inspect.cleandoc(EventObdReadinessGroup.setEventObdReadinessGroup.__doc__) == (
             self.EVENT_OBD_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventObdReadinessGroup."
+        )
+
+
+class TestPhysicalDimensionMapping:
+    """
+    Test class for PhysicalDimensionMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.77, p.399
+    """
+
+    CLASS_NOTE = "This class represents a specific mapping between two PhysicalDimensions."
+    FIRST_PHYSICAL_DIMENSION_NOTE = "This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping."
+    SECOND_PHYSICAL_DIMENSION_NOTE = "This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping."
+
+    def _create_mapping(self) -> PhysicalDimensionMapping:
+        return PhysicalDimensionMapping()
+
+    def test_initialization(self):
+        """
+        Test that a new PhysicalDimensionMapping initializes all attributes to their defaults.
+        """
+        obj = self._create_mapping()
+
+        assert obj.getFirstPhysicalDimensionRef() is None
+        assert obj.getSecondPhysicalDimensionRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that PhysicalDimensionMapping derives from ARObject per the Table 5.77 Base row.
+        """
+        assert issubclass(PhysicalDimensionMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(PhysicalDimensionMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert PhysicalDimensionMapping.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 5.77 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in PhysicalDimensionMapping.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getFirstPhysicalDimensionRef",
+            "setFirstPhysicalDimensionRef",
+            "getSecondPhysicalDimensionRef",
+            "setSecondPhysicalDimensionRef",
+        ]
+
+    def test_annotations_are_optional_ref_type(self):
+        """
+        Test that the ref accessors carry the spec Optional[RefType] hints (0..1 ref rows).
+        """
+        hints_get_first = typing.get_type_hints(PhysicalDimensionMapping.getFirstPhysicalDimensionRef)
+        assert hints_get_first["return"] == typing.Optional[RefType]
+
+        hints_set_first = typing.get_type_hints(PhysicalDimensionMapping.setFirstPhysicalDimensionRef)
+        assert hints_set_first["value"] == typing.Optional[RefType]
+        assert hints_set_first["return"] == PhysicalDimensionMapping
+
+        hints_get_second = typing.get_type_hints(PhysicalDimensionMapping.getSecondPhysicalDimensionRef)
+        assert hints_get_second["return"] == typing.Optional[RefType]
+
+        hints_set_second = typing.get_type_hints(PhysicalDimensionMapping.setSecondPhysicalDimensionRef)
+        assert hints_set_second["value"] == typing.Optional[RefType]
+        assert hints_set_second["return"] == PhysicalDimensionMapping
+
+    def test_get_set_first_physical_dimension_ref(self):
+        """
+        Test getFirstPhysicalDimensionRef and setFirstPhysicalDimensionRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/PhysicalDimensions/Time")
+        result = obj.setFirstPhysicalDimensionRef(value)
+        assert result is obj  # method chaining
+        assert obj.getFirstPhysicalDimensionRef() is value
+        assert obj.getFirstPhysicalDimensionRef().getValue() == "/PhysicalDimensions/Time"
+
+        result = obj.setFirstPhysicalDimensionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFirstPhysicalDimensionRef() is value  # None is a no-op
+
+    def test_get_set_second_physical_dimension_ref(self):
+        """
+        Test getSecondPhysicalDimensionRef and setSecondPhysicalDimensionRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/PhysicalDimensions/Duration")
+        result = obj.setSecondPhysicalDimensionRef(value)
+        assert result is obj  # method chaining
+        assert obj.getSecondPhysicalDimensionRef() is value
+        assert obj.getSecondPhysicalDimensionRef().getValue() == "/PhysicalDimensions/Duration"
+
+        result = obj.setSecondPhysicalDimensionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSecondPhysicalDimensionRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(PhysicalDimensionMapping.getFirstPhysicalDimensionRef.__doc__) == self.FIRST_PHYSICAL_DIMENSION_NOTE
+        assert inspect.cleandoc(PhysicalDimensionMapping.setFirstPhysicalDimensionRef.__doc__) == (
+            self.FIRST_PHYSICAL_DIMENSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing firstPhysicalDimensionRef."
+        )
+        assert inspect.cleandoc(PhysicalDimensionMapping.getSecondPhysicalDimensionRef.__doc__) == self.SECOND_PHYSICAL_DIMENSION_NOTE
+        assert inspect.cleandoc(PhysicalDimensionMapping.setSecondPhysicalDimensionRef.__doc__) == (
+            self.SECOND_PHYSICAL_DIMENSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing secondPhysicalDimensionRef."
         )
