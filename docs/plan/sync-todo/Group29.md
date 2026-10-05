@@ -638,15 +638,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanControllerXlConfigurationRequirements` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.19, p.72
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-05): removed the stale `# Spec verified: R23-11` marker and rebuilt the checklist in the 6-column format. Fixed two stale docstrings to the R23-11 markdown text: minNumberOfTimeQuantaPerBit "quantas" → "quanta" and minTrcvDelayCompensationOffset "Transmitter" → "Transceiver" (inline comment + getter + setter). Fixed this class's reader/writer: added the missing `readARObject`/`writeARObject` base-helper calls (S/T now round-trip) and switched the six PWM fields from Integer+cast helpers to the PositiveInteger helpers per the PDF type column (XSD group CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS, AUTOSAR_00052.xsd line 14902). PDF quirk kept verbatim per Rule 0015/0001.4: maxPwmO Note says "minimum PWM time offset" and minPwmO says "maximum PWM time offset" — modeled as written.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10163 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `AbstractCanPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.20, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py

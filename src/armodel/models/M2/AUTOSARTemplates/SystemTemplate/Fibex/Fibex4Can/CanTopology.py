@@ -515,41 +515,40 @@ class CanControllerXlConfigurationRequirements(ARObject):
 
     # CanControllerXlConfigurationRequirements method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.19, p.72
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -578,7 +577,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         # Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         self.maxTrcvDelayCompensationOffset: Optional[TimeValue] = None
 
-        # Minimum number of time quantas in the bit time.
+        # Minimum number of time quanta in the bit time.
         self.minNumberOfTimeQuantaPerBit: Optional[Integer] = None
 
         # Specifies the minimum PWM long phase length.
@@ -596,7 +595,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         # The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
         self.minSyncJumpWidth: Optional[Float] = None
 
-        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         self.minTrcvDelayCompensationOffset: Optional[TimeValue] = None
 
         # Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
@@ -691,11 +690,11 @@ class CanControllerXlConfigurationRequirements(ARObject):
         return self
 
     def getMinNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
-        """Minimum number of time quantas in the bit time."""
+        """Minimum number of time quanta in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
     def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerXlConfigurationRequirements:
-        """Minimum number of time quantas in the bit time.
+        """Minimum number of time quanta in the bit time.
         A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.minNumberOfTimeQuantaPerBit = value
@@ -757,11 +756,11 @@ class CanControllerXlConfigurationRequirements(ARObject):
         return self
 
     def getMinTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
-        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled."""
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.minTrcvDelayCompensationOffset
 
     def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
-        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing minTrcvDelayCompensationOffset."""
         if value is not None:
             self.minTrcvDelayCompensationOffset = value
