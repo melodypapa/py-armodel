@@ -9360,7 +9360,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFrame(child_element, frame)
 
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
-        self.writeIdentifiable(element, nm_node)
+        self.writeIdentifiable(element, nm_node, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
         self.setChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER", cast(Integer, nm_node.getNmCoordCluster()))
         self.setChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE", nm_node.getNmCoordinatorRole())
@@ -9389,6 +9389,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
+        self.writeVariationPointCapable(child_element, nm_node)
 
     def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
@@ -9396,6 +9397,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmNode(child_element, nm_node)
         self.setChildElementOptionalBooleanValue(child_element, "ALL-NM-MESSAGES-KEEP-AWAKE", nm_node.getAllNmMessagesKeepAwake())
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
+        self.writeVariationPointCapable(child_element, nm_node)
 
     def writeJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
         self.logger.debug("write J1939NmNode %s" % nm_node.getShortName())
@@ -9403,11 +9405,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmNode(child_element, nm_node)
         self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
         self.setJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
+        self.writeVariationPointCapable(child_element, nm_node)
 
     def writeFlexrayNmNode(self, element: ET.Element, nm_node: FlexrayNmNode):
         self.logger.debug("write FlexrayNmNode %s" % nm_node.getShortName())
         child_element = ET.SubElement(element, "FLEXRAY-NM-NODE")
         self.writeNmNode(child_element, nm_node)
+        self.writeVariationPointCapable(child_element, nm_node)
 
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
