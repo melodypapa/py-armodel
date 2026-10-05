@@ -1747,19 +1747,119 @@ class DiagPduType(AREnum):
 
 
 class DiagnosticClearDtcLimitationEnum(AREnum):
-    pass
+    """
+    Scope of the DEM_ClearDTC Api.
+    """
+
+    # DiagnosticClearDtcLimitationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.169, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # DEM_ClearDtc API accepts all supported DTC values. Tags: atp.EnumerationLiteralIndex=0
+    ALL_SUPPORTED_DTCS = "allSupportedDtcs"
+
+    # DEM_ClearDtc API accepts ClearAllDTCs only. Tags: atp.EnumerationLiteralIndex=1
+    CLEAR_ALL_DTCS = "clearAllDtcs"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS,
+                DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS,
+            ]
+        )
 
 
 class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
-    pass
+    """
+    This enumeration defines the possible behavior for clear event allowed
+    """
+
+    # DiagnosticClearEventAllowedBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.150, p.166
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event status byte keeps unchanged. Tags: atp.EnumerationLiteralIndex=0
+    NO_STATUS_BYTE_CHANGE = "noStatusByteChange"
+
+    # The OperationCycle and readiness bits of the event status byte are reset. Tags: atp.EnumerationLiteralIndex=1
+    ONLY_THIS_CYCLE_AND_READINESS = "onlyThisCycleAndReadiness"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE,
+                DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS,
+            ]
+        )
 
 
 class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
-    pass
+    """
+    Behavior of the indicator.
+    """
+
+    # DiagnosticConnectedIndicatorBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.155, p.168
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The indicator blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=0
+    BLINK_MODE = "blinkMode"
+
+    # The indicator is active and blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=1
+    BLINK_OR_CONTINUOUS_ON_MODE = "blinkOrContinuousOnMode"
+
+    # The indicator is active when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=2
+    CONTINUOUS_ON_MODE = "continuousOnMode"
+
+    # Flash Indicator Lamp should be set to "Fast Flash". Tags: atp.EnumerationLiteralIndex=3
+    FAST_FLASHING_MODE = "fastFlashingMode"
+
+    # Flash Indicator Lamp should be set to "Slow Flash". Tags: atp.EnumerationLiteralIndex=4
+    SLOW_FLASHING_MODE = "slowFlashingMode"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE,
+                DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE,
+            ]
+        )
 
 
 class DiagnosticDebounceBehaviorEnum(AREnum):
-    pass
+    """
+    Event debounce algorithm behavior options.
+    """
+
+    # DiagnosticDebounceBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.192, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event debounce counter will be frozen with the current value and will not change while a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. After all related enable conditions are fulfilled and ControlDTCSetting of the related event is enabled again, the event qualification will continue with the next report of the event (i.e. SetEventStatus). Tags: atp.EnumerationLiteralIndex=0
+    FREEZE = "freeze"
+
+    # The event debounce counter will be reset to initial value if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. The qualification of the event will be restarted with the next valid event report. Tags: atp.EnumerationLiteralIndex=1
+    RESET = "reset"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticDebounceBehaviorEnum.FREEZE,
+                DiagnosticDebounceBehaviorEnum.RESET,
+            ]
+        )
 
 
 class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
@@ -1793,7 +1893,29 @@ class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
 
 
 class DiagnosticEventClearAllowedEnum(AREnum):
-    pass
+    """
+    Denotes whether clearing of events is allowed.
+    """
+
+    # DiagnosticEventClearAllowedEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.153, p.167
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The clearing is allowed unconditionally. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # In case the clearing of a Diagnostic Event has to be allowed or prohibited through the SWC interface CallbackClearEventAllowed, the SWC has to indicate this by defining appropriate ServiceNeeds (i.e. DiagnosticEventNeeds). Tags: atp.EnumerationLiteralIndex=2
+    REQUIRES_CALLBACK_EXECUTION = "requiresCallbackExecution"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventClearAllowedEnum.ALWAYS,
+                DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION,
+            ]
+        )
 
 
 class DiagnosticEventCombinationBehaviorEnum(AREnum):
@@ -1845,11 +1967,59 @@ class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
 
 
 class DiagnosticEventDisplacementStrategyEnum(AREnum):
-    pass
+    """
+    Defines the displacement strategy.
+    """
+
+    # DiagnosticEventDisplacementStrategyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.170, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Event memory entry displacement is enabled, by consideration of priority active/passive status, and occurrence. Tags: atp.EnumerationLiteralIndex=0
+    FULL = "full"
+
+    # Event memory entry displacement is disabled. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # Event memory entry displacement is enabled, by consideration of priority and occurrence (but without active/passive status). Tags: atp.EnumerationLiteralIndex=2
+    PRIO_OCC = "prioOcc"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventDisplacementStrategyEnum.FULL,
+                DiagnosticEventDisplacementStrategyEnum.NONE,
+                DiagnosticEventDisplacementStrategyEnum.PRIO_OCC,
+            ]
+        )
 
 
 class DiagnosticEventKindEnum(AREnum):
-    pass
+    """
+    Applicability of the diagnostic event.
+    """
+
+    # DiagnosticEventKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.154, p.167
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The event is assigned to a BSW module. Tags: atp.EnumerationLiteralIndex=0
+    BSW = "bsw"
+
+    # The event is assigned to a SWC. Tags: atp.EnumerationLiteralIndex=1
+    SWC = "swc"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticEventKindEnum.BSW,
+                DiagnosticEventKindEnum.SWC,
+            ]
+        )
 
 
 class DiagnosticEventWindowTimeEnum(AREnum):
@@ -1939,15 +2109,93 @@ class DiagnosticInhibitionMaskEnum(AREnum):
 
 
 class DiagnosticIumprKindEnum(AREnum):
-    pass
+    """
+    This enumeration is used to control the ratio calculation behavior.
+    """
+
+    # DiagnosticIumprKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.208, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The calculation is based on the usage of an API. Tags: atp.EnumerationLiteralIndex=0
+    API_BASED = "apiBased"
+
+    # The calculation is based on the usage of an observer. Tags: atp.EnumerationLiteralIndex=1
+    OBSERVER_BASED = "observerBased"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticIumprKindEnum.API_BASED,
+                DiagnosticIumprKindEnum.OBSERVER_BASED,
+            ]
+        )
 
 
 class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
-    pass
+    """
+    Trigger types to allocate an event memory entry.
+    """
+
+    # DiagnosticMemoryEntryStorageTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.168, p.183
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Status information of UDS DTC status bit 3 Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED = "confirmed"
+
+    # Threshold to allocate an event memory entry and to capture the Freeze Frame. Tags: atp.EnumerationLiteralIndex=1
+    FDC_THRESHOLD = "fdcThreshold"
+
+    # Status information of UDS DTC status bit 0. Tags: atp.EnumerationLiteralIndex=3
+    TEST_FAILED = "testFailed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED,
+                DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD,
+                DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED,
+            ]
+        )
 
 
 class DiagnosticObdSupportEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to model the roles in which a participation in OBD is foreseen. At the moment, this applies exclusively to the Dem. However, future extension of the Dcm may require this setting as well.
+    """
+
+    # DiagnosticObdSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.206, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This represent the role "master ECU". Tags: atp.EnumerationLiteralIndex=0
+    MASTER_ECU = "masterEcu"
+
+    # This represents the ability to explicitly specify that no participation in OBD is foreseen. Tags: atp.EnumerationLiteralIndex=1
+    NO_OBD_SUPPORT = "noObdSupport"
+
+    # This represents the role "primary ECU". Tags: atp.EnumerationLiteralIndex=2
+    PRIMARY_ECU = "primaryEcu"
+
+    # This represents the role "secondary ECU". Tags: atp.EnumerationLiteralIndex=3
+    SECONDARY_ECU = "secondaryEcu"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticObdSupportEnum.MASTER_ECU,
+                DiagnosticObdSupportEnum.NO_OBD_SUPPORT,
+                DiagnosticObdSupportEnum.PRIMARY_ECU,
+                DiagnosticObdSupportEnum.SECONDARY_ECU,
+            ]
+        )
 
 
 class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
@@ -1977,7 +2225,37 @@ class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
 
 
 class DiagnosticOperationCycleTypeEnum(AREnum):
-    pass
+    """
+    Operation cycles types used to identify certain Operation cycles with a certain semantics.
+    """
+
+    # DiagnosticOperationCycleTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.197, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Ignition ON / OFF cycle Tags: atp.EnumerationLiteralIndex=0
+    IGNITION = "ignition"
+
+    # OBD Driving cycle Tags: atp.EnumerationLiteralIndex=1
+    OBD_DRIVING_CYCLE = "obdDrivingCycle"
+
+    # further operation cycle Tags: atp.EnumerationLiteralIndex=2
+    OTHER = "other"
+
+    # OBD Warm up cycle Tags: atp.EnumerationLiteralIndex=5
+    WARMUP = "warmup"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticOperationCycleTypeEnum.IGNITION,
+                DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE,
+                DiagnosticOperationCycleTypeEnum.OTHER,
+                DiagnosticOperationCycleTypeEnum.WARMUP,
+            ]
+        )
 
 
 class DiagnosticPeriodicRateCategoryEnum(AREnum):
@@ -2011,7 +2289,49 @@ class DiagnosticPeriodicRateCategoryEnum(AREnum):
 
 
 class DiagnosticRecordTriggerEnum(AREnum):
-    pass
+    """
+    Triggers to allocate an event memory entry.
+    """
+
+    # DiagnosticRecordTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.182, p.191
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # capture on "Confirmed" Tags: atp.EnumerationLiteralIndex=0
+    CONFIRMED = "confirmed"
+
+    # implement custom capture Tags: atp.EnumerationLiteralIndex=4
+    CUSTOM = "custom"
+
+    # capture on "FDC Threshold" Tags: atp.EnumerationLiteralIndex=1
+    FDC_THRESHOLD = "fdcThreshold"
+
+    # capture on "Pending" Tags: atp.EnumerationLiteralIndex=2
+    PENDING = "pending"
+
+    # capture on "Test Failed" Tags: atp.EnumerationLiteralIndex=3
+    TEST_FAILED = "testFailed"
+
+    # Test Failed This Operation Cycle. Tags: atp.EnumerationLiteralIndex=5
+    TEST_FAILED_THIS_OPERATION_CYCLE = "testFailedThisOperationCycle"
+
+    # Capture on testFailed bit transition 1 -> 0. Tags: atp.EnumerationLiteralIndex=6
+    TEST_PASSED = "testPassed"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticRecordTriggerEnum.CONFIRMED,
+                DiagnosticRecordTriggerEnum.CUSTOM,
+                DiagnosticRecordTriggerEnum.FDC_THRESHOLD,
+                DiagnosticRecordTriggerEnum.PENDING,
+                DiagnosticRecordTriggerEnum.TEST_FAILED,
+                DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE,
+                DiagnosticRecordTriggerEnum.TEST_PASSED,
+            ]
+        )
 
 
 class DiagnosticResponseOnEventActionEnum(AREnum):
@@ -2095,15 +2415,81 @@ class DiagnosticResponseToEcuResetEnum(AREnum):
 
 
 class DiagnosticSignificanceEnum(AREnum):
-    pass
+    """
+    Significance level of a diagnostic event.
+    """
+
+    # DiagnosticSignificanceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.176, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Failure, which affects the component/ECU itself. Tags: atp.EnumerationLiteralIndex=0
+    FAULT = "fault"
+
+    # Issue, which indicates additional information concerning insufficient system behavior. Tags: atp.EnumerationLiteralIndex=1
+    OCCURENCE = "occurence"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticSignificanceEnum.FAULT,
+                DiagnosticSignificanceEnum.OCCURENCE,
+            ]
+        )
 
 
 class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
-    pass
+    """
+    This enumeration controls whether the aging and displacement mechanism shall be applied to the 'TestFailedSinceLastClear' status bits.
+    """
+
+    # DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.171, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The "TestFailedSinceLastClear" status bits are reset to 0, if aging or displacement applies. Tags: atp.EnumerationLiteralIndex=0
+    STATUS_BIT_AGING_AND_DISPLACEMENT = "statusBitAgingAndDisplacement"
+
+    # Aging and displacement has no impact on the "TestFailedSinceLastClear" status bits. Tags: atp.EnumerationLiteralIndex=1
+    STATUS_BIT_NORMAL = "statusBitNormal"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT,
+                DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL,
+            ]
+        )
 
 
 class DiagnosticTestResultUpdateEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to define the update behavior of a DiagnosticTestResult.
+    """
+
+    # DiagnosticTestResultUpdateEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.202, p.205
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Any DTR result reported by the monitor is used by the Dem. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # The Dem accepts reported DTRs only when the configured debouncing mechanism is stable at the FAIL or PASS limit. Tags: atp.EnumerationLiteralIndex=1
+    STEADY = "steady"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTestResultUpdateEnum.ALWAYS,
+                DiagnosticTestResultUpdateEnum.STEADY,
+            ]
+        )
 
 
 class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
@@ -2171,15 +2557,101 @@ class DiagnosticTypeOfDtcSupportedEnum(AREnum):
 
 
 class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
-    pass
+    """
+    FreezeFrame record numeration type
+    """
+
+    # DiagnosticTypeOfFreezeFrameRecordNumerationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.172, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Freeze frame records will be numbered consecutive starting by 1 in their chronological order. Tags: atp.EnumerationLiteralIndex=0
+    CALCULATED = "calculated"
+
+    # Freeze frame records will be numbered based on the given configuration in their chronological order. Tags: atp.EnumerationLiteralIndex=1
+    CONFIGURED = "configured"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED,
+                DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED,
+            ]
+        )
 
 
 class DiagnosticUdsSeverityEnum(AREnum):
-    pass
+    """
+    Severity types for a DTC according to ISO 14229-1.
+    """
+
+    # DiagnosticUdsSeverityEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.177, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Check at next halt. Tags: atp.EnumerationLiteralIndex=0
+    CHECK_AT_NEXT_HALT = "checkAtNextHalt"
+
+    # Check immediately. Tags: atp.EnumerationLiteralIndex=1
+    IMMEDIATELY = "immediately"
+
+    # Maintenance required. Tags: atp.EnumerationLiteralIndex=2
+    MAINTENANCE_ONLY = "maintenanceOnly"
+
+    # No severity information available. Tags: atp.EnumerationLiteralIndex=3
+    NO_SEVERITY = "noSeverity"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT,
+                DiagnosticUdsSeverityEnum.IMMEDIATELY,
+                DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY,
+                DiagnosticUdsSeverityEnum.NO_SEVERITY,
+            ]
+        )
 
 
 class DiagnosticWwhObdDtcClassEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to model severity classes of an WWH-OBD DTC.
+    """
+
+    # DiagnosticWwhObdDtcClassEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.179, p.188
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This attribute represents the severity class A. Tags: atp.EnumerationLiteralIndex=0
+    DEM_DTC_WWH_OBD_CLASS_A = "demDtcWwhObdClassA"
+
+    # This attribute represents the severity class B1. Tags: atp.EnumerationLiteralIndex=1
+    DEM_DTC_WWH_OBD_CLASS_B1 = "demDtcWwhObdClassB1"
+
+    # This attribute represents the severity class B2. Tags: atp.EnumerationLiteralIndex=2
+    DEM_DTC_WWH_OBD_CLASS_B2 = "demDtcWwhObdClassB2"
+
+    # This attribute represents the severity class C. Tags: atp.EnumerationLiteralIndex=3
+    DEM_DTC_WWH_OBD_CLASS_C = "demDtcWwhObdClassC"
+
+    # This attribute represents the option to intentionally not describe a dedicated severity class of an WWH-OBD DTC. Tags: atp.EnumerationLiteralIndex=4
+    DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION = "demDtcWwhObdClassNoInformation"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION,
+            ]
+        )
 
 
 class EthGlobalTimeMessageFormatEnum(AREnum):

@@ -1596,11 +1596,13 @@ class TestEcucLinkerSymbolDef:
         """
         Test the class docstring carries the Table 2.21 Note verbatim + the class requirement [TPS_ECUC_02031].
         """
-        expected = inspect.cleandoc("""
+        expected = inspect.cleandoc(
+            """
             Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
 
             [TPS_ECUC_02031] Restriction on the length of EcucLinkerSymbolDef values and defaultValue The restriction on the length of the default value and the value of a EcucLinkerSymbolDef is set to 255 characters.
-            """)
+            """
+        )
         assert inspect.cleandoc(EcucLinkerSymbolDef.__doc__) == expected
 
 

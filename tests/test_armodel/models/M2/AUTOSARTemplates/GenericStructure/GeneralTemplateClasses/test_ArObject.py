@@ -14,23 +14,45 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
     DiagnosticCommonProps,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticFunctionIdentifierInhibit,
+    DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
+    DiagnosticMemoryDestinationUserDefined,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
+    DiagnosticTroubleCodeObd,
+    DiagnosticTroubleCodeProps,
+    DiagnosticTroubleCodeUds,
+    EventObdReadinessGroup,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticParameterElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
+    DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
     DiagnosticEventWindowTimeEnum,
+    DiagnosticInhibitionMaskEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticSignificanceEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+    DiagnosticUdsSeverityEnum,
+    DiagnosticWwhObdDtcClassEnum,
+    NameToken,
     PositiveInteger,
     RefType,
     String,
@@ -1048,3 +1070,1543 @@ class TestDiagnosticSupportInfoByte:
         assert inspect.cleandoc(DiagnosticSupportInfoByte.setPosition.__doc__) == (self.POSITION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing position.")
         assert inspect.cleandoc(DiagnosticSupportInfoByte.getSize.__doc__) == self.SIZE_NOTE
         assert inspect.cleandoc(DiagnosticSupportInfoByte.setSize.__doc__) == (self.SIZE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing size.")
+
+
+class TestDiagnosticConnectedIndicator:
+    """
+    Test class for DiagnosticConnectedIndicator functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.152, p.167
+    """
+
+    CLASS_NOTE = "Description of indicators that are defined per DiagnosticEvent."
+    BEHAVIOR_NOTE = "Behavior of the linked indicator."
+    HEALING_CYCLE_NOTE = (
+        "The deactivation of indicators per event is defined as healing of a diagnostic event. The operation cycle in which the warning indicator will be switched off is defined here."
+    )
+    HEALING_CYCLE_COUNTER_THRESHOLD_NOTE = "This attribute defines the number of healing cycles for the WarningIndicatorOffCriteria Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    INDICATOR_NOTE = "Reference to the used indicator."
+    INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE = (
+        "This attribute defines the number of failure cycles for the WarningIndicatorOnCriteria. Please note that this attribute is not relevant for the Adaptive Platform."
+    )
+
+    def _create_connected_indicator(self) -> DiagnosticConnectedIndicator:
+        return DiagnosticConnectedIndicator()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticConnectedIndicator initializes all attributes to their defaults.
+        """
+        obj = self._create_connected_indicator()
+
+        assert obj.getBehavior() is None
+        assert obj.getHealingCycleRef() is None
+        assert obj.getHealingCycleCounterThreshold() is None
+        assert obj.getIndicatorRef() is None
+        assert obj.getIndicatorFailureCycleCounterThreshold() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticConnectedIndicator derives from ARObject (confirmed queue row Base; the spec Base chain's Referrable/Identifiable is unreachable from ArObject.py).
+        """
+        assert issubclass(DiagnosticConnectedIndicator, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticConnectedIndicator.__init__.__doc__ is None
+
+    def test_get_set_behavior(self):
+        """
+        Test getBehavior and setBehavior round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = DiagnosticConnectedIndicatorBehaviorEnum().setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE)
+        result = obj.setBehavior(value)
+        assert result is obj  # method chaining
+        assert obj.getBehavior() is value
+        assert obj.getBehavior().getValue() == "blinkMode"
+
+        result = obj.setBehavior(None)
+        assert result is obj  # method chaining with None
+        assert obj.getBehavior() is value  # None is a no-op
+
+    def test_get_set_healing_cycle_ref(self):
+        """
+        Test getHealingCycleRef and setHealingCycleRef round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = RefType().setValue("/Dem/DiagnosticOperationCycle")
+        result = obj.setHealingCycleRef(value)
+        assert result is obj  # method chaining
+        assert obj.getHealingCycleRef() is value
+        assert obj.getHealingCycleRef().getValue() == "/Dem/DiagnosticOperationCycle"
+
+        result = obj.setHealingCycleRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHealingCycleRef() is value  # None is a no-op
+
+    def test_get_set_healing_cycle_counter_threshold(self):
+        """
+        Test getHealingCycleCounterThreshold and setHealingCycleCounterThreshold round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = PositiveInteger().setValue("3")
+        result = obj.setHealingCycleCounterThreshold(value)
+        assert result is obj  # method chaining
+        assert obj.getHealingCycleCounterThreshold() is value
+        assert obj.getHealingCycleCounterThreshold().getValue() == 3
+
+        result = obj.setHealingCycleCounterThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHealingCycleCounterThreshold() is value  # None is a no-op
+
+    def test_get_set_indicator_ref(self):
+        """
+        Test getIndicatorRef and setIndicatorRef round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = RefType().setValue("/Dem/DiagnosticIndicator")
+        result = obj.setIndicatorRef(value)
+        assert result is obj  # method chaining
+        assert obj.getIndicatorRef() is value
+        assert obj.getIndicatorRef().getValue() == "/Dem/DiagnosticIndicator"
+
+        result = obj.setIndicatorRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIndicatorRef() is value  # None is a no-op
+
+    def test_get_set_indicator_failure_cycle_counter_threshold(self):
+        """
+        Test getIndicatorFailureCycleCounterThreshold and setIndicatorFailureCycleCounterThreshold round-trip and None no-op.
+        """
+        obj = self._create_connected_indicator()
+
+        value = PositiveInteger().setValue("2")
+        result = obj.setIndicatorFailureCycleCounterThreshold(value)
+        assert result is obj  # method chaining
+        assert obj.getIndicatorFailureCycleCounterThreshold() is value
+        assert obj.getIndicatorFailureCycleCounterThreshold().getValue() == 2
+
+        result = obj.setIndicatorFailureCycleCounterThreshold(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIndicatorFailureCycleCounterThreshold() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getBehavior.__doc__) == self.BEHAVIOR_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setBehavior.__doc__) == (self.BEHAVIOR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing behavior.")
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getHealingCycleRef.__doc__) == self.HEALING_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setHealingCycleRef.__doc__) == (
+            self.HEALING_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing healingCycleRef."
+        )
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getHealingCycleCounterThreshold.__doc__) == self.HEALING_CYCLE_COUNTER_THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setHealingCycleCounterThreshold.__doc__) == (
+            self.HEALING_CYCLE_COUNTER_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing healingCycleCounterThreshold."
+        )
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getIndicatorRef.__doc__) == self.INDICATOR_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setIndicatorRef.__doc__) == (self.INDICATOR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing indicatorRef.")
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.getIndicatorFailureCycleCounterThreshold.__doc__) == self.INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE
+        assert inspect.cleandoc(DiagnosticConnectedIndicator.setIndicatorFailureCycleCounterThreshold.__doc__) == (
+            self.INDICATOR_FAILURE_CYCLE_COUNTER_THRESHOLD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing indicatorFailureCycleCounterThreshold."
+        )
+
+
+class TestDiagnosticFunctionIdentifierInhibit:
+    """
+    Test class for DiagnosticFunctionIdentifierInhibit functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.215, p.216
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the inhibition of a specific function identifier within the Fim configuration. Tags: atp.recommendedPackage=DiagnosticFunctionIdentifierInhibits"
+    FUNCTION_IDENTIFIER_NOTE = "This represents the corresponding function identifier."
+    INHIBITION_MASK_NOTE = "This represents the value of the inhibition mask behavior."
+    INHIBIT_SOURCE_NOTE = "This represents a collection of DiagnosticFunctionInhibitSource that contribute to the configuration of the enclosing DiagnosticFunctionIdentiferInhibit."
+
+    def _create_inhibit(self) -> DiagnosticFunctionIdentifierInhibit:
+        return DiagnosticFunctionIdentifierInhibit()
+
+    def _create_inhibit_source(self) -> DiagnosticFunctionInhibitSource:
+        return DiagnosticFunctionInhibitSource(AUTOSAR.getInstance(), "InhibitSource")
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticFunctionIdentifierInhibit initializes all attributes to their defaults.
+        """
+        obj = self._create_inhibit()
+
+        assert obj.getFunctionIdentifierRef() is None
+        assert obj.getInhibitionMask() is None
+        assert obj.getInhibitSources() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticFunctionIdentifierInhibit derives from ARObject (confirmed queue row Base; the spec Base chain's Referrable/Identifiable is unreachable from ArObject.py).
+        """
+        assert issubclass(DiagnosticFunctionIdentifierInhibit, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticFunctionIdentifierInhibit.__init__.__doc__ is None
+
+    def test_get_set_function_identifier_ref(self):
+        """
+        Test getFunctionIdentifierRef and setFunctionIdentifierRef round-trip and None no-op.
+        """
+        obj = self._create_inhibit()
+
+        value = RefType().setValue("/Fim/DiagnosticFunctionIdentifiers/FID1")
+        result = obj.setFunctionIdentifierRef(value)
+        assert result is obj  # method chaining
+        assert obj.getFunctionIdentifierRef() is value
+        assert obj.getFunctionIdentifierRef().getValue() == "/Fim/DiagnosticFunctionIdentifiers/FID1"
+
+        result = obj.setFunctionIdentifierRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFunctionIdentifierRef() is value  # None is a no-op
+
+    def test_get_set_inhibition_mask(self):
+        """
+        Test getInhibitionMask and setInhibitionMask round-trip and None no-op.
+        """
+        obj = self._create_inhibit()
+
+        value = DiagnosticInhibitionMaskEnum().setValue(DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED)
+        result = obj.setInhibitionMask(value)
+        assert result is obj  # method chaining
+        assert obj.getInhibitionMask() is value
+        assert obj.getInhibitionMask().getValue() == "testedAndFailed"
+
+        result = obj.setInhibitionMask(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInhibitionMask() is value  # None is a no-op
+
+    def test_add_inhibit_source(self):
+        """
+        Test addInhibitSource appends to the collection and None is a no-op.
+        """
+        obj = self._create_inhibit()
+
+        source = self._create_inhibit_source()
+        result = obj.addInhibitSource(source)
+        assert result is obj  # method chaining
+        assert obj.getInhibitSources() == [source]
+
+        result = obj.addInhibitSource(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInhibitSources() == [source]  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getFunctionIdentifierRef.__doc__) == self.FUNCTION_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.setFunctionIdentifierRef.__doc__) == (
+            self.FUNCTION_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing functionIdentifierRef."
+        )
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getInhibitionMask.__doc__) == self.INHIBITION_MASK_NOTE
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.setInhibitionMask.__doc__) == (
+            self.INHIBITION_MASK_NOTE + "\n\nA None value is a no-op and does not overwrite an existing inhibitionMask."
+        )
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.addInhibitSource.__doc__) == (self.INHIBIT_SOURCE_NOTE + "\n\nA None value is a no-op and does not append an inhibitSource.")
+        assert inspect.cleandoc(DiagnosticFunctionIdentifierInhibit.getInhibitSources.__doc__) == self.INHIBIT_SOURCE_NOTE
+
+
+class TestDiagnosticIumprGroupIdentifier:
+    """
+    Test class for DiagnosticIumprGroupIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.210, p.211
+    """
+
+    CLASS_NOTE = "This meta-class provides the ability to the define the group identifier for an IumprGroup."
+    GROUP_ID_NOTE = "This attribute shall be taken to define an identifier for the IUMPR group. Please note that the value of this identifier is driven by regulations outside the scope of AUTOSAR and can therefore not be limited to the set of characters suitable for a shortName. Stereotypes: atpIdentityContributor"
+
+    def _create_identifier(self) -> DiagnosticIumprGroupIdentifier:
+        return DiagnosticIumprGroupIdentifier()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticIumprGroupIdentifier initializes all attributes to their defaults.
+        """
+        obj = self._create_identifier()
+
+        assert obj.getGroupId() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticIumprGroupIdentifier derives from ARObject (spec Base row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticIumprGroupIdentifier, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticIumprGroupIdentifier.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticIumprGroupIdentifier.__init__.__doc__ is None
+
+    def test_get_set_group_id(self):
+        """
+        Test getGroupId and setGroupId round-trip and None no-op.
+        """
+        obj = self._create_identifier()
+
+        value = NameToken().setValue("IUMPR_GROUP_1")
+        result = obj.setGroupId(value)
+        assert result is obj  # method chaining
+        assert obj.getGroupId() is value
+        assert obj.getGroupId().getValue() == "IUMPR_GROUP_1"
+
+        result = obj.setGroupId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getGroupId() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticIumprGroupIdentifier.getGroupId.__doc__) == self.GROUP_ID_NOTE
+        assert inspect.cleandoc(DiagnosticIumprGroupIdentifier.setGroupId.__doc__) == (self.GROUP_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing groupId.")
+
+
+class ConcreteDiagnosticMemoryDestination(DiagnosticMemoryDestination):
+    pass
+
+
+class TestDiagnosticMemoryDestination:
+    """
+    Test class for DiagnosticMemoryDestination functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.167, p.182
+
+    DiagnosticMemoryDestination is abstract (spec Class row marks it
+    "(abstract)"; subclasses: DiagnosticMemoryDestinationPrimary,
+    DiagnosticMemoryDestinationUserDefined — both queued later in Group25), so
+    __init__ defaults and base accessors are exercised through the minimal
+    concrete subclass ConcreteDiagnosticMemoryDestination (Rule 0006
+    abstract-class clause). Its XML flows through the concrete subclass
+    elements (XSD group DIAGNOSTIC-MEMORY-DESTINATION, AUTOSAR_00052.xsd
+    l.39458), so the reusable reader/writer helpers are round-tripped in
+    tests/test_armodel/parser/test_diagnostic_memory_destination.py and
+    tests/test_armodel/writer/test_writer_diagnostic_memory_destination.py.
+    The Base row's Identifiable branch is unreachable from ArObject.py —
+    ARObject (nested value container) is the most-derived reachable base.
+    memoryEntryStorageTrigger, statusBitHandlingTestFailedSinceLastClear and
+    typeOfFreezeFrameRecordNumeration are typed by their spec enums, which are
+    still stubs queued later in Group25 — tests construct them with the
+    interim raw-literal shape until they gain their literals.
+    """
+
+    CLASS_NOTE = "This abstract meta-class represents a possible memory destination for a diagnostic event."
+    AGING_REQUIRES_TESTED_CYCLE_NOTE = "Defines whether the aging cycle counter is processed every aging cycles or else only tested aging cycle are considered. If the attribute is set to TRUE: only tested aging cycle are considered for aging cycle counter. If the attribute is set to FALSE: aging cycle counter is processed every aging cycle. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination."
+    CLEAR_DTC_LIMITATION_NOTE = "Defines the scope of the DEM_ClearDTC Api. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination."
+    DTC_STATUS_AVAILABILITY_MASK_NOTE = "Mask for the supported DTC status bits by the Dem."
+    EVENT_DISPLACEMENT_STRATEGY_NOTE = "This attribute defines, whether support for event displacement is enabled or not, and which displacement strategy is followed."
+    MAX_NUMBER_OF_EVENT_ENTRIES_NOTE = "This attribute fixes the maximum number of event entries in the fault memory."
+    MEMORY_ENTRY_STORAGE_TRIGGER_NOTE = "Describes the trigger to allocate an event memory entry."
+    STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE = 'This attribute defines, whether the aging and displacement mechanism shall be applied to the "TestFailedSinceLastClear" status bits. On the classic platform, the value of this attribute has to be identical for each DiagnosticMemoryDestination.'
+    STATUS_BIT_STORAGE_TEST_FAILED_NOTE = 'This parameter is used to activate/deactivate the permanent storage of the "TestFailed" status bits. true: storage activated false: storage deactivated'
+    TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE = "This attribute defines the type of assigning freeze frame record numbers for event-specific freeze frame records."
+
+    def _create_destination(self) -> DiagnosticMemoryDestination:
+        return ConcreteDiagnosticMemoryDestination()
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that instantiating the abstract DiagnosticMemoryDestination directly raises TypeError.
+        """
+        with pytest.raises(TypeError):
+            DiagnosticMemoryDestination()
+
+    def test_initialization(self):
+        """
+        Test that a concrete subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_destination()
+
+        assert obj.getAgingRequiresTestedCycle() is None
+        assert obj.getClearDtcLimitation() is None
+        assert obj.getDtcStatusAvailabilityMask() is None
+        assert obj.getEventDisplacementStrategy() is None
+        assert obj.getMaxNumberOfEventEntries() is None
+        assert obj.getMemoryEntryStorageTrigger() is None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is None
+        assert obj.getStatusBitStorageTestFailed() is None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticMemoryDestination derives from ARObject (confirmed queue row Base; nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticMemoryDestination, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestination.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryDestination.__init__.__doc__ is None
+
+    def test_get_set_aging_requires_tested_cycle(self):
+        """
+        Test getAgingRequiresTestedCycle and setAgingRequiresTestedCycle round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = Boolean().setValue(True)
+        result = obj.setAgingRequiresTestedCycle(value)
+        assert result is obj  # method chaining
+        assert obj.getAgingRequiresTestedCycle() is value
+        assert obj.getAgingRequiresTestedCycle().value is True
+
+        result = obj.setAgingRequiresTestedCycle(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAgingRequiresTestedCycle() is value  # None is a no-op
+
+    def test_get_set_clear_dtc_limitation(self):
+        """
+        Test getClearDtcLimitation and setClearDtcLimitation round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticClearDtcLimitationEnum().setValue(DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS)
+        result = obj.setClearDtcLimitation(value)
+        assert result is obj  # method chaining
+        assert obj.getClearDtcLimitation() is value
+        assert obj.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+
+        result = obj.setClearDtcLimitation(None)
+        assert result is obj  # method chaining with None
+        assert obj.getClearDtcLimitation() is value  # None is a no-op
+
+    def test_get_set_dtc_status_availability_mask(self):
+        """
+        Test getDtcStatusAvailabilityMask and setDtcStatusAvailabilityMask round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = PositiveInteger().setValue(255)
+        result = obj.setDtcStatusAvailabilityMask(value)
+        assert result is obj  # method chaining
+        assert obj.getDtcStatusAvailabilityMask() is value
+        assert obj.getDtcStatusAvailabilityMask().getValue() == 255
+
+        result = obj.setDtcStatusAvailabilityMask(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcStatusAvailabilityMask() is value  # None is a no-op
+
+    def test_get_set_event_displacement_strategy(self):
+        """
+        Test getEventDisplacementStrategy and setEventDisplacementStrategy round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticEventDisplacementStrategyEnum().setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
+        result = obj.setEventDisplacementStrategy(value)
+        assert result is obj  # method chaining
+        assert obj.getEventDisplacementStrategy() is value
+        assert obj.getEventDisplacementStrategy().getValue() == "prioOcc"
+
+        result = obj.setEventDisplacementStrategy(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventDisplacementStrategy() is value  # None is a no-op
+
+    def test_get_set_max_number_of_event_entries(self):
+        """
+        Test getMaxNumberOfEventEntries and setMaxNumberOfEventEntries round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setMaxNumberOfEventEntries(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfEventEntries() is value
+        assert obj.getMaxNumberOfEventEntries().getValue() == 10
+
+        result = obj.setMaxNumberOfEventEntries(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfEventEntries() is value  # None is a no-op
+
+    def test_get_set_memory_entry_storage_trigger(self):
+        """
+        Test getMemoryEntryStorageTrigger and setMemoryEntryStorageTrigger round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED)
+        result = obj.setMemoryEntryStorageTrigger(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryEntryStorageTrigger() is value
+        assert obj.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+
+        result = obj.setMemoryEntryStorageTrigger(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryEntryStorageTrigger() is value  # None is a no-op
+
+    def test_get_set_status_bit_handling_test_failed_since_last_clear(self):
+        """
+        Test getStatusBitHandlingTestFailedSinceLastClear and setStatusBitHandlingTestFailedSinceLastClear round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL)
+        result = obj.setStatusBitHandlingTestFailedSinceLastClear(value)
+        assert result is obj  # method chaining
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+
+        result = obj.setStatusBitHandlingTestFailedSinceLastClear(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value  # None is a no-op
+
+    def test_get_set_status_bit_storage_test_failed(self):
+        """
+        Test getStatusBitStorageTestFailed and setStatusBitStorageTestFailed round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = Boolean().setValue(False)
+        result = obj.setStatusBitStorageTestFailed(value)
+        assert result is obj  # method chaining
+        assert obj.getStatusBitStorageTestFailed() is value
+        assert obj.getStatusBitStorageTestFailed().value is False
+
+        result = obj.setStatusBitStorageTestFailed(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStatusBitStorageTestFailed() is value  # None is a no-op
+
+    def test_get_set_type_of_freeze_frame_record_numeration(self):
+        """
+        Test getTypeOfFreezeFrameRecordNumeration and setTypeOfFreezeFrameRecordNumeration round-trip and None no-op.
+        """
+        obj = self._create_destination()
+
+        value = DiagnosticTypeOfFreezeFrameRecordNumerationEnum().setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED)
+        result = obj.setTypeOfFreezeFrameRecordNumeration(value)
+        assert result is obj  # method chaining
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is value
+        assert obj.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
+
+        result = obj.setTypeOfFreezeFrameRecordNumeration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getAgingRequiresTestedCycle.__doc__) == self.AGING_REQUIRES_TESTED_CYCLE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setAgingRequiresTestedCycle.__doc__) == (
+            self.AGING_REQUIRES_TESTED_CYCLE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing agingRequiresTestedCycle."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getClearDtcLimitation.__doc__) == self.CLEAR_DTC_LIMITATION_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setClearDtcLimitation.__doc__) == (
+            self.CLEAR_DTC_LIMITATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing clearDtcLimitation."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getDtcStatusAvailabilityMask.__doc__) == self.DTC_STATUS_AVAILABILITY_MASK_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setDtcStatusAvailabilityMask.__doc__) == (
+            self.DTC_STATUS_AVAILABILITY_MASK_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcStatusAvailabilityMask."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getEventDisplacementStrategy.__doc__) == self.EVENT_DISPLACEMENT_STRATEGY_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setEventDisplacementStrategy.__doc__) == (
+            self.EVENT_DISPLACEMENT_STRATEGY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventDisplacementStrategy."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getMaxNumberOfEventEntries.__doc__) == self.MAX_NUMBER_OF_EVENT_ENTRIES_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setMaxNumberOfEventEntries.__doc__) == (
+            self.MAX_NUMBER_OF_EVENT_ENTRIES_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumberOfEventEntries."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getMemoryEntryStorageTrigger.__doc__) == self.MEMORY_ENTRY_STORAGE_TRIGGER_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setMemoryEntryStorageTrigger.__doc__) == (
+            self.MEMORY_ENTRY_STORAGE_TRIGGER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryEntryStorageTrigger."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getStatusBitHandlingTestFailedSinceLastClear.__doc__) == self.STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setStatusBitHandlingTestFailedSinceLastClear.__doc__) == (
+            self.STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusBitHandlingTestFailedSinceLastClear."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getStatusBitStorageTestFailed.__doc__) == self.STATUS_BIT_STORAGE_TEST_FAILED_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setStatusBitStorageTestFailed.__doc__) == (
+            self.STATUS_BIT_STORAGE_TEST_FAILED_NOTE + "\n\nA None value is a no-op and does not overwrite an existing statusBitStorageTestFailed."
+        )
+        assert inspect.cleandoc(DiagnosticMemoryDestination.getTypeOfFreezeFrameRecordNumeration.__doc__) == self.TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestination.setTypeOfFreezeFrameRecordNumeration.__doc__) == (
+            self.TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing typeOfFreezeFrameRecordNumeration."
+        )
+
+
+class TestDiagnosticMemoryDestinationUserDefined:
+    """
+    Test class for DiagnosticMemoryDestinationUserDefined functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.174, p.185
+
+    DiagnosticMemoryDestinationUserDefined is the concrete ARObject-homed branch
+    of the abstract DiagnosticMemoryDestination (Table 4.167, synced in
+    ArObject.py): the class derives directly from the base and inherits its nine
+    attributes, adding its own authRole reference collection (* ref, XSD wrapper
+    AUTH-ROLE-REFS with AUTH-ROLE-REF entries) and memoryId attribute (XSD group
+    DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED, AUTOSAR_00052.xsd l.39699). The
+    XSD's AUTHENTICATION-ROLE-REF element carries atp.Status="removed" and is not
+    modeled (Rule 0015).
+    """
+
+    CLASS_NOTE = "This represents a user-defined memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"
+    AUTH_ROLE_NOTE = "This reference identifies the collection of applicable DiagnosticAuthRole Stereotypes: atpSplitable Tags: atp.Splitkey=authRole"
+    MEMORY_ID_NOTE = "This represents the identifier of the user-defined memory."
+
+    def _make_obj(self) -> DiagnosticMemoryDestinationUserDefined:
+        return DiagnosticMemoryDestinationUserDefined()
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with its own and the inherited base defaults.
+        """
+        obj = self._make_obj()
+
+        assert isinstance(obj, DiagnosticMemoryDestinationUserDefined)
+        assert isinstance(obj, DiagnosticMemoryDestination)
+        assert isinstance(obj, ARObject)
+        assert obj.getAuthRoleRefs() == []
+        assert obj.getMemoryId() is None
+        assert obj.getAgingRequiresTestedCycle() is None
+        assert obj.getClearDtcLimitation() is None
+        assert obj.getDtcStatusAvailabilityMask() is None
+        assert obj.getEventDisplacementStrategy() is None
+        assert obj.getMaxNumberOfEventEntries() is None
+        assert obj.getMemoryEntryStorageTrigger() is None
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear() is None
+        assert obj.getStatusBitStorageTestFailed() is None
+        assert obj.getTypeOfFreezeFrameRecordNumeration() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticMemoryDestinationUserDefined.__init__.__doc__ is None
+
+    def test_add_auth_role_ref(self):
+        """
+        Test addAuthRoleRef append and None no-op.
+        """
+        obj = self._make_obj()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AUTH-ROLE")
+        ref.setValue("/AUTOSAR/DiagnosticAuthRoles/AuthRole1")
+        result = obj.addAuthRoleRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAuthRoleRefs() == [ref]
+        assert obj.getAuthRoleRefs()[0].getValue() == "/AUTOSAR/DiagnosticAuthRoles/AuthRole1"
+        assert obj.getAuthRoleRefs()[0].getDest() == "DIAGNOSTIC-AUTH-ROLE"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-AUTH-ROLE")
+        ref2.setValue("/AUTOSAR/DiagnosticAuthRoles/AuthRole2")
+        obj.addAuthRoleRef(ref2)
+        assert obj.getAuthRoleRefs() == [ref, ref2]
+
+        result = obj.addAuthRoleRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAuthRoleRefs() == [ref, ref2]  # None is a no-op
+
+    def test_get_set_memory_id(self):
+        """
+        Test getMemoryId and setMemoryId round-trip and None no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(1)
+        result = obj.setMemoryId(value)
+        assert result is obj  # method chaining
+        assert obj.getMemoryId() is value
+        assert obj.getMemoryId().getValue() == 1
+
+        result = obj.setMemoryId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMemoryId() is value  # None is a no-op
+
+    def test_get_set_inherited_attribute(self):
+        """
+        Spot-checks the inherited base attribute maxNumberOfEventEntries (Table 4.167); None is a no-op.
+        """
+        obj = self._make_obj()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setMaxNumberOfEventEntries(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberOfEventEntries() is value
+        assert obj.getMaxNumberOfEventEntries().getValue() == 10
+
+        result = obj.setMaxNumberOfEventEntries(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberOfEventEntries() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.addAuthRoleRef.__doc__) == self.AUTH_ROLE_NOTE + "\n\nA None value is a no-op and does not extend the authRoleRefs list."
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getAuthRoleRefs.__doc__) == self.AUTH_ROLE_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.getMemoryId.__doc__) == self.MEMORY_ID_NOTE
+        assert inspect.cleandoc(DiagnosticMemoryDestinationUserDefined.setMemoryId.__doc__) == (self.MEMORY_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing memoryId.")
+
+
+class TestDiagnosticTestIdentifier:
+    """
+    Test class for DiagnosticTestIdentifier functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.203, p.205
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to create a diagnostic test identifier."
+    ID_NOTE = "This represents the numerical id associated with the diagnostic test identifier. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    UAS_ID_NOTE = "This represents the unit and scaling Id of the diagnostic test result. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _create_identifier(self) -> DiagnosticTestIdentifier:
+        return DiagnosticTestIdentifier()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTestIdentifier initializes all attributes to their defaults.
+        """
+        obj = self._create_identifier()
+
+        assert obj.getId() is None
+        assert obj.getUasId() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTestIdentifier derives from ARObject (spec Base row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTestIdentifier, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTestIdentifier.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTestIdentifier.__init__.__doc__ is None
+
+    def test_get_set_id(self):
+        """
+        Test getId and setId round-trip and None no-op.
+        """
+        obj = self._create_identifier()
+
+        value = PositiveInteger().setValue("30511")
+        result = obj.setId(value)
+        assert result is obj  # method chaining
+        assert obj.getId() is value
+        assert obj.getId().getValue() == 30511
+
+        result = obj.setId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getId() is value  # None is a no-op
+
+    def test_get_set_uas_id(self):
+        """
+        Test getUasId and setUasId round-trip and None no-op.
+        """
+        obj = self._create_identifier()
+
+        value = PositiveInteger().setValue("42")
+        result = obj.setUasId(value)
+        assert result is obj  # method chaining
+        assert obj.getUasId() is value
+        assert obj.getUasId().getValue() == 42
+
+        result = obj.setUasId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUasId() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTestIdentifier.getId.__doc__) == self.ID_NOTE
+        assert inspect.cleandoc(DiagnosticTestIdentifier.setId.__doc__) == (self.ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing id.")
+        assert inspect.cleandoc(DiagnosticTestIdentifier.getUasId.__doc__) == self.UAS_ID_NOTE
+        assert inspect.cleandoc(DiagnosticTestIdentifier.setUasId.__doc__) == (self.UAS_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing uasId.")
+
+
+class TestDiagnosticTroubleCodeObd:
+    """
+    Test class for DiagnosticTroubleCodeObd functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.159, p.175
+    """
+
+    CLASS_NOTE = "This element is used to define OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+    CONSIDER_PTO_STATUS_NOTE = (
+        "This attribute describes the affection of the event by the Dem PTO handling.\n\n"
+        "true: the event is affected by the Dem PTO handling.\n\n"
+        "false: the event is not affected by the Dem PTO handling."
+    )
+    DTC_PROPS_REF_NOTE = "Defined properties associated with the DemDTC."
+    EVENT_READINESS_GROUP_NOTE = "This aggregation allows for the variant definition of the attribute eventObdReadinessGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventReadinessGroup.eventObdReadiness Group, eventReadinessGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    OBD_DTC_VALUE_NOTE = "Unique Diagnostic Trouble Code value for OBD. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _create_trouble_code(self) -> DiagnosticTroubleCodeObd:
+        return DiagnosticTroubleCodeObd()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeObd initializes all attributes to their defaults.
+        """
+        obj = self._create_trouble_code()
+
+        assert obj.getConsiderPtoStatus() is None
+        assert obj.getDtcPropsRef() is None
+        assert obj.getEventReadinessGroup() is None
+        assert obj.getObdDtcValue() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeObd derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeObd, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeObd.__init__.__doc__ is None
+
+    def test_get_set_consider_pto_status(self):
+        """
+        Test getConsiderPtoStatus and setConsiderPtoStatus round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = Boolean().setValue(True)
+        result = obj.setConsiderPtoStatus(value)
+        assert result is obj  # method chaining
+        assert obj.getConsiderPtoStatus() is value
+        assert obj.getConsiderPtoStatus().getValue() is True
+
+        result = obj.setConsiderPtoStatus(None)
+        assert result is obj  # method chaining with None
+        assert obj.getConsiderPtoStatus() is value  # None is a no-op
+
+    def test_get_set_dtc_props_ref(self):
+        """
+        Test getDtcPropsRef and setDtcPropsRef round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        ref.setValue("/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1")
+        result = obj.setDtcPropsRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcPropsRef() is ref
+        assert obj.getDtcPropsRef().getValue() == "/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1"
+        assert obj.getDtcPropsRef().getDest() == "DIAGNOSTIC-TROUBLE-CODE-PROPS"
+
+        result = obj.setDtcPropsRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcPropsRef() is ref  # None is a no-op
+
+    def test_get_set_event_readiness_group(self):
+        """
+        Test getEventReadinessGroup and setEventReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = EventObdReadinessGroup()
+        result = obj.setEventReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventReadinessGroup() is value
+
+        result = obj.setEventReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventReadinessGroup() is value  # None is a no-op
+
+    def test_get_set_obd_dtc_value(self):
+        """
+        Test getObdDtcValue and setObdDtcValue round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(30511)
+        result = obj.setObdDtcValue(value)
+        assert result is obj  # method chaining
+        assert obj.getObdDtcValue() is value
+        assert obj.getObdDtcValue().getValue() == 30511
+
+        result = obj.setObdDtcValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdDtcValue() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getConsiderPtoStatus.__doc__) == self.CONSIDER_PTO_STATUS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setConsiderPtoStatus.__doc__) == (
+            self.CONSIDER_PTO_STATUS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing considerPtoStatus."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getDtcPropsRef.__doc__) == self.DTC_PROPS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setDtcPropsRef.__doc__) == (self.DTC_PROPS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcProps reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getEventReadinessGroup.__doc__) == self.EVENT_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setEventReadinessGroup.__doc__) == (
+            self.EVENT_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventReadinessGroup."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.getObdDtcValue.__doc__) == self.OBD_DTC_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeObd.setObdDtcValue.__doc__) == (self.OBD_DTC_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdDtcValue.")
+
+
+class TestDiagnosticTroubleCodeObdPendingReferences:
+    """
+    Test class for the still-stub reference targets of DiagnosticTroubleCodeObd.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.159, p.175
+
+    DiagnosticTroubleCodeProps (Table 4.175) and EventObdReadinessGroup (Table 4.160)
+    are queued later in Group25 and still empty stubs; the typed fields reference them
+    directly (same module, ArObject.py).
+    """
+
+    def test_reference_targets_are_stub_classes(self):
+        """
+        Test that the referenced types exist and are ARObject-family stubs.
+        """
+        assert issubclass(DiagnosticTroubleCodeProps, ARObject)
+        assert issubclass(EventObdReadinessGroup, ARObject)
+
+
+class TestDiagnosticTroubleCodeProps:
+    """
+    Test class for DiagnosticTroubleCodeProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.175, p.186
+    """
+
+    CLASS_NOTE = "This element defines common Dtc properties that can be reused by different non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodePropss"
+    AGING_REF_NOTE = "Reference to an aging algorithm in case that an aging/ unlearning of the event is allowed. Stereotypes: atpSplitable Tags: atp.Splitkey=aging"
+    DIAGNOSTIC_MEMORY_REF_NOTE = "Reference to the applicable DiagnosticMemory Destination. Stereotypes: atpSplitable Tags: atp.Splitkey=diagnosticMemory"
+    EXTENDED_DATA_RECORD_NOTE = "Defines the links to an extended data class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=extendedDataRecord.diagnosticExtended DataRecord, extendedDataRecord.variationPoint.short Label vh.latestBindingTime=preCompileTime"
+    FREEZE_FRAME_NOTE = "Define the links to a freeze frame class sampler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=freezeFrame.diagnosticFreezeFrame, freeze Frame.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    IMMEDIATE_NV_DATA_STORAGE_NOTE = 'Change description for Class immediateNvDataStorage in table "Table A.111: DiagnosticTroubleCodeProps": Switch to enable immediate storage triggering of an according event memory entry persistently to NVRAM. true: immediate non-volatile storage triggering on first occurrence and shutdown. false: immediate non-volatile storage triggering on shutdown.'
+    LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE = "This reference identifies the layout of legislated freeze frames used for emission related diagnostics over the UDS protocol such as OBDonUDS or WWH-OBD. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=legislatedFreezeFrameContentUds Obd.diagnosticDataIdentifierSet, legislatedFreezeFrame ContentUdsObd.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE = (
+        "This attribute defines the number of according freeze frame records, which can maximal be stored for this event. Therefore all these freeze frame records have the same freeze frame class."
+    )
+    PRIORITY_NOTE = "Priority of the event, in view of full event buffer. A lower value means higher priority. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    SIGNIFICANCE_NOTE = "Significance of the event, which indicates additional information concerning fault classification and resolution."
+    SNAPSHOT_RECORD_CONTENT_REF_NOTE = "This represents the freeze frame layout as a set of DIDs. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=snapshotRecordContent.diagnosticData IdentifierSet, snapshotRecordContent.variationPoint.short Label vh.latestBindingTime=preCompileTime"
+
+    def _create_props(self) -> DiagnosticTroubleCodeProps:
+        return DiagnosticTroubleCodeProps()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeProps initializes all attributes to their defaults.
+        """
+        obj = self._create_props()
+
+        assert obj.getAgingRef() is None
+        assert obj.getDiagnosticMemoryRef() is None
+        assert obj.getExtendedDataRecordRefs() == []
+        assert obj.getFreezeFrameRefs() == []
+        assert obj.getImmediateNvDataStorage() is None
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is None
+        assert obj.getMaxNumberFreezeFrameRecords() is None
+        assert obj.getPriority() is None
+        assert obj.getSignificance() is None
+        assert obj.getSnapshotRecordContentRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeProps derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeProps.__init__.__doc__ is None
+
+    def test_get_set_aging_ref(self):
+        """
+        Test getAgingRef and setAgingRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-AGING")
+        ref.setValue("/AUTOSAR/DiagnosticAgings/Aging1")
+        result = obj.setAgingRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getAgingRef() is ref
+        assert obj.getAgingRef().getValue() == "/AUTOSAR/DiagnosticAgings/Aging1"
+        assert obj.getAgingRef().getDest() == "DIAGNOSTIC-AGING"
+
+        result = obj.setAgingRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAgingRef() is ref  # None is a no-op
+
+    def test_get_set_diagnostic_memory_ref(self):
+        """
+        Test getDiagnosticMemoryRef and setDiagnosticMemoryRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED")
+        ref.setValue("/AUTOSAR/DiagnosticMemoryDestinations/Memory1")
+        result = obj.setDiagnosticMemoryRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDiagnosticMemoryRef() is ref
+        assert obj.getDiagnosticMemoryRef().getValue() == "/AUTOSAR/DiagnosticMemoryDestinations/Memory1"
+        assert obj.getDiagnosticMemoryRef().getDest() == "DIAGNOSTIC-MEMORY-DESTINATION-USER-DEFINED"
+
+        result = obj.setDiagnosticMemoryRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDiagnosticMemoryRef() is ref  # None is a no-op
+
+    def test_add_get_extended_data_record_refs(self):
+        """
+        Test addExtendedDataRecordRef append and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-EXTENDED-DATA-RECORD")
+        ref.setValue("/AUTOSAR/DiagnosticExtendedDataRecords/Edr1")
+        result = obj.addExtendedDataRecordRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getExtendedDataRecordRefs() == [ref]
+        assert obj.getExtendedDataRecordRefs()[0].getValue() == "/AUTOSAR/DiagnosticExtendedDataRecords/Edr1"
+        assert obj.getExtendedDataRecordRefs()[0].getDest() == "DIAGNOSTIC-EXTENDED-DATA-RECORD"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-EXTENDED-DATA-RECORD")
+        ref2.setValue("/AUTOSAR/DiagnosticExtendedDataRecords/Edr2")
+        obj.addExtendedDataRecordRef(ref2)
+        assert obj.getExtendedDataRecordRefs() == [ref, ref2]
+
+        result = obj.addExtendedDataRecordRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getExtendedDataRecordRefs() == [ref, ref2]  # None is a no-op
+
+    def test_add_get_freeze_frame_refs(self):
+        """
+        Test addFreezeFrameRef append and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-FREEZE-FRAME")
+        ref.setValue("/AUTOSAR/DiagnosticFreezeFrames/Ff1")
+        result = obj.addFreezeFrameRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getFreezeFrameRefs() == [ref]
+        assert obj.getFreezeFrameRefs()[0].getValue() == "/AUTOSAR/DiagnosticFreezeFrames/Ff1"
+        assert obj.getFreezeFrameRefs()[0].getDest() == "DIAGNOSTIC-FREEZE-FRAME"
+
+        ref2 = RefType()
+        ref2.setDest("DIAGNOSTIC-FREEZE-FRAME")
+        ref2.setValue("/AUTOSAR/DiagnosticFreezeFrames/Ff2")
+        obj.addFreezeFrameRef(ref2)
+        assert obj.getFreezeFrameRefs() == [ref, ref2]
+
+        result = obj.addFreezeFrameRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFreezeFrameRefs() == [ref, ref2]  # None is a no-op
+
+    def test_get_set_immediate_nv_data_storage(self):
+        """
+        Test getImmediateNvDataStorage and setImmediateNvDataStorage round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = Boolean().setValue(True)
+        result = obj.setImmediateNvDataStorage(value)
+        assert result is obj  # method chaining
+        assert obj.getImmediateNvDataStorage() is value
+        assert obj.getImmediateNvDataStorage().getValue() is True
+
+        result = obj.setImmediateNvDataStorage(None)
+        assert result is obj  # method chaining with None
+        assert obj.getImmediateNvDataStorage() is value  # None is a no-op
+
+    def test_get_set_legislated_freeze_frame_content_uds_obd_ref(self):
+        """
+        Test getLegislatedFreezeFrameContentUdsObdRef and setLegislatedFreezeFrameContentUdsObdRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER-SET")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifierSets/DidSet1")
+        result = obj.setLegislatedFreezeFrameContentUdsObdRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is ref
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef().getValue() == "/AUTOSAR/DiagnosticDataIdentifierSets/DidSet1"
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER-SET"
+
+        result = obj.setLegislatedFreezeFrameContentUdsObdRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLegislatedFreezeFrameContentUdsObdRef() is ref  # None is a no-op
+
+    def test_get_set_max_number_freeze_frame_records(self):
+        """
+        Test getMaxNumberFreezeFrameRecords and setMaxNumberFreezeFrameRecords round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = PositiveInteger().setValue(3)
+        result = obj.setMaxNumberFreezeFrameRecords(value)
+        assert result is obj  # method chaining
+        assert obj.getMaxNumberFreezeFrameRecords() is value
+        assert obj.getMaxNumberFreezeFrameRecords().getValue() == 3
+
+        result = obj.setMaxNumberFreezeFrameRecords(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMaxNumberFreezeFrameRecords() is value  # None is a no-op
+
+    def test_get_set_priority(self):
+        """
+        Test getPriority and setPriority round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = PositiveInteger().setValue(10)
+        result = obj.setPriority(value)
+        assert result is obj  # method chaining
+        assert obj.getPriority() is value
+        assert obj.getPriority().getValue() == 10
+
+        result = obj.setPriority(None)
+        assert result is obj  # method chaining with None
+        assert obj.getPriority() is value  # None is a no-op
+
+    def test_get_set_significance(self):
+        """
+        Test getSignificance and setSignificance round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        value = DiagnosticSignificanceEnum().setValue(DiagnosticSignificanceEnum.FAULT)
+        result = obj.setSignificance(value)
+        assert result is obj  # method chaining
+        assert obj.getSignificance() is value
+        assert obj.getSignificance().getValue() == "fault"
+
+        result = obj.setSignificance(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSignificance() is value  # None is a no-op
+
+    def test_get_set_snapshot_record_content_ref(self):
+        """
+        Test getSnapshotRecordContentRef and setSnapshotRecordContentRef round-trip and None no-op.
+        """
+        obj = self._create_props()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-DATA-IDENTIFIER-SET")
+        ref.setValue("/AUTOSAR/DiagnosticDataIdentifierSets/DidSet2")
+        result = obj.setSnapshotRecordContentRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getSnapshotRecordContentRef() is ref
+        assert obj.getSnapshotRecordContentRef().getValue() == "/AUTOSAR/DiagnosticDataIdentifierSets/DidSet2"
+        assert obj.getSnapshotRecordContentRef().getDest() == "DIAGNOSTIC-DATA-IDENTIFIER-SET"
+
+        result = obj.setSnapshotRecordContentRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSnapshotRecordContentRef() is ref  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter/setter/adder docstrings carry the spec Note verbatim (setters/adders append the None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getAgingRef.__doc__) == self.AGING_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setAgingRef.__doc__) == (self.AGING_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing aging reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getDiagnosticMemoryRef.__doc__) == self.DIAGNOSTIC_MEMORY_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setDiagnosticMemoryRef.__doc__) == (
+            self.DIAGNOSTIC_MEMORY_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing diagnosticMemory reference."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.addExtendedDataRecordRef.__doc__) == (
+            self.EXTENDED_DATA_RECORD_NOTE + "\n\nA None value is a no-op and does not extend the extendedDataRecordRefs list."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getExtendedDataRecordRefs.__doc__) == self.EXTENDED_DATA_RECORD_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.addFreezeFrameRef.__doc__) == (self.FREEZE_FRAME_NOTE + "\n\nA None value is a no-op and does not extend the freezeFrameRefs list.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getFreezeFrameRefs.__doc__) == self.FREEZE_FRAME_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getImmediateNvDataStorage.__doc__) == self.IMMEDIATE_NV_DATA_STORAGE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setImmediateNvDataStorage.__doc__) == (
+            self.IMMEDIATE_NV_DATA_STORAGE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing immediateNvDataStorage."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getLegislatedFreezeFrameContentUdsObdRef.__doc__) == self.LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setLegislatedFreezeFrameContentUdsObdRef.__doc__) == (
+            self.LEGISLATED_FREEZE_FRAME_CONTENT_UDS_OBD_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing legislatedFreezeFrameContentUdsObd reference."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getMaxNumberFreezeFrameRecords.__doc__) == self.MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setMaxNumberFreezeFrameRecords.__doc__) == (
+            self.MAX_NUMBER_FREEZE_FRAME_RECORDS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing maxNumberFreezeFrameRecords."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getPriority.__doc__) == self.PRIORITY_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setPriority.__doc__) == (self.PRIORITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing priority.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getSignificance.__doc__) == self.SIGNIFICANCE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setSignificance.__doc__) == (self.SIGNIFICANCE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing significance.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.getSnapshotRecordContentRef.__doc__) == self.SNAPSHOT_RECORD_CONTENT_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeProps.setSnapshotRecordContentRef.__doc__) == (
+            self.SNAPSHOT_RECORD_CONTENT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing snapshotRecordContent reference."
+        )
+
+
+class TestDiagnosticTroubleCodeUds:
+    """
+    Test class for DiagnosticTroubleCodeUds functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.158, p.174
+    """
+
+    CLASS_NOTE = "This element is used to describe non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+    CONSIDER_PTO_STATUS_NOTE = (
+        "This attribute describes the affection of the event by the Dem PTO handling.\n\n"
+        "true: the event is affected by the Dem PTO handling.\n\n"
+        "false: the event is not affected by the Dem PTO handling."
+    )
+    DTC_PROPS_REF_NOTE = "Defined properties associated with the DemDTC."
+    EVENT_READINESS_GROUP_NOTE = "This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs. The upper multiplicity of this role has been increased to * due to resolving an atpVariation stereotype. The previous value was 1."
+    FUNCTIONAL_UNIT_NOTE = "This attribute specifies a 1-byte value which identifies the corresponding basic vehicle / system function which reports the DTC. This parameter is necessary for the report of severity information. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    OBD_DTC_VALUE_3_BYTE_NOTE = "3 Byte OBD DTC value based on the definition from SAE J2012. The existence of this attribute is only required if separated UDS and OBD DTC values are used for SAE J1979-2. If this attribute does not exist, then UDS DTC values are used with J1979-2. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    SEVERITY_NOTE = "DTC severity according to ISO 14229-1. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    UDS_DTC_VALUE_NOTE = "Unique Diagnostic Trouble Code value for UDS. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    WWH_OBD_DTC_CLASS_NOTE = (
+        "This attribute is used to identify (if applicable) the corresponding severity class of an WWH-OBD DTC. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    )
+
+    def _create_trouble_code(self) -> DiagnosticTroubleCodeUds:
+        return DiagnosticTroubleCodeUds()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeUds initializes all attributes to their defaults.
+        """
+        obj = self._create_trouble_code()
+
+        assert obj.getConsiderPtoStatus() is None
+        assert obj.getDtcPropsRef() is None
+        assert obj.getEventReadinessGroup() is None
+        assert obj.getFunctionalUnit() is None
+        assert obj.getObdDtcValue3Byte() is None
+        assert obj.getSeverity() is None
+        assert obj.getUdsDtcValue() is None
+        assert obj.getWwhObdDtcClass() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeUds derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeUds, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeUds.__init__.__doc__ is None
+
+    def test_get_set_consider_pto_status(self):
+        """
+        Test getConsiderPtoStatus and setConsiderPtoStatus round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = Boolean().setValue(True)
+        result = obj.setConsiderPtoStatus(value)
+        assert result is obj  # method chaining
+        assert obj.getConsiderPtoStatus() is value
+        assert obj.getConsiderPtoStatus().getValue() is True
+
+        result = obj.setConsiderPtoStatus(None)
+        assert result is obj  # method chaining with None
+        assert obj.getConsiderPtoStatus() is value  # None is a no-op
+
+    def test_get_set_dtc_props_ref(self):
+        """
+        Test getDtcPropsRef and setDtcPropsRef round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        ref.setValue("/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1")
+        result = obj.setDtcPropsRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcPropsRef() is ref
+        assert obj.getDtcPropsRef().getValue() == "/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1"
+        assert obj.getDtcPropsRef().getDest() == "DIAGNOSTIC-TROUBLE-CODE-PROPS"
+
+        result = obj.setDtcPropsRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcPropsRef() is ref  # None is a no-op
+
+    def test_get_set_event_readiness_group(self):
+        """
+        Test getEventReadinessGroup and setEventReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = EventObdReadinessGroup()
+        result = obj.setEventReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventReadinessGroup() is value
+
+        result = obj.setEventReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventReadinessGroup() is value  # None is a no-op
+
+    def test_get_set_functional_unit(self):
+        """
+        Test getFunctionalUnit and setFunctionalUnit round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(4)
+        result = obj.setFunctionalUnit(value)
+        assert result is obj  # method chaining
+        assert obj.getFunctionalUnit() is value
+        assert obj.getFunctionalUnit().getValue() == 4
+
+        result = obj.setFunctionalUnit(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFunctionalUnit() is value  # None is a no-op
+
+    def test_get_set_obd_dtc_value_3_byte(self):
+        """
+        Test getObdDtcValue3Byte and setObdDtcValue3Byte round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(30511)
+        result = obj.setObdDtcValue3Byte(value)
+        assert result is obj  # method chaining
+        assert obj.getObdDtcValue3Byte() is value
+        assert obj.getObdDtcValue3Byte().getValue() == 30511
+
+        result = obj.setObdDtcValue3Byte(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdDtcValue3Byte() is value  # None is a no-op
+
+    def test_get_set_severity(self):
+        """
+        Test getSeverity and setSeverity round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = DiagnosticUdsSeverityEnum().setValue(DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT)
+        result = obj.setSeverity(value)
+        assert result is obj  # method chaining
+        assert obj.getSeverity() is value
+
+        result = obj.setSeverity(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSeverity() is value  # None is a no-op
+
+    def test_get_set_uds_dtc_value(self):
+        """
+        Test getUdsDtcValue and setUdsDtcValue round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(1234567)
+        result = obj.setUdsDtcValue(value)
+        assert result is obj  # method chaining
+        assert obj.getUdsDtcValue() is value
+        assert obj.getUdsDtcValue().getValue() == 1234567
+
+        result = obj.setUdsDtcValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUdsDtcValue() is value  # None is a no-op
+
+    def test_get_set_wwh_obd_dtc_class(self):
+        """
+        Test getWwhObdDtcClass and setWwhObdDtcClass round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = DiagnosticWwhObdDtcClassEnum().setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A)
+        result = obj.setWwhObdDtcClass(value)
+        assert result is obj  # method chaining
+        assert obj.getWwhObdDtcClass() is value
+
+        result = obj.setWwhObdDtcClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getWwhObdDtcClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getConsiderPtoStatus.__doc__) == self.CONSIDER_PTO_STATUS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setConsiderPtoStatus.__doc__) == (
+            self.CONSIDER_PTO_STATUS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing considerPtoStatus."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getDtcPropsRef.__doc__) == self.DTC_PROPS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setDtcPropsRef.__doc__) == (self.DTC_PROPS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcProps reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getEventReadinessGroup.__doc__) == self.EVENT_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setEventReadinessGroup.__doc__) == (
+            self.EVENT_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventReadinessGroup."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getFunctionalUnit.__doc__) == self.FUNCTIONAL_UNIT_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setFunctionalUnit.__doc__) == (self.FUNCTIONAL_UNIT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing functionalUnit.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getObdDtcValue3Byte.__doc__) == self.OBD_DTC_VALUE_3_BYTE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setObdDtcValue3Byte.__doc__) == (
+            self.OBD_DTC_VALUE_3_BYTE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdDtcValue3Byte."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getSeverity.__doc__) == self.SEVERITY_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setSeverity.__doc__) == (self.SEVERITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing severity.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getUdsDtcValue.__doc__) == self.UDS_DTC_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setUdsDtcValue.__doc__) == (self.UDS_DTC_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing udsDtcValue.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getWwhObdDtcClass.__doc__) == self.WWH_OBD_DTC_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setWwhObdDtcClass.__doc__) == (self.WWH_OBD_DTC_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing wwhObdDtcClass.")
+
+
+class TestDiagnosticTroubleCodeUdsPendingReferences:
+    """
+    Test class for the still-stub reference targets of DiagnosticTroubleCodeUds.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.158, p.174
+
+    EventObdReadinessGroup (Table 4.160), DiagnosticUdsSeverityEnum (Table 4.177) and
+    DiagnosticWwhObdDtcClassEnum (Table 4.179) are queued later in Group25 and still
+    empty stubs; the typed fields reference them directly (ArObject.py /
+    PrimitiveTypes.py).
+    """
+
+    def test_reference_targets_are_stub_classes(self):
+        """
+        Test that the referenced types exist as stubs of their spec families.
+        """
+        assert issubclass(EventObdReadinessGroup, ARObject)
+        assert issubclass(DiagnosticUdsSeverityEnum, AREnum)
+        assert issubclass(DiagnosticWwhObdDtcClassEnum, AREnum)
+
+
+class TestEventObdReadinessGroup:
+    """
+    Test class for EventObdReadinessGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.160, p.176
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the value of attribute eventObdReadinessGroup. It is only introduced to allow for a variant modeling of this attribute."
+    EVENT_OBD_READINESS_GROUP_NOTE = "This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs."
+
+    def _create_group(self) -> EventObdReadinessGroup:
+        return EventObdReadinessGroup()
+
+    def test_initialization(self):
+        """
+        Test that a new EventObdReadinessGroup initializes all attributes to their defaults.
+        """
+        obj = self._create_group()
+
+        assert obj.getEventObdReadinessGroup() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EventObdReadinessGroup derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(EventObdReadinessGroup, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EventObdReadinessGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EventObdReadinessGroup.__init__.__doc__ is None
+
+    def test_get_set_event_obd_readiness_group(self):
+        """
+        Test getEventObdReadinessGroup and setEventObdReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_group()
+
+        value = NameToken().setValue("OBD_READINESS_GROUP_1")
+        result = obj.setEventObdReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventObdReadinessGroup() is value
+        assert obj.getEventObdReadinessGroup().getValue() == "OBD_READINESS_GROUP_1"
+
+        result = obj.setEventObdReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventObdReadinessGroup() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EventObdReadinessGroup.getEventObdReadinessGroup.__doc__) == self.EVENT_OBD_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(EventObdReadinessGroup.setEventObdReadinessGroup.__doc__) == (
+            self.EVENT_OBD_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventObdReadinessGroup."
+        )

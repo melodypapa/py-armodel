@@ -431,6 +431,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticRequestCurrentPowertrainDataClass,
     DiagnosticRequestDownloadClass,
     DiagnosticRequestEmissionRelatedDTCClass,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatusClass,
     DiagnosticRequestFileTransferClass,
     DiagnosticRequestOnBoardMonitoringTestResultsClass,
     DiagnosticRequestPowertrainFreezeFrameDataClass,
@@ -557,8 +558,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticCommonProps,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
@@ -590,6 +594,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import A
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     DiagnosticAbstractDataIdentifier,
+    DiagnosticAging,
     DiagnosticAuthRole,
     DiagnosticAuthentication,
     DiagnosticAuthenticationConfiguration,
@@ -597,23 +602,36 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticClearDiagnosticInformation,
     DiagnosticClearResetEmissionRelatedInfo,
     DiagnosticComControl,
+    DiagnosticCondition,
+    DiagnosticConditionGroup,
     DiagnosticContributionSet,
     DiagnosticControlDTCSetting,
     DiagnosticDataByIdentifier,
     DiagnosticDataIdentifier,
+    DiagnosticDataIdentifierSet,
     DiagnosticDataTransfer,
     DiagnosticDeAuthentication,
     DiagnosticDynamicDataIdentifier,
     DiagnosticDynamicallyDefineDataIdentifier,
+    DiagnosticEnableCondition,
+    DiagnosticEnableConditionGroup,
+    DiagnosticEvent,
+    DiagnosticExtendedDataRecord,
     DiagnosticFimEventGroup,
+    DiagnosticFreezeFrame,
+    DiagnosticFunctionIdentifier,
+    DiagnosticIndicator,
     DiagnosticJ1939ExpandedFreezeFrame,
     DiagnosticJ1939FreezeFrame,
     DiagnosticJ1939Spn,
+    DiagnosticEcuInstanceProps,
     DiagnosticEcuReset,
     DiagnosticIOControl,
     DiagnosticInfoType,
     DiagnosticMemoryAddressableRangeAccess,
+    DiagnosticMemoryDestinationPrimary,
     DiagnosticMemoryIdentifier,
+    DiagnosticOperationCycle,
     DiagnosticProtocol,
     DiagnosticProofOfOwnership,
     DiagnosticReadDataByIdentifier,
@@ -626,6 +644,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRequestCurrentPowertrainData,
     DiagnosticRequestDownload,
     DiagnosticRequestEmissionRelatedDTC,
+    DiagnosticRequestEmissionRelatedDTCPermanentStatus,
     DiagnosticRequestFileTransfer,
     DiagnosticRequestOnBoardMonitoringTestResults,
     DiagnosticRequestPowertrainFreezeFrameData,
@@ -636,7 +655,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
     DiagnosticSessionControl,
+    DiagnosticStorageCondition,
+    DiagnosticStorageConditionGroup,
     DiagnosticTestRoutineIdentifier,
+    DiagnosticTroubleCode,
+    DiagnosticTroubleCodeGroup,
     DiagnosticTroubleCodeJ1939,
     DiagnosticWriteMemoryByAddress,
     DiagnosticParameterElementAccess,
@@ -658,14 +681,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticTroubleCodeUdsToTroubleCodeObdMapping,
     CpSwClusterToDiagEventMapping,
     CpSwClusterResourceToDiagDataElemMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
     CpSwClusterResourceToDiagFunctionIdMapping,
+    DiagnosticIumpr,
+    DiagnosticIumprDenominatorGroup,
+    DiagnosticIumprGroup,
     DiagnosticIumprToFunctionIdentifierMapping,
     DiagnosticJ1939SpnMapping,
     DiagnosticJ1939Node,
     DiagnosticJ1939SwMapping,
+    DiagnosticMeasurementIdentifier,
     DiagnosticFimFunctionMapping,
     DiagnosticEventToDebounceAlgorithmMapping,
     DiagnosticEventToEnableConditionGroupMapping,
@@ -686,6 +714,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
+    DiagnosticDebounceAlgorithmProps,
     DiagnosticParameterElement,
     DiagnosticRequestRoutineResults,
     DiagnosticRoutineSubfunction,
@@ -712,16 +741,31 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CategoryString,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
+    DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticConnectedIndicatorBehaviorEnum,
+    DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
+    DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
+    DiagnosticIumprKindEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DisplayFormatString,
     Identifier,
     Integer,
@@ -1610,6 +1654,59 @@ DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
     "finish": "FINISH",
 }
 
+DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP = {
+    "allSupportedDtcs": "ALL-SUPPORTED-DTCS",
+    "clearAllDtcs": "CLEAR-ALL-DTCS",
+}
+
+DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
+    "full": "FULL",
+    "none": "NONE",
+    "prioOcc": "PRIO-OCC",
+}
+
+#: Mapping between DiagnosticMemoryEntryStorageTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-MEMORY-ENTRY-STORAGE-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "testFailed": "TEST-FAILED",
+}
+
+#: Mapping between DiagnosticRecordTriggerEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-RECORD-TRIGGER-ENUM--SIMPLE).
+DIAGNOSTIC_RECORD_TRIGGER_XML_MAP = {
+    "confirmed": "CONFIRMED",
+    "custom": "CUSTOM",
+    "fdcThreshold": "FDC-THRESHOLD",
+    "pending": "PENDING",
+    "testFailed": "TEST-FAILED",
+    "testFailedThisOperationCycle": "TEST-FAILED-THIS-OPERATION-CYCLE",
+    "testPassed": "TEST-PASSED",
+}
+
+#: Mapping between DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR-ENUM--SIMPLE).
+DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP = {
+    "statusBitAgingAndDisplacement": "STATUS-BIT-AGING-AND-DISPLACEMENT",
+    "statusBitNormal": "STATUS-BIT-NORMAL",
+}
+
+DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
+    "iso11992_4": "ISO-11992-4",
+    "iso14229_1": "ISO-14229-1",
+    "iso15031_6": "ISO-15031-6",
+    "saeJ1939_73": "SAE-J-1939-73",
+    "saeJ2012_da": "SAE-J-2012-DA",
+}
+
+#: Mapping between DiagnosticTypeOfFreezeFrameRecordNumerationEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION-ENUM--SIMPLE).
+DIAGNOSTIC_TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_XML_MAP = {
+    "calculated": "CALCULATED",
+    "configured": "CONFIGURED",
+}
+
 DTC_FORMAT_TYPE_XML_MAP = {
     "j1939": "J-1939",
     "obd": "OBD",
@@ -1697,6 +1794,69 @@ DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
     "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
     "start": "START",
     "stop": "STOP",
+}
+
+#: Mapping between DiagnosticClearEventAllowedBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CLEAR-EVENT-ALLOWED-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP = {
+    "noStatusByteChange": "NO-STATUS-BYTE-CHANGE",
+    "onlyThisCycleAndReadiness": "ONLY-THIS-CYCLE-AND-READINESS",
+}
+
+#: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-CONNECTED-INDICATOR-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
+    "blinkMode": "BLINK-MODE",
+    "blinkOrContinuousOnMode": "BLINK-OR-CONTINUOUS-ON-MODE",
+    "continuousOnMode": "CONTINUOUS-ON-MODE",
+    "fastFlashingMode": "FAST-FLASHING-MODE",
+    "slowFlashingMode": "SLOW-FLASHING-MODE",
+}
+
+#: Mapping between DiagnosticDebounceBehaviorEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-DEBOUNCE-BEHAVIOR-ENUM--SIMPLE).
+DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
+    "freeze": "FREEZE",
+    "reset": "RESET",
+}
+
+#: Mapping between DiagnosticEventClearAllowedEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-CLEAR-ALLOWED-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
+    "always": "ALWAYS",
+    "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
+}
+
+#: Mapping between DiagnosticEventKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-EVENT-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_EVENT_KIND_XML_MAP = {
+    "bsw": "BSW",
+    "swc": "SWC",
+}
+
+#: Mapping between DiagnosticIumprKindEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-IUMPR-KIND-ENUM--SIMPLE).
+DIAGNOSTIC_IUMPR_KIND_XML_MAP = {
+    "apiBased": "API-BASED",
+    "observerBased": "OBSERVER-BASED",
+}
+
+#: Mapping between DiagnosticObdSupportEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OBD-SUPPORT-ENUM--SIMPLE).
+DIAGNOSTIC_OBD_SUPPORT_XML_MAP = {
+    "masterEcu": "MASTER-ECU",
+    "noObdSupport": "NO-OBD-SUPPORT",
+    "primaryEcu": "PRIMARY-ECU",
+    "secondaryEcu": "SECONDARY-ECU",
+}
+
+#: Mapping between DiagnosticOperationCycleTypeEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-OPERATION-CYCLE-TYPE-ENUM--SIMPLE).
+DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP = {
+    "ignition": "IGNITION",
+    "obdDrivingCycle": "OBD-DRIVING-CYCLE",
+    "other": "OTHER",
+    "warmup": "WARMUP",
 }
 
 
@@ -10688,6 +10848,84 @@ class ARXMLParser(AbstractARXMLParser):
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
             self.readEthernetClusterCouplingPortConnections(child_element, cluster)
 
+    def readDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
+        condition.setInitValue(self.getChildElementOptionalBooleanValue(element, "INIT-VALUE"))
+
+    def readDiagnosticConditionGroup(self, element: ET.Element, condition_group: DiagnosticConditionGroup):
+        pass
+
+    def readDiagnosticEnableCondition(self, element: ET.Element, enable_condition: DiagnosticEnableCondition):
+        self.logger.debug("Read DiagnosticEnableCondition <%s>" % enable_condition.getShortName())
+        self.readIdentifiable(element, enable_condition)
+        self.readDiagnosticCondition(element, enable_condition)
+
+    def readDiagnosticEnableConditionGroup(self, element: ET.Element, enable_condition_group: DiagnosticEnableConditionGroup):
+        self.logger.debug("Read DiagnosticEnableConditionGroup <%s>" % enable_condition_group.getShortName())
+        self.readIdentifiable(element, enable_condition_group)
+        self.readDiagnosticConditionGroup(element, enable_condition_group)
+        for ref in self.getChildElementRefTypeList(element, "ENABLE-CONDITIONS/DIAGNOSTIC-ENABLE-CONDITION-REF-CONDITIONAL/DIAGNOSTIC-ENABLE-CONDITION-REF"):  # noqa E501
+            enable_condition_group.addEnableConditionRef(ref)
+
+    def readDiagnosticStorageCondition(self, element: ET.Element, storage_condition: DiagnosticStorageCondition):
+        self.logger.debug("Read DiagnosticStorageCondition <%s>" % storage_condition.getShortName())
+        self.readIdentifiable(element, storage_condition)
+        self.readDiagnosticCondition(element, storage_condition)
+
+    def readDiagnosticStorageConditionGroup(self, element: ET.Element, storage_condition_group: DiagnosticStorageConditionGroup):
+        self.logger.debug("Read DiagnosticStorageConditionGroup <%s>" % storage_condition_group.getShortName())
+        self.readIdentifiable(element, storage_condition_group)
+        self.readDiagnosticConditionGroup(element, storage_condition_group)
+        for ref in self.getChildElementRefTypeList(element, "STORAGE-CONDITIONS/DIAGNOSTIC-STORAGE-CONDITION-REF-CONDITIONAL/DIAGNOSTIC-STORAGE-CONDITION-REF"):  # noqa E501
+            storage_condition_group.addStorageConditionRef(ref)
+
+    def readDiagnosticEvent(self, element: ET.Element, event: DiagnosticEvent):
+        self.logger.debug("Read DiagnosticEvent <%s>" % event.getShortName())
+        self.readIdentifiable(element, event)
+        event.setAssociatedEventIdentification(self.getChildElementOptionalPositiveInteger(element, "ASSOCIATED-EVENT-IDENTIFICATION"))
+        event.setClearEventAllowedBehavior(self._readEnumToken(element, "CLEAR-EVENT-ALLOWED-BEHAVIOR", DiagnosticClearEventAllowedBehaviorEnum, DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP))
+        threshold_element = self.find(element, "CONFIRMATION-THRESHOLD/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            event.setConfirmationThreshold(threshold)
+        for indicator_element in self.findall(element, "CONNECTED-INDICATORS/DIAGNOSTIC-CONNECTED-INDICATOR"):
+            indicator = DiagnosticConnectedIndicator()
+            self.readDiagnosticConnectedIndicator(indicator_element, indicator)
+            event.addConnectedIndicator(indicator)
+        event.setEventClearAllowed(self._readEnumToken(element, "EVENT-CLEAR-ALLOWED", DiagnosticEventClearAllowedEnum, DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP))
+        event.setEventKind(self._readEnumToken(element, "EVENT-KIND", DiagnosticEventKindEnum, DIAGNOSTIC_EVENT_KIND_XML_MAP))
+        event.setPrestorageFreezeFrame(self.getChildElementOptionalBooleanValue(element, "PRESTORAGE-FREEZE-FRAME"))
+        event.setPrestoredFreezeframeStoredInNvm(self.getChildElementOptionalBooleanValue(element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM"))
+        event.setRecoverableInSameOperationCycle(self.getChildElementOptionalBooleanValue(element, "RECOVERABLE-IN-SAME-OPERATION-CYCLE"))
+
+    def readDiagnosticExtendedDataRecord(self, element: ET.Element, record: DiagnosticExtendedDataRecord):
+        self.logger.debug("Read DiagnosticExtendedDataRecord <%s>" % record.getShortName())
+        self.readIdentifiable(element, record)
+        record.setCustomTrigger(self.getChildElementOptionalString(element, "CUSTOM-TRIGGER"))
+        for parameter_element in self.findall(element, "RECORD-ELEMENTS/DIAGNOSTIC-PARAMETER"):
+            parameter = DiagnosticParameter()
+            self.readDiagnosticParameter(parameter_element, parameter)
+            record.addRecordElement(parameter)
+        record.setRecordNumber(self.getChildElementOptionalPositiveInteger(element, "RECORD-NUMBER"))
+        record.setTrigger(self._readEnumToken(element, "TRIGGER", DiagnosticRecordTriggerEnum, DIAGNOSTIC_RECORD_TRIGGER_XML_MAP))
+        record.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
+
+    def readDiagnosticFreezeFrame(self, element: ET.Element, freeze_frame: DiagnosticFreezeFrame):
+        self.logger.debug("Read DiagnosticFreezeFrame <%s>" % freeze_frame.getShortName())
+        self.readIdentifiable(element, freeze_frame)
+        freeze_frame.setCustomTrigger(self.getChildElementOptionalString(element, "CUSTOM-TRIGGER"))
+        record_number_element = self.find(element, "RECORD-NUMBER/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if record_number_element is not None and record_number_element.text is not None and record_number_element.text.strip() != "":
+            record_number = PositiveInteger()
+            record_number.setValue(record_number_element.text.strip())
+            freeze_frame.setRecordNumber(record_number)
+        freeze_frame.setTrigger(self._readEnumToken(element, "TRIGGER", DiagnosticRecordTriggerEnum, DIAGNOSTIC_RECORD_TRIGGER_XML_MAP))
+        freeze_frame.setUpdate(self.getChildElementOptionalBooleanValue(element, "UPDATE"))
+
+    def readDiagnosticFunctionIdentifier(self, element: ET.Element, identifier: DiagnosticFunctionIdentifier):
+        self.logger.debug("Read DiagnosticFunctionIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
             connection.addFunctionalRequestRef(ref)
@@ -10751,8 +10989,23 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SPN-REFS/SPN-REF"):
             expanded_freeze_frame.addSpnRef(ref)
 
-    def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+    def readDiagnosticTroubleCode(self, element: ET.Element, trouble_code: DiagnosticTroubleCode):
+        self.logger.debug("Read DiagnosticTroubleCode <%s>" % trouble_code.getShortName())
         self.readIdentifiable(element, trouble_code)
+
+    def readDiagnosticTroubleCodeGroup(self, element: ET.Element, trouble_code_group: DiagnosticTroubleCodeGroup):
+        self.logger.debug("Read DiagnosticTroubleCodeGroup <%s>" % trouble_code_group.getShortName())
+        self.readIdentifiable(element, trouble_code_group)
+        for ref in self.getChildElementRefTypeList(element, "DTCS/DIAGNOSTIC-TROUBLE-CODE-REF-CONDITIONAL/DIAGNOSTIC-TROUBLE-CODE-REF"):  # noqa E501
+            trouble_code_group.addDtcRef(ref)
+        group_number_element = self.find(element, "GROUP-NUMBER/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if group_number_element is not None and group_number_element.text is not None and group_number_element.text.strip() != "":
+            group_number = PositiveInteger()
+            group_number.setValue(group_number_element.text.strip())
+            trouble_code_group.setGroupNumber(group_number)
+
+    def readDiagnosticTroubleCodeJ1939(self, element: ET.Element, trouble_code: DiagnosticTroubleCodeJ1939):
+        self.readDiagnosticTroubleCode(element, trouble_code)
         trouble_code.setDtcPropsRef(self.getChildElementOptionalRefType(element, "DTC-PROPS-REF"))
         trouble_code.setFmi(self.getChildElementOptionalPositiveInteger(element, "FMI"))
         trouble_code.setKind(self._readEnumToken(element, "KIND", DiagnosticTroubleCodeJ1939DtcKindEnum, DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP))
@@ -10873,6 +11126,38 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
         mapping.setTroubleCodeJ1939Ref(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-J-1939-REF"))
 
+    def readDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, element: ET.Element, mapping: DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setTroubleCodeObdRef(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-OBD-REF"))
+        mapping.setTroubleCodeUdsRef(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-UDS-REF"))
+
+    def readDiagnosticIumpr(self, element: ET.Element, iumpr: DiagnosticIumpr):
+        self.logger.debug("Read DiagnosticIumpr <%s>" % iumpr.getShortName())
+        self.readIdentifiable(element, iumpr)
+        iumpr.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        iumpr.setRatioKind(self._readEnumToken(element, "RATIO-KIND", DiagnosticIumprKindEnum, DIAGNOSTIC_IUMPR_KIND_XML_MAP))
+
+    def readDiagnosticIumprDenominatorGroup(self, element: ET.Element, group: DiagnosticIumprDenominatorGroup):
+        self.logger.debug("Read DiagnosticIumprDenominatorGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
+            group.addIumprRef(ref)
+
+    def readDiagnosticIumprGroup(self, element: ET.Element, group: DiagnosticIumprGroup):
+        self.logger.debug("Read DiagnosticIumprGroup <%s>" % group.getShortName())
+        self.readIdentifiable(element, group)
+        identifier_element = self.find(element, "IUMPR-GROUP-IDENTIFIERS/DIAGNOSTIC-IUMPR-GROUP-IDENTIFIER")
+        if identifier_element is not None:
+            identifier = DiagnosticIumprGroupIdentifier()
+            self.readDiagnosticIumprGroupIdentifier(identifier_element, identifier)
+            group.setIumprGroupIdentifier(identifier)
+        for ref in self.getChildElementRefTypeList(element, "IUMPR-REFS/IUMPR-REF"):
+            group.addIumprRef(ref)
+
+    def readDiagnosticIumprGroupIdentifier(self, element: ET.Element, identifier: DiagnosticIumprGroupIdentifier):
+        self.logger.debug("Read DiagnosticIumprGroupIdentifier")
+        identifier.setGroupId(self.getChildElementOptionalNameToken(element, "GROUP-ID"))
+
     def readDiagnosticIumprToFunctionIdentifierMapping(self, element: ET.Element, mapping: DiagnosticIumprToFunctionIdentifierMapping):
         self.readDiagnosticMapping(element, mapping)
         mapping.setFunctionIdentifierRef(self.getChildElementOptionalRefType(element, "FUNCTION-IDENTIFIER-REF"))
@@ -10910,6 +11195,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticMapping(element, mapping)
         mapping.setActualEventRef(self.getChildElementOptionalRefType(element, "ACTUAL-EVENT-REF"))
         mapping.setAliasEventRef(self.getChildElementOptionalRefType(element, "ALIAS-EVENT-REF"))
+
+    def readDiagnosticOperationCycle(self, element: ET.Element, cycle: DiagnosticOperationCycle):
+        self.logger.debug("Read DiagnosticOperationCycle <%s>" % cycle.getShortName())
+        self.readIdentifiable(element, cycle)
+        cycle.setType(self._readEnumToken(element, "TYPE", DiagnosticOperationCycleTypeEnum, DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP))
 
     def readDiagnosticOperationCyclePortMapping(self, element: ET.Element, mapping: DiagnosticOperationCyclePortMapping):
         self.readDiagnosticMapping(element, mapping)
@@ -11057,6 +11347,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DiagnosticRoutineControlClass <%s>" % routine_control_class.getShortName())
         self.readIdentifiable(element, routine_control_class)
 
+    def readDiagnosticDebounceAlgorithmProps(self, element: ET.Element, debounce_props: DiagnosticDebounceAlgorithmProps):
+        self.logger.debug("Read DiagnosticDebounceAlgorithmProps <%s>" % debounce_props.getShortName())
+        self.readIdentifiable(element, debounce_props)
+        for child_element in self.findall(element, "DEBOUNCE-ALGORITHM/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DIAG-EVENT-DEBOUNCE-COUNTER-BASED":
+                algorithm = debounce_props.createDiagEventDebounceCounterBased(self.getShortName(child_element))
+                self.readDiagEventDebounceCounterBased(child_element, algorithm)
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
+                self.readDiagEventDebounceMonitorInternal(child_element, debounce_props.createDiagEventDebounceMonitorInternal(self.getShortName(child_element)))
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-TIME-BASED":
+                self.readDiagEventDebounceTimeBased(child_element, debounce_props.createDiagEventDebounceTimeBased(self.getShortName(child_element)))
+            else:
+                self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
+        debounce_props.setDebounceBehavior(self._readEnumToken(element, "DEBOUNCE-BEHAVIOR", DiagnosticDebounceBehaviorEnum, DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP))
+        debounce_props.setDebounceCounterStorage(self.getChildElementOptionalBooleanValue(element, "DEBOUNCE-COUNTER-STORAGE"))
+
     def readDiagnosticCommonProps(self, element: ET.Element, common_props: DiagnosticCommonProps):
         self.readARObject(element, common_props)
         conditional_element = self.find(element, "DIAGNOSTIC-COMMON-PROPS-VARIANTS/DIAGNOSTIC-COMMON-PROPS-CONDITIONAL")
@@ -11065,7 +11372,7 @@ class ARXMLParser(AbstractARXMLParser):
         common_props.setAuthenticationTimeout(self.getChildElementOptionalTimeValue(conditional_element, "AUTHENTICATION-TIMEOUT"))
         for child_element in self.findall(conditional_element, "DEBOUNCE-ALGORITHM-PROPSS/DIAGNOSTIC-DEBOUNCE-ALGORITHM-PROPS"):
             debounce_props = common_props.createDebounceAlgorithmProps(self.getShortName(child_element))
-            self.readIdentifiable(child_element, debounce_props)
+            self.readDiagnosticDebounceAlgorithmProps(child_element, debounce_props)
         common_props.setDefaultEndianness(self._readEnumToken(conditional_element, "DEFAULT-ENDIANNESS", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         common_props.setEventCombinationReportingBehavior(
             self._readEnumToken(conditional_element, "EVENT-COMBINATION-REPORTING-BEHAVIOR", DiagnosticEventCombinationReportingBehaviorEnum, DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP)
@@ -11133,6 +11440,12 @@ class ARXMLParser(AbstractARXMLParser):
             support_info_byte = DiagnosticSupportInfoByte()
             self.readDiagnosticSupportInfoByte(support_info_byte_element, support_info_byte)
             did.setSupportInfoByte(support_info_byte)
+
+    def readDiagnosticDataIdentifierSet(self, element: ET.Element, data_identifier_set: DiagnosticDataIdentifierSet):
+        self.logger.debug("Read DiagnosticDataIdentifierSet <%s>" % data_identifier_set.getShortName())
+        self.readIdentifiable(element, data_identifier_set)
+        for ref in self.getChildElementRefTypeList(element, "DATA-IDENTIFIER-REFS/DATA-IDENTIFIER-REF"):
+            data_identifier_set.addDataIdentifierRef(ref)
 
     def readDiagnosticAbstractParameter(self, element: ET.Element, parameter: DiagnosticAbstractParameter):
         self.readARObject(element, parameter)
@@ -11223,6 +11536,13 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported SUBFUNCTION <%s>" % token)
 
+    def readDiagnosticEcuInstanceProps(self, element: ET.Element, props: DiagnosticEcuInstanceProps):
+        self.logger.debug("Read DiagnosticEcuInstanceProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        for ref in self.getChildElementRefTypeList(element, "ECU-INSTANCE-REFS/ECU-INSTANCE-REF"):
+            props.addEcuInstanceRef(ref)
+        props.setObdSupport(self._readEnumToken(element, "OBD-SUPPORT", DiagnosticObdSupportEnum, DIAGNOSTIC_OBD_SUPPORT_XML_MAP))
+
     def readDiagnosticEcuReset(self, element: ET.Element, ecu_reset: DiagnosticEcuReset):
         self.logger.debug("Read DiagnosticEcuReset <%s>" % ecu_reset.getShortName())
         self.readIdentifiable(element, ecu_reset)
@@ -11237,6 +11557,42 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticMemoryAddressableRangeAccess(self, element: ET.Element, range_access: DiagnosticMemoryAddressableRangeAccess):
         for ref in self.getChildElementRefTypeList(element, "MEMORY-RANGE-REFS/MEMORY-RANGE-REF"):
             range_access.addMemoryRange(ref)
+
+    def readDiagnosticMemoryDestination(self, element: ET.Element, destination: DiagnosticMemoryDestination):
+        destination.setAgingRequiresTestedCycle(self.getChildElementOptionalBooleanValue(element, "AGING-REQUIRES-TESTED-CYCLE"))
+        destination.setClearDtcLimitation(self._readEnumToken(element, "CLEAR-DTC-LIMITATION", DiagnosticClearDtcLimitationEnum, DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP))
+        destination.setDtcStatusAvailabilityMask(self.getChildElementOptionalPositiveInteger(element, "DTC-STATUS-AVAILABILITY-MASK"))
+        destination.setEventDisplacementStrategy(self._readEnumToken(element, "EVENT-DISPLACEMENT-STRATEGY", DiagnosticEventDisplacementStrategyEnum, DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP))
+        destination.setMaxNumberOfEventEntries(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-EVENT-ENTRIES"))
+        destination.setMemoryEntryStorageTrigger(self._readEnumToken(element, "MEMORY-ENTRY-STORAGE-TRIGGER", DiagnosticMemoryEntryStorageTriggerEnum, DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP))
+        destination.setStatusBitHandlingTestFailedSinceLastClear(
+            self._readEnumToken(
+                element,
+                "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR",
+                DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+                DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP,
+            )
+        )
+        destination.setStatusBitStorageTestFailed(self.getChildElementOptionalBooleanValue(element, "STATUS-BIT-STORAGE-TEST-FAILED"))
+        destination.setTypeOfFreezeFrameRecordNumeration(
+            self._readEnumToken(
+                element,
+                "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION",
+                DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+                DIAGNOSTIC_TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_XML_MAP,
+            )
+        )
+
+    def readDiagnosticMemoryDestinationPrimary(self, element: ET.Element, primary: DiagnosticMemoryDestinationPrimary):
+        self.logger.debug("Read DiagnosticMemoryDestinationPrimary <%s>" % primary.getShortName())
+        self.readIdentifiable(element, primary)
+        self.readDiagnosticMemoryDestination(element, primary)
+        primary.setTypeOfDtcSupported(self._readEnumToken(element, "TYPE-OF-DTC-SUPPORTED", DiagnosticTypeOfDtcSupportedEnum, DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP))
+
+    def readDiagnosticMeasurementIdentifier(self, element: ET.Element, identifier: DiagnosticMeasurementIdentifier):
+        self.logger.debug("Read DiagnosticMeasurementIdentifier <%s>" % identifier.getShortName())
+        self.readIdentifiable(element, identifier)
+        identifier.setObdMid(self.getChildElementOptionalPositiveInteger(element, "OBD-MID"))
 
     def readDiagnosticMemoryIdentifier(self, element: ET.Element, identifier: DiagnosticMemoryIdentifier):
         self.logger.debug("Read DiagnosticMemoryIdentifier <%s>" % identifier.getShortName())
@@ -11255,6 +11611,18 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticClearResetEmissionRelatedInfoClass(self, element: ET.Element, clear_reset_emission_related_info_class: DiagnosticClearResetEmissionRelatedInfoClass):
         self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfoClass <%s>" % clear_reset_emission_related_info_class.getShortName())
         self.readIdentifiable(element, clear_reset_emission_related_info_class)
+
+    def readDiagnosticConnectedIndicator(self, element: ET.Element, connected_indicator: DiagnosticConnectedIndicator):
+        self.logger.debug("Read DiagnosticConnectedIndicator")
+        connected_indicator.setBehavior(self._readEnumToken(element, "BEHAVIOR", DiagnosticConnectedIndicatorBehaviorEnum, DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP))
+        threshold_element = self.find(element, "HEALING-CYCLE-COUNTER-THRESHOLD/POSITIVE-INTEGER-VALUE-VARIATION-POINT")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            connected_indicator.setHealingCycleCounterThreshold(threshold)
+        connected_indicator.setHealingCycleRef(self.getChildElementOptionalRefType(element, "HEALING-CYCLE-REF"))
+        connected_indicator.setIndicatorFailureCycleCounterThreshold(self.getChildElementOptionalPositiveInteger(element, "INDICATOR-FAILURE-CYCLE-COUNTER-THRESHOLD"))
+        connected_indicator.setIndicatorRef(self.getChildElementOptionalRefType(element, "INDICATOR-REF"))
 
     def readDiagnosticComControl(self, element: ET.Element, com_control: DiagnosticComControl):
         self.logger.debug("Read DiagnosticComControl <%s>" % com_control.getShortName())
@@ -11549,6 +11917,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SECURITY-LEVEL-REFS/SECURITY-LEVEL-REF"):
             permission.addSecurityLevelRef(ref)
 
+    def readDiagnosticAging(self, element: ET.Element, aging: DiagnosticAging):
+        self.logger.debug("Read DiagnosticAging <%s>" % aging.getShortName())
+        self.readIdentifiable(element, aging)
+        aging.setAgingCycleRef(self.getChildElementOptionalRefType(element, "AGING-CYCLES/DIAGNOSTIC-OPERATION-CYCLE-REF-CONDITIONAL/DIAGNOSTIC-OPERATION-CYCLE-REF"))
+        threshold_element = self.find(element, "THRESHOLD")
+        if threshold_element is not None and threshold_element.text is not None and threshold_element.text.strip() != "":
+            threshold = PositiveInteger()
+            threshold.setValue(threshold_element.text.strip())
+            aging.setThreshold(threshold)
+
     def readDiagnosticAuthentication(self, element: ET.Element, authentication: DiagnosticAuthentication):
         authentication.setAuthenticationClass(self.getChildElementOptionalRefType(element, "AUTHENTICATION-CLASS-REF"))
 
@@ -11670,6 +12048,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_emission_related_dtc)
         request_emission_related_dtc.setRequestEmissionRelatedDtcClassRef(self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-REF"))
 
+    def readDiagnosticRequestEmissionRelatedDTCPermanentStatus(self, element: ET.Element, request_emission_related_dtc_permanent_status: DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCPermanentStatus <%s>" % request_emission_related_dtc_permanent_status.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_permanent_status)
+        self.readDiagnosticServiceInstance(element, request_emission_related_dtc_permanent_status)
+        request_emission_related_dtc_permanent_status.setRequestEmissionRelatedDtcClassPermanentStatusRef(
+            self.getChildElementOptionalRefType(element, "REQUEST-EMISSION-RELATED-DTC-CLASS-PERMANENT-STATUS-REF")
+        )
+
     def readDiagnosticClearResetEmissionRelatedInfo(self, element: ET.Element, clear_reset_emission_related_info: DiagnosticClearResetEmissionRelatedInfo):
         self.logger.debug("Read DiagnosticClearResetEmissionRelatedInfo <%s>" % clear_reset_emission_related_info.getShortName())
         self.readIdentifiable(element, clear_reset_emission_related_info)
@@ -11700,6 +12086,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, request_vehicle_info)
         request_vehicle_info.setInfoTypeRef(self.getChildElementOptionalRefType(element, "INFO-TYPE-REF"))
         request_vehicle_info.setRequestVehicleInformationClassRef(self.getChildElementOptionalRefType(element, "REQUEST-VEHICLE-INFORMATION-CLASS-REF"))
+
+    def readDiagnosticIndicator(self, element: ET.Element, indicator: DiagnosticIndicator):
+        self.logger.debug("Read DiagnosticIndicator <%s>" % indicator.getShortName())
+        self.readIdentifiable(element, indicator)
+        indicator.setType(cast(Optional[DiagnosticIndicatorTypeEnum], self.getChildElementOptionalLiteral(element, "TYPE")))
 
     def readDiagnosticInfoType(self, element: ET.Element, info_type: DiagnosticInfoType):
         self.logger.debug("Read DiagnosticInfoType <%s>" % info_type.getShortName())
@@ -11739,6 +12130,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticRequestEmissionRelatedDTCClass(self, element: ET.Element, request_emission_related_dtc_class: DiagnosticRequestEmissionRelatedDTCClass):
         self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCClass <%s>" % request_emission_related_dtc_class.getShortName())
         self.readIdentifiable(element, request_emission_related_dtc_class)
+
+    def readDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(
+        self, element: ET.Element, request_emission_related_dtc_permanent_status_class: DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
+    ):
+        self.logger.debug("Read DiagnosticRequestEmissionRelatedDTCPermanentStatusClass <%s>" % request_emission_related_dtc_permanent_status_class.getShortName())
+        self.readIdentifiable(element, request_emission_related_dtc_permanent_status_class)
 
     def readDiagnosticRequestOnBoardMonitoringTestResultsClass(self, element: ET.Element, request_on_board_monitoring_test_results_class: DiagnosticRequestOnBoardMonitoringTestResultsClass):
         self.logger.debug("Read DiagnosticRequestOnBoardMonitoringTestResultsClass <%s>" % request_on_board_monitoring_test_results_class.getShortName())
@@ -16412,6 +16809,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER":
                 did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
                 self.readDiagnosticDataIdentifier(child_element, did)
+            elif tag_name == "DIAGNOSTIC-DATA-IDENTIFIER-SET":
+                data_identifier_set = parent.createDiagnosticDataIdentifierSet(self.getShortName(child_element))
+                self.readDiagnosticDataIdentifierSet(child_element, data_identifier_set)
             elif tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
                 self.readDiagnosticDynamicDataIdentifier(child_element, parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element)))
             elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER":
@@ -16420,6 +16820,11 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-CLASS":
                 dddi_class = parent.createDiagnosticDynamicallyDefineDataIdentifierClass(self.getShortName(child_element))
                 self.readDiagnosticDynamicallyDefineDataIdentifierClass(child_element, dddi_class)
+            elif tag_name == "DIAGNOSTIC-ECU-INSTANCE-PROPS":
+                self.readDiagnosticEcuInstanceProps(child_element, parent.createDiagnosticEcuInstanceProps(self.getShortName(child_element)))
+            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE":
+                cycle = parent.createDiagnosticOperationCycle(self.getShortName(child_element))
+                self.readDiagnosticOperationCycle(child_element, cycle)
             elif tag_name == "DIAGNOSTIC-PROTOCOL":
                 protocol = parent.createDiagnosticProtocol(self.getShortName(child_element))
                 self.readDiagnosticProtocol(child_element, protocol)
@@ -16454,6 +16859,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ACCESS-PERMISSION":
             permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
             self.readDiagnosticAccessPermission(child_element, permission)
+        elif tag_name == "DIAGNOSTIC-AGING":
+            aging = parent.createDiagnosticAging(self.getShortName(child_element))
+            self.readDiagnosticAging(child_element, aging)
         elif tag_name == "DIAGNOSTIC-AUTH-ROLE":
             auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
             self.readDiagnosticAuthRole(child_element, auth_role)
@@ -16490,12 +16898,47 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ECU-RESET-CLASS":
             ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
             self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
+        elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
+            enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
+            self.readDiagnosticEnableCondition(child_element, enable_condition)
+        elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-GROUP":
+            enable_condition_group = parent.createDiagnosticEnableConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticEnableConditionGroup(child_element, enable_condition_group)
+        elif tag_name == "DIAGNOSTIC-EVENT":
+            event = parent.createDiagnosticEvent(self.getShortName(child_element))
+            self.readDiagnosticEvent(child_element, event)
+        elif tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
+            record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
+            self.readDiagnosticExtendedDataRecord(child_element, record)
+        elif tag_name == "DIAGNOSTIC-FREEZE-FRAME":
+            freeze_frame = parent.createDiagnosticFreezeFrame(self.getShortName(child_element))
+            self.readDiagnosticFreezeFrame(child_element, freeze_frame)
+        elif tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
+            identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
+            self.readDiagnosticFunctionIdentifier(child_element, identifier)
+        elif tag_name == "DIAGNOSTIC-INDICATOR":
+            indicator = parent.createDiagnosticIndicator(self.getShortName(child_element))
+            self.readDiagnosticIndicator(child_element, indicator)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL":
             io_control = parent.createDiagnosticIOControl(self.getShortName(child_element))
             self.readDiagnosticIOControl(child_element, io_control)
         elif tag_name == "DIAGNOSTIC-IO-CONTROL-CLASS":
             io_control_class = parent.createDiagnosticIoControlClass(self.getShortName(child_element))
             self.readDiagnosticIoControlClass(child_element, io_control_class)
+        elif tag_name == "DIAGNOSTIC-IUMPR":
+            iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
+            self.readDiagnosticIumpr(child_element, iumpr)
+        elif tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
+            denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
+        elif tag_name == "DIAGNOSTIC-IUMPR-GROUP":
+            iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprGroup(child_element, iumpr_group)
+        elif tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
+            self.readDiagnosticMeasurementIdentifier(child_element, parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element)))
+        elif tag_name == "DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY":
+            primary = parent.createDiagnosticMemoryDestinationPrimary(self.getShortName(child_element))
+            self.readDiagnosticMemoryDestinationPrimary(child_element, primary)
         elif tag_name == "DIAGNOSTIC-READ-DATA-BY-IDENTIFIER":
             read_data_by_identifier = parent.createDiagnosticReadDataByIdentifier(self.getShortName(child_element))
             self.readDiagnosticReadDataByIdentifier(child_element, read_data_by_identifier)
@@ -16538,6 +16981,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-REQUEST-DOWNLOAD-CLASS":
             request_download_class = parent.createDiagnosticRequestDownloadClass(self.getShortName(child_element))
             self.readDiagnosticRequestDownloadClass(child_element, request_download_class)
+        elif tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS-CLASS":
+            request_emission_related_dtc_permanent_status_class = parent.createDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(child_element, request_emission_related_dtc_permanent_status_class)
         elif tag_name == "DIAGNOSTIC-REQUEST-POWERTRAIN-FREEZE-FRAME-DATA-CLASS":
             request_powertrain_freeze_frame_data_class = parent.createDiagnosticRequestPowertrainFreezeFrameDataClass(self.getShortName(child_element))
             self.readDiagnosticRequestPowertrainFreezeFrameDataClass(child_element, request_powertrain_freeze_frame_data_class)
@@ -16586,6 +17032,18 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "DIAGNOSTIC-ROUTINE-CONTROL-CLASS":
             routine_control_class = parent.createDiagnosticRoutineControlClass(self.getShortName(child_element))
             self.readDiagnosticRoutineControlClass(child_element, routine_control_class)
+        elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION":
+            storage_condition = parent.createDiagnosticStorageCondition(self.getShortName(child_element))
+            self.readDiagnosticStorageCondition(child_element, storage_condition)
+        elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-GROUP":
+            storage_condition_group = parent.createDiagnosticStorageConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticStorageConditionGroup(child_element, storage_condition_group)
+        elif tag_name == "DIAGNOSTIC-TROUBLE-CODE":
+            trouble_code = parent.createDiagnosticTroubleCode(self.getShortName(child_element))
+            self.readDiagnosticTroubleCode(child_element, trouble_code)
+        elif tag_name == "DIAGNOSTIC-TROUBLE-CODE-GROUP":
+            trouble_code_group = parent.createDiagnosticTroubleCodeGroup(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeGroup(child_element, trouble_code_group)
         elif tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
             self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
@@ -16782,6 +17240,10 @@ class ARXMLParser(AbstractARXMLParser):
             did = parent.createDiagnosticDataIdentifier(self.getShortName(child_element))
             self.readDiagnosticDataIdentifier(child_element, did)
             return True
+        if tag_name == "DIAGNOSTIC-DATA-IDENTIFIER-SET":
+            data_identifier_set = parent.createDiagnosticDataIdentifierSet(self.getShortName(child_element))
+            self.readDiagnosticDataIdentifierSet(child_element, data_identifier_set)
+            return True
         if tag_name == "DIAGNOSTIC-DYNAMIC-DATA-IDENTIFIER":
             self.readDiagnosticDynamicDataIdentifier(child_element, parent.createDiagnosticDynamicDataIdentifier(self.getShortName(child_element)))
             return True
@@ -16813,6 +17275,13 @@ class ARXMLParser(AbstractARXMLParser):
             trouble_code = parent.createDiagnosticTroubleCodeJ1939(self.getShortName(child_element))
             self.readDiagnosticTroubleCodeJ1939(child_element, trouble_code)
             return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE":
+            self.readDiagnosticTroubleCode(child_element, parent.createDiagnosticTroubleCode(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE-GROUP":
+            trouble_code_group = parent.createDiagnosticTroubleCodeGroup(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeGroup(child_element, trouble_code_group)
+            return True
         if tag_name == "DIAGNOSTIC-SERVICE-DATA-MAPPING":
             service_data_mapping = parent.createDiagnosticServiceDataMapping(self.getShortName(child_element))
             self.readDiagnosticServiceDataMapping(child_element, service_data_mapping)
@@ -16821,14 +17290,65 @@ class ARXMLParser(AbstractARXMLParser):
             mapping = parent.createDiagnosticServiceSwMapping(self.getShortName(child_element))
             self.readDiagnosticServiceSwMapping(child_element, mapping)
             return True
+        if tag_name == "DIAGNOSTIC-EVENT":
+            event = parent.createDiagnosticEvent(self.getShortName(child_element))
+            self.readDiagnosticEvent(child_element, event)
+            return True
         if tag_name == "DIAGNOSTIC-EVENT-PORT-MAPPING":
             self.readDiagnosticEventPortMapping(child_element, parent.createDiagnosticEventPortMapping(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-EXTENDED-DATA-RECORD":
+            record = parent.createDiagnosticExtendedDataRecord(self.getShortName(child_element))
+            self.readDiagnosticExtendedDataRecord(child_element, record)
+            return True
+        if tag_name == "DIAGNOSTIC-FREEZE-FRAME":
+            self.readDiagnosticFreezeFrame(child_element, parent.createDiagnosticFreezeFrame(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-FUNCTION-IDENTIFIER":
+            identifier = parent.createDiagnosticFunctionIdentifier(self.getShortName(child_element))
+            self.readDiagnosticFunctionIdentifier(child_element, identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-INDICATOR":
+            indicator = parent.createDiagnosticIndicator(self.getShortName(child_element))
+            self.readDiagnosticIndicator(child_element, indicator)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR":
+            iumpr = parent.createDiagnosticIumpr(self.getShortName(child_element))
+            self.readDiagnosticIumpr(child_element, iumpr)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR-DENOMINATOR-GROUP":
+            denominator_group = parent.createDiagnosticIumprDenominatorGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprDenominatorGroup(child_element, denominator_group)
+            return True
+        if tag_name == "DIAGNOSTIC-IUMPR-GROUP":
+            iumpr_group = parent.createDiagnosticIumprGroup(self.getShortName(child_element))
+            self.readDiagnosticIumprGroup(child_element, iumpr_group)
+            return True
+        if tag_name == "DIAGNOSTIC-OPERATION-CYCLE":
+            cycle = parent.createDiagnosticOperationCycle(self.getShortName(child_element))
+            self.readDiagnosticOperationCycle(child_element, cycle)
             return True
         if tag_name == "DIAGNOSTIC-OPERATION-CYCLE-PORT-MAPPING":
             self.readDiagnosticOperationCyclePortMapping(child_element, parent.createDiagnosticOperationCyclePortMapping(self.getShortName(child_element)))
             return True
+        if tag_name == "DIAGNOSTIC-ENABLE-CONDITION":
+            enable_condition = parent.createDiagnosticEnableCondition(self.getShortName(child_element))
+            self.readDiagnosticEnableCondition(child_element, enable_condition)
+            return True
+        if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-GROUP":
+            enable_condition_group = parent.createDiagnosticEnableConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticEnableConditionGroup(child_element, enable_condition_group)
+            return True
         if tag_name == "DIAGNOSTIC-ENABLE-CONDITION-PORT-MAPPING":
             self.readDiagnosticEnableConditionPortMapping(child_element, parent.createDiagnosticEnableConditionPortMapping(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-STORAGE-CONDITION":
+            storage_condition = parent.createDiagnosticStorageCondition(self.getShortName(child_element))
+            self.readDiagnosticStorageCondition(child_element, storage_condition)
+            return True
+        if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-GROUP":
+            storage_condition_group = parent.createDiagnosticStorageConditionGroup(self.getShortName(child_element))
+            self.readDiagnosticStorageConditionGroup(child_element, storage_condition_group)
             return True
         if tag_name == "DIAGNOSTIC-STORAGE-CONDITION-PORT-MAPPING":
             self.readDiagnosticStorageConditionPortMapping(child_element, parent.createDiagnosticStorageConditionPortMapping(self.getShortName(child_element)))
@@ -16862,6 +17382,9 @@ class ARXMLParser(AbstractARXMLParser):
             return True
         if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
             self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE-UDS-TO-TROUBLE-CODE-OBD-MAPPING":
+            self.readDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(child_element, parent.createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
             self.readDiagnosticIumprToFunctionIdentifierMapping(child_element, parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element)))
@@ -16925,6 +17448,10 @@ class ARXMLParser(AbstractARXMLParser):
             permission = parent.createDiagnosticAccessPermission(self.getShortName(child_element))
             self.readDiagnosticAccessPermission(child_element, permission)
             return True
+        if tag_name == "DIAGNOSTIC-AGING":
+            aging = parent.createDiagnosticAging(self.getShortName(child_element))
+            self.readDiagnosticAging(child_element, aging)
+            return True
         if tag_name == "DIAGNOSTIC-AUTH-ROLE":
             auth_role = parent.createDiagnosticAuthRole(self.getShortName(child_element))
             self.readDiagnosticAuthRole(child_element, auth_role)
@@ -16957,6 +17484,10 @@ class ARXMLParser(AbstractARXMLParser):
             ecu_reset_class = parent.createDiagnosticEcuResetClass(self.getShortName(child_element))
             self.readDiagnosticEcuResetClass(child_element, ecu_reset_class)
             return True
+        if tag_name == "DIAGNOSTIC-ECU-INSTANCE-PROPS":
+            props = parent.createDiagnosticEcuInstanceProps(self.getShortName(child_element))
+            self.readDiagnosticEcuInstanceProps(child_element, props)
+            return True
         if tag_name == "DIAGNOSTIC-PROOF-OF-OWNERSHIP":
             proof_of_ownership = parent.createDiagnosticProofOfOwnership(self.getShortName(child_element))
             self.readDiagnosticProofOfOwnership(child_element, proof_of_ownership)
@@ -16968,9 +17499,15 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-VERIFY-CERTIFICATE-UNIDIRECTIONAL":
             self.readDiagnosticVerifyCertificateUnidirectional(child_element, parent.createDiagnosticVerifyCertificateUnidirectional(self.getShortName(child_element)))
             return True
+        if tag_name == "DIAGNOSTIC-MEASUREMENT-IDENTIFIER":
+            self.readDiagnosticMeasurementIdentifier(child_element, parent.createDiagnosticMeasurementIdentifier(self.getShortName(child_element)))
+            return True
+        if tag_name == "DIAGNOSTIC-MEMORY-DESTINATION-PRIMARY":
+            primary = parent.createDiagnosticMemoryDestinationPrimary(self.getShortName(child_element))
+            self.readDiagnosticMemoryDestinationPrimary(child_element, primary)
+            return True
         if tag_name == "DIAGNOSTIC-MEMORY-IDENTIFIER":
-            identifier = parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element))
-            self.readDiagnosticMemoryIdentifier(child_element, identifier)
+            self.readDiagnosticMemoryIdentifier(child_element, parent.createDiagnosticMemoryIdentifier(self.getShortName(child_element)))
             return True
         if tag_name == "DIAGNOSTIC-WRITE-MEMORY-BY-ADDRESS":
             write_memory_by_address = parent.createDiagnosticWriteMemoryByAddress(self.getShortName(child_element))
@@ -17019,6 +17556,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC":
             request_emission_related_dtc = parent.createDiagnosticRequestEmissionRelatedDTC(self.getShortName(child_element))
             self.readDiagnosticRequestEmissionRelatedDTC(child_element, request_emission_related_dtc)
+            return True
+        if tag_name == "DIAGNOSTIC-REQUEST-EMISSION-RELATED-DTC-PERMANENT-STATUS":
+            request_emission_related_dtc_permanent_status = parent.createDiagnosticRequestEmissionRelatedDTCPermanentStatus(self.getShortName(child_element))
+            self.readDiagnosticRequestEmissionRelatedDTCPermanentStatus(child_element, request_emission_related_dtc_permanent_status)
             return True
         if tag_name == "DIAGNOSTIC-CLEAR-RESET-EMISSION-RELATED-INFO":
             clear_reset_emission_related_info = parent.createDiagnosticClearResetEmissionRelatedInfo(self.getShortName(child_element))
