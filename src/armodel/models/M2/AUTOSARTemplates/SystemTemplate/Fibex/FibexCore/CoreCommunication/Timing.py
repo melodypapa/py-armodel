@@ -456,8 +456,8 @@ class TriggerIPduSendCondition(ARObject):
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.70, p.399 (R23-11)
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeDeclarations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeDeclarationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addModeDeclarationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):

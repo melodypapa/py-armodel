@@ -10065,6 +10065,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
         child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
+        self.writeARObject(child_element, condition)
         refs = condition.getModeDeclarationRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")

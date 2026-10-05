@@ -9796,6 +9796,7 @@ class ARXMLParser(AbstractARXMLParser):
             triggering.addTriggerIPduSendCondition(condition)
 
     def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        self.readARObject(element, condition)
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
             condition.addModeDeclarationRef(ref)
 

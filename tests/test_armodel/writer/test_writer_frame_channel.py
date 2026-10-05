@@ -770,6 +770,8 @@ class TestWritePduTriggering:
         condition = TriggerIPduSendCondition()
         condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md1"))
         condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md2"))
+        condition.setChecksum(String().setValue("1234"))
+        condition.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         pt.addTriggerIPduSendCondition(condition)
 
         parent = _parent()
@@ -793,6 +795,9 @@ class TestWritePduTriggering:
         assert len(md_refs) == 2
         assert md_refs[0].getValue() == "/md1"
         assert md_refs[1].getValue() == "/md2"
+        # AR:AR-OBJECT S/T round-trip on the condition (Rule 0025)
+        assert conditions[0].getChecksum().getValue() == "1234"
+        assert conditions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestWritePhysicalChannelHelpers:
