@@ -496,12 +496,11 @@ class ApplicationError(Identifiable):
     """
 
     # ApplicationError method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorCode      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorCode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorCode  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorCode  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -511,25 +510,14 @@ class ApplicationError(Identifiable):
 
     def getErrorCode(self) -> Optional[Integer]:
         """
-        Gets the error code that the RTE generator is forced to assign to the corresponding error symbol.
-        Note that for error codes certain ranges are predefined (see RTE specification).
-
-        Returns:
-            Integer representing the error code, or None if not set
+        The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification).
         """
         return self.errorCode
 
     def setErrorCode(self, value: Optional[Integer]) -> ApplicationError:
         """
-        Sets the error code that the RTE generator is forced to assign to the corresponding error symbol.
-        Note that for error codes certain ranges are predefined (see RTE specification).
+        The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification).
         A None value is a no-op and does not overwrite an existing error code.
-
-        Args:
-            value: The error code Integer to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.errorCode = value

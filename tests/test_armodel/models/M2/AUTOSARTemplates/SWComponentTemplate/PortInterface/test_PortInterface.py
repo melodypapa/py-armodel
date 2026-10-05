@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum, Boolean, Integer, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AtpPrototype,
     AutosarDataPrototype,
@@ -1260,3 +1260,51 @@ class TestServerArgumentImplPolicyEnumSpecSync:
         source = inspect.getsource(ServerArgumentImplPolicyEnum)
         assert "The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument Prototype. Tags: atp.EnumerationLiteralIndex=0" in source
         assert "The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2" in source
+
+
+class TestApplicationErrorSpecSync:
+    """Spec-sync pins for ApplicationError (CP_TPS_SoftwareComponentTemplate Table 4.11, p.108)."""
+
+    CLASS_NOTE = "This is a user-defined error that is associated with an element of an AUTOSAR interface. It is specific for the particular functionality or service provided by the AUTOSAR software component."
+    ERROR_CODE_NOTE = "The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification)."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ApplicationError.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_identifiable(self):
+        assert issubclass(ApplicationError, Identifiable)
+
+    def test_initialization_default(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        error = ApplicationError(ar_root, "E1")
+        assert error.getErrorCode() is None
+
+    def test_get_set_error_code(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        error = ApplicationError(ar_root, "E1")
+        code = Integer()
+        code.setValue("42")
+        assert error.setErrorCode(code) is error
+        assert error.getErrorCode() is code
+        assert error.getErrorCode().getValue() == 42
+        error.setErrorCode(None)
+        assert error.getErrorCode() is code
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ApplicationError.getErrorCode)["return"] == Optional[Integer]
+        assert typing.get_type_hints(ApplicationError.setErrorCode)["value"] == Optional[Integer]
+        assert typing.get_type_hints(ApplicationError.setErrorCode)["return"] == ApplicationError
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ApplicationError.__init__.__doc__ is None
+        assert ApplicationError.getErrorCode.__doc__.strip() == self.ERROR_CODE_NOTE
+        assert self.ERROR_CODE_NOTE in ApplicationError.setErrorCode.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing error code." in ApplicationError.setErrorCode.__doc__.strip()
+
+    def test_init_member_comment_is_spec_note_verbatim(self):
+        init_source = inspect.getsource(ApplicationError.__init__)
+        assert self.ERROR_CODE_NOTE in init_source
