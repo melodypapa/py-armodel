@@ -762,32 +762,32 @@ Status: **26/26** completed
 
 | Class Name                                 | Status   | Commit ID |
 | ------------------------------------------ | -------- | --------- |
-| `CanClusterBusOffRecovery`                 | [x] Done | N/A       |
-| `CanCommunicationConnector`                | [x] Done | N/A       |
-| `CanControllerConfiguration`               | [x] Done | N/A       |
-| `CanControllerConfigurationRequirements`   | [x] Done | N/A       |
-| `CanControllerFdConfigurationRequirements` | [x] Done | N/A       |
-| `ResumePosition`                           | [x] Done | N/A       |
-| `ApplicationEntry`                         | [x] Done | N/A       |
-| `LinScheduleTable`                         | [x] Done | N/A       |
-| `RunMode`                                  | [x] Done | N/A       |
-| `LinCommunicationConnector`                | [x] Done | N/A       |
-| `FlexrayFrameTriggering`                   | [x] Done | N/A       |
-| `FlexrayAbsolutelyScheduledTiming`         | [x] Done | N/A       |
-| `FlexrayCommunicationConnector`            | [x] Done | N/A       |
-| `FlexrayCommunicationController`           | [x] Done | N/A       |
-| `FlexrayPhysicalChannel`                   | [x] Done | N/A       |
-| `DataMapping`                              | [x] Done | N/A       |
-| `IndexedArrayElement`                      | [x] Done | N/A       |
-| `SenderRecRecordElementMapping`            | [x] Done | N/A       |
-| `SenderRecRecordTypeMapping`               | [x] Done | N/A       |
-| `SenderReceiverToSignalMapping`            | [x] Done | N/A       |
-| `SenderReceiverToSignalGroupMapping`       | [x] Done | N/A       |
-| `DefaultValueElement`                      | [x] Done | N/A       |
-| `FrameMapping`                             | [x] Done | N/A       |
-| `ISignalMapping`                           | [x] Done | N/A       |
-| `TargetIPduRef`                            | [x] Done | N/A       |
-| `Gateway`                                  | [x] Done | N/A       |
+| `CanClusterBusOffRecovery`                 | [x] Done  | 9c4a146ff0 |
+| `CanCommunicationConnector`                | [x] Done  | 6e9794500d |
+| `CanControllerConfiguration`               | [x] Done  | 5de9869ed6 |
+| `CanControllerConfigurationRequirements`   | [x] Done  | cd843bee26 |
+| `CanControllerFdConfigurationRequirements` | [x] Done  | a115435650 |
+| `ResumePosition`                           | [x] Done  | 40c0abb9b1 |
+| `ApplicationEntry`                         | [x] Done  | 8a6c27cb1c |
+| `LinScheduleTable`                         | [x] Done  | 0215ceb16a |
+| `RunMode`                                  | [x] Done  | 0215ceb16a |
+| `LinCommunicationConnector`                | [x] Done  | da0534323b |
+| `FlexrayFrameTriggering`                   | [x] Done  | 3ab64d2b03 |
+| `FlexrayAbsolutelyScheduledTiming`         | [x] Done  | 3ab64d2b03 |
+| `FlexrayCommunicationConnector`            | [x] Done  | 73bba1d58a |
+| `FlexrayCommunicationController`           | [x] Done  | 0c1ff9a927 |
+| `FlexrayPhysicalChannel`                   | [x] Done  | 7774a8ec9b |
+| `DataMapping`                              | [x] Done  | dc0553786f |
+| `IndexedArrayElement`                      | [x] Done  | 9eb93f743f |
+| `SenderRecRecordElementMapping`            | [x] Done  | dc019f9575 |
+| `SenderRecRecordTypeMapping`               | [x] Done  | abbfc40109 |
+| `SenderReceiverToSignalMapping`            | [x] Done  | 44442b8b6a |
+| `SenderReceiverToSignalGroupMapping`       | [x] Done  | f921dd6fb4 |
+| `DefaultValueElement`                      | [x] Done  | 721cca6400 |
+| `FrameMapping`                             | [x] Done  | a5f62ee06d |
+| `ISignalMapping`                           | [x] Done  | ba0f1a12a8 |
+| `TargetIPduRef`                            | [x] Done  | 4d2c155383 |
+| `Gateway`                                  | [x] Done  | a00d99f993 |
 
 ## Group18
 
