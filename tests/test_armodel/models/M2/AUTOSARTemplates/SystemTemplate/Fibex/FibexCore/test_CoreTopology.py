@@ -273,33 +273,6 @@ class Test_FibexCoreTopology:
         assert cluster == cluster.setCanXlBaudrate(10000000)
         assert cluster.getCanXlBaudrate() == 10000000
 
-    def test_CanCluster(self):
-        """Test CanCluster class functionality."""
-        parent = MockParent()
-        cluster = CanCluster(parent, "test_can_cluster")
-
-        assert isinstance(cluster, AbstractCanCluster)
-        assert isinstance(cluster, CommunicationCluster)
-
-        # Test default values
-        assert cluster.getBusOffRecovery() is None
-        assert cluster.getCanFdBaudrate() is None
-        assert cluster.getCanXlBaudrate() is None
-
-        # Test setter/getter methods with method chaining
-        recovery = CanClusterBusOffRecovery()
-        cluster.setBusOffRecovery(recovery)
-        assert cluster.getBusOffRecovery() == recovery
-        assert cluster == cluster.setBusOffRecovery(recovery)  # Test method chaining
-
-        cluster.setCanFdBaudrate(500000)
-        assert cluster.getCanFdBaudrate() == 500000
-        assert cluster == cluster.setCanFdBaudrate(500000)  # Test method chaining
-
-        cluster.setCanXlBaudrate(10000000)
-        assert cluster.getCanXlBaudrate() == 10000000
-        assert cluster == cluster.setCanXlBaudrate(10000000)  # Test method chaining
-
     def test_CommunicationController(self):
         """Test CommunicationController abstract class instantiation."""
         parent = MockParent()
@@ -1178,6 +1151,81 @@ class TestAbstractCanCluster:
             hints = typing.get_type_hints(getattr(AbstractCanCluster, setter))
             assert hints["value"] == typing.Optional[PositiveUnlimitedInteger], setter
             _assert_return_is(hints, AbstractCanCluster)
+
+
+CAN_CLUSTER_CLASS_NOTE = "CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"
+
+
+class TestCanCluster:
+    """Test cases for CanCluster (Table 3.9, p.62)."""
+
+    INHERITED_MEMBERS = [
+        "baudrate",
+        "physicalChannel",
+        "protocolName",
+        "protocolVersion",
+        "busOffRecovery",
+        "canFdBaudrate",
+        "canXlBaudrate",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CanCluster, AbstractCanCluster)
+        assert issubclass(CanCluster, CommunicationCluster)
+        assert issubclass(CanCluster, FibexElement)
+        assert issubclass(CanCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = CanCluster(MockParent(), "cluster")  # Table 3.9 carries no abstract stereotype
+
+        assert isinstance(cluster, AbstractCanCluster)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CanCluster.__doc__) == CAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CanCluster.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        # Table 3.9's Attribute row is "-" — CanCluster adds no fields or accessors beyond its bases (Rule 0001.3)
+        own = [name for name, value in vars(CanCluster).items() if not name.startswith("_")]
+        assert own == []
+
+    def test_initialization_defaults(self):
+        cluster = CanCluster(MockParent(), "cluster")
+
+        for getter in ["getBaudrate", "getProtocolName", "getProtocolVersion", "getBusOffRecovery", "getCanFdBaudrate", "getCanXlBaudrate"]:
+            assert getattr(cluster, getter)() is None, getter
+        assert cluster.getPhysicalChannels() == []
+
+    def test_member_order(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.INHERITED_MEMBERS)]
+        assert members == self.INHERITED_MEMBERS
+
+    def test_inherited_accessors_round_trip(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+        recovery.setBorTimeL1(TimeValue().setValue("0.1"))
+        fd_baudrate = PositiveUnlimitedInteger().setValue("2000000")
+        xl_baudrate = PositiveUnlimitedInteger().setValue("10000000")
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+        assert cluster == cluster.setCanFdBaudrate(fd_baudrate)
+        assert cluster.getCanFdBaudrate() is fd_baudrate
+        assert cluster.getCanFdBaudrate().getValue() == 2000000
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is fd_baudrate  # unchanged
+
+        assert cluster == cluster.setCanXlBaudrate(xl_baudrate)
+        assert cluster.getCanXlBaudrate() is xl_baudrate
+        assert cluster.getCanXlBaudrate().getValue() == 10000000
+        assert cluster == cluster.setCanXlBaudrate(None)  # None no-op
+        assert cluster.getCanXlBaudrate() is xl_baudrate  # unchanged
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."

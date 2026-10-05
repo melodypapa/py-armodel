@@ -662,13 +662,14 @@ class AbstractCanCluster(CommunicationCluster, ABC):
 
 
 class CanCluster(AbstractCanCluster):
-    """CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"""
+    """
+    CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
+    """
 
     # CanCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.9, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
