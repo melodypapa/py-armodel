@@ -30,11 +30,10 @@ class ValueSpecification(ARObject, VariationPointCapable, ABC):
 
     # ValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.109, p.433
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getShortLabel  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is ValueSpecification:
