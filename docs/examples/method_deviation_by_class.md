@@ -4671,3 +4671,14 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.48 `Literal` rows are modeled 1:1 in displayed order: `DEBOUNCE_DATA = "debounceData"` (atp.EnumerationLiteralIndex=0), `RAW_DATA = "rawData"` (index=1), `WAIT_TIME_DATE = "waitTimeDate"` (index=2). |
 
 **Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.48, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the FILTERING-DEBOUNCING attribute value on the consuming class (round-tripped via IoHwAbstractionServerAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_FilterDebouncingEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `PulseTestEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 157
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.49 `Literal` rows are modeled 1:1 in displayed order: `DISABLE = "disable"` (atp.EnumerationLiteralIndex=0), `ENABLE = "enable"` (index=1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.49, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the PULSE-TEST attribute value on the consuming class (round-tripped via IoHwAbstractionServerAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_PulseTestEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).

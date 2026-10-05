@@ -102,9 +102,9 @@ class PulseTestEnum(AREnum):
     """
 
     # PulseTestEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.49, p.157
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.49, p.157 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Disables the pulse test Tags: atp.EnumerationLiteralIndex=0
     DISABLE = "disable"
