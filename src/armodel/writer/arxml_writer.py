@@ -4516,7 +4516,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setScaleConstr(scales_element, "SCALE-CONSTR", scale_constr)
             self.setChildElementOptionalNumericalValue(constrs_tag, "MAX-GRADIENT", constrs.getMaxGradient())
             self.setChildElementOptionalNumericalValue(constrs_tag, "MAX-DIFF", constrs.getMaxDiff())
-            self.setChildElementOptionalLiteral(constrs_tag, "MONOTONY", constrs.getMonotony())
+            self._writeEnumToken(constrs_tag, "MONOTONY", constrs.getMonotony(), MONOTONY_XML_MAP)
 
     def setScaleConstr(self, element: ET.Element, key: str, scale_constr: ScaleConstr):
         if scale_constr is not None:

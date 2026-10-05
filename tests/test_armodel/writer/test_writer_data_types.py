@@ -1810,7 +1810,7 @@ class TestInternalConstrsWriter:
         assert scale_tag.find("UPPER-LIMIT").text == "50.0"
         assert child.find("MAX-GRADIENT").text == "1.5"
         assert child.find("MAX-DIFF").text == "0.5"
-        assert child.find("MONOTONY").text == "increasing"
+        assert child.find("MONOTONY").text == "INCREASING"
 
 
 class TestPhysConstrsWriter:

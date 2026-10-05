@@ -424,3 +424,110 @@ class TestPhysConstrsSpecSync:
 
         assert phys_constrs.addScaleConstr(None) is phys_constrs
         assert phys_constrs.getScaleConstrs() == []
+
+
+class TestInternalConstrsSpecSync:
+    """Spec-sync pins for InternalConstrs (SWCT Table 5.85, p.407, R23-11)."""
+
+    SPEC_MEMBER_ORDER = [
+        "lowerLimit",
+        "maxDiff",
+        "maxGradient",
+        "monotony",
+        "scaleConstrs",
+        "upperLimit",
+    ]
+
+    CLASS_NOTE = "This meta-class represents the ability to express internal constraints."
+    LOWER_LIMIT_NOTE = "This specifies the lower limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20"
+    MAX_DIFF_NOTE = "Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. Tags: xml.sequenceOffset=60"
+    MAX_GRADIENT_NOTE = "This element specifies the maximum slope that may be used in maps and curves. Tags: xml.sequenceOffset=50"
+    MONOTONY_NOTE = 'This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. Tags: xml.sequenceOffset=70'
+    SCALE_CONSTR_NOTE = (
+        "This is one particular scale which contributes to the data constraints. Tags: atp.Status=obsolete xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false"
+    )
+    UPPER_LIMIT_NOTE = "This specifies the upper limit defined by the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=30"
+
+    def _init_field_order(self):
+        tree = ast.parse(open(GlobalConstraints.__file__, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "InternalConstrs")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_internal_constrs_inheritance_is_arobject(self):
+        """InternalConstrs derives from ARObject per the Table 5.85 Base row."""
+        assert issubclass(InternalConstrs, ARObject)
+
+    def test_internal_constrs_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.85 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_internal_constrs_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime with the spec shapes (Rule 0003)."""
+        hints = typing.get_type_hints(InternalConstrs.getLowerLimit)
+        assert hints["return"] == typing.Optional[Limit]
+        hints = typing.get_type_hints(InternalConstrs.setLowerLimit)
+        assert hints["value"] == typing.Optional[Limit]
+        assert hints["return"] == InternalConstrs
+        for getter in ("getMaxDiff", "getMaxGradient"):
+            hints = typing.get_type_hints(getattr(InternalConstrs, getter))
+            assert hints["return"] == typing.Optional[Numerical], getter
+        hints = typing.get_type_hints(InternalConstrs.getMonotony)
+        assert hints["return"] == typing.Optional[MonotonyEnum]
+        hints = typing.get_type_hints(InternalConstrs.getScaleConstrs)
+        assert hints["return"] == typing.List[ScaleConstr]
+        hints = typing.get_type_hints(InternalConstrs.getUpperLimit)
+        assert hints["return"] == typing.Optional[Limit]
+
+    def test_internal_constrs_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring is the Table 5.85 Note verbatim."""
+        assert cleandoc(InternalConstrs.__doc__) == self.CLASS_NOTE
+
+    def test_internal_constrs_init_has_no_docstring(self):
+        assert InternalConstrs.__init__.__doc__ is None
+
+    def test_internal_constrs_members_are_pep526_annotated(self):
+        source = getsource(InternalConstrs.__init__)
+        assert "# type:" not in source
+        assert "self.lowerLimit: Optional[Limit] = None" in source
+        assert "self.maxDiff: Optional[Numerical] = None" in source
+        assert "self.maxGradient: Optional[Numerical] = None" in source
+        assert "self.monotony: Optional[MonotonyEnum] = None" in source
+        assert "self.scaleConstrs: List[ScaleConstr] = []" in source
+        assert "self.upperLimit: Optional[Limit] = None" in source
+
+    def test_internal_constrs_inline_comments_match_spec_notes(self):
+        source = getsource(InternalConstrs.__init__)
+        for note in (self.LOWER_LIMIT_NOTE, self.MAX_DIFF_NOTE, self.MAX_GRADIENT_NOTE, self.MONOTONY_NOTE, self.SCALE_CONSTR_NOTE, self.UPPER_LIMIT_NOTE):
+            assert "# " + note in source
+
+    def test_internal_constrs_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(InternalConstrs.getLowerLimit.__doc__) == self.LOWER_LIMIT_NOTE
+        assert cleandoc(InternalConstrs.getMaxDiff.__doc__) == self.MAX_DIFF_NOTE
+        assert cleandoc(InternalConstrs.getMaxGradient.__doc__) == self.MAX_GRADIENT_NOTE
+        assert cleandoc(InternalConstrs.getMonotony.__doc__) == self.MONOTONY_NOTE
+        assert cleandoc(InternalConstrs.getScaleConstrs.__doc__) == self.SCALE_CONSTR_NOTE
+        assert cleandoc(InternalConstrs.getUpperLimit.__doc__) == self.UPPER_LIMIT_NOTE
+
+    def test_internal_constrs_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(InternalConstrs.setLowerLimit.__doc__) == self.LOWER_LIMIT_NOTE + " A None value is a no-op and does not overwrite an existing lowerLimit."
+        assert cleandoc(InternalConstrs.setMaxDiff.__doc__) == self.MAX_DIFF_NOTE + " A None value is a no-op and does not overwrite an existing maxDiff."
+        assert cleandoc(InternalConstrs.setMaxGradient.__doc__) == self.MAX_GRADIENT_NOTE + " A None value is a no-op and does not overwrite an existing maxGradient."
+        assert cleandoc(InternalConstrs.setMonotony.__doc__) == self.MONOTONY_NOTE + " A None value is a no-op and does not overwrite an existing monotony."
+        assert cleandoc(InternalConstrs.getScaleConstrs.__doc__) == self.SCALE_CONSTR_NOTE
+        assert cleandoc(InternalConstrs.setUpperLimit.__doc__) == self.UPPER_LIMIT_NOTE + " A None value is a no-op and does not overwrite an existing upperLimit."
+
+    def test_internal_constrs_accessor_none_no_ops(self):
+        internal_constrs = InternalConstrs()
+        monotony = MonotonyEnum().setValue(MonotonyEnum.DECREASING)
+        assert internal_constrs.setMonotony(monotony) is internal_constrs
+        internal_constrs.setMonotony(None)
+        assert internal_constrs.getMonotony() is monotony
+
+        internal_constrs.setMaxDiff(None)
+        assert internal_constrs.getMaxDiff() is None
+        internal_constrs.setMaxGradient(None)
+        assert internal_constrs.getMaxGradient() is None
+
+        assert internal_constrs.addScaleConstr(None) is internal_constrs
+        assert internal_constrs.getScaleConstrs() == []

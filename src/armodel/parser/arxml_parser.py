@@ -9310,7 +9310,7 @@ class ARXMLParser(AbstractARXMLParser):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
-            constrs.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(child_element, "MONOTONY")))
+            constrs.setMonotony(self._readEnumToken(child_element, "MONOTONY", MonotonyEnum, MONOTONY_XML_MAP))
             parent.setInternalConstrs(constrs)
 
     def readScaleConstr(self, element: ET.Element) -> ScaleConstr:

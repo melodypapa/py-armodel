@@ -2101,7 +2101,7 @@ class TestDataTypeAndCompuHandlers:
             "</SCALE-CONSTRS>"
             "<MAX-GRADIENT>1.5</MAX-GRADIENT>"
             "<MAX-DIFF>0.5</MAX-DIFF>"
-            "<MONOTONY>increasing</MONOTONY>"
+            "<MONOTONY>INCREASING</MONOTONY>"
             "</INTERNAL-CONSTRS>"
             "</DATA-CONSTR-RULE>"
             "</DATA-CONSTR-RULES>",

@@ -22,52 +22,55 @@ class InternalConstrs(ARObject):
 
     # InternalConstrs method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.85, p.407
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLowerLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLowerLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxDiff              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxDiff              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxGradient          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxGradient          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMonotony             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMonotony             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addScaleConstr          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getScaleConstrs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getUpperLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpperLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLowerLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLowerLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDiff              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDiff              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxGradient          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxGradient          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMonotony             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMonotony             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addScaleConstr          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScaleConstrs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUpperLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader = readInternalConstrs (arxml_parser.py), writer = setInternalConstrs (arxml_writer.py);
+    # XML child order per the XSD group INTERNAL-CONSTRS: LOWER-LIMIT(20), UPPER-LIMIT(30),
+    # SCALE-CONSTRS(40), MAX-GRADIENT(50), MAX-DIFF(60), MONOTONY(70); MONOTONY carries the UPPERCASE
+    # XSD wire token via MONOTONY_XML_MAP + _readEnumToken/_writeEnumToken
 
     def __init__(self):
         super().__init__()
 
-        # This specifies the lower limit of the constraint.
+        # This specifies the lower limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
         self.lowerLimit: Optional[Limit] = None
 
-        # Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
+        # Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. Tags: xml.sequenceOffset=60
         self.maxDiff: Optional[Numerical] = None
 
-        # This element specifies the maximum slope that may be used in maps and curves.
+        # This element specifies the maximum slope that may be used in maps and curves. Tags: xml.sequenceOffset=50
         self.maxGradient: Optional[Numerical] = None
 
-        # This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content.
+        # This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. Tags: xml.sequenceOffset=70
         self.monotony: Optional[MonotonyEnum] = None
 
-        # This is one particular scale which contributes to the data constraints.
+        # This is one particular scale which contributes to the data constraints. Tags: atp.Status=obsolete xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false
         self.scaleConstrs: List[ScaleConstr] = []
 
-        # This specifies the upper limit defined by the constraint.
+        # This specifies the upper limit defined by the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         self.upperLimit: Optional[Limit] = None
 
     def getLowerLimit(self) -> Optional[Limit]:
         """
-        This specifies the lower limit of the constraint.
+        This specifies the lower limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
         """
         return self.lowerLimit
 
     def setLowerLimit(self, value: Optional[Limit]) -> InternalConstrs:
         """
-        This specifies the lower limit of the constraint. A None value is a no-op and does not overwrite an existing lowerLimit.
+        This specifies the lower limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing lowerLimit.
         """
         if value is not None:
             self.lowerLimit = value
@@ -75,13 +78,13 @@ class InternalConstrs(ARObject):
 
     def getMaxDiff(self) -> Optional[Numerical]:
         """
-        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. Tags: xml.sequenceOffset=60
         """
         return self.maxDiff
 
     def setMaxDiff(self, value: Optional[Numerical]) -> InternalConstrs:
         """
-        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. A None value is a no-op and does not overwrite an existing maxDiff.
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. Tags: xml.sequenceOffset=60 A None value is a no-op and does not overwrite an existing maxDiff.
         """
         if value is not None:
             self.maxDiff = value
@@ -89,13 +92,13 @@ class InternalConstrs(ARObject):
 
     def getMaxGradient(self) -> Optional[Numerical]:
         """
-        This element specifies the maximum slope that may be used in maps and curves.
+        This element specifies the maximum slope that may be used in maps and curves. Tags: xml.sequenceOffset=50
         """
         return self.maxGradient
 
     def setMaxGradient(self, value: Optional[Numerical]) -> InternalConstrs:
         """
-        This element specifies the maximum slope that may be used in maps and curves. A None value is a no-op and does not overwrite an existing maxGradient.
+        This element specifies the maximum slope that may be used in maps and curves. Tags: xml.sequenceOffset=50 A None value is a no-op and does not overwrite an existing maxGradient.
         """
         if value is not None:
             self.maxGradient = value
@@ -103,13 +106,13 @@ class InternalConstrs(ARObject):
 
     def getMonotony(self) -> Optional[MonotonyEnum]:
         """
-        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content.
+        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. Tags: xml.sequenceOffset=70
         """
         return self.monotony
 
     def setMonotony(self, value: Optional[MonotonyEnum]) -> InternalConstrs:
         """
-        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. A None value is a no-op and does not overwrite an existing monotony.
+        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. Tags: xml.sequenceOffset=70 A None value is a no-op and does not overwrite an existing monotony.
         """
         if value is not None:
             self.monotony = value
@@ -117,7 +120,7 @@ class InternalConstrs(ARObject):
 
     def addScaleConstr(self, value: Optional[ScaleConstr]) -> InternalConstrs:
         """
-        This is one particular scale which contributes to the data constraints. A None value is a no-op and does not add a scaleConstr.
+        This is one particular scale which contributes to the data constraints. Tags: atp.Status=obsolete xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false A None value is a no-op and does not add a scaleConstr.
         """
         if value is not None:
             self.scaleConstrs.append(value)
@@ -125,19 +128,19 @@ class InternalConstrs(ARObject):
 
     def getScaleConstrs(self) -> List[ScaleConstr]:
         """
-        This is one particular scale which contributes to the data constraints.
+        This is one particular scale which contributes to the data constraints. Tags: atp.Status=obsolete xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false
         """
         return self.scaleConstrs
 
     def getUpperLimit(self) -> Optional[Limit]:
         """
-        This specifies the upper limit defined by the constraint.
+        This specifies the upper limit defined by the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         """
         return self.upperLimit
 
     def setUpperLimit(self, value: Optional[Limit]) -> InternalConstrs:
         """
-        This specifies the upper limit defined by the constraint. A None value is a no-op and does not overwrite an existing upperLimit.
+        This specifies the upper limit defined by the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing upperLimit.
         """
         if value is not None:
             self.upperLimit = value
