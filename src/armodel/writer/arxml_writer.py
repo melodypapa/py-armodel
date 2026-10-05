@@ -9476,7 +9476,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeNmCluster(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("Write NmCluster <%s>" % cluster.getShortName())
-        self.writeIdentifiable(element, cluster)
+        self.writeIdentifiable(element, cluster, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", cluster.getCommunicationClusterRef())
         self.setChildElementOptionalNumericalValue(element, "NM-CHANNEL-ID", cluster.getNmChannelId())
         self.setChildElementOptionalBooleanValue(element, "NM-CHANNEL-SLEEP-MASTER", cluster.getNmChannelSleepMaster())
@@ -9506,6 +9506,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "NM-REMOTE-SLEEP-INDICATION-TIME", cluster.getNmRemoteSleepIndicationTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
+        self.writeVariationPointCapable(child_element, cluster)
 
     def writeUdpNmCluster(self, element: ET.Element, cluster: UdpNmCluster):
         self.logger.debug("Write UdpNmCluster <%s>" % cluster.getShortName())
@@ -9522,6 +9523,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
         self.setChildElementOptionalTimeValue(child_element, "NM-WAIT-BUS-SLEEP-TIME", cluster.getNmWaitBusSleepTime())
         self.setChildElementOptionalRefType(child_element, "VLAN-REF", cluster.getVlanRef())
+        self.writeVariationPointCapable(child_element, cluster)
 
     def writeFlexrayNmCluster(self, element: ET.Element, cluster: FlexrayNmCluster):
         self.logger.debug("Write FlexrayNmCluster <%s>" % cluster.getShortName())
@@ -9537,6 +9539,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "NM-REPEAT-MESSAGE-TIME", cluster.getNmRepeatMessageTime())
         self.setChildElementOptionalIntegerValue(child_element, "NM-REPETITION-CYCLE", cluster.getNmRepetitionCycle())
         self.setChildElementOptionalIntegerValue(child_element, "NM-VOTING-CYCLE", cluster.getNmVotingCycle())
+        self.writeVariationPointCapable(child_element, cluster)
 
     def writeJ1939NmCluster(self, element: ET.Element, cluster: J1939NmCluster):
         self.logger.debug("Write J1939NmCluster <%s>" % cluster.getShortName())
@@ -9544,6 +9547,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmCluster(child_element, cluster)
         self.setChildElementOptionalBooleanValue(child_element, "ADDRESS-CLAIM-ENABLED", cluster.getAddressClaimEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "USES-DYNAMIC-ADDRESSING", cluster.getUsesDynamicAddressing())
+        self.writeVariationPointCapable(child_element, cluster)
 
     def writeNmConfigNmClusters(self, element: ET.Element, parent: NmConfig):
         clusters = parent.getNmClusters()
