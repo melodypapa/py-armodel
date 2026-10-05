@@ -61,7 +61,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
     ExternalTriggeringPoint,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps, SwImplPolicyEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -755,7 +755,7 @@ class TestWriterParameterAccess:
         pref.setLocalParameterRef(_ref("/lp", "PARAMETER-DATA-PROTOTYPE"))
         pa.setAccessedParameter(pref)
         props = SwDataDefProps()
-        props.setSwCalibrationAccess(_literal("notAccessible"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.NOT_ACCESSIBLE))
         pa.setSwDataDefProps(props)
         parent = _parent()
         writer.writeParameterAccess(parent, pa)
@@ -765,7 +765,7 @@ class TestWriterParameterAccess:
         assert elem.find("ACCESSED-PARAMETER/LOCAL-PARAMETER-REF").text == "/lp"
         props_elem = elem.find("SW-DATA-DEF-PROPS")
         assert props_elem is not None
-        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "notAccessible"
+        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "NOT-ACCESSIBLE"
         children = [child.tag for child in elem]
         assert children.index("ACCESSED-PARAMETER") < children.index("SW-DATA-DEF-PROPS")
 
@@ -804,7 +804,7 @@ class TestParameterAccessRoundTrip:
         pref.setAutosarParameterIRef(iref)
         pa.setAccessedParameter(pref)
         props = SwDataDefProps()
-        props.setSwCalibrationAccess(_literal("notAccessible"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.NOT_ACCESSIBLE))
         pa.setSwDataDefProps(props)
 
         file_path = tempfile.mktemp(suffix=".arxml")

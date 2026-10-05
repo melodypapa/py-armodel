@@ -122,6 +122,49 @@ class TestSwCalibrationAccessEnum:
         assert SwCalibrationAccessEnum.READ_ONLY == "readOnly"
         assert SwCalibrationAccessEnum.READ_WRITE == "readWrite"
 
+    def test_sw_calibration_access_enum_has_spec_note(self):
+        """The class docstring carries the Table 5.44 Note verbatim."""
+        assert cleandoc(SwCalibrationAccessEnum.__doc__) == "Determines the access rights to a data object w.r.t. measurement and calibration."
+
+    def test_sw_calibration_access_enum_spec_literals(self):
+        """SwCalibrationAccessEnum shall expose the 3 spec literals in Table 5.44 order."""
+        enum_obj = SwCalibrationAccessEnum()
+        expected = {
+            SwCalibrationAccessEnum.NOT_ACCESSIBLE: "notAccessible",
+            SwCalibrationAccessEnum.READ_ONLY: "readOnly",
+            SwCalibrationAccessEnum.READ_WRITE: "readWrite",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert enum_obj.getEnumValues() == ["notAccessible", "readOnly", "readWrite"]
+
+    def test_sw_calibration_access_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd SW-CALIBRATION-ACCESS-ENUM--SIMPLE (L143641) carries no
+        atp.Status="removed" literals, so no legacy forms are valid; the uppercase
+        wire forms (NOT-ACCESSIBLE, READ-ONLY, READ-WRITE) live only in the
+        consumer-side SW_CALIBRATION_ACCESS_XML_MAP and are not model values.
+        """
+        enum_obj = SwCalibrationAccessEnum()
+        assert enum_obj.validateEnumValue("notAccessible") is True
+        assert enum_obj.validateEnumValue("readOnly") is True
+        assert enum_obj.validateEnumValue("readWrite") is True
+        assert enum_obj.validateEnumValue("NOT-ACCESSIBLE") is False
+        assert enum_obj.validateEnumValue("READ-ONLY") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_sw_calibration_access_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY)
+        assert enum_obj.getValue() == "readOnly"
+
+    def test_sw_calibration_access_enum_set_value_none_noop(self):
+        """setValue(None) is a no-op and does not overwrite an existing value."""
+        enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)
+        enum_obj.setValue(None)
+        assert enum_obj.getValue() == "readWrite"
+
 
 class TestDisplayPresentationEnum:
     """Test class for DisplayPresentationEnum class."""

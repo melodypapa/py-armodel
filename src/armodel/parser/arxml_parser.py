@@ -1544,6 +1544,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+#: Mapping between SwCalibrationAccessEnum literal values and their XML element text
+#: (AR:SW-CALIBRATION-ACCESS-ENUM--SIMPLE).
+SW_CALIBRATION_ACCESS_XML_MAP = {
+    "notAccessible": "NOT-ACCESSIBLE",
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -2558,9 +2566,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         self.readIdentifiable(element, prototype)
         prototype.setTypeTRef(cast(Optional[TRefType], self.getChildElementOptionalRefType(element, "TYPE-TREF")))
-        sw_calibration_access = self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS")
-        if sw_calibration_access is not None:
-            prototype.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(sw_calibration_access.getValue()))
+        prototype.setSwCalibrationAccess(self._readEnumToken(element, "SW-CALIBRATION-ACCESS", SwCalibrationAccessEnum, SW_CALIBRATION_ACCESS_XML_MAP))
 
     def readBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-MODE-GROUPS/*"):
@@ -7243,7 +7249,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "SW-AXIS-GROUPED")
         if child_element is not None:
             axis.setSwCalprmAxisTypeProps(self.getSwAxisGrouped(child_element))
-        axis.setSwCalibrationAccess(cast(Optional[SwCalibrationAccessEnum], self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS")))
+        axis.setSwCalibrationAccess(self._readEnumToken(element, "SW-CALIBRATION-ACCESS", SwCalibrationAccessEnum, SW_CALIBRATION_ACCESS_XML_MAP))
         axis.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT")))
 
         return axis
@@ -7283,7 +7289,7 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_data_def_props.setSwAddrMethodRef(self.getChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF"))
                 sw_data_def_props.setSwAlignment(cast(Optional[AlignmentType], self.getChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT")))
                 sw_data_def_props.setBaseTypeRef(self.getChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF"))
-                sw_data_def_props.setSwCalibrationAccess(cast(Optional[SwCalibrationAccessEnum], self.getChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS")))
+                sw_data_def_props.setSwCalibrationAccess(self._readEnumToken(conditional_tag, "SW-CALIBRATION-ACCESS", SwCalibrationAccessEnum, SW_CALIBRATION_ACCESS_XML_MAP))
                 sw_data_def_props.setSwCalprmAxisSet(self.getSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET"))
                 sw_data_def_props.setSwTextProps(self.getSwTextProps(conditional_tag, "SW-TEXT-PROPS"))
                 self.readSwComparisonVariables(conditional_tag, sw_data_def_props)

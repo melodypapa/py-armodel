@@ -1545,7 +1545,7 @@ class TestModeDeclarationWriter:
         assert child.tag == "MODE-GROUP"
         assert child.find("SHORT-NAME").text == "ModeGroup"
         assert child.find("TYPE-TREF").text == "/ModeGrp"
-        assert child.find("SW-CALIBRATION-ACCESS").text == "readOnly"
+        assert child.find("SW-CALIBRATION-ACCESS").text == "READ-ONLY"
 
     def test_write_mode_switch_interface_mode_group_empty(self, writer):
         autosar = AUTOSAR.getInstance()

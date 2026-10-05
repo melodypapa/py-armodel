@@ -61,10 +61,8 @@ class SwCalibrationAccessEnum(AREnum):
 
     # SwCalibrationAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.44, p.335
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.swCalibrationAccess
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ModeDeclarationGroupPrototype.swCalibrationAccess, SwCalprmAxis.swCalibrationAccess, SwDataDefProps.swCalibrationAccess (R23-11)
 
     # The element will not be accessible via MCD tools, i.e. will not appear in the ASAP file. Tags: atp.EnumerationLiteralIndex=0
     NOT_ACCESSIBLE = "notAccessible"

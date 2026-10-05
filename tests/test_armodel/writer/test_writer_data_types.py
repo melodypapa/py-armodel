@@ -61,6 +61,7 @@ from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxisSet,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwCalibrationAccessEnum,
     SwDataDefProps,
     SwPointerTargetProps,
     ValueList,
@@ -341,7 +342,7 @@ class TestSwDataDefPropsWriter:
         props = SwDataDefProps()
         props.setBaseTypeRef(_ref("SW-BASE-TYPE", "/bt"))
         props.setSwAddrMethodRef(_ref("SW-ADDR-METHOD", "/am"))
-        props.setSwCalibrationAccess(_literal("READ-ONLY"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY))
         props.setCompuMethodRef(_ref("COMPU-METHOD", "/cm"))
         props.setStepSize(_float("0.5"))
         props.setDataConstrRef(_ref("DATA-CONSTR", "/dc"))

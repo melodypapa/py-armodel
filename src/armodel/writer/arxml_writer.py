@@ -1294,6 +1294,14 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+#: Mapping between SwCalibrationAccessEnum literal values and their XML element text
+#: (AR:SW-CALIBRATION-ACCESS-ENUM--SIMPLE).
+SW_CALIBRATION_ACCESS_XML_MAP = {
+    "notAccessible": "NOT-ACCESSIBLE",
+    "readOnly": "READ-ONLY",
+    "readWrite": "READ-WRITE",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -3796,7 +3804,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setSwAxisGrouped(child_element, axis_props)
                 else:
                     self.notImplemented("Unsupported SwCalprmAxisTypeProps %s" % type(axis_props))
-            self.setChildElementOptionalLiteral(child_element, "SW-CALIBRATION-ACCESS", axis.getSwCalibrationAccess())
+            self._writeEnumToken(child_element, "SW-CALIBRATION-ACCESS", axis.getSwCalibrationAccess(), SW_CALIBRATION_ACCESS_XML_MAP)
             self.setChildElementOptionalLiteral(child_element, "DISPLAY-FORMAT", axis.getDisplayFormat())
 
     def setSwCalprmAxisSet(self, element: ET.Element, key: str, set: Optional[SwCalprmAxisSet]):
@@ -3828,7 +3836,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT", props.getSwAlignment())
             self.setChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF", props.getBaseTypeRef())
             self.setSwBitRepresentation(conditional_tag, props.getSwBitRepresentation())
-            self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
+            self._writeEnumToken(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess(), SW_CALIBRATION_ACCESS_XML_MAP)
             self.setChildElementOptionalNumericalValue(conditional_tag, "SW-VALUE-BLOCK-SIZE", props.getSwValueBlockSize())
             self.setSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET", props.getSwCalprmAxisSet())
             self.setSwTextProps(conditional_tag, props.getSwTextProps())
@@ -7632,7 +7640,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "MODE-DECLARATION-GROUP-PROTOTYPE")
         self.writeIdentifiable(child_element, prototype)
         self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.getTypeTRef())
-        self.setChildElementOptionalLiteral(child_element, "SW-CALIBRATION-ACCESS", prototype.getSwCalibrationAccess())
+        self._writeEnumToken(child_element, "SW-CALIBRATION-ACCESS", prototype.getSwCalibrationAccess(), SW_CALIBRATION_ACCESS_XML_MAP)
 
     def writeBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
         mode_groups = parent.getProvidedModeGroups()
@@ -8979,7 +8987,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "MODE-GROUP")
             self.writeIdentifiable(child_element, mode_group)
             self.setChildElementOptionalRefType(child_element, "TYPE-TREF", mode_group.getTypeTRef())
-            self.setChildElementOptionalLiteral(child_element, "SW-CALIBRATION-ACCESS", mode_group.getSwCalibrationAccess())
+            self._writeEnumToken(child_element, "SW-CALIBRATION-ACCESS", mode_group.getSwCalibrationAccess(), SW_CALIBRATION_ACCESS_XML_MAP)
 
     def writeModeSwitchInterface(self, element: ET.Element, mode_interface: ModeSwitchInterface):
         self.logger.debug("writeModeSwitchInterface %s" % mode_interface.getShortName())

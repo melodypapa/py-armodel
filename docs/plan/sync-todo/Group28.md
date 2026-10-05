@@ -524,15 +524,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwCalibrationAccessEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.44, p.335
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — consumer value-form tests written instead; 5 Red confirmed)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer token-map conversion applied: SW_CALIBRATION_ACCESS_XML_MAP + _readEnumToken/_writeEnumToken at 3 parser / 4 writer sites; 642 passed)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (902 passed / 0 failed: test_DataDefProperties.py + DataDictionary dir + test_ModeDeclaration.py + 6 parser/writer files touched by the token-map conversion; plus test_member_annotations.py gate 3, black/ruff clean on all 9 changed py files, mypy 1 pre-existing error only [writer:7545, EndToEndProtection commit — not chased], enum-adapted checklist check [(no methods) form, __init__ only, stamp WITHHELD, 3 literals in spec order]); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwCalprmAxis` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.47, p.352
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
