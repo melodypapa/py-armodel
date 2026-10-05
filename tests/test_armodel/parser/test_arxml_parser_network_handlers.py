@@ -2443,7 +2443,10 @@ class TestNmConfigHandlers:
             "<NM-BUSLOAD-REDUCTION-ENABLED>true</NM-BUSLOAD-REDUCTION-ENABLED>",
             root_tag="CAN-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.readCanNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmClusterCoupling
+
+        coupling = CanNmClusterCoupling()
+        parser.readCanNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
     def test_readUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):

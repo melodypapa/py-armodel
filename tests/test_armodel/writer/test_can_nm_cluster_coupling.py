@@ -67,7 +67,8 @@ class TestWriteCanNmClusterCoupling:
         wrapper.append(parent.find("CAN-NM-CLUSTER-COUPLING"))
         wrapper.set("xmlns", NS)
         coupling_element = ET.fromstring(ET.tostring(wrapper, encoding="unicode"))[0]
-        parsed = ARXMLParser().readCanNmClusterCoupling(coupling_element)
+        parsed = CanNmClusterCoupling()
+        ARXMLParser().readCanNmClusterCoupling(coupling_element, parsed)
         refs = parsed.getCoupledClusterRefs()
         assert [ref.getValue() for ref in refs] == ["/Clusters/Can1"]
         assert refs[0].getDest() == "CAN-CLUSTER"
@@ -102,6 +103,7 @@ class TestWriteCanNmClusterCoupling:
         wrapper.append(parent.find("CAN-NM-CLUSTER-COUPLING"))
         wrapper.set("xmlns", NS)
         coupling_element = ET.fromstring(ET.tostring(wrapper, encoding="unicode"))[0]
-        parsed = ARXMLParser().readCanNmClusterCoupling(coupling_element)
+        parsed = CanNmClusterCoupling()
+        ARXMLParser().readCanNmClusterCoupling(coupling_element, parsed)
         assert parsed.getVariationPoint() is not None
         assert parsed.getVariationPoint().getShortLabel().getValue() == "VP1"
