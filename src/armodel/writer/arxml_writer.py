@@ -793,6 +793,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     SubElementMapping,
     ApplicationCompositeDataTypeSubElementRef,
+    ImplementationDataTypeSubElementRef,
     SubElementRef,
     TextTableMapping,
     TextTableValuePair,
@@ -13194,6 +13195,30 @@ class ARXMLWriter(AbstractARXMLWriter):
         if isinstance(sub_element_ref, ApplicationCompositeDataTypeSubElementRef):
             ref_tag = ET.SubElement(element, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
             self.setApplicationCompositeElementInPortInterfaceInstanceRef(ref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", sub_element_ref.getApplicationCompositeElementIRef())
+        elif isinstance(sub_element_ref, ImplementationDataTypeSubElementRef):
+            ref_tag = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF")
+            impl_element = sub_element_ref.getImplementationDataTypeElement()
+            if impl_element is not None:
+                impl_tag = ET.SubElement(ref_tag, "IMPLEMENTATION-DATA-TYPE-ELEMENT")
+                self.setChildElementOptionalRefType(impl_tag, "PORT-PROTOTYPE-REF", impl_element.getPortPrototypeRef())
+                self.setChildElementOptionalRefType(impl_tag, "ROOT-VARIABLE-DATA-PROTOTYPE-REF", impl_element.getRootVariableDataPrototypeRef())
+                context_refs = impl_element.getContextDataPrototypeRefs()
+                if len(context_refs) > 0:
+                    context_tag = ET.SubElement(impl_tag, "CONTEXT-DATA-PROTOTYPE-REFS")
+                    for ref in context_refs:
+                        self.setChildElementOptionalRefType(context_tag, "CONTEXT-DATA-PROTOTYPE-REF", ref)
+                self.setChildElementOptionalRefType(impl_tag, "TARGET-DATA-PROTOTYPE-REF", impl_element.getTargetDataPrototypeRef())
+            param_element = sub_element_ref.getParameterImplementationDataTypeElement()
+            if param_element is not None:
+                param_tag = ET.SubElement(ref_tag, "PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT")
+                self.setChildElementOptionalRefType(param_tag, "PORT-PROTOTYPE-REF", param_element.getPortPrototypeRef())
+                self.setChildElementOptionalRefType(param_tag, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", param_element.getRootParameterDataPrototypeRef())
+                context_refs = param_element.getContextDataPrototypeRefs()
+                if len(context_refs) > 0:
+                    context_tag = ET.SubElement(param_tag, "CONTEXT-DATA-PROTOTYPE-REFS")
+                    for ref in context_refs:
+                        self.setChildElementOptionalRefType(context_tag, "CONTEXT-DATA-PROTOTYPE-REF", ref)
+                self.setChildElementOptionalRefType(param_tag, "TARGET-DATA-PROTOTYPE-REF", param_element.getTargetDataPrototypeRef())
         else:
             self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 

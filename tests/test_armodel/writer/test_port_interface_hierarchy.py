@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ApplicationError,
     ClientServerInterface,
     ServerArgumentImplPolicyEnum,
+    DataPrototypeMapping,
     SubElementMapping,
     TextTableMapping,
 )
@@ -350,3 +351,134 @@ class TestModeDeclarationMappingRoundTrip:
         parsed = _reparse(root)
         parsed_set = parsed.getModeDeclarationMappingSets()[0]
         assert parsed_set.getModeDeclarationMappings() == []
+
+
+class TestImplementationDataTypeSubElementRefRoundTrip:
+    def _ref(self, dest, value):
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_implementation_data_type_sub_element_ref_field_values(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+            ArParameterInImplementationDataInstanceRef,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ImplementationDataTypeSubElementRef,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+            ArVariableInImplementationDataInstanceRef,
+        )
+
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        map_set = pkg.createPortInterfaceMappingSet("PIMS")
+        mapping = map_set.createVariableAndParameterInterfaceMapping("VAPIM")
+        data_mapping = DataPrototypeMapping()
+        sub_mapping = SubElementMapping()
+
+        first = ImplementationDataTypeSubElementRef()
+        variable_iref = ArVariableInImplementationDataInstanceRef()
+        variable_iref.setPortPrototypeRef(self._ref("PORT-PROTOTYPE", "/Pkg/PPort"))
+        variable_iref.setRootVariableDataPrototypeRef(self._ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/RootVar"))
+        variable_iref.addContextDataPrototypeRef(self._ref("IMPLEMENTATION-DATA-TYPE-ELEMENT", "/Pkg/Ctx1"))
+        variable_iref.setTargetDataPrototypeRef(self._ref("IMPLEMENTATION-DATA-TYPE-ELEMENT", "/Pkg/Elem"))
+        first.setImplementationDataTypeElement(variable_iref)
+
+        second = ImplementationDataTypeSubElementRef()
+        parameter_iref = ArParameterInImplementationDataInstanceRef()
+        parameter_iref.setRootParameterDataPrototypeRef(self._ref("PARAMETER-DATA-PROTOTYPE", "/Pkg/RootParam"))
+        parameter_iref.setTargetDataPrototypeRef(self._ref("IMPLEMENTATION-DATA-TYPE-ELEMENT", "/Pkg/ParamElem"))
+        second.setParameterImplementationDataTypeElement(parameter_iref)
+
+        sub_mapping.setFirstElement(first)
+        sub_mapping.setSecondElement(second)
+        data_mapping.addSubElementMapping(sub_mapping)
+        mapping.addDataMapping(data_mapping)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeVariableAndParameterInterfaceMapping(parent, mapping)
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+
+        first_element = reparsed.find(
+            "{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING/"
+            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}FIRST-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF"
+            % (NS, NS, NS, NS, NS, NS, NS)
+        )
+        assert [child.tag.split("}")[-1] for child in first_element] == ["IMPLEMENTATION-DATA-TYPE-ELEMENT"]
+        impl_element = first_element.find("{%s}IMPLEMENTATION-DATA-TYPE-ELEMENT" % NS)
+        assert [child.tag.split("}")[-1] for child in impl_element] == [
+            "PORT-PROTOTYPE-REF",
+            "ROOT-VARIABLE-DATA-PROTOTYPE-REF",
+            "CONTEXT-DATA-PROTOTYPE-REFS",
+            "TARGET-DATA-PROTOTYPE-REF",
+        ]
+        assert impl_element.find("{%s}ROOT-VARIABLE-DATA-PROTOTYPE-REF" % NS).text == "/Pkg/RootVar"
+        ctx_refs = impl_element.findall("{%s}CONTEXT-DATA-PROTOTYPE-REFS/{%s}CONTEXT-DATA-PROTOTYPE-REF" % (NS, NS))
+        assert [ref.text for ref in ctx_refs] == ["/Pkg/Ctx1"]
+
+        second_element = reparsed.find(
+            "{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING/"
+            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}SECOND-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF"
+            % (NS, NS, NS, NS, NS, NS, NS)
+        )
+        param_element = second_element.find("{%s}PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT" % NS)
+        assert [child.tag.split("}")[-1] for child in param_element] == [
+            "ROOT-PARAMETER-DATA-PROTOTYPE-REF",
+            "TARGET-DATA-PROTOTYPE-REF",
+        ]
+        assert param_element.find("{%s}ROOT-PARAMETER-DATA-PROTOTYPE-REF" % NS).text == "/Pkg/RootParam"
+        assert param_element.find("{%s}CONTEXT-DATA-PROTOTYPE-REFS" % NS) is None
+
+        mapping2 = map_set.createVariableAndParameterInterfaceMapping("VAPIM2")
+        ARXMLParser().readVariableAndParameterInterfaceMapping(reparsed[0], mapping2)
+        parsed_sub = mapping2.getDataMappings()[0].getSubElementMappings()[0]
+        parsed_first = parsed_sub.getFirstElement()
+        assert isinstance(parsed_first, ImplementationDataTypeSubElementRef)
+        parsed_variable_iref = parsed_first.getImplementationDataTypeElement()
+        assert isinstance(parsed_variable_iref, ArVariableInImplementationDataInstanceRef)
+        assert parsed_variable_iref.getPortPrototypeRef().getValue() == "/Pkg/PPort"
+        assert parsed_variable_iref.getRootVariableDataPrototypeRef().getValue() == "/Pkg/RootVar"
+        assert parsed_variable_iref.getContextDataPrototypeRefs()[0].getValue() == "/Pkg/Ctx1"
+        assert parsed_variable_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/Elem"
+        parsed_second = parsed_sub.getSecondElement()
+        assert isinstance(parsed_second, ImplementationDataTypeSubElementRef)
+        parsed_parameter_iref = parsed_second.getParameterImplementationDataTypeElement()
+        assert isinstance(parsed_parameter_iref, ArParameterInImplementationDataInstanceRef)
+        assert parsed_parameter_iref.getRootParameterDataPrototypeRef().getValue() == "/Pkg/RootParam"
+        assert parsed_parameter_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/ParamElem"
+
+    def test_application_composite_sub_element_ref_still_round_trips(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (
+            ApplicationCompositeElementInPortInterfaceInstanceRef,
+        )
+
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        map_set = pkg.createPortInterfaceMappingSet("PIMS")
+        mapping = map_set.createVariableAndParameterInterfaceMapping("VAPIM")
+        data_mapping = DataPrototypeMapping()
+        sub_mapping = SubElementMapping()
+        first = ApplicationCompositeDataTypeSubElementRef()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        iref.setRootDataPrototypeRef(self._ref("APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE", "/Pkg/Root"))
+        iref.setTargetDataPrototypeRef(self._ref("APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE", "/Pkg/Target"))
+        first.setApplicationCompositeElementIRef(iref)
+        sub_mapping.setFirstElement(first)
+        data_mapping.addSubElementMapping(sub_mapping)
+        mapping.addDataMapping(data_mapping)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeVariableAndParameterInterfaceMapping(parent, mapping)
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+
+        mapping2 = map_set.createVariableAndParameterInterfaceMapping("VAPIM2")
+        ARXMLParser().readVariableAndParameterInterfaceMapping(reparsed[0], mapping2)
+        parsed_first = mapping2.getDataMappings()[0].getSubElementMappings()[0].getFirstElement()
+        assert isinstance(parsed_first, ApplicationCompositeDataTypeSubElementRef)
+        assert parsed_first.getApplicationCompositeElementIRef().getRootDataPrototypeRef().getValue() == "/Pkg/Root"
+        assert parsed_first.getApplicationCompositeElementIRef().getTargetDataPrototypeRef().getValue() == "/Pkg/Target"

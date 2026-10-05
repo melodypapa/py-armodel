@@ -505,15 +505,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ImplementationDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.34, p.138
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 1141 SWC + round-trip file 12; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): was a bare `pass` stub — full sync; 2 attrs (implementationDataTypeElement / parameterImplementationDataTypeElement, both 0..1 aggr of instance-ref classes); ArParameterInImplementationDataInstanceRef was a stub — pre-synced with its XSD-group fields (its own table pass still owed, tracker deviation); SubElementRef dispatch gained the IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF reader/writer branches; no stamp (batch 9b)
 
 - [ ] `ApplicationCompositeDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.35, p.138
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py

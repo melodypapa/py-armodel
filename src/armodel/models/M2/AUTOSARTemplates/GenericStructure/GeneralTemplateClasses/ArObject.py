@@ -110,7 +110,64 @@ class AggregationCondition(AttributeCondition):
 
 
 class ArParameterInImplementationDataInstanceRef(ARObject):
-    pass
+    """
+    This class represents the ability to navigate into an element inside of an ParameterDataPrototype typed by an ImplementationDatatype. Note that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn't either, especially because ImplementationDataTypeElement (intentionally) isn't derived from AtpPrototype.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure.
+        self.contextDataPrototypeRefs: List[RefType] = []
+
+        # This reference points to the PortPrototype providing/receiving the root of the parameter.
+        self.portPrototypeRef: Optional[RefType] = None
+
+        # This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found.
+        self.rootParameterDataPrototypeRef: Optional[RefType] = None
+
+        # This reference points to the target ImplementationDataTypeElement.
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."""
+        return self.contextDataPrototypeRefs
+
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextDataPrototypeRefs.append(value)
+        return self
+
+    def getPortPrototypeRef(self) -> Optional[RefType]:
+        """This reference points to the PortPrototype providing/receiving the root of the parameter."""
+        return self.portPrototypeRef
+
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This reference points to the PortPrototype providing/receiving the root of the parameter. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
+        if value is not None:
+            self.portPrototypeRef = value
+        return self
+
+    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
+        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found."""
+        return self.rootParameterDataPrototypeRef
+
+    def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found. A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef."""
+        if value is not None:
+            self.rootParameterDataPrototypeRef = value
+        return self
+
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
+        """This reference points to the target ImplementationDataTypeElement."""
+        return self.targetDataPrototypeRef
+
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This reference points to the target ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
+        if value is not None:
+            self.targetDataPrototypeRef = value
+        return self
 
 
 class Baseline(ARObject):

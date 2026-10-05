@@ -934,6 +934,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataInterface,
     DataPrototypeMapping,
+    ImplementationDataTypeSubElementRef,
     InvalidationPolicy,
     MappingDirectionEnum,
     MetaDataItem,
@@ -970,6 +971,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
     SwcInternalBehavior,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ArParameterInImplementationDataInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess, VariableAccessScopeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
@@ -16038,16 +16040,40 @@ class ARXMLParser(AbstractARXMLParser):
         for ref_element in self.findall(element, "FIRST-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
                 mapping.setFirstElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
+            elif self.getTagName(ref_element) == "IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setFirstElement(self.getImplementationDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported firstElement SubElementRef <%s>" % self.getTagName(ref_element))
         for ref_element in self.findall(element, "SECOND-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
                 mapping.setSecondElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
+            elif self.getTagName(ref_element) == "IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setSecondElement(self.getImplementationDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported secondElement SubElementRef <%s>" % self.getTagName(ref_element))
         for text_table in self.findall(element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
             mapping.addTextTableMapping(self.getTextTableMapping(text_table))
         return mapping
+
+    def getImplementationDataTypeSubElementRef(self, element: ET.Element) -> ImplementationDataTypeSubElementRef:
+        sub_element_ref = ImplementationDataTypeSubElementRef()
+        for impl_element in self.findall(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT"):
+            iref = ArVariableInImplementationDataInstanceRef()
+            iref.setPortPrototypeRef(self.getChildElementOptionalRefType(impl_element, "PORT-PROTOTYPE-REF"))
+            iref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(impl_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(impl_element, "CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF"):
+                iref.addContextDataPrototypeRef(ref)
+            iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(impl_element, "TARGET-DATA-PROTOTYPE-REF"))
+            sub_element_ref.setImplementationDataTypeElement(iref)
+        for param_element in self.findall(element, "PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT"):
+            iref = ArParameterInImplementationDataInstanceRef()
+            iref.setPortPrototypeRef(self.getChildElementOptionalRefType(param_element, "PORT-PROTOTYPE-REF"))
+            iref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(param_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(param_element, "CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF"):
+                iref.addContextDataPrototypeRef(ref)
+            iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(param_element, "TARGET-DATA-PROTOTYPE-REF"))
+            sub_element_ref.setParameterImplementationDataTypeElement(iref)
+        return sub_element_ref
 
     def getApplicationCompositeDataTypeSubElementRef(self, element: ET.Element) -> ApplicationCompositeDataTypeSubElementRef:
         sub_element_ref = ApplicationCompositeDataTypeSubElementRef()

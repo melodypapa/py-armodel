@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ArParameterInImplementationDataInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -1696,5 +1697,52 @@ class PortInterfaceMappingSet(ARElement):
         return cast(TriggerInterfaceMapping, self.getReferrableElement(short_name, TriggerInterfaceMapping))
 
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef  # noqa: E402
+
+
 class ImplementationDataTypeSubElementRef(SubElementRef):
-    pass
+    """This meta-class represents the specialization of SubElementMapping with respect to ImplementationDataTypes."""
+
+    # ImplementationDataTypeSubElementRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.34, p.138 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeElement            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeElement            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterImplementationDataTypeElement   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterImplementationDataTypeElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the referenced implementationDataTypeElement.
+        self.implementationDataTypeElement: Optional[ArVariableInImplementationDataInstanceRef] = None
+
+        # This represents the referenced ImplementationDataTypeElement.
+        self.parameterImplementationDataTypeElement: Optional[ArParameterInImplementationDataInstanceRef] = None
+
+    def getImplementationDataTypeElement(self) -> Optional[ArVariableInImplementationDataInstanceRef]:
+        """This represents the referenced implementationDataTypeElement."""
+        return self.implementationDataTypeElement
+
+    def setImplementationDataTypeElement(self, value: Optional[ArVariableInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced implementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing implementationDataTypeElement.
+        """
+        if value is not None:
+            self.implementationDataTypeElement = value
+        return self
+
+    def getParameterImplementationDataTypeElement(self) -> Optional[ArParameterInImplementationDataInstanceRef]:
+        """This represents the referenced ImplementationDataTypeElement."""
+        return self.parameterImplementationDataTypeElement
+
+    def setParameterImplementationDataTypeElement(self, value: Optional[ArParameterInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced ImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing parameterImplementationDataTypeElement.
+        """
+        if value is not None:
+            self.parameterImplementationDataTypeElement = value
+        return self
