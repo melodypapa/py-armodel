@@ -15546,12 +15546,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read PhysicalDimension <%s>" % dimension.getShortName())
         self.readIdentifiable(element, dimension)
         dimension.setLengthExp(self.getChildElementOptionalNumericalValue(element, "LENGTH-EXP"))
-        dimension.setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP"))
         dimension.setMassExp(self.getChildElementOptionalNumericalValue(element, "MASS-EXP"))
-        dimension.setMolarAmountExp(self.getChildElementOptionalNumericalValue(element, "MOLAR-AMOUNT-EXP"))
-        dimension.setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP"))
         dimension.setTimeExp(self.getChildElementOptionalNumericalValue(element, "TIME-EXP"))
         dimension.setCurrentExp(self.getChildElementOptionalNumericalValue(element, "CURRENT-EXP"))
+        dimension.setTemperatureExp(self.getChildElementOptionalNumericalValue(element, "TEMPERATURE-EXP"))
+        dimension.setMolarAmountExp(self.getChildElementOptionalNumericalValue(element, "MOLAR-AMOUNT-EXP"))
+        dimension.setLuminousIntensityExp(self.getChildElementOptionalNumericalValue(element, "LUMINOUS-INTENSITY-EXP"))
 
     def readISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         for ref_type in self.getChildElementRefTypeList(element, "I-SIGNAL-REFS/I-SIGNAL-REF"):

@@ -13420,12 +13420,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PHYSICAL-DIMENSION")
         self.writeARElement(child_element, dimension)
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH-EXP", dimension.getLengthExp())
-        self.setChildElementOptionalNumericalValue(child_element, "LUMINOUS-INTENSITY-EXP", dimension.getLuminousIntensityExp())
         self.setChildElementOptionalNumericalValue(child_element, "MASS-EXP", dimension.getMassExp())
-        self.setChildElementOptionalNumericalValue(child_element, "MOLAR-AMOUNT-EXP", dimension.getMolarAmountExp())
-        self.setChildElementOptionalNumericalValue(child_element, "TEMPERATURE-EXP", dimension.getTemperatureExp())
         self.setChildElementOptionalNumericalValue(child_element, "TIME-EXP", dimension.getTimeExp())
         self.setChildElementOptionalNumericalValue(child_element, "CURRENT-EXP", dimension.getCurrentExp())
+        self.setChildElementOptionalNumericalValue(child_element, "TEMPERATURE-EXP", dimension.getTemperatureExp())
+        self.setChildElementOptionalNumericalValue(child_element, "MOLAR-AMOUNT-EXP", dimension.getMolarAmountExp())
+        self.setChildElementOptionalNumericalValue(child_element, "LUMINOUS-INTENSITY-EXP", dimension.getLuminousIntensityExp())
 
     def setFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
         self.logger.debug("Set FlatInstanceDescriptor %s" % desc.getShortName())
