@@ -29,8 +29,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     CommunicationDirectionType,
+    EthernetFrameTriggering,
     FibexElement,
     FramePort,
+    FrameTriggering,
     IPduPort,
     IPduSignalProcessingEnum,
     ISignalPort,
@@ -849,6 +851,226 @@ class TestCommunicationConnector:
             hints = typing.get_type_hints(getattr(CommunicationConnector, creator), localns=localns)
             assert hints["short_name"] is str, creator
             _assert_return_is(hints, port_type)
+
+
+PHYSICAL_CHANNEL_CLASS_NOTE = "A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.#"
+
+PHYSICAL_CHANNEL_ATTRIBUTE_NOTES = {
+    "commConnectorRefs": (
+        "Reference to the ECUInstance via a Communication Connector to which the channel is connected. "
+        "atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "frameTriggerings": (
+        "One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "iSignalTriggerings": (
+        "One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "managedPhysicalChannelRefs": "Reference between a channel with role managing channel and a channel with role managed channel.",
+    "pduTriggerings": (
+        "One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+}
+
+
+class ConcretePhysicalChannel(PhysicalChannel):
+    pass
+
+
+class TestPhysicalChannel:
+    """Test cases for PhysicalChannel (Table 3.7, p.59)."""
+
+    MEMBERS = [
+        "commConnectorRefs",
+        "frameTriggerings",
+        "iSignalTriggerings",
+        "managedPhysicalChannelRefs",
+        "pduTriggerings",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(PhysicalChannel, Identifiable)
+        assert issubclass(PhysicalChannel, VariationPointCapable)
+        assert issubclass(PhysicalChannel, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="PhysicalChannel is an abstract class"):
+            PhysicalChannel(MockParent(), "test_physical_channel")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(PhysicalChannel.__doc__) == PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert PhysicalChannel.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_member_order(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        members = [k for k in vars(channel) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_comm_connector_ref(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        ref1 = RefType()
+        ref1.setValue("/ECU/CONN1")
+        ref2 = RefType()
+        ref2.setValue("/ECU/CONN2")
+
+        assert channel == channel.addCommConnectorRef(ref1)
+        assert channel == channel.addCommConnectorRef(ref2)
+        assert channel.getCommConnectorRefs() == [ref1, ref2]  # insertion order
+
+        assert channel == channel.addCommConnectorRef(None)  # None no-op
+        assert channel.getCommConnectorRefs() == [ref1, ref2]  # unchanged
+
+    def test_add_managed_physical_channel_ref(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        ref1 = RefType()
+        ref1.setValue("/CLUSTER/CH1")
+        ref2 = RefType()
+        ref2.setValue("/CLUSTER/CH2")
+
+        assert channel == channel.addManagedPhysicalChannelRef(ref1)
+        assert channel == channel.addManagedPhysicalChannelRef(ref2)
+        assert channel.getManagedPhysicalChannelRefs() == [ref1, ref2]  # insertion order
+
+        assert channel == channel.addManagedPhysicalChannelRef(None)  # None no-op
+        assert channel.getManagedPhysicalChannelRefs() == [ref1, ref2]  # unchanged
+
+    def test_create_frame_triggerings_append(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        # non-alphabetical insertion order proves the getter does not sort
+        can_triggering = channel.createCanFrameTriggering("z_can")
+        ethernet_triggering = channel.createEthernetFrameTriggering("a_ethernet")
+        flexray_triggering = channel.createFlexrayFrameTriggering("m_flexray")
+        lin_triggering = channel.createLinFrameTriggering("b_lin")
+
+        assert isinstance(can_triggering, CanFrameTriggering)
+        assert isinstance(ethernet_triggering, EthernetFrameTriggering)
+        assert isinstance(flexray_triggering, FlexrayFrameTriggering)
+        assert isinstance(lin_triggering, LinFrameTriggering)
+        assert channel.getFrameTriggerings() == [can_triggering, ethernet_triggering, flexray_triggering, lin_triggering]
+
+    def test_create_frame_triggering_duplicate_returns_existing(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        can_triggering = channel.createCanFrameTriggering("ft")
+        ethernet_triggering = channel.createEthernetFrameTriggering("ft")
+
+        # same short name may coexist across different types (Rule 0004)
+        assert channel.createCanFrameTriggering("ft") is can_triggering
+        assert channel.createEthernetFrameTriggering("ft") is ethernet_triggering
+        assert channel.createFlexrayFrameTriggering("ft").getShortName() == "ft"
+        assert channel.createLinFrameTriggering("ft").getShortName() == "ft"
+        assert len(channel.getFrameTriggerings()) == 4
+
+    def test_create_isignal_triggering(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        triggering = channel.createISignalTriggering("ist")
+        assert isinstance(triggering, ISignalTriggering)
+        assert triggering.getShortName() == "ist"
+        assert channel.createISignalTriggering("ist") is triggering
+        assert channel.getISignalTriggerings() == [triggering]  # duplicate returns existing, no append
+
+    def test_create_pdu_triggering(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        triggering = channel.createPduTriggering("pdt")
+        assert isinstance(triggering, PduTriggering)
+        assert triggering.getShortName() == "pdt"
+        assert channel.createPduTriggering("pdt") is triggering
+        assert channel.getPduTriggerings() == [triggering]  # duplicate returns existing, no append
+
+    def test_get_triggerings_preserve_insertion_order(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        second = channel.createISignalTriggering("b_ist")
+        first = channel.createISignalTriggering("a_ist")
+
+        assert channel.getISignalTriggerings() == [second, first]
+
+        pdu_second = channel.createPduTriggering("b_pdt")
+        pdu_first = channel.createPduTriggering("a_pdt")
+        assert channel.getPduTriggerings() == [pdu_second, pdu_first]
+
+    def test_accessor_notes(self):
+        mutators = {
+            "commConnectorRefs": "addCommConnectorRef",
+            "frameTriggerings": "createCanFrameTriggering",
+            "iSignalTriggerings": "createISignalTriggering",
+            "managedPhysicalChannelRefs": "addManagedPhysicalChannelRef",
+            "pduTriggerings": "createPduTriggering",
+        }
+        getters = {
+            "commConnectorRefs": "getCommConnectorRefs",
+            "frameTriggerings": "getFrameTriggerings",
+            "iSignalTriggerings": "getISignalTriggerings",
+            "managedPhysicalChannelRefs": "getManagedPhysicalChannelRefs",
+            "pduTriggerings": "getPduTriggerings",
+        }
+        for field, note in PHYSICAL_CHANNEL_ATTRIBUTE_NOTES.items():
+            getter = getattr(PhysicalChannel, getters[field])
+            mutator = getattr(PhysicalChannel, mutators[field])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, getters[field]
+            assert mutator.__doc__ is not None and mutator.__doc__.strip().startswith(note), mutators[field]
+            if field in ("commConnectorRefs", "managedPhysicalChannelRefs"):
+                assert ("A None value is a no-op and does not overwrite an existing %s." % field) in mutator.__doc__, mutators[field]
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(PhysicalChannel.addCommConnectorRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(PhysicalChannel.getCommConnectorRefs)["return"] == typing.List[RefType]
+
+        hints = typing.get_type_hints(PhysicalChannel.addManagedPhysicalChannelRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(PhysicalChannel.getManagedPhysicalChannelRefs)["return"] == typing.List[RefType]
+
+        hints = typing.get_type_hints(PhysicalChannel.createISignalTriggering, localns={"ISignalTriggering": ISignalTriggering})
+        assert hints["short_name"] is str
+        _assert_return_is(hints, ISignalTriggering)
+        # aggregated child types are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        assert typing.get_type_hints(PhysicalChannel.getISignalTriggerings, localns={"ISignalTriggering": ISignalTriggering})["return"] == typing.List[ISignalTriggering]
+
+        hints = typing.get_type_hints(PhysicalChannel.createPduTriggering, localns={"PduTriggering": PduTriggering})
+        _assert_return_is(hints, PduTriggering)
+        assert typing.get_type_hints(PhysicalChannel.getPduTriggerings, localns={"PduTriggering": PduTriggering})["return"] == typing.List[PduTriggering]
+
+        # concrete frame triggering classes are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        localns = {
+            "CanFrameTriggering": CanFrameTriggering,
+            "EthernetFrameTriggering": EthernetFrameTriggering,
+            "FlexrayFrameTriggering": FlexrayFrameTriggering,
+            "LinFrameTriggering": LinFrameTriggering,
+        }
+        for creator, triggering_type in [
+            ("createCanFrameTriggering", CanFrameTriggering),
+            ("createEthernetFrameTriggering", EthernetFrameTriggering),
+            ("createFlexrayFrameTriggering", FlexrayFrameTriggering),
+            ("createLinFrameTriggering", LinFrameTriggering),
+        ]:
+            hints = typing.get_type_hints(getattr(PhysicalChannel, creator), localns=localns)
+            assert hints["short_name"] is str, creator
+            _assert_return_is(hints, triggering_type)
+        assert typing.get_type_hints(PhysicalChannel.getFrameTriggerings, localns={"FrameTriggering": FrameTriggering})["return"] == typing.List[FrameTriggering]
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."

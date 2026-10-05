@@ -1066,6 +1066,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
+    EthernetFrameTriggering,
     Frame,
     FramePort,
     FrameTriggering,
@@ -9974,6 +9975,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
         self.setChildElementOptionalLiteral(child_element, "LIN-CHECKSUM", triggering.getLinChecksum())
 
+    def writeEthernetFrameTriggering(self, element: ET.Element, triggering: EthernetFrameTriggering):
+        self.logger.debug("Write EthernetFrameTriggering %s" % triggering.getShortName())
+        child_element = ET.SubElement(element, "ETHERNET-FRAME-TRIGGERING")
+        self.writeFrameTriggering(child_element, triggering)
+
     def writeCommunicationCycle(self, element: ET.Element, cycle: CommunicationCycle):
         self.writeARObject(element, cycle)
 
@@ -10118,6 +10124,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for triggering in triggerings:
                 if isinstance(triggering, CanFrameTriggering):
                     self.writeCanFrameTriggering(triggerings_tag, triggering)
+                elif isinstance(triggering, EthernetFrameTriggering):
+                    self.writeEthernetFrameTriggering(triggerings_tag, triggering)
                 elif isinstance(triggering, LinFrameTriggering):
                     self.writeLinFrameTriggering(triggerings_tag, triggering)
                 elif isinstance(triggering, FlexrayFrameTriggering):
@@ -10158,8 +10166,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannelCommConnectorRefs(element, channel)
         self.writePhysicalChannelFrameTriggerings(element, channel)
         self.writePhysicalChannelISignalTriggerings(element, channel)
-        self.writePhysicalChannelPduTriggerings(element, channel)
         self.writePhysicalChannelManagedPhysicalChannelRefs(element, channel)
+        self.writePhysicalChannelPduTriggerings(element, channel)
 
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("Set CanPhysicalChannel %s" % channel.getShortName())

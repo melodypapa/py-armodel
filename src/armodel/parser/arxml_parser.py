@@ -1286,6 +1286,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
+    EthernetFrameTriggering,
     Frame,
     FramePort,
     FrameTriggering,
@@ -9653,6 +9654,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
             triggering.addPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
+    def readEthernetFrameTriggering(self, element: ET.Element, triggering: EthernetFrameTriggering):
+        self.readFrameTriggering(element, triggering)
+
     def readCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
@@ -9814,8 +9818,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "FRAME-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-FRAME-TRIGGERING":
-                triggering = channel.createCanFrameTriggering(self.getShortName(child_element))
-                self.readCanFrameTriggering(child_element, triggering)
+                self.readCanFrameTriggering(child_element, channel.createCanFrameTriggering(self.getShortName(child_element)))
+            elif tag_name == "ETHERNET-FRAME-TRIGGERING":
+                self.readEthernetFrameTriggering(child_element, channel.createEthernetFrameTriggering(self.getShortName(child_element)))
             elif tag_name == "LIN-FRAME-TRIGGERING":
                 self.readLinFrameTriggering(child_element, channel.createLinFrameTriggering(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-FRAME-TRIGGERING":
@@ -9851,8 +9856,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannelCommConnectorRefs(element, channel)
         self.readPhysicalChannelFrameTriggerings(element, channel)
         self.readPhysicalChannelISignalTriggerings(element, channel)
-        self.readPhysicalChannelPduTriggerings(element, channel)
         self.readPhysicalChannelManagedPhysicalChannelRefs(element, channel)
+        self.readPhysicalChannelPduTriggerings(element, channel)
 
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)
