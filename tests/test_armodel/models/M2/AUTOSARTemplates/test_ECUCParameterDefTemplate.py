@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDestinationUriDef,
     EcucDestinationUriDefRefType,
     EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
     EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
@@ -56,7 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Identifier, RefType, String, UnlimitedInteger
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -103,8 +104,39 @@ class TestEcucSymbolicNameReferenceDef:
 
 
 class TestEcucChoiceReferenceDef:
+    CLASS_NOTE = "Specify alternative references where in the ECU Configuration description only one of the specified references will actually be used."
+
     def test_instantiation(self):
         assert _instantiate(EcucChoiceReferenceDef, "EcucChoiceReferenceDef").getShortName() == "EcucChoiceReferenceDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucChoiceReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucChoiceReferenceDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        assert obj.getDestinationRefs() == []
+        assert obj.getRequiresSymbolicNameValue() is None
+
+    def test_add_destination_ref_appends_and_none_noop(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        ref1 = RefType()
+        ref1.setValue("/Pkg/C1")
+        ref2 = RefType()
+        ref2.setValue("/Pkg/C2")
+        assert obj.addDestinationRef(ref1) is obj
+        obj.addDestinationRef(ref2)
+        assert obj.getDestinationRefs() == [ref1, ref2]
+        obj.addDestinationRef(None)
+        assert obj.getDestinationRefs() == [ref1, ref2]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucChoiceReferenceDef, "Crd")
+        note = "All the possible parameter containers for the reference are specified. Stereotypes: atpUriDef"
+        assert inspect.cleandoc(obj.getDestinationRefs.__doc__) == note
+        assert inspect.cleandoc(obj.addDestinationRef.__doc__).splitlines()[0] == note
 
 
 class TestEcucReferenceDef:
@@ -123,33 +155,228 @@ class TestEcucForeignReferenceDef:
 
 
 class TestEcucInstanceReferenceDef:
+    CLASS_NOTE = "Specify a reference to an XML description of an entity described in another AUTOSAR template using the INSTANCE REFERENCE semantics."
+    CONTEXT_NOTE = "The context in the AUTOSAR Metamodel to which' this reference is allowed to point to."
+    TYPE_NOTE = "The type in the AUTOSAR Metamodel to which' instance this reference is allowed to point to."
+
     def test_instantiation(self):
         assert _instantiate(EcucInstanceReferenceDef, "EcucInstanceReferenceDef").getShortName() == "EcucInstanceReferenceDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucInstanceReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucInstanceReferenceDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        assert obj.getDestinationContext() is None
+        assert obj.getDestinationType() is None
+        assert obj.getWithAuto() is None
+
+    def test_get_set_destination_context_roundtrip(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        value = String()
+        value.setValue("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE")
+        assert obj.setDestinationContext(value) is obj
+        assert obj.getDestinationContext() is value
+        obj.setDestinationContext(None)
+        assert obj.getDestinationContext() is value
+
+    def test_get_set_destination_type_roundtrip(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        value = String()
+        value.setValue("PortPrototype")
+        assert obj.setDestinationType(value) is obj
+        assert obj.getDestinationType() is value
+        obj.setDestinationType(None)
+        assert obj.getDestinationType() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucInstanceReferenceDef, "Ird")
+        assert inspect.cleandoc(obj.getDestinationContext.__doc__) == self.CONTEXT_NOTE
+        assert inspect.cleandoc(obj.setDestinationContext.__doc__).splitlines()[0] == self.CONTEXT_NOTE
+        assert inspect.cleandoc(obj.getDestinationType.__doc__) == self.TYPE_NOTE
+        assert inspect.cleandoc(obj.setDestinationType.__doc__).splitlines()[0] == self.TYPE_NOTE
+
 
 class TestEcucStringParamDef:
+    CLASS_NOTE = "Configuration parameter type for String."
+
     def test_instantiation(self):
         assert _instantiate(EcucStringParamDef, "EcucStringParamDef").getShortName() == "EcucStringParamDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucStringParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucStringParamDef, "Sp")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
+
 
 class TestEcucFunctionNameDef:
+    CLASS_NOTE = "Configuration parameter type for Function Names like those used to specify callback functions."
+
     def test_instantiation(self):
         assert _instantiate(EcucFunctionNameDef, "EcucFunctionNameDef").getShortName() == "EcucFunctionNameDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucFunctionNameDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucFunctionNameDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucFunctionNameDef, "Fnd")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
+
 
 class TestEcucIntegerParamDef:
+    CLASS_NOTE = "Configuration parameter type for Integer."
+    DEFAULT_VALUE_NOTE = "Default value of the integer configuration parameter. atpVariation: [RS_ECUC_00083] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+    MAX_NOTE = "Max value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+    MIN_NOTE = "Min value allowed for the parameter defined. atpVariation: [RS_ECUC_00084] Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime"
+
     def test_instantiation(self):
         assert _instantiate(EcucIntegerParamDef, "EcucIntegerParamDef").getShortName() == "EcucIntegerParamDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucIntegerParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucIntegerParamDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        assert obj.getDefaultValue() is None
+        assert obj.getMax() is None
+        assert obj.getMin() is None
+
+    def test_get_set_default_value_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("4")
+        assert obj.setDefaultValue(value) is obj
+        assert obj.getDefaultValue() is value
+        assert obj.getDefaultValue().getValue() == 4
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value
+
+    def test_get_set_max_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("255")
+        assert obj.setMax(value) is obj
+        assert obj.getMax() is value
+        assert obj.getMax().getValue() == 255
+        obj.setMax(None)
+        assert obj.getMax() is value
+
+    def test_get_set_min_roundtrip(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        value = UnlimitedInteger().setValue("0")
+        assert obj.setMin(value) is obj
+        assert obj.getMin() is value
+        assert obj.getMin().getValue() == 0
+        obj.setMin(None)
+        assert obj.getMin() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucIntegerParamDef, "Ip")
+        assert obj.getDefaultValue.__doc__ == self.DEFAULT_VALUE_NOTE
+        assert inspect.cleandoc(obj.setDefaultValue.__doc__).splitlines()[0] == self.DEFAULT_VALUE_NOTE
+        assert obj.getMax.__doc__ == self.MAX_NOTE
+        assert inspect.cleandoc(obj.setMax.__doc__).splitlines()[0] == self.MAX_NOTE
+        assert obj.getMin.__doc__ == self.MIN_NOTE
+        assert inspect.cleandoc(obj.setMin.__doc__).splitlines()[0] == self.MIN_NOTE
+
 
 class TestEcucEnumerationLiteralDef:
+    CLASS_NOTE = "Configuration parameter type for enumeration literals definition."
+    ECUC_COND_NOTE = "If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored."
+    ORIGIN_NOTE = "String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationLiteralDef, "EcucEnumerationLiteralDef").getShortName() == "EcucEnumerationLiteralDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucEnumerationLiteralDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucEnumerationLiteralDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        assert obj.getEcucCond() is None
+        assert obj.getOrigin() is None
+
+    def test_get_set_ecuc_cond_roundtrip(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        cond = EcucConditionSpecification()
+        assert obj.setEcucCond(cond) is obj
+        assert obj.getEcucCond() is cond
+        obj.setEcucCond(None)
+        assert obj.getEcucCond() is cond
+
+    def test_get_set_origin_roundtrip(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        origin = String()
+        origin.setValue("AUTOSAR_ECUC")
+        assert obj.setOrigin(origin) is obj
+        assert obj.getOrigin() is origin
+        assert obj.getOrigin().getValue() == "AUTOSAR_ECUC"
+        obj.setOrigin(None)
+        assert obj.getOrigin() is origin
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucEnumerationLiteralDef, "Lit")
+        assert obj.getEcucCond.__doc__ == self.ECUC_COND_NOTE
+        assert inspect.cleandoc(obj.setEcucCond.__doc__).splitlines()[0] == self.ECUC_COND_NOTE
+        assert obj.getOrigin.__doc__ == self.ORIGIN_NOTE
+        assert inspect.cleandoc(obj.setOrigin.__doc__).splitlines()[0] == self.ORIGIN_NOTE
+
 
 class TestEcucEnumerationParamDef:
+    CLASS_NOTE = "Configuration parameter type for Enumeration."
+
     def test_instantiation(self):
         assert _instantiate(EcucEnumerationParamDef, "EcucEnumerationParamDef").getShortName() == "EcucEnumerationParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucEnumerationParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucEnumerationParamDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        assert obj.getDefaultValue() is None
+        assert obj.getLiterals() == []
+
+    def test_get_set_default_value_roundtrip(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        value = Identifier()
+        value.setValue("VARIANT_POST_BUILD")
+        assert obj.setDefaultValue(value) is obj
+        assert obj.getDefaultValue() is value
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() is value
+
+    def test_create_literal_appends_and_dedupes(self):
+        obj = _instantiate(EcucEnumerationParamDef, "Ep")
+        literal = obj.createLiteral("L1")
+        assert isinstance(literal, EcucEnumerationLiteralDef)
+        assert obj.getLiterals() == [literal]
+        assert obj.createLiteral("L1") is literal
+        obj.createLiteral("L2")
+        assert len(obj.getLiterals()) == 2
 
 
 class TestEcucFloatParamDef:
@@ -228,8 +455,22 @@ class TestEcucParamConfContainerDef:
 
 
 class TestEcucAddInfoParamDef:
+    CLASS_NOTE = "Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description."
+
     def test_instantiation(self):
         assert _instantiate(EcucAddInfoParamDef, "EcucAddInfoParamDef").getShortName() == "EcucAddInfoParamDef"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAddInfoParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAddInfoParamDef.__init__.__doc__ is None
+
+    def test_inherits_parameter_def_attrs(self):
+        obj = _instantiate(EcucAddInfoParamDef, "Add")
+        assert obj.getDerivation() is None
+        assert obj.getSymbolicNameValue() is None
+        assert obj.getWithAuto() is None
 
 
 class TestEcucDefinitionCollection:
@@ -263,18 +504,80 @@ class TestEcucDefinitionCollection:
 
 
 class TestEcucDestinationUriDef:
+    CLASS_NOTE = "Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs."
+    POLICY_NOTE = "Description of the targeted EcucContainerDef."
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDef, "EcucDestinationUriDef").getShortName() == "EcucDestinationUriDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDef.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        assert obj.getDestinationUriPolicy() is None
+
+    def test_get_set_destination_uri_policy_roundtrip(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        policy = EcucDestinationUriPolicy()
+        assert obj.setDestinationUriPolicy(policy) is obj
+        assert obj.getDestinationUriPolicy() is policy
+        obj.setDestinationUriPolicy(None)
+        assert obj.getDestinationUriPolicy() is policy
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucDestinationUriDef, "Ud")
+        assert inspect.cleandoc(obj.getDestinationUriPolicy.__doc__) == self.POLICY_NOTE
+        assert inspect.cleandoc(obj.setDestinationUriPolicy.__doc__).splitlines()[0] == self.POLICY_NOTE
+
 
 class TestEcucDestinationUriDefSet:
+    CLASS_NOTE = "This class represents a list of EcucDestinationUriDefs. Tags: atp.recommendedPackage=EcucDestinationUriDefSets"
+    DEF_NOTE = "This is one particular EcucDestinationUriDef."
+
     def test_instantiation(self):
         assert _instantiate(EcucDestinationUriDefSet, "EcucDestinationUriDefSet").getShortName() == "EcucDestinationUriDefSet"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriDefSet.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDefSet.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        assert obj.getDestinationUriDefs() == []
+
+    def test_create_destination_uri_def_appends_and_dedupes(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        uri_def = obj.createEcucDestinationUriDef("U1")
+        assert isinstance(uri_def, EcucDestinationUriDef)
+        assert obj.getDestinationUriDefs() == [uri_def]
+        assert obj.createEcucDestinationUriDef("U1") is uri_def
+        obj.createEcucDestinationUriDef("U2")
+        assert len(obj.getDestinationUriDefs()) == 2
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = _instantiate(EcucDestinationUriDefSet, "Uds")
+        assert inspect.cleandoc(obj.getDestinationUriDefs.__doc__) == self.DEF_NOTE
+        assert inspect.cleandoc(obj.createEcucDestinationUriDef.__doc__).splitlines()[0] == self.DEF_NOTE
+
 
 class TestEcucQuery:
+    CLASS_NOTE = "Defines a query to the ECUC Description."
+    EXPR_NOTE = "This is the EcucQuery used in the calculation formula or the condition formula."
+
     def test_instantiation(self):
         assert _instantiate(EcucQuery, "EcucQuery").getShortName() == "EcucQuery"
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucQuery.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucQuery.__init__.__doc__ is None
 
     def test_initialization(self):
         query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
@@ -287,6 +590,11 @@ class TestEcucQuery:
         assert query.getEcucQueryExpression() is expr
         assert query.setEcucQueryExpression(None) is query
         assert query.getEcucQueryExpression() is expr
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
+        assert inspect.cleandoc(query.getEcucQueryExpression.__doc__) == self.EXPR_NOTE
+        assert inspect.cleandoc(query.setEcucQueryExpression.__doc__).splitlines()[0] == self.EXPR_NOTE
 
 
 class TestEcucModuleDef:
@@ -367,13 +675,60 @@ class TestEcucLinkerSymbolDef:
 
 
 class TestEcucMultilineStringParamDef:
+    CLASS_NOTE = 'Configuration parameter type for multiline Strings (including "carriage return").'
+
     def test_instantiation(self):
         assert _instantiate(EcucMultilineStringParamDef, "EcucMultilineStringParamDef").getShortName() == "EcucMultilineStringParamDef"
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucMultilineStringParamDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucMultilineStringParamDef.__init__.__doc__ is None
+
+    def test_inherits_abstract_string_attrs(self):
+        obj = _instantiate(EcucMultilineStringParamDef, "Msp")
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
+
 
 class TestEcucDestinationUriDefRefType:
+    CLASS_NOTE = (
+        "Typed reference to an EcucDestinationUriDef, modeled after the anonymous"
+        " DESTINATION-URI-REF nested complexType (simpleContent extension of AR:REF with"
+        " a required DEST attribute of ECUC-DESTINATION-URI-DEF--SUBTYPES-ENUM) inside"
+        " the DESTINATION-URI-REFS wrapper of the XSD group ECUC-CONTAINER-DEF."
+        " Aggregated by EcucContainerDef.destinationUri (0..*)."
+    )
+
     def test_instantiation(self):
         assert isinstance(EcucDestinationUriDefRefType(), EcucDestinationUriDefRefType)
+
+    def test_inheritance(self):
+        assert isinstance(EcucDestinationUriDefRefType(), RefType)
+
+    def test_inherited_accessors_roundtrip(self):
+        uri_ref = EcucDestinationUriDefRefType()
+
+        assert uri_ref.getValue() is None
+        assert uri_ref.getBase() is None
+        assert uri_ref.getDest() is None
+
+        uri_ref.setValue("/EcucModuleDef/UriDef")
+        uri_ref.setBase("BASE")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+
+        assert uri_ref.getValue() == "/EcucModuleDef/UriDef"
+        assert uri_ref.getBase() == "BASE"
+        assert uri_ref.getDest() == "ECUC-DESTINATION-URI-DEF"
+
+    def test_class_docstring(self):
+        assert EcucDestinationUriDefRefType.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriDefRefType.__init__.__doc__ is None
 
 
 class TestEcucConfigurationClassEnum:
@@ -476,8 +831,28 @@ class TestEcucValueConfigurationClass:
 
 
 class TestEcucDerivationSpecification:
+    CLASS_NOTE = "Allows to define configuration items that are calculated based on the value of • other parameter values • elements (attributes/classes) defined in other AUTOSAR templates such as System template and SW component template"
+    CALC_NOTE = "Definition of the formula used to calculate the value of the configuration element."
+    QUERY_NOTE = "Query to the ECU Configuration Description."
+    INFORMAL_NOTE = "Informal description of the derivation used to calculate the value of the configuration element."
+
     def test_instantiation(self):
         assert isinstance(EcucDerivationSpecification(), EcucDerivationSpecification)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDerivationSpecification.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDerivationSpecification.__init__.__doc__ is None
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        derivation = EcucDerivationSpecification()
+        assert inspect.cleandoc(derivation.getCalculationFormula.__doc__) == self.CALC_NOTE
+        assert inspect.cleandoc(derivation.setCalculationFormula.__doc__).splitlines()[0] == self.CALC_NOTE
+        assert inspect.cleandoc(derivation.getEcucQueries.__doc__) == self.QUERY_NOTE
+        assert inspect.cleandoc(derivation.createEcucQuery.__doc__).splitlines()[0] == self.QUERY_NOTE
+        assert inspect.cleandoc(derivation.getInformalFormula.__doc__) == self.INFORMAL_NOTE
+        assert inspect.cleandoc(derivation.setInformalFormula.__doc__).splitlines()[0] == self.INFORMAL_NOTE
 
     def test_initialization(self):
         derivation = EcucDerivationSpecification()
@@ -547,9 +922,106 @@ class TestEcucConditionFormula:
         assert formula.getEcucQueryStringRef() is ref
 
 
+class TestEcucDestinationUriNestingContractEnum:
+    CLASS_NOTE = "EcucDestinationUriNestingContractEnum is used to determine what is qualified by the EcucDestinationUriPolicy."
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(EcucDestinationUriNestingContractEnum.__doc__) == self.CLASS_NOTE
+
+    def test_members_in_xsd_declaration_order(self):
+        assert EcucDestinationUriNestingContractEnum.LEAF_OF_TARGET_CONTAINER == "LEAF-OF-TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.TARGET_CONTAINER == "TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.VERTEX_OF_TARGET_CONTAINER == "VERTEX-OF-TARGET-CONTAINER"
+
+    def test_instantiation_and_set_value(self):
+        enum = EcucDestinationUriNestingContractEnum()
+        enum.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert enum.getValue() == "TARGET-CONTAINER"
+
+
 class TestEcucDestinationUriPolicy:
+    CLASS_NOTE = "The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute."
+    CONTAINERS_NOTE = (
+        "Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here."
+    )
+    NESTING_NOTE = "This attribute defines how the referenced target EcucContainerDef is described."
+    PARAMETERS_NOTE = "Description of parameters that are contained in the target container."
+    REFERENCES_NOTE = "Description of references that are contained in the target container."
+
     def test_instantiation(self):
         assert isinstance(EcucDestinationUriPolicy(), EcucDestinationUriPolicy)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucDestinationUriPolicy.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucDestinationUriPolicy.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        policy = EcucDestinationUriPolicy()
+        assert policy.getContainers() == []
+        assert policy.getDestinationUriNestingContract() is None
+        assert policy.getParameters() == []
+        assert policy.getReferences() == []
+
+    def test_get_set_destination_uri_nesting_contract_roundtrip(self):
+        policy = EcucDestinationUriPolicy()
+        value = EcucDestinationUriNestingContractEnum()
+        value.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert policy.setDestinationUriNestingContract(value) is policy
+        assert policy.getDestinationUriNestingContract() is value
+        policy.setDestinationUriNestingContract(None)
+        assert policy.getDestinationUriNestingContract() is value
+
+    def test_create_container_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        container = policy.createEcucParamConfContainerDef("C1")
+        assert isinstance(container, EcucParamConfContainerDef)
+        assert policy.getContainers() == [container]
+        assert policy.createEcucParamConfContainerDef("C1") is container
+        choice = policy.createEcucChoiceContainerDef("C2")
+        assert isinstance(choice, EcucChoiceContainerDef)
+        assert len(policy.getContainers()) == 2
+
+    def test_create_parameter_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        param = policy.createEcucIntegerParamDef("P1")
+        assert isinstance(param, EcucIntegerParamDef)
+        assert policy.getParameters() == [param]
+        assert policy.createEcucIntegerParamDef("P1") is param
+        policy.createEcucBooleanParamDef("P2")
+        policy.createEcucStringParamDef("P3")
+        policy.createEcucFloatParamDef("P4")
+        policy.createEcucEnumerationParamDef("P5")
+        policy.createEcucFunctionNameDef("P6")
+        policy.createEcucMultilineStringParamDef("P7")
+        policy.createEcucLinkerSymbolDef("P8")
+        policy.createEcucAddInfoParamDef("P9")
+        assert len(policy.getParameters()) == 9
+
+    def test_create_reference_factories_append_and_dedupe(self):
+        policy = EcucDestinationUriPolicy()
+        ref = policy.createEcucReferenceDef("R1")
+        assert isinstance(ref, EcucReferenceDef)
+        assert policy.getReferences() == [ref]
+        assert policy.createEcucReferenceDef("R1") is ref
+        policy.createEcucChoiceReferenceDef("R2")
+        policy.createEcucUriReferenceDef("R3")
+        policy.createEcucSymbolicNameReferenceDef("R4")
+        policy.createEcucForeignReferenceDef("R5")
+        policy.createEcucInstanceReferenceDef("R6")
+        assert len(policy.getReferences()) == 6
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        policy = EcucDestinationUriPolicy()
+        assert inspect.cleandoc(policy.getContainers.__doc__) == self.CONTAINERS_NOTE
+        assert inspect.cleandoc(policy.createEcucParamConfContainerDef.__doc__).splitlines()[0] == self.CONTAINERS_NOTE
+        assert inspect.cleandoc(policy.getDestinationUriNestingContract.__doc__) == self.NESTING_NOTE
+        assert inspect.cleandoc(policy.setDestinationUriNestingContract.__doc__).splitlines()[0] == self.NESTING_NOTE
+        assert inspect.cleandoc(policy.getParameters.__doc__) == self.PARAMETERS_NOTE
+        assert inspect.cleandoc(policy.createEcucIntegerParamDef.__doc__).splitlines()[0] == self.PARAMETERS_NOTE
+        assert inspect.cleandoc(policy.getReferences.__doc__) == self.REFERENCES_NOTE
+        assert inspect.cleandoc(policy.createEcucReferenceDef.__doc__).splitlines()[0] == self.REFERENCES_NOTE
 
 
 class TestEcucParameterDerivationFormula:
@@ -976,21 +1448,104 @@ class TestEcucParameterDef:
 
 
 class TestEcucAbstractReferenceDef:
+    CLASS_NOTE = "Common class to gather the attributes for the definition of references."
+    WITH_AUTO_NOTE = (
+        'Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". '
+        'If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". '
+        "This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. "
+        "These implicit updated values might require a re-generation of other modules which reference these values. "
+        'If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". '
+        'If withAuto is not present the default is "false".'
+    )
+
+    def _make(self):
+        class _Concrete(EcucAbstractReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEARD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractReferenceDef)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_with_auto_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setWithAuto(value) is obj
+        assert obj.getWithAuto() is value
+        obj.setWithAuto(None)
+        assert obj.getWithAuto() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = self._make()
+        assert inspect.cleandoc(obj.getWithAuto.__doc__) == self.WITH_AUTO_NOTE
+        assert inspect.cleandoc(obj.setWithAuto.__doc__).splitlines()[0] == self.WITH_AUTO_NOTE
+
 
 class TestEcucAbstractInternalReferenceDef:
+    CLASS_NOTE = "Common abstract class to gather attributes for internal references (where the destination is located in the Ecu Configuration Description)."
+    REQUIRES_NOTE = "If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108."
+
+    def _make(self):
+        class _Concrete(EcucAbstractInternalReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEAIRD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractInternalReferenceDef)
 
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractInternalReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractInternalReferenceDef.__init__.__doc__ is None
+
+    def test_get_set_requires_symbolic_name_value_roundtrip(self):
+        obj = self._make()
+        value = Boolean()
+        value.setValue(True)
+        assert obj.setRequiresSymbolicNameValue(value) is obj
+        assert obj.getRequiresSymbolicNameValue() is value
+        obj.setRequiresSymbolicNameValue(None)
+        assert obj.getRequiresSymbolicNameValue() is value
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        obj = self._make()
+        assert inspect.cleandoc(obj.getRequiresSymbolicNameValue.__doc__) == self.REQUIRES_NOTE
+        assert inspect.cleandoc(obj.setRequiresSymbolicNameValue.__doc__).splitlines()[0] == self.REQUIRES_NOTE
+
 
 class TestEcucAbstractExternalReferenceDef:
+    CLASS_NOTE = "Common abstract class to gather attributes for external references (where the destination is not located in the ECU Configuration Description but in an another AUTOSAR Template)."
+
+    def _make(self):
+        class _Concrete(EcucAbstractExternalReferenceDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEAERD"), "sn")
+
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractExternalReferenceDef)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert EcucAbstractExternalReferenceDef.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EcucAbstractExternalReferenceDef.__init__.__doc__ is None
+
+    def test_inherits_reference_attrs(self):
+        obj = self._make()
+        assert obj.getWithAuto() is None
 
 
 class TestEcucAbstractStringParamDef:

@@ -21,9 +21,8 @@ def shaper():
 
 
 class TestCouplingPortCreditBasedShaper:
-    def test_registered_in_shaper_registry(self):
-        assert CouplingPortAbstractShaper.getShaperClass("COUPLING-PORT-CREDIT-BASED-SHAPER") is CouplingPortCreditBasedShaper
-        assert CouplingPortAbstractShaper.getShaperTag(CouplingPortCreditBasedShaper) == "COUPLING-PORT-CREDIT-BASED-SHAPER"
+    def test_is_coupling_port_fifo_shaper_choice_member(self):
+        assert issubclass(CouplingPortCreditBasedShaper, CouplingPortAbstractShaper)
 
     def test_initialization_defaults(self, shaper):
         assert shaper.getShortName() == "CbsShaper"

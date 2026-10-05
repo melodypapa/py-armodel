@@ -138,8 +138,10 @@ before stripping.
 
 ## Environment (already done — do not redo)
 
-- Worktree `/Users/ray/Workspace/py-armodel/.g16-wt` on branch `feature/g16-issue-classes-sync`; hidden via a
-  `.g16-wt/` entry in `.git/info/exclude` (local-only).
+- Worktree `/Users/ray/Workspace/py-armodel/.g16-wt` on branch `feature/g16-remaining-resync` (re-created off `main`
+  `73a2f14d3` on 2026-10-03 after `feature/g16-issue-classes-sync` merged as PR #913 and the old worktree was
+  retired); hidden via a `.g16-wt/` entry in `.git/info/exclude` (local-only). Worktree venv: Python 3.13.11,
+  `black` pinned 24.8.0 (26.x false-flags ~35 untouched files).
 - `tests/integration_tests/custom_files/` (gitignored) present so round-trip fixtures resolve.
 - Sanity check: `PYTHONPATH=.g16-wt/src .venv/bin/python -c "import armodel; print(armodel.__file__)"` must print
   the `.g16-wt` path.

@@ -735,7 +735,7 @@ Status: **15/29** completed
 | `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
 | `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
 | `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
-| `CouplingPortAbstractShaper`            | [x] Done     | 929cee7081 |
+| `CouplingPortAbstractShaper`            | [x] Done     | f02e111f65 |
 | `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
 | `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
 | `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
@@ -817,24 +817,24 @@ Status: **0/17** completed
 
 Status: **6/16** completed
 
-| Class Name                       | Status          | Commit ID  |
-| -------------------------------- | --------------- | ---------- |
-| `ConfigReferenceValue`           | [ ] Pending*    | N/A        |
-| `EcucValueCollection`            | [ ] Pending*    | N/A        |
-| `ModuleConfiguration`            | [ ] Pending*    | N/A        |
-| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A        |
-| `EcucScopeEnum`                  | [ ] Pending*    | N/A        |
-| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A        |
-| `EcucBooleanParamDef`            | [ ] Pending*    | N/A        |
-| `EcucFloatParamDef`              | [ ] Pending*    | N/A        |
-| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A        |
-| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A        |
-| `EcucReferenceDef`               | [x] Done        | 0d45067479 |
-| `EcucSymbolicNameReferenceDef`   | [x] Done        | 0d45067479 |
-| `EcucUriReferenceDef`            | [x] Done        | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done        | N/A        |
-| `EcucParameterDerivationFormula` | [x] Done        | N/A        |
-| `EcucQueryExpression`            | [x] Done        | N/A        |
+| Class Name                       | Status       | Commit ID  |
+| -------------------------------- | ------------ | ---------- |
+| `ConfigReferenceValue`           | [ ] Pending* | N/A        |
+| `EcucValueCollection`            | [ ] Pending* | N/A        |
+| `ModuleConfiguration`            | [ ] Pending* | N/A        |
+| `EcucConfigurationClassEnum`     | [ ] Pending* | N/A        |
+| `EcucScopeEnum`                  | [ ] Pending* | N/A        |
+| `EcucDestinationUriDefRefType`   | [ ] Pending* | N/A        |
+| `EcucBooleanParamDef`            | [ ] Pending* | N/A        |
+| `EcucFloatParamDef`              | [ ] Pending* | N/A        |
+| `EcucForeignReferenceDef`        | [ ] Pending* | N/A        |
+| `EcucLinkerSymbolDef`            | [ ] Pending* | N/A        |
+| `EcucReferenceDef`               | [x] Done     | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done     | N/A        |
+| `EcucParameterDerivationFormula` | [x] Done     | N/A        |
+| `EcucQueryExpression`            | [x] Done     | N/A        |
 
 ## Group20
 
@@ -1266,83 +1266,83 @@ Status: **0/75** completed
 
 Status: **1/75** completed
 
-| Class Name                                      | Status          | Commit ID  |
-| ----------------------------------------------- | --------------- | ---------- |
-| `DiagnosticInhibitionMaskEnum`                  | [ ] Pending*    | N/A        |
-| `DiagnosticFimEventGroup`                       | [ ] Pending*    | N/A        |
-| `DiagnosticJ1939Spn`                            | [ ] Pending*    | ad6e53e6fe |
-| `DiagnosticJ1939FreezeFrame`                    | [ ] Pending*    | 0314338bf5 |
-| `DiagnosticJ1939ExpandedFreezeFrame`            | [ ] Pending*    | 0314338bf5 |
-| `DiagnosticTroubleCodeJ1939DtcKindEnum`         | [ ] Pending*    | e51e632f04 |
-| `DiagnosticTroubleCodeJ1939`                    | [ ] Pending*    | e51e632f04 |
-| `DiagnosticMapping`                             | [ ] Pending*    | fd3e548259 |
-| `DiagnosticServiceDataMapping`                  | [ ] Pending*    | 80105a7831 |
-| `DiagnosticParameterElementAccess`              | [ ] Pending*    | 80105a7831 |
-| `DiagnosticServiceMappingDiagTarget`            | [ ] Pending*    | 80105a7831 |
-| `DiagnosticSwMapping`                           | [ ] Pending*    | 80105a7831 |
-| `DiagnosticServiceSwMapping`                    | [ ] Pending*    | 0f2a3876e3 |
-| `BswServiceDependencyIdent`                     | [x] Done        | d488a5e4a8 |
-| `DiagnosticAuthTransmitCertificateMapping`      | [ ] Pending*    | 531da6dd58 |
-| `DiagnosticSecurityEventReportingModeMapping`   | [ ] Pending*    | 531da6dd58 |
-| `DiagnosticEventToTroubleCodeUdsMapping`        | [ ] Pending*    | 664519e02e |
-| `DiagnosticEventToOperationCycleMapping`        | [ ] Pending*    | 664519e02e |
-| `DiagnosticEventToDebounceAlgorithmMapping`     | [ ] Pending*    | 664519e02e |
-| `DiagnosticEventToEnableConditionGroupMapping`  | [ ] Pending*    | 664519e02e |
-| `DiagnosticEventToStorageConditionGroupMapping` | [ ] Pending*    | 664519e02e |
-| `DiagnosticEventPortMapping`                    | [ ] Pending*    | 266d4f7aa4 |
-| `DiagnosticOperationCyclePortMapping`           | [ ] Pending*    | 266d4f7aa4 |
-| `DiagnosticEnableConditionPortMapping`          | [ ] Pending*    | 266d4f7aa4 |
-| `DiagnosticStorageConditionPortMapping`         | [ ] Pending*    | 266d4f7aa4 |
-| `DiagnosticDemProvidedDataMapping`              | [ ] Pending*    | 531da6dd58 |
-| `DiagnosticMasterToSlaveEventMapping`           | [ ] Pending*    | 531da6dd58 |
-| `DiagnosticEventToSecurityEventMapping`         | [ ] Pending*    | 531da6dd58 |
-| `DiagnosticInhibitSourceEventMapping`           | [ ] Pending*    | d488a5e4a8 |
-| `DiagnosticFimAliasEventMapping`                | [ ] Pending*    | d488a5e4a8 |
-| `DiagnosticFimAliasEventGroup`                  | [ ] Pending*    | d488a5e4a8 |
-| `DiagnosticFimAliasEventGroupMapping`           | [ ] Pending*    | d488a5e4a8 |
-| `DiagnosticFimFunctionMapping`                  | [ ] Pending*    | 86bff0a4f2 |
-| `DiagnosticIumprToFunctionIdentifierMapping`    | [ ] Pending*    | 86bff0a4f2 |
-| `DiagnosticJ1939SpnMapping`                     | [ ] Pending*    | 86bff0a4f2 |
-| `DiagnosticJ1939Node`                           | [ ] Pending*    | 86bff0a4f2 |
-| `DiagnosticJ1939SwMapping`                      | [ ] Pending*    | 86bff0a4f2 |
-| `DiagnosticEventToTroubleCodeJ1939Mapping`      | [ ] Pending*    | 86bff0a4f2 |
-| `CpSoftwareClusterResource`                     | [ ] Pending*    | 9c0046237b |
-| `RoleBasedResourceDependency`                   | [ ] Pending*    | 9c0046237b |
-| `CpSwClusterToDiagEventMapping`                 | [ ] Pending*    | 9c0046237b |
-| `CpSwClusterResourceToDiagDataElemMapping`      | [ ] Pending*    | 9c0046237b |
-| `CpSwClusterToDiagRoutineSubfunctionMapping`    | [ ] Pending*    | 9c0046237b |
-| `CpSwClusterResourceToDiagFunctionIdMapping`    | [ ] Pending*    | 9c0046237b |
-| `EcucDefinitionCollection`                      | [ ] Pending*    | 4c76344b21 |
-| `EcucModuleDef`                                 | [ ] Pending*    | 3dd8367d26 |
-| `EcucContainerDef`                              | [ ] Pending*    | d497b88ae7 |
-| `EcucParamConfContainerDef`                     | [ ] Pending*    | 571d1bb8d7 |
-| `EcucChoiceContainerDef`                        | [ ] Pending*    | 416e583ff2 |
-| `EcucDefinitionElement`                         | [ ] Pending*    | ac47ae89f3 |
-| `EcucCommonAttributes`                          | [ ] Pending*    | b5ba9d4e2f |
-| `EcucAbstractConfigurationClass`                | [ ] Pending*    | 6549a18aee |
-| `EcucValueConfigurationClass`                   | [ ] Pending*    | 6549a18aee |
-| `EcucMultiplicityConfigurationClass`            | [ ] Pending*    | 6549a18aee |
-| `EcucConfigurationVariantEnum`                  | [ ] Pending*    | 5ce1bb021e |
-| `EcucParameterDef`                              | [ ] Pending*    | bf479d9bf8 |
-| `EcucIntegerParamDef`                           | [ ] Implemented | N/A        |
-| `EcucAbstractStringParamDef`                    | [ ] Implemented | N/A        |
-| `EcucStringParamDef`                            | [ ] Implemented | N/A        |
-| `EcucMultilineStringParamDef`                   | [ ] Implemented | N/A        |
-| `EcucFunctionNameDef`                           | [ ] Implemented | N/A        |
-| `EcucEnumerationParamDef`                       | [ ] Implemented | N/A        |
-| `EcucEnumerationLiteralDef`                     | [ ] Implemented | N/A        |
-| `EcucAddInfoParamDef`                           | [ ] Implemented | N/A        |
-| `EcucAbstractReferenceDef`                      | [ ] Implemented | N/A        |
-| `EcucAbstractInternalReferenceDef`              | [ ] Implemented | N/A        |
-| `EcucAbstractExternalReferenceDef`              | [ ] Implemented | N/A        |
-| `EcucChoiceReferenceDef`                        | [ ] Implemented | N/A        |
-| `EcucInstanceReferenceDef`                      | [ ] Implemented | N/A        |
-| `EcucDestinationUriDefSet`                      | [ ] Implemented | N/A        |
-| `EcucDestinationUriDef`                         | [ ] Implemented | N/A        |
-| `EcucDestinationUriPolicy`                      | [ ] Implemented | N/A        |
-| `EcucDestinationUriNestingContractEnum`         | [ ] Implemented | N/A        |
-| `EcucDerivationSpecification`                   | [ ] Implemented | N/A        |
-| `EcucQuery`                                     | [ ] Implemented | N/A        |
+| Class Name                                      | Status       | Commit ID  |
+| ----------------------------------------------- | ------------ | ---------- |
+| `DiagnosticInhibitionMaskEnum`                  | [ ] Pending* | N/A        |
+| `DiagnosticFimEventGroup`                       | [ ] Pending* | N/A        |
+| `DiagnosticJ1939Spn`                            | [ ] Pending* | ad6e53e6fe |
+| `DiagnosticJ1939FreezeFrame`                    | [ ] Pending* | 0314338bf5 |
+| `DiagnosticJ1939ExpandedFreezeFrame`            | [ ] Pending* | 0314338bf5 |
+| `DiagnosticTroubleCodeJ1939DtcKindEnum`         | [ ] Pending* | e51e632f04 |
+| `DiagnosticTroubleCodeJ1939`                    | [ ] Pending* | e51e632f04 |
+| `DiagnosticMapping`                             | [ ] Pending* | fd3e548259 |
+| `DiagnosticServiceDataMapping`                  | [ ] Pending* | 80105a7831 |
+| `DiagnosticParameterElementAccess`              | [ ] Pending* | 80105a7831 |
+| `DiagnosticServiceMappingDiagTarget`            | [ ] Pending* | 80105a7831 |
+| `DiagnosticSwMapping`                           | [ ] Pending* | 80105a7831 |
+| `DiagnosticServiceSwMapping`                    | [ ] Pending* | 0f2a3876e3 |
+| `BswServiceDependencyIdent`                     | [x] Done     | d488a5e4a8 |
+| `DiagnosticAuthTransmitCertificateMapping`      | [ ] Pending* | 531da6dd58 |
+| `DiagnosticSecurityEventReportingModeMapping`   | [ ] Pending* | 531da6dd58 |
+| `DiagnosticEventToTroubleCodeUdsMapping`        | [ ] Pending* | 664519e02e |
+| `DiagnosticEventToOperationCycleMapping`        | [ ] Pending* | 664519e02e |
+| `DiagnosticEventToDebounceAlgorithmMapping`     | [ ] Pending* | 664519e02e |
+| `DiagnosticEventToEnableConditionGroupMapping`  | [ ] Pending* | 664519e02e |
+| `DiagnosticEventToStorageConditionGroupMapping` | [ ] Pending* | 664519e02e |
+| `DiagnosticEventPortMapping`                    | [ ] Pending* | 266d4f7aa4 |
+| `DiagnosticOperationCyclePortMapping`           | [ ] Pending* | 266d4f7aa4 |
+| `DiagnosticEnableConditionPortMapping`          | [ ] Pending* | 266d4f7aa4 |
+| `DiagnosticStorageConditionPortMapping`         | [ ] Pending* | 266d4f7aa4 |
+| `DiagnosticDemProvidedDataMapping`              | [ ] Pending* | 531da6dd58 |
+| `DiagnosticMasterToSlaveEventMapping`           | [ ] Pending* | 531da6dd58 |
+| `DiagnosticEventToSecurityEventMapping`         | [ ] Pending* | 531da6dd58 |
+| `DiagnosticInhibitSourceEventMapping`           | [ ] Pending* | d488a5e4a8 |
+| `DiagnosticFimAliasEventMapping`                | [ ] Pending* | d488a5e4a8 |
+| `DiagnosticFimAliasEventGroup`                  | [ ] Pending* | d488a5e4a8 |
+| `DiagnosticFimAliasEventGroupMapping`           | [ ] Pending* | d488a5e4a8 |
+| `DiagnosticFimFunctionMapping`                  | [ ] Pending* | 86bff0a4f2 |
+| `DiagnosticIumprToFunctionIdentifierMapping`    | [ ] Pending* | 86bff0a4f2 |
+| `DiagnosticJ1939SpnMapping`                     | [ ] Pending* | 86bff0a4f2 |
+| `DiagnosticJ1939Node`                           | [ ] Pending* | 86bff0a4f2 |
+| `DiagnosticJ1939SwMapping`                      | [ ] Pending* | 86bff0a4f2 |
+| `DiagnosticEventToTroubleCodeJ1939Mapping`      | [ ] Pending* | 86bff0a4f2 |
+| `CpSoftwareClusterResource`                     | [ ] Pending* | 9c0046237b |
+| `RoleBasedResourceDependency`                   | [ ] Pending* | 9c0046237b |
+| `CpSwClusterToDiagEventMapping`                 | [ ] Pending* | 9c0046237b |
+| `CpSwClusterResourceToDiagDataElemMapping`      | [ ] Pending* | 9c0046237b |
+| `CpSwClusterToDiagRoutineSubfunctionMapping`    | [ ] Pending* | 9c0046237b |
+| `CpSwClusterResourceToDiagFunctionIdMapping`    | [ ] Pending* | 9c0046237b |
+| `EcucDefinitionCollection`                      | [ ] Pending* | 4c76344b21 |
+| `EcucModuleDef`                                 | [ ] Pending* | 3dd8367d26 |
+| `EcucContainerDef`                              | [ ] Pending* | d497b88ae7 |
+| `EcucParamConfContainerDef`                     | [ ] Pending* | 571d1bb8d7 |
+| `EcucChoiceContainerDef`                        | [ ] Pending* | 416e583ff2 |
+| `EcucDefinitionElement`                         | [ ] Pending* | ac47ae89f3 |
+| `EcucCommonAttributes`                          | [ ] Pending* | b5ba9d4e2f |
+| `EcucAbstractConfigurationClass`                | [ ] Pending* | 6549a18aee |
+| `EcucValueConfigurationClass`                   | [ ] Pending* | 6549a18aee |
+| `EcucMultiplicityConfigurationClass`            | [ ] Pending* | 6549a18aee |
+| `EcucConfigurationVariantEnum`                  | [ ] Pending* | 5ce1bb021e |
+| `EcucParameterDef`                              | [ ] Pending* | bf479d9bf8 |
+| `EcucIntegerParamDef`                           | [ ] Pending* | 62c89e7a96 |
+| `EcucAbstractStringParamDef`                    | [ ] Pending* | 024153f73a |
+| `EcucStringParamDef`                            | [ ] Pending* | 0e1c4660e5 |
+| `EcucMultilineStringParamDef`                   | [ ] Pending* | fdee6f9a41 |
+| `EcucFunctionNameDef`                           | [ ] Pending* | e44edd9d6d |
+| `EcucEnumerationParamDef`                       | [ ] Pending* | 5085d038de |
+| `EcucEnumerationLiteralDef`                     | [ ] Pending* | 48d98b4b49 |
+| `EcucAddInfoParamDef`                           | [ ] Pending* | cf5c0e3618 |
+| `EcucAbstractReferenceDef`                      | [ ] Pending* | 1475d37c0d |
+| `EcucAbstractInternalReferenceDef`              | [ ] Pending* | 0035a3d952 |
+| `EcucAbstractExternalReferenceDef`              | [ ] Pending* | af8e9109c7 |
+| `EcucChoiceReferenceDef`                        | [ ] Pending* | b85e3d5202 |
+| `EcucInstanceReferenceDef`                      | [ ] Pending* | c27549b512 |
+| `EcucDestinationUriDefSet`                      | [ ] Pending* | f580ebdeec |
+| `EcucDestinationUriDef`                         | [ ] Pending* | 2f69e3cc20 |
+| `EcucDestinationUriPolicy`                      | [ ] Pending* | 37330e12c0 |
+| `EcucDestinationUriNestingContractEnum`         | [ ] Pending* | 9a8cb02be7 |
+| `EcucDerivationSpecification`                   | [ ] Pending* | 91a9e3ee35 |
+| `EcucQuery`                                     | [ ] Pending* | 8bb9dbd181 |
 
 ## Group27
 

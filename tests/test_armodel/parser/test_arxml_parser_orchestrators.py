@@ -4430,12 +4430,12 @@ class TestGetValueSpecification:
         assert result.getRuleBasedValues().getRule().getValue() == "FILL_UNTIL_MAX_SIZE"
 
     def test_unsupported_warns(self, warning_parser, caplog):
-        # L2697: notImplemented logs in warning mode. The subsequent
-        # return is a known bug (unbound value_spec), so we catch it.
+        # L2697: notImplemented logs in warning mode; an unsupported tag
+        # returns None (the historical UnboundLocalError was fixed when the
+        # chain's value_spec got an explicit Optional[ValueSpecification] init).
         element = _snip("<UNKNOWN/>")
         with caplog.at_level(logging.ERROR):
-            with pytest.raises(UnboundLocalError):
-                warning_parser.getValueSpecification(element, "UNKNOWN")
+            assert warning_parser.getValueSpecification(element, "UNKNOWN") is None
         assert any("Unsupported RecordValueSpecificationField" in r.getMessage() for r in caplog.records)
 
 
