@@ -368,87 +368,101 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PortInterface` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.18, p.87; also FO_TPS_AbstractPlatformSpecification Table 3.6, p.27
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (broad subset 1822; whole unit tree 17,751/0; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ea81891ea`
+  - note (Step 1): abstract Class, base kept on AtpType branch (chain names both ARElement+AtpType — decision recorded); defining CP SWC T3.18 p.87, FO T3.6 row-identical (no merge); attrs isService (Boolean 0..1), serviceKind (ServiceProviderEnum 0..1); Step-6 writer fixes: writeTriggerInterface was dropping IS-SERVICE/SERVICE-KIND, writeSenderReceiverInterface wrote only IS-SERVICE — both now route through writePortInterface; readers level through readDataInterface; isService Note has inline • bullets copied verbatim; no VP; no stamp (batch 9b)
 
 - [ ] `ServiceProviderEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 3.20, p.91
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `5935adb51`
+  - note (Step 1): Enumeration, 24 literals in displayed order; REAL DRIFT fixed: WATCH_DOG_MANAGER existed as member but was missing from the __init__ registration tuple — registered, stale test re-pinned to 24; page-split table (header p.90, caption p.91 — checklist cites p.90 per Rule 0002); Steps 5/6 N/A (serialized as SERVICE-KIND on PortInterface); no stamp (batch 9b)
 
 - [ ] `ClientServerInterface` — PortInterface — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.6, p.101; also CP_TPS_DiagnosticExtractTemplate Table 5.13, p.236
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `d1b24784a`
+  - note (Step 1): concrete Class, Base PortInterface; attrs operation (* aggr → createOperation/getOperations), possibleError (* aggr → createApplicationError/getPossibleErrors); reader/writer already symmetric (OPERATIONS → POSSIBLE-ERRORS); DEXT T5.13 row-identical (no merge); operation row atpVariation is the aggregated class’s splitkey, not the interface; no VP; no stamp (batch 9b)
 
 - [ ] `ClientServerOperation` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.7, p.102; also FO_TPS_AbstractPlatformSpecification Table 3.8, p.29
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `15345a61f`
+  - note (Step 1): Class, Base AtpStructureElement + VariationPointCapable KEPT (XSD anchor "Applicable for: ClientServerInterface.operation"); attrs argument (ordered) (* aggr → arguments), diagArgIntegrity (0..1 attr), possibleError (* REF → possibleErrorRefs — ref not aggr); FO T3.8 is a restricted rendering — CP defining; accessor order corrected mutator-first; no stamp (batch 9b)
 
 - [ ] `ArgumentDataPrototype` — AutosarDataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.8, p.103; also FO_TPS_AbstractPlatformSpecification Table 3.10, p.29
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `6f30a1601`
+  - note (Step 1): Class, Base AutosarDataPrototype + VariationPointCapable KEPT (XSD anchor "Applicable for: ClientServerOperation.argument"); attrs direction (ArgumentDirectionEnum 0..1), serverArgumentImplPolicy (ServerArgumentImplPolicyEnum 0..1) — model already conformant; citation fixed (was re-cited from wrong BSW D.7 line); page-split table; no stamp (batch 9b)
 
 - [ ] `ServerArgumentImplPolicyEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.10, p.105
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `f045532a3`
+  - note (Step 1): Enumeration, exactly 2 literals: USE_ARGUMENT_TYPE="useArgumentType" (idx 0), USE_VOID="useVoid" (idx 2); LONG-PENDING LITERAL ARBITRATION RESOLVED BY TABLE 4.10: innerPort/bidirectional/firstToSecond/secondToFirst belong to PortPrototype connectability / MappingDirectionEnum T4.37 — stale "pending user arbitration" comment removed; Steps 5/6 N/A (serialized as SERVER-ARGUMENT-IMPL-POLICY); no stamp (batch 9b)
 
 - [ ] `ApplicationError` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.11, p.108
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,751/0); 9b deferred to batch confirmation (user instruction); sync commit `10a69b524`
+  - note (Step 1): concrete Class, Base Identifiable; single attr errorCode (Integer 0..1); legacy 5-col checklist → 6-col, stale stamp removed; paraphrased getter/setter docstrings rewritten to Note verbatim; reader/writer already symmetric (APPLICATION-ERROR wrapper, ERROR-CODE); no deviations; no stamp (batch 9b)
 
 - [ ] `ModeSwitchInterface` — PortInterface — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.16, p.113
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
