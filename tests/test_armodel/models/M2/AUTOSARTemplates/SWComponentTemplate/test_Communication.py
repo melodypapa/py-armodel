@@ -11,7 +11,8 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -44,7 +45,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 
 class TestHandleInvalidEnum:
@@ -1075,12 +1079,51 @@ class TestTransmissionModeDefinitionEnum:
 
 
 class TestTransformationComSpecProps:
-    """Test class for TransformationComSpecProps abstract class."""
+    """Test class for TransformationComSpecProps abstract class (Table 4.86)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.86 Note copied verbatim."""
+        assert TransformationComSpecProps.__doc__.strip() == "TransformationComSpecProps holds all the attributes for transformers that are port specific."
 
     def test_transformation_com_spec_props_abstract(self):
-        """Test that TransformationComSpecProps is an abstract class that raises NotImplementedError when instantiated."""
+        """Test that TransformationComSpecProps is an abstract class that raises TypeError when instantiated."""
         with pytest.raises(TypeError):
             TransformationComSpecProps()
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, Describable (Table 4.86); most-derived base Describable; no own attributes (XSD group is an empty sequence)."""
+        props = UserDefinedTransformationComSpecProps()
+        assert isinstance(props, TransformationComSpecProps)
+        assert isinstance(props, Describable)
+        assert isinstance(props, ARObject)
+
+    def test_base_properties_via_concrete_subclass(self):
+        """Abstract class: the Describable base accessors exercised through a concrete subclass."""
+        props = UserDefinedTransformationComSpecProps()
+        desc = MultiLanguageOverviewParagraph()
+        assert props.setDesc(desc) is props
+        assert props.getDesc() is desc
+        props.setDesc(None)
+        assert props.getDesc() is desc
+
+        category = CategoryString()
+        category.setValue("customTransformer")
+        assert props.setCategory(category) is props
+        assert props.getCategory() is category
+        props.setCategory(None)
+        assert props.getCategory() is category
+
+        introduction = DocumentationBlock()
+        assert props.setIntroduction(introduction) is props
+        assert props.getIntroduction() is introduction
+        props.setIntroduction(None)
+        assert props.getIntroduction() is introduction
+
+        admin_data = AdminData()
+        assert props.setAdminData(admin_data) is props
+        assert props.getAdminData() is admin_data
+        props.removeAdminData()
+        assert props.getAdminData() is None
 
 
 class TestEndToEndTransformationComSpecProps:

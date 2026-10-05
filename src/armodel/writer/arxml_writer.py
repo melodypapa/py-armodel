@@ -2395,7 +2395,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTransformationComSpecProps(self, element: ET.Element, prop: TransformationComSpecProps):
         if prop is not None:
-            self.writeARObject(element, prop)
+            self.writeDescribable(element, prop)
 
     def writeUserDefinedTransformationComSpecProps(self, element: ET.Element, prop: UserDefinedTransformationComSpecProps):
         if prop is not None:

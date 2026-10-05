@@ -8153,7 +8153,7 @@ class ARXMLParser(AbstractARXMLParser):
         return com_spec
 
     def readTransformationComSpecProps(self, element: ET.Element, props: TransformationComSpecProps):
-        self.readARObject(element, props)
+        self.readDescribable(element, props)
 
     def readUserDefinedTransformationComSpecProps(self, element: ET.Element, props: UserDefinedTransformationComSpecProps):
         self.readTransformationComSpecProps(element, props)

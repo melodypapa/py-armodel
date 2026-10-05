@@ -7,7 +7,17 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification, TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, Numerical, PositiveInteger, RefType, String, TimeValue, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    CategoryString,
+    DateTime,
+    Numerical,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+    VerbatimString,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -26,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -570,6 +581,46 @@ class TestTransmissionComSpecPropsRoundTrip:
         com_spec_2 = p_port_2.getProvidedComSpecs()[0]
         assert com_spec_2.getTransmissionProps() is None
         assert com_spec_2.getTransmissionAcknowledge() is None
+
+
+class TestTransformationComSpecPropsRoundTrip:
+    def test_transformation_com_spec_props_describable_level_round_trip(self):
+        """TransformationComSpecProps Base = ARObject, Describable (Table 4.86) — DESC/CATEGORY round-trip through the TRANSFORMATION-COM-SPEC-PROPSS wrapper."""
+        document, p_port, _ = _new_document_with_ports()
+
+        props = UserDefinedTransformationComSpecProps()
+        props.setDesc(MultiLanguageOverviewParagraph())
+        category = CategoryString()
+        category.setValue("customTransformer")
+        props.setCategory(category)
+        com_spec = ServerComSpec()
+        com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        com_spec.addTransformationComSpecProps(props)
+        p_port.addProvidedComSpec(com_spec)
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        recovered = p_port_2.getProvidedComSpecs()[0].getTransformationComSpecProps()[0]
+        assert isinstance(recovered.getDesc(), MultiLanguageOverviewParagraph)
+        assert recovered.getCategory().getValue() == "customTransformer"
+
+    def test_transformation_com_spec_props_describable_xml_order_matches_xsd(self):
+        """The DESCRIBABLE group precedes the subclass group inside the wrapper item (AUTOSAR_00052.xsd sequence)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        props = UserDefinedTransformationComSpecProps()
+        props.setDesc(MultiLanguageOverviewParagraph())
+        category = CategoryString()
+        category.setValue("customTransformer")
+        props.setCategory(category)
+        com_spec = ServerComSpec()
+        com_spec.addTransformationComSpecProps(props)
+        p_port.addProvidedComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        props_element = root.find(".//{*}TRANSFORMATION-COM-SPEC-PROPSS/{*}USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS")
+        tags = [child.tag.split("}")[-1] for child in props_element]
+        assert tags == ["DESC", "CATEGORY"]
 
 
 class TestTransmissionAcknowledgementRequestRoundTrip:
