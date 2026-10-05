@@ -16645,6 +16645,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTransmissionModeDeclaration(self, element: ET.Element, key: str, decl: Optional[TransmissionModeDeclaration]):
         if decl is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, decl)
             false_conditions = decl.getModeDrivenFalseConditions()
             if len(false_conditions) > 0:
                 false_conditions_tag = ET.SubElement(child_element, "MODE-DRIVEN-FALSE-CONDITIONS")

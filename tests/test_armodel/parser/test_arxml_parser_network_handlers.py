@@ -2060,7 +2060,7 @@ class TestModeDrivenTransmissionModeCondition:
 
     def test_getTransmissionModeDeclaration_reads_modeDrivenConditions(self, parser):
         element = _snip(
-            "<TRANSMISSION-MODE-DECLARATION>"
+            '<TRANSMISSION-MODE-DECLARATION S="1234" T="2024-01-01T00:00:00Z">'
             "<MODE-DRIVEN-FALSE-CONDITIONS>"
             "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
             "<MODE-DECLARATION-REFS>"
@@ -2081,6 +2081,8 @@ class TestModeDrivenTransmissionModeCondition:
         )
         decl = parser.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION")
         assert decl is not None
+        assert decl.getChecksum().getValue() == "1234"
+        assert decl.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         false_conditions = decl.getModeDrivenFalseConditions()
         assert len(false_conditions) == 1
         false_refs = false_conditions[0].getModeDeclarationRefs()

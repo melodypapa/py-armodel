@@ -341,17 +341,17 @@ class TransmissionModeDeclaration(ARObject):
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.59, p.392 (R23-11)
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeDrivenFalseCondition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setModeDrivenFalseCondition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getModeDrivenTrueCondition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setModeDrivenTrueCondition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTransmissionModeCondition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTransmissionModeCondition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTransmissionModeFalseTiming [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTransmissionModeFalseTiming [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getTransmissionModeTrueTiming [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setTransmissionModeTrueTiming [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeDrivenFalseConditions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModeDrivenFalseCondition     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDrivenTrueConditions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModeDrivenTrueCondition      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionModeConditions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTransmissionModeCondition    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionModeFalseTiming  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionModeFalseTiming  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionModeTrueTiming   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionModeTrueTiming   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

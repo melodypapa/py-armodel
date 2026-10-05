@@ -15660,6 +15660,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             decl = TransmissionModeDeclaration()
+            self.readARObject(child_element, decl)
             for condition_element in self.findall(child_element, "MODE-DRIVEN-FALSE-CONDITIONS/MODE-DRIVEN-TRANSMISSION-MODE-CONDITION"):
                 condition = ModeDrivenTransmissionModeCondition()
                 self.readModeDrivenTransmissionModeCondition(condition_element, condition)
