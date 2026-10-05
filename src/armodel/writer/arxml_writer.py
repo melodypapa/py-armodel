@@ -1382,6 +1382,14 @@ MONOTONY_XML_MAP = {
     "strictMonotonous": "STRICT-MONOTONOUS",
 }
 
+#: Mapping between HandleTimeoutEnum literal values and their XML element text
+#: (AR:HANDLE-TIMEOUT-ENUM--SIMPLE).
+HANDLE_TIMEOUT_XML_MAP = {
+    "none": "NONE",
+    "replace": "REPLACE",
+    "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -2664,13 +2672,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NONQUEUED-RECEIVER-COM-SPEC")
         self.writeARObject(child_element, com_spec)
         self.writeReceiverComSpec(child_element, com_spec)
-        self.setChildElementOptionalFloatValue(child_element, "ALIVE-TIMEOUT", com_spec.getAliveTimeout())
+        self.setChildElementOptionalTimeValue(child_element, "ALIVE-TIMEOUT", com_spec.getAliveTimeout())
         self.setChildElementOptionalBooleanValue(child_element, "ENABLE-UPDATE", com_spec.getEnableUpdate())
         self.setDataFilter(child_element, "FILTER", com_spec.getFilter())
         self.setChildElementOptionalBooleanValue(child_element, "HANDLE-DATA-STATUS", com_spec.getHandleDataStatus())
         self.setChildElementOptionalBooleanValue(child_element, "HANDLE-NEVER-RECEIVED", com_spec.getHandleNeverReceived())
-        self.setChildElementOptionalLiteral(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.getHandleTimeoutType())
-
+        self._writeEnumToken(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.getHandleTimeoutType(), HANDLE_TIMEOUT_XML_MAP)
         self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
         self.setChildValueSpecification(child_element, "TIMEOUT-SUBSTITUTION-VALUE", com_spec.getTimeoutSubstitutionValue())
 

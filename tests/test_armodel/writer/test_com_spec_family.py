@@ -5,7 +5,9 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification, TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Numerical, PositiveInteger, RefType, TimeValue, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     HandleOutOfRangeEnum,
@@ -135,13 +137,18 @@ def _new_nonqueued_com_spec():
     enable_update = Boolean()
     enable_update.setValue(False)
     com_spec.setEnableUpdate(enable_update)
+    data_filter = DataFilter()
+    data_filter.setDataFilterType(DataFilterTypeEnum().setValue(DataFilterTypeEnum.ONE_EVERY_N))
+    com_spec.setFilter(data_filter)
     handle_data_status = Boolean()
     handle_data_status.setValue(True)
     com_spec.setHandleDataStatus(handle_data_status)
     handle_never = Boolean()
     handle_never.setValue(True)
     com_spec.setHandleNeverReceived(handle_never)
-    com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE))
+    com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE))
+    com_spec.setInitValue(TextValueSpecification().setValue(VerbatimString().setValue("42")))
+    com_spec.setTimeoutSubstitutionValue(NumericalValueSpecification().setValue(Numerical().setValue("7")))
     return com_spec
 
 
@@ -167,18 +174,61 @@ class TestReceiverComSpecRoundTrip:
         assert com_spec.getReceptionProps().getTimeout().getValue() == 0.5
         assert com_spec.getUsesEndToEndProtection().getValue() is True
         assert com_spec.getSyncCounterInit().getValue() == 1
+        assert isinstance(com_spec.getAliveTimeout(), TimeValue)
         assert com_spec.getAliveTimeout().getValue() == 1.5
         assert com_spec.getEnableUpdate().getValue() is False
+        assert com_spec.getFilter().getDataFilterType().getValue() == "ONE-EVERY-N"
         assert com_spec.getHandleDataStatus().getValue() is True
         assert com_spec.getHandleNeverReceived().getValue() is True
-        assert com_spec.getHandleTimeoutType().getValue() == "replace"
+        assert com_spec.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+        assert isinstance(com_spec.getInitValue(), TextValueSpecification)
+        assert com_spec.getInitValue().getValue().getValue() == "42"
+        assert isinstance(com_spec.getTimeoutSubstitutionValue(), NumericalValueSpecification)
+        assert com_spec.getTimeoutSubstitutionValue().getValue().getValue() == 7
         assert com_spec.getCompositeNetworkRepresentations() == []
         assert com_spec.getNetworkRepresentation() is None
         assert com_spec.getReplaceWith() is None
         assert com_spec.getTransformationComSpecProps() == []
-        assert com_spec.getFilter() is None
-        assert com_spec.getInitValue() is None
-        assert com_spec.getTimeoutSubstitutionValue() is None
+
+    def test_handle_timeout_type_xml_carries_xsd_token(self):
+        """HANDLE-TIMEOUT-TYPE is written as the XSD token and read back as the camelCase literal (HANDLE_TIMEOUT_XML_MAP)."""
+        document, _, r_port = _new_document_with_ports()
+
+        com_spec = NonqueuedReceiverComSpec()
+        com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE))
+        r_port.addRequiredComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        timeout_type_element = root.find(".//{*}NONQUEUED-RECEIVER-COM-SPEC/{*}HANDLE-TIMEOUT-TYPE")
+        assert timeout_type_element.text == "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE"
+
+        _, r_port_2 = _round_trip_ports(document)
+        com_spec_2 = r_port_2.getRequiredComSpecs()[0]
+        assert com_spec_2.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+
+    def test_nonqueued_receiver_com_spec_schema_valid_output(self):
+        """A save carrying HANDLE-TIMEOUT-TYPE must pass the bundled R23-11 XSD when schema location is set."""
+        document, _, r_port = _new_document_with_ports()
+        document.schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd"
+
+        com_spec = NonqueuedReceiverComSpec()
+        com_spec.setAliveTimeout(TimeValue().setValue("1.5"))
+        com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE))
+        r_port.addRequiredComSpec(com_spec)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+        com_spec_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0].getRPortPrototypes()[0].getRequiredComSpecs()[0]
+        assert com_spec_2.getHandleTimeoutType().getValue() == "replace"
+        assert com_spec_2.getAliveTimeout().getValue() == 1.5
 
     def test_receiver_com_spec_xml_element_order_matches_xsd(self):
         """Writer emission order follows the XSD RECEIVER-COM-SPEC / NONQUEUED-RECEIVER-COM-SPEC group sequences (Rule 0001.11)."""

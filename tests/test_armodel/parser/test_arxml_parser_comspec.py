@@ -24,6 +24,8 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification, TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedSenderComSpec, UserDefinedTransformationComSpecProps
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
@@ -285,12 +287,59 @@ class TestGetNonqueuedReceiverComSpec:
         assert result is not None
         assert result.getDataElementRef() is not None
         assert result.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert result.getAliveTimeout() is not None
+        assert isinstance(result.getAliveTimeout(), TimeValue)
+        assert result.getAliveTimeout().getValue() == 0.5
         assert result.getEnableUpdate() is not None
+        assert result.getEnableUpdate().getValue() is True
         assert result.getHandleDataStatus() is not None
         assert result.getHandleDataStatus().getValue() is True
         assert result.getHandleNeverReceived() is not None
+        assert result.getHandleNeverReceived().getValue() is False
         assert result.getHandleTimeoutType() is not None
+        assert result.getHandleTimeoutType().getValue() == "replace"
+
+    def test_handle_timeout_type_token_mapped_to_camel_literal(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            "<HANDLE-TIMEOUT-TYPE>REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE</HANDLE-TIMEOUT-TYPE>",
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        result = parser.getNonqueuedReceiverComSpec(element)
+        assert result.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+
+    def test_with_own_aggregates(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <FILTER>
+                <DATA-FILTER-TYPE>ONE-EVERY-N</DATA-FILTER-TYPE>
+            </FILTER>
+            <INIT-VALUE>
+                <TEXT-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Init</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Init</DEFINITION-REF>
+                    <VALUE>42</VALUE>
+                </TEXT-VALUE-SPECIFICATION>
+            </INIT-VALUE>
+            <TIMEOUT-SUBSTITUTION-VALUE>
+                <NUMERICAL-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Sub</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Sub</DEFINITION-REF>
+                    <VALUE>7</VALUE>
+                </NUMERICAL-VALUE-SPECIFICATION>
+            </TIMEOUT-SUBSTITUTION-VALUE>
+            """,
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        result = parser.getNonqueuedReceiverComSpec(element)
+        assert result.getFilter() is not None
+        assert result.getFilter().getDataFilterType().getValue() == "ONE-EVERY-N"
+        init_value = result.getInitValue()
+        assert isinstance(init_value, TextValueSpecification)
+        assert init_value.getValue().getValue() == "42"
+        timeout_substitution_value = result.getTimeoutSubstitutionValue()
+        assert isinstance(timeout_substitution_value, NumericalValueSpecification)
+        assert timeout_substitution_value.getValue().getValue() == 7
 
     def test_minimal(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

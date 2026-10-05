@@ -2199,7 +2199,9 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviation)* | — | — | — | — | All 8 spec attributes implemented; `handleDataStatus` reader/writer coverage added. |
+| — *(no deviation)* | — | — | — | — | All 8 spec attributes implemented (`aliveTimeout`, `enableUpdate`, `filter`, `handleDataStatus`, `handleNeverReceived`, `handleTimeoutType`, `initValue`, `timeoutSubstitutionValue`); reader/writer coverage complete. |
+
+**Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified all 8 attributes both directions against Table 4.62, the verbatim Notes, member order, and the XSD NONQUEUED-RECEIVER-COM-SPEC group element order; the legacy 5-column checklist was normalized to the 6-column format and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader/writer: dropped the duplicate `readARObject` call (`readReceiverComSpec` already chains `readRPortComSpec` → `readARObject`), upgraded `ALIVE-TIMEOUT` from the `Float`-typed helper to the spec-typed `TimeValue` helper (Table 4.66), and routed `HANDLE-TIMEOUT-TYPE` through `HANDLE_TIMEOUT_XML_MAP` + `_readEnumToken`/`_writeEnumToken` so the XML carries the XSD tokens (`NONE`/`REPLACE`/`REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE`) while the model keeps the camelCase literals. No Rule 0001.10 missing classes. No stamp (batch 9b).
 
 ## `SenderComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 178

@@ -1194,98 +1194,132 @@ class TestNvProvideComSpec:
 
 
 class TestNonqueuedReceiverComSpec:
-    """Test class for NonqueuedReceiverComSpec class."""
+    """Test class for NonqueuedReceiverComSpec class (Table 4.62)."""
 
-    def test_nonqueued_receiver_com_spec_initialization(self):
-        """Test NonqueuedReceiverComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.62 Notes copied verbatim."""
+        assert NonqueuedReceiverComSpec.__doc__.strip() == "Communication attributes specific to non-queued receiving."
+        alive_timeout_note = "Specify the amount of time (in seconds) after which the software component (via the RTE) needs to be notified if the corresponding data item have not been received according to the specified timing description. If the aliveTimeout attribute is 0 no timeout monitoring shall be performed."
+        assert NonqueuedReceiverComSpec.getAliveTimeout.__doc__.strip() == alive_timeout_note
+        assert NonqueuedReceiverComSpec.setAliveTimeout.__doc__.strip() == alive_timeout_note + " A None value is a no-op and does not overwrite an existing aliveTimeout."
+        enable_update_note = "This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated."
+        assert NonqueuedReceiverComSpec.getEnableUpdate.__doc__.strip() == enable_update_note
+        assert NonqueuedReceiverComSpec.setEnableUpdate.__doc__.strip() == enable_update_note + " A None value is a no-op and does not overwrite an existing enableUpdate."
+        filter_note = "The applicable filter algorithm for filtering the value of the corresponding dataElement."
+        assert NonqueuedReceiverComSpec.getFilter.__doc__.strip() == filter_note
+        assert NonqueuedReceiverComSpec.setFilter.__doc__.strip() == filter_note + " A None value is a no-op and does not overwrite an existing filter."
+        handle_data_status_note = "If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions."
+        assert NonqueuedReceiverComSpec.getHandleDataStatus.__doc__.strip() == handle_data_status_note
+        assert NonqueuedReceiverComSpec.setHandleDataStatus.__doc__.strip() == handle_data_status_note + " A None value is a no-op and does not overwrite an existing handleDataStatus."
+        handle_never_received_note = 'This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.'
+        assert NonqueuedReceiverComSpec.getHandleNeverReceived.__doc__.strip() == handle_never_received_note
+        assert NonqueuedReceiverComSpec.setHandleNeverReceived.__doc__.strip() == handle_never_received_note + " A None value is a no-op and does not overwrite an existing handleNeverReceived."
+        handle_timeout_type_note = "This attribute controls the behavior with respect to the handling of timeouts."
+        assert NonqueuedReceiverComSpec.getHandleTimeoutType.__doc__.strip() == handle_timeout_type_note
+        assert NonqueuedReceiverComSpec.setHandleTimeoutType.__doc__.strip() == handle_timeout_type_note + " A None value is a no-op and does not overwrite an existing handleTimeoutType."
+        init_value_note = "Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used."
+        assert NonqueuedReceiverComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NonqueuedReceiverComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        timeout_substitution_value_note = "This attribute represents the substitution value applicable in the case of a timeout."
+        assert NonqueuedReceiverComSpec.getTimeoutSubstitutionValue.__doc__.strip() == timeout_substitution_value_note
+        assert (
+            NonqueuedReceiverComSpec.setTimeoutSubstitutionValue.__doc__.strip()
+            == timeout_substitution_value_note + " A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue."
+        )
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec + ReceiverComSpec — Python base is ReceiverComSpec (most-derived, Table 4.60); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NonqueuedReceiverComSpec, ReceiverComSpec)
+        assert issubclass(NonqueuedReceiverComSpec, RPortComSpec)
+        assert issubclass(NonqueuedReceiverComSpec, ARObject)
+        assert "dataElementRef" not in NonqueuedReceiverComSpec.__dict__ and "compositeNetworkRepresentations" not in NonqueuedReceiverComSpec.__dict__
+        assert NonqueuedReceiverComSpec.__dict__["setAliveTimeout"].__annotations__["return"] == "NonqueuedReceiverComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NonqueuedReceiverComSpec field defaults, including inherited base members."""
         receiver = NonqueuedReceiverComSpec()
-        assert receiver.getAliveTimeout() is None
-        assert receiver.getEnableUpdate() is None
-        assert receiver.getFilter() is None
-        assert receiver.getHandleDataStatus() is None
-        assert receiver.getHandleNeverReceived() is None
-        assert receiver.getHandleTimeoutType() is None
-        assert receiver.getInitValue() is None
-        assert receiver.getTimeoutSubstitutionValue() is None
+        assert receiver.aliveTimeout is None
+        assert receiver.enableUpdate is None
+        assert receiver.filter is None
+        assert receiver.handleDataStatus is None
+        assert receiver.handleNeverReceived is None
+        assert receiver.handleTimeoutType is None
+        assert receiver.initValue is None
+        assert receiver.timeoutSubstitutionValue is None
+        assert receiver.compositeNetworkRepresentations == []
+        assert receiver.dataElementRef is None
 
-        # Test setters and getters
-        alive_timeout = TimeValue()
-        alive_timeout.setValue("10.5")
-        receiver.setAliveTimeout(alive_timeout)
-        assert receiver.getAliveTimeout() == alive_timeout
-
-        enable_updated = Boolean()
-        enable_updated.setValue(True)
-        receiver.setEnableUpdate(enable_updated)
-        assert receiver.getEnableUpdate() == enable_updated
-
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-
-        filter_value = DataFilter()
-        receiver.setFilter(filter_value)
-        assert receiver.getFilter() == filter_value
-
-        handle_data = Boolean()
-        handle_data.setValue(True)
-        receiver.setHandleDataStatus(handle_data)
-        assert receiver.getHandleDataStatus() == handle_data
-
-        handle_never = Boolean()
-        handle_never.setValue(False)
-        receiver.setHandleNeverReceived(handle_never)
-        assert receiver.getHandleNeverReceived() == handle_never
-
-        timeout_type = HandleTimeoutEnum()
-        timeout_type.setValue(HandleTimeoutEnum.REPLACE)
-        receiver.setHandleTimeoutType(timeout_type)
-        assert receiver.getHandleTimeoutType() == timeout_type
-
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-
-        init_value = TextValueSpecification()
-        receiver.setInitValue(init_value)
-        assert receiver.getInitValue() == init_value
-
-        timeout_sub = TextValueSpecification()
-        receiver.setTimeoutSubstitutionValue(timeout_sub)
-        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
-
-    def test_alive_timeout_none_noop(self):
-        """Test setAliveTimeout with None is a no-op."""
+    def test_get_set_alive_timeout(self):
+        """Test aliveTimeout accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        alive_timeout = TimeValue()
-        alive_timeout.setValue("10.5")
-        receiver.setAliveTimeout(alive_timeout)
+        alive_timeout = TimeValue().setValue("10.5")
+        assert receiver.setAliveTimeout(alive_timeout) is receiver
+        assert receiver.getAliveTimeout() is alive_timeout
         receiver.setAliveTimeout(None)
-        assert receiver.getAliveTimeout() == alive_timeout
+        assert receiver.getAliveTimeout() is alive_timeout
 
-    def test_enable_update_none_noop(self):
-        """Test setEnableUpdate with None is a no-op."""
+    def test_get_set_enable_update(self):
+        """Test enableUpdate accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        enable = Boolean()
-        enable.setValue(True)
-        receiver.setEnableUpdate(enable)
+        enable_update = Boolean().setValue(True)
+        assert receiver.setEnableUpdate(enable_update) is receiver
+        assert receiver.getEnableUpdate() is enable_update
         receiver.setEnableUpdate(None)
-        assert receiver.getEnableUpdate() == enable
+        assert receiver.getEnableUpdate() is enable_update
 
-    def test_handle_timeout_type_none_noop(self):
-        """Test setHandleTimeoutType with None is a no-op."""
+    def test_get_set_filter(self):
+        """Test filter accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        timeout_type = HandleTimeoutEnum()
-        timeout_type.setValue(HandleTimeoutEnum.NONE)
-        receiver.setHandleTimeoutType(timeout_type)
+        filter_value = DataFilter()
+        assert receiver.setFilter(filter_value) is receiver
+        assert receiver.getFilter() is filter_value
+        receiver.setFilter(None)
+        assert receiver.getFilter() is filter_value
+
+    def test_get_set_handle_data_status(self):
+        """Test handleDataStatus accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        handle_data_status = Boolean().setValue(True)
+        assert receiver.setHandleDataStatus(handle_data_status) is receiver
+        assert receiver.getHandleDataStatus() is handle_data_status
+        receiver.setHandleDataStatus(None)
+        assert receiver.getHandleDataStatus() is handle_data_status
+
+    def test_get_set_handle_never_received(self):
+        """Test handleNeverReceived accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        handle_never_received = Boolean().setValue(False)
+        assert receiver.setHandleNeverReceived(handle_never_received) is receiver
+        assert receiver.getHandleNeverReceived() is handle_never_received
+        receiver.setHandleNeverReceived(None)
+        assert receiver.getHandleNeverReceived() is handle_never_received
+
+    def test_get_set_handle_timeout_type(self):
+        """Test handleTimeoutType accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        timeout_type = HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE)
+        assert receiver.setHandleTimeoutType(timeout_type) is receiver
+        assert receiver.getHandleTimeoutType() is timeout_type
         receiver.setHandleTimeoutType(None)
-        assert receiver.getHandleTimeoutType() == timeout_type
+        assert receiver.getHandleTimeoutType() is timeout_type
 
-    def test_timeout_substitution_value_none_noop(self):
-        """Test setTimeoutSubstitutionValue with None is a no-op."""
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        timeout_sub = TextValueSpecification()
-        receiver.setTimeoutSubstitutionValue(timeout_sub)
+        init_value = TextValueSpecification()
+        assert receiver.setInitValue(init_value) is receiver
+        assert receiver.getInitValue() is init_value
+        receiver.setInitValue(None)
+        assert receiver.getInitValue() is init_value
+
+    def test_get_set_timeout_substitution_value(self):
+        """Test timeoutSubstitutionValue accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        timeout_substitution_value = TextValueSpecification()
+        assert receiver.setTimeoutSubstitutionValue(timeout_substitution_value) is receiver
+        assert receiver.getTimeoutSubstitutionValue() is timeout_substitution_value
         receiver.setTimeoutSubstitutionValue(None)
-        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
+        assert receiver.getTimeoutSubstitutionValue() is timeout_substitution_value
 
 
 class TestHandleOutOfRangeStatusEnum:

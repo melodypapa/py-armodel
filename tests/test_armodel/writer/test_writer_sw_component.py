@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ClientComSpec,
     CompositeNetworkRepresentation,
     HandleOutOfRangeEnum,
+    HandleTimeoutEnum,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -611,7 +612,7 @@ class TestWriteReceiverComSpec:
         com_spec.setFilter(DataFilter())
         com_spec.setHandleDataStatus(_boolean(True))
         com_spec.setHandleNeverReceived(_boolean(False))
-        com_spec.setHandleTimeoutType(_literal("keep-old-value"))
+        com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.NONE))
         com_spec.setInitValue(TextValueSpecification())
         parent = _parent()
         writer.writeNonqueuedReceiverComSpec(parent, com_spec)

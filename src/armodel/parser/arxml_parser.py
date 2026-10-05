@@ -795,7 +795,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     SymbolString,
     TRefType,
-    TimeValue,
     UnlimitedInteger,
     UriString,
     VerbatimString,
@@ -1644,6 +1643,14 @@ MONOTONY_XML_MAP = {
     "strictlyDecreasing": "STRICTLY-DECREASING",
     "strictlyIncreasing": "STRICTLY-INCREASING",
     "strictMonotonous": "STRICT-MONOTONOUS",
+}
+
+#: Mapping between HandleTimeoutEnum literal values and their XML element text
+#: (AR:HANDLE-TIMEOUT-ENUM--SIMPLE).
+HANDLE_TIMEOUT_XML_MAP = {
+    "none": "NONE",
+    "replace": "REPLACE",
+    "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
@@ -7918,14 +7925,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getNonqueuedReceiverComSpec(self, element: ET.Element) -> NonqueuedReceiverComSpec:
         com_spec = NonqueuedReceiverComSpec()
-        self.readARObject(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
-        com_spec.setAliveTimeout(cast(Optional[TimeValue], self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT")))
+        com_spec.setAliveTimeout(self.getChildElementOptionalTimeValue(element, "ALIVE-TIMEOUT"))
         com_spec.setEnableUpdate(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE"))
+        com_spec.setFilter(self.getDataFilter(element, "FILTER"))
         com_spec.setHandleDataStatus(self.getChildElementOptionalBooleanValue(element, "HANDLE-DATA-STATUS"))
         com_spec.setHandleNeverReceived(self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED"))
-        com_spec.setFilter(self.getDataFilter(element, "FILTER"))
-        com_spec.setHandleTimeoutType(cast(Optional[HandleTimeoutEnum], self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE")))
+        com_spec.setHandleTimeoutType(self._readEnumToken(element, "HANDLE-TIMEOUT-TYPE", HandleTimeoutEnum, HANDLE_TIMEOUT_XML_MAP))
         com_spec.setInitValue(self.getInitValue(element))
         com_spec.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
         return com_spec
