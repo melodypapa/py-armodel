@@ -2543,10 +2543,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, sw_values)
             for vf in sw_values.getVfs():
-                self.setChildElementOptionalFloatValue(child_element, "VF", cast(Float, vf))
-            self.setChildElementOptionalLiteral(child_element, "VT", sw_values.getVt())
+                self.setChildElementOptionalNumericalValue(child_element, "VF", vf)
+            self.setChildElementOptionalVerbatimString(child_element, "VT", sw_values.getVt())
             for v in sw_values.getVs():
-                self.setChildElementOptionalFloatValue(child_element, "V", cast(Float, v))
+                self.setChildElementOptionalNumericalValue(child_element, "V", v)
             self.setValueGroup(child_element, "VG", sw_values.getVg())
             for vtf in sw_values.getVtfs():
                 self.writeNumericalOrText(child_element, "VTF", vtf)

@@ -317,3 +317,55 @@ class TestSwAxisCont:
         assert (axis_cont.setUnitRef.__doc__ or "").strip().split("\n")[0] == UNIT_NOTE
         assert (axis_cont.getUnitDisplayName.__doc__ or "").strip() == UNIT_DISPLAY_NAME_NOTE
         assert (axis_cont.setUnitDisplayName.__doc__ or "").strip().split("\n")[0] == UNIT_DISPLAY_NAME_NOTE
+
+
+SW_VALUES_CLASS_NOTE = (
+    "This meta-class represents a list of values. These values can either be the input values of a curve "
+    "(abscissa values) or the associated values (ordinate values). For multidimensional structures, the values "
+    "are ordered such that they follow the memory layout, see [TPS_SWCT_01882] In particular for maps and "
+    "cuboids etc. the resulting long value list can be subsectioned using Value Group. But the processing "
+    "needs to be done as if vg is not there. Note that numerical values and textual values should not be mixed."
+)
+
+V_NOTE = "This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF. Tags: xml.sequenceOffset=40"
+VF_NOTE = (
+    "This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of "
+    "compatibility to ASAM CDF 2.0. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime "
+    "xml.sequenceOffset=20"
+)
+VG_NOTE = (
+    "This allows to have intersections in the values in order to support specific rendering (eg. using "
+    "stylesheets). For tools it is important that the v values are always processed in the same (flattened) "
+    "order and the tool is able to interpret it without respecting vg. Tags: xml.sequenceOffset=50"
+)
+VT_NOTE = (
+    "This represents the values of textual data elements (Strings). Note that vt uses the | to separate the "
+    "values for the different bitfield masks in case that the semantics of the related DataPrototype is "
+    "described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. Tags: xml.sequenceOffset=30"
+)
+VTF_NOTE = (
+    "This aggregation represents the ability to provide a value that is either numerical or text which "
+    "existence is subject to variability. From the formal point of view, the aggregation needs to have the "
+    "multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of "
+    "vtf is optional and subject to constraints. Stereotypes: atpSplitable; atpVariation Tags: "
+    "atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+)
+
+
+class TestSwValuesSpecSync:
+    def test_class_docstring_verbatim(self):
+        docstring = (SwValues.__doc__ or "").strip()
+        assert docstring == SW_VALUES_CLASS_NOTE
+
+    def test_member_docstrings_verbatim(self):
+        sw_values = SwValues()
+        assert (sw_values.addV.__doc__ or "").strip().split("\n")[0] == V_NOTE
+        assert (sw_values.getVs.__doc__ or "").strip() == V_NOTE
+        assert (sw_values.addVf.__doc__ or "").strip().split("\n")[0] == VF_NOTE
+        assert (sw_values.getVfs.__doc__ or "").strip() == VF_NOTE
+        assert (sw_values.getVg.__doc__ or "").strip() == VG_NOTE
+        assert (sw_values.setVg.__doc__ or "").strip().split("\n")[0] == VG_NOTE
+        assert (sw_values.getVt.__doc__ or "").strip() == VT_NOTE
+        assert (sw_values.setVt.__doc__ or "").strip().split("\n")[0] == VT_NOTE
+        assert (sw_values.addVtf.__doc__ or "").strip().split("\n")[0] == VTF_NOTE
+        assert (sw_values.getVtfs.__doc__ or "").strip() == VTF_NOTE

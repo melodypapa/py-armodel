@@ -149,53 +149,46 @@ class SwAxisCont(ARObject):
 
 class SwValues(ARObject):
     """
-    This meta-class represents a list of values. These values can either be the input values of a curve (abscissa values) or the associated values (ordinate values). For multidimensional structures, the values are ordered such that they follow the memory layout, see [TPS_SWCT_01882] In particular for maps and cuboids etc. the resulting long value list can be subsectioned using Value Group. But the processing needs to be done as if vg is not there.     Note that numerical values and textual values should not be mixed.
+    This meta-class represents a list of values. These values can either be the input values of a curve (abscissa values) or the associated values (ordinate values). For multidimensional structures, the values are ordered such that they follow the memory layout, see [TPS_SWCT_01882] In particular for maps and cuboids etc. the resulting long value list can be subsectioned using Value Group. But the processing needs to be done as if vg is not there. Note that numerical values and textual values should not be mixed.
     """
 
     # SwValues method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.125, p.458
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addV                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addVf                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVfs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getVg                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVg                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVt                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVt                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVtf                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVtfs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addV       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVfs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getVg      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVg      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVtf     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVtfs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
+        # This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF. Tags: xml.sequenceOffset=40
         self.v: List[Numerical] = []
 
-        # This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
+        # This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
         self.vf: List[Numerical] = []
 
-        # This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
+        # This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg. Tags: xml.sequenceOffset=50
         self.vg: Optional[ValueGroup] = None
 
-        # This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        # This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. Tags: xml.sequenceOffset=30
         self.vt: Optional[VerbatimString] = None
 
-        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
+        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.vtf: List[NumericalOrText] = []
 
     def addV(self, v: Optional[Numerical]) -> SwValues:
         """
-        This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            v: This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF. to append
-
-        Returns:
-            SwValues: self for method chaining
+        This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF. Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not append to v.
         """
         if v is not None:
             self.v.append(v)
@@ -203,23 +196,14 @@ class SwValues(ARObject):
 
     def getVs(self) -> List[Numerical]:
         """
-        This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF.
-
-        Returns:
-            List[Numerical]: The list of non variant Values
+        This is a non variant Value. It is provided for sake of Compatibility to ASAM CDF. Tags: xml.sequenceOffset=40
         """
         return self.v
 
     def addVf(self, vf: Optional[Numerical]) -> SwValues:
         """
-        This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            vf: This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0. to append
-
-        Returns:
-            SwValues: self for method chaining
+        This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
+        A None value is a no-op and does not append to vf.
         """
         if vf is not None:
             self.vf.append(vf)
@@ -227,32 +211,20 @@ class SwValues(ARObject):
 
     def getVfs(self) -> List[Numerical]:
         """
-        This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0.
-
-        Returns:
-            List[Numerical]: The list of variation point Values
+        This allows to specify the value as VariationPoint. It is distinguished to non variant for sake of compatibility to ASAM CDF 2.0. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20
         """
         return self.vf
 
     def getVg(self) -> Optional[ValueGroup]:
         """
-        This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
-
-        Returns:
-            Optional[ValueGroup]: This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg., or None if not set
+        This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg. Tags: xml.sequenceOffset=50
         """
         return self.vg
 
     def setVg(self, value: Optional[ValueGroup]) -> SwValues:
         """
-        This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg.
+        This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg. Tags: xml.sequenceOffset=50
         A None value is a no-op and does not overwrite an existing vg.
-
-        Args:
-            value: This allows to have intersections in the values in order to support specific rendering (eg. using stylesheets). For tools it is important that the v values are always processed in the same (flattened) order and the tool is able to interpret it without respecting vg. to set
-
-        Returns:
-            SwValues: self for method chaining
         """
         if value is not None:
             self.vg = value
@@ -260,23 +232,14 @@ class SwValues(ARObject):
 
     def getVt(self) -> Optional[VerbatimString]:
         """
-        This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
-
-        Returns:
-            Optional[VerbatimString]: This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod., or None if not set
+        This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. Tags: xml.sequenceOffset=30
         """
         return self.vt
 
     def setVt(self, value: Optional[VerbatimString]) -> SwValues:
         """
-        This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod.
+        This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing vt.
-
-        Args:
-            value: This represents the values of textual data elements (Strings). Note that vt uses the | to separate the values for the different bitfield masks in case that the semantics of the related DataPrototype is described by means of a BITFIELD_TEXTTABLE in the associated CompuMethod. to set
-
-        Returns:
-            SwValues: self for method chaining
         """
         if value is not None:
             self.vt = value
@@ -284,14 +247,8 @@ class SwValues(ARObject):
 
     def addVtf(self, vtf: Optional[NumericalOrText]) -> SwValues:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
-        A None value is a no-op and does not append anything.
-
-        Args:
-            vtf: This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints. to append
-
-        Returns:
-            SwValues: self for method chaining
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not append to vtf.
         """
         if vtf is not None:
             self.vtf.append(vtf)
@@ -299,10 +256,7 @@ class SwValues(ARObject):
 
     def getVtfs(self) -> List[NumericalOrText]:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints.
-
-        Returns:
-            List[NumericalOrText]: The list of numerical-or-text values subject to variability
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. From the formal point of view, the aggregation needs to have the multiplicity 1 because SwValues is modelled with stereotype <<atpMixed>>. Nevertheless, the existence of vtf is optional and subject to constraints. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.vtf
 
