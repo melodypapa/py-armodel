@@ -391,9 +391,36 @@ class TestFlexrayFifoRange:
         self._assert_docstring(FlexrayFifoRange.setRangeMin, RANGE_MIN_NOTE, "rangeMin")
 
 
+FLEXRAY_FIFO_CONFIGURATION_CLASS_NOTE = "One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO, and mandating the ability to admit messages into the FIFO based on Message Id filtering criteria."
+ADMIT_WITHOUT_MESSAGE_ID_NOTE = "Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO."
+BASE_CYCLE_NOTE = "FIFO cycle counter acceptance criteria."
+CHANNEL_REF_NOTE = "Fifo channel admittance criteria."
+CYCLE_REPETITION_NOTE = "FIFO cycle counter acceptance criteria."
+FIFO_DEPTH_NOTE = "FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO."
+FIFO_RANGE_NOTE = "FIFO Frame Id range acceptance criteria."
+MSG_ID_MASK_NOTE = "FIFO message identifier acceptance criteria (Mask filter)."
+MSG_ID_MATCH_NOTE = "FIFO message identifier acceptance criteria (Match filter)."
+
+
 class TestFlexrayFifoConfiguration:
-    def test_defaults(self):
-        config = FlexrayFifoConfiguration()
+    def _make(self) -> FlexrayFifoConfiguration:
+        return FlexrayFifoConfiguration()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_initialization(self):
+        config = self._make()
+
         assert isinstance(config, ARObject)
         assert config.getAdmitWithoutMessageId() is None
         assert config.getBaseCycle() is None
@@ -404,40 +431,171 @@ class TestFlexrayFifoConfiguration:
         assert config.getMsgIdMask() is None
         assert config.getMsgIdMatch() is None
 
-    def test_setters(self):
-        config = FlexrayFifoConfiguration()
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(FlexrayFifoConfiguration.__doc__).strip() == FLEXRAY_FIFO_CONFIGURATION_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayFifoConfiguration.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(FlexrayFifoConfiguration.__init__)
+        order = [
+            "self.admitWithoutMessageId:",
+            "self.baseCycle:",
+            "self.channelRef:",
+            "self.cycleRepetition:",
+            "self.fifoDepth:",
+            "self.fifoRanges:",
+            "self.msgIdMask:",
+            "self.msgIdMatch:",
+        ]
+        indexes = [source.index(member) for member in order]
+        assert indexes == sorted(indexes)
+
+    def test_get_set_admit_without_message_id(self):
+        config = self._make()
+
         assert config == config.setAdmitWithoutMessageId(True)
         assert config.getAdmitWithoutMessageId() is True
+
+        assert config == config.setAdmitWithoutMessageId(None)
+        assert config.getAdmitWithoutMessageId() is True
+
+        self._pin(FlexrayFifoConfiguration.getAdmitWithoutMessageId, FlexrayFifoConfiguration.setAdmitWithoutMessageId, Optional[Boolean], FlexrayFifoConfiguration)
+
+    def test_get_set_base_cycle(self):
+        config = self._make()
+
         assert config == config.setBaseCycle(2)
         assert config.getBaseCycle() == 2
-        assert config == config.setCycleRepetition(4)
-        assert config.getCycleRepetition() == 4
-        assert config == config.setFifoDepth(8)
-        assert config.getFifoDepth() == 8
-        assert config == config.setMsgIdMask(16)
-        assert config.getMsgIdMask() == 16
-        assert config == config.setMsgIdMatch(32)
-        assert config.getMsgIdMatch() == 32
 
-    def test_channel_ref_setter(self):
-        config = FlexrayFifoConfiguration()
+        assert config == config.setBaseCycle(None)
+        assert config.getBaseCycle() == 2
+
+        self._pin(FlexrayFifoConfiguration.getBaseCycle, FlexrayFifoConfiguration.setBaseCycle, Optional[Integer], FlexrayFifoConfiguration)
+
+    def test_get_set_channel_ref(self):
+        config = self._make()
         ref = RefType()
         ref.setValue("/FlexrayCluster/ChannelA")
+
         assert config == config.setChannelRef(ref)
         assert config.getChannelRef() is ref
 
-    def test_create_fifo_range(self):
-        config = FlexrayFifoConfiguration()
-        range_1 = config.createFlexrayFifoRange()
+        assert config == config.setChannelRef(None)
+        assert config.getChannelRef() is ref
+
+        self._pin(FlexrayFifoConfiguration.getChannelRef, FlexrayFifoConfiguration.setChannelRef, Optional[RefType], FlexrayFifoConfiguration)
+
+    def test_get_set_cycle_repetition(self):
+        config = self._make()
+
+        assert config == config.setCycleRepetition(4)
+        assert config.getCycleRepetition() == 4
+
+        assert config == config.setCycleRepetition(None)
+        assert config.getCycleRepetition() == 4
+
+        self._pin(FlexrayFifoConfiguration.getCycleRepetition, FlexrayFifoConfiguration.setCycleRepetition, Optional[Integer], FlexrayFifoConfiguration)
+
+    def test_get_set_fifo_depth(self):
+        config = self._make()
+
+        assert config == config.setFifoDepth(8)
+        assert config.getFifoDepth() == 8
+
+        assert config == config.setFifoDepth(None)
+        assert config.getFifoDepth() == 8
+
+        self._pin(FlexrayFifoConfiguration.getFifoDepth, FlexrayFifoConfiguration.setFifoDepth, Optional[Integer], FlexrayFifoConfiguration)
+
+    def test_get_set_msg_id_mask(self):
+        config = self._make()
+
+        assert config == config.setMsgIdMask(16)
+        assert config.getMsgIdMask() == 16
+
+        assert config == config.setMsgIdMask(None)
+        assert config.getMsgIdMask() == 16
+
+        self._pin(FlexrayFifoConfiguration.getMsgIdMask, FlexrayFifoConfiguration.setMsgIdMask, Optional[Integer], FlexrayFifoConfiguration)
+
+    def test_get_set_msg_id_match(self):
+        config = self._make()
+
+        assert config == config.setMsgIdMatch(32)
+        assert config.getMsgIdMatch() == 32
+
+        assert config == config.setMsgIdMatch(None)
+        assert config.getMsgIdMatch() == 32
+
+        self._pin(FlexrayFifoConfiguration.getMsgIdMatch, FlexrayFifoConfiguration.setMsgIdMatch, Optional[Integer], FlexrayFifoConfiguration)
+
+    def test_get_flexray_fifo_ranges_returns_typed_list(self):
+        getter_hints = get_type_hints(FlexrayFifoConfiguration.getFlexrayFifoRanges)
+        assert getter_hints.get("return") == List[FlexrayFifoRange]
+
+    def test_add_flexray_fifo_range(self):
+        config = self._make()
+
+        range_1 = FlexrayFifoRange()
         range_1.setRangeMax(200)
-        range_2 = config.createFlexrayFifoRange()
+        assert config == config.addFlexrayFifoRange(range_1)
+
+        range_2 = FlexrayFifoRange()
+        range_2.setRangeMin(5)
+        assert config == config.addFlexrayFifoRange(range_2)
+
         assert config.getFlexrayFifoRanges() == [range_1, range_2]
 
-    def test_none_noop(self):
-        config = FlexrayFifoConfiguration()
-        config.setBaseCycle(2)
-        config.setBaseCycle(None)
-        assert config.getBaseCycle() == 2
+    def test_add_flexray_fifo_range_none_noop(self):
+        config = self._make()
+
+        assert config == config.addFlexrayFifoRange(None)
+        assert config.getFlexrayFifoRanges() == []
+
+    def test_add_flexray_fifo_range_appends_duplicates(self):
+        config = self._make()
+        range_1 = FlexrayFifoRange()
+
+        config.addFlexrayFifoRange(range_1)
+        config.addFlexrayFifoRange(range_1)
+
+        assert config.getFlexrayFifoRanges() == [range_1, range_1]
+
+    def test_admit_without_message_id_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getAdmitWithoutMessageId, ADMIT_WITHOUT_MESSAGE_ID_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setAdmitWithoutMessageId, ADMIT_WITHOUT_MESSAGE_ID_NOTE, "admitWithoutMessageId")
+
+    def test_base_cycle_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getBaseCycle, BASE_CYCLE_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setBaseCycle, BASE_CYCLE_NOTE, "baseCycle")
+
+    def test_channel_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getChannelRef, CHANNEL_REF_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setChannelRef, CHANNEL_REF_NOTE, "channelRef")
+
+    def test_cycle_repetition_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getCycleRepetition, CYCLE_REPETITION_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setCycleRepetition, CYCLE_REPETITION_NOTE, "cycleRepetition")
+
+    def test_fifo_depth_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getFifoDepth, FIFO_DEPTH_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setFifoDepth, FIFO_DEPTH_NOTE, "fifoDepth")
+
+    def test_flexray_fifo_range_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getFlexrayFifoRanges, FIFO_RANGE_NOTE)
+        expected = FIFO_RANGE_NOTE + "\nA None value is a no-op and does not append to the existing fifoRanges."
+        assert FlexrayFifoConfiguration.addFlexrayFifoRange.__doc__ is not None
+        assert inspect.cleandoc(FlexrayFifoConfiguration.addFlexrayFifoRange.__doc__).strip() == expected
+
+    def test_msg_id_mask_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getMsgIdMask, MSG_ID_MASK_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setMsgIdMask, MSG_ID_MASK_NOTE, "msgIdMask")
+
+    def test_msg_id_match_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoConfiguration.getMsgIdMatch, MSG_ID_MATCH_NOTE)
+        self._assert_docstring(FlexrayFifoConfiguration.setMsgIdMatch, MSG_ID_MATCH_NOTE, "msgIdMatch")
 
 
 FLEXRAY_COMMUNICATION_CONNECTOR_CLASS_NOTE = (

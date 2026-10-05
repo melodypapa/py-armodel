@@ -14101,6 +14101,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = FlexrayFifoConfiguration()
+            self.readARObject(child_element, configuration)
             configuration.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID"))
             configuration.setBaseCycle(self.getChildElementOptionalIntegerValue(child_element, "BASE-CYCLE"))
             configuration.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNEL-REF"))
@@ -14109,7 +14110,7 @@ class ARXMLParser(AbstractARXMLParser):
             for range_child in self.findall(child_element, "FIFO-RANGES/FLEXRAY-FIFO-RANGE"):
                 fifo_range = self.getFlexrayFifoRange(range_child, ".")
                 if fifo_range is not None:
-                    configuration.getFlexrayFifoRanges().append(fifo_range)
+                    configuration.addFlexrayFifoRange(fifo_range)
             configuration.setMsgIdMask(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK"))
             configuration.setMsgIdMatch(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH"))
         return configuration

@@ -11908,6 +11908,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setFlexrayFifoConfiguration(self, element: ET.Element, key: str, configuration: FlexrayFifoConfiguration):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, configuration)
             self.setChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID", configuration.getAdmitWithoutMessageId())
             self.setChildElementOptionalIntegerValue(child_element, "BASE-CYCLE", configuration.getBaseCycle())
             self.setChildElementOptionalRefType(child_element, "CHANNEL-REF", configuration.getChannelRef())

@@ -1212,25 +1212,24 @@ class FlexrayFifoConfiguration(ARObject):
 
     # FlexrayFifoConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.31, p.87
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAdmitWithoutMessageId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAdmitWithoutMessageId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBaseCycle                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseCycle                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getChannelRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setChannelRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCycleRepetition              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCycleRepetition              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFifoDepth                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFifoDepth                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFlexrayFifoRanges            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createFlexrayFifoRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsgIdMask                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsgIdMask                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsgIdMatch                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsgIdMatch                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdmitWithoutMessageId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAdmitWithoutMessageId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBaseCycle              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseCycle              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChannelRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChannelRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCycleRepetition        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleRepetition        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFifoDepth              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFifoDepth              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlexrayFifoRanges      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFlexrayFifoRange       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsgIdMask              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsgIdMask              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsgIdMatch             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsgIdMatch             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1251,7 +1250,7 @@ class FlexrayFifoConfiguration(ARObject):
         self.fifoDepth: Optional[Integer] = None
 
         # FIFO Frame Id range acceptance criteria.
-        self.fifoRange: List[FlexrayFifoRange] = []
+        self.fifoRanges: List[FlexrayFifoRange] = []
 
         # FIFO message identifier acceptance criteria (Mask filter).
         self.msgIdMask: Optional[Integer] = None
@@ -1316,13 +1315,14 @@ class FlexrayFifoConfiguration(ARObject):
 
     def getFlexrayFifoRanges(self) -> List[FlexrayFifoRange]:
         """FIFO Frame Id range acceptance criteria."""
-        return self.fifoRange
+        return self.fifoRanges
 
-    def createFlexrayFifoRange(self) -> FlexrayFifoRange:
-        """FIFO Frame Id range acceptance criteria."""
-        fifo_range = FlexrayFifoRange()
-        self.fifoRange.append(fifo_range)
-        return fifo_range
+    def addFlexrayFifoRange(self, value: Optional[FlexrayFifoRange]) -> FlexrayFifoConfiguration:
+        """FIFO Frame Id range acceptance criteria.
+        A None value is a no-op and does not append to the existing fifoRanges."""
+        if value is not None:
+            self.fifoRanges.append(value)
+        return self
 
     def getMsgIdMask(self) -> Optional[Integer]:
         """FIFO message identifier acceptance criteria (Mask filter)."""

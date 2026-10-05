@@ -762,15 +762,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `FlexrayFifoConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.31, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
   - Deviation (pre-recorded 2026-10-05, Rule 0001.6): `createFlexrayFifoRange()` is a no-arg `createXxx` factory returning `FlexrayFifoRange`, which derives from `ARObject` (not `Referrable`) — Rule 0001.6 requires `addXxx(value)` for non-`Referrable` children. Rename to `addFlexrayFifoRange(value: Optional[FlexrayFifoRange])` (None-guarded append, returns self) in this pass.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — the pre-recorded Rule 0001.6 deviation is resolved in this pass: `createFlexrayFifoRange()` renamed to `addFlexrayFifoRange(value: Optional[FlexrayFifoRange])` (None-guarded append, returns self), the `fifoRange` list field pluralized to `fifoRanges` per Rule 0001.5, and the reader's transitional `getFlexrayFifoRanges().append(...)` replaced by `addFlexrayFifoRange(value)`. Rename call sites updated: model test_FlexrayTopology.py, writer test_flexray_fifo_range.py, writer test_writer_frame_channel.py. `channel` (Kind ref, 0..1) modeled as `channelRef: Optional[RefType]` per Rule 0001.5 ref-suffix naming (spec Type column names the reference target FlexrayPhysicalChannel; XSD CHANNEL-REF with DEST FLEXRAY-PHYSICAL-CHANNEL--SUBTYPES-ENUM) — no type drift. Reader/writer entry points now call readARObject/writeARObject exactly once each (Rule 0025 — inherited S/T were silently dropped before this pass). Stale `# Spec verified: R23-11` marker from the legacy 5-column checklist removed; re-stamp deferred to batch 9b per user instruction.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2333+8101 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [x] `FlexrayFifoRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.32, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py

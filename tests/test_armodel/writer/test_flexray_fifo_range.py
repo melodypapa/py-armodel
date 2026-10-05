@@ -14,7 +14,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, Integer, String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayFifoConfiguration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayFifoConfiguration, FlexrayFifoRange
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -37,14 +37,16 @@ def _configuration_with_ranges():
     configuration = FlexrayFifoConfiguration()
     configuration.setFifoDepth(_integer("8"))
 
-    first = configuration.createFlexrayFifoRange()
+    first = FlexrayFifoRange()
     first.setRangeMax(_integer("200"))
     first.setRangeMin(_integer("100"))
     first.setChecksum(String().setValue("chk-1"))
     first.setTimestamp(DateTime().setValue("2009-07-23T13:38:00Z"))
+    configuration.addFlexrayFifoRange(first)
 
-    second = configuration.createFlexrayFifoRange()
+    second = FlexrayFifoRange()
     second.setRangeMin(_integer("5"))
+    configuration.addFlexrayFifoRange(second)
 
     configuration.setMsgIdMask(_integer("16"))
     return configuration
