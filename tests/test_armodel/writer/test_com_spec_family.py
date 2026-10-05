@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification, TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Numerical, PositiveInteger, RefType, TimeValue, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, Numerical, PositiveInteger, RefType, String, TimeValue, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -429,3 +429,49 @@ class TestTransmissionComSpecPropsRoundTrip:
         com_spec_2 = p_port_2.getProvidedComSpecs()[0]
         assert com_spec_2.getTransmissionProps() is None
         assert com_spec_2.getTransmissionAcknowledge() is None
+
+
+class TestTransmissionAcknowledgementRequestRoundTrip:
+    def test_transmission_acknowledge_round_trip(self):
+        """TransmissionAcknowledgementRequest (TRANSMISSION-ACKNOWLEDGE/TIMEOUT) round-trips with values and ARObject S/T intact."""
+        document, p_port, _ = _new_document_with_ports()
+
+        acknowledge = TransmissionAcknowledgementRequest()
+        acknowledge.setTimeout(TimeValue().setValue("2.5"))
+        checksum = String()
+        checksum.setValue("ab12")
+        acknowledge.setChecksum(checksum)
+        timestamp = DateTime()
+        timestamp.setValue("2023-11-15T08:00:00+00:00")
+        acknowledge.setTimestamp(timestamp)
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setTransmissionAcknowledge(acknowledge)
+        p_port.addProvidedComSpec(com_spec)
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        acknowledge_2 = p_port_2.getProvidedComSpecs()[0].getTransmissionAcknowledge()
+        assert isinstance(acknowledge_2, TransmissionAcknowledgementRequest)
+        assert acknowledge_2.getTimeout().getValue() == 2.5
+        assert acknowledge_2.getChecksum().getValue() == "ab12"
+        assert acknowledge_2.getTimestamp().getValue() == "2023-11-15T08:00:00+00:00"
+
+    def test_transmission_acknowledge_xml_element_order_matches_xsd(self):
+        """The TRANSMISSION-ACKNOWLEDGE group sequence is S/T attributes then TIMEOUT (AUTOSAR_00052.xsd)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        acknowledge = TransmissionAcknowledgementRequest()
+        acknowledge.setTimeout(TimeValue().setValue("1.0"))
+        checksum = String()
+        checksum.setValue("ff")
+        acknowledge.setChecksum(checksum)
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setTransmissionAcknowledge(acknowledge)
+        p_port.addProvidedComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        acknowledge_element = root.find(".//{*}TRANSMISSION-ACKNOWLEDGE")
+        children = [child.tag.split("}")[-1] for child in acknowledge_element]
+        assert "TIMEOUT" in children
+        assert children.index("TIMEOUT") == len(children) - 1
+        assert acknowledge_element.attrib.get("S") == "ff"

@@ -291,15 +291,16 @@ class TransmissionComSpecProps(ARObject):
 class TransmissionAcknowledgementRequest(ARObject):
     """
     Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity.
+
+    [constr_1892] Existence of attribute TransmissionAcknowledgementRequest . timeout: For each TransmissionAcknowledgementRequest, attribute timeout shall exist at the time when the contract phase generation is executed. ()
     """
 
     # TransmissionAcknowledgementRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.71, p.180
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -315,8 +316,7 @@ class TransmissionAcknowledgementRequest(ARObject):
 
     def setTimeout(self, value: Optional[TimeValue]) -> TransmissionAcknowledgementRequest:
         """
-        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
-        A None value is a no-op and does not overwrite an existing timeout.
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again. A None value is a no-op and does not overwrite an existing timeout.
         """
         if value is not None:
             self.timeout = value
