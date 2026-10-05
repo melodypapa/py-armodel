@@ -9446,6 +9446,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
         child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")

@@ -4,7 +4,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import FlexrayNmClusterCoupling, FlexrayNmScheduleVariant, NmConfig
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -71,3 +71,14 @@ class TestWriteFlexrayNmClusterCoupling:
         assert [ref.getValue() for ref in refs] == ["/Clusters/Fr1"]
         assert refs[0].getDest() == "FLEXRAY-CLUSTER"
         assert coupling.getNmScheduleVariant().getValue() == "scheduleVariant2"
+
+    def test_write_flexray_nm_cluster_coupling_writes_checksum_and_timestamp(self):
+        config = _new_config()
+        coupling = config.getNmClusterCouplings()[0]
+        coupling.setChecksum(String().setValue("9012"))
+        coupling.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeNmConfigNmClusterCouplings(parent, config)
+        coupling_element = parent.find("NM-CLUSTER-COUPLINGS").find("FLEXRAY-NM-CLUSTER-COUPLING")
+        assert coupling_element.attrib["S"] == "9012"
+        assert coupling_element.attrib["T"] == "2024-01-01T00:00:00Z"

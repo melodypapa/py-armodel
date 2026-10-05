@@ -118,6 +118,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — new getFlexrayNmClusterCoupling/writeFlexrayNmClusterCoupling (COUPLED-CLUSTER-REFS list + NM-SCHEDULE-VARIANT literal) and FLEXRAY-NM-CLUSTER-COUPLING dispatch branches in readNmConfigNmClusterCouplings/writeNmConfigNmClusterCouplings (was notImplemented); imports added
   - [x] Step 7 — Update checklist comment — 6-column, `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.308, p.679` (enum row cites Table 6.310, p.680), all rows R23-11; no marker written (unstamped batch)
   - [x] Step 8 — Deviations — XSD-only NM-CONTROL-BIT-VECTOR-ENABLED/NM-DATA-DISABLED not modeled (Rule 0015); v1 stale tracker rows resolved to removed; no placeholder remains
+  - 9b batch audit 2026-10-05: FAIL Rule 0025 — getFlexrayNmClusterCoupling/writeFlexrayNmClusterCoupling never called readARObject/writeARObject (inherited S/T silently dropped on round-trip); fixed in-pass: base-helper calls added + S/T round-trip asserts (writer + parser tests); Step 9 stays open (no stamp — user: fix first)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SecOcCryptoServiceMapping` (input · R23-11 markdown · Table 6.49)
