@@ -31,8 +31,8 @@ def warning_parser():
     return ARXMLParser(options={"warning": True})
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", attrs: str = "") -> ET.Element:
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}'{attrs}>{inner}</{root_tag}>")
 
 
 def _autosar_root():
@@ -779,7 +779,7 @@ class TestEthernetClusterHandlers:
             "</NETWORK-ENDPOINT>"
             "</NETWORK-ENDPOINTS>"
             "<SO-AD-CONFIG/>"
-            "<VLAN>"
+            '<VLAN S="1234" T="2024-01-01T00:00:00Z">'
             "<SHORT-NAME>vlan1</SHORT-NAME>"
             "<VLAN-IDENTIFIER>100</VLAN-IDENTIFIER>"
             "</VLAN>",
@@ -793,6 +793,8 @@ class TestEthernetClusterHandlers:
         assert isinstance(channel.getSoAdConfig(), SoAdConfig)
         assert channel.getVlan().getShortName() == "vlan1"
         assert channel.getVlan().getVlanIdentifier().getValue() == 100
+        assert channel.getVlan().getChecksum().getValue() == "1234"
+        assert channel.getVlan().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readCommunicationClusterPhysicalChannels_ethernet_dispatch_reads_content(self, parser):
         from armodel.models import EthernetCluster
@@ -855,7 +857,7 @@ class TestEthernetClusterHandlers:
 
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
-            "<INFRASTRUCTURE-SERVICES>" "<DO-IP-ENTITY>" "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
+            "<INFRASTRUCTURE-SERVICES>" '<DO-IP-ENTITY S="1234" T="2024-01-01T00:00:00Z">' "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
             root_tag="ROOT",
         )
         services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
@@ -863,6 +865,8 @@ class TestEthernetClusterHandlers:
         assert services.getDoIpEntity() is not None
         assert services.getDoIpEntity().getDoIpEntityRole() is not None
         assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "server"
+        assert services.getDoIpEntity().getChecksum().getValue() == "1234"
+        assert services.getDoIpEntity().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readEthernetPhysicalChannel_sets_soAdConfig(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel
@@ -1254,25 +1258,29 @@ class TestSoAdAndSocketHandlers:
 
     def test_getRequestResponseDelay_sets_maxValue(self, parser):
         element = _snip(
-            "<REQUEST-RESPONSE-DELAY>" "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
+            '<REQUEST-RESPONSE-DELAY S="1234" T="2024-01-01T00:00:00Z">' "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
             root_tag="ROOT",
         )
         delay = parser.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY")
         assert delay is not None
         assert delay.getMaxValue() is not None
         assert delay.getMaxValue().getValue() == 0.1
+        assert delay.getChecksum().getValue() == "1234"
+        assert delay.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestTransportProtocolHandlers:
     def test_getTpPort_sets_portNumber(self, parser):
         element = _snip(
-            "<TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
+            '<TP-PORT S="1234" T="2024-01-01T00:00:00Z">' "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
             root_tag="ROOT",
         )
         port = parser.getTpPort(element, "TP-PORT")
         assert port is not None
         assert port.getPortNumber() is not None
         assert port.getPortNumber().getValue() == 5000
+        assert port.getChecksum().getValue() == "1234"
+        assert port.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readUdpTp_sets_udpTpPort(self, parser):
         from armodel.models import UdpTp
@@ -1281,11 +1289,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<UDP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</UDP-TP-PORT>",
             root_tag="UDP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readUdpTp(element, tp)
         assert tp.getUdpTpPort() is not None
         assert tp.getUdpTpPort().getPortNumber() is not None
         assert tp.getUdpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_tcpTpPort(self, parser):
         from armodel.models import TcpTp
@@ -1294,11 +1305,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<TCP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</TCP-TP-PORT>" "<KEEP-ALIVES>true</KEEP-ALIVES>" "<NAGLES-ALGORITHM>enabled</NAGLES-ALGORITHM>",
             root_tag="TCP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readTcpTp(element, tp)
         assert tp.getTcpTpPort() is not None
         assert tp.getTcpTpPort().getPortNumber() is not None
         assert tp.getTcpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_keepAlives(self, parser):
         from armodel.models import TcpTp

@@ -10041,6 +10041,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             entity = DoIpEntity()
+            self.readARObject(child_element, entity)
             do_ip_entity_role = self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE")
             if do_ip_entity_role is not None:
                 e = DoIpEntityRoleEnum()
@@ -10232,14 +10233,17 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             port = TpPort()
+            self.readARObject(child_element, port)
             port.setDynamicallyAssigned(self.getChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED"))
             port.setPortNumber(self.getChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER"))
         return port
 
     def readUdpTp(self, element: ET.Element, tp: UdpTp):
+        self.readARObject(element, tp)
         tp.setUdpTpPort(self.getTpPort(element, "UDP-TP-PORT"))
 
     def readTcpTp(self, element: ET.Element, tp: TcpTp):
+        self.readARObject(element, tp)
         tp.setKeepAliveInterval(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-INTERVAL"))
         tp.setKeepAliveProbesMax(self.getChildElementOptionalPositiveInteger(element, "KEEP-ALIVE-PROBES-MAX"))
         tp.setKeepAliveTime(self.getChildElementOptionalTimeValue(element, "KEEP-ALIVE-TIME"))
@@ -10250,6 +10254,7 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setTcpTpPort(self.getTpPort(element, "TCP-TP-PORT"))
 
     def readGenericTp(self, element: ET.Element, tp: GenericTp):
+        self.readARObject(element, tp)
         tp.setTpAddress(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-ADDRESS")))
         tp.setTpTechnology(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY")))
 
@@ -10280,6 +10285,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             delay = RequestResponseDelay()
+            self.readARObject(child_element, delay)
             delay.setMaxValue(self.getChildElementOptionalTimeValue(child_element, "MAX-VALUE"))
             delay.setMinValue(self.getChildElementOptionalTimeValue(child_element, "MIN-VALUE"))
         return delay
@@ -10600,6 +10606,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "VLAN")
         if child_element is not None:
             vlan = channel.createVlanConfig(self.getShortName(child_element))
+            self.readIdentifiable(child_element, vlan)
             vlan.setVlanIdentifier(self.getChildElementOptionalPositiveInteger(child_element, "VLAN-IDENTIFIER"))
 
     def readEthernetPhysicalChannel(self, element: ET.Element, channel: EthernetPhysicalChannel):
