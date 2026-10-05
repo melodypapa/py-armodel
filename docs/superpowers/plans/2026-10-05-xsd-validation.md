@@ -62,7 +62,7 @@
 - Test: `tests/test_armodel/validation/data/tiny_autosar.xsd`
 - Test: `tests/test_armodel/validation/test_validator.py`
 
-- [ ] **Step 1: Create the tiny fixture schema**
+- [x] **Step 1: Create the tiny fixture schema**
 
 Create directory `tests/test_armodel/validation/data/` with `tiny_autosar.xsd`:
 
@@ -84,7 +84,7 @@ Create directory `tests/test_armodel/validation/data/` with `tiny_autosar.xsd`:
 
 Also create empty `tests/test_armodel/validation/__init__.py` (test packages mirror source layout in this repo).
 
-- [ ] **Step 2: Write the failing tests**
+- [x] **Step 2: Write the failing tests**
 
 Create `tests/test_armodel/validation/test_validator.py`:
 
@@ -163,12 +163,12 @@ class TestARXMLValidator:
         assert first is second
 ```
 
-- [ ] **Step 3: Run tests to verify they fail**
+- [x] **Step 3: Run tests to verify they fail**
 
 Run: `cd /Users/ray/Workspace/py-armodel-wt-xsd && uv run pytest tests/test_armodel/validation/test_validator.py -v --no-coverage`
 Expected: FAIL/ERROR — `ModuleNotFoundError: No module named 'armodel.validation'`
 
-- [ ] **Step 4: Implement `src/armodel/validation/validator.py`**
+- [x] **Step 4: Implement `src/armodel/validation/validator.py`**
 
 ```python
 import os
@@ -276,7 +276,7 @@ class ARXMLValidator(object):
         return self.validate_bytes(xml.encode("utf-8"))
 ```
 
-- [ ] **Step 5: Create `src/armodel/validation/__init__.py`**
+- [x] **Step 5: Create `src/armodel/validation/__init__.py`**
 
 ```python
 from .validator import (
@@ -288,12 +288,12 @@ from .validator import (
 )
 ```
 
-- [ ] **Step 6: Run tests to verify they pass**
+- [x] **Step 6: Run tests to verify they pass**
 
 Run: `uv run pytest tests/test_armodel/validation/ -v --no-coverage`
 Expected: 8 passed
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /Users/ray/Workspace/py-armodel-wt-xsd
@@ -315,7 +315,7 @@ git commit -m "feat(validation): add ARXMLValidator with schema detection and ca
 - Modify: `pyproject.toml`
 - Test: `tests/test_armodel/validation/test_bundled_schemas.py`
 
-- [ ] **Step 1: Copy the schema files**
+- [x] **Step 1: Copy the schema files**
 
 ```bash
 cd /Users/ray/Workspace/py-armodel-wt-xsd
@@ -327,7 +327,7 @@ cp autosar/R4.4.0/xsd/xml.xsd src/armodel/validation/schemas/R4.3.1/
 cp autosar/R3.2.3/xsd/AUTOSAR.xsd src/armodel/validation/schemas/R3.2.3/
 ```
 
-- [ ] **Step 2: Write the provenance README**
+- [x] **Step 2: Write the provenance README**
 
 Create `src/armodel/validation/schemas/README.md`:
 
@@ -352,7 +352,7 @@ schemas; it is copied next to each importing schema so every directory is
 self-contained.
 ```
 
-- [ ] **Step 3: Register package data in `pyproject.toml`**
+- [x] **Step 3: Register package data in `pyproject.toml`**
 
 Add after the existing `[tool.setuptools.packages.find]` section:
 
@@ -361,7 +361,7 @@ Add after the existing `[tool.setuptools.packages.find]` section:
 "armodel.validation" = ["schemas/*/*.xsd", "README.md"]
 ```
 
-- [ ] **Step 4: Write the failing tests**
+- [x] **Step 4: Write the failing tests**
 
 Create `tests/test_armodel/validation/test_bundled_schemas.py`:
 
@@ -402,13 +402,13 @@ def test_bundled_schema_compiles(release, xsd_name):
     assert schema is not None
 ```
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `uv run pytest tests/test_armodel/validation/test_bundled_schemas.py -v --no-coverage` and
 `uv run pytest tests/test_armodel/validation/test_bundled_schemas.py -v --no-coverage -m slow`
 Expected: hash-sync 4 passed immediately; compile tests 4 passed (R23-11/R4.3.1 compile may take a few seconds).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/armodel/validation/schemas pyproject.toml tests/test_armodel/validation/test_bundled_schemas.py
@@ -424,7 +424,7 @@ git commit -m "feat(validation): bundle AUTOSAR release XSDs (R23-11, R4.4.0, R4
 - Modify: `src/armodel/parser/arxml_parser.py` (imports near top of file; `load()` at ~line 18238 in this branch's checkout — locate by `def load`)
 - Test: `tests/test_armodel/parser/test_xsd_validation_gate.py`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_armodel/parser/test_xsd_validation_gate.py`:
 
@@ -514,12 +514,12 @@ def test_no_matching_schema_logs_warning_and_continues(tmp_path):
     parser.load(_write(tmp_path, "unbundled.arxml", doc_without_bundled_schema), document)
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `uv run pytest tests/test_armodel/parser/test_xsd_validation_gate.py -v --no-coverage`
 Expected: FAIL — `AttributeError: 'ARXMLParser' object has no attribute 'options'... 'validate'` (KeyError on `self.options["validate"]`) or no validation performed (`test_schema_invalid_file_raises_with_line_number` fails with "DID NOT RAISE").
 
-- [ ] **Step 3: Add the `validate` option to `AbstractARXMLParser`**
+- [x] **Step 3: Add the `validate` option to `AbstractARXMLParser`**
 
 In `src/armodel/parser/abstract_arxml_parser.py`, in `__init__` (after `self.options["warning"] = False`):
 
@@ -534,7 +534,7 @@ In `_processOptions` (after the `"warning"` block):
                 self.options["validate"] = options["validate"]
 ```
 
-- [ ] **Step 4: Wire the gate into `ARXMLParser.load()`**
+- [x] **Step 4: Wire the gate into `ARXMLParser.load()`**
 
 In `src/armodel/parser/arxml_parser.py`, add import at the top (grouped with the other `armodel` imports — do NOT reorder existing imports):
 
@@ -580,17 +580,17 @@ Add the method immediately before `load()`:
 (Strict mode: one `logger.error` per violation, then `ValueError` aborts the load — no half-built document.
 `warning: True`: one `logger.warning` per violation, then parsing proceeds.)
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `uv run pytest tests/test_armodel/parser/test_xsd_validation_gate.py tests/test_armodel/validation/ -v --no-coverage`
 Expected: all passed
 
-- [ ] **Step 6: Run the existing parser suite to check no regressions**
+- [x] **Step 6: Run the existing parser suite to check no regressions**
 
 Run: `uv run pytest tests/test_armodel/parser/ --no-coverage -q`
 Expected: all passed (existing parser tests either parse schema-valid fragments or construct documents without `load()`; if a test feeds a `load()`-ed fixture that is now schema-invalid, report it — do not silently weaken the gate)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/armodel/parser/abstract_arxml_parser.py src/armodel/parser/arxml_parser.py tests/test_armodel/parser/test_xsd_validation_gate.py
@@ -606,7 +606,7 @@ git commit -m "feat(parser): validate ARXML against bundled XSD before parsing"
 - Modify: `src/armodel/writer/arxml_writer.py` (imports near top; `save()` at ~line 18367 — locate by `def save`; `saveToFile` lives in `abstract_arxml_writer.py:229`)
 - Test: `tests/test_armodel/writer/test_xsd_validation_gate.py`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `tests/test_armodel/writer/test_xsd_validation_gate.py`:
 
@@ -680,12 +680,12 @@ def test_default_schema_location_skips_validation(tmp_path):
     assert os.path.exists(path)
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `uv run pytest tests/test_armodel/writer/test_xsd_validation_gate.py -v --no-coverage`
 Expected: FAIL — `KeyError: 'validate'` (option missing) and `test_schema_invalid_document_raises_and_does_not_write` fails with "DID NOT RAISE".
 
-- [ ] **Step 3: Add the `validate` option to `AbstractARXMLWriter`**
+- [x] **Step 3: Add the `validate` option to `AbstractARXMLWriter`**
 
 In `src/armodel/writer/abstract_arxml_writer.py`, in `__init__` (after `self.options["unescape_entities"] = False`):
 
@@ -700,7 +700,7 @@ In `_processOptions` (after the `"unescape_entities"` block):
                 self.options["validate"] = options["validate"]
 ```
 
-- [ ] **Step 4: Wire the gate into `ARXMLWriter.save()`**
+- [x] **Step 4: Wire the gate into `ARXMLWriter.save()`**
 
 In `src/armodel/writer/arxml_writer.py`, add import at the top (do NOT reorder existing imports):
 
@@ -741,17 +741,17 @@ Add the method immediately before `save()`:
 (Strict mode: one `logger.error` per violation, then `ValueError` — the file is never written.
 `warning: True`: one `logger.warning` per violation, then the file is written.)
 
-- [ ] **Step 5: Run tests to verify they pass**
+- [x] **Step 5: Run tests to verify they pass**
 
 Run: `uv run pytest tests/test_armodel/writer/test_xsd_validation_gate.py tests/test_armodel/validation/ -v --no-coverage`
 Expected: all passed
 
-- [ ] **Step 6: Run the existing writer suite to check no regressions**
+- [x] **Step 6: Run the existing writer suite to check no regressions**
 
 Run: `uv run pytest tests/test_armodel/writer/ --no-coverage -q`
 Expected: all passed (most writer tests either set a non-bundled `schema_location` or default to it, so they skip validation; failures here mean a test uses a bundled schema location — investigate before changing the gate)
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/armodel/writer/abstract_arxml_writer.py src/armodel/writer/arxml_writer.py tests/test_armodel/writer/test_xsd_validation_gate.py
@@ -773,7 +773,7 @@ fixtures (error-path tests) opt out with a `# xsd-skip: <reason>` marker line on
 - Modify: `tests/test_armodel/xsd_validation.py` (delegate to `armodel.validation` — one implementation, one schema cache)
 - Create: `tests/test_armodel/validation/test_test_data_fragments.py`
 
-- [ ] **Step 1: Write the failing audit test**
+- [x] **Step 1: Write the failing audit test**
 
 Create `tests/test_armodel/validation/test_test_data_fragments.py`:
 
@@ -849,7 +849,7 @@ def test_fragment_scan_found_targets():
     assert len(ALL_FRAGMENTS) >= 10, "fragment scanner found nothing — its AST patterns are broken"
 ```
 
-- [ ] **Step 2: Run the audit and triage the results**
+- [x] **Step 2: Run the audit and triage the results**
 
 Run: `uv run pytest tests/test_armodel/validation/test_test_data_fragments.py -v --no-coverage`
 Expected first run: the scanner finds ~15 fragments; some may fail. Triage every failure:
@@ -857,7 +857,7 @@ Expected first run: the scanner finds ~15 fragments; some may fail. Triage every
 - **Accidentally invalid test data** → fix the fragment; this is exactly the class of bug this audit exists to catch.
 Do not loosen the audit to make it pass.
 
-- [ ] **Step 3: Delegate the legacy test helper to `armodel.validation`**
+- [x] **Step 3: Delegate the legacy test helper to `armodel.validation`**
 
 Replace the body of `tests/test_armodel/xsd_validation.py` (keep the module docstring updated):
 
@@ -896,12 +896,12 @@ def assert_valid(xml):
 (`get_schema` is re-exported unchanged so existing imports keep working; the old local resolver class and
 `etree` import are removed — compilation now flows through the shared, process-wide cache.)
 
-- [ ] **Step 4: Run the audit, the helper's consumers, and the validation package**
+- [x] **Step 4: Run the audit, the helper's consumers, and the validation package**
 
 Run: `uv run pytest tests/test_armodel/validation/ tests/test_armodel/parser/test_arxml_parser_implementation.py tests/test_armodel/writer/test_writer_implementation.py tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_PrimitiveTypes.py -v --no-coverage`
 Expected: all passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add tests/test_armodel/validation/test_test_data_fragments.py tests/test_armodel/xsd_validation.py
@@ -917,7 +917,7 @@ git commit -m "test(validation): enforce XSD validity of full-document test-data
 - Verify (no code change): `tests/integration_tests/test_roundtrip.py` — with validation ON by default, its
   `ARXMLParser()`/`ARXMLWriter()` calls now gate every round-trip on XSD validity (see header note 9).
 
-- [ ] **Step 1: Write the corpus audit test**
+- [x] **Step 1: Write the corpus audit test**
 
 Create `tests/integration_tests/test_xsd_corpus_audit.py`:
 
@@ -948,13 +948,13 @@ def test_corpus_mapping_present():
     assert MAPPED, "no corpus file maps to a bundled schema — detection is broken"
 ```
 
-- [ ] **Step 2: Run the audit**
+- [x] **Step 2: Run the audit**
 
 Run: `uv run pytest tests/integration_tests/test_xsd_corpus_audit.py -v --no-coverage`
 Expected: `test_corpus_mapping_present` passes; exactly 1 parametrized case (`Os_ECUC_4.4.0.arxml`, verified VALID during planning) passes.
 If additional files appear or the mapped file fails: stop and investigate with the user before loosening anything.
 
-- [ ] **Step 3: Verify the round-trip suite exercises the gates**
+- [x] **Step 3: Verify the round-trip suite exercises the gates**
 
 Run: `uv run pytest tests/integration_tests/test_roundtrip.py --no-coverage -q`
 Expected: all passed. With validation ON by default, the bundled-schema file (`Os_ECUC_4.4.0.arxml`) is now
@@ -964,11 +964,11 @@ A failure here means either (a) the writer produced schema-invalid ARXML for a b
 finding to investigate — or (b) a test constructs a parser/writer with a bundled schema location on an
 intentionally imperfect fixture; report rather than silently weakening the gate.
 
-- [ ] **Step 4: Run the full test battery**
+- [x] **Step 4: Run the full test battery**
 
 Run: `uv run pytest tests/ --no-coverage -q` (expected battery ≈ 17,000+ tests, 0 failures; local `tests/integration_tests/custom_files/` round-trip length-compare failures are a known pre-existing local condition — confirm any failures match that pattern before investigating further)
 
-- [ ] **Step 5: Lint, type-check, format**
+- [x] **Step 5: Lint, type-check, format**
 
 ```bash
 npm run lint
@@ -977,7 +977,7 @@ npm run black
 
 Expected: mypy green (the new package is fully typed, `ignore_missing_imports` covers lxml); ruff/flake8 green; black reformats only the new/modified files if needed. Re-run `uv run pytest tests/test_armodel/validation/ --no-coverage -q` after black.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add tests/integration_tests/test_xsd_corpus_audit.py
@@ -992,7 +992,7 @@ git commit -m "test(integration): audit corpus files that map to bundled XSD sch
 - Modify: `docs/superpowers/specs/2026-10-05-xsd-validation-design.md`
 - Modify: `README.md` (usage section)
 
-- [ ] **Step 1: Amend the spec with the planning discoveries**
+- [x] **Step 1: Amend the spec with the planning discoveries**
 
 In the spec's Decisions table and §3-§5, replace the R19-11→R23-11 bundling statement with the actual
 bundled set (R23-11, R4.4.0, R4.3.1, R3.2.3 — copied from the repo's `autosar/<release>/xsd/` mirrors),
@@ -1002,7 +1002,7 @@ replace the `ADMIN-DATA` detection fallback with
 "detection uses `xsi:schemaLocation` only", and add: unresolvable schema → warning + continue
 unvalidated, plus the `register_schema_file` extension point. Reference this plan file.
 
-- [ ] **Step 2: Add a usage block to `README.md`**
+- [x] **Step 2: Add a usage block to `README.md`**
 
 Add under an appropriate existing section (near parse/save usage):
 
@@ -1025,7 +1025,7 @@ writer = ARXMLWriter(options={"validate": False})   # same option on save()
 ```
 ```
 
-- [ ] **Step 3: Run `npm run black` and commit**
+- [x] **Step 3: Run `npm run black` and commit**
 
 ```bash
 npm run black

@@ -154,6 +154,12 @@ from armodel.validation import ARXMLValidator
 ARXMLValidator.register_schema_file("AUTOSAR_00050.xsd", "/path/to/AUTOSAR_00050.xsd")
 ```
 
+**Known limitations:** on schema-gated releases (R23-11, R4.4.0, R4.3.1, R3.2.3) `save()` now raises
+`ValueError` when the generated document is schema-invalid — a small set of known writer defects
+(inventory and burn-down: `docs/plan/xsd-validation-known-writer-defects.md`) can surface this way;
+pass `options={"validate": False}` if you need to save anyway. Saving documents whose schema is not
+bundled logs a "No XSD schema found ... validation skipped" warning on every save.
+
 ### Best Practices
 
 1. **Always set AUTOSAR version** before parsing or writing:
