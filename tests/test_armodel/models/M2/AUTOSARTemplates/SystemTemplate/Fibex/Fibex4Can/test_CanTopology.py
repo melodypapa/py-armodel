@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanCommunicationConnector,
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
+    AbstractCanPhysicalChannel,
     CanClusterBusOffRecovery,
     CanCommunicationConnector,
     CanCommunicationController,
@@ -19,8 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
 
 
 class MockParent(ARObject):
@@ -1138,3 +1140,47 @@ class TestCanCommunicationController:
 
         source = inspect.getsource(CanCommunicationController.__init__)
         assert "self." not in source
+
+
+ABSTRACT_CAN_PHYSICAL_CHANNEL_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes."
+
+
+class TestAbstractCanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.20: ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(AbstractCanPhysicalChannel, PhysicalChannel)
+        assert issubclass(AbstractCanPhysicalChannel, Identifiable)
+        assert issubclass(AbstractCanPhysicalChannel, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.20)"""
+        with pytest.raises(TypeError, match="AbstractCanPhysicalChannel is an abstract class"):
+            AbstractCanPhysicalChannel(MockParent(), "test_abstract_can_physical_channel")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.20)"""
+        assert inspect.cleandoc(AbstractCanPhysicalChannel.__doc__).strip() == ABSTRACT_CAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.20 has no attribute rows)"""
+        own_methods = [name for name in AbstractCanPhysicalChannel.__dict__ if inspect.isfunction(getattr(AbstractCanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(AbstractCanPhysicalChannel.__init__)
+        assert "self." not in source
+
+    def test_initialization_defaults_via_concrete_subclass(self):
+        """Test __init__ + the inherited PhysicalChannel accessors through the concrete subclass CanPhysicalChannel (Table 3.20 is abstract)"""
+        channel = CanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
