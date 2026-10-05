@@ -9827,8 +9827,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTpAddress(self, element: ET.Element, address: TpAddress):
         if address is not None:
             child_element = ET.SubElement(element, "TP-ADDRESS")
-            self.writeIdentifiable(child_element, address)
+            self.writeIdentifiable(child_element, address, write_variation_point=False)
             self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
+            self.writeVariationPointCapable(child_element, address)
 
     def writeLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         addresses = config.getTpAddresses()
