@@ -1302,6 +1302,15 @@ SW_CALIBRATION_ACCESS_XML_MAP = {
     "readWrite": "READ-WRITE",
 }
 
+#: Mapping between CalprmAxisCategoryEnum literal values and their XML element text
+#: (AR:CALPRM-AXIS-CATEGORY-ENUM--SIMPLE).
+CALPRM_AXIS_CATEGORY_XML_MAP = {
+    "comAxis": "COM_AXIS",
+    "fixAXIS": "FIX_AXIS",
+    "resAxis": "RES_AXIS",
+    "stdAxis": "STD_AXIS",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -3795,7 +3804,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if axis is not None:
             child_element = ET.SubElement(element, "SW-CALPRM-AXIS")
             self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", axis.getSwAxisIndex())
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", axis.getCategory())
+            self._writeEnumToken(child_element, "CATEGORY", axis.getCategory(), CALPRM_AXIS_CATEGORY_XML_MAP)
             axis_props = axis.getSwCalprmAxisTypeProps()
             if axis_props is not None:
                 if isinstance(axis_props, SwAxisIndividual):
@@ -4125,7 +4134,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if cont is not None:
             child_element = ET.SubElement(element, "RULE-BASED-AXIS-CONT")
             self.writeARObject(child_element, cont)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", cont.getCategory())
+            self._writeEnumToken(child_element, "CATEGORY", cont.getCategory(), CALPRM_AXIS_CATEGORY_XML_MAP)
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.getUnitRef())
             self.setValueList(child_element, "SW-ARRAYSIZE", cont.getSwArraysize())
             self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", cont.getSwAxisIndex())

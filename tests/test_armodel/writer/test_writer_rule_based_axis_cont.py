@@ -79,7 +79,7 @@ def test_write_rule_based_axis_cont(writer):
 
     tag = parent.find("RULE-BASED-AXIS-CONT")
     assert tag is not None
-    assert tag.find("CATEGORY") is not None
+    assert tag.find("CATEGORY").text == "STD_AXIS"
     assert tag.find("RULE-BASED-VALUES") is not None
     assert tag.find("SW-ARRAYSIZE") is not None
     assert tag.find("SW-AXIS-INDEX") is not None
@@ -107,7 +107,8 @@ def test_rule_based_axis_cont_round_trip(writer, parser):
     reloaded = parser.getRuleBasedAxisCont(reparsed[0])
 
     assert isinstance(reloaded, RuleBasedAxisCont)
-    assert reloaded.getCategory().getValue() == "STD_AXIS"
+    assert isinstance(reloaded.getCategory(), CalprmAxisCategoryEnum)
+    assert reloaded.getCategory().getValue() == "stdAxis"
     assert reloaded.getRuleBasedValues() is not None
     assert reloaded.getRuleBasedValues().getRule().getValue() == "myRule"
     assert reloaded.getSwArraysize() is not None

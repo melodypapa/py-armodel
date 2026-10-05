@@ -1552,6 +1552,15 @@ SW_CALIBRATION_ACCESS_XML_MAP = {
     "readWrite": "READ-WRITE",
 }
 
+#: Mapping between CalprmAxisCategoryEnum literal values and their XML element text
+#: (AR:CALPRM-AXIS-CATEGORY-ENUM--SIMPLE).
+CALPRM_AXIS_CATEGORY_XML_MAP = {
+    "comAxis": "COM_AXIS",
+    "fixAXIS": "FIX_AXIS",
+    "resAxis": "RES_AXIS",
+    "stdAxis": "STD_AXIS",
+}
+
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
@@ -7244,7 +7253,7 @@ class ARXMLParser(AbstractARXMLParser):
         sw_axis_index = self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")
         if sw_axis_index is not None:
             axis.setSwAxisIndex(AxisIndexType().setValue(sw_axis_index.getValue()))
-        axis.setCategory(cast(Optional[CalprmAxisCategoryEnum], self.getChildElementOptionalLiteral(element, "CATEGORY")))
+        axis.setCategory(self._readEnumToken(element, "CATEGORY", CalprmAxisCategoryEnum, CALPRM_AXIS_CATEGORY_XML_MAP))
         child_element = self.find(element, "SW-AXIS-INDIVIDUAL")
         if child_element is not None:
             axis.setSwCalprmAxisTypeProps(self.getSwAxisIndividual(child_element))
@@ -8857,7 +8866,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
         cont = RuleBasedAxisCont()
         self.readARObject(element, cont)
-        cont.setCategory(cast(Optional[CalprmAxisCategoryEnum], self.getChildElementOptionalLiteral(element, "CATEGORY")))
+        cont.setCategory(self._readEnumToken(element, "CATEGORY", CalprmAxisCategoryEnum, CALPRM_AXIS_CATEGORY_XML_MAP))
         cont.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         cont.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
         cont.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))

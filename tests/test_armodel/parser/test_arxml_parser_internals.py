@@ -758,7 +758,7 @@ class TestSwDataDefPropsHandlers:
 
     def test_getSwCalprmAxis_individual(self, parser):
         element = _snip(
-            "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>" "<CATEGORY>FIXED</CATEGORY>" "<SW-AXIS-INDIVIDUAL>" "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>" "</SW-AXIS-INDIVIDUAL>",
+            "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>" "<CATEGORY>FIX_AXIS</CATEGORY>" "<SW-AXIS-INDIVIDUAL>" "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>" "</SW-AXIS-INDIVIDUAL>",
             root_tag="SW-CALPRM-AXIS",
         )
         axis = parser.getSwCalprmAxis(element)
@@ -767,7 +767,7 @@ class TestSwDataDefPropsHandlers:
 
     def test_getSwCalprmAxis_grouped(self, parser):
         element = _snip(
-            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>" "<CATEGORY>FIXED</CATEGORY>" "<SW-AXIS-GROUPED>" "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/shared</SHARED-AXIS-TYPE-REF>" "</SW-AXIS-GROUPED>",
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>" "<CATEGORY>FIX_AXIS</CATEGORY>" "<SW-AXIS-GROUPED>" "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/shared</SHARED-AXIS-TYPE-REF>" "</SW-AXIS-GROUPED>",
             root_tag="SW-CALPRM-AXIS",
         )
         axis = parser.getSwCalprmAxis(element)
@@ -777,7 +777,7 @@ class TestSwDataDefPropsHandlers:
     def test_getSwCalprmAxis_individual_type_props(self, parser):
         element = _snip(
             "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>"
-            "<CATEGORY>FIXED</CATEGORY>"
+            "<CATEGORY>FIX_AXIS</CATEGORY>"
             "<SW-AXIS-INDIVIDUAL>"
             "<MAX-GRADIENT>2.5</MAX-GRADIENT>"
             "<MONOTONY>strictlyIncreasing</MONOTONY>"
@@ -807,7 +807,7 @@ class TestSwDataDefPropsHandlers:
     def test_getSwCalprmAxis_grouped_type_props(self, parser):
         element = _snip(
             "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
-            "<CATEGORY>FIXED</CATEGORY>"
+            "<CATEGORY>STD_AXIS</CATEGORY>"
             "<SW-AXIS-GROUPED>"
             "<MAX-GRADIENT>0.75</MAX-GRADIENT>"
             "<MONOTONY>monotonous</MONOTONY>"
@@ -826,11 +826,11 @@ class TestSwDataDefPropsHandlers:
             "<SW-CALPRM-AXIS-SET>"
             "<SW-CALPRM-AXIS>"
             "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>"
-            "<CATEGORY>FIXED</CATEGORY>"
+            "<CATEGORY>FIX_AXIS</CATEGORY>"
             "</SW-CALPRM-AXIS>"
             "<SW-CALPRM-AXIS>"
             "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
-            "<CATEGORY>FIXED</CATEGORY>"
+            "<CATEGORY>FIX_AXIS</CATEGORY>"
             "</SW-CALPRM-AXIS>"
             "</SW-CALPRM-AXIS-SET>",
         )
@@ -838,7 +838,7 @@ class TestSwDataDefPropsHandlers:
         assert set_obj is not None
         assert len(set_obj.getSwCalprmAxises()) == 2
         assert set_obj.getSwCalprmAxises()[0].getSwAxisIndex().getValue() == "0"
-        assert set_obj.getSwCalprmAxises()[1].getCategory().getValue() == "FIXED"
+        assert set_obj.getSwCalprmAxises()[1].getCategory().getValue() == "fixAXIS"
 
     def test_getSwCalprmAxisSet_empty(self, parser):
         element = _snip("<SW-CALPRM-AXIS-SET/>")

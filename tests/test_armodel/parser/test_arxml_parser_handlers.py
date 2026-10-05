@@ -1176,7 +1176,7 @@ class TestRuleBasedValueSpecHandlers:
         )
         cont = parser.getRuleBasedAxisCont(element)
         assert cont is not None
-        assert cont.getCategory().getValue() == "STD_AXIS"
+        assert cont.getCategory().getValue() == "stdAxis"
         assert cont.getUnitRef().getValue() == "/p/u"
         assert cont.getSwArraysize() is not None
         assert cont.getSwAxisIndex().getValue() == "1"
@@ -1217,7 +1217,7 @@ class TestRuleBasedValueSpecHandlers:
         assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
         assert value_spec.getCategory().getValue() == "ARRAY"
         assert len(value_spec.getSwAxisConts()) == 1
-        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "STD_AXIS"
+        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "stdAxis"
         assert value_spec.getSwValueCont() is not None
 
     def test_getValueSpecification_dispatch_application_rule_based(self, parser):

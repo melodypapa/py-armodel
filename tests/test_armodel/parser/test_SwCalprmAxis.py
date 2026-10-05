@@ -3,12 +3,15 @@
 getSwCalprmAxis populates the model via the five mutators. Element order per the
 XSD group SW-CALPRM-AXIS (AUTOSAR_00052.xsd): SW-AXIS-INDEX (sequenceOffset 20),
 CATEGORY (30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL (40), SW-CALIBRATION-ACCESS (90),
-DISPLAY-FORMAT (100). SW-CALIBRATION-ACCESS carries the UPPERCASE XSD wire token,
-mapped to the SwCalibrationAccessEnum member via SW_CALIBRATION_ACCESS_XML_MAP.
+DISPLAY-FORMAT (100). CATEGORY and SW-CALIBRATION-ACCESS carry the UPPERCASE XSD
+wire tokens (CALPRM-AXIS-CATEGORY-ENUM--SIMPLE / SW-CALIBRATION-ACCESS-ENUM--SIMPLE),
+mapped to the model members via CALPRM_AXIS_CATEGORY_XML_MAP and
+SW_CALIBRATION_ACCESS_XML_MAP.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 from tests.test_armodel.parser._helpers import _snip
@@ -32,13 +35,27 @@ class TestSwCalprmAxisReader:
         assert axis is not None
         assert isinstance(axis.getSwAxisIndex(), AxisIndexType)
         assert axis.getSwAxisIndex().getValue() == "1"
-        assert axis.getCategory().getValue() == "STD_AXIS"
+        assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
+        assert axis.getCategory().getValue() == "stdAxis"
         assert isinstance(axis.getSwCalprmAxisTypeProps(), SwAxisGrouped)
         assert axis.getSwCalprmAxisTypeProps().getSharedAxisTypeRef().getValue() == "/axis/types/shared"
         assert isinstance(axis.getSwCalibrationAccess(), SwCalibrationAccessEnum)
         assert axis.getSwCalibrationAccess().getValue() == "readOnly"
         assert isinstance(axis.getDisplayFormat(), DisplayFormatString)
         assert axis.getDisplayFormat().getValue() == "%.3f"
+
+    def test_read_category_token_maps_to_member_value(self, parser):
+        """The UPPERCASE XSD wire token maps to the camelCase CalprmAxisCategoryEnum member value."""
+        element = _snip(
+            """
+            <SW-AXIS-INDEX>1</SW-AXIS-INDEX>
+            <CATEGORY>COM_AXIS</CATEGORY>
+            """,
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
+        assert axis.getCategory().getValue() == "comAxis"
 
     def test_read_individual_choice_variant(self, parser):
         element = _snip(

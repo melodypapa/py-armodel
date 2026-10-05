@@ -57,6 +57,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    CalprmAxisCategoryEnum,
     SwCalprmAxis,
     SwCalprmAxisSet,
 )
@@ -224,7 +225,7 @@ class TestSwCalprmAxisWriter:
     def test_set_sw_calprm_axis_individual(self, writer):
         axis = SwCalprmAxis()
         axis.setSwAxisIndex(_literal("1"))
-        axis.setCategory(_literal("FIXED"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS))
         individual = SwAxisIndividual()
         individual.setSwMaxAxisPoints(_numerical("50"))
         axis.setSwCalprmAxisTypeProps(individual)
@@ -236,14 +237,14 @@ class TestSwCalprmAxisWriter:
         child = parent[0]
         assert child.tag == "SW-CALPRM-AXIS"
         assert child.find("SW-AXIS-INDEX").text == "1"
-        assert child.find("CATEGORY").text == "FIXED"
+        assert child.find("CATEGORY").text == "FIX_AXIS"
         assert child.find("SW-AXIS-INDIVIDUAL") is not None
         assert child.find("SW-AXIS-INDIVIDUAL/SW-MAX-AXIS-POINTS").text == "50"
 
     def test_set_sw_calprm_axis_grouped(self, writer):
         axis = SwCalprmAxis()
         axis.setSwAxisIndex(_literal("2"))
-        axis.setCategory(_literal("STD"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS))
         grouped = SwAxisGrouped()
         grouped.setSharedAxisTypeRef(_ref("SW-CALPRM-AXIS", "/g"))
         axis.setSwCalprmAxisTypeProps(grouped)
@@ -254,7 +255,7 @@ class TestSwCalprmAxisWriter:
         child = parent[0]
         assert child.tag == "SW-CALPRM-AXIS"
         assert child.find("SW-AXIS-INDEX").text == "2"
-        assert child.find("CATEGORY").text == "STD"
+        assert child.find("CATEGORY").text == "STD_AXIS"
         assert child.find("SW-AXIS-GROUPED") is not None
         assert child.find("SW-AXIS-GROUPED/SHARED-AXIS-TYPE-REF").text == "/g"
 
@@ -285,9 +286,9 @@ class TestSwCalprmAxisSetWriter:
     def test_set_sw_calprm_axis_set_with_axes(self, writer):
         ax_set = SwCalprmAxisSet()
         axis1 = SwCalprmAxis()
-        axis1.category = _literal("FIXED")
+        axis1.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
         axis2 = SwCalprmAxis()
-        axis2.category = _literal("STD")
+        axis2.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS)
         ax_set.addSwCalprmAxis(axis1)
         ax_set.addSwCalprmAxis(axis2)
 
@@ -299,8 +300,8 @@ class TestSwCalprmAxisSetWriter:
         assert outer.tag == "SW-CALPRM-AXIS-SET"
         axes = outer.findall("SW-CALPRM-AXIS")
         assert len(axes) == 2
-        assert axes[0].find("CATEGORY").text == "FIXED"
-        assert axes[1].find("CATEGORY").text == "STD"
+        assert axes[0].find("CATEGORY").text == "FIX_AXIS"
+        assert axes[1].find("CATEGORY").text == "STD_AXIS"
 
 
 class TestSwPointerTargetPropsWriter:
@@ -355,7 +356,7 @@ class TestSwDataDefPropsWriter:
 
         ax_set = SwCalprmAxisSet()
         ax = SwCalprmAxis()
-        ax.category = _literal("FIXED")
+        ax.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
         ax_set.addSwCalprmAxis(ax)
         props.setSwCalprmAxisSet(ax_set)
 
@@ -1097,7 +1098,7 @@ class TestRuleBasedValueSpecificationWriter:
         spec.setCategory(_literal("ARRAY"))
 
         axis = RuleBasedAxisCont()
-        axis.setCategory(_literal("STD_AXIS"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS))
         axis.setUnitRef(_ref("UNIT", "/p/u"))
         size = ValueList()
         size.setV(_float("3"))

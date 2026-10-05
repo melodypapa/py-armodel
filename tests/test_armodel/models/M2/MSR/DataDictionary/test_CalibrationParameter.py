@@ -22,19 +22,60 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class TestCalprmAxisCategoryEnum:
-    """Test class for CalprmAxisCategoryEnum class."""
+    """Test class for CalprmAxisCategoryEnum class (SWCT Table 5.48, p.353, R23-11)."""
 
     def test_calprm_axis_category_enum_initialization(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
         enum = CalprmAxisCategoryEnum()
         enum.setValue(CalprmAxisCategoryEnum.STD_AXIS)
-        assert enum.getValue() == "STD_AXIS"
+        assert enum.getValue() == "stdAxis"
 
     def test_calprm_axis_category_enum_values(self):
-        assert CalprmAxisCategoryEnum.COM_AXIS == "COM_AXIS"
-        assert CalprmAxisCategoryEnum.FIX_AXIS == "FIX_AXIS"
-        assert CalprmAxisCategoryEnum.RES_AXIS == "RES_AXIS"
-        assert CalprmAxisCategoryEnum.STD_AXIS == "STD_AXIS"
-        assert CalprmAxisCategoryEnum().getEnumValues() == ["COM_AXIS", "FIX_AXIS", "RES_AXIS", "STD_AXIS"]
+        """CalprmAxisCategoryEnum shall expose the 4 spec literals in Table 5.48 order.
+
+        Member values are the camelCase mmt.qualifiedName literals; the UPPERCASE
+        XSD wire forms (CALPRM-AXIS-CATEGORY-ENUM--SIMPLE) live only in the
+        consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
+        """
+        assert CalprmAxisCategoryEnum.COM_AXIS == "comAxis"
+        assert CalprmAxisCategoryEnum.FIX_AXIS == "fixAXIS"
+        assert CalprmAxisCategoryEnum.RES_AXIS == "resAxis"
+        assert CalprmAxisCategoryEnum.STD_AXIS == "stdAxis"
+        assert CalprmAxisCategoryEnum().getEnumValues() == ["comAxis", "fixAXIS", "resAxis", "stdAxis"]
+
+    def test_calprm_axis_category_enum_has_spec_note(self):
+        """The class docstring carries the Table 5.48 Note verbatim."""
+        assert cleandoc(CalprmAxisCategoryEnum.__doc__) == "This enum specifies the possible values of the category property within SwCalprmAxis."
+
+    def test_calprm_axis_category_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd CALPRM-AXIS-CATEGORY-ENUM--SIMPLE (L132080) additionally
+        carries six atp.Status="removed" literals (COM-AXIS, CURVE-AXIS, CURVE_AXIS,
+        FIX-AXIS, RES-AXIS, STD-AXIS) which map to no member (Rule 0001.3); the UPPERCASE
+        wire forms (COM_AXIS, FIX_AXIS, RES_AXIS, STD_AXIS) live only in the
+        consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
+        """
+        enum_obj = CalprmAxisCategoryEnum()
+        assert enum_obj.validateEnumValue("comAxis") is True
+        assert enum_obj.validateEnumValue("fixAXIS") is True
+        assert enum_obj.validateEnumValue("resAxis") is True
+        assert enum_obj.validateEnumValue("stdAxis") is True
+        assert enum_obj.validateEnumValue("COM_AXIS") is False
+        assert enum_obj.validateEnumValue("COM-AXIS") is False
+        assert enum_obj.validateEnumValue("CURVE_AXIS") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_calprm_axis_category_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
+        assert enum_obj.getValue() == "fixAXIS"
+
+    def test_calprm_axis_category_enum_set_value_none_noop(self):
+        """setValue(None) is a no-op and does not overwrite an existing value."""
+        enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.RES_AXIS)
+        enum_obj.setValue(None)
+        assert enum_obj.getValue() == "resAxis"
 
 
 class TestSwCalprmAxisTypeProps:
@@ -213,7 +254,7 @@ class TestSwCalprmAxis:
         category.setValue(CalprmAxisCategoryEnum.STD_AXIS)
         assert axis.setCategory(category) is axis
         assert axis.getCategory() is category
-        assert axis.getCategory().getValue() == "STD_AXIS"
+        assert axis.getCategory().getValue() == "stdAxis"
 
     def test_sw_calprm_axis_display_format(self):
         """Test getDisplayFormat/setDisplayFormat (spec Table 5.47, displayFormat: DisplayFormatString 0..1 attr)."""

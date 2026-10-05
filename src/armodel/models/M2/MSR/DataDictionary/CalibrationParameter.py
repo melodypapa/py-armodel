@@ -14,22 +14,20 @@ class CalprmAxisCategoryEnum(AREnum):
 
     # CalprmAxisCategoryEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.48, p.353
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwCalprmAxis.category
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on RuleBasedAxisCont.category, SwAxisCont.category (via RuleBasedAxisCont), SwCalprmAxis.category (R23-11)
 
     # COM_AXIS is equal to an STD_AXIS, the difference is, that a COM_AXIS is an shared axis, that means this axis can be used multiple times by different CURVEs, MAPs, CUBOIDs, CUBE_4s, and CUBE_5s. Tags: atp.EnumerationLiteralIndex=0 xml.name=COM_AXIS
-    COM_AXIS = "COM_AXIS"
+    COM_AXIS = "comAxis"
 
     # FIX_AXIS means that the input axis is not stored. The axis is calculated using parameters and so on it is also not possible to modify the axis points. Tags: atp.EnumerationLiteralIndex=4 xml.name=FIX_AXIS
-    FIX_AXIS = "FIX_AXIS"
+    FIX_AXIS = "fixAXIS"
 
     # RES_AXIS is also an shared axis like COM_AXIS, the difference is that this kind of axis can be used for rescaling. Tags: atp.EnumerationLiteralIndex=6 xml.name=RES_AXIS
-    RES_AXIS = "RES_AXIS"
+    RES_AXIS = "resAxis"
 
     # STD_AXIS means that input and output axis definition are stored within this CURVE, MAP, CUBOID, CUBE_4, and CUBE_5. There is no shared or calculated axis. Tags: atp.EnumerationLiteralIndex=8 xml.name=STD_AXIS
-    STD_AXIS = "STD_AXIS"
+    STD_AXIS = "stdAxis"
 
     def __init__(self):
         super().__init__([CalprmAxisCategoryEnum.COM_AXIS, CalprmAxisCategoryEnum.FIX_AXIS, CalprmAxisCategoryEnum.RES_AXIS, CalprmAxisCategoryEnum.STD_AXIS])

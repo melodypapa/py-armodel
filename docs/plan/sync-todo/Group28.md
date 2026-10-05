@@ -611,15 +611,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CalprmAxisCategoryEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.48, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy-format checklist + stale `# Spec verified: R23-11` removed at session start (Rule 0023);
+    member values were UPPERCASE wire forms (Rule 0011 placeholder shape) → re-sync to camelCase spec
+    literals; XSD CALPRM-AXIS-CATEGORY-ENUM--SIMPLE tokens are UPPERCASE ≠ member values → token-map
+    precedent applies (SW_CALIBRATION_ACCESS_XML_MAP pattern) for the SwCalprmAxis/RuleBasedAxisCont
+    consumers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — consumer
+    round-trip tests written instead: parser test_SwCalprmAxis.py + writer test_writer_SwCalprmAxis.py +
+    test_writer_rule_based_axis_cont.py assert the UPPERCASE wire token ↔ camelCase member mapping)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer value form migrated
+    instead: CALPRM_AXIS_CATEGORY_XML_MAP added to parser + writer; getSwCalprmAxis/getRuleBasedAxisCont
+    → _readEnumToken, setSwCalprmAxis/writeRuleBasedAxisCont → _writeEnumToken)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (440 passed / 0 failed
+    tests/test_armodel/models/M2/MSR/DataDictionary/test_CalibrationParameter.py,
+    tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/test_RuleBasedAxisCont.py,
+    tests/test_armodel/parser/test_SwCalprmAxis.py, tests/test_armodel/writer/test_writer_SwCalprmAxis.py,
+    tests/test_armodel/writer/test_writer_rule_based_axis_cont.py, tests/test_armodel/writer/test_writer_data_types.py,
+    tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/parser/test_arxml_parser_internals.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 2741 passed MSR + CommonStructure
+    model dirs, 181 passed parser/writer -k Calprm/Axis/DataDef/RuleBased/Constant selection;
+    black/ruff clean on all 10 changed py files, mypy 1 pre-existing error only (writer L7554,
+    EndToEndProtection commit); no integration fixture carries SW-CALPRM-AXIS or RULE-BASED-AXIS-CONT —
+    document-level round-trips covered by TestSwCalprmAxisRoundTrip; 9b deferred to batch confirmation
+    (user instruction))
 
 - [ ] `SwCalprmAxisTypeProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.49, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py

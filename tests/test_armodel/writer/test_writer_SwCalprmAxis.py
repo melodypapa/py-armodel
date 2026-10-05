@@ -2,8 +2,9 @@
 
 The XSD group SW-CALPRM-AXIS (AUTOSAR_00052.xsd) fixes the child element order:
 SW-AXIS-INDEX (sequenceOffset 20), CATEGORY (30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL
-(40), SW-CALIBRATION-ACCESS (90), DISPLAY-FORMAT (100). SW-CALIBRATION-ACCESS is
-written as the UPPERCASE XSD wire token via SW_CALIBRATION_ACCESS_XML_MAP.
+(40), SW-CALIBRATION-ACCESS (90), DISPLAY-FORMAT (100). CATEGORY and
+SW-CALIBRATION-ACCESS are written as the UPPERCASE XSD wire tokens via
+CALPRM_AXIS_CATEGORY_XML_MAP and SW_CALIBRATION_ACCESS_XML_MAP.
 """
 
 import os
@@ -65,6 +66,7 @@ class TestWriteSwCalprmAxis:
         axis_element = parent_element.find("SW-CALPRM-AXIS")
         assert axis_element is not None
         assert [element.tag for element in axis_element] == ["CATEGORY"]
+        assert axis_element.find("CATEGORY").text == "FIX_AXIS"
 
     def test_write_empty_set_omits_wrapper(self):
         parent_element = ET.Element("SW-DATA-DEF-PROPS-CONDITIONAL")
@@ -105,7 +107,8 @@ class TestSwCalprmAxisRoundTrip:
             assert len(axises) == 1
             axis = axises[0]
             assert axis.getSwAxisIndex().getValue() == "1"
-            assert axis.getCategory().getValue() == "STD_AXIS"
+            assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
+            assert axis.getCategory().getValue() == "stdAxis"
             assert isinstance(axis.getSwCalprmAxisTypeProps(), SwAxisGrouped)
             assert axis.getSwCalprmAxisTypeProps().getSharedAxisTypeRef().getValue() == "/axis/types/shared"
             assert axis.getSwCalibrationAccess().getValue() == "readOnly"
