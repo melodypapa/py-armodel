@@ -28,10 +28,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTestIdentifier,
     DiagnosticTroubleCodeObd,
     DiagnosticTroubleCodeProps,
+    DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     Boolean,
     ByteOrderEnum,
     DateTime,
@@ -48,6 +50,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSignificanceEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+    DiagnosticUdsSeverityEnum,
+    DiagnosticWwhObdDtcClassEnum,
     NameToken,
     PositiveInteger,
     RefType,
@@ -2305,3 +2309,239 @@ class TestDiagnosticTroubleCodeProps:
         assert inspect.cleandoc(DiagnosticTroubleCodeProps.setSnapshotRecordContentRef.__doc__) == (
             self.SNAPSHOT_RECORD_CONTENT_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing snapshotRecordContent reference."
         )
+
+
+class TestDiagnosticTroubleCodeUds:
+    """
+    Test class for DiagnosticTroubleCodeUds functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.158, p.174
+    """
+
+    CLASS_NOTE = "This element is used to describe non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"
+    CONSIDER_PTO_STATUS_NOTE = (
+        "This attribute describes the affection of the event by the Dem PTO handling.\n\n"
+        "true: the event is affected by the Dem PTO handling.\n\n"
+        "false: the event is not affected by the Dem PTO handling."
+    )
+    DTC_PROPS_REF_NOTE = "Defined properties associated with the DemDTC."
+    EVENT_READINESS_GROUP_NOTE = "This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs. The upper multiplicity of this role has been increased to * due to resolving an atpVariation stereotype. The previous value was 1."
+    FUNCTIONAL_UNIT_NOTE = "This attribute specifies a 1-byte value which identifies the corresponding basic vehicle / system function which reports the DTC. This parameter is necessary for the report of severity information. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    OBD_DTC_VALUE_3_BYTE_NOTE = "3 Byte OBD DTC value based on the definition from SAE J2012. The existence of this attribute is only required if separated UDS and OBD DTC values are used for SAE J1979-2. If this attribute does not exist, then UDS DTC values are used with J1979-2. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    SEVERITY_NOTE = "DTC severity according to ISO 14229-1. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    UDS_DTC_VALUE_NOTE = "Unique Diagnostic Trouble Code value for UDS. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    WWH_OBD_DTC_CLASS_NOTE = (
+        "This attribute is used to identify (if applicable) the corresponding severity class of an WWH-OBD DTC. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+    )
+
+    def _create_trouble_code(self) -> DiagnosticTroubleCodeUds:
+        return DiagnosticTroubleCodeUds()
+
+    def test_initialization(self):
+        """
+        Test that a new DiagnosticTroubleCodeUds initializes all attributes to their defaults.
+        """
+        obj = self._create_trouble_code()
+
+        assert obj.getConsiderPtoStatus() is None
+        assert obj.getDtcPropsRef() is None
+        assert obj.getEventReadinessGroup() is None
+        assert obj.getFunctionalUnit() is None
+        assert obj.getObdDtcValue3Byte() is None
+        assert obj.getSeverity() is None
+        assert obj.getUdsDtcValue() is None
+        assert obj.getWwhObdDtcClass() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DiagnosticTroubleCodeUds derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(DiagnosticTroubleCodeUds, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeUds.__init__.__doc__ is None
+
+    def test_get_set_consider_pto_status(self):
+        """
+        Test getConsiderPtoStatus and setConsiderPtoStatus round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = Boolean().setValue(True)
+        result = obj.setConsiderPtoStatus(value)
+        assert result is obj  # method chaining
+        assert obj.getConsiderPtoStatus() is value
+        assert obj.getConsiderPtoStatus().getValue() is True
+
+        result = obj.setConsiderPtoStatus(None)
+        assert result is obj  # method chaining with None
+        assert obj.getConsiderPtoStatus() is value  # None is a no-op
+
+    def test_get_set_dtc_props_ref(self):
+        """
+        Test getDtcPropsRef and setDtcPropsRef round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        ref = RefType()
+        ref.setDest("DIAGNOSTIC-TROUBLE-CODE-PROPS")
+        ref.setValue("/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1")
+        result = obj.setDtcPropsRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDtcPropsRef() is ref
+        assert obj.getDtcPropsRef().getValue() == "/AUTOSAR/DiagnosticTroubleCodeProps/DtcProps1"
+        assert obj.getDtcPropsRef().getDest() == "DIAGNOSTIC-TROUBLE-CODE-PROPS"
+
+        result = obj.setDtcPropsRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDtcPropsRef() is ref  # None is a no-op
+
+    def test_get_set_event_readiness_group(self):
+        """
+        Test getEventReadinessGroup and setEventReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = EventObdReadinessGroup()
+        result = obj.setEventReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventReadinessGroup() is value
+
+        result = obj.setEventReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventReadinessGroup() is value  # None is a no-op
+
+    def test_get_set_functional_unit(self):
+        """
+        Test getFunctionalUnit and setFunctionalUnit round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(4)
+        result = obj.setFunctionalUnit(value)
+        assert result is obj  # method chaining
+        assert obj.getFunctionalUnit() is value
+        assert obj.getFunctionalUnit().getValue() == 4
+
+        result = obj.setFunctionalUnit(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFunctionalUnit() is value  # None is a no-op
+
+    def test_get_set_obd_dtc_value_3_byte(self):
+        """
+        Test getObdDtcValue3Byte and setObdDtcValue3Byte round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(30511)
+        result = obj.setObdDtcValue3Byte(value)
+        assert result is obj  # method chaining
+        assert obj.getObdDtcValue3Byte() is value
+        assert obj.getObdDtcValue3Byte().getValue() == 30511
+
+        result = obj.setObdDtcValue3Byte(None)
+        assert result is obj  # method chaining with None
+        assert obj.getObdDtcValue3Byte() is value  # None is a no-op
+
+    def test_get_set_severity(self):
+        """
+        Test getSeverity and setSeverity round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = DiagnosticUdsSeverityEnum([])
+        result = obj.setSeverity(value)
+        assert result is obj  # method chaining
+        assert obj.getSeverity() is value
+
+        result = obj.setSeverity(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSeverity() is value  # None is a no-op
+
+    def test_get_set_uds_dtc_value(self):
+        """
+        Test getUdsDtcValue and setUdsDtcValue round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = PositiveInteger().setValue(1234567)
+        result = obj.setUdsDtcValue(value)
+        assert result is obj  # method chaining
+        assert obj.getUdsDtcValue() is value
+        assert obj.getUdsDtcValue().getValue() == 1234567
+
+        result = obj.setUdsDtcValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUdsDtcValue() is value  # None is a no-op
+
+    def test_get_set_wwh_obd_dtc_class(self):
+        """
+        Test getWwhObdDtcClass and setWwhObdDtcClass round-trip and None no-op.
+        """
+        obj = self._create_trouble_code()
+
+        value = DiagnosticWwhObdDtcClassEnum([])
+        result = obj.setWwhObdDtcClass(value)
+        assert result is obj  # method chaining
+        assert obj.getWwhObdDtcClass() is value
+
+        result = obj.setWwhObdDtcClass(None)
+        assert result is obj  # method chaining with None
+        assert obj.getWwhObdDtcClass() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getConsiderPtoStatus.__doc__) == self.CONSIDER_PTO_STATUS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setConsiderPtoStatus.__doc__) == (
+            self.CONSIDER_PTO_STATUS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing considerPtoStatus."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getDtcPropsRef.__doc__) == self.DTC_PROPS_REF_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setDtcPropsRef.__doc__) == (self.DTC_PROPS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing dtcProps reference.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getEventReadinessGroup.__doc__) == self.EVENT_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setEventReadinessGroup.__doc__) == (
+            self.EVENT_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventReadinessGroup."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getFunctionalUnit.__doc__) == self.FUNCTIONAL_UNIT_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setFunctionalUnit.__doc__) == (self.FUNCTIONAL_UNIT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing functionalUnit.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getObdDtcValue3Byte.__doc__) == self.OBD_DTC_VALUE_3_BYTE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setObdDtcValue3Byte.__doc__) == (
+            self.OBD_DTC_VALUE_3_BYTE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing obdDtcValue3Byte."
+        )
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getSeverity.__doc__) == self.SEVERITY_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setSeverity.__doc__) == (self.SEVERITY_NOTE + "\n\nA None value is a no-op and does not overwrite an existing severity.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getUdsDtcValue.__doc__) == self.UDS_DTC_VALUE_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setUdsDtcValue.__doc__) == (self.UDS_DTC_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing udsDtcValue.")
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.getWwhObdDtcClass.__doc__) == self.WWH_OBD_DTC_CLASS_NOTE
+        assert inspect.cleandoc(DiagnosticTroubleCodeUds.setWwhObdDtcClass.__doc__) == (self.WWH_OBD_DTC_CLASS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing wwhObdDtcClass.")
+
+
+class TestDiagnosticTroubleCodeUdsPendingReferences:
+    """
+    Test class for the still-stub reference targets of DiagnosticTroubleCodeUds.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.158, p.174
+
+    EventObdReadinessGroup (Table 4.160), DiagnosticUdsSeverityEnum (Table 4.177) and
+    DiagnosticWwhObdDtcClassEnum (Table 4.179) are queued later in Group25 and still
+    empty stubs; the typed fields reference them directly (ArObject.py /
+    PrimitiveTypes.py).
+    """
+
+    def test_reference_targets_are_stub_classes(self):
+        """
+        Test that the referenced types exist as stubs of their spec families.
+        """
+        assert issubclass(EventObdReadinessGroup, ARObject)
+        assert issubclass(DiagnosticUdsSeverityEnum, AREnum)
+        assert issubclass(DiagnosticWwhObdDtcClassEnum, AREnum)

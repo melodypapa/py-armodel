@@ -1809,7 +1809,204 @@ class DiagnosticTroubleCodeProps(ARObject):
 
 
 class DiagnosticTroubleCodeUds(ARObject):
-    pass
+    """This element is used to describe non OBD-relevant DTCs. Tags: atp.recommendedPackage=DiagnosticTroubleCodes"""
+
+    # DiagnosticTroubleCodeUds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.158, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConsiderPtoStatus      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setConsiderPtoStatus      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setDtcPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventReadinessGroup    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setEventReadinessGroup    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionalUnit         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setFunctionalUnit         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdDtcValue3Byte       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setObdDtcValue3Byte       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSeverity               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setSeverity               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUdsDtcValue            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setUdsDtcValue            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getWwhObdDtcClass         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setWwhObdDtcClass         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — DIAGNOSTIC-TROUBLE-CODE-UDS appears in the ARPackage
+    # ELEMENTS choice only (AUTOSAR_00052.xsd l.5252; no other parent aggregation in the XSD), whose loop
+    # requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row
+    # homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach
+    # it — the future consumer wires it (cf. DiagnosticTroubleCodeObd, DiagnosticTroubleCodeProps,
+    # DiagnosticMemoryDestinationUserDefined, commit 27e01b079). The XSD group also carries
+    # EVENT-OBD-READINESS-GROUP (NMTOKEN, atp.Status="removed", AUTOSAR_00052.xsd l.46742-46749), absent
+    # from the markdown table — not modeled (Rule 0015).
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute describes the affection of the event by the Dem PTO handling.
+        #
+        # true: the event is affected by the Dem PTO handling.
+        #
+        # false: the event is not affected by the Dem PTO handling.
+        self.considerPtoStatus: Optional[Boolean] = None
+
+        # Defined properties associated with the DemDTC.
+        self.dtcPropsRef: Optional[RefType] = None
+
+        # This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs. The upper multiplicity of this role has been increased to * due to resolving an atpVariation stereotype. The previous value was 1.
+        self.eventReadinessGroup: Optional[EventObdReadinessGroup] = None
+
+        # This attribute specifies a 1-byte value which identifies the corresponding basic vehicle / system function which reports the DTC. This parameter is necessary for the report of severity information. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.functionalUnit: Optional[PositiveInteger] = None
+
+        # 3 Byte OBD DTC value based on the definition from SAE J2012. The existence of this attribute is only required if separated UDS and OBD DTC values are used for SAE J1979-2. If this attribute does not exist, then UDS DTC values are used with J1979-2. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.obdDtcValue3Byte: Optional[PositiveInteger] = None
+
+        # DTC severity according to ISO 14229-1. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.severity: Optional[DiagnosticUdsSeverityEnum] = None
+
+        # Unique Diagnostic Trouble Code value for UDS. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.udsDtcValue: Optional[PositiveInteger] = None
+
+        # This attribute is used to identify (if applicable) the corresponding severity class of an WWH-OBD DTC. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.wwhObdDtcClass: Optional[DiagnosticWwhObdDtcClassEnum] = None
+
+    def getConsiderPtoStatus(self) -> Optional[Boolean]:
+        """
+        This attribute describes the affection of the event by the Dem PTO handling.
+
+        true: the event is affected by the Dem PTO handling.
+
+        false: the event is not affected by the Dem PTO handling.
+        """
+        return self.considerPtoStatus
+
+    def setConsiderPtoStatus(self, value: Optional[Boolean]) -> DiagnosticTroubleCodeUds:
+        """
+        This attribute describes the affection of the event by the Dem PTO handling.
+
+        true: the event is affected by the Dem PTO handling.
+
+        false: the event is not affected by the Dem PTO handling.
+
+        A None value is a no-op and does not overwrite an existing considerPtoStatus.
+        """
+        if value is not None:
+            self.considerPtoStatus = value
+        return self
+
+    def getDtcPropsRef(self) -> Optional[RefType]:
+        """
+        Defined properties associated with the DemDTC.
+        """
+        return self.dtcPropsRef
+
+    def setDtcPropsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeUds:
+        """
+        Defined properties associated with the DemDTC.
+
+        A None value is a no-op and does not overwrite an existing dtcProps reference.
+        """
+        if value is not None:
+            self.dtcPropsRef = value
+        return self
+
+    def getEventReadinessGroup(self) -> Optional[EventObdReadinessGroup]:
+        """
+        This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs. The upper multiplicity of this role has been increased to * due to resolving an atpVariation stereotype. The previous value was 1.
+        """
+        return self.eventReadinessGroup
+
+    def setEventReadinessGroup(self, value: Optional[EventObdReadinessGroup]) -> DiagnosticTroubleCodeUds:
+        """
+        This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs. The upper multiplicity of this role has been increased to * due to resolving an atpVariation stereotype. The previous value was 1.
+
+        A None value is a no-op and does not overwrite an existing eventReadinessGroup.
+        """
+        if value is not None:
+            self.eventReadinessGroup = value
+        return self
+
+    def getFunctionalUnit(self) -> Optional[PositiveInteger]:
+        """
+        This attribute specifies a 1-byte value which identifies the corresponding basic vehicle / system function which reports the DTC. This parameter is necessary for the report of severity information. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.functionalUnit
+
+    def setFunctionalUnit(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
+        """
+        This attribute specifies a 1-byte value which identifies the corresponding basic vehicle / system function which reports the DTC. This parameter is necessary for the report of severity information. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing functionalUnit.
+        """
+        if value is not None:
+            self.functionalUnit = value
+        return self
+
+    def getObdDtcValue3Byte(self) -> Optional[PositiveInteger]:
+        """
+        3 Byte OBD DTC value based on the definition from SAE J2012. The existence of this attribute is only required if separated UDS and OBD DTC values are used for SAE J1979-2. If this attribute does not exist, then UDS DTC values are used with J1979-2. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.obdDtcValue3Byte
+
+    def setObdDtcValue3Byte(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
+        """
+        3 Byte OBD DTC value based on the definition from SAE J2012. The existence of this attribute is only required if separated UDS and OBD DTC values are used for SAE J1979-2. If this attribute does not exist, then UDS DTC values are used with J1979-2. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing obdDtcValue3Byte.
+        """
+        if value is not None:
+            self.obdDtcValue3Byte = value
+        return self
+
+    def getSeverity(self) -> Optional[DiagnosticUdsSeverityEnum]:
+        """
+        DTC severity according to ISO 14229-1. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.severity
+
+    def setSeverity(self, value: Optional[DiagnosticUdsSeverityEnum]) -> DiagnosticTroubleCodeUds:
+        """
+        DTC severity according to ISO 14229-1. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing severity.
+        """
+        if value is not None:
+            self.severity = value
+        return self
+
+    def getUdsDtcValue(self) -> Optional[PositiveInteger]:
+        """
+        Unique Diagnostic Trouble Code value for UDS. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.udsDtcValue
+
+    def setUdsDtcValue(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeUds:
+        """
+        Unique Diagnostic Trouble Code value for UDS. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing udsDtcValue.
+        """
+        if value is not None:
+            self.udsDtcValue = value
+        return self
+
+    def getWwhObdDtcClass(self) -> Optional[DiagnosticWwhObdDtcClassEnum]:
+        """
+        This attribute is used to identify (if applicable) the corresponding severity class of an WWH-OBD DTC. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.wwhObdDtcClass
+
+    def setWwhObdDtcClass(self, value: Optional[DiagnosticWwhObdDtcClassEnum]) -> DiagnosticTroubleCodeUds:
+        """
+        This attribute is used to identify (if applicable) the corresponding severity class of an WWH-OBD DTC. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing wwhObdDtcClass.
+        """
+        if value is not None:
+            self.wwhObdDtcClass = value
+        return self
 
 
 class EventObdReadinessGroup(ARObject):
@@ -2348,6 +2545,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSignificanceEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+    DiagnosticUdsSeverityEnum,
+    DiagnosticWwhObdDtcClassEnum,
     Identifier,
     NameToken,
     PositiveInteger,
