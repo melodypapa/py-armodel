@@ -13,7 +13,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucConditionSpecification` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.42, p.100
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
+  - [x] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
@@ -26,15 +26,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucValidationCondition` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.44, p.103
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (464 passed model+annotations+ECUC-handler suites + round-trip; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `401e19fd2`
+  - note (Step 1): concrete Class, Base most-derived Identifiable; attrs ecucQuery (* aggr), validationFormula (EcucConditionFormula 0..1 aggr); createEcucQuery migrated to Identifiable registry pattern (Rule 0004), getEcucQuery removed, setter retyped Optional; docstrings verbatim + 6-col checklist, Rule 0023 stale stamp removed; no stamp (batch 9b)
 
 - [ ] `EcucIndexableValue` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.46, p.110
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
