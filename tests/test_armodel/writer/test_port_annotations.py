@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ModePortAnnotation,
+    NvDataPortAnnotation,
     ParameterPortAnnotation,
     TriggerPortAnnotation,
 )
@@ -112,3 +113,26 @@ class TestTriggerPortAnnotationRoundTrip:
         port_2 = _round_trip(AUTOSAR.getInstance())
 
         assert port_2.getTriggerPortAnnotations() == []
+
+
+class TestNvDataPortAnnotationRoundTrip:
+    def test_round_trip(self):
+        _, port = _new_document_with_port()
+
+        nv = NvDataPortAnnotation()
+        nv.setVariableRef(_ref("/Swc/Nv", "VARIABLE-DATA-PROTOTYPE"))
+        port.addNvDataPortAnnotation(nv)
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        nv_list = port_2.getNvDataPortAnnotations()
+        assert len(nv_list) == 1
+        assert nv_list[0].getVariableRef().getValue() == "/Swc/Nv"
+        assert nv_list[0].getVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_empty_wrapper_list(self):
+        _, port = _new_document_with_port()
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        assert port_2.getNvDataPortAnnotations() == []
