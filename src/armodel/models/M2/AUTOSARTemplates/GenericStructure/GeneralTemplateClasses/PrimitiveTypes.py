@@ -2583,7 +2583,37 @@ class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
 
 
 class DiagnosticUdsSeverityEnum(AREnum):
-    pass
+    """
+    Severity types for a DTC according to ISO 14229-1.
+    """
+
+    # DiagnosticUdsSeverityEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.177, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Check at next halt. Tags: atp.EnumerationLiteralIndex=0
+    CHECK_AT_NEXT_HALT = "checkAtNextHalt"
+
+    # Check immediately. Tags: atp.EnumerationLiteralIndex=1
+    IMMEDIATELY = "immediately"
+
+    # Maintenance required. Tags: atp.EnumerationLiteralIndex=2
+    MAINTENANCE_ONLY = "maintenanceOnly"
+
+    # No severity information available. Tags: atp.EnumerationLiteralIndex=3
+    NO_SEVERITY = "noSeverity"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT,
+                DiagnosticUdsSeverityEnum.IMMEDIATELY,
+                DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY,
+                DiagnosticUdsSeverityEnum.NO_SEVERITY,
+            ]
+        )
 
 
 class DiagnosticWwhObdDtcClassEnum(AREnum):

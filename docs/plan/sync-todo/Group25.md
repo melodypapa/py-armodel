@@ -868,15 +868,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticUdsSeverityEnum` — AREnum — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.177, p.187
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone enum — no own XML element; round-trips on its consuming class (DiagnosticTroubleCodeUds.severity, Table 4.158, synced fbead45f7)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone enum — no own XML element; no consumer wiring exists yet (grep found no UDS-SEVERITY/UdsSeverity reader/writer code to rewire; stub-shape consumer test in test_ArObject.py modernized to the typed member, 4e24dc1be precedent)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; all 4 XSD literals CHECK-AT-NEXT-HALT/IMMEDIATELY/MAINTENANCE-ONLY/NO-SEVERITY are present in the markdown table, no atp.Status="removed" finding)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1580 passed / 0 failed: test_PrimitiveTypes.py + test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticDataIdentifierSet` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.178, p.187
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

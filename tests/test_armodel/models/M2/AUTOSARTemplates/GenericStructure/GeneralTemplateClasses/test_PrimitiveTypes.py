@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+    DiagnosticUdsSeverityEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -2977,3 +2978,52 @@ class TestDiagnosticTestResultUpdateEnum:
         enum.setValue(DiagnosticTestResultUpdateEnum.STEADY)
 
         assert enum.getValue() == "steady"
+
+
+class TestDiagnosticUdsSeverityEnum:
+    """
+    Test class for DiagnosticUdsSeverityEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.177, p.187
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticUdsSeverityEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "checkAtNextHalt",
+            "immediately",
+            "maintenanceOnly",
+            "noSeverity",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticUdsSeverityEnum member values.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+
+        assert DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT == "checkAtNextHalt"
+        assert DiagnosticUdsSeverityEnum.IMMEDIATELY == "immediately"
+        assert DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY == "maintenanceOnly"
+        assert DiagnosticUdsSeverityEnum.NO_SEVERITY == "noSeverity"
+
+        assert enum.validateEnumValue("checkAtNextHalt") is True
+        assert enum.validateEnumValue("immediately") is True
+        assert enum.validateEnumValue("maintenanceOnly") is True
+        assert enum.validateEnumValue("noSeverity") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticUdsSeverityEnum instantiability and getValue.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+        enum.setValue(DiagnosticUdsSeverityEnum.NO_SEVERITY)
+
+        assert enum.getValue() == "noSeverity"

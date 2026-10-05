@@ -2458,7 +2458,7 @@ class TestDiagnosticTroubleCodeUds:
         """
         obj = self._create_trouble_code()
 
-        value = DiagnosticUdsSeverityEnum([])
+        value = DiagnosticUdsSeverityEnum().setValue(DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT)
         result = obj.setSeverity(value)
         assert result is obj  # method chaining
         assert obj.getSeverity() is value
