@@ -1332,4 +1332,12 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
     - note (Step 8): No deviations — legacy checklist shape + missing
       base-helper call were Rule 0023/0025 to-fix drift. No Rule 0001.10
       missing referenced classes.
+    - note (Step 4 re-run 2026-10-06, batch-9b review): Rule 0012.2.5.3 —
+      the `Stereotypes: atpUriDef` tail was dropped from both attribute Notes
+      (Table 2.41 rows end with it; the stamped atpUriDef siblings keep it).
+      Appended in all 6 places (inline __init__ comments + getter/setter
+      docstrings, global + local). Stale tracker `missing` rows
+      (configElementDefGlobalRef/LocalRef) removed from
+      method_deviation_by_class.md (Rule 0014). Mirrored test class pins
+      behavior only — no test change needed.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
