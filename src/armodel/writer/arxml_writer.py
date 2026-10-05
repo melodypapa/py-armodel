@@ -16102,6 +16102,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         if position is not None:
             child_element = ET.SubElement(element, "SEGMENT-POSITION")
+            self.writeARObject(child_element, position)
             self.setChildElementOptionalLiteral(child_element, "SEGMENT-BYTE-ORDER", position.getSegmentByteOrder())
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-LENGTH", position.getSegmentLength())
             self.setChildElementOptionalIntegerValue(child_element, "SEGMENT-POSITION", position.getSegmentPosition())

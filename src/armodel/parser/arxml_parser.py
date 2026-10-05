@@ -12227,6 +12227,7 @@ class ARXMLParser(AbstractARXMLParser):
             table.addServiceInstanceRef(ref)
 
     def readSegmentPosition(self, element: ET.Element, position: SegmentPosition):
+        self.readARObject(element, position)
         position.setSegmentByteOrder(cast(Optional[ByteOrderEnum], self.getChildElementOptionalLiteral(element, "SEGMENT-BYTE-ORDER")))
         position.setSegmentLength(self.getChildElementOptionalIntegerValue(element, "SEGMENT-LENGTH"))
         position.setSegmentPosition(self.getChildElementOptionalIntegerValue(element, "SEGMENT-POSITION"))

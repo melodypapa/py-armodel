@@ -28,7 +28,7 @@ class TestMultiplexedPartHandlers:
         part = DynamicPart()
         element = _snip(
             "<SEGMENT-POSITIONS>"
-            "<SEGMENT-POSITION>"
+            '<SEGMENT-POSITION S="1234" T="2024-01-01T00:00:00Z">'
             "<SEGMENT-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</SEGMENT-BYTE-ORDER>"
             "<SEGMENT-LENGTH>8</SEGMENT-LENGTH>"
             "<SEGMENT-POSITION>0</SEGMENT-POSITION>"
@@ -41,6 +41,9 @@ class TestMultiplexedPartHandlers:
         assert positions[0].getSegmentByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
         assert positions[0].getSegmentLength().getValue() == 8
         assert positions[0].getSegmentPosition().getValue() == 0
+        # AR:AR-OBJECT S/T must round-trip (Rule 0025)
+        assert positions[0].getChecksum().getValue() == "1234"
+        assert positions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readMultiplexedPartSegmentPositions_empty(self, parser):
         from armodel.models import DynamicPart
