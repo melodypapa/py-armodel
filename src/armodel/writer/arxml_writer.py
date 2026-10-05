@@ -2574,7 +2574,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalNumericalValue(child_element, "VF", vf)
             self.setChildElementOptionalNumerical(child_element, "V", value_list.getV())
 
-    def writeSwValueCont(self, element: ET.Element, cont: SwValueCont):
+    def writeSwValueCont(self, element: ET.Element, cont: Optional[SwValueCont]):
         if cont is not None:
             child_element = ET.SubElement(element, "SW-VALUE-CONT")
             self.writeARObject(child_element, cont)

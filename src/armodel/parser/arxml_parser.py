@@ -7883,7 +7883,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalIdentifier(element, "CATEGORY")))
+        value_spec.setCategory(self.getChildElementOptionalIdentifier(element, "CATEGORY"))
         for child_element in self.findall(element, "SW-AXIS-CONTS/SW-AXIS-CONT"):
             value_spec.addSwAxisCont(self.getSwAxisCont(child_element))
         value_spec.setSwValueCont(self.getSwValueCont(element))
@@ -9129,7 +9129,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getApplicationValueSpecification(self, element: ET.Element) -> ApplicationValueSpecification:
         value_spec = ApplicationValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalIdentifier(element, "CATEGORY")))
+        value_spec.setCategory(self.getChildElementOptionalIdentifier(element, "CATEGORY"))
         for child_element in self.findall(element, "SW-AXIS-CONTS/SW-AXIS-CONT"):
             value_spec.addSwAxisCont(self.getSwAxisCont(child_element))
         value_spec.setSwValueCont(self.getSwValueCont(element))

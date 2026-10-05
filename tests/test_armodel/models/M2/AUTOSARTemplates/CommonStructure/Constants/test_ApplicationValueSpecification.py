@@ -75,7 +75,7 @@ class TestApplicationValueSpecification:
         assert spec.getSwAxisConts() == [first, second]
 
     def test_get_set_sw_value_cont(self):
-        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
 
         spec = ApplicationValueSpecification()
         cont = SwValueCont()

@@ -9,7 +9,6 @@ from xml.dom import minidom
 from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARLiteral,
@@ -30,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UriString,
     VerbatimString,
 )
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class AbstractARXMLWriter(ABC):
