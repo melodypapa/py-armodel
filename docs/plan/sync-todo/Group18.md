@@ -101,7 +101,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - 9b batch audit 2026-10-05 (VP): FAIL Rule 0025 — reader/writer never called readVariationPointCapable/writeVariationPointCapable, so the inherited VARIATION-POINT (XSD CAN-NM-CLUSTER-COUPLING group → NM-CLUSTER-COUPLING group, AUTOSAR_00052.xsd l.84432) was dropped on round-trip; fixed in-pass: readVariationPointCapable after the last spec attr, writeVariationPointCapable LAST (mixin sequenceOffset 10000) + VP round-trip asserts (writer element-order + parser); commit ea1d76160; Step 9 stays open (no stamp)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b confirmed 2026-10-06 (batch stamp wave, user instruction) — # Spec verified: R23-11 written
 
-- [ ] `UdpNmClusterCoupling` (input · R23-11 markdown · Table 6.317)
+- [x] `UdpNmClusterCoupling` (input · R23-11 markdown · Table 6.317)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
   - note: deviation-tracked in method_deviation_by_class.md — reviewed at Step 1: the v1 "nmBusLoadReductionEnabled missing" row was stale (XSD-only element, absent from Table 6.317), marked removed at sync
   - [x] Step 1 — Sync members & description from spec — Table 6.317, p.688; Note "Udp attributes that are valid for each of the referenced (coupled) UdpNm clusters."; Base ARObject,NmClusterCoupling; 2 attrs in displayed order (coupledCluster `*` ref UdpNmCluster, nmImmediateRestartEnabled 0..1 Boolean — spec Note names CanNm PDU verbatim); XSD group UDP-NM-CLUSTER-COUPLING order COUPLED-CLUSTER-REFS → NM-IMMEDIATE-RESTART-ENABLED, XSD-only NM-BUS-LOAD-REDUCTION-ENABLED not modeled (Rule 0015) (AUTOSAR_00052.xsd l.127634)
@@ -114,7 +114,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — XSD-only NM-BUS-LOAD-REDUCTION-ENABLED not modeled (Rule 0015); v1 stale tracker row resolved to removed
   - 9b batch audit 2026-10-05: FAIL Rule 0025 — getUdpNmClusterCoupling/writeUdpNmClusterCoupling never called readARObject/writeARObject (inherited S/T silently dropped on round-trip); fixed in-pass: base-helper calls added + S/T round-trip asserts (writer + parser tests); Step 9 stays open (no stamp — user: fix first)
   - 9b batch audit 2026-10-05 (VP): FAIL Rule 0025 — reader/writer never called readVariationPointCapable/writeVariationPointCapable, so the inherited VARIATION-POINT (XSD NM-CLUSTER-COUPLING group, AUTOSAR_00052.xsd l.84432) was dropped on round-trip; fixed in-pass: readVariationPointCapable after the last spec attr, writeVariationPointCapable LAST (mixin sequenceOffset 10000) + VP round-trip asserts (writer element-order + parser); commit eec853040; Step 9 stays open (no stamp)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b confirmed 2026-10-06 (batch stamp wave, user instruction) — # Spec verified: R23-11 written
 
 - [ ] `FlexrayNmClusterCoupling` (input · R23-11 markdown · Table 6.308)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
