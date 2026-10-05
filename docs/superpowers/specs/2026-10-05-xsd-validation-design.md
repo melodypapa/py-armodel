@@ -1,7 +1,9 @@
 # XSD Validation for ARXML Parse and Write — Design
 
 - **Date:** 2026-10-05
-- **Status:** Approved (design phase)
+- **Status:** Approved; **amended during planning/execution** — §3-§5 below carry `AMENDED` notes
+  describing the as-built behavior where it differs from the original text. The authoritative
+  implementation record is `docs/superpowers/plans/2026-10-05-xsd-validation.md` (header notes 1-10).
 - **Scope:** Pre-parse XSD validation in `ARXMLParser.load()` and pre-save validation in `ARXMLWriter.save()`, backed by bundled AUTOSAR schemas.
 
 ## 1. Problem
@@ -36,6 +38,15 @@ against the official AUTOSAR XSD for their release **before** any parsing or wri
     the test suite round-trips hundreds of files).
 - Implementation uses `lxml.etree.XMLSchema` — lxml is already a dependency; **no new dependencies**.
 
+> **AMENDED (as built):** the API is **class-based**. `ARXMLValidator` owns all state as class
+> attributes (schema registry, compile caches, lock) and exposes: `validate_bytes(data)` /
+> `validate_string(xml)` (instance), and classmethods `detect_schema_path(data)`,
+> `detect_schema_info(data)` (path + document namespace), `get_schema(xsd_path)`,
+> `get_schema_target_namespace(xsd_path)`, `register_schema_file(filename, path)`, and the
+> `for_document(data)` factory (returns None when no bundled schema matches the document's
+> `xsi:schemaLocation` filename OR the document namespace differs from the schema's
+> targetNamespace). There is no `validate_tree`; no module-level functions.
+
 ### `schemas/`
 
 - Package data: `R19-11/`, `R20-11/`, `R21-11/`, `R22-11/`, `R23-11/` — the releases the test corpus
@@ -44,12 +55,24 @@ against the official AUTOSAR XSD for their release **before** any parsing or wri
 - Registered via package-data in `pyproject.toml`.
 - `README.md` in the package records provenance (which autosar.org release tarball each set came from).
 
+> **AMENDED (as built):** bundled set is **R23-11, R4.4.0, R4.3.1, R3.2.3** — the four releases the
+> repo already vendors under `autosar/<release>/xsd/` (byte-copies, hash-sync-tested). The W3C
+> `xml.xsd` exists as a SINGLE shared copy at `schemas/xml.xsd`, resolved by the validator's
+> directory-then-`SCHEMA_DIR`-fallback resolver.
+
 ## 4. Release auto-detection
 
 The `AUTOSAR` root element's `xsi:schemaLocation` (e.g. `.../AUTOSAR_M2-MOD.xsd`) is matched against
 bundled release directories; `ADMIN-DATA` schema info is the fallback. If no schema can be resolved:
 a notice is produced ("no schema for detected release X") and — with `warning=True` — processing
 continues **unvalidated**; otherwise it raises like any other validation failure.
+
+> **AMENDED (as built):** detection uses **only** `xsi:schemaLocation` (the `ADMIN-DATA` fallback
+> was dropped — no AUTOSAR tool writes resolvable schema info there). An **unresolvable schema or a
+> namespace mismatch logs a warning and processing continues UNVALIDATED in every mode** — this is
+> not an error, because the writer's default `AUTOSAR_4-0-3.xsd` and legacy R3 documents
+> (`http://autosar.org`) have no compatible bundled schema, and raising would break legitimate
+> existing usage.
 
 ## 5. Parser integration (`ARXMLParser.load`)
 
@@ -66,6 +89,11 @@ building, not a separate API:
 
 `options={"validate": False}` disables validation entirely — the escape hatch for legacy/imperfect
 files. **Validation is ON by default** whenever a schema can be resolved.
+
+> **AMENDED (as built):** failures are reported **one `logger.error` line per violation, then a
+> single `ValueError`** ("failed schema validation with N error(s) (first: line …, col …: …)") that
+> aborts the load — no new exception class, matching the repo's `ValueError` convention. With
+> `warning: True`, each violation is logged via `logger.warning` and parsing continues.
 
 ## 6. Writer integration (`ARXMLWriter.save`)
 
