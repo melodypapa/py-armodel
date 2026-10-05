@@ -583,87 +583,101 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SenderReceiverAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.41, p.152
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (whole unit tree 17,879/0; integration 11; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `21808a1f7`
+  - note (Step 1): abstract Class, Base GeneralAnnotation; attrs computed (0..1 attr), dataElement (0..1 ref), limitKind/processingKind (0..1 attr enums); abstract base owns reusable read/write helpers (Rule 0001.7); KEY FIX: writer emitted XSD-nonexistent <SENDER-RECEIVER-ANNOTATION> child — now isinstance-dispatches RECEIVER-ANNOTATION/SENDER-ANNOTATION inside the wrapper, parser dispatches on XSD tags; legacy direct-constructor tests re-pinned; no deviations; no stamp (batch 9b)
 
 - [ ] `SenderAnnotation` — SenderReceiverAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.42, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `f0a69daa6`
+  - note (Step 1): concrete Class, Base SenderReceiverAnnotation; zero own attributes (XSD group empty, l.104235); round-trips via base dispatch; no deviations; no stamp (batch 9b)
 
 - [ ] `ReceiverAnnotation` — SenderReceiverAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.43, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `f2020f54b`
+  - note (Step 1): concrete Class, Base SenderReceiverAnnotation; attr signalAge (MultidimensionalTime 0..1 aggr) — was entirely missing (bare pass subclass); SIGNAL-AGE read/written after base group per XSD l.95956; no deviations; no stamp (batch 9b)
 
 - [ ] `ProcessingKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.44, p.153
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `97030aba6`
+  - note (Step 1): Enumeration: FILTERED="filtered", NONE="none", RAW="raw" (idx 0-2); Steps 5/6 N/A (PROCESSING-KIND value on consuming class); no deviations; no stamp (batch 9b)
 
 - [ ] `DataLimitKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.45, p.154
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `87507e7be`
+  - note (Step 1): Enumeration: MAX="max", MIN="min", NONE="none" (idx 0-2); stale checklist page citation corrected p.153→p.154 via pdf_page.py; Steps 5/6 N/A (LIMIT-KIND value); no deviations; no stamp (batch 9b)
 
 - [ ] `ClientServerAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.46, p.155
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `a5e2f7c62`
+  - note (Step 1): concrete Class, Base GeneralAnnotation; attr operation (0..1 ref → operationRef); OPERATION-REF verified in XSD order; checklist reader/writer columns re-split (both were [x] on both rows); no deviations; no stamp (batch 9b)
 
 - [ ] `IoHwAbstractionServerAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.47, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,879/0); 9b deferred to batch confirmation (user instruction); sync commit `315b01de9`
+  - note (Step 1): concrete Class, Base GeneralAnnotation; 8 attrs in display order (age aggr, argument/bswResolution/dataElement/failureMonitoring/filteringDebouncing/pulseTest/trigger); XSD order AGE→ARGUMENT-REF→BSW-RESOLUTION→DATA-ELEMENT-REF→FAILURE-MONITORING-REF→FILTERING-DEBOUNCING→PULSE-TEST→TRIGGER-REF verified; sequenceOffset Tags tails dropped per Rule 0012.2.5.2; no deviations; no stamp (batch 9b)
 
 - [ ] `FilterDebouncingEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.48, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
