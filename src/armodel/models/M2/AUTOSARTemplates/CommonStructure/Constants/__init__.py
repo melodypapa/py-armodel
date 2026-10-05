@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from abc import ABC
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, SwAxisCont
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -1362,7 +1362,7 @@ class RuleBasedValueSpecification(ARObject):
 # its annotations, and the DataDictionary imports below are annotation targets consumed through the
 # CalibrationParameter/DataDefProperties import chains, so they must run after this module's class
 # definitions; placed at the bottom so both sides of each cycle are fully initialized (Rule 0005).
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont  # noqa: E402
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList  # noqa: E402

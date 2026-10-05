@@ -569,7 +569,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    SwAxisCont,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1465,7 +1464,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwAxisType, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
@@ -9130,6 +9129,12 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwAxisCont(self, element: ET.Element) -> SwAxisCont:
         axis_cont = SwAxisCont()
         self.readARObject(element, axis_cont)
+        axis_cont.setCategory(self._readEnumToken(element, "CATEGORY", CalprmAxisCategoryEnum, CALPRM_AXIS_CATEGORY_XML_MAP))
+        axis_cont.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
+        axis_cont.setUnitDisplayName(self.getSingleLanguageUnitNames(element, "UNIT-DISPLAY-NAME"))
+        axis_cont.setSwAxisIndex(self.getChildElementOptionalAxisIndexType(element, "SW-AXIS-INDEX"))
+        axis_cont.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
+        axis_cont.setSwValuesPhys(self.getSwValues(element, "SW-VALUES-PHYS"))
         return axis_cont
 
     def getNumericalOrText(self, element: ET.Element) -> NumericalOrText:
@@ -9169,7 +9174,7 @@ class ARXMLParser(AbstractARXMLParser):
         cont.setCategory(self._readEnumToken(element, "CATEGORY", CalprmAxisCategoryEnum, CALPRM_AXIS_CATEGORY_XML_MAP))
         cont.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         cont.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
-        cont.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
+        cont.setSwAxisIndex(self.getChildElementOptionalAxisIndexType(element, "SW-AXIS-INDEX"))
         cont.setRuleBasedValues(self.getRuleBasedValueSpecification(cast(ET.Element, self.find(element, "RULE-BASED-VALUES"))))
         return cont
 

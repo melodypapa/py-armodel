@@ -552,7 +552,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    SwAxisCont,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -1224,7 +1223,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwAxisType, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
@@ -4372,6 +4371,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if axis_cont is not None:
             child_element = ET.SubElement(element, "SW-AXIS-CONT")
             self.writeARObject(child_element, axis_cont)
+            self._writeEnumToken(child_element, "CATEGORY", axis_cont.getCategory(), CALPRM_AXIS_CATEGORY_XML_MAP)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", axis_cont.getUnitRef())
+            self.setSingleLanguageUnitNames(child_element, "UNIT-DISPLAY-NAME", axis_cont.getUnitDisplayName())
+            self.setChildElementOptionalAxisIndexType(child_element, "SW-AXIS-INDEX", axis_cont.getSwAxisIndex())
+            self.setValueList(child_element, "SW-ARRAYSIZE", axis_cont.getSwArraysize())
+            self.setSwValues(child_element, "SW-VALUES-PHYS", axis_cont.getSwValuesPhys())
 
     def writeNumericalOrText(self, element: ET.Element, key: str, not_text: Optional[NumericalOrText]):
         if not_text is not None:
@@ -4410,7 +4415,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self._writeEnumToken(child_element, "CATEGORY", cont.getCategory(), CALPRM_AXIS_CATEGORY_XML_MAP)
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.getUnitRef())
             self.setValueList(child_element, "SW-ARRAYSIZE", cont.getSwArraysize())
-            self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", cont.getSwAxisIndex())
+            self.setChildElementOptionalAxisIndexType(child_element, "SW-AXIS-INDEX", cont.getSwAxisIndex())
             self.writeRuleBasedValueSpecification(child_element, "RULE-BASED-VALUES", cont.getRuleBasedValues())
 
     def writeRuleBasedValueCont(self, element: ET.Element, cont: Optional[RuleBasedValueCont]):

@@ -5,8 +5,146 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import Numeric
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+
+
+class SwAxisCont(ARObject):
+    """
+    This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related GroupAxis are binding.
+
+    [constr_2050] Mandatory information of a SwAxisCont: If the attribute swAxisCont is defined for an ApplicationValueSpecification the SwAxisCont shall define one swAxisIndex value and one swArraysize value per dimension, even in the case when the owning ApplicationValueSpecification defines only the content of a single dimensional object like a CURVE.
+    """
+
+    # SwAxisCont method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.124, p.457
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwArraysize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisIndex        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisIndex        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwValuesPhys       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValuesPhys       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitDisplayName    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitDisplayName    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
+        self.category: Optional[CalprmAxisCategoryEnum] = None
+
+        # For multidimensional compound primitivies (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. • RES_AXIS Tags: xml.sequenceOffset=70
+        self.swArraysize: Optional[ValueList] = None
+
+        # This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
+        self.swAxisIndex: Optional[AxisIndexType] = None
+
+        # swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=80
+        self.swValuesPhys: Optional[SwValues] = None
+
+        # This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
+        self.unitRef: Optional[RefType] = None
+
+        # This represents the display name which is used for the physical unit of the axis. Tags: xml.sequenceOffset=40
+        self.unitDisplayName: Optional[SingleLanguageUnitNames] = None
+
+    def getCategory(self) -> Optional[CalprmAxisCategoryEnum]:
+        """
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
+        """
+        return self.category
+
+    def setCategory(self, value: Optional[CalprmAxisCategoryEnum]) -> SwAxisCont:
+        """
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing category.
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def getSwArraysize(self) -> Optional[ValueList]:
+        """
+        For multidimensional compound primitivies (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. • RES_AXIS Tags: xml.sequenceOffset=70
+        """
+        return self.swArraysize
+
+    def setSwArraysize(self, value: Optional[ValueList]) -> SwAxisCont:
+        """
+        For multidimensional compound primitivies (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. • RES_AXIS Tags: xml.sequenceOffset=70
+        A None value is a no-op and does not overwrite an existing swArraysize.
+        """
+        if value is not None:
+            self.swArraysize = value
+        return self
+
+    def getSwAxisIndex(self) -> Optional[AxisIndexType]:
+        """
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
+        """
+        return self.swAxisIndex
+
+    def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> SwAxisCont:
+        """
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
+        A None value is a no-op and does not overwrite an existing swAxisIndex.
+        """
+        if value is not None:
+            self.swAxisIndex = value
+        return self
+
+    def getSwValuesPhys(self) -> Optional[SwValues]:
+        """
+        swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=80
+        """
+        return self.swValuesPhys
+
+    def setSwValuesPhys(self, value: Optional[SwValues]) -> SwAxisCont:
+        """
+        swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=80
+        A None value is a no-op and does not overwrite an existing swValuesPhys.
+        """
+        if value is not None:
+            self.swValuesPhys = value
+        return self
+
+    def getUnitRef(self) -> Optional[RefType]:
+        """
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
+        """
+        return self.unitRef
+
+    def setUnitRef(self, value: Optional[RefType]) -> SwAxisCont:
+        """
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing unitRef.
+        """
+        if value is not None:
+            self.unitRef = value
+        return self
+
+    def getUnitDisplayName(self) -> Optional[SingleLanguageUnitNames]:
+        """
+        This represents the display name which is used for the physical unit of the axis. Tags: xml.sequenceOffset=40
+        """
+        return self.unitDisplayName
+
+    def setUnitDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> SwAxisCont:
+        """
+        This represents the display name which is used for the physical unit of the axis. Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing unitDisplayName.
+        """
+        if value is not None:
+            self.unitDisplayName = value
+        return self
 
 
 class SwValues(ARObject):

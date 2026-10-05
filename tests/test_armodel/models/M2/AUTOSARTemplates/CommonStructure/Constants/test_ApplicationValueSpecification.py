@@ -62,8 +62,7 @@ class TestApplicationValueSpecification:
         assert spec.getCategory() is category
 
     def test_add_get_sw_axis_conts(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SwAxisCont
-
+        
         spec = ApplicationValueSpecification()
         first = SwAxisCont()
         second = SwAxisCont()
@@ -76,7 +75,7 @@ class TestApplicationValueSpecification:
         assert spec.getSwAxisConts() == [first, second]
 
     def test_get_set_sw_value_cont(self):
-        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont
 
         spec = ApplicationValueSpecification()
         cont = SwValueCont()
@@ -93,8 +92,7 @@ class TestApplicationValueSpecification:
         assert typing.get_type_hints(ApplicationValueSpecification.getCategory)["return"] is OptionalIdentifier
 
         add_hints = typing.get_type_hints(ApplicationValueSpecification.addSwAxisCont)
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SwAxisCont
-
+        
         assert add_hints["value"] is OptionalSwAxisCont
         assert typing.get_type_hints(ApplicationValueSpecification.getSwAxisConts)["return"] == typing.List[SwAxisCont]
 
@@ -113,8 +111,7 @@ class TestApplicationValueSpecification:
 
 
 OptionalIdentifier = typing.Optional[Identifier]
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import SwAxisCont  # noqa: E402
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont  # noqa: E402
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont  # noqa: E402
 
 OptionalSwAxisCont = typing.Optional[SwAxisCont]
 OptionalSwValueCont = typing.Optional[SwValueCont]

@@ -2193,10 +2193,6 @@ class SpecificationScope(ARObject):
     pass
 
 
-class SwAxisCont(ARObject):
-    pass
-
-
 class SwcModeManagerErrorEvent(ARObject):
     pass
 

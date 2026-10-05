@@ -173,3 +173,147 @@ class TestValueGroup:
 
         vg.setVgContents(None)
         assert vg.getVgContents() is contents
+
+
+CLASS_NOTE_SW_AXIS_CONT = (
+    "This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, "
+    "SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category "
+    "COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related "
+    "GroupAxis are binding."
+)
+
+CATEGORY_NOTE = "This category specifies the particular axis types: " "\u2022 STD_AXIS \u2022 COM_AXIS \u2022 RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20"
+
+SW_ARRAYSIZE_NOTE = (
+    "For multidimensional compound primitivies (curve, map ...) it is necessary to know the dimensions." "They are specified using swArraySize. " "\u2022 RES_AXIS Tags: xml.sequenceOffset=70"
+)
+
+SW_AXIS_INDEX_NOTE = (
+    "This property allows to explicitly assign the axis contents to a particular axis. It is specified by "
+    "numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the "
+    "sequence of the parent. Tags: xml.sequenceOffset=50"
+)
+
+SW_VALUES_PHYS_NOTE = "swValuesPhys represents the values in the physical domain. Tags: xml.sequenceOffset=80"
+
+UNIT_NOTE = "This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30"
+
+UNIT_DISPLAY_NAME_NOTE = "This represents the display name which is used for the physical unit of the axis. Tags: xml.sequenceOffset=40"
+
+
+class TestSwAxisCont:
+    def test_import_location_and_inheritance(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        assert isinstance(axis_cont, ARObject)
+
+    def test_initialization(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        assert axis_cont.getCategory() is None
+        assert axis_cont.getSwArraysize() is None
+        assert axis_cont.getSwAxisIndex() is None
+        assert axis_cont.getSwValuesPhys() is None
+        assert axis_cont.getUnitRef() is None
+        assert axis_cont.getUnitDisplayName() is None
+
+    def test_class_docstring_verbatim(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        docstring = (SwAxisCont.__doc__ or "").strip()
+        assert docstring.startswith(CLASS_NOTE_SW_AXIS_CONT)
+        assert "[constr_2050]" in docstring
+
+    def test_get_set_category(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+        from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
+
+        axis_cont = SwAxisCont()
+        category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS)
+
+        assert axis_cont.setCategory(category) is axis_cont
+        assert axis_cont.getCategory() is category
+
+        axis_cont.setCategory(None)
+        assert axis_cont.getCategory() is category
+
+    def test_get_set_sw_arraysize(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        arraysize = ValueList()
+
+        assert axis_cont.setSwArraysize(arraysize) is axis_cont
+        assert axis_cont.getSwArraysize() is arraysize
+
+        axis_cont.setSwArraysize(None)
+        assert axis_cont.getSwArraysize() is arraysize
+
+    def test_get_set_sw_axis_index(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+        from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
+
+        axis_cont = SwAxisCont()
+        axis_index = AxisIndexType().setValue("1")
+
+        assert axis_cont.setSwAxisIndex(axis_index) is axis_cont
+        assert axis_cont.getSwAxisIndex() is axis_index
+
+        axis_cont.setSwAxisIndex(None)
+        assert axis_cont.getSwAxisIndex() is axis_index
+
+    def test_get_set_sw_values_phys(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        values = SwValues()
+
+        assert axis_cont.setSwValuesPhys(values) is axis_cont
+        assert axis_cont.getSwValuesPhys() is values
+
+        axis_cont.setSwValuesPhys(None)
+        assert axis_cont.getSwValuesPhys() is values
+
+    def test_get_set_unit_ref(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        unit_ref = RefType().setValue("/Units/Nm")
+        unit_ref.setDest("UNIT")
+
+        assert axis_cont.setUnitRef(unit_ref) is axis_cont
+        assert axis_cont.getUnitRef() is unit_ref
+
+        axis_cont.setUnitRef(None)
+        assert axis_cont.getUnitRef() is unit_ref
+
+    def test_get_set_unit_display_name(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        display_name = SingleLanguageUnitNames()
+
+        assert axis_cont.setUnitDisplayName(display_name) is axis_cont
+        assert axis_cont.getUnitDisplayName() is display_name
+
+        axis_cont.setUnitDisplayName(None)
+        assert axis_cont.getUnitDisplayName() is display_name
+
+    def test_member_docstrings_verbatim(self):
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont
+
+        axis_cont = SwAxisCont()
+        assert (axis_cont.getCategory.__doc__ or "").strip() == CATEGORY_NOTE
+        assert (axis_cont.setCategory.__doc__ or "").strip().split("\n")[0] == CATEGORY_NOTE
+        assert (axis_cont.getSwArraysize.__doc__ or "").strip() == SW_ARRAYSIZE_NOTE
+        assert (axis_cont.setSwArraysize.__doc__ or "").strip().split("\n")[0] == SW_ARRAYSIZE_NOTE
+        assert (axis_cont.getSwAxisIndex.__doc__ or "").strip() == SW_AXIS_INDEX_NOTE
+        assert (axis_cont.setSwAxisIndex.__doc__ or "").strip().split("\n")[0] == SW_AXIS_INDEX_NOTE
+        assert (axis_cont.getSwValuesPhys.__doc__ or "").strip() == SW_VALUES_PHYS_NOTE
+        assert (axis_cont.setSwValuesPhys.__doc__ or "").strip().split("\n")[0] == SW_VALUES_PHYS_NOTE
+        assert (axis_cont.getUnitRef.__doc__ or "").strip() == UNIT_NOTE
+        assert (axis_cont.setUnitRef.__doc__ or "").strip().split("\n")[0] == UNIT_NOTE
+        assert (axis_cont.getUnitDisplayName.__doc__ or "").strip() == UNIT_DISPLAY_NAME_NOTE
+        assert (axis_cont.setUnitDisplayName.__doc__ or "").strip().split("\n")[0] == UNIT_DISPLAY_NAME_NOTE

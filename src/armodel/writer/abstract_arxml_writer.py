@@ -9,6 +9,7 @@ from xml.dom import minidom
 from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARLiteral,
@@ -142,6 +143,9 @@ class AbstractARXMLWriter(ABC):
 
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: Optional[RevisionLabelString]):
         self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalAxisIndexType(self, element: ET.Element, key: str, value: Optional[AxisIndexType]):
+        self.setChildElementOptionalLiteral(element, key, value)
 
     def setChildElementOptionalCseCodeType(self, element: ET.Element, key: str, literal: Optional[CseCodeType]):
         self.setChildElementOptionalLiteral(element, key, literal)

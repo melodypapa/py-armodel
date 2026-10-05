@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UriString,
     VerbatimString,
 )
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 #: Mapping between IntervalTypeEnum values and their XML attribute tokens
 #: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
@@ -181,6 +182,18 @@ class AbstractARXMLParser(ABC):
             else:
                 literal.setValue(child_element.text)
         return literal
+
+    def getChildElementOptionalAxisIndexType(self, element: ET.Element, key: str) -> Optional[AxisIndexType]:
+        child_element = self.find(element, key)
+        axis_index = None
+        if child_element is not None:
+            axis_index = AxisIndexType()
+            self.readARType(child_element, axis_index)
+            if child_element.text is None:
+                axis_index.setValue("")
+            else:
+                axis_index.setValue(child_element.text)
+        return axis_index
 
     def getChildElementOptionalCseCodeType(self, element: ET.Element, key: str) -> Optional[CseCodeType]:
         child_element = self.find(element, key)
