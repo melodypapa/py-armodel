@@ -5,7 +5,7 @@ This module contains tests for the DataDefProperties module in MSR.DataDictionar
 import ast
 import os
 import typing
-from inspect import cleandoc
+from inspect import cleandoc, getsource
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
@@ -278,7 +278,91 @@ class TestSwBitRepresentation:
 
 
 class TestSwDataDependencyArgs:
-    """Test class for SwDataDependencyArgs class."""
+    """Test class for SwDataDependencyArgs class (SWCT Table 5.59, p.374, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.59 (R23-11).
+    SPEC_MEMBER_ORDER = [
+        "swCalprmRef",
+        "swVariable",
+    ]
+
+    CLASS_NOTE = "This element specifies the elements used in a SwDataDependency."
+    SW_CALPRM_REF_NOTE = "Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false"
+    SW_VARIABLE_NOTE = (
+        "Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false"
+    )
+    SW_CALPRM_REF_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swCalprmRef."
+    SW_VARIABLE_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swVariable."
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependencyArgs")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_data_dependency_args_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.59 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_dependency_args_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getSwCalprmRef",
+            "setSwCalprmRef",
+            "getSwVariable",
+            "setSwVariable",
+        ]
+        for name in expected:
+            assert hasattr(SwDataDependencyArgs, name), f"missing accessor {name}"
+
+    def test_sw_data_dependency_args_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwCalprmRef", "setSwCalprmRef", "getSwVariable", "setSwVariable"):
+            hints = typing.get_type_hints(getattr(SwDataDependencyArgs, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_data_dependency_args_has_spec_note(self):
+        assert cleandoc(SwDataDependencyArgs.__doc__) == self.CLASS_NOTE
+
+    def test_sw_data_dependency_args_init_has_no_docstring(self):
+        assert SwDataDependencyArgs.__init__.__doc__ is None
+
+    def test_sw_data_dependency_args_members_are_pep526_annotated(self):
+        source = getsource(SwDataDependencyArgs.__init__)
+        assert "self.swCalprmRef: Optional[SwCalprmRefProxy] = None" in source
+        assert "self.swVariable: Optional[SwVariableRefProxy] = None" in source
+        assert "# type:" not in source
+
+    def test_sw_data_dependency_args_inline_comments_match_spec_notes(self):
+        source = getsource(SwDataDependencyArgs.__init__)
+        assert "# " + self.SW_CALPRM_REF_NOTE in source
+        assert "# " + self.SW_VARIABLE_NOTE in source
+
+    def test_sw_data_dependency_args_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependencyArgs.getSwCalprmRef.__doc__) == self.SW_CALPRM_REF_NOTE
+        assert cleandoc(SwDataDependencyArgs.getSwVariable.__doc__) == self.SW_VARIABLE_NOTE
+
+    def test_sw_data_dependency_args_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependencyArgs.setSwCalprmRef.__doc__) == self.SW_CALPRM_REF_NOTE + self.SW_CALPRM_REF_NONE_NOOP
+        assert cleandoc(SwDataDependencyArgs.setSwVariable.__doc__) == self.SW_VARIABLE_NOTE + self.SW_VARIABLE_NONE_NOOP
 
     def test_sw_data_dependency_args_initialization(self):
         args = SwDataDependencyArgs()
@@ -298,9 +382,14 @@ class TestSwDataDependencyArgs:
     def test_sw_data_dependency_args_none_noop(self):
         args = SwDataDependencyArgs()
         sw_calprm_ref = SwCalprmRefProxy()
+        sw_variable = SwVariableRefProxy()
         args.setSwCalprmRef(sw_calprm_ref)
+        args.setSwVariable(sw_variable)
+
         args.setSwCalprmRef(None)
+        args.setSwVariable(None)
         assert args.getSwCalprmRef() == sw_calprm_ref
+        assert args.getSwVariable() == sw_variable
 
 
 class TestSwDataDependency:

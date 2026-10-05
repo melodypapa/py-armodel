@@ -158,32 +158,31 @@ class SwDataDependencyArgs(ARObject):
 
     # SwDataDependencyArgs method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.59, p.374
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwCalprmRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwCalprmRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwVariable            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwVariable            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwCalprmRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalprmRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwVariable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwVariable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies a calibration parameter as an input argument to the dependency.
+        # Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false
         self.swCalprmRef: Optional[SwCalprmRefProxy] = None
 
-        # Specifies a variable as an input argument to the dependency.
+        # Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false
         self.swVariable: Optional[SwVariableRefProxy] = None
 
     def getSwCalprmRef(self) -> Optional[SwCalprmRefProxy]:
         """
-        Specifies a calibration parameter as an input argument to the dependency.
+        Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swCalprmRef
 
     def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> SwDataDependencyArgs:
         """
-        Specifies a calibration parameter as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swCalprmRef.
+        Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false A None value is a no-op and does not overwrite an existing swCalprmRef.
         """
         if value is not None:
             self.swCalprmRef = value
@@ -191,13 +190,13 @@ class SwDataDependencyArgs(ARObject):
 
     def getSwVariable(self) -> Optional[SwVariableRefProxy]:
         """
-        Specifies a variable as an input argument to the dependency.
+        Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swVariable
 
     def setSwVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDependencyArgs:
         """
-        Specifies a variable as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swVariable.
+        Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false A None value is a no-op and does not overwrite an existing swVariable.
         """
         if value is not None:
             self.swVariable = value

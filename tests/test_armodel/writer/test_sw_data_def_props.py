@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     String,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     DisplayPresentationEnum,
@@ -47,6 +48,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwTextProps,
     SwVariableRefProxy,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.parser.arxml_parser import ARXMLParser
@@ -332,3 +334,107 @@ class TestWriteSwDataDefProps:
         assert props.getAnnotations() == []
         assert props.getSwValueBlockSizeMults() == []
         assert props.getSwComparisonVariables() == []
+
+
+class TestWriteSwDataDependencyArgs:
+    """Writer coverage for SW-DATA-DEPENDENCY-ARGS (SWCT Table 5.59, p.374, R23-11).
+
+    The atpMixed container writes the SW-CALPRM-REF-PROXY (AR-PARAMETER, MC-DATA-INSTANCE-REF)
+    and SW-VARIABLE-REF-PROXY (AUTOSAR-VARIABLE, MC-DATA-INSTANCE-VAR-REF) group members
+    inline under SW-DATA-DEPENDENCY-ARGS — no proxy-named wrapper elements.
+    """
+
+    def _build_args(self, args):
+        package = AUTOSAR.getInstance().createARPackage("DataDependencyArgs")
+        data_type = package.createImplementationDataType("ArgsDt")
+        props = SwDataDefProps()
+        dependency = SwDataDependency()
+        dependency.setSwDataDependencyArgs(args)
+        props.setSwDataDependency(dependency)
+        data_type.setSwDataDefProps(props)
+        return data_type
+
+    def _args_element(self, raw):
+        root = ET.fromstring(raw)
+        for element in root.iter():
+            if element.tag.split("}")[-1] == "SW-DATA-DEPENDENCY-ARGS":
+                return element
+        return None
+
+    def test_write_sw_data_dependency_args_roundtrip_full_form(self):
+        args = SwDataDependencyArgs()
+        calprm = SwCalprmRefProxy()
+        ar_parameter = AutosarParameterRef()
+        ar_parameter.setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/Pkg/paramA"))
+        calprm.setArParameter(ar_parameter)
+        calprm.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/axis"))
+        args.setSwCalprmRef(calprm)
+        variable = SwVariableRefProxy()
+        autosar_variable = AutosarVariableRef()
+        autosar_variable.setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/varB"))
+        variable.setAutosarVariable(autosar_variable)
+        variable.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/input1"))
+        args.setSwVariable(variable)
+
+        self._build_args(args)
+        _save_and_reload()
+        props = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0].getSwDataDefProps()
+        reloaded = props.getSwDataDependency().getSwDataDependencyArgs()
+
+        calprm = reloaded.getSwCalprmRef()
+        assert isinstance(calprm, SwCalprmRefProxy)
+        assert calprm.getArParameter().getLocalParameterRef().getValue() == "/Pkg/paramA"
+        assert calprm.getArParameter().getLocalParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+        assert calprm.getMcDataInstanceRef().getValue() == "/McDataInstances/axis"
+        assert calprm.getMcDataInstanceRef().getDest() == "MC-DATA-INSTANCE"
+
+        variable = reloaded.getSwVariable()
+        assert isinstance(variable, SwVariableRefProxy)
+        assert variable.getAutosarVariable().getLocalVariableRef().getValue() == "/Pkg/varB"
+        assert variable.getAutosarVariable().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert variable.getMcDataInstanceVarRef().getValue() == "/McDataInstances/input1"
+
+    def test_write_sw_data_dependency_args_inline_group_order(self):
+        args = SwDataDependencyArgs()
+        calprm = SwCalprmRefProxy()
+        ar_parameter = AutosarParameterRef()
+        ar_parameter.setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/Pkg/paramA"))
+        calprm.setArParameter(ar_parameter)
+        calprm.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/axis"))
+        args.setSwCalprmRef(calprm)
+        variable = SwVariableRefProxy()
+        autosar_variable = AutosarVariableRef()
+        autosar_variable.setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/varB"))
+        variable.setAutosarVariable(autosar_variable)
+        variable.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/input1"))
+        args.setSwVariable(variable)
+
+        self._build_args(args)
+        raw = _save_and_reload()
+        args_element = self._args_element(raw)
+        assert args_element is not None
+        tags = [child.tag.split("}")[-1] for child in args_element]
+        assert tags == ["AR-PARAMETER", "MC-DATA-INSTANCE-REF", "AUTOSAR-VARIABLE", "MC-DATA-INSTANCE-VAR-REF"]
+        assert "SW-CALPRM-REF-PROXY" not in raw
+        assert "SW-VARIABLE-REF-PROXY" not in raw
+
+    def test_write_sw_data_dependency_args_empty_container_roundtrip(self):
+        """An empty SwDataDependencyArgs still emits its element (0..1 container) and reloads with both proxies None."""
+        self._build_args(SwDataDependencyArgs())
+        raw = _save_and_reload()
+        args_element = self._args_element(raw)
+        assert args_element is not None
+        assert len(list(args_element)) == 0
+        reloaded = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0].getSwDataDefProps().getSwDataDependency().getSwDataDependencyArgs()
+        assert reloaded is not None
+        assert reloaded.getSwCalprmRef() is None
+        assert reloaded.getSwVariable() is None
+
+    def test_write_no_args_emits_no_wrapper(self):
+        package = AUTOSAR.getInstance().createARPackage("NoArgs")
+        data_type = package.createImplementationDataType("NoArgsDt")
+        props = SwDataDefProps()
+        props.setSwDataDependency(SwDataDependency())
+        data_type.setSwDataDefProps(props)
+        raw = _save_and_reload()
+        assert self._args_element(raw) is None

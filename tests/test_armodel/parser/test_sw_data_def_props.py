@@ -22,8 +22,8 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwBitRepresentation,
     SwPointerTargetProps,
     SwTextProps,
-    SwVariableRefProxy,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -144,6 +144,85 @@ PARTIAL_BIT_REPRESENTATION_XML = """
 </AUTOSAR>
 """  # noqa E501
 
+SW_DATA_DEPENDENCY_FULL_ARGS_XML = """
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+    <AR-PACKAGES>
+        <AR-PACKAGE>
+            <SHORT-NAME>DataDefProps</SHORT-NAME>
+            <ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE>
+                    <SHORT-NAME>ArgsFull</SHORT-NAME>
+                    <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                            <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <SW-DATA-DEPENDENCY>
+                                    <SW-DATA-DEPENDENCY-ARGS>
+                                        <AR-PARAMETER>
+                                            <LOCAL-PARAMETER-REF DEST="PARAMETER-DATA-PROTOTYPE">/Pkg/paramA</LOCAL-PARAMETER-REF>
+                                        </AR-PARAMETER>
+                                        <MC-DATA-INSTANCE-REF DEST="MC-DATA-INSTANCE">/McDataInstances/axis</MC-DATA-INSTANCE-REF>
+                                        <AUTOSAR-VARIABLE>
+                                            <LOCAL-VARIABLE-REF DEST="VARIABLE-DATA-PROTOTYPE">/Pkg/varB</LOCAL-VARIABLE-REF>
+                                        </AUTOSAR-VARIABLE>
+                                        <MC-DATA-INSTANCE-VAR-REF DEST="MC-DATA-INSTANCE">/McDataInstances/input1</MC-DATA-INSTANCE-VAR-REF>
+                                    </SW-DATA-DEPENDENCY-ARGS>
+                                </SW-DATA-DEPENDENCY>
+                            </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                    </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
+            </ELEMENTS>
+        </AR-PACKAGE>
+    </AR-PACKAGES>
+</AUTOSAR>
+"""  # noqa E501
+
+SW_DATA_DEPENDENCY_EMPTY_ARGS_XML = """
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+    <AR-PACKAGES>
+        <AR-PACKAGE>
+            <SHORT-NAME>DataDefProps</SHORT-NAME>
+            <ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE>
+                    <SHORT-NAME>ArgsEmpty</SHORT-NAME>
+                    <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                            <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <SW-DATA-DEPENDENCY>
+                                    <SW-DATA-DEPENDENCY-ARGS/>
+                                </SW-DATA-DEPENDENCY>
+                            </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                    </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
+            </ELEMENTS>
+        </AR-PACKAGE>
+    </AR-PACKAGES>
+</AUTOSAR>
+"""  # noqa E501
+
+SW_DATA_DEPENDENCY_NO_ARGS_XML = """
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+    <AR-PACKAGES>
+        <AR-PACKAGE>
+            <SHORT-NAME>DataDefProps</SHORT-NAME>
+            <ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE>
+                    <SHORT-NAME>ArgsAbsent</SHORT-NAME>
+                    <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                            <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <SW-DATA-DEPENDENCY/>
+                            </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                    </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
+            </ELEMENTS>
+        </AR-PACKAGE>
+    </AR-PACKAGES>
+</AUTOSAR>
+"""  # noqa E501
+
 
 def _load_props():
     parser = ARXMLParser()
@@ -166,6 +245,17 @@ def _load_partial_bit_representation():
     ar_package = document.getARPackages()[0]
     data_type = ar_package.getImplementationDataTypes()[0]
     return data_type.getSwDataDefProps().getSwBitRepresentation()
+
+
+def _load_props_xml(xml_text):
+    parser = ARXMLParser()
+    parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
+    element = ET.fromstring(xml_text)
+    document = AUTOSARDoc()
+    parser.readARPackages(element, document)
+    ar_package = document.getARPackages()[0]
+    data_type = ar_package.getImplementationDataTypes()[0]
+    return data_type.getSwDataDefProps()
 
 
 class TestSwDataDefPropsParser:
@@ -284,3 +374,50 @@ class TestSwDataDefPropsParser:
         refresh_timing = props.getSwRefreshTiming()
         assert refresh_timing is not None
         assert refresh_timing.getCseCodeFactor().getValue() == 2
+
+
+class TestSwDataDependencyArgsParser:
+    """Reader coverage for SW-DATA-DEPENDENCY-ARGS (SWCT Table 5.59, p.374, R23-11).
+
+    The atpMixed container inlines the SW-CALPRM-REF-PROXY (AR-PARAMETER, MC-DATA-INSTANCE-REF)
+    and SW-VARIABLE-REF-PROXY (AUTOSAR-VARIABLE, MC-DATA-INSTANCE-VAR-REF) group members
+    directly under SW-DATA-DEPENDENCY-ARGS — never wrapped in proxy-named elements.
+    """
+
+    def test_read_sw_data_dependency_args_full_form(self):
+        props = _load_props_xml(SW_DATA_DEPENDENCY_FULL_ARGS_XML)
+        dependency = props.getSwDataDependency()
+        assert dependency is not None
+        args = dependency.getSwDataDependencyArgs()
+        assert args is not None
+
+        calprm = args.getSwCalprmRef()
+        assert isinstance(calprm, SwCalprmRefProxy)
+        assert calprm.getArParameter() is not None
+        assert calprm.getArParameter().getLocalParameterRef().getValue() == "/Pkg/paramA"
+        assert calprm.getArParameter().getLocalParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+        assert calprm.getMcDataInstanceRef().getValue() == "/McDataInstances/axis"
+        assert calprm.getMcDataInstanceRef().getDest() == "MC-DATA-INSTANCE"
+
+        variable = args.getSwVariable()
+        assert isinstance(variable, SwVariableRefProxy)
+        assert variable.getAutosarVariable() is not None
+        assert variable.getAutosarVariable().getLocalVariableRef().getValue() == "/Pkg/varB"
+        assert variable.getAutosarVariable().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert variable.getMcDataInstanceVarRef().getValue() == "/McDataInstances/input1"
+        assert variable.getMcDataInstanceVarRef().getDest() == "MC-DATA-INSTANCE"
+
+    def test_read_sw_data_dependency_args_empty_container(self):
+        """An empty atpMixed container is kept (args not None) with both proxies None."""
+        props = _load_props_xml(SW_DATA_DEPENDENCY_EMPTY_ARGS_XML)
+        args = props.getSwDataDependency().getSwDataDependencyArgs()
+        assert args is not None
+        assert args.getSwCalprmRef() is None
+        assert args.getSwVariable() is None
+
+    def test_read_sw_data_dependency_args_absent(self):
+        """A SW-DATA-DEPENDENCY without SW-DATA-DEPENDENCY-ARGS leaves swDataDependencyArgs None."""
+        props = _load_props_xml(SW_DATA_DEPENDENCY_NO_ARGS_XML)
+        dependency = props.getSwDataDependency()
+        assert dependency is not None
+        assert dependency.getSwDataDependencyArgs() is None
