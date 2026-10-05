@@ -20,6 +20,7 @@ class FrameMapping(ARObject, VariationPointCapable):
 
     # FrameMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.2, p.838
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIntroduction      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
