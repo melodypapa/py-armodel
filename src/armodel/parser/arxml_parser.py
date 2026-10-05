@@ -12738,6 +12738,7 @@ class ARXMLParser(AbstractARXMLParser):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED"))
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
+        self.readVariationPointCapable(element, coupling)
         return coupling
 
     def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:

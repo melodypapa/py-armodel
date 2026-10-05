@@ -65,3 +65,20 @@ class TestParseCanNmClusterCoupling:
         coupling = config.getNmClusterCouplings()[0]
         assert coupling.getChecksum().getValue() == "1234"
         assert coupling.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+    def test_parse_can_nm_cluster_coupling_reads_variation_point(self):
+        xml = (
+            "<NmConfig xmlns='%s'>"
+            "<NM-CLUSTER-COUPLINGS>"
+            "<CAN-NM-CLUSTER-COUPLING>"
+            "<NM-IMMEDIATE-RESTART-ENABLED>false</NM-IMMEDIATE-RESTART-ENABLED>"
+            "<VARIATION-POINT><SHORT-LABEL>VP1</SHORT-LABEL></VARIATION-POINT>"
+            "</CAN-NM-CLUSTER-COUPLING>"
+            "</NM-CLUSTER-COUPLINGS>"
+            "</NmConfig>" % NS
+        )
+        config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(ET.fromstring(xml), config)
+        coupling = config.getNmClusterCouplings()[0]
+        assert coupling.getVariationPoint() is not None
+        assert coupling.getVariationPoint().getShortLabel().getValue() == "VP1"

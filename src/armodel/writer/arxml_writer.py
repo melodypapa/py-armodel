@@ -9433,6 +9433,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ENABLED", coupling.getNmBusloadReductionEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER-COUPLING")
