@@ -655,6 +655,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     ModePortAnnotation,
     NvDataPortAnnotation,
     ParameterPortAnnotation,
+    ReceiverAnnotation,
     SenderReceiverAnnotation,
     TriggerPortAnnotation,
 )
@@ -2667,7 +2668,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", annotation.getParameterRef())
 
     def writeSenderReceiverAnnotation(self, element: ET.Element, annotation: SenderReceiverAnnotation):
-        child_element = ET.SubElement(element, "SENDER-RECEIVER-ANNOTATION")
+        if isinstance(annotation, ReceiverAnnotation):
+            child_element = ET.SubElement(element, "RECEIVER-ANNOTATION")
+        else:
+            child_element = ET.SubElement(element, "SENDER-ANNOTATION")
         self.setChildElementOptionalBooleanValue(child_element, "COMPUTED", annotation.getComputed())
         self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", annotation.getDataElementRef())
         self.setChildElementOptionalLiteral(child_element, "LIMIT-KIND", annotation.getLimitKind())

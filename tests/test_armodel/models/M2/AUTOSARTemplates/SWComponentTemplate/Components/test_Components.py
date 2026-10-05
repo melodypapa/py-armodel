@@ -725,7 +725,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
             ModePortAnnotation,
             NvDataPortAnnotation,
             ParameterPortAnnotation,
-            SenderReceiverAnnotation,
+            SenderAnnotation,
             TriggerPortAnnotation,
         )
 
@@ -742,7 +742,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         port.addNvDataPortAnnotation(nv_data)
         param = ParameterPortAnnotation()
         port.addParameterPortAnnotation(param)
-        sender_recv = SenderReceiverAnnotation()
+        sender_recv = SenderAnnotation()
         port.addSenderReceiverAnnotation(sender_recv)
         trigger = TriggerPortAnnotation()
         port.addTriggerPortAnnotation(trigger)

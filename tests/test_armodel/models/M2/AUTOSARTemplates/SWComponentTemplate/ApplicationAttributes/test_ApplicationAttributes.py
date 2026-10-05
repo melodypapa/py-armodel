@@ -3,16 +3,13 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
-    DataLimitKindEnum,
     DelegatedPortAnnotation,
     FilterDebouncingEnum,
     IoHwAbstractionServerAnnotation,
     ModePortAnnotation,
     NvDataPortAnnotation,
     ParameterPortAnnotation,
-    ProcessingKindEnum,
     PulseTestEnum,
-    SenderReceiverAnnotation,
     SignalFanEnum,
     TriggerPortAnnotation,
 )
@@ -35,53 +32,6 @@ def _bool(value=True):
     b = Boolean()
     b.setValue("true" if value else "false")
     return b
-
-
-class TestSenderReceiverAnnotation:
-    def test_initialization(self):
-        annotation = SenderReceiverAnnotation()
-        assert annotation.getComputed() is None
-        assert annotation.getDataElementRef() is None
-        assert annotation.getLimitKind() is None
-        assert annotation.getProcessingKind() is None
-
-    def test_computed_setter_getter(self):
-        annotation = SenderReceiverAnnotation()
-        value = _bool(True)
-        assert annotation.setComputed(value) is annotation
-        assert annotation.getComputed() == value
-
-    def test_computed_none_is_noop(self):
-        annotation = SenderReceiverAnnotation()
-        value = _bool(True)
-        annotation.setComputed(value)
-        annotation.setComputed(None)
-        assert annotation.getComputed() == value
-
-    def test_data_element_ref_setter_getter(self):
-        annotation = SenderReceiverAnnotation()
-        ref = _ref()
-        assert annotation.setDataElementRef(ref) is annotation
-        assert annotation.getDataElementRef() == ref
-
-    def test_data_element_ref_none_is_noop(self):
-        annotation = SenderReceiverAnnotation()
-        ref = _ref()
-        annotation.setDataElementRef(ref)
-        annotation.setDataElementRef(None)
-        assert annotation.getDataElementRef() == ref
-
-    def test_limit_kind_setter_getter(self):
-        annotation = SenderReceiverAnnotation()
-        value = DataLimitKindEnum().setValue(DataLimitKindEnum.MAX)
-        assert annotation.setLimitKind(value) is annotation
-        assert annotation.getLimitKind() == value
-
-    def test_processing_kind_setter_getter(self):
-        annotation = SenderReceiverAnnotation()
-        value = ProcessingKindEnum().setValue(ProcessingKindEnum.FILTERED)
-        assert annotation.setProcessingKind(value) is annotation
-        assert annotation.getProcessingKind() == value
 
 
 class TestClientServerAnnotation:

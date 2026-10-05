@@ -803,6 +803,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     ParameterPortAnnotation,
     ProcessingKindEnum,
     PulseTestEnum,
+    ReceiverAnnotation,
+    SenderAnnotation,
     SenderReceiverAnnotation,
     SignalFanEnum,
     TriggerPortAnnotation,
@@ -7751,21 +7753,28 @@ class ARXMLParser(AbstractARXMLParser):
             annotation = ParameterPortAnnotation()
             annotation.setParameterRef(self.getChildElementOptionalRefType(child, "PARAMETER-REF"))
             prototype.addParameterPortAnnotation(cast(Optional[ParameterPortAnnotation], annotation))
-        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-RECEIVER-ANNOTATION"):
-            annotation = SenderReceiverAnnotation()
-            annotation.setComputed(self.getChildElementOptionalBooleanValue(child, "COMPUTED"))
-            annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
-            limit_kind = self.getChildElementOptionalLiteral(child, "LIMIT-KIND")
-            if limit_kind is not None:
-                annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
-            processing_kind = self.getChildElementOptionalLiteral(child, "PROCESSING-KIND")
-            if processing_kind is not None:
-                annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-ANNOTATION"):
+            annotation = SenderAnnotation()
+            self.readSenderReceiverAnnotation(child, annotation)
+            prototype.addSenderReceiverAnnotation(cast(Optional[SenderReceiverAnnotation], annotation))
+        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/RECEIVER-ANNOTATION"):
+            annotation = ReceiverAnnotation()
+            self.readSenderReceiverAnnotation(child, annotation)
             prototype.addSenderReceiverAnnotation(cast(Optional[SenderReceiverAnnotation], annotation))
         for child in self.findall(element, "TRIGGER-PORT-ANNOTATIONS/TRIGGER-PORT-ANNOTATION"):
             annotation = TriggerPortAnnotation()
             annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
             prototype.addTriggerPortAnnotation(cast(Optional[TriggerPortAnnotation], annotation))
+
+    def readSenderReceiverAnnotation(self, element: ET.Element, annotation: SenderReceiverAnnotation):
+        annotation.setComputed(self.getChildElementOptionalBooleanValue(element, "COMPUTED"))
+        annotation.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        limit_kind = self.getChildElementOptionalLiteral(element, "LIMIT-KIND")
+        if limit_kind is not None:
+            annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
+        processing_kind = self.getChildElementOptionalLiteral(element, "PROCESSING-KIND")
+        if processing_kind is not None:
+            annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
 
     def readSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         for child_element in self.findall(element, "PORTS/*"):

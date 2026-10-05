@@ -152,19 +152,22 @@ class SenderReceiverAnnotation(GeneralAnnotation):
     """
 
     # SenderReceiverAnnotation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.41, p.152
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test
-    # [x] getComputed               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComputed               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataElementRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLimitKind              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLimitKind              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProcessingKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProcessingKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.41, p.152 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComputed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComputed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLimitKind         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLimitKind         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
+        if type(self) is SenderReceiverAnnotation:
+            raise TypeError("SenderReceiverAnnotation is an abstract class.")
+
         super().__init__()
 
         # Flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
@@ -173,7 +176,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         # The instance of VariableDataPrototype annotated.
         self.dataElementRef: Optional[RefType] = None
 
-        # This min or max has not to be mismatched with the min- and max for data-value in a compu-method.
+        # This min or max has not to be mismatched with the min- and max for data-value in a compu-method. For example, this annotation shows when the result of the calculation performed in a RunnableEntity owned by one AtomicSwComponentType is transmitted to another AtomicSwComponentType whose RunnableEntity will use this value as a limit, e.g. the max.power which can be used by that software-component, or the current min. slip.
         self.limitKind: Optional[DataLimitKindEnum] = None
 
         # This attribute controls how data is processed according to the possible values of ProcessingKindEnum.
@@ -181,23 +184,14 @@ class SenderReceiverAnnotation(GeneralAnnotation):
 
     def getComputed(self) -> Optional[Boolean]:
         """
-        Gets the flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
-
-        Returns:
-            Boolean flag, or None if not set
+        Flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
         """
         return self.computed
 
     def setComputed(self, value: Optional[Boolean]) -> "SenderReceiverAnnotation":
         """
-        Sets the flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The Boolean flag to set
-
-        Returns:
-            self for method chaining
+        Flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
+        A None value is a no-op and does not overwrite an existing computed.
         """
         if value is not None:
             self.computed = value
@@ -205,23 +199,14 @@ class SenderReceiverAnnotation(GeneralAnnotation):
 
     def getDataElementRef(self) -> Optional[RefType]:
         """
-        Gets the instance of VariableDataPrototype annotated.
-
-        Returns:
-            RefType referencing the VariableDataPrototype, or None if not set
+        The instance of VariableDataPrototype annotated.
         """
         return self.dataElementRef
 
     def setDataElementRef(self, value: Optional[RefType]) -> "SenderReceiverAnnotation":
         """
-        Sets the instance of VariableDataPrototype annotated.
-        A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The RefType to set
-
-        Returns:
-            self for method chaining
+        The instance of VariableDataPrototype annotated.
+        A None value is a no-op and does not overwrite an existing dataElementRef.
         """
         if value is not None:
             self.dataElementRef = value
@@ -229,23 +214,14 @@ class SenderReceiverAnnotation(GeneralAnnotation):
 
     def getLimitKind(self) -> Optional[DataLimitKindEnum]:
         """
-        Gets the limit kind of this data element annotation.
-
-        Returns:
-            DataLimitKindEnum, or None if not set
+        This min or max has not to be mismatched with the min- and max for data-value in a compu-method. For example, this annotation shows when the result of the calculation performed in a RunnableEntity owned by one AtomicSwComponentType is transmitted to another AtomicSwComponentType whose RunnableEntity will use this value as a limit, e.g. the max.power which can be used by that software-component, or the current min. slip.
         """
         return self.limitKind
 
     def setLimitKind(self, value: Optional[DataLimitKindEnum]) -> "SenderReceiverAnnotation":
         """
-        Sets the limit kind of this data element annotation.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The DataLimitKindEnum to set
-
-        Returns:
-            self for method chaining
+        This min or max has not to be mismatched with the min- and max for data-value in a compu-method. For example, this annotation shows when the result of the calculation performed in a RunnableEntity owned by one AtomicSwComponentType is transmitted to another AtomicSwComponentType whose RunnableEntity will use this value as a limit, e.g. the max.power which can be used by that software-component, or the current min. slip.
+        A None value is a no-op and does not overwrite an existing limitKind.
         """
         if value is not None:
             self.limitKind = value
@@ -253,23 +229,14 @@ class SenderReceiverAnnotation(GeneralAnnotation):
 
     def getProcessingKind(self) -> Optional[ProcessingKindEnum]:
         """
-        Gets the processing kind of this data element annotation.
-
-        Returns:
-            ProcessingKindEnum, or None if not set
+        This attribute controls how data is processed according to the possible values of ProcessingKindEnum.
         """
         return self.processingKind
 
     def setProcessingKind(self, value: Optional[ProcessingKindEnum]) -> "SenderReceiverAnnotation":
         """
-        Sets the processing kind of this data element annotation.
-        A None value is a no-op and does not overwrite an existing value.
-
-        Args:
-            value: The ProcessingKindEnum to set
-
-        Returns:
-            self for method chaining
+        This attribute controls how data is processed according to the possible values of ProcessingKindEnum.
+        A None value is a no-op and does not overwrite an existing processingKind.
         """
         if value is not None:
             self.processingKind = value
