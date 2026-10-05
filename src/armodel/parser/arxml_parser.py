@@ -12751,7 +12751,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readVariationPointCapable(element, coupling)
         return coupling
 
-    def getFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
+    def readFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
         coupling = FlexrayNmClusterCoupling()
         self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
@@ -12768,7 +12768,7 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.readUdpNmClusterCoupling(child_element))
             elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getFlexrayNmClusterCoupling(child_element))
+                nm_config.addNmClusterCouplings(self.readFlexrayNmClusterCoupling(child_element))
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
