@@ -12732,7 +12732,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
-    def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
+    def readCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
         coupling = CanNmClusterCoupling()
         self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
@@ -12764,7 +12764,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.getCanNmClusterCoupling(child_element))
+                nm_config.addNmClusterCouplings(self.readCanNmClusterCoupling(child_element))
             elif tag_name == "UDP-NM-CLUSTER-COUPLING":
                 nm_config.addNmClusterCouplings(self.getUdpNmClusterCoupling(child_element))
             elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
