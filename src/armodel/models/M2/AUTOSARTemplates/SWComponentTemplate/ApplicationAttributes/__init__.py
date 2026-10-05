@@ -15,9 +15,9 @@ class DataLimitKindEnum(AREnum):
     """
 
     # DataLimitKindEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.45, p.153
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.45, p.154 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Limitation to maximum value Tags: atp.EnumerationLiteralIndex=0
     MAX = "max"
@@ -73,9 +73,9 @@ class ProcessingKindEnum(AREnum):
     """
 
     # ProcessingKindEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.44, p.153
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.44, p.153 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Indicates that a raw signal has been manipulated by some application software components by using filters. Tags: atp.EnumerationLiteralIndex=0
     FILTERED = "filtered"

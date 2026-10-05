@@ -4616,3 +4616,14 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.43 attribute is modeled per multiplicity/kind: `signalAge` (MultidimensionalTime, 0..1, aggr → `setSignalAge`/`getSignalAge`, non-Referrable child). |
 
 **Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` subclass — the spec signalAge attribute was entirely missing). Class Note verbatim. XSD: RECEIVER-ANNOTATION group is SIGNAL-AGE only (AUTOSAR_00052.xsd l.95956), after the inherited GENERAL-ANNOTATION and SENDER-RECEIVER-ANNOTATION groups in the complexType sequence — reader reads the inherited base group via `readSenderReceiverAnnotation` then `readReceiverAnnotation` (SIGNAL-AGE → MultidimensionalTime); writer emits the base group then SIGNAL-AGE under the RECEIVER-ANNOTATION element (isinstance dispatch). Round-trip coverage in tests/test_armodel/writer/test_sw_annotations.py (field values incl. base fields + signalAge, empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ProcessingKindEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 153
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.44 `Literal` rows are modeled 1:1 in displayed order: `FILTERED = "filtered"` (atp.EnumerationLiteralIndex=0), `NONE = "none"` (index=1), `RAW = "raw"` (index=2). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified literal set 1:1 against Table 4.44, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column `# (no methods)`-row variant and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the PROCESSING-KIND attribute value on the consuming class (round-tripped via SenderReceiverAnnotation in tests/test_armodel/writer/test_sw_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_ProcessingKindEnum.py. No stamp (batch 9b).
