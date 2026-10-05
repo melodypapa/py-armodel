@@ -44,6 +44,10 @@ class MockParent(ARObject):
         super().__init__()
 
 
+LIN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "LIN bus specific communication controller attributes."
+PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
+
+
 class _ConcreteController(LinCommunicationController):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -54,11 +58,24 @@ class TestLinCommunicationController:
     LIN bus specific communication controller attributes.
     """
 
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.37: ARObject, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(LinCommunicationController, CommunicationController)
+        assert issubclass(LinCommunicationController, ARObject)
+
     def test_abstract_instantiation(self):
         parent = MockParent()
 
         with pytest.raises(TypeError, match="LinCommunicationController is an abstract class"):
             LinCommunicationController(parent, "TestController")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.37)"""
+        assert inspect.cleandoc(LinCommunicationController.__doc__).strip() == LIN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinCommunicationController.__init__.__doc__ is None
 
     def test_initialization(self):
         parent = MockParent()
@@ -67,6 +84,11 @@ class TestLinCommunicationController:
         assert controller.getShortName() == "TestController"
         assert isinstance(controller, CommunicationController)
         assert controller.getProtocolVersion() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.37)"""
+        source = inspect.getsource(LinCommunicationController.__init__)
+        assert source.index("self.protocolVersion") >= 0
 
     def test_get_set_protocol_version(self):
         parent = MockParent()
@@ -77,6 +99,17 @@ class TestLinCommunicationController:
 
         assert controller == controller.setProtocolVersion(None)
         assert controller.getProtocolVersion() == "LIN22"
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_protocol_version_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.37)"""
+        self._assert_docstring(LinCommunicationController.getProtocolVersion, PROTOCOL_VERSION_NOTE)
+        self._assert_docstring(LinCommunicationController.setProtocolVersion, PROTOCOL_VERSION_NOTE, "protocolVersion")
 
     def test_type_annotations(self):
         import ast
