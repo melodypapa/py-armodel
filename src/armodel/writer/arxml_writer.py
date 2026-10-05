@@ -16653,6 +16653,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLinErrorResponse(self, element: ET.Element, key: str, response: Optional[LinErrorResponse]):
         if response is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, response)
             self.setChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF", response.getResponseErrorRef())
 
     def setLinConfigurableFrame(self, element: ET.Element, key: str, frame: LinConfigurableFrame):

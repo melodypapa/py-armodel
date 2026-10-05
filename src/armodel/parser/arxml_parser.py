@@ -14702,6 +14702,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             response = LinErrorResponse()
+            self.readARObject(child_element, response)
             response.setResponseErrorRef(self.getChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF"))
         return response
 

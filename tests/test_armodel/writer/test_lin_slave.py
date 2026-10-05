@@ -19,9 +19,11 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    DateTime,
     Integer,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
@@ -107,6 +109,8 @@ def _build_slave(pkg):
 
     response = LinErrorResponse()
     response.setResponseErrorRef(_typed_ref("/Pkg/ISignalTriggering", "I-SIGNAL-TRIGGERING"))
+    response.setChecksum(String().setValue("1234"))
+    response.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     slave.setLinErrorResponse(response)
 
     slave.setNasTimeout(_time(0.1))
@@ -139,6 +143,8 @@ def test_round_trip_full(writer, parser, tmp_path):
     assert re_slave.getInitialNad().getValue() == 1
     assert re_slave.getLinErrorResponse() is not None
     assert re_slave.getLinErrorResponse().getResponseErrorRef().getValue() == "/Pkg/ISignalTriggering"
+    assert re_slave.getLinErrorResponse().getChecksum().getValue() == "1234"
+    assert re_slave.getLinErrorResponse().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
     assert re_slave.getNasTimeout().getValue() == 0.1
     assert re_slave.getSupplierId().getValue() == 2721
     assert re_slave.getVariantId().getValue() == 5

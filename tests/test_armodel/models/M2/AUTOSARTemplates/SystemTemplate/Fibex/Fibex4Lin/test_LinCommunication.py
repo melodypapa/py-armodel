@@ -43,10 +43,28 @@ class MockParent(ARObject):
         super().__init__()
 
 
+LIN_ERROR_RESPONSE_CLASS_NOTE = (
+    "Each slave node shall publish a one bit signal, named response_error, to the master node in one of its transmitted unconditional frames. "
+    "The response_error signal shall be set whenever a frame (except for event triggered frame responses) that is transmitted or received by the slave node contains an error in the frame response. "
+    "The response_error signal shall be cleared when the unconditional frame containing the response_error signal is successfully transmitted."
+)
+LIN_ERROR_RESPONSE_RESPONSE_ERROR_NOTE = "This ISignal shall be taken to transport the responseError bit."
+
+
 class TestLinErrorResponse:
-    """
-    Each slave node shall publish a one bit signal, named response_error, to the master node in one of its transmitted unconditional frames. The response_error signal shall be set whenever a frame (except for event triggered frame responses) that is transmitted or received by the slave node contains an error in the frame response. The response_error signal shall be cleared when the unconditional frame containing the response_error signal is successfully transmitted.
-    """
+    """Test cases for LinErrorResponse (Table 3.42, p.97)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.42: ARObject)"""
+        assert issubclass(LinErrorResponse, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.42)"""
+        assert inspect.cleandoc(LinErrorResponse.__doc__).strip() == LIN_ERROR_RESPONSE_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinErrorResponse.__init__.__doc__ is None
 
     def test_initialization(self):
         obj = LinErrorResponse()
@@ -55,15 +73,33 @@ class TestLinErrorResponse:
         assert obj.parent is None
         assert obj.getResponseErrorRef() is None
 
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.42: responseError)"""
+        source = inspect.getsource(LinErrorResponse.__init__)
+        assert source.index("self.responseErrorRef") >= 0
+
     def test_get_set_response_error_ref(self):
         obj = LinErrorResponse()
 
-        ref = "/System/ISignalTriggering"
+        ref = RefType()
+        ref.setValue("/System/ISignalTriggering")
+
         assert obj == obj.setResponseErrorRef(ref)
         assert obj.getResponseErrorRef() == ref
 
         assert obj == obj.setResponseErrorRef(None)
         assert obj.getResponseErrorRef() == ref
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.42)"""
+        self._assert_docstring(LinErrorResponse.getResponseErrorRef, LIN_ERROR_RESPONSE_RESPONSE_ERROR_NOTE)
+        self._assert_docstring(LinErrorResponse.setResponseErrorRef, LIN_ERROR_RESPONSE_RESPONSE_ERROR_NOTE, "responseErrorRef")
 
     def test_type_annotations(self):
         import ast

@@ -30,7 +30,7 @@ FULL_LIN_SLAVE = (
     "<CONFIGURED-NAD>3</CONFIGURED-NAD>"
     "<FUNCTION-ID>17</FUNCTION-ID>"
     "<INITIAL-NAD>1</INITIAL-NAD>"
-    "<LIN-ERROR-RESPONSE>"
+    '<LIN-ERROR-RESPONSE S="1234" T="2024-01-01T00:00:00Z">'
     "<RESPONSE-ERROR-REF>/Pkg/ISignalTriggering</RESPONSE-ERROR-REF>"
     "</LIN-ERROR-RESPONSE>"
     "<NAS-TIMEOUT>0.1</NAS-TIMEOUT>"
@@ -77,6 +77,8 @@ class TestReadLinSlave:
         assert slave.getInitialNad().getValue() == 1
         assert slave.getLinErrorResponse() is not None
         assert slave.getLinErrorResponse().getResponseErrorRef().getValue() == "/Pkg/ISignalTriggering"
+        assert slave.getLinErrorResponse().getChecksum().getValue() == "1234"
+        assert slave.getLinErrorResponse().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         assert slave.getNasTimeout() is not None
         assert slave.getNasTimeout().getValue() == 0.1
         assert slave.getSupplierId() is not None
