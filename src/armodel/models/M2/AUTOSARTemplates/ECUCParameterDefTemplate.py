@@ -2407,8 +2407,7 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
 
 class EcucParameterDerivationFormula(FormulaExpression):
     """
-    This formula is intended to specify how an ecu parameter can be derived
-    from other information in the Autosar Templates.
+    This formula is intended to specify how an ecu parameter can be derived from other information in the Autosar Templates.
     """
 
     # EcucParameterDerivationFormula method parity checklist:
@@ -2435,7 +2434,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryRef
 
-    def setEcucQueryRef(self, value: RefType) -> EcucParameterDerivationFormula:
+    def setEcucQueryRef(self, value: Optional[RefType]) -> EcucParameterDerivationFormula:
         """
         This is one particular EcucQuery used in the calculation formula.
         A None value is a no-op.
@@ -2450,7 +2449,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryStringRef
 
-    def setEcucQueryStringRef(self, value: RefType) -> EcucParameterDerivationFormula:
+    def setEcucQueryStringRef(self, value: Optional[RefType]) -> EcucParameterDerivationFormula:
         """
         This indicates that the referenced query shall return a string.
         A None value is a no-op.
