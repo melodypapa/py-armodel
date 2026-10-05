@@ -1002,9 +1002,9 @@ class CanCommunicationController(AbstractCanCommunicationController):
 
     # CanCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.11, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanCommunicationController, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

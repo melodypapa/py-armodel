@@ -1101,3 +1101,40 @@ class TestAbstractCanCommunicationController:
         """Test getter/setter docstrings carry the spec Note verbatim (Table 3.12)"""
         self._assert_docstring(AbstractCanCommunicationController.getCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE)
         self._assert_docstring(AbstractCanCommunicationController.setCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE, "canControllerAttributes")
+
+
+CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "CAN bus specific communication port attributes."
+
+
+class TestCanCommunicationController:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.11: ARObject, AbstractCanCommunicationController, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(CanCommunicationController, AbstractCanCommunicationController)
+        assert issubclass(CanCommunicationController, CommunicationController)
+        assert issubclass(CanCommunicationController, Identifiable)
+        assert issubclass(CanCommunicationController, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited fields default to None (Table 3.11 has no own attribute rows)"""
+        controller = CanCommunicationController(MockParent(), "ctrl")
+
+        assert isinstance(controller, CanCommunicationController)
+        assert isinstance(controller, AbstractCanCommunicationController)
+        assert controller.getCanControllerAttributes() is None
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.11)"""
+        assert inspect.cleandoc(CanCommunicationController.__doc__).strip() == CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanCommunicationController.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.11 has no attribute rows)"""
+        own_methods = [name for name in CanCommunicationController.__dict__ if inspect.isfunction(getattr(CanCommunicationController, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(CanCommunicationController.__init__)
+        assert "self." not in source

@@ -577,15 +577,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanCommunicationController` — AbstractCanCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.11, p.63
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-05): removed the stale R23-11 spec-verified marker and rebuilt the checklist in the 6-column format. Table 3.11 renders no attribute rows — the class declares no own fields/accessors (concrete subclass of the freshly re-synced AbstractCanCommunicationController; inherited accessors re-tested unchanged). Model + reader/writer tests written first: model tests passed unchanged (conformant impl); the entry helpers readCanCommunicationController/writeCanCommunicationController were verified to call readAbstractCanCommunicationController/writeAbstractCanCommunicationController exactly once each on the CONDITIONAL wrapper, so parser/writer needed no changes — new parser/writer tests pin the contract (SHORT-NAME via aggregator, UUID via readIdentifiable, field values in the CONDITIONAL, empty-wrapper emission matching the CanSystem.arxml fixture shape).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2183+8011 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `AbstractCanCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.12, p.63
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
