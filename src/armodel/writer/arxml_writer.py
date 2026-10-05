@@ -16604,14 +16604,17 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTimeRangeType(self, element: ET.Element, key: str, time_range: Optional[TimeRangeType]):
         if time_range is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, time_range)
             tolerance = time_range.getTolerance()
             if isinstance(tolerance, AbsoluteTolerance):
                 tolerance_element = ET.SubElement(child_element, "TOLERANCE")
                 absolute_element = ET.SubElement(tolerance_element, "ABSOLUTE-TOLERANCE")
+                self.writeARObject(absolute_element, tolerance)
                 self.setChildElementOptionalTimeValue(absolute_element, "ABSOLUTE", tolerance.getAbsolute())
             elif isinstance(tolerance, RelativeTolerance):
                 tolerance_element = ET.SubElement(child_element, "TOLERANCE")
                 relative_element = ET.SubElement(tolerance_element, "RELATIVE-TOLERANCE")
+                self.writeARObject(relative_element, tolerance)
                 self.setChildElementOptionalIntegerValue(relative_element, "RELATIVE", tolerance.getRelative())
             self.setChildElementOptionalTimeValue(child_element, "VALUE", time_range.getValue())
 

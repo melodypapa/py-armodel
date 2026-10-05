@@ -15604,16 +15604,19 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             time_range = TimeRangeType()
+            self.readARObject(child_element, time_range)
             tolerance_element = self.find(child_element, "TOLERANCE")
             if tolerance_element is not None:
                 absolute_element = self.find(tolerance_element, "ABSOLUTE-TOLERANCE")
                 relative_element = self.find(tolerance_element, "RELATIVE-TOLERANCE")
                 if absolute_element is not None:
                     abs_tolerance = AbsoluteTolerance()
+                    self.readARObject(absolute_element, abs_tolerance)
                     abs_tolerance.setAbsolute(self.getChildElementOptionalTimeValue(absolute_element, "ABSOLUTE"))
                     time_range.setTolerance(abs_tolerance)
                 elif relative_element is not None:
                     rel_tolerance = RelativeTolerance()
+                    self.readARObject(relative_element, rel_tolerance)
                     rel_tolerance.setRelative(self.getChildElementOptionalIntegerValue(relative_element, "RELATIVE"))
                     time_range.setTolerance(rel_tolerance)
             time_range.setValue(self.getChildElementOptionalTimeValue(child_element, "VALUE"))

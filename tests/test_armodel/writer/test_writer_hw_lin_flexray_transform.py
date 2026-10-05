@@ -386,10 +386,14 @@ class TestWriterTimeRangeType:
     def test_setTimeRangeType_full(self, writer):
         time_range = TimeRangeType()
         time_range.setValue(_time(0.1))
+        time_range.setChecksum(String().setValue("1234"))
+        time_range.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setTimeRangeType(parent, "TIME-RANGE", time_range)
         assert parent[0].tag == "TIME-RANGE"
         assert parent[0].find("VALUE") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setTimeRangeType_none(self, writer):
         parent = _parent()

@@ -1941,6 +1941,42 @@ class TestISignalAndGroupHandlers:
         )
         parser.readISignalIPdu(element, ipdu)
         assert ipdu.getUnusedBitPattern().getValue() == 0
+    def test_getTimeRangeType_reads_checksum_and_timestamp(self, parser):
+        """TimeRangeType and its TimeRangeTypeTolerance subclasses carry AR:AR-OBJECT (Rule 0025)."""
+        element = _snip(
+            '<TIME-OFFSET S="1234" T="2024-01-01T00:00:00Z">'
+            "<TOLERANCE>"
+            '<ABSOLUTE-TOLERANCE S="5678" T="2024-02-02T00:00:00Z">'
+            "<ABSOLUTE>0.05</ABSOLUTE>"
+            "</ABSOLUTE-TOLERANCE>"
+            "</TOLERANCE>"
+            "<VALUE>0.1</VALUE>"
+            "</TIME-OFFSET>",
+            root_tag="ROOT",
+        )
+        time_range = parser.getTimeRangeType(element, "TIME-OFFSET")
+        assert time_range is not None
+        assert time_range.getChecksum().getValue() == "1234"
+        assert time_range.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        tolerance = time_range.getTolerance()
+        assert tolerance is not None
+        assert tolerance.getChecksum().getValue() == "5678"
+        assert tolerance.getTimestamp().getValue() == "2024-02-02T00:00:00Z"
+
+    def test_getTransmissionModeConditions_reads_checksum_and_timestamp(self, parser):
+        element = _snip(
+            "<TRANSMISSION-MODE-CONDITIONS>"
+            '<TRANSMISSION-MODE-CONDITION S="1234" T="2024-01-01T00:00:00Z">'
+            "<I-SIGNAL-IN-I-PDU-REF DEST='I-SIGNAL-I-PDU'>/Pkg/pdu</I-SIGNAL-IN-I-PDU-REF>"
+            "</TRANSMISSION-MODE-CONDITION>"
+            "</TRANSMISSION-MODE-CONDITIONS>",
+            root_tag="ROOT",
+        )
+        conditions = parser.getTransmissionModeConditions(element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION")
+        assert len(conditions) == 1
+        assert conditions[0].getChecksum().getValue() == "1234"
+        assert conditions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
 
 
 class TestISignalIPduIPduTimingSpecification:
