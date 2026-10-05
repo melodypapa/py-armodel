@@ -14055,12 +14055,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerFdConfiguration()
-            configuration.setPaddingValue(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PADDING-VALUE")))
-            configuration.setPropSeg(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG")))
-            configuration.setSspOffset(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET")))
-            configuration.setSyncJumpWidth(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH")))
-            configuration.setTimeSeg1(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1")))
-            configuration.setTimeSeg2(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2")))
+            self.readARObject(child_element, configuration)
+            configuration.setPaddingValue(self.getChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE"))
+            configuration.setPropSeg(self.getChildElementOptionalPositiveInteger(child_element, "PROP-SEG"))
+            configuration.setSspOffset(self.getChildElementOptionalPositiveInteger(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalPositiveInteger(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-2"))
             configuration.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
         return configuration
 

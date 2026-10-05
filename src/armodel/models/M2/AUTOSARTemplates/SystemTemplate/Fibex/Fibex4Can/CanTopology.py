@@ -18,23 +18,22 @@ class CanControllerFdConfiguration(ARObject):
 
     # CanControllerFdConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.16, p.66
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPaddingValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPaddingValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPaddingValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPaddingValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPropSeg         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPropSeg         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSspOffset       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSspOffset       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg1        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg1        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg2        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg2        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxBitRateSwitch [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxBitRateSwitch [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

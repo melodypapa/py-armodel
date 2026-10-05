@@ -291,8 +291,8 @@ class TestWriterSetCanControllerFdConfiguration:
         assert parent[0].find("PROP-SEG") is not None
         assert parent[0].find("SSP-OFFSET") is not None
         assert parent[0].find("SYNC-JUMP-WIDTH") is not None
-        assert parent[0].find("TIME-SEG1") is not None
-        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TIME-SEG-1") is not None
+        assert parent[0].find("TIME-SEG-2") is not None
         assert parent[0].find("TX-BIT-RATE-SWITCH") is not None
 
     def test_none(self, writer):

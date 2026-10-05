@@ -11865,12 +11865,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerFdConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerFdConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalIntegerValue(child_element, "PADDING-VALUE", cast(Integer, configuration.getPaddingValue()))
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", cast(Integer, configuration.getPropSeg()))
-            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", cast(Integer, configuration.getSspOffset()))
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", cast(Integer, configuration.getSyncJumpWidth()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", cast(Integer, configuration.getTimeSeg1()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", cast(Integer, configuration.getTimeSeg2()))
+            self.writeARObject(child_element, configuration)
+            self.setChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE", configuration.getPaddingValue())
+            self.setChildElementOptionalPositiveInteger(child_element, "PROP-SEG", configuration.getPropSeg())
+            self.setChildElementOptionalPositiveInteger(child_element, "SSP-OFFSET", configuration.getSspOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+            self.setChildElementOptionalPositiveInteger(child_element, "TIME-SEG-1", configuration.getTimeSeg1())
+            self.setChildElementOptionalPositiveInteger(child_element, "TIME-SEG-2", configuration.getTimeSeg2())
             self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", configuration.getTxBitRateSwitch())
 
     def setFlexrayFifoRange(self, element: ET.Element, key: str, fifo_range: FlexrayFifoRange):

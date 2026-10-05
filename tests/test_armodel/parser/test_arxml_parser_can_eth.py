@@ -48,8 +48,8 @@ class TestCanControllerFdConfiguration:
             "<PROP-SEG>4</PROP-SEG>"
             "<SSP-OFFSET>5</SSP-OFFSET>"
             "<SYNC-JUMP-WIDTH>1</SYNC-JUMP-WIDTH>"
-            "<TIME-SEG1>13</TIME-SEG1>"
-            "<TIME-SEG2>2</TIME-SEG2>"
+            "<TIME-SEG-1>13</TIME-SEG-1>"
+            "<TIME-SEG-2>2</TIME-SEG-2>"
             "<TX-BIT-RATE-SWITCH>true</TX-BIT-RATE-SWITCH>"
             "</CAN-CONTROLLER-FD-CONFIGURATION>"
         )
