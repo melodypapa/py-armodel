@@ -577,13 +577,12 @@ class ConstantSpecificationMapping(ARObject):
 
     # ConstantSpecificationMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.118, p.443
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getApplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setApplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplConstantRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplConstantRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplConstantRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplConstantRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -597,9 +596,6 @@ class ConstantSpecificationMapping(ARObject):
     def getApplConstantRef(self) -> Optional[RefType]:
         """
         A ConstantSpecification defined in the application domain.
-
-        Returns:
-            Optional[RefType]: A ConstantSpecification defined in the application domain., or None if not set
         """
         return self.applConstantRef
 
@@ -607,12 +603,6 @@ class ConstantSpecificationMapping(ARObject):
         """
         A ConstantSpecification defined in the application domain.
         A None value is a no-op and does not overwrite an existing applConstantRef.
-
-        Args:
-            value: A ConstantSpecification defined in the application domain. to set
-
-        Returns:
-            ConstantSpecificationMapping: self for method chaining
         """
         if value is not None:
             self.applConstantRef = value
@@ -621,9 +611,6 @@ class ConstantSpecificationMapping(ARObject):
     def getImplConstantRef(self) -> Optional[RefType]:
         """
         A ConstantSpecification defined in the implementation domain.
-
-        Returns:
-            Optional[RefType]: A ConstantSpecification defined in the implementation domain., or None if not set
         """
         return self.implConstantRef
 
@@ -631,12 +618,6 @@ class ConstantSpecificationMapping(ARObject):
         """
         A ConstantSpecification defined in the implementation domain.
         A None value is a no-op and does not overwrite an existing implConstantRef.
-
-        Args:
-            value: A ConstantSpecification defined in the implementation domain. to set
-
-        Returns:
-            ConstantSpecificationMapping: self for method chaining
         """
         if value is not None:
             self.implConstantRef = value

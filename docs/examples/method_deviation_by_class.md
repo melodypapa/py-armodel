@@ -2517,8 +2517,9 @@ No deviations — both Table 5.58 attributes are modeled 1:1 in displayed order 
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `applConstantRef` | `Ref (ConstantSpecification)` | Ref | missing |
-| — *(missing)* | `—` | `implConstantRef` | `Ref (ConstantSpecification)` | Ref | missing |
+| — | — | — | — | — | No deviations — both Table 5.118 attributes are modeled: `applConstant` (ConstantSpecification, 0..1, ref) as `applConstantRef: Optional[RefType]` and `implConstant` (ConstantSpecification, 0..1, ref) as `implConstantRef: Optional[RefType]`, with full reader (`getConstantSpecificationMapping` → `setApplConstantRef`/`setImplConstantRef`, APPL-/IMPL-CONSTANT-REF DEST=CONSTANT-SPECIFICATION) and writer (`writeConstantSpecificationMapping` → `getApplConstantRef`/`getImplConstantRef`) coverage. |
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — reader/writer columns but no per-row release column, stale `# Spec verified: R23-11` marker removed at session start; the checklist is rewritten in the 6-column release form and the stamp stays WITHHELD pending the 9b batch confirmation, user instruction). The two `applConstantRef/implConstantRef missing` tracker rows above were stale — both members have existed with full reader/writer coverage. Model Red vacuous (fields/multiplicity/guards pre-existed; noted); fabricated `Returns:`/`Args:` docstring blocks wiped and rewritten verbatim from the Table 5.118 Notes (Rule 0012.2.3). Reader/writer coverage pre-existed (vacuous Red, noted) — new parser tests pin APPL-/IMPL-CONSTANT-REF DEST + value, and a full-document XSD-validated round-trip via `ARPackage.createConstantSpecificationMappingSet` was added to the writer test module.
 
 ## `SwValues`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 458
