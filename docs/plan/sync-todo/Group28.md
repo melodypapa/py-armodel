@@ -656,15 +656,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwAxisGeneric` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.51, p.355
   - module: M2/MSR/DataDictionary/Axis.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Class confirmed (Base ARObject → `__init__(self)`); placement Axis.py unchanged. Rule 0023 legacy checklist (reader/writer columns, no release column, stale `# Spec verified: R23-11`) — marker removed, 6-column rewrite, stamp WITHHELD (9b batch). Model Red genuine: list-attr accessor pair order fixed to mutator-first (`addSwGenericAxisParam` before `getSwGenericAxisParams`, Rule 0001.11) and setter docstrings rewritten single-line (stale two-line form). Reader/writer Red vacuous (dispatch already conformed — noted); new direct reader/writer tests + empty-wrapper cases genuinely exercise the pair. XSD's SW-NUMBER-OF-AXIS-POINTS (atp.Status="removed", absent from the PDF table) not modeled — tracker row corrected from stale `missing` to accepted `deprecated (atp.Status=removed)`. Ref target `SwAxisType` exists as an ARElement stub, own sync = next queue row (Table 5.52); member type `SwGenericAxisParam` = later queue row (Table 5.53). Details in method_deviation_by_class.md `## SwAxisGeneric`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (243 passed / 0 failed: test_Axis.py, test_CalibrationParameter.py, test_SwCalprmAxis.py, test_writer_SwCalprmAxis.py, test_member_annotations.py, test_arxml_parser_internals.py, test_arxml_writer.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwAxisType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.52, p.356
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

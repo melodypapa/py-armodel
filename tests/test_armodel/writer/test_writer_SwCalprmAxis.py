@@ -12,8 +12,8 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, Float, MonotonyEnum, RefType
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, Float, MonotonyEnum, Numerical, RefType
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
@@ -203,3 +203,76 @@ class TestWriteSwCalprmAxisTypeProps:
         assert [child.tag for child in grouped] == ["MAX-GRADIENT", "MONOTONY", "SHARED-AXIS-TYPE-REF", "SW-AXIS-INDEX"]
         assert grouped.find("MAX-GRADIENT").text == "0.75"
         assert grouped.find("MONOTONY").text == "MONOTONOUS"
+
+
+class TestWriteSwAxisGeneric:
+    """Tests for writing SwAxisGeneric (Swc TPS Table 5.51, p.355).
+
+    setSwAxisGeneric emits SW-AXIS-GENERIC with SW-AXIS-TYPE-REF (XSD sequenceOffset 20)
+    ahead of the SW-GENERIC-AXIS-PARAMS wrapper (40); the wrapper is emitted only when
+    the parameter list is non-empty, and the round-trip re-parses to equal field values.
+    """
+
+    def _build_generic_axis(self) -> SwAxisGeneric:
+        generic = SwAxisGeneric()
+        axis_type_ref = RefType()
+        axis_type_ref.setDest("SW-AXIS-TYPE")
+        axis_type_ref.setValue("/axis/types/fixed")
+        generic.setSwAxisTypeRef(axis_type_ref)
+        param = SwGenericAxisParam()
+        param_type_ref = RefType()
+        param_type_ref.setDest("SW-GENERIC-AXIS-PARAM-TYPE")
+        param_type_ref.setValue("/axis/types/fixed/shift")
+        param.setSwGenericAxisParamTypeRef(param_type_ref)
+        vf = Numerical()
+        vf.setValue("1.5")
+        param.addVf(vf)
+        generic.addSwGenericAxisParam(param)
+        return generic
+
+    def test_write_sw_axis_generic_with_params_roundtrip(self):
+        generic = self._build_generic_axis()
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().setSwAxisGeneric(parent, generic)
+
+        generic_el = parent.find("SW-AXIS-GENERIC")
+        assert generic_el is not None
+        assert [child.tag for child in generic_el] == ["SW-AXIS-TYPE-REF", "SW-GENERIC-AXIS-PARAMS"]
+        assert generic_el.find("SW-AXIS-TYPE-REF").text == "/axis/types/fixed"
+        params_wrapper = generic_el.find("SW-GENERIC-AXIS-PARAMS")
+        assert params_wrapper is not None
+        param_el = params_wrapper.find("SW-GENERIC-AXIS-PARAM")
+        assert param_el is not None
+        assert param_el.find("SW-GENERIC-AXIS-PARAM-TYPE-REF").text == "/axis/types/fixed/shift"
+        assert param_el.find("VF").text == "1.5"
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(generic_el, encoding="unicode"))
+        reparsed = ARXMLParser().getSwAxisGeneric(wrapped[0])
+        assert reparsed is not None
+        assert reparsed.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        reparsed_params = reparsed.getSwGenericAxisParams()
+        assert len(reparsed_params) == 1
+        assert reparsed_params[0].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+        assert reparsed_params[0].getVfs()[0].getValue() == 1.5
+
+    def test_write_sw_axis_generic_empty_params_omits_wrapper(self):
+        """No parameters means no SW-GENERIC-AXIS-PARAMS wrapper in the output XML."""
+        generic = SwAxisGeneric()
+        axis_type_ref = RefType()
+        axis_type_ref.setDest("SW-AXIS-TYPE")
+        axis_type_ref.setValue("/axis/types/fixed")
+        generic.setSwAxisTypeRef(axis_type_ref)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().setSwAxisGeneric(parent, generic)
+
+        generic_el = parent.find("SW-AXIS-GENERIC")
+        assert generic_el is not None
+        assert [child.tag for child in generic_el] == ["SW-AXIS-TYPE-REF"]
+        assert generic_el.find("SW-GENERIC-AXIS-PARAMS") is None
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(generic_el, encoding="unicode"))
+        reparsed = ARXMLParser().getSwAxisGeneric(wrapped[0])
+        assert reparsed.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        assert reparsed.getSwGenericAxisParams() == []

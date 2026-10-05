@@ -69,13 +69,12 @@ class SwAxisGeneric(ARObject):
 
     # SwAxisGeneric method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.51, p.355
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwGenericAxisParams   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwGenericAxisParam    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwGenericAxisParam    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParams   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -87,34 +86,24 @@ class SwAxisGeneric(ARObject):
         self.swGenericAxisParams: List[SwGenericAxisParam] = []
 
     def getSwAxisTypeRef(self) -> Optional[RefType]:
-        """
-        Associated axis calculation strategy.
-        """
+        """Associated axis calculation strategy."""
         return self.swAxisTypeRef
 
     def setSwAxisTypeRef(self, value: Optional[RefType]) -> "SwAxisGeneric":
-        """
-        Associated axis calculation strategy.
-        A None value is a no-op and does not overwrite an existing swAxisTypeRef.
-        """
+        """Associated axis calculation strategy. A None value is a no-op and does not overwrite an existing swAxisTypeRef."""
         if value is not None:
             self.swAxisTypeRef = value
         return self
 
-    def getSwGenericAxisParams(self) -> List[SwGenericAxisParam]:
-        """
-        Specific parameter of a generic axis.
-        """
-        return self.swGenericAxisParams
-
     def addSwGenericAxisParam(self, value: Optional[SwGenericAxisParam]) -> "SwAxisGeneric":
-        """
-        Specific parameter of a generic axis.
-        A None value is a no-op and is not appended to swGenericAxisParams.
-        """
+        """Specific parameter of a generic axis. A None value is a no-op and is not appended to swGenericAxisParams."""
         if value is not None:
             self.swGenericAxisParams.append(value)
         return self
+
+    def getSwGenericAxisParams(self) -> List[SwGenericAxisParam]:
+        """Specific parameter of a generic axis."""
+        return self.swGenericAxisParams
 
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):

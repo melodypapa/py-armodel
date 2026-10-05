@@ -151,3 +151,57 @@ class TestSwCalprmAxisTypePropsReader:
         assert isinstance(props, SwAxisGrouped)
         assert props.getMaxGradient() is None
         assert props.getMonotony() is None
+
+
+class TestSwAxisGenericReader:
+    """Reader tests for SwAxisGeneric (Swc TPS Table 5.51, p.355).
+
+    getSwAxisGeneric populates the model via setSwAxisTypeRef / addSwGenericAxisParam.
+    Element order per the XSD group SW-AXIS-GENERIC (AUTOSAR_00052.xsd L114396):
+    SW-AXIS-TYPE-REF (sequenceOffset 20), then the SW-GENERIC-AXIS-PARAMS wrapper (40)
+    whose SW-GENERIC-AXIS-PARAM items carry SW-GENERIC-AXIS-PARAM-TYPE-REF + VF children.
+    """
+
+    def test_read_sw_axis_generic_full_field_values(self, parser):
+        element = _snip(
+            "<SW-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/types/fixed</SW-AXIS-TYPE-REF>"
+            "<SW-GENERIC-AXIS-PARAMS>"
+            "<SW-GENERIC-AXIS-PARAM>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis/types/fixed/shift</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<VF>1.5</VF>"
+            "</SW-GENERIC-AXIS-PARAM>"
+            "<SW-GENERIC-AXIS-PARAM>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis/types/fixed/offset</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<VF>2.5</VF>"
+            "<VF>3.5</VF>"
+            "</SW-GENERIC-AXIS-PARAM>"
+            "</SW-GENERIC-AXIS-PARAMS>",
+            root_tag="SW-AXIS-GENERIC",
+        )
+        generic = parser.getSwAxisGeneric(element)
+        assert generic is not None
+        assert generic.getSwAxisTypeRef() is not None
+        assert generic.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        params = generic.getSwGenericAxisParams()
+        assert len(params) == 2
+        assert params[0].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+        assert params[0].getVfs()[0].getValue() == 1.5
+        assert params[1].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/offset"
+        assert [vf.getValue() for vf in params[1].getVfs()] == [2.5, 3.5]
+
+    def test_read_sw_axis_generic_empty_params_wrapper_yields_empty_list(self, parser):
+        """An empty SW-GENERIC-AXIS-PARAMS wrapper parses to an empty list, not None."""
+        element = _snip(
+            "<SW-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/types/fixed</SW-AXIS-TYPE-REF>" "<SW-GENERIC-AXIS-PARAMS/>",
+            root_tag="SW-AXIS-GENERIC",
+        )
+        generic = parser.getSwAxisGeneric(element)
+        assert generic.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        assert generic.getSwGenericAxisParams() == []
+
+    def test_read_sw_axis_generic_minimal_defaults(self, parser):
+        element = _snip("", root_tag="SW-AXIS-GENERIC")
+        generic = parser.getSwAxisGeneric(element)
+        assert generic is not None
+        assert generic.getSwAxisTypeRef() is None
+        assert generic.getSwGenericAxisParams() == []
