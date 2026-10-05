@@ -758,36 +758,36 @@ Status: **29/29** completed
 
 ## Group17
 
-Status: **0/26** completed
+Status: **26/26** completed
 
-| Class Name                                 | Status       | Commit ID |
-| ------------------------------------------ | ------------ | --------- |
-| `CanClusterBusOffRecovery`                 | [ ] Pending* | N/A       |
-| `CanCommunicationConnector`                | [ ] Pending* | N/A       |
-| `CanControllerConfiguration`               | [ ] Pending* | N/A       |
-| `CanControllerConfigurationRequirements`   | [ ] Pending* | N/A       |
-| `CanControllerFdConfigurationRequirements` | [ ] Pending* | N/A       |
-| `ResumePosition`                           | [ ] Pending* | N/A       |
-| `ApplicationEntry`                         | [ ] Pending* | N/A       |
-| `LinScheduleTable`                         | [ ] Pending* | N/A       |
-| `RunMode`                                  | [ ] Pending* | N/A       |
-| `LinCommunicationConnector`                | [ ] Pending* | N/A       |
-| `FlexrayFrameTriggering`                   | [ ] Pending* | N/A       |
-| `FlexrayAbsolutelyScheduledTiming`         | [ ] Pending* | N/A       |
-| `FlexrayCommunicationConnector`            | [ ] Pending* | N/A       |
-| `FlexrayCommunicationController`           | [ ] Pending* | N/A       |
-| `FlexrayPhysicalChannel`                   | [ ] Pending* | N/A       |
-| `DataMapping`                              | [ ] Pending* | N/A       |
-| `IndexedArrayElement`                      | [ ] Pending* | N/A       |
-| `SenderRecRecordElementMapping`            | [ ] Pending* | N/A       |
-| `SenderRecRecordTypeMapping`               | [ ] Pending* | N/A       |
-| `SenderReceiverToSignalMapping`            | [ ] Pending* | N/A       |
-| `SenderReceiverToSignalGroupMapping`       | [ ] Pending* | N/A       |
-| `DefaultValueElement`                      | [ ] Pending* | N/A       |
-| `FrameMapping`                             | [ ] Pending* | N/A       |
-| `ISignalMapping`                           | [ ] Pending* | N/A       |
-| `TargetIPduRef`                            | [ ] Pending* | N/A       |
-| `Gateway`                                  | [ ] Pending* | N/A       |
+| Class Name                                 | Status   | Commit ID |
+| ------------------------------------------ | -------- | --------- |
+| `CanClusterBusOffRecovery`                 | [x] Done | N/A       |
+| `CanCommunicationConnector`                | [x] Done | N/A       |
+| `CanControllerConfiguration`               | [x] Done | N/A       |
+| `CanControllerConfigurationRequirements`   | [x] Done | N/A       |
+| `CanControllerFdConfigurationRequirements` | [x] Done | N/A       |
+| `ResumePosition`                           | [x] Done | N/A       |
+| `ApplicationEntry`                         | [x] Done | N/A       |
+| `LinScheduleTable`                         | [x] Done | N/A       |
+| `RunMode`                                  | [x] Done | N/A       |
+| `LinCommunicationConnector`                | [x] Done | N/A       |
+| `FlexrayFrameTriggering`                   | [x] Done | N/A       |
+| `FlexrayAbsolutelyScheduledTiming`         | [x] Done | N/A       |
+| `FlexrayCommunicationConnector`            | [x] Done | N/A       |
+| `FlexrayCommunicationController`           | [x] Done | N/A       |
+| `FlexrayPhysicalChannel`                   | [x] Done | N/A       |
+| `DataMapping`                              | [x] Done | N/A       |
+| `IndexedArrayElement`                      | [x] Done | N/A       |
+| `SenderRecRecordElementMapping`            | [x] Done | N/A       |
+| `SenderRecRecordTypeMapping`               | [x] Done | N/A       |
+| `SenderReceiverToSignalMapping`            | [x] Done | N/A       |
+| `SenderReceiverToSignalGroupMapping`       | [x] Done | N/A       |
+| `DefaultValueElement`                      | [x] Done | N/A       |
+| `FrameMapping`                             | [x] Done | N/A       |
+| `ISignalMapping`                           | [x] Done | N/A       |
+| `TargetIPduRef`                            | [x] Done | N/A       |
+| `Gateway`                                  | [x] Done | N/A       |
 
 ## Group18
 
