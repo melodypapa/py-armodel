@@ -307,16 +307,6 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 6 — Update parser & writer (Green) — writer setDefaultValueElement renamed → writeDefaultValueElement (matched pair with readDefaultValueElement) + writeARObject added first per XSD complexType (AR-OBJECT group + own group) + sibling writeDataMapping pattern; call site in setTargetIPduRef updated; parser readDefaultValueElement already per XSD order (readARObject + ELEMENT-BYTE-VALUE → ELEMENT-POSITION via getChildElementOptionalIntegerValue) — unchanged; aggregator dispatch getTargetIPduRef/setTargetIPduRef (via IPduMapping TARGET-I-PDU) already wired both directions; matched name pairs at every layer, no chained mutators; parser + writer + SystemTemplate model suites 7800 passed
   - [x] Step 7 — Update checklist comment — 6-column format with release column, rows in source order (getter-first scalar pairs, spec row order); `# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.6, p.841`; reader [x] on setter rows / writer [x] on getter rows — verified against readDefaultValueElement + writeDefaultValueElement call sites + setTargetIPduRef dispatch; NO `# Spec verified:` — deferred to batch confirmation
   - [x] Step 8 — Deviations (fixed in step notes: bare-T 0..1 fields → PEP 526 Optional[Integer]; untyped accessors → typed guarded self-returning; old 4-col checklist → 6-column with `# Spec:` line; writer unmatched pair name setDefaultValueElement → writeDefaultValueElement + missing writeARObject added; module quoted annotations de-quoted with future import; STALE tracker row resolved — docs/examples/method_deviation_by_class_v2.md `## PduMappingDefaultValue` `defaultValueElement` aggr `missing` row removed (source covers it via dedicated typed list `defaultValueElements` + plural accessors; section header table citation corrected Table 8.6 → 8.5, p.841); docs/plan/deviation/ does not exist, docs/examples/method_deviation_by_class.md has no entries for this class; no Rule 0001.10 placeholders — member type Integer exists)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py
-  - [x] Step 1 — Sync members & description from spec (mirror of annotated steps above — row-format fix 2026-09-30: bare `[ ]` duplicates shadowed the completed `[x]` steps and regen classified the row Implemented)
-  - [x] Step 2 — Write model class unit test (Red) (mirror of annotated steps above)
-  - [x] Step 3 — Implement model class (Green) (mirror of annotated steps above)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite) (mirror of annotated steps above)
-  - [x] Step 5 — Write reader/writer round-trip test (Red) (mirror of annotated steps above)
-  - [x] Step 6 — Update parser & writer (Green) (mirror of annotated steps above)
-  - [x] Step 7 — Update checklist comment (mirror of annotated steps above)
-  - [x] Step 8 — Deviations (mirror of annotated steps above)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13403 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FrameMapping` — ARObject — R23-11 markdown · Table 8.2
