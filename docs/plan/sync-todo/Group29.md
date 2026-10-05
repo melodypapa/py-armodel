@@ -813,15 +813,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinMaster` — LinCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.38, p.94
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Rule 0023/0012.3 re-run of a legacy 5-column checklist (no release column) carrying a stale R23-11 spec-verified stamp — marker removed, checklist rebuilt 6-column, re-stamp deferred to batch 9b. Table 3.38 Note "Describing the properties of the refering ecu as a LIN master."; most-derived modeled base LinCommunicationController (Base row: ARObject, CommunicationController, Identifiable, LinCommunicationController, MultilanguageReferrable, Referrable); three own attrs in displayed order — linSlave (LinSlaveConfig, *, aggr, "LinSlaves that are handled by the LinMaster."), timeBase (TimeValue, 0..1), timeBaseJitter (TimeValue, 0..1); no Referrable children (linSlave is an ARObject aggr → addLinSlave per Rule 0001.6); Aggregated by EcuInstance.commController + MachineDesign.communicationController (AUTOSAR_00052.xsd line 79520 — no MachineDesign reader/writer path in this codebase, TtcanCommunicationController precedent). XSD LIN-MASTER (line 77381) wraps inherited content via LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL; own content group LIN-MASTER-CONTENT (line 77433) = LIN-SLAVES (wrapper of unbounded LIN-SLAVE-CONFIG), TIME-BASE, TIME-BASE-JITTER (XSD order = markdown row order); dispatch is EcuInstance COMM-CONTROLLERS (createLinMaster + tag/isinstance branches, already wired).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — all three attributes modeled with spec types/multiplicities in displayed order (linSlave `*` aggr → dedicated `List[LinSlaveConfig]` field + `addLinSlave(value)` per Rule 0001.6 since LinSlaveConfig derives from ARObject, not Referrable; timeBase/timeBaseJitter 0..1 → Optional[TimeValue]); member order = markdown row order, reader/writer XML element order = XSD LIN-MASTER-CONTENT sequenceOffset (LIN-SLAVES, TIME-BASE, TIME-BASE-JITTER — the two orders coincide); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 3 inline comments + 6 accessor docstrings); reader/writer entry points call readIdentifiable/writeIdentifiable on the outer element and read/writeLinCommunicationController exactly once each on the LIN-MASTER-CONDITIONAL wrapper (audit BASE clean); EcuInstance COMM-CONTROLLERS dispatch already wired. MachineDesign COMMUNICATION-CONTROLLERS choice (XSD line 79520) not wired — no MachineDesign reader/writer path in this codebase (TtcanCommunicationController precedent). linSlave member type LinSlaveConfig is a legacy class queued for its own pass (Table 3.39). Re-stamp deferred to batch 9b per user instruction.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2361+8140+1185 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinSlaveConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.39, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py

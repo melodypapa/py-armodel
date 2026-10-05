@@ -62,15 +62,14 @@ class LinMaster(LinCommunicationController):
 
     # LinMaster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.38, p.94
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLinSlaves        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinSlave         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeBase         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeBase         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeBaseJitter   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeBaseJitter   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLinSlaves       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinSlave        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBase        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBaseJitter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBaseJitter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

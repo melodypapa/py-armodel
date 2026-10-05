@@ -45,6 +45,10 @@ class MockParent(ARObject):
 
 
 LIN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "LIN bus specific communication controller attributes."
+LIN_MASTER_CLASS_NOTE = "Describing the properties of the refering ecu as a LIN master."
+LIN_SLAVE_NOTE = "LinSlaves that are handled by the LinMaster."
+TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
+TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
 
 
@@ -138,6 +142,20 @@ class TestLinMaster:
     Describing the properties of the refering ecu as a LIN master.
     """
 
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.38: ARObject, CommunicationController, Identifiable, LinCommunicationController, MultilanguageReferrable, Referrable)"""
+        assert issubclass(LinMaster, LinCommunicationController)
+        assert issubclass(LinMaster, CommunicationController)
+        assert issubclass(LinMaster, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.38)"""
+        assert inspect.cleandoc(LinMaster.__doc__).strip() == LIN_MASTER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinMaster.__init__.__doc__ is None
+
     def test_initialization(self):
         parent = MockParent()
         master = LinMaster(parent, "TestMaster")
@@ -152,6 +170,12 @@ class TestLinMaster:
         assert master.getLinSlaves() == []
         assert master.getTimeBase() is None
         assert master.getTimeBaseJitter() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.38: linSlave, timeBase, timeBaseJitter)"""
+        source = inspect.getsource(LinMaster.__init__)
+        assert source.index("self.linSlaves") < source.index("self.timeBase")
+        assert source.index("self.timeBase") < source.index("self.timeBaseJitter")
 
     def test_add_lin_slave(self):
         parent = MockParent()
@@ -185,6 +209,22 @@ class TestLinMaster:
 
         assert master == master.setTimeBaseJitter(None)
         assert master.getTimeBaseJitter() == 0.001
+
+    def _assert_docstring(self, method, note):
+        doc = method.__doc__
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == note
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter/adder docstrings carry the spec Note verbatim (Table 3.38)"""
+        self._assert_docstring(LinMaster.getLinSlaves, LIN_SLAVE_NOTE)
+        self._assert_docstring(LinMaster.addLinSlave, LIN_SLAVE_NOTE + "\nA None value is a no-op and does not extend linSlaves.")
+
+        self._assert_docstring(LinMaster.getTimeBase, TIME_BASE_NOTE)
+        self._assert_docstring(LinMaster.setTimeBase, TIME_BASE_NOTE + "\nA None value is a no-op and does not overwrite an existing timeBase.")
+
+        self._assert_docstring(LinMaster.getTimeBaseJitter, TIME_BASE_JITTER_NOTE)
+        self._assert_docstring(LinMaster.setTimeBaseJitter, TIME_BASE_JITTER_NOTE + "\nA None value is a no-op and does not overwrite an existing timeBaseJitter.")
 
     def test_type_annotations(self):
         import ast
