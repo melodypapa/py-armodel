@@ -99,6 +99,25 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert annotations[0].getDataElementRef().getValue() == "/AUTOSAR/DataElement1"
         assert annotations[0].getSignalAge() is not None
 
+    def test_client_server_annotation_round_trip(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import ClientServerAnnotation
+
+        prototype = PPortPrototype(None, "Port1")
+        annotation = ClientServerAnnotation()
+        annotation.setOperationRef(_ref("/If/Op", "CLIENT-SERVER-OPERATION"))
+        prototype.addClientServerAnnotation(annotation)
+
+        xml = _serialize(prototype)
+        assert "<CLIENT-SERVER-ANNOTATION>" in xml
+        assert 'OPERATION-REF DEST="CLIENT-SERVER-OPERATION"' in xml
+
+        parsed = _parse(xml)
+        annotations = parsed.getClientServerAnnotations()
+        assert len(annotations) == 1
+        assert isinstance(annotations[0], ClientServerAnnotation)
+        assert annotations[0].getOperationRef().getValue() == "/If/Op"
+        assert annotations[0].getOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
     def test_empty_wrapper_absent(self):
         prototype = PPortPrototype(None, "Port1")
         xml = _serialize(prototype)
