@@ -11931,7 +11931,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             if isinstance(attributes, CanControllerConfigurationRequirements):
                 self.writeCanControllerConfigurationRequirements(child_element, attributes)
             elif isinstance(attributes, CanControllerConfiguration):
-                self.writeCanControllerConfiguration(child_element, attributes)
+                config_element = ET.SubElement(child_element, "CAN-CONTROLLER-CONFIGURATION")
+                self.writeCanControllerConfiguration(config_element, attributes)
             else:
                 self.notImplemented("Unsupported CanControllerAttributes <%s>" % type(attributes))
 
@@ -18275,14 +18276,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
-            self.writeAbstractCanCommunicationControllerAttributes(child_element, configuration)
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", configuration.getPropSeg())
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG-1", configuration.getTimeSeg1())
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG-2", configuration.getTimeSeg2())
+            self.writeCanControllerConfiguration(child_element, configuration)
 
     def writeCanControllerConfiguration(self, element: ET.Element, configuration: CanControllerConfiguration):
-        self.setCanControllerConfiguration(element, "CAN-CONTROLLER-CONFIGURATION", configuration)
+        self.writeAbstractCanCommunicationControllerAttributes(element, configuration)
+        self.setChildElementOptionalIntegerValue(element, "PROP-SEG", configuration.getPropSeg())
+        self.setChildElementOptionalIntegerValue(element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+        self.setChildElementOptionalIntegerValue(element, "TIME-SEG-1", configuration.getTimeSeg1())
+        self.setChildElementOptionalIntegerValue(element, "TIME-SEG-2", configuration.getTimeSeg2())
 
     def writeCanXlProps(self, parent: ET.Element, can_xl_props: CanXlProps):
         self.logger.debug("Write CanXlProps %s" % can_xl_props.getShortName())
