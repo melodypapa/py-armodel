@@ -40,6 +40,15 @@ _FULL = (
 
 _ST_CONFIG = '<LIN-SLAVE-CONFIG S="chk-1" T="2009-07-23T13:38:00Z">' "<CONFIGURED-NAD>3</CONFIGURED-NAD>" "</LIN-SLAVE-CONFIG>"
 
+_ST_IDENT = (
+    '<LIN-SLAVE-CONFIG><IDENT S="id-chk" T="2009-07-23T13:38:00Z">'
+    "<SHORT-NAME>SlaveIdent</SHORT-NAME>"
+    "<SHORT-NAME-FRAGMENTS>"
+    "<SHORT-NAME-FRAGMENT><ROLE>prefix</ROLE><FRAGMENT>PFX</FRAGMENT></SHORT-NAME-FRAGMENT>"
+    "</SHORT-NAME-FRAGMENTS>"
+    "</IDENT></LIN-SLAVE-CONFIG>"
+)
+
 
 class TestGetLinSlaveConfig:
     def test_returns_none_when_child_absent(self, parser):
@@ -101,3 +110,17 @@ class TestGetLinSlaveConfig:
 
         assert config.getChecksum() is None
         assert config.getTimestamp() is None
+
+    def test_reads_ident_referrable_payload(self, parser):
+        element = _snip(_ST_IDENT)
+        config = parser.getLinSlaveConfig(element, "LIN-SLAVE-CONFIG")
+
+        ident = config.getIdent()
+        assert isinstance(ident, LinSlaveConfigIdent)
+        assert ident.getShortName() == "SlaveIdent"
+        fragments = ident.getShortNameFragments()
+        assert len(fragments) == 1
+        assert fragments[0].getRole().getValue() == "prefix"
+        assert fragments[0].getFragment().getValue() == "PFX"
+        assert ident.getChecksum().getValue() == "id-chk"
+        assert ident.getTimestamp().getValue() == "2009-07-23T13:38:00Z"

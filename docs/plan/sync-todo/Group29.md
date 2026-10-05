@@ -841,15 +841,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinSlaveConfigIdent` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.40, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Rule 0023/0012.3 re-run of a legacy 5-column checklist (no release column) carrying a stale R23-11 spec-verified stamp — marker removed at session start, re-stamp deferred to batch 9b (user instruction). Table 3.40 (p.95) Note "This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig."; Base = ARObject, Referrable (most-derived modeled base Referrable — the in-place class already derives Referrable); Aggregated by LinSlaveConfig.ident; ZERO Attribute rows (header + separator only — OCL constraints constr_3219/constr_1655 follow the table) → no own members, no get/set accessors; XSD group LIN-SLAVE-CONFIG-IDENT (AUTOSAR_00052.xsd line 77865) is an empty sequence, complexType (line 77874) = AR-OBJECT + REFERRABLE + empty own group — the class serializes solely as the IDENT element (line 77769) inside LIN-SLAVE-CONFIG, so reader/writer coverage rides the LinSlaveConfig consumer path (Rule 0001.7).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — the re-run's actual drift was the checklist itself (legacy 5-column format + stale `# Spec verified: R23-11` marker; audit ROWS/STAMP failed at session start), fixed at Step 7: marker removed (re-stamp deferred to batch 9b per user instruction), block rebuilt 6-column with the release column. Zero-attribute contract verified both directions: Table 3.40 has no Attribute rows and the XSD LIN-SLAVE-CONFIG-IDENT group is an empty sequence — the class keeps zero own members on the Referrable base (inherited shortName/shortNameFragments/S-T round-trip through the IDENT element), no fabrication, no flattening. Class docstring byte-identical to the markdown Note; the "Lin SlaveConfig" mid-identifier wrap artifact is part of the R23-11 markdown Note and is kept verbatim (FlexrayCluster/LinSlaveConfig precedent). Reader/writer coverage stays on the consumer path (Rule 0001.7): parser readLinSlaveConfig constructs LinSlaveConfigIdent + readReferrable exactly once, writer setLinSlaveConfig writes IDENT + writeReferrable exactly once (audit BASE clean); test hardening added in this pass — parser test asserts the IDENT's inherited Referrable payload (SHORT-NAME, SHORT-NAME-FRAGMENTS role/fragment, S/T) is read, writer tests assert it is written and round-trips. Workflow note (non-blocking): both TDD pairs ran Green on arrival — the parent re-sync (81ac1ac2a) had already wired the consumer path and the legacy impl/docstring already matched the R23-11 table, so the only genuine Red of this re-run was the checklist gate; tests were still written before any implementation check. XSD DEST attribute at line 77153 belongs to ASSIGNED-LIN-SLAVE-CONFIG-REF (a LinConfigurationEntry reference DEST enum), not to this class — not modeled here.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2384+8160+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinSlave` — LinCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.41, p.97
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py

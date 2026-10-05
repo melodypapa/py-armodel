@@ -70,6 +70,7 @@ LIN_SLAVE_CONFIG_LIN_ORDERED_CONFIGURABLE_FRAME_NOTE = (
 LIN_SLAVE_CONFIG_PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different."
 LIN_SLAVE_CONFIG_SUPPLIER_ID_NOTE = "LIN Supplier ID."
 LIN_SLAVE_CONFIG_VARIANT_ID_NOTE = "Specifies the Variant ID."
+LIN_SLAVE_CONFIG_IDENT_CLASS_NOTE = "This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig."
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
@@ -494,6 +495,19 @@ class TestLinSlaveConfigIdent:
     """
     This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig.
     """
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.40: ARObject, Referrable)"""
+        assert issubclass(LinSlaveConfigIdent, Referrable)
+        assert issubclass(LinSlaveConfigIdent, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.40)"""
+        assert inspect.cleandoc(LinSlaveConfigIdent.__doc__).strip() == LIN_SLAVE_CONFIG_IDENT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinSlaveConfigIdent.__init__.__doc__ is None
 
     def test_initialization(self):
         parent = MockParent()

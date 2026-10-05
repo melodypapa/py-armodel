@@ -12,7 +12,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, DateTime, Integer, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, DateTime, Identifier, Integer, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinConfigurableFrame, LinOrderedConfigurableFrame, LinSlaveConfig, LinSlaveConfigIdent
 from armodel.parser.arxml_parser import ARXMLParser
@@ -199,3 +200,68 @@ class TestSetLinSlaveConfig:
         assert reloaded.getVariantId().getValue() == 9
         assert reloaded.getChecksum().getValue() == "chk-1"
         assert reloaded.getTimestamp().getValue() == "2009-07-23T13:38:00Z"
+
+    @staticmethod
+    def _config_with_referrable_ident():
+        config = LinSlaveConfig()
+        ident = LinSlaveConfigIdent(config, "SlaveIdent")
+        fragment = ShortNameFragment()
+        fragment.setRole(String().setValue("prefix"))
+        fragment.setFragment(Identifier().setValue("PFX"))
+        ident.addShortNameFragment(fragment)
+        config.setIdent(ident)
+        return config
+
+    def test_write_ident_referrable_payload(self, writer):
+        parent = _parent()
+        writer.setLinSlaveConfig(parent, "LIN-SLAVE-CONFIG", self._config_with_referrable_ident())
+
+        el = parent.find("LIN-SLAVE-CONFIG")
+        ident_el = el.find("IDENT")
+        assert ident_el is not None
+        assert ident_el.find("SHORT-NAME").text == "SlaveIdent"
+        fragments_el = ident_el.find("SHORT-NAME-FRAGMENTS")
+        assert fragments_el is not None
+        fragment_el = fragments_el.find("SHORT-NAME-FRAGMENT")
+        assert fragment_el is not None
+        assert fragment_el.find("ROLE").text == "prefix"
+        assert fragment_el.find("FRAGMENT").text == "PFX"
+
+    def test_round_trip_ident_referrable_payload(self, writer):
+        parent = _parent()
+        writer.setLinSlaveConfig(parent, "LIN-SLAVE-CONFIG", self._config_with_referrable_ident())
+
+        reloaded = ARXMLParser().getLinSlaveConfig(_namespaced_first_child(parent), ".")
+        ident = reloaded.getIdent()
+        assert isinstance(ident, LinSlaveConfigIdent)
+        assert ident.getShortName() == "SlaveIdent"
+        fragments = ident.getShortNameFragments()
+        assert len(fragments) == 1
+        assert fragments[0].getRole().getValue() == "prefix"
+        assert fragments[0].getFragment().getValue() == "PFX"
+
+    def test_write_ident_st_attributes(self, writer):
+        parent = _parent()
+        config = self._config_with_referrable_ident()
+        ident = config.getIdent()
+        ident.setChecksum(String().setValue("id-chk"))
+        ident.setTimestamp(DateTime().setValue("2009-07-23T13:38:00Z"))
+        writer.setLinSlaveConfig(parent, "LIN-SLAVE-CONFIG", config)
+
+        ident_el = parent.find("LIN-SLAVE-CONFIG").find("IDENT")
+        assert ident_el is not None
+        assert ident_el.attrib["S"] == "id-chk"
+        assert ident_el.attrib["T"] == "2009-07-23T13:38:00Z"
+
+    def test_round_trip_ident_st_attributes(self, writer):
+        parent = _parent()
+        config = self._config_with_referrable_ident()
+        ident = config.getIdent()
+        ident.setChecksum(String().setValue("id-chk"))
+        ident.setTimestamp(DateTime().setValue("2009-07-23T13:38:00Z"))
+        writer.setLinSlaveConfig(parent, "LIN-SLAVE-CONFIG", config)
+
+        reloaded = ARXMLParser().getLinSlaveConfig(_namespaced_first_child(parent), ".")
+        reloaded_ident = reloaded.getIdent()
+        assert reloaded_ident.getChecksum().getValue() == "id-chk"
+        assert reloaded_ident.getTimestamp().getValue() == "2009-07-23T13:38:00Z"
