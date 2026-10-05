@@ -499,13 +499,12 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     # NonqueuedSenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.69, p.179
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -524,8 +523,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     def setDataFilter(self, value: Optional[DataFilter]) -> NonqueuedSenderComSpec:
         """
-        The applicable filter algorithm for filtering the value of the corresponding dataElement.
-        A None value is a no-op and does not overwrite an existing dataFilter.
+        The applicable filter algorithm for filtering the value of the corresponding dataElement. A None value is a no-op and does not overwrite an existing dataFilter.
         """
         if value is not None:
             self.dataFilter = value
@@ -539,8 +537,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> NonqueuedSenderComSpec:
         """
-        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
-        A None value is a no-op and does not overwrite an existing initValue.
+        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already. A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value

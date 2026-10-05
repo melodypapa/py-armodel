@@ -2233,7 +2233,9 @@ stale marker removed, re-stamp deferred to the batch 9b.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dataFilter` | `DataFilter` | — | missing |
+| — *(no deviation)* | — | — | — | — | Both spec attributes implemented (`dataFilter`, `initValue`); reader/writer coverage complete. |
+
+**Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified both attributes both directions against Table 4.69, the verbatim Notes, and the XSD NONQUEUED-SENDER-COM-SPEC group element order DATA-FILTER → INIT-VALUE; the legacy 5-column checklist was normalized to the 6-column format and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader unchanged (`readSenderComSpec` base call + own attrs); writer's base call moved into `writeSenderComSpec` (see the SenderComSpec row). The former `dataFilter` "missing" row was stale — the accessor pair exists. No Rule 0001.10 missing classes. No stamp (batch 9b).
 
 ## `ClientComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 187

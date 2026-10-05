@@ -349,13 +349,33 @@ class TestQueuedSenderComSpec:
 
 
 class TestNonqueuedSenderComSpec:
-    """Test class for NonqueuedSenderComSpec class."""
+    """Test class for NonqueuedSenderComSpec class (Table 4.69)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.69 Notes copied verbatim."""
+        assert NonqueuedSenderComSpec.__doc__.strip() == "Communication attributes for non-queued sender/receiver communication (sender side)"
+        data_filter_note = "The applicable filter algorithm for filtering the value of the corresponding dataElement."
+        assert NonqueuedSenderComSpec.getDataFilter.__doc__.strip() == data_filter_note
+        assert NonqueuedSenderComSpec.setDataFilter.__doc__.strip() == data_filter_note + " A None value is a no-op and does not overwrite an existing dataFilter."
+        init_value_note = "Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already."
+        assert NonqueuedSenderComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NonqueuedSenderComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec + SenderComSpec — Python base is SenderComSpec (most-derived, Table 4.67); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NonqueuedSenderComSpec, SenderComSpec)
+        assert issubclass(NonqueuedSenderComSpec, PPortComSpec)
+        assert issubclass(NonqueuedSenderComSpec, ARObject)
+        assert "dataElementRef" not in NonqueuedSenderComSpec.__dict__ and "transmissionProps" not in NonqueuedSenderComSpec.__dict__
+        assert NonqueuedSenderComSpec.__dict__["setDataFilter"].__annotations__["return"] == "NonqueuedSenderComSpec"
 
     def test_nonqueued_sender_com_spec_initialization(self):
         """Test NonqueuedSenderComSpec initialization and methods."""
         sender = NonqueuedSenderComSpec()
         assert sender.dataFilter is None
         assert sender.initValue is None
+        assert sender.compositeNetworkRepresentations == []
+        assert sender.dataElementRef is None
 
     def test_get_set_data_filter(self):
         """Test dataFilter accessor pair and None no-op."""

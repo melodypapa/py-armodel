@@ -139,6 +139,25 @@ class TestGetNonqueuedSenderComSpec:
         assert result.getTransmissionProps() is None
         assert result.getTransmissionAcknowledge() is None
 
+    def test_with_init_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <INIT-VALUE>
+                <TEXT-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Init</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Init</DEFINITION-REF>
+                    <VALUE>init</VALUE>
+                </TEXT-VALUE-SPECIFICATION>
+            </INIT-VALUE>
+            """,
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        init_value = result.getInitValue()
+        assert isinstance(init_value, TextValueSpecification)
+        assert init_value.getValue().getValue() == "init"
+
 
 class TestGetServerComSpec:
     """Tests for getServerComSpec."""
