@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     NvDataPortAnnotation,
     PulseTestEnum,
     SignalFanEnum,
-    TriggerPortAnnotation,
 )
 
 
@@ -106,25 +105,6 @@ class TestNvDataPortAnnotation:
         annotation.setVariableRef(ref)
         annotation.setVariableRef(None)
         assert annotation.getVariableRef() == ref
-
-
-class TestTriggerPortAnnotation:
-    def test_initialization(self):
-        annotation = TriggerPortAnnotation()
-        assert annotation.getTriggerRef() is None
-
-    def test_trigger_ref_setter_getter(self):
-        annotation = TriggerPortAnnotation()
-        ref = _ref(dest="TRIGGER")
-        assert annotation.setTriggerRef(ref) is annotation
-        assert annotation.getTriggerRef() == ref
-
-    def test_trigger_ref_none_is_noop(self):
-        annotation = TriggerPortAnnotation()
-        ref = _ref(dest="TRIGGER")
-        annotation.setTriggerRef(ref)
-        annotation.setTriggerRef(None)
-        assert annotation.getTriggerRef() == ref
 
 
 class TestDelegatedPortAnnotation:

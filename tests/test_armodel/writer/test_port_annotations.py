@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ModePortAnnotation,
     ParameterPortAnnotation,
+    TriggerPortAnnotation,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -88,3 +89,26 @@ class TestModePortAnnotationRoundTrip:
         port_2 = _round_trip(AUTOSAR.getInstance())
 
         assert port_2.getModePortAnnotations() == []
+
+
+class TestTriggerPortAnnotationRoundTrip:
+    def test_round_trip(self):
+        _, port = _new_document_with_port()
+
+        trig = TriggerPortAnnotation()
+        trig.setTriggerRef(_ref("/Swc/Trigger", "TRIGGER"))
+        port.addTriggerPortAnnotation(trig)
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        trig_list = port_2.getTriggerPortAnnotations()
+        assert len(trig_list) == 1
+        assert trig_list[0].getTriggerRef().getValue() == "/Swc/Trigger"
+        assert trig_list[0].getTriggerRef().getDest() == "TRIGGER"
+
+    def test_empty_wrapper_list(self):
+        _, port = _new_document_with_port()
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        assert port_2.getTriggerPortAnnotations() == []
