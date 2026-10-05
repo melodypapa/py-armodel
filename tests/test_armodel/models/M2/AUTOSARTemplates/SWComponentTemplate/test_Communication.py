@@ -1202,16 +1202,25 @@ class TestNonqueuedReceiverComSpec:
 
 
 class TestHandleOutOfRangeStatusEnum:
-    """Test cases for HandleOutOfRangeStatusEnum class."""
+    """Test cases for HandleOutOfRangeStatusEnum class (Table 4.61)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.61 Note copied verbatim."""
+        assert HandleOutOfRangeStatusEnum.__doc__.strip() == "This enumeration defines how the RTE handles values that are out of range."
 
     def test_members(self):
-        """Test HandleOutOfRangeStatusEnum member values."""
+        """Test HandleOutOfRangeStatusEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleOutOfRangeStatusEnum()
         values = enum.getEnumValues()
+        assert list(values) == [HandleOutOfRangeStatusEnum.INDICATE, HandleOutOfRangeStatusEnum.SILENT]
         assert HandleOutOfRangeStatusEnum.INDICATE == "indicate"
         assert HandleOutOfRangeStatusEnum.SILENT == "silent"
-        assert HandleOutOfRangeStatusEnum.INDICATE in values
-        assert HandleOutOfRangeStatusEnum.SILENT in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleOutOfRangeStatusEnum()
+        enum.setValue(HandleOutOfRangeStatusEnum.SILENT)
+        assert enum.getValue() == "silent"
 
 
 class TestHandleTimeoutEnum:
