@@ -934,15 +934,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTroubleCodeUdsToTroubleCodeObdMapping` — DiagnosticMapping — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.180, p.188
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note (Step 1): Base chain (md Table 4.180) ends at DiagnosticMapping ⇒ most-derived base DiagnosticMapping
+    per Rule 0001.2 (stub base already DiagnosticMapping — filled in place, no relocation). Attributes
+    (displayed order): 1. troubleCodeObd (DiagnosticTroubleCodeObd, 0..1, ref) → troubleCodeObdRef:
+    Optional[RefType] + get/setTroubleCodeObdRef; 2. troubleCodeUds (DiagnosticTroubleCodeUds, 0..1, ref)
+    → troubleCodeUdsRef: Optional[RefType] + get/setTroubleCodeUdsRef (Kind-suffix Ref naming, Rule 0001.5).
+    XSD group DIAGNOSTIC-TROUBLE-CODE-UDS-TO-TROUBLE-CODE-OBD-MAPPING (AUTOSAR_00052.xsd l.46879):
+    TROUBLE-CODE-OBD-REF (DEST DIAGNOSTIC-TROUBLE-CODE-OBD--SUBTYPES-ENUM) → TROUBLE-CODE-UDS-REF
+    (DEST DIAGNOSTIC-TROUBLE-CODE-UDS--SUBTYPES-ENUM); XSD agrees with the markdown, none removed.
+    Aggregated by ARPackage.element ⇒ factory createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping +
+    read/write dispatch wiring (exact twin: DiagnosticEventToTroubleCodeJ1939Mapping, Table 5.43).
+  - Note (Step 8): no deviations (clean sync). Ref targets DiagnosticTroubleCodeUds (fbead45f7) and
+    DiagnosticTroubleCodeObd (5c4cbcc4b) are both synced — members typed plain RefType, no pending
+    references. Reader/writer reuse the base readDiagnosticMapping/writeDiagnosticMapping helpers
+    (single base-helper read — no double readReferrable).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; findings above)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1952 passed / 0 failed: test_ARPackage.py, test_diagnostic_trouble_code_uds_to_trouble_code_obd_mapping.py, test_writer_diagnostic_trouble_code_uds_to_trouble_code_obd_mapping.py, test_member_annotations.py, test_group21_36_stub_classes.py; parser+writer regression 7718 passed / 0 failed); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DiagnosticExtendedDataRecord` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.181, p.190
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

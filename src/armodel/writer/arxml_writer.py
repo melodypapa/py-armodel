@@ -510,6 +510,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticTroubleCodeUdsToTroubleCodeObdMapping,
     CpSwClusterToDiagEventMapping,
     CpSwClusterResourceToDiagDataElemMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
@@ -14505,6 +14506,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DIAGNOSTIC-EVENT-REF", mapping.getDiagnosticEventRef())
         self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-J-1939-REF", mapping.getTroubleCodeJ1939Ref())
 
+    def writeDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, element: ET.Element, mapping: DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+        self.logger.debug("Write DiagnosticTroubleCodeUdsToTroubleCodeObdMapping %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TROUBLE-CODE-UDS-TO-TROUBLE-CODE-OBD-MAPPING")
+        self.writeDiagnosticMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-OBD-REF", mapping.getTroubleCodeObdRef())
+        self.setChildElementOptionalRefType(child_element, "TROUBLE-CODE-UDS-REF", mapping.getTroubleCodeUdsRef())
+
     def writeDiagnosticIumpr(self, element: ET.Element, iumpr: DiagnosticIumpr):
         self.logger.debug("Write DiagnosticIumpr %s" % iumpr.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-IUMPR")
@@ -17174,6 +17182,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticEventToTroubleCodeJ1939Mapping):
             self.writeDiagnosticEventToTroubleCodeJ1939Mapping(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+            self.writeDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticIumprToFunctionIdentifierMapping):
             self.writeDiagnosticIumprToFunctionIdentifierMapping(element, ar_element)

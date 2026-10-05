@@ -137,6 +137,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
     DiagnosticTroubleCodeJ1939,
+    DiagnosticTroubleCodeUdsToTroubleCodeObdMapping,
     DiagnosticVerifyCertificateBidirectional,
     DiagnosticVerifyCertificateUnidirectional,
     DiagnosticWriteDataByIdentifier,
@@ -5926,6 +5927,75 @@ class TestCpSwClusterResourceToDiagFunctionIdMapping:
         assert package.getReferrableElement("M1", CpSwClusterResourceToDiagFunctionIdMapping) is element
 
         duplicate = package.createCpSwClusterResourceToDiagFunctionIdMapping("M1")
+        assert duplicate is element  # duplicate short name returns the existing element
+
+
+class TestDiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+    """
+    Test class for DiagnosticTroubleCodeUdsToTroubleCodeObdMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.180, p.188
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code. Tags: atp.recommendedPackage=DiagnosticMappings"
+
+    def _make_obj(self) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(ar_root, "TestTroubleCodeUdsToTroubleCodeObdMapping")
+
+    def test_is_concrete(self):
+        """
+        Test that a concrete DiagnosticTroubleCodeUdsToTroubleCodeObdMapping instantiates with the spec defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestTroubleCodeUdsToTroubleCodeObdMapping"
+        assert obj.getTroubleCodeObdRef() is None
+        assert obj.getTroubleCodeUdsRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert DiagnosticTroubleCodeUdsToTroubleCodeObdMapping.__doc__ == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTroubleCodeUdsToTroubleCodeObdMapping.__init__.__doc__ is None
+
+    def test_get_set_members(self):
+        """
+        Round-trips the attributes; None is a no-op.
+        """
+        obj = self._make_obj()
+
+        obj.setTroubleCodeObdRef(RefType().setValue("/AUTOSAR/TroubleCodeObd1"))
+        obj.setTroubleCodeUdsRef(RefType().setValue("/AUTOSAR/TroubleCodeUds1"))
+
+        assert obj.getTroubleCodeObdRef().getValue() == "/AUTOSAR/TroubleCodeObd1"
+        assert obj.getTroubleCodeUdsRef().getValue() == "/AUTOSAR/TroubleCodeUds1"
+
+        obj.setTroubleCodeObdRef(None)
+        obj.setTroubleCodeUdsRef(None)
+        assert obj.getTroubleCodeObdRef().getValue() == "/AUTOSAR/TroubleCodeObd1"  # None is a no-op
+        assert obj.getTroubleCodeUdsRef().getValue() == "/AUTOSAR/TroubleCodeUds1"  # None is a no-op
+
+    def test_create_diagnosticTroubleCodeUdsToTroubleCodeObdMapping(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticMappings")
+        element = package.createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping("M1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping)
+        assert element.getShortName() == "M1"
+        assert package.getReferrableElement("M1", DiagnosticTroubleCodeUdsToTroubleCodeObdMapping) is element
+
+        duplicate = package.createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping("M1")
         assert duplicate is element  # duplicate short name returns the existing element
 
 

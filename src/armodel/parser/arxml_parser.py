@@ -643,6 +643,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticFimAliasEventGroup,
     DiagnosticFimAliasEventGroupMapping,
     DiagnosticEventToTroubleCodeJ1939Mapping,
+    DiagnosticTroubleCodeUdsToTroubleCodeObdMapping,
     CpSwClusterToDiagEventMapping,
     CpSwClusterResourceToDiagDataElemMapping,
     CpSwClusterToDiagRoutineSubfunctionMapping,
@@ -11069,6 +11070,11 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENT-REF"))
         mapping.setTroubleCodeJ1939Ref(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-J-1939-REF"))
 
+    def readDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, element: ET.Element, mapping: DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+        self.readDiagnosticMapping(element, mapping)
+        mapping.setTroubleCodeObdRef(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-OBD-REF"))
+        mapping.setTroubleCodeUdsRef(self.getChildElementOptionalRefType(element, "TROUBLE-CODE-UDS-REF"))
+
     def readDiagnosticIumpr(self, element: ET.Element, iumpr: DiagnosticIumpr):
         self.logger.debug("Read DiagnosticIumpr <%s>" % iumpr.getShortName())
         self.readIdentifiable(element, iumpr)
@@ -17431,6 +17437,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-EVENT-TO-TROUBLE-CODE-J-1939-MAPPING":
             mapping = parent.createDiagnosticEventToTroubleCodeJ1939Mapping(self.getShortName(child_element))
             self.readDiagnosticEventToTroubleCodeJ1939Mapping(child_element, mapping)
+            return True
+        if tag_name == "DIAGNOSTIC-TROUBLE-CODE-UDS-TO-TROUBLE-CODE-OBD-MAPPING":
+            mapping = parent.createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self.getShortName(child_element))
+            self.readDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(child_element, mapping)
             return True
         if tag_name == "DIAGNOSTIC-IUMPR-TO-FUNCTION-IDENTIFIER-MAPPING":
             mapping = parent.createDiagnosticIumprToFunctionIdentifierMapping(self.getShortName(child_element))

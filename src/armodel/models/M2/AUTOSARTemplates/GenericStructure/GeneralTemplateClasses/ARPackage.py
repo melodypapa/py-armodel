@@ -3385,6 +3385,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(trouble_code)
         return cast(DiagnosticTroubleCodeJ1939, self.getReferrableElement(short_name, DiagnosticTroubleCodeJ1939))
 
+    def createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, short_name: str) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        Creates a new DiagnosticTroubleCodeUdsToTroubleCodeObdMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeUdsToTroubleCodeObdMapping: This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeUdsToTroubleCodeObdMapping
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeUdsToTroubleCodeObdMapping instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+            element = DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticTroubleCodeUdsToTroubleCodeObdMapping, self.getReferrableElement(short_name, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping))
+
     def createDiagnosticServiceDataMapping(self, short_name: str) -> DiagnosticServiceDataMapping:
         """
         Creates a new DiagnosticServiceDataMapping with the given short name,
@@ -10891,7 +10909,55 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
 
 
 class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticTroubleCodeUdsToTroubleCodeObdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.180, p.188
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTroubleCodeObdRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeObdRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeUdsRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeUdsRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        self.troubleCodeObdRef: Optional[RefType] = None
+
+        # This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        self.troubleCodeUdsRef: Optional[RefType] = None
+
+    def getTroubleCodeObdRef(self) -> Optional[RefType]:
+        """
+        This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        """
+        return self.troubleCodeObdRef
+
+    def setTroubleCodeObdRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        A None value is a no-op and does not overwrite an existing troubleCodeObdRef.
+        """
+        if value is not None:
+            self.troubleCodeObdRef = value
+        return self
+
+    def getTroubleCodeUdsRef(self) -> Optional[RefType]:
+        """
+        This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        """
+        return self.troubleCodeUdsRef
+
+    def setTroubleCodeUdsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        A None value is a no-op and does not overwrite an existing troubleCodeUdsRef.
+        """
+        if value is not None:
+            self.troubleCodeUdsRef = value
+        return self
 
 
 class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
