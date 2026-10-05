@@ -7760,6 +7760,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/RECEIVER-ANNOTATION"):
             annotation = ReceiverAnnotation()
             self.readSenderReceiverAnnotation(child, annotation)
+            self.readReceiverAnnotation(child, annotation)
             prototype.addSenderReceiverAnnotation(cast(Optional[SenderReceiverAnnotation], annotation))
         for child in self.findall(element, "TRIGGER-PORT-ANNOTATIONS/TRIGGER-PORT-ANNOTATION"):
             annotation = TriggerPortAnnotation()
@@ -7775,6 +7776,13 @@ class ARXMLParser(AbstractARXMLParser):
         processing_kind = self.getChildElementOptionalLiteral(element, "PROCESSING-KIND")
         if processing_kind is not None:
             annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+
+    def readReceiverAnnotation(self, element: ET.Element, annotation: ReceiverAnnotation):
+        signal_age_element = self.find(element, "SIGNAL-AGE")
+        if signal_age_element is not None:
+            signal_age = MultidimensionalTime()
+            self.readMultidimensionalTime(signal_age_element, signal_age)
+            annotation.setSignalAge(signal_age)
 
     def readSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         for child_element in self.findall(element, "PORTS/*"):

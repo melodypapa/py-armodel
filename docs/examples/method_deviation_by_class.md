@@ -4605,3 +4605,14 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(no deviation)* | — | — | — | — | No deviations — Table 4.42 has no `Attribute` rows (the displayed Attribute row is `-`); the class contributes only its identity under Base `ARObject, GeneralAnnotation, SenderReceiverAnnotation` (modeled as subclass of SenderReceiverAnnotation, the most-derived base). |
 
 **Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` subclass). Explicit `__init__` calling super() (checklist row), class Note verbatim. XSD: SENDER-ANNOTATION group is empty (`<xsd:sequence/>`, AUTOSAR_00052.xsd l.104235); the element is written/read via the base's dispatch (writer isinstance → SENDER-ANNOTATION child of SENDER-RECEIVER-ANNOTATIONS; parser tag dispatch) — covered by test_sender_annotation_round_trip in tests/test_armodel/writer/test_sw_annotations.py (Steps 5/6 via the abstract base's reusable helpers). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ReceiverAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 153
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.43 attribute is modeled per multiplicity/kind: `signalAge` (MultidimensionalTime, 0..1, aggr → `setSignalAge`/`getSignalAge`, non-Referrable child). |
+
+**Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` subclass — the spec signalAge attribute was entirely missing). Class Note verbatim. XSD: RECEIVER-ANNOTATION group is SIGNAL-AGE only (AUTOSAR_00052.xsd l.95956), after the inherited GENERAL-ANNOTATION and SENDER-RECEIVER-ANNOTATION groups in the complexType sequence — reader reads the inherited base group via `readSenderReceiverAnnotation` then `readReceiverAnnotation` (SIGNAL-AGE → MultidimensionalTime); writer emits the base group then SIGNAL-AGE under the RECEIVER-ANNOTATION element (isinstance dispatch). Round-trip coverage in tests/test_armodel/writer/test_sw_annotations.py (field values incl. base fields + signalAge, empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).

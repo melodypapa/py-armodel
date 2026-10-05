@@ -5,6 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     DataLimitKindEnum,
@@ -82,11 +83,13 @@ class TestSenderReceiverAnnotationRoundTrip:
         prototype = PPortPrototype(None, "Port1")
         annotation = ReceiverAnnotation()
         _configure_base(annotation)
+        annotation.setSignalAge(MultidimensionalTime())
         prototype.addSenderReceiverAnnotation(annotation)
 
         xml = _serialize(prototype)
         assert "<RECEIVER-ANNOTATION>" in xml
         assert "<COMPUTED>true</COMPUTED>" in xml
+        assert "<SIGNAL-AGE" in xml
 
         parsed = _parse(xml)
         annotations = parsed.getSenderReceiverAnnotations()
@@ -94,6 +97,7 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert isinstance(annotations[0], ReceiverAnnotation)
         assert annotations[0].getComputed().getValue() is True
         assert annotations[0].getDataElementRef().getValue() == "/AUTOSAR/DataElement1"
+        assert annotations[0].getSignalAge() is not None
 
     def test_empty_wrapper_absent(self):
         prototype = PPortPrototype(None, "Port1")

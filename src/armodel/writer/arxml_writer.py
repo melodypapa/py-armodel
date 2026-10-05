@@ -2676,6 +2676,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", annotation.getDataElementRef())
         self.setChildElementOptionalLiteral(child_element, "LIMIT-KIND", annotation.getLimitKind())
         self.setChildElementOptionalLiteral(child_element, "PROCESSING-KIND", annotation.getProcessingKind())
+        if isinstance(annotation, ReceiverAnnotation):
+            self.setMultidimensionalTime(child_element, "SIGNAL-AGE", annotation.getSignalAge())
 
     def writeTriggerPortAnnotation(self, element: ET.Element, annotation: TriggerPortAnnotation):
         child_element = ET.SubElement(element, "TRIGGER-PORT-ANNOTATION")

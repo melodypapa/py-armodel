@@ -655,10 +655,30 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
     # ReceiverAnnotation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.43, p.153 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSignalAge       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSignalAge       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the receiver side.
+        self.signalAge: Optional[MultidimensionalTime] = None
+
+    def getSignalAge(self) -> Optional[MultidimensionalTime]:
+        """
+        The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the receiver side.
+        """
+        return self.signalAge
+
+    def setSignalAge(self, value: Optional[MultidimensionalTime]) -> "ReceiverAnnotation":
+        """
+        The maximum allowed age of the signal since it was originally read by a sensor. This is a requirement specified on the receiver side.
+        A None value is a no-op and does not overwrite an existing signalAge.
+        """
+        if value is not None:
+            self.signalAge = value
+        return self
 
 
 class SenderAnnotation(SenderReceiverAnnotation):

@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     SenderAnnotation,
     SenderReceiverAnnotation,
