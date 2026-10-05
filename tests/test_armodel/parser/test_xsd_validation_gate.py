@@ -5,12 +5,12 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
-from armodel.validation.validator import register_schema_file
+from armodel.validation.validator import ARXMLValidator
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "validation", "data")
 TINY_XSD = os.path.join(DATA_DIR, "tiny_autosar.xsd")
 
-register_schema_file("AUTOSAR_TINY.xsd", TINY_XSD)
+ARXMLValidator.register_schema_file("AUTOSAR_TINY.xsd", TINY_XSD)
 
 VALID_DOC = (
     '<?xml version="1.0" encoding="UTF-8"?>\n'

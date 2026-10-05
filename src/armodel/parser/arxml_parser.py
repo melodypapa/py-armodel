@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from typing import Any, List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
-from armodel.validation.validator import ARXMLValidator, detect_schema_info, get_schema_target_namespace
+from armodel.validation import ARXMLValidator
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
     CryptoKeySlot,
     CryptoKeySlotAllowedModification,
@@ -18235,15 +18235,11 @@ class ARXMLParser(AbstractARXMLParser):
             return
         with open(filename, "rb") as f:
             data = f.read()
-        xsd_path, document_namespace = detect_schema_info(data)
-        if xsd_path is None:
+        validator = ARXMLValidator.for_document(data)
+        if validator is None:
             self.logger.warning("No XSD schema found for <%s>; validation skipped" % filename)
             return
-        target_namespace = get_schema_target_namespace(xsd_path)
-        if document_namespace != target_namespace:
-            self.logger.warning("Schema <%s> targets namespace <%s> but the document namespace is <%s>; validation skipped" % (filename, target_namespace, document_namespace))
-            return
-        errors = ARXMLValidator(xsd_path).validate_bytes(data)
+        errors = validator.validate_bytes(data)
         if not errors:
             return
         if self.options["warning"] is True:

@@ -9,16 +9,6 @@ XSI_SCHEMA_LOCATION = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation
 
 SCHEMA_DIR = os.path.join(os.path.dirname(__file__), "schemas")
 
-_SCHEMA_PATHS: Dict[str, str] = {
-    "autosar_00052.xsd": os.path.join(SCHEMA_DIR, "R23-11", "AUTOSAR_00052.xsd"),
-    "autosar_00046.xsd": os.path.join(SCHEMA_DIR, "R4.4.0", "AUTOSAR_00046.xsd"),
-    "autosar_00044.xsd": os.path.join(SCHEMA_DIR, "R4.3.1", "AUTOSAR_00044.xsd"),
-    "autosar.xsd": os.path.join(SCHEMA_DIR, "R3.2.3", "AUTOSAR.xsd"),
-}
-
-_SCHEMA_CACHE: Dict[str, etree.XMLSchema] = {}
-_CACHE_LOCK = threading.Lock()
-
 
 class _AUTOSARResolver(etree.Resolver):
     def __init__(self, schema_dir: str, fallback_dir: Optional[str] = None) -> None:
@@ -34,53 +24,6 @@ class _AUTOSARResolver(etree.Resolver):
             if os.path.exists(fallback_candidate):
                 return self.resolve_filename(fallback_candidate, context)
         return None
-
-
-def register_schema_file(xsd_filename: str, xsd_path: str) -> None:
-    _SCHEMA_PATHS[xsd_filename.lower()] = xsd_path
-
-
-def detect_schema_info(data: bytes) -> Tuple[Optional[str], Optional[str]]:
-    try:
-        root = ET.fromstring(data)
-    except ET.ParseError:
-        return None, None
-    schema_location = root.attrib.get(XSI_SCHEMA_LOCATION)
-    if not schema_location:
-        return None, None
-    tokens = schema_location.split()
-    if len(tokens) < 2:
-        return None, None
-    xsd_path = _SCHEMA_PATHS.get(tokens[-1].lower())
-    tag = root.tag
-    namespace = tag[1 : tag.index("}")] if isinstance(tag, str) and tag.startswith("{") else None
-    return xsd_path, namespace
-
-
-def detect_schema_path(data: bytes) -> Optional[str]:
-    return detect_schema_info(data)[0]
-
-
-_SCHEMA_NS_CACHE: Dict[str, Optional[str]] = {}
-
-
-def get_schema_target_namespace(xsd_path: str) -> Optional[str]:
-    key = os.path.realpath(xsd_path)
-    with _CACHE_LOCK:
-        if key not in _SCHEMA_NS_CACHE:
-            root = ET.parse(key).getroot()
-            _SCHEMA_NS_CACHE[key] = root.attrib.get("targetNamespace")
-        return _SCHEMA_NS_CACHE[key]
-
-
-def get_schema(xsd_path: str) -> etree.XMLSchema:
-    key = os.path.realpath(xsd_path)
-    with _CACHE_LOCK:
-        if key not in _SCHEMA_CACHE:
-            parser = etree.XMLParser()
-            parser.resolvers.add(_AUTOSARResolver(os.path.dirname(key), fallback_dir=SCHEMA_DIR))
-            _SCHEMA_CACHE[key] = etree.XMLSchema(etree.parse(key, parser))
-        return _SCHEMA_CACHE[key]
 
 
 class ValidationError(object):
@@ -103,6 +46,16 @@ class ValidationError(object):
 
 
 class ARXMLValidator(object):
+    _SCHEMA_PATHS: Dict[str, str] = {
+        "autosar_00052.xsd": os.path.join(SCHEMA_DIR, "R23-11", "AUTOSAR_00052.xsd"),
+        "autosar_00046.xsd": os.path.join(SCHEMA_DIR, "R4.4.0", "AUTOSAR_00046.xsd"),
+        "autosar_00044.xsd": os.path.join(SCHEMA_DIR, "R4.3.1", "AUTOSAR_00044.xsd"),
+        "autosar.xsd": os.path.join(SCHEMA_DIR, "R3.2.3", "AUTOSAR.xsd"),
+    }
+    _SCHEMA_CACHE: Dict[str, etree.XMLSchema] = {}
+    _SCHEMA_NS_CACHE: Dict[str, Optional[str]] = {}
+    _LOCK = threading.Lock()
+
     def __init__(self, xsd_path: str) -> None:
         self.xsd_path = xsd_path
 
@@ -113,10 +66,64 @@ class ARXMLValidator(object):
             document = etree.fromstring(data, parser)
         except etree.XMLSyntaxError as e:
             return [ValidationError(line=e.lineno, column=e.offset, message="XML syntax error: %s" % e.msg, domain="syntax")]
-        schema = get_schema(self.xsd_path)
+        schema = self.get_schema(self.xsd_path)
         if schema.validate(document):
             return []
         return [ValidationError(line=error.line, column=error.column, message=error.message, domain="schema") for error in schema.error_log]
 
     def validate_string(self, xml: str) -> List[ValidationError]:
         return self.validate_bytes(xml.encode("utf-8"))
+
+    @classmethod
+    def register_schema_file(cls, xsd_filename: str, xsd_path: str) -> None:
+        cls._SCHEMA_PATHS[xsd_filename.lower()] = xsd_path
+
+    @classmethod
+    def detect_schema_info(cls, data: bytes) -> Tuple[Optional[str], Optional[str]]:
+        try:
+            root = ET.fromstring(data)
+        except ET.ParseError:
+            return None, None
+        schema_location = root.attrib.get(XSI_SCHEMA_LOCATION)
+        if not schema_location:
+            return None, None
+        tokens = schema_location.split()
+        if len(tokens) < 2:
+            return None, None
+        xsd_path = cls._SCHEMA_PATHS.get(tokens[-1].lower())
+        tag = root.tag
+        namespace = tag[1 : tag.index("}")] if isinstance(tag, str) and tag.startswith("{") else None
+        return xsd_path, namespace
+
+    @classmethod
+    def detect_schema_path(cls, data: bytes) -> Optional[str]:
+        return cls.detect_schema_info(data)[0]
+
+    @classmethod
+    def get_schema(cls, xsd_path: str) -> etree.XMLSchema:
+        key = os.path.realpath(xsd_path)
+        with cls._LOCK:
+            if key not in cls._SCHEMA_CACHE:
+                parser = etree.XMLParser()
+                parser.resolvers.add(_AUTOSARResolver(os.path.dirname(key), fallback_dir=SCHEMA_DIR))
+                cls._SCHEMA_CACHE[key] = etree.XMLSchema(etree.parse(key, parser))
+            return cls._SCHEMA_CACHE[key]
+
+    @classmethod
+    def get_schema_target_namespace(cls, xsd_path: str) -> Optional[str]:
+        key = os.path.realpath(xsd_path)
+        with cls._LOCK:
+            if key not in cls._SCHEMA_NS_CACHE:
+                root = ET.parse(key).getroot()
+                cls._SCHEMA_NS_CACHE[key] = root.attrib.get("targetNamespace")
+            return cls._SCHEMA_NS_CACHE[key]
+
+    @classmethod
+    def for_document(cls, data: bytes) -> Optional["ARXMLValidator"]:
+        """Return a validator for the document, or None when no bundled schema matches or the document namespace differs from the schema target namespace."""
+        xsd_path, namespace = cls.detect_schema_info(data)
+        if xsd_path is None:
+            return None
+        if namespace != cls.get_schema_target_namespace(xsd_path):
+            return None
+        return cls(xsd_path)

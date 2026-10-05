@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-from armodel.validation.validator import SCHEMA_DIR, get_schema
+from armodel.validation.validator import SCHEMA_DIR, ARXMLValidator
 
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "..")
 
@@ -36,5 +36,5 @@ def test_shared_xml_xsd_matches_repo_copy():
 @pytest.mark.slow
 @pytest.mark.parametrize("release,xsd_name", BUNDLED_SCHEMAS)
 def test_bundled_schema_compiles(release, xsd_name):
-    schema = get_schema(os.path.join(SCHEMA_DIR, release, xsd_name))
+    schema = ARXMLValidator.get_schema(os.path.join(SCHEMA_DIR, release, xsd_name))
     assert schema is not None
