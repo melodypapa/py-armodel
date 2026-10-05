@@ -4,7 +4,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmClusterCoupling
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -66,3 +66,13 @@ class TestWriteCanNmClusterCoupling:
         assert refs[0].getDest() == "CAN-CLUSTER"
         assert parsed.getNmBusloadReductionEnabled().getValue() is True
         assert parsed.getNmImmediateRestartEnabled().getValue() is False
+
+    def test_write_can_nm_cluster_coupling_writes_checksum_and_timestamp(self):
+        coupling = _new_coupling()
+        coupling.setChecksum(String().setValue("1234"))
+        coupling.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeCanNmClusterCoupling(parent, coupling)
+        coupling_element = parent.find("CAN-NM-CLUSTER-COUPLING")
+        assert coupling_element.attrib["S"] == "1234"
+        assert coupling_element.attrib["T"] == "2024-01-01T00:00:00Z"

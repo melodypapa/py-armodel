@@ -12733,6 +12733,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getCanNmClusterCoupling(self, element: ET.Element) -> CanNmClusterCoupling:
         coupling = CanNmClusterCoupling()
+        self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmBusloadReductionEnabled(self.getChildElementOptionalBooleanValue(element, "NM-BUSLOAD-REDUCTION-ENABLED"))

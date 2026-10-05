@@ -9425,6 +9425,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")

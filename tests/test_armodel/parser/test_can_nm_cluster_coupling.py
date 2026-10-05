@@ -49,3 +49,19 @@ class TestParseCanNmClusterCoupling:
         assert all(ref.getDest() == "CAN-CLUSTER" for ref in refs)
         assert coupling.getNmBusloadReductionEnabled().getValue() is True
         assert coupling.getNmImmediateRestartEnabled().getValue() is False
+
+    def test_parse_can_nm_cluster_coupling_reads_checksum_and_timestamp(self):
+        xml = (
+            "<NmConfig xmlns='%s'>"
+            "<NM-CLUSTER-COUPLINGS>"
+            "<CAN-NM-CLUSTER-COUPLING S='1234' T='2024-01-01T00:00:00Z'>"
+            "<NM-IMMEDIATE-RESTART-ENABLED>false</NM-IMMEDIATE-RESTART-ENABLED>"
+            "</CAN-NM-CLUSTER-COUPLING>"
+            "</NM-CLUSTER-COUPLINGS>"
+            "</NmConfig>" % NS
+        )
+        config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(ET.fromstring(xml), config)
+        coupling = config.getNmClusterCouplings()[0]
+        assert coupling.getChecksum().getValue() == "1234"
+        assert coupling.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
