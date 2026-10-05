@@ -510,11 +510,10 @@ class AbstractEvent(Identifiable, ABC):
 
     # AbstractEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.8, p.541
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractEvent:
@@ -530,11 +529,14 @@ class AbstractEvent(Identifiable, ABC):
         """
         return self.activationReasonRepresentationRef
 
-    def setActivationReasonRepresentationRef(self, value: Optional[RefType]):
+    def setActivationReasonRepresentationRef(self, value: Optional[RefType]) -> AbstractEvent:
         """
         If the activationReasonRepresentation is referenced from the enclosing AbstractEvent this shall be taken as an indication that the latter contributes to the activating vector of this ExecutableEntity that owns the referenced ExecutableEntityActivationReason.
+
+        A None value is a no-op and does not overwrite an existing activationReasonRepresentationRef.
         """
-        self.activationReasonRepresentationRef = value
+        if value is not None:
+            self.activationReasonRepresentationRef = value
         return self
 
 

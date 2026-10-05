@@ -142,7 +142,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArrayImplPolicyEnum, ArraySizeSemanticsEnum, ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum, ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior, ReentrancyLevelEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    AbstractEvent,
+    ApiPrincipleEnum,
+    ExecutableEntity,
+    ExecutableEntityActivationReason,
+    InternalBehavior,
+    ReentrancyLevelEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     ImplementationElementInParameterInstanceRef,
@@ -2866,7 +2873,7 @@ class ARXMLParser(AbstractARXMLParser):
                 entity.addAccessedModeGroupRef(ref_type)
 
     def readBswEvent(self, element: ET.Element, event: BswScheduleEvent):
-        event.activationReasonRepresentationRef = self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF")
+        self.readAbstractEvent(element, event)
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
             event.addContextLimitationRef(ref)
         for child_element in self.findall(element, "DISABLED-IN-MODE-IREFS/DISABLED-IN-MODE-IREF"):
@@ -6536,9 +6543,12 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))
         return instance_ref
 
-    def readRTEEvent(self, element: ET.Element, event: RTEEvent):
+    def readAbstractEvent(self, element: ET.Element, event: AbstractEvent):
         self.readIdentifiable(element, event)
         event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF"))
+
+    def readRTEEvent(self, element: ET.Element, event: RTEEvent):
+        self.readAbstractEvent(element, event)
         event.setStartOnEventRef(self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF"))
         for child_element in self.findall(element, "DISABLED-MODE-IREFS/DISABLED-MODE-IREF"):
             iref = self.getRModeInAtomicSwcInstanceRef(child_element)

@@ -12,6 +12,15 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 - Naming deviations: **11**
 - Type deviations (list/single multiplicity): **60**
 
+## `AbstractEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 541 (Table 7.8)
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
+
+No deviations — the single `Attribute` row `activationReasonRepresentation` (Kind `ref` → `activationReasonRepresentationRef: Optional[RefType]`, 0..1) is modeled with `getActivationReasonRepresentationRef`/`setActivationReasonRepresentationRef` (None no-op + chaining); most-derived base `Identifiable` (abstract, `type(self)` guard).
+
+**Note:** Re-sync 2026-10-06 (Group28 row; Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, stamp WITHHELD pending the 9b batch confirmation, user instruction). Checklist rewritten in the 6-column format with the per-row release column (the citation Table 7.8, p.541 was already correct). Setter fixed to the Rule 0004 None no-op shape and given the missing `-> AbstractEvent` return annotation; docstrings already verbatim, re-written in place. Rule 0001.7 abstract-XML-bearing-base helpers added: `readAbstractEvent`/`writeAbstractEvent` (readIdentifiable/writeIdentifiable + ACTIVATION-REASON-REPRESENTATION-REF, XSD group ABSTRACT-EVENT) — `readRTEEvent`/`setRTEEvent` and `readBswEvent`/`writeBswEvent` rerouted onto them (the old `readBswEvent` assigned the field directly, bypassing the mutator, and never read the identifiable level — SHORT-NAME/UUID now round-trip for BswEvents too). Model Red genuine on the None-no-op + type-hints pins; reader/writer Red genuine on the 4 helper/BSW-branch pins (tests/test_armodel/writer/test_writer_abstract_event.py). No VARIATION-POINT anchor in the ABSTRACT-EVENT XSD group — not VP-capable (subclasses own their slots). No Rule 0001.10 missing referenced classes (`ExecutableEntityActivationReason` synced in this pass).
+
 ## `BswModuleDescription`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 26
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview`

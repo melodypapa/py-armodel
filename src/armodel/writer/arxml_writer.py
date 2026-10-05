@@ -124,7 +124,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataAccessDetails,
@@ -4668,9 +4668,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", iref.getContextPPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-PROVIDED-OPERATION-REF", iref.getTargetProvidedOperationRef())
 
-    def setRTEEvent(self, element: ET.Element, event: RTEEvent):
+    def writeAbstractEvent(self, element: ET.Element, event: AbstractEvent):
         self.writeIdentifiable(element, event)
         self.setChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF", event.getActivationReasonRepresentationRef())
+
+    def setRTEEvent(self, element: ET.Element, event: RTEEvent):
+        self.writeAbstractEvent(element, event)
         irefs = event.getDisabledModeIRefs()
         if len(irefs) > 0:
             child_element = ET.SubElement(element, "DISABLED-MODE-IREFS")
@@ -8188,8 +8191,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(entity))
 
     def writeBswEvent(self, element: ET.Element, event: BswEvent):
-        self.writeIdentifiable(element, event)
-        self.setChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF", event.getActivationReasonRepresentationRef())
+        self.writeAbstractEvent(element, event)
         context_limitations = event.getContextLimitationRefs()
         if len(context_limitations) > 0:
             child_element = ET.SubElement(element, "CONTEXT-LIMITATION-REFS")
