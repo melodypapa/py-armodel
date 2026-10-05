@@ -474,7 +474,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 188 + round-trip file 6; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 188 + round-trip file 6; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `a16d0c351`
   - note (Step 1): legacy 5-col checklist + stale stamp removed; single attr modeGroup (ModeDeclarationGroupPrototype 0..1 aggr, createModeGroup factory); class Note Tags tail dropped; XSD MODE-SWITCH-INTERFACE group has no VARIATION-POINT (not VP-capable); reader/writer already symmetric — no parser/writer change; no deviations; no stamp (batch 9b)
 
 - [ ] `DataPrototypeMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.22, p.125
@@ -487,7 +487,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 199 + round-trip file 8; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 199 + round-trip file 8; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `2b08d90f5`
   - note (Step 1): legacy 5-col checklist + stale stamp removed; 6 attrs in display order (4 refs modeled as RefType per XML form, subElementMapping * aggr, textTableMapping 0..2 aggr as list); markdown wrap artifacts joined against XSD doc ground truth; reader/writer already symmetric in XSD group order; ref-type deviations recorded (XML-form); no stamp (batch 9b)
 
 - [ ] `ModeDeclarationMapping` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.29, p.132
@@ -500,7 +500,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 206 + round-trip file 10; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 206 + round-trip file 10; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `9df12a627`
   - note (Step 1): legacy 5-col checklist + stale stamp removed; 2 attrs (firstMode 1..* ref → firstModeRefs list, secondMode 0..1 ref → secondModeRef, both RefType per XML form); `Mode DeclarationMapping` wrap joined in all Notes; reader/writer already symmetric (FIRST-MODE-REFS wrapper → SECOND-MODE-REF); ref-type deviations recorded (XML-form); no stamp (batch 9b)
 
 - [ ] `ImplementationDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.34, p.138
@@ -513,7 +513,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 1141 SWC + round-trip file 12; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 1141 SWC + round-trip file 12; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `048dfdbb1`
   - note (Step 1): was a bare `pass` stub — full sync; 2 attrs (implementationDataTypeElement / parameterImplementationDataTypeElement, both 0..1 aggr of instance-ref classes); ArParameterInImplementationDataInstanceRef was a stub — pre-synced with its XSD-group fields (its own table pass still owed, tracker deviation); SubElementRef dispatch gained the IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF reader/writer branches; no stamp (batch 9b)
 
 - [ ] `ApplicationCompositeDataTypeSubElementRef` — SubElementRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.35, p.138
@@ -526,7 +526,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (mirrored test 7 passed + round-trip regression; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (mirrored test 7 passed + round-trip regression; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `46a5c6be3`
   - note (Step 1): already at the current bar from an earlier pass — this pass re-verified (field-to-spec both directions, verbatim docstrings, flat iref serialization, dispatch coverage); stale `# Spec verified:` removed for batch 9b; `# Spec:` line normalized to plain-PDF-name format; no deviations; no stamp (batch 9b)
 
 - [ ] `MappingDirectionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.37, p.146
@@ -539,7 +539,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — round-tripped on the consuming class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (enum test 4 passed; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (enum test 4 passed; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `9ed89eb9e`
   - note (Step 1): already at the current bar — 3 literals verified 1:1 (bidirectional/firstToSecond/secondToFirst, indices 0/1/2); the batch-10 `innerPort` arbitration note resolved: innerPort is the DelegationSwConnector iref (Table 4.10), NOT an enum literal; stale `# Spec verified:` removed for batch 9b; no deviations; no stamp (batch 9b)
 
 - [ ] `TextTableValuePair` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.38, p.146
@@ -552,7 +552,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (mirrored test 7 passed; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (mirrored test 7 passed; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction); sync commit `ee2a8edc6`
   - note (Step 1): already at the current bar — firstValue/secondValue (Numerical 0..1 attr); attr-level atpVariation = attribute-value variation, XSD NUMERICAL-VALUE-VARIATION-POINT artifact, PDF Numerical kept per Rule 0015; reader/writer spec-typed pair verified; stale `# Spec verified:` removed for batch 9b; no deviations; no stamp (batch 9b)
 
 - [ ] `DataTransformation` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.39, p.150; also CP_TPS_SystemTemplate Table 7.2, p.763
