@@ -1372,13 +1372,13 @@ complete rendering, matching the sibling family (`ClientServerInterface` cites S
 Table 4.6).
 
 ## `ExecutableEntityActivationReason`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 315
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 539 (Table 7.7)
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `bitPosition` | `PositiveInteger` | — | missing |
+No deviations — the single `Attribute` row `bitPosition` (`Optional[PositiveInteger]`, 0..1 attr) is modeled with `getBitPosition`/`setBitPosition` (None no-op + chaining) and full reader/writer coverage via the matched `readExecutableEntityActivationReason`/`writeExecutableEntityActivationReason` helpers over the `ACTIVATION-REASONS`/`EXECUTABLE-ENTITY-ACTIVATION-REASON` wrapper; most-derived base `ImplementationProps` (SYMBOL inherited, `readImplementationProps`/`writeImplementationProps` own the `readReferrable`/`writeReferrable` level).
+
+**Note:** Re-sync 2026-10-06 (Group28 row; Rule 0023 5-column checklist with a wrong citation — BSWModuleDescriptionTemplate Table D.30, p.315 reproduction; stale `# Spec verified: R23-11` marker removed at session start, stamp WITHHELD pending the 9b batch confirmation, user instruction). `# Spec:` citation corrected to the defining document SWCT Table 7.7, p.539 per pdf_page.py; checklist rewritten in the 6-column format with the per-row release column. The stale tracker row `bitPosition / missing` was removed — the field/accessors/reader/writer have existed since the Rule 0013.1 worked-example pass. `__init__` docstring removed (Rule 0012.2.4); class docstring is the verbatim Table 7.7 Note with constr_1226/constr_1227/constr_1939 appended (the old `[constr_1226, constr_1939]` citation missed constr_1227); member comment + getter/setter docstrings rewritten verbatim from the markdown Note. Model Red genuine on the class-docstring verbatim pin; reader/writer Red vacuous — parser/writer coverage pre-existed in XSD order (`BIT-POSITION` after the IMPLEMENTATION-PROPS group), round-trip + empty-wrapper tests added (tests/test_armodel/writer/test_writer_executable_entity_activation_reason.py). No VARIATION-POINT anchor in the class's XSD group — not VP-capable. No Rule 0001.10 missing referenced classes (`PositiveInteger` synced; `ImplementationProps` stamped).
 
 ## `ImplementationDataType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 268

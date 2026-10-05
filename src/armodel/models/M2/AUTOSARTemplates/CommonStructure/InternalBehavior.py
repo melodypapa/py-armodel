@@ -610,51 +610,39 @@ class ExclusiveAreaNestingOrder(Referrable, VariationPointCapable):
 
 class ExecutableEntityActivationReason(ImplementationProps):
     """
-    This meta-class represents the ability to define the reason for the
-    activation of the enclosing Executable Entity.
+    This meta-class represents the ability to define the reason for the activation of the enclosing Executable Entity.
+
+    [constr_1226] Applicable range for ExecutableEntityActivationReason.bitPosition: The value of attribute ExecutableEntityActivationReason.bitPosition shall be in the range of 0 .. 31 at the time when the contract phase generation is executed.
+
+    [constr_1227] Value of attribute ExecutableEntityActivationReason.bitPosition shall be unique: The value of attributes ExecutableEntityActivationReason.bitPosition and ExecutableEntityActivationReason.symbol shall be unique in the context of the enclosing RunnableEntity at the time when the contract phase generation is executed.
+
+    [constr_1939] Existence of attribute ExecutableEntityActivationReason.bitPosition: For each ExecutableEntityActivationReason, attribute bitPosition shall exist at the time when the contract phase generation is executed.
     """
 
     # ExecutableEntityActivationReason method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.30, p.315
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.7, p.539
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ExecutableEntityActivationReason with a parent and
-        short name.
-        """
         super().__init__(parent, short_name)
 
-        # This attribute allows for defining the position of the enclosing
-        # ExecutableEntityActivationReason in the activation vector.
-        # [constr_1226, constr_1939]
+        # This attribute allows for defining the position of the enclosing ExecutableEntityActivationReason in the activation vector.
         self.bitPosition: Optional[PositiveInteger] = None
 
     def getBitPosition(self) -> Optional[PositiveInteger]:
         """
-        Gets the position of the enclosing ExecutableEntityActivationReason in
-        the activation vector. [constr_1226, constr_1939]
-
-        Returns:
-            PositiveInteger: The bit position in the activation vector
+        This attribute allows for defining the position of the enclosing ExecutableEntityActivationReason in the activation vector.
         """
         return self.bitPosition
 
     def setBitPosition(self, value: Optional[PositiveInteger]) -> ExecutableEntityActivationReason:
         """
-        Sets the position of the enclosing ExecutableEntityActivationReason in
-        the activation vector. A None value is a no-op and does not overwrite
-        an existing bitPosition. [constr_1226, constr_1939]
+        This attribute allows for defining the position of the enclosing ExecutableEntityActivationReason in the activation vector.
 
-        Args:
-            value: The bit position in the activation vector
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing bitPosition.
         """
         if value is not None:
             self.bitPosition = value
