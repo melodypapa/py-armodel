@@ -2,8 +2,11 @@
 This module contains tests for the GlobalConstraints module in MSR.AsamHdo.Constraints.
 """
 
-from inspect import cleandoc
+import ast
+import typing
+from inspect import cleandoc, getsource
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
@@ -12,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     RefType,
 )
+from armodel.models.M2.MSR.AsamHdo.Constraints import GlobalConstraints
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstr,
     DataConstrRule,
@@ -303,3 +307,120 @@ class TestDataConstr:
         assert rules == [rule]
         assert data_constr.addDataConstrRule(None) is data_constr
         assert data_constr.getDataConstrRules() == [rule]
+
+
+class TestPhysConstrsSpecSync:
+    """Spec-sync pins for PhysConstrs (SWCT Table 5.84, p.406, R23-11)."""
+
+    SPEC_MEMBER_ORDER = [
+        "lowerLimit",
+        "maxDiff",
+        "maxGradient",
+        "monotony",
+        "scaleConstrs",
+        "unitRef",
+        "upperLimit",
+    ]
+
+    CLASS_NOTE = "This meta-class represents the ability to express physical constraints. Therefore it has (in opposite to InternalConstrs) a reference to a Unit."
+    LOWER_LIMIT_NOTE = "This specifies the lower limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=20"
+    MAX_DIFF_NOTE = "Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. Tags: xml.sequenceOffset=60"
+    MAX_GRADIENT_NOTE = "This element specifies the maximum slope that may be used in curves and maps. Tags: xml.sequenceOffset=50"
+    MONOTONY_NOTE = "This specifies the monotony constraints on the data object. Note that this applies only to curves and maps. Tags: xml.sequenceOffset=70"
+    SCALE_CONSTR_NOTE = "This is one particular scale which contributes to the data constraints. Tags: atp.Status=obsolete xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false"
+    UNIT_NOTE = "This is the unit to which the physical constraints relate to. In particular, it is the physical unit of the specified limits. Tags: xml.sequenceOffset=80"
+    UPPER_LIMIT_NOTE = "This specifies the upper limit of the constraint. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=30"
+
+    def _init_field_order(self):
+        tree = ast.parse(open(GlobalConstraints.__file__, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "PhysConstrs")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_phys_constrs_inheritance_is_arobject(self):
+        """PhysConstrs derives from ARObject per the Table 5.84 Base row."""
+        assert issubclass(PhysConstrs, ARObject)
+
+    def test_phys_constrs_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.84 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_phys_constrs_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime with the spec shapes (Rule 0003)."""
+        hints = typing.get_type_hints(PhysConstrs.getLowerLimit)
+        assert hints["return"] == typing.Optional[Limit]
+        hints = typing.get_type_hints(PhysConstrs.setLowerLimit)
+        assert hints["value"] == typing.Optional[Limit]
+        assert hints["return"] == PhysConstrs
+        for getter in ("getMaxDiff", "getMaxGradient"):
+            hints = typing.get_type_hints(getattr(PhysConstrs, getter))
+            assert hints["return"] == typing.Optional[Numerical], getter
+        hints = typing.get_type_hints(PhysConstrs.getMonotony)
+        assert hints["return"] == typing.Optional[MonotonyEnum]
+        hints = typing.get_type_hints(PhysConstrs.getScaleConstrs)
+        assert hints["return"] == typing.List[ScaleConstr]
+        hints = typing.get_type_hints(PhysConstrs.getUnitRef)
+        assert hints["return"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(PhysConstrs.getUpperLimit)
+        assert hints["return"] == typing.Optional[Limit]
+
+    def test_phys_constrs_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring is the Table 5.84 Note verbatim."""
+        assert cleandoc(PhysConstrs.__doc__) == self.CLASS_NOTE
+
+    def test_phys_constrs_init_has_no_docstring(self):
+        assert PhysConstrs.__init__.__doc__ is None
+
+    def test_phys_constrs_members_are_pep526_annotated(self):
+        source = getsource(PhysConstrs.__init__)
+        assert "# type:" not in source
+        assert "self.lowerLimit: Optional[Limit] = None" in source
+        assert "self.maxDiff: Optional[Numerical] = None" in source
+        assert "self.maxGradient: Optional[Numerical] = None" in source
+        assert "self.monotony: Optional[MonotonyEnum] = None" in source
+        assert "self.scaleConstrs: List[ScaleConstr] = []" in source
+        assert "self.unitRef: Optional[RefType] = None" in source
+        assert "self.upperLimit: Optional[Limit] = None" in source
+
+    def test_phys_constrs_inline_comments_match_spec_notes(self):
+        source = getsource(PhysConstrs.__init__)
+        for note in (self.LOWER_LIMIT_NOTE, self.MAX_DIFF_NOTE, self.MAX_GRADIENT_NOTE, self.MONOTONY_NOTE, self.SCALE_CONSTR_NOTE, self.UNIT_NOTE, self.UPPER_LIMIT_NOTE):
+            assert "# " + note in source
+
+    def test_phys_constrs_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(PhysConstrs.getLowerLimit.__doc__) == self.LOWER_LIMIT_NOTE
+        assert cleandoc(PhysConstrs.getMaxDiff.__doc__) == self.MAX_DIFF_NOTE
+        assert cleandoc(PhysConstrs.getMaxGradient.__doc__) == self.MAX_GRADIENT_NOTE
+        assert cleandoc(PhysConstrs.getMonotony.__doc__) == self.MONOTONY_NOTE
+        assert cleandoc(PhysConstrs.getScaleConstrs.__doc__) == self.SCALE_CONSTR_NOTE
+        assert cleandoc(PhysConstrs.getUnitRef.__doc__) == self.UNIT_NOTE
+        assert cleandoc(PhysConstrs.getUpperLimit.__doc__) == self.UPPER_LIMIT_NOTE
+
+    def test_phys_constrs_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(PhysConstrs.setLowerLimit.__doc__) == self.LOWER_LIMIT_NOTE + " A None value is a no-op and does not overwrite an existing lowerLimit."
+        assert cleandoc(PhysConstrs.setMaxDiff.__doc__) == self.MAX_DIFF_NOTE + " A None value is a no-op and does not overwrite an existing maxDiff."
+        assert cleandoc(PhysConstrs.setMaxGradient.__doc__) == self.MAX_GRADIENT_NOTE + " A None value is a no-op and does not overwrite an existing maxGradient."
+        assert cleandoc(PhysConstrs.setMonotony.__doc__) == self.MONOTONY_NOTE + " A None value is a no-op and does not overwrite an existing monotony."
+        assert cleandoc(PhysConstrs.getScaleConstrs.__doc__) == self.SCALE_CONSTR_NOTE
+        assert cleandoc(PhysConstrs.setUnitRef.__doc__) == self.UNIT_NOTE + " A None value is a no-op and does not overwrite an existing unitRef."
+        assert cleandoc(PhysConstrs.setUpperLimit.__doc__) == self.UPPER_LIMIT_NOTE + " A None value is a no-op and does not overwrite an existing upperLimit."
+
+    def test_phys_constrs_accessor_none_no_ops(self):
+        phys_constrs = PhysConstrs()
+        monotony = MonotonyEnum().setValue(MonotonyEnum.DECREASING)
+        assert phys_constrs.setMonotony(monotony) is phys_constrs
+        phys_constrs.setMonotony(None)
+        assert phys_constrs.getMonotony() is monotony
+
+        phys_constrs.setMaxDiff(None)
+        assert phys_constrs.getMaxDiff() is None
+        phys_constrs.setMaxGradient(None)
+        assert phys_constrs.getMaxGradient() is None
+
+        unit_ref = RefType()
+        assert phys_constrs.setUnitRef(unit_ref) is phys_constrs
+        phys_constrs.setUnitRef(None)
+        assert phys_constrs.getUnitRef() is unit_ref
+
+        assert phys_constrs.addScaleConstr(None) is phys_constrs
+        assert phys_constrs.getScaleConstrs() == []

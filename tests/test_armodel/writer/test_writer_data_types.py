@@ -1846,7 +1846,7 @@ class TestPhysConstrsWriter:
         constrs = PhysConstrs()
         constrs.setMaxDiff(_numerical("0.5"))
         constrs.setMaxGradient(_numerical("1.0"))
-        constrs.setMonotony(MonotonyEnum.INCREASING)
+        constrs.setMonotony(MonotonyEnum().setValue(MonotonyEnum.INCREASING))
         scale = ScaleConstr()
         scale.setShortLabel(_identifier("s1"))
         desc = MultiLanguageOverviewParagraph()
@@ -1867,7 +1867,7 @@ class TestPhysConstrsWriter:
         child = parent[0]
         assert child.find("MAX-DIFF").text == "0.5"
         assert child.find("MAX-GRADIENT").text == "1.0"
-        assert child.find("MONOTONY").text == "increasing"
+        assert child.find("MONOTONY").text == "INCREASING"
         scales = child.find("SCALE-CONSTRS")
         assert scales is not None
         scale_tag = scales.find("SCALE-CONSTR")

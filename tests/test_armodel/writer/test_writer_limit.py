@@ -52,6 +52,7 @@ class TestLimitRoundTrip:
         AUTOSAR.getInstance().setARRelease("R23-11")
         document = AUTOSAR.getInstance()
         document.clear()
+        document.schema_location = "http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd"
         pkg = document.createARPackage("Limits")
         constr = pkg.createDataConstr("DataConstr")
         rule = DataConstrRule()

@@ -2138,7 +2138,7 @@ class TestDataTypeAndCompuHandlers:
             '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">150.0</UPPER-LIMIT>'
             "<MAX-DIFF>0.5</MAX-DIFF>"
             "<MAX-GRADIENT>1.0</MAX-GRADIENT>"
-            "<MONOTONY>increasing</MONOTONY>"
+            "<MONOTONY>INCREASING</MONOTONY>"
             "<SCALE-CONSTRS>"
             '<SCALE-CONSTR VALIDITY="VALID">'
             "<SHORT-LABEL>s1</SHORT-LABEL>"

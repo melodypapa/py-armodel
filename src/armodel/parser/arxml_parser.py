@@ -9334,7 +9334,7 @@ class ARXMLParser(AbstractARXMLParser):
             constrs.setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
-            constrs.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(child_element, "MONOTONY")))
+            constrs.setMonotony(self._readEnumToken(child_element, "MONOTONY", MonotonyEnum, MONOTONY_XML_MAP))
             for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
