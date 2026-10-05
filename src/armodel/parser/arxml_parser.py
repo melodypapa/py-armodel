@@ -555,6 +555,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -9402,6 +9403,16 @@ class ARXMLParser(AbstractARXMLParser):
             mapping = PhysicalDimensionMapping()
             self.readPhysicalDimensionMapping(child_element, mapping)
             mapping_set.addPhysicalDimensionMapping(mapping)
+
+    def readCalibrationParameterValue(self, element: ET.Element, value: CalibrationParameterValue):
+        self.logger.debug("Read CalibrationParameterValue")
+        self.readARObject(element, value)
+        for child_element in self.findall(element, "APPL-INIT-VALUE/*"):
+            value.setApplInitValue(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        for child_element in self.findall(element, "IMPL-INIT-VALUE/*"):
+            value.setImplInitValue(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        value.setInitializedParameterRef(self.getChildElementOptionalRefType(element, "INITIALIZED-PARAMETER-REF"))
+        self.readVariationPointCapable(element, value)
 
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")

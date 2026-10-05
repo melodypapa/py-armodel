@@ -538,6 +538,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -4615,6 +4616,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             mappings_element = ET.SubElement(child_element, "PHYSICAL-DIMENSION-MAPPINGS")
             for mapping in mappings:
                 self.writePhysicalDimensionMapping(mappings_element, mapping)
+
+    def writeCalibrationParameterValue(self, element: ET.Element, value: CalibrationParameterValue):
+        self.logger.debug("writeCalibrationParameterValue")
+        child_element = ET.SubElement(element, "CALIBRATION-PARAMETER-VALUE")
+        self.writeARObject(child_element, value)
+        self.setChildValueSpecification(child_element, "APPL-INIT-VALUE", value.getApplInitValue())
+        self.setChildValueSpecification(child_element, "IMPL-INIT-VALUE", value.getImplInitValue())
+        self.setChildElementOptionalRefType(child_element, "INITIALIZED-PARAMETER-REF", value.getInitializedParameterRef())
+        self.writeVariationPointCapable(child_element, value)
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)

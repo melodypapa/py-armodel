@@ -15,6 +15,7 @@ if TYPE_CHECKING:
         DateTime,
         String,
     )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
@@ -113,8 +114,84 @@ class Baseline(ARObject):
     pass
 
 
-class CalibrationParameterValue(ARObject):
-    pass
+class CalibrationParameterValue(ARObject, VariationPointCapable):
+    """
+    Specifies instance specific calibration parameter values used to initialize the memory objects implementing calibration parameters in the generated RTE code. RTE generator will use the implInitValue to override the initial values specified for the DataPrototypes of a component type. The applInitValue is used to exchange init values with the component vendor not publishing the transformation algorithm between ApplicationDataTypes and ImplementationDataTypes or defining an instance specific initialization of components which are only defined with ApplicationDataTypes. Note: If both representations of init values are available these need to represent the same content. Note further that in this case an explicit mapping of ValueSpecification is not implemented because calibration parameters are delivered back after the calibration phase.
+
+    [constr_1933] Existence of CalibrationParameterValue.initializedParameter: For each CalibrationParameterValue, the reference to meta-class ConstantSpecification in the role initializedParameter shall exist at the time when the contract phase generation is executed.
+    """
+
+    # CalibrationParameterValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.138, p.478
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplInitValue             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplInitValue             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplInitValue             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplInitValue             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitializedParameterRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitializedParameterRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the initial value specification structured according to the ApplicationDataType
+        self.applInitValue: Optional[ValueSpecification] = None
+
+        # This is the initial value specification structured according to the ImplementationDataType
+        self.implInitValue: Optional[ValueSpecification] = None
+
+        # This represents the parameter that is initialized by the CalibrationParameterValue.
+        self.initializedParameterRef: Optional[RefType] = None
+
+    def getApplInitValue(self) -> Optional[ValueSpecification]:
+        """
+        This is the initial value specification structured according to the ApplicationDataType
+        """
+        return self.applInitValue
+
+    def setApplInitValue(self, value: Optional[ValueSpecification]) -> CalibrationParameterValue:
+        """
+        This is the initial value specification structured according to the ApplicationDataType
+
+        A None value is a no-op and does not overwrite an existing applInitValue.
+        """
+        if value is not None:
+            self.applInitValue = value
+        return self
+
+    def getImplInitValue(self) -> Optional[ValueSpecification]:
+        """
+        This is the initial value specification structured according to the ImplementationDataType
+        """
+        return self.implInitValue
+
+    def setImplInitValue(self, value: Optional[ValueSpecification]) -> CalibrationParameterValue:
+        """
+        This is the initial value specification structured according to the ImplementationDataType
+
+        A None value is a no-op and does not overwrite an existing implInitValue.
+        """
+        if value is not None:
+            self.implInitValue = value
+        return self
+
+    def getInitializedParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the parameter that is initialized by the CalibrationParameterValue.
+        """
+        return self.initializedParameterRef
+
+    def setInitializedParameterRef(self, value: Optional[RefType]) -> CalibrationParameterValue:
+        """
+        This represents the parameter that is initialized by the CalibrationParameterValue.
+
+        A None value is a no-op and does not overwrite an existing initializedParameterRef.
+        """
+        if value is not None:
+            self.initializedParameterRef = value
+        return self
 
 
 class ClassTailoring(ARObject, ABC):
