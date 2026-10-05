@@ -1873,16 +1873,6 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `ecucQueryExpression` | `EcucQueryExpression` | — | missing |
 
-## `EcucConditionFormula`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 100
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `ecucQueryRef` | `Ref (EcucQuery)` | Ref | missing |
-| — *(missing)* | `—` | `ecucQueryStringRef` | `Ref (EcucQuery)` | Ref | missing |
-
 ## `EcucConditionSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 100
 - **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`

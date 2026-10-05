@@ -1207,6 +1207,10 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       deviation. No Rule 0001.10 missing referenced classes (RefType is the
       stamped base; EcucQuery is the destination-side class).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+    - note (2026-10-06, batch-9b review): class re-verified PASS (fields/
+      docstrings/base/rw coverage all conform); stale tracker `missing` rows
+      (ecucQueryRef/ecucQueryStringRef) removed from
+      method_deviation_by_class.md (Rule 0014) — no source change.
 
 - [ ] `EcucParameterDerivationFormula` (input · R23-11 PDF · Table 2.39) — REOPENED 2026-10-05 (batch 9b audit, Group B)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
