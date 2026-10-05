@@ -87,7 +87,7 @@ class TestARXMLWriterBasicMethods:
 
         limit = Limit()
         limit.value = "100"
-        limit.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
 
         writer.setChildLimitElement(parent, "TEST-LIMIT", limit)
 

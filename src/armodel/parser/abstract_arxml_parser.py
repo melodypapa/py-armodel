@@ -35,6 +35,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     VerbatimString,
 )
 
+#: Mapping between IntervalTypeEnum values and their XML attribute tokens
+#: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
+INTERVAL_TYPE_XML_MAP = {
+    "closed": "CLOSED",
+    "open": "OPEN",
+}
+
 
 class AbstractARXMLParser(ABC):
     """
@@ -450,11 +457,17 @@ class AbstractARXMLParser(ABC):
         child_element = self.find(element, key)
         if child_element is not None:
             limit = Limit()
-            self.readARObject(child_element, limit)
+            self.readARType(child_element, limit)
             if "INTERVAL-TYPE" in child_element.attrib:
-                limit.setIntervalType(IntervalTypeEnum().setValue(child_element.attrib["INTERVAL-TYPE"]))
-            else:
-                limit.setIntervalType(None)
+                interval_type = None
+                for value, token in INTERVAL_TYPE_XML_MAP.items():
+                    if token == child_element.attrib["INTERVAL-TYPE"]:
+                        interval_type = value
+                        break
+                if interval_type is not None:
+                    limit.setIntervalType(IntervalTypeEnum().setValue(interval_type))
+                else:
+                    self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % child_element.attrib["INTERVAL-TYPE"])
             limit.setValue(child_element.text)
             return limit
         return None

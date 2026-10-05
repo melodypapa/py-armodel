@@ -913,31 +913,33 @@ class IntervalTypeEnum(AREnum):
         )
 
 
-class Limit(ARObject):
+class Limit(ARLiteral):
     """
     This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariation Point but has the additional attribute intervalType.
 
-    [constr_1191] Value of Limit shall yield a numerical value: After all variability is bound, the content obtained from a limit shall yield a numerical value at the time when the RTE is generated.
+    Tags:
+        * xml.xsd.customType=LIMIT-VALUE
+        * xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9][0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN
+        * xml.xsd.type=string
     """
 
     # Limit method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.86, p.408
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIntervalType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIntervalType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntervalType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntervalType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # value (the limit content) rides ARLiteral/ARType — no spec row (primitive content);
+    # the class serializes on the consuming element (LOWER-LIMIT, UPPER-LIMIT, ...) via the shared
+    # parser getChildLimitElement / writer setChildLimitElement helpers (abstract_arxml_parser.py /
+    # arxml_writer.py); reader [x] = getChildLimitElement calls setIntervalType, writer [x] =
+    # setChildLimitElement reads getIntervalType
 
     def __init__(self):
         super().__init__()
 
-        # This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
+        # This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED". Tags: xml.attribute=true
         self.intervalType: Optional[IntervalTypeEnum] = None
-
-        # This represents the value of the numerical limit.
-        self.value: Optional[str] = None
 
     def getIntervalType(self) -> Optional[IntervalTypeEnum]:
         """
@@ -959,28 +961,6 @@ class Limit(ARObject):
         """
         if value is not None:
             self.intervalType = value
-        return self
-
-    def getValue(self) -> Optional[str]:
-        """
-        This represents the value of the numerical limit.
-
-        Returns:
-            The limit value, or None if not set
-        """
-        return self.value
-
-    def setValue(self, value: Optional[str]) -> "Limit":
-        """
-        This represents the value of the numerical limit.
-
-        A None value is a no-op and does not overwrite an existing value.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.value = value
         return self
 
 

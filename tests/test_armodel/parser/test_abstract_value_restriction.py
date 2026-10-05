@@ -33,9 +33,9 @@ class TestReadAbstractValueRestriction:
     def test_read_members(self, parser):
         element = ET.fromstring(
             f"""<RESTRICTION xmlns='{NS}'>
-                <MAX INTERVAL-TYPE="INCLUSIVE">10.0</MAX>
+                <MAX INTERVAL-TYPE="CLOSED">10.0</MAX>
                 <MAX-LENGTH>5</MAX-LENGTH>
-                <MIN INTERVAL-TYPE="INCLUSIVE">0.0</MIN>
+                <MIN INTERVAL-TYPE="CLOSED">0.0</MIN>
                 <MIN-LENGTH>1</MIN-LENGTH>
                 <PATTERN>[0-9]+</PATTERN>
             </RESTRICTION>"""

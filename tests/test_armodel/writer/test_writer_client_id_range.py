@@ -38,7 +38,7 @@ def _limit(value, interval_type=None):
     limit = Limit()
     limit.setValue(value)
     if interval_type is not None:
-        limit.setIntervalType(IntervalTypeEnum().setValue(interval_type))
+        limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED if interval_type == "CLOSED" else IntervalTypeEnum.OPEN))
     return limit
 
 

@@ -1551,7 +1551,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName, SlOverviewParagraph
-from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
+from armodel.parser.abstract_arxml_parser import AbstractARXMLParser, INTERVAL_TYPE_XML_MAP
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
 #: (AR:BINDING-TIME-ENUM--SIMPLE).
@@ -1560,13 +1560,6 @@ BINDING_TIME_XML_MAP = {
     "linkTime": "LINK-TIME",
     "preCompileTime": "PRE-COMPILE-TIME",
     "systemDesignTime": "SYSTEM-DESIGN-TIME",
-}
-
-#: Mapping between IntervalTypeEnum values and their XML attribute tokens
-#: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
-INTERVAL_TYPE_XML_MAP = {
-    "closed": "CLOSED",
-    "open": "OPEN",
 }
 
 #: Mapping between AutoCollectEnum literal values and their XML element text

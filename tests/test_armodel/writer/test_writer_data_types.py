@@ -1165,11 +1165,11 @@ class TestWriteCompuScaleWriter:
         scale.setMask(mask)
         lower = Limit()
         lower.value = "0"
-        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        lower.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         scale.setLowerLimit(lower)
         upper = Limit()
         upper.value = "10"
-        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        upper.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         scale.setUpperLimit(upper)
 
         contents = CompuScaleConstantContents()
@@ -1742,11 +1742,11 @@ class TestInternalConstrsWriter:
         constrs = InternalConstrs()
         lower = Limit()
         lower.value = "0"
-        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        lower.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         constrs.setLowerLimit(lower)
         upper = Limit()
         upper.value = "100"
-        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        upper.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         constrs.setUpperLimit(upper)
 
         parent = _parent()

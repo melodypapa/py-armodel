@@ -824,8 +824,12 @@ class TestIntervalTypeEnum:
 
 class TestLimit:
     """
-    Test class for Limit functionality.
+    Test class for Limit functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.86, p.408).
     """
+
+    def test_is_ar_literal_subclass(self):
+        assert issubclass(Limit, ARLiteral)
+        assert isinstance(Limit(), ARLiteral)
 
     def test_initialization(self):
         """
@@ -833,10 +837,9 @@ class TestLimit:
         """
         limit = Limit()
 
-        # Verify basic properties
         assert limit is not None
         assert limit.getIntervalType() is None
-        assert limit.getValue() is None
+        assert limit.getValue() == ""
 
     def test_interval_type_methods(self):
         """
@@ -847,8 +850,12 @@ class TestLimit:
         # Test get/set interval type
         assert limit.getIntervalType() is None
 
-        result = limit.setIntervalType(IntervalTypeEnum().setValue("closed"))
+        result = limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         assert result is limit  # Verify method chaining
+        assert isinstance(limit.getIntervalType(), IntervalTypeEnum)
+        assert limit.getIntervalType().getValue() == "closed"
+
+        limit.setIntervalType(None)
         assert limit.getIntervalType().getValue() == "closed"
 
     def test_value_methods(self):
@@ -858,10 +865,13 @@ class TestLimit:
         limit = Limit()
 
         # Test get/set value
-        assert limit.getValue() is None
+        assert limit.getValue() == ""
 
         result = limit.setValue("10")
         assert result is limit  # Verify method chaining
+        assert limit.getValue() == "10"
+
+        limit.setValue(None)
         assert limit.getValue() == "10"
 
 

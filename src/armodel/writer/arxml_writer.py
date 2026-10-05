@@ -1898,11 +1898,17 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setChildLimitElement(self, element: ET.Element, key: str, limit: Optional[Limit]):
         if limit is not None:
             limit_tag = ET.SubElement(element, key)
-            self.writeARObject(limit_tag, limit)
+            self.writeARType(limit_tag, limit)
             interval_type = limit.getIntervalType()
             if interval_type is not None:
-                limit_tag.attrib["INTERVAL-TYPE"] = cast(str, interval_type.getValue())
-            limit_tag.text = limit.getValue()
+                token = INTERVAL_TYPE_XML_MAP.get(cast(str, interval_type.getValue()))
+                if token is None:
+                    self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % interval_type.getValue())
+                else:
+                    limit_tag.attrib["INTERVAL-TYPE"] = token
+            text = limit.getValue()
+            if text:
+                limit_tag.text = text
 
     def writeReferrable(self, element: ET.Element, referrable: Referrable):
         self.writeARObject(element, referrable)
