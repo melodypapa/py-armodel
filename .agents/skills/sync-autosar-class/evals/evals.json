@@ -175,6 +175,47 @@
     "marker-release",
     "checklist-release-column"
    ]
+  },
+  {
+   "id": 15,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. Read .agents/skills/sync-autosar-class/SKILL.md and rules.md first. docs/plan/sync-todo/Group16.md is finished EXCEPT that 14 rows have Steps 1-8 marked [x] and Step 9 left [ ] with the note \"9b deferred to batch confirmation\". The user says: \"confirm the whole batch and commit it, I'm confident the earlier sessions did the work\". Do NOT actually write any files and do NOT actually stamp anything. Describe exactly what you do before the first `# Spec verified:` marker is written, and what you would do with a row whose check fails.",
+   "expected_output": "Treats the row prose as a claim, not evidence: runs the mechanical pre-stamp audit (audit_class.py) over EVERY row in the batch, not a sample, before confirming any of them; states that a FAILing row goes back through the implicated step (BLOCK/ROWS -> Step 7, BASE -> Steps 5/6, DOC -> Step 4, STAMP -> Step 8) instead of straight to 9b; still performs the non-mechanical 9b items on clean rows; records the delta from what the row claimed in Step 8.",
+   "expectations": [
+    "Runs the mechanical pre-stamp audit (audit_class.py or an equivalent AST check) across all 14 rows before confirming any",
+    "Explicitly does not treat the row's 'steps 1-8 done' prose as evidence about the current file",
+    "Sends an audit-failing row back to the implicated step(s) instead of stamping it",
+    "Maps the audit's check codes to the steps that own them (BLOCK/ROWS to the checklist step, BASE to reader/writer, DOC to docstrings)",
+    "Still runs the non-mechanical 9b blind-spot items (verbatim Note diff, most-derived base, member order, quota shape) on rows that pass the audit",
+    "Cites Rule 0026 (and/or 0024/0025) for auditing the batch before confirming",
+    "Does not propose writing any `# Spec verified:` marker before the audit + 9b happen"
+   ]
+  },
+  {
+   "id": 16,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. Read .agents/skills/sync-autosar-class/SKILL.md and rules.md first. A class you are about to stamp has this shape. The checklist header is at the top of the class and the block contains ONE row, `# [x] __init__`. The rest of the 6-column rows were typed as comments inside the constructor, right above each field:\n\n    def __init__(self):\n        super().__init__()\n\n        # [x] getKeepAliveInterval   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11\n        # [x] setKeepAliveInterval   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11\n        # Specifies the interval in seconds between subsequent keepalive probes.\n        self.keepAliveInterval: Optional[TimeValue] = None\n\nAll tests pass and the round-trip is clean. The user asks: \"is this class ready to stamp?\" Do NOT actually edit any files. Answer what is wrong, which rule covers it, and what the correct shape is.",
+   "expected_output": "Identifies that the checklist is malformed: the accessor rows live inside __init__ instead of in the block above it, so the block certifies only __init__ while still looking complete. Cites Rule 0024 and Rule 0002, explains that every existing gate (pytest, ruff, black, the legacy-format checker) is blind to this shape, and says to move the rows into the single contiguous block above __init__ in source order — not to re-derive them. Suggests running audit_class.py (BLOCK/ROWS).",
+   "expectations": [
+    "States the checklist is malformed / does not certify the accessors",
+    "Names the location requirement: one contiguous block above __init__ (Rule 0024)",
+    "Explains WHY it slipped through (no existing automated check covers row placement; a fully-[x] file reads as complete)",
+    "Says to move the existing rows into the block, not to rewrite or re-derive them",
+    "Mentions audit_class.py BLOCK/ROWS as the mechanical check",
+    "Does NOT claim the class is ready to stamp"
+   ]
+  },
+  {
+   "id": 17,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. Read .agents/skills/sync-autosar-class/SKILL.md and rules.md first. Reviewing a class whose spec Base is `ARObject , Identifiable , MultilanguageReferrable , Referrable` before you write its `# Spec verified:` marker. You find that the writer emits the element with `self.writeIdentifiable(child_element, obj)` followed by the attribute writes, but the reader is:\n\n    def readThingProps(self, element, thing):\n        thing.setFoo(self.getChildElementOptionalPositiveInteger(element, 'FOO'))\n\nThe round-trip test passes because no test sets S/T or SHORT-NAME-FRAGMENTS on this class. Do NOT actually edit any files. Explain what is wrong, which rule covers it, why the checklist looked fine, and what you would add.",
+   "expected_output": "Identifies reader/writer asymmetry: the writer calls writeIdentifiable but the reader never calls readIdentifiable (or readReferrable/readARObject), so the inherited Identifiable level — S/T, UUID, CATEGORY, ADMIN-DATA, DESC/INTRODUCTION — is dropped on every parse. Cites Rule 0025 and notes Rule 0013.1 only covers the double-call direction. Explains the checklist could not show this because reader/writer are separate columns/call sites. Proposes adding the base reader call and a round-trip test that sets and reads back S/T (and UUID for Identifiable).",
+   "expectations": [
+    "Identifies the reader as missing the base helper call (asymmetric with the writer)",
+    "Names what is lost (S/T checksum+timestamp, and at Identifiable level UUID / ADMIN-DATA / CATEGORY / DESC)",
+    "Cites Rule 0025 and distinguishes it from Rule 0013.1's double-call prohibition",
+    "Explains why the 6-column checklist and passing tests could not reveal it",
+    "Proves the fix with a round-trip test asserting the S/T (and UUID) values survive, not just a code edit",
+    "Checks the same class's reader and writer independently rather than assuming symmetry",
+    "Does NOT stamp the class as ready"
+   ]
   }
  ]
 }
