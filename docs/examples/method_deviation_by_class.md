@@ -4759,3 +4759,14 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(no deviation)* | — | — | — | — | No deviations — Table 4.58 has an empty `Attribute` column; the abstract class models zero own members on Base `ARObject`, instantiation-guarded. |
 
 **Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the empty attribute set both directions, the verbatim class Note, the abstract guard, and instantiability via a concrete subclass; the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; per-row `release` column added. No XML elements (XSD P-PORT-COM-SPEC group has an empty sequence, AUTOSAR_00052.xsd l.87489) — reader/writer coverage flows through the concrete-subclass dispatch (writePPortComSpec / readPPortComSpec five-place switches), round-trip covered via ServerComSpec on a PPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `RPortComSpec`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 167
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Table 4.59 has an empty `Attribute` column; the abstract class models zero own members on Base `ARObject`, instantiation-guarded. |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the empty attribute set both directions, the verbatim class Note, the abstract guard, and instantiability via a concrete subclass; the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; per-row `release` column added. No XML elements (XSD R-PORT-COM-SPEC group has an empty sequence, AUTOSAR_00052.xsd l.95189) — reader/writer coverage flows through the concrete-subclass dispatch (writeRPortComSpec / readRequiredComSpec five-place switches), round-trip covered via ClientComSpec on an RPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).

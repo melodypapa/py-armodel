@@ -5,7 +5,7 @@ import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ServerComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ServerComSpec
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -68,3 +68,27 @@ class TestPPortComSpecRoundTrip:
         p_port_2, _ = _round_trip_ports(AUTOSAR.getInstance())
 
         assert p_port_2.getProvidedComSpecs() == []
+
+
+class TestRPortComSpecRoundTrip:
+    def test_client_com_spec_round_trip(self):
+        """RPortComSpec has no own XML elements; coverage flows through a concrete subclass dispatch (writeRPortComSpec)."""
+        _, _, r_port = _new_document_with_ports()
+
+        com_spec = ClientComSpec()
+        com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        r_port.addRequiredComSpec(com_spec)
+
+        _, r_port_2 = _round_trip_ports(AUTOSAR.getInstance())
+
+        com_specs = r_port_2.getRequiredComSpecs()
+        assert len(com_specs) == 1
+        assert com_specs[0].getOperationRef().getValue() == "/Swc/Iface/Op"
+        assert com_specs[0].getOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_empty_required_com_specs(self):
+        _, _, r_port = _new_document_with_ports()
+
+        _, r_port_2 = _round_trip_ports(AUTOSAR.getInstance())
+
+        assert r_port_2.getRequiredComSpecs() == []

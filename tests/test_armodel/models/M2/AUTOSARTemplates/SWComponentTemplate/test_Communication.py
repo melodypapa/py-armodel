@@ -91,12 +91,25 @@ class TestPPortComSpec:
 
 
 class TestRPortComSpec:
-    """Test class for RPortComSpec abstract class."""
+    """Test class for RPortComSpec abstract class (Table 4.59)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.59 Note copied verbatim."""
+        assert (
+            RPortComSpec.__doc__.strip()
+            == "Communication attributes of a required PortPrototype. This class will contain attributes that are valid for all kinds of require-ports, independent of client-server or sender-receiver communication patterns."
+        )
 
     def test_rport_com_spec_abstract(self):
         """Test that RPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
         with pytest.raises(TypeError):
             RPortComSpec()
+
+    def test_concrete_subclass_is_instantiable(self):
+        """A concrete subclass (Base = ARObject, no own attributes) instantiates cleanly."""
+        com_spec = ClientComSpec()
+        assert isinstance(com_spec, RPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
 
 class TestCompositeNetworkRepresentation:
