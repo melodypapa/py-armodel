@@ -557,15 +557,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DataTransformation` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.39, p.150; also CP_TPS_SystemTemplate Table 7.2, p.763
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2038; transform/swc/system/VP subset 1176; whole unit tree 17,820/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): legacy 5-col checklist + stale stamp removed; defining table re-cited CP SWC Table 4.39 p.150 (SystemTemplate T7.2 row-identical — single # Spec line); 3 attrs (kind 0..1 enum, executeDespiteDataUnavailability 0..1 Boolean, transformerChain * ref → transformerChainRefs); constr_1888 appended to class Note; VP mixin removed per Rule 0015/0020 (XSD VP artifact "Applicable for: DataTransformationSet.dataTransformation"; reader/writer never handled it — no parser/writer change); no deviations; no stamp (batch 9b)
 
 - [ ] `DataTransformationKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.40, p.150
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py

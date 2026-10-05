@@ -45,22 +45,23 @@ class DataTransformationKindEnum(AREnum):
         )
 
 
-class DataTransformation(Identifiable, VariationPointCapable):
+class DataTransformation(Identifiable):
     """
     A DataTransformation represents a transformer chain. It is an ordered list of transformers.
+
+    [constr_1888] Existence of attribute DataTransformation . executeDespiteDataUnavailability: For each DataTransformation, the attribute executeDespiteDataUnavailability shall exist at the time when the RTE is generated. ()
     """
 
     # DataTransformation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.2, p.763
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataTransformationKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataTransformationKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerChainRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTransformerChainRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.39, p.150 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataTransformationKind             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataTransformationKind             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExecuteDespiteDataUnavailability   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecuteDespiteDataUnavailability   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerChainRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTransformerChainRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
