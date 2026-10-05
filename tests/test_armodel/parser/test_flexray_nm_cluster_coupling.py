@@ -71,3 +71,20 @@ class TestParseFlexrayNmClusterCoupling:
         coupling = config.getNmClusterCouplings()[0]
         assert coupling.getChecksum().getValue() == "9012"
         assert coupling.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+    def test_parse_flexray_nm_cluster_coupling_reads_variation_point(self):
+        xml = (
+            "<NmConfig xmlns='%s'>"
+            "<NM-CLUSTER-COUPLINGS>"
+            "<FLEXRAY-NM-CLUSTER-COUPLING>"
+            "<NM-SCHEDULE-VARIANT>SCHEDULEVARIANT2</NM-SCHEDULE-VARIANT>"
+            "<VARIATION-POINT><SHORT-LABEL>VP3</SHORT-LABEL></VARIATION-POINT>"
+            "</FLEXRAY-NM-CLUSTER-COUPLING>"
+            "</NM-CLUSTER-COUPLINGS>"
+            "</NmConfig>" % NS
+        )
+        config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(ET.fromstring(xml), config)
+        coupling = config.getNmClusterCouplings()[0]
+        assert coupling.getVariationPoint() is not None
+        assert coupling.getVariationPoint().getShortLabel().getValue() == "VP3"

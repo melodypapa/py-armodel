@@ -9455,6 +9455,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalLiteral(child_element, "NM-SCHEDULE-VARIANT", coupling.getNmScheduleVariant())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Write NmConfigNmClusterCouplings <%s>" % config.getShortName())

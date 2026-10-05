@@ -12756,6 +12756,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmScheduleVariant(cast(Optional[FlexrayNmScheduleVariant], self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT")))
+        self.readVariationPointCapable(element, coupling)
         return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
