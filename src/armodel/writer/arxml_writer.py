@@ -16117,6 +16117,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported DynamicPart <%s>" % type(position))
 
     def writeMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.writeARObject(element, part)
         self.writeMultiplexedPartSegmentPositions(element, part)
 
     def writeDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):

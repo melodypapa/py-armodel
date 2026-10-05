@@ -66,9 +66,14 @@ class TestMultiplexedPartHandlers:
         part = DynamicPart()
         element = _snip(
             "<SEGMENT-POSITIONS>" "<SEGMENT-POSITION>" "<SEGMENT-LENGTH>4</SEGMENT-LENGTH>" "</SEGMENT-POSITION>" "</SEGMENT-POSITIONS>",
+            root_tag="DYNAMIC-PART",
+            attrs=' S="1111" T="2024-01-01T00:00:00Z"',
         )
         parser.readMultiplexedPart(element, part)
         assert len(part.getSegmentPositions()) == 1
+        # AR:AR-OBJECT S/T read at the MultiplexedPart level (Rule 0025)
+        assert part.getChecksum().getValue() == "1111"
+        assert part.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readDynamicPartAlternative_sets_fields(self, parser):
         from armodel.models import DynamicPartAlternative

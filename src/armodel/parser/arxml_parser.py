@@ -12242,6 +12242,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported DynamicPart <%s>" % tag_name)
 
     def readMultiplexedPart(self, element: ET.Element, part: MultiplexedPart):
+        self.readARObject(element, part)
         self.readMultiplexedPartSegmentPositions(element, part)
 
     def readDynamicPartAlternative(self, element: ET.Element, alternative: DynamicPartAlternative):
