@@ -87,7 +87,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - 9b batch audit 2026-10-06 (VP): same shared-base defect as CanNmNode (writeNmNode emitted a set VARIATION-POINT before the concrete attrs instead of LAST, XSD NM-NODE group sequenceOffset=10000); reader was correct. Fixed in-pass by the same writeNmNode suppression + per-concrete-writer writeVariationPointCapable-last change (covers this class via writeUdpNmNode); VP order/round-trip writer tests added; Step 9 stays open (no stamp)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13617 passed / 0 failed, lint + black clean; 9b confirmed 2026-10-06 (batch stamp wave, user instruction) — # Spec verified: R23-11 written
 
-- [ ] `CanNmClusterCoupling` (input · R23-11 markdown · Table 6.313)
+- [x] `CanNmClusterCoupling` (input · R23-11 markdown · Table 6.313)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
   - [x] Step 1 — Sync members & description from spec — Table 6.313, p.684; Note "CAN attributes that are valid for each of the referenced (coupled) CAN clusters."; Base ARObject,NmClusterCoupling; 3 attrs in displayed order (coupledCluster `*` ref CanNmCluster, nmBusloadReductionEnabled 0..1 Boolean, nmImmediateRestartEnabled 0..1 Boolean); XSD group CAN-NM-CLUSTER-COUPLING order COUPLED-CLUSTER-REFS → NM-BUSLOAD-REDUCTION-ENABLED → NM-IMMEDIATE-RESTART-ENABLED (AUTOSAR_00052.xsd l.15377); no tracker entries for this class
   - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement/test_CanNmClusterCoupling.py: defaults, add/get refs, get/set + None no-op for both booleans
@@ -99,7 +99,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations — none: every Table 6.313 attribute modeled with full reader/writer coverage; no tracker rows
   - 9b batch audit 2026-10-05: FAIL Rule 0025 — getCanNmClusterCoupling/writeCanNmClusterCoupling never called readARObject/writeARObject (inherited S/T silently dropped on round-trip); fixed in-pass: base-helper calls added + S/T round-trip asserts (writer + parser tests); Step 9 stays open (no stamp — user: fix first)
   - 9b batch audit 2026-10-05 (VP): FAIL Rule 0025 — reader/writer never called readVariationPointCapable/writeVariationPointCapable, so the inherited VARIATION-POINT (XSD CAN-NM-CLUSTER-COUPLING group → NM-CLUSTER-COUPLING group, AUTOSAR_00052.xsd l.84432) was dropped on round-trip; fixed in-pass: readVariationPointCapable after the last spec attr, writeVariationPointCapable LAST (mixin sequenceOffset 10000) + VP round-trip asserts (writer element-order + parser); commit ea1d76160; Step 9 stays open (no stamp)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b confirmed 2026-10-06 (batch stamp wave, user instruction) — # Spec verified: R23-11 written
 
 - [ ] `UdpNmClusterCoupling` (input · R23-11 markdown · Table 6.317)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
