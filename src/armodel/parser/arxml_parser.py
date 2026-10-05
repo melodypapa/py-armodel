@@ -15639,6 +15639,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             timing = EventControlledTiming()
+            self.readARObject(child_element, timing)
             timing.setNumberOfRepetitions(self.getChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS"))
             timing.setRepetitionPeriod(self.getTimeRangeType(child_element, "REPETITION-PERIOD"))
         return timing

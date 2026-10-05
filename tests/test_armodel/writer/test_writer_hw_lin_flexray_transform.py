@@ -415,11 +415,15 @@ class TestWriterEventControlledTiming:
         rep_period = TimeRangeType()
         rep_period.setValue(_time(0.01))
         timing.setRepetitionPeriod(rep_period)
+        timing.setChecksum(String().setValue("1234"))
+        timing.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setEventControlledTiming(parent, "EVENT-CONTROLLED-TIMING", timing)
         assert parent[0].tag == "EVENT-CONTROLLED-TIMING"
         assert parent[0].find("NUMBER-OF-REPETITIONS") is not None
         assert parent[0].find("REPETITION-PERIOD") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setEventControlledTiming_none(self, writer):
         parent = _parent()

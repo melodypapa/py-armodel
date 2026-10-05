@@ -1905,13 +1905,16 @@ class TestISignalAndGroupHandlers:
 
     def test_getEventControlledTiming_sets_numberOfRepetitions(self, parser):
         element = _snip(
-            "<EVENT-CONTROLLED-TIMING>" "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>" "</EVENT-CONTROLLED-TIMING>",
+            '<EVENT-CONTROLLED-TIMING S="1234" T="2024-01-01T00:00:00Z">'
+            "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>"
+            "</EVENT-CONTROLLED-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getEventControlledTiming(element, "EVENT-CONTROLLED-TIMING")
         assert timing is not None
         assert timing.getNumberOfRepetitions().getValue() == 5
-
+        assert timing.getChecksum().getValue() == "1234"
+        assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
     def test_readISignalIPdu_sets_length(self, parser):
         from armodel.models import ISignalIPdu
 

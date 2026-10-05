@@ -16623,6 +16623,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEventControlledTiming(self, element: ET.Element, key: str, timing: Optional[EventControlledTiming]):
         if timing is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-REPETITIONS", timing.getNumberOfRepetitions())
             self.setTimeRangeType(child_element, "REPETITION-PERIOD", timing.getRepetitionPeriod())
 
