@@ -10961,6 +10961,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanClusterBusOffRecovery(self, element: ET.Element, key: str, recovery: Optional[CanClusterBusOffRecovery]):
         if recovery is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, recovery)
             self.setChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2", cast(Integer, recovery.getBorCounterL1ToL2()))
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1", recovery.getBorTimeL1())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2", recovery.getBorTimeL2())

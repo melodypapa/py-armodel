@@ -10693,6 +10693,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             recovery = CanClusterBusOffRecovery()
+            self.readARObject(child_element, recovery)
             recovery.setBorCounterL1ToL2(self.getChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2"))
             recovery.setBorTimeL1(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1"))
             recovery.setBorTimeL2(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2"))
