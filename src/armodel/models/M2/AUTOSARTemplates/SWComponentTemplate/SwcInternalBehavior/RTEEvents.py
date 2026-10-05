@@ -363,26 +363,35 @@ class InitEvent(RTEEvent):
 
 class TimingEvent(RTEEvent):
     """
-    This event is used to start RunnableEntities that shall be executed
-    periodically.
+    This event is used to start RunnableEntities that shall be executed periodically.
+
+    [constr_1622] Value of TimingEvent.offset vs. TimingEvent.period: If a value is defined for attribute TimingEvent.offset then this value shall be greater than 0 and less or equal than the value of attribute TimingEvent.period of the respective TimingEvent at the time when the RTE is generated.
     """
 
     # TimingEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] periodMs                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOffset                    [x] impl  [x] docstring  [ ] test
-    # [ ] setOffset                    [x] impl  [x] docstring  [ ] test
-    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
-    # [ ] setPeriod                    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.4, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] periodMs   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
         self.offset: Optional[TimeValue] = None
+
+        # Period of timing event in seconds. The value of this attribute shall be greater than zero.
         self.period: Optional[TimeValue] = None
 
     @property
     def periodMs(self):
+        """
+        The period of the event in milliseconds (read-only convenience property derived from period; no spec row — added convenience property).
+        """
         if self.period is None:
             return None
         else:
@@ -392,48 +401,38 @@ class TimingEvent(RTEEvent):
             else:
                 return (int)(period_value * 1000)
 
-    def getOffset(self):
+    def getOffset(self) -> Optional[TimeValue]:
         """
-        Gets the offset before the first event firing.
+        The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
+        """
 
-        Returns:
-            TimeValue: The offset
-        """
         return self.offset
 
-    def setOffset(self, value):
+    def setOffset(self, value: Optional[TimeValue]) -> TimingEvent:
         """
-        Sets the offset before the first event firing.
+        The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
 
-        Args:
-            value: The offset to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing offset.
         """
+
         if value is not None:
             self.offset = value
         return self
 
-    def getPeriod(self):
+    def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the period between event firings.
+        Period of timing event in seconds. The value of this attribute shall be greater than zero.
+        """
 
-        Returns:
-            TimeValue: The period
-        """
         return self.period
 
-    def setPeriod(self, value):
+    def setPeriod(self, value: Optional[TimeValue]) -> TimingEvent:
         """
-        Sets the period between event firings.
+        Period of timing event in seconds. The value of this attribute shall be greater than zero.
 
-        Args:
-            value: The period to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing period.
         """
+
         if value is not None:
             self.period = value
         return self

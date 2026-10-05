@@ -12,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
@@ -485,6 +485,69 @@ class TestTimingEvent:
         period_small.setValue(0.0005)
         event.setPeriod(period_small)
         assert event.periodMs == 0.5  # 0.0005 * 1000
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.4 Note + constr_1622 verbatim."""
+        assert inspect.getdoc(TimingEvent) == (
+            "This event is used to start RunnableEntities that shall be executed periodically."
+            "\n\n"
+            "[constr_1622] Value of TimingEvent.offset vs. TimingEvent.period: If a value is defined for attribute TimingEvent.offset then this value shall be greater than 0 and less or equal than the value of attribute TimingEvent.period of the respective TimingEvent at the time when the RTE is generated."
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TimingEvent(ar_root, "TestTimingEvent")
+
+        offset_note = "The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second."
+        period_note = "Period of timing event in seconds. The value of this attribute shall be greater than zero."
+
+        assert inspect.getdoc(event.getOffset) == offset_note
+        assert inspect.getdoc(event.setOffset) == offset_note + "\n\nA None value is a no-op and does not overwrite an existing offset."
+        assert inspect.getdoc(event.getPeriod) == period_note
+        assert inspect.getdoc(event.setPeriod) == period_note + "\n\nA None value is a no-op and does not overwrite an existing period."
+
+    def test_get_set_offset(self):
+        """setOffset returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TimingEvent(ar_root, "TestTimingEvent")
+
+        offset = TimeValue()
+        offset.setValue(2.5)
+        assert event.setOffset(offset) is event
+        assert event.getOffset() is offset
+
+        event.setOffset(None)
+        assert event.getOffset() is offset
+
+    def test_get_set_period(self):
+        """setPeriod returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TimingEvent(ar_root, "TestTimingEvent")
+
+        period = TimeValue()
+        period.setValue(10.0)
+        assert event.setPeriod(period) is event
+        assert event.getPeriod() is period
+
+        event.setPeriod(None)
+        assert event.getPeriod() is period
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed Optional[TimeValue] annotations."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TimingEvent(ar_root, "TestTimingEvent")
+
+        assert typing.get_type_hints(event.getOffset).get("return") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(event.setOffset).get("value") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(event.setOffset).get("return") is TimingEvent
+        assert typing.get_type_hints(event.getPeriod).get("return") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(event.setPeriod).get("value") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(event.setPeriod).get("return") is TimingEvent
 
 
 class TestInternalTriggerOccurredEvent:

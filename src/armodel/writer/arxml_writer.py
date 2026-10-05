@@ -4672,7 +4672,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, event)
         self.setChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF", event.getActivationReasonRepresentationRef())
 
-    def setRTEEvent(self, element: ET.Element, event: RTEEvent):
+    def writeRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.writeAbstractEvent(element, event)
         irefs = event.getDisabledModeIRefs()
         if len(irefs) > 0:
@@ -4684,20 +4684,20 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTimingEvent(self, element: ET.Element, event: TimingEvent):
         if event is not None:
             child_element = ET.SubElement(element, "TIMING-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalTimeValue(child_element, "OFFSET", event.getOffset())
             self.setChildElementOptionalTimeValue(child_element, "PERIOD", event.getPeriod())
 
     def writeOperationInvokedEvent(self, element: ET.Element, event: OperationInvokedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "OPERATION-INVOKED-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.getOperationIRef())
 
     def writeSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         if event is not None:
             child_element = ET.SubElement(element, "SWC-MODE-SWITCH-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalLiteral(child_element, "ACTIVATION", event.getActivation())
             irefs = event.getModeIRefs()
             if len(irefs) > 0:
@@ -4714,53 +4714,53 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataReceivedEvent(self, element: ET.Element, event: DataReceivedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-RECEIVED-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
 
     def writeDataReceiveErrorEvent(self, element: ET.Element, event: DataReceiveErrorEvent):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-RECEIVE-ERROR-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setRVariableInAtomicSwcInstanceRef(child_element, event.getDataIRef())
 
     def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         if event is not None:
             child_element = ET.SubElement(element, "INTERNAL-TRIGGER-OCCURRED-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeInitEvent(self, element: ET.Element, event: InitEvent):
         if event is not None:
             child_element = ET.SubElement(element, "INIT-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
 
     def writeAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: AsynchronousServerCallReturnsEvent):
         if event is not None:
             child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeModeSwitchedAckEvent(self, element: ET.Element, event: ModeSwitchedAckEvent):
         if event is not None:
             child_element = ET.SubElement(element, "MODE-SWITCHED-ACK-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeBackgroundEvent(self, element: ET.Element, event: BackgroundEvent):
         if event is not None:
             child_element = ET.SubElement(element, "BACKGROUND-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
 
     def writeDataSendCompletedEvent(self, element: ET.Element, event: DataSendCompletedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-SEND-COMPLETED-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeDataWriteCompletedEvent(self, element: ET.Element, event: DataWriteCompletedEvent):
         if event is not None:
             child_element = ET.SubElement(element, "DATA-WRITE-COMPLETED-EVENT")
-            self.setRTEEvent(child_element, event)
+            self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):

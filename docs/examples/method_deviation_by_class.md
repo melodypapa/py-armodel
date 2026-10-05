@@ -21,6 +21,17 @@ No deviations — the single `Attribute` row `activationReasonRepresentation` (K
 
 **Note:** Re-sync 2026-10-06 (Group28 row; Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, stamp WITHHELD pending the 9b batch confirmation, user instruction). Checklist rewritten in the 6-column format with the per-row release column (the citation Table 7.8, p.541 was already correct). Setter fixed to the Rule 0004 None no-op shape and given the missing `-> AbstractEvent` return annotation; docstrings already verbatim, re-written in place. Rule 0001.7 abstract-XML-bearing-base helpers added: `readAbstractEvent`/`writeAbstractEvent` (readIdentifiable/writeIdentifiable + ACTIVATION-REASON-REPRESENTATION-REF, XSD group ABSTRACT-EVENT) — `readRTEEvent`/`setRTEEvent` and `readBswEvent`/`writeBswEvent` rerouted onto them (the old `readBswEvent` assigned the field directly, bypassing the mutator, and never read the identifiable level — SHORT-NAME/UUID now round-trip for BswEvents too). Model Red genuine on the None-no-op + type-hints pins; reader/writer Red genuine on the 4 helper/BSW-branch pins (tests/test_armodel/writer/test_writer_abstract_event.py). No VARIATION-POINT anchor in the ABSTRACT-EVENT XSD group — not VP-capable (subclasses own their slots). No Rule 0001.10 missing referenced classes (`ExecutableEntityActivationReason` synced in this pass).
 
+## `TimingEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 532 (Table 7.4)
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `periodMs` | `property` | — *(not in spec)* | — | — | added convenience property |
+
+**Note:** Re-sync 2026-10-06 (Group28 row; Rule 0023 legacy 4-column checklist with no `# Spec:` line and no release column; untyped accessors with paraphrased docstrings). Both Table 7.4 attributes modeled: `offset` and `period` (`Optional[TimeValue]`, 0..1 attr each, displayed order offset → period) with `get/setOffset`/`get/setPeriod` (None no-op + chaining, spec-typed annotations) and full reader/writer coverage via `readTimingEvent`/`writeTimingEvent` (OFFSET, PERIOD — XSD group order; base helpers `readRTEEvent`/`writeRTEEvent` carry the inherited ABSTRACT-EVENT/RTE-EVENT levels). Most-derived base `RTEEvent` (constr_1622 appended to the class docstring; no VARIATION-POINT anchor of its own — the slot is inherited through the base group ref, Rule 0020). The pre-existing read-only `periodMs` convenience property is kept (Rule 0001.3 added convenience property; checklist row + tests). Writer helper `setRTEEvent` renamed `writeRTEEvent` (Rule 0013.2 matched-pairs with `readRTEEvent`; 16 call sites incl. all RTEEvent concrete writers). Model Red genuine on the verbatim docstring + type-hints pins; reader/writer Red vacuous — coverage pre-existed, round-trip + element-order + empty cases added (tests/test_armodel/writer/test_writer_timing_event.py). No Rule 0001.10 missing referenced classes (`TimeValue` synced).
+
 ## `BswModuleDescription`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 26
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview`
