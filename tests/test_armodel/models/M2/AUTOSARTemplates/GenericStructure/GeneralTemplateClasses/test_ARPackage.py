@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
@@ -144,6 +145,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteMemoryByAddress,
     LifeCycleStateDefinitionGroup,
     PackageableElement,
+    PhysicalDimensionMappingSet,
     ReferenceBase,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
@@ -11859,3 +11861,138 @@ class TestDiagnosticRequestEmissionRelatedDTCPermanentStatus:
         assert inspect.cleandoc(DiagnosticRequestEmissionRelatedDTCPermanentStatus.setRequestEmissionRelatedDtcClassPermanentStatusRef.__doc__) == (
             self.CLASS_REF_NOTE + "\n\nA None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassPermanentStatusRef."
         )
+
+
+class TestPhysicalDimensionMappingSet:
+    """
+    Test class for PhysicalDimensionMappingSet functionality.
+
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.78, p.399
+    """
+
+    CLASS_NOTE = "This class represents a container for a list of mappings between PhysicalDimensions. Tags: atp.recommendedPackage=PhysicalDimensionMappingSets"
+    PHYSICAL_DIMENSION_MAPPING_NOTE = "This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet."
+
+    def _make_obj(self) -> PhysicalDimensionMappingSet:
+        return PhysicalDimensionMappingSet(ARPackage(None, "Pkg"), "Mappings")
+
+    def _make_mapping(self) -> PhysicalDimensionMapping:
+        mapping = PhysicalDimensionMapping()
+        mapping.setFirstPhysicalDimensionRef(RefType().setDest("PHYSICAL-DIMENSION").setValue("/PhysicalDimensions/Energy"))
+        mapping.setSecondPhysicalDimensionRef(RefType().setDest("PHYSICAL-DIMENSION").setValue("/PhysicalDimensions/Torque"))
+        return mapping
+
+    def test_is_arelement_subclass(self):
+        """
+        Test that PhysicalDimensionMappingSet derives from ARElement per the Table 5.78 Base row.
+        """
+        assert issubclass(PhysicalDimensionMappingSet, ARElement)
+
+    def test_initialization(self):
+        """
+        Test that a new PhysicalDimensionMappingSet initializes the aggregation to the empty list.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "Mappings"
+        assert obj.getPhysicalDimensionMappings() == []
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (incl. the Tags tail).
+        """
+        assert inspect.cleandoc(PhysicalDimensionMappingSet.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert PhysicalDimensionMappingSet.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 5.78 displayed row order (mutator first per attribute).
+        """
+        methods = [name for name, value in PhysicalDimensionMappingSet.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "addPhysicalDimensionMapping",
+            "getPhysicalDimensionMappings",
+        ]
+
+    def test_members_are_pep526_annotated(self):
+        """
+        Test that the 0..* aggregation is a PEP 526 annotated List[PhysicalDimensionMapping] field.
+        """
+        source = inspect.getsource(PhysicalDimensionMappingSet.__init__)
+        assert "self.physicalDimensionMappings: List[PhysicalDimensionMapping] = []" in source
+        assert "# type:" not in source
+
+    def test_inline_comment_is_spec_note_verbatim(self):
+        """
+        Test that the inline __init__ comment carries the spec Note verbatim.
+        """
+        source = inspect.getsource(PhysicalDimensionMappingSet.__init__)
+        assert "# " + self.PHYSICAL_DIMENSION_MAPPING_NOTE in source
+
+    def test_add_physical_dimension_mapping(self):
+        """
+        Test that addPhysicalDimensionMapping appends and returns self for chaining.
+        """
+        obj = self._make_obj()
+        mapping = self._make_mapping()
+
+        result = obj.addPhysicalDimensionMapping(mapping)
+        assert result is obj
+        assert obj.getPhysicalDimensionMappings() == [mapping]
+        assert obj.getPhysicalDimensionMappings()[0].getFirstPhysicalDimensionRef().getValue() == "/PhysicalDimensions/Energy"
+
+        second = PhysicalDimensionMapping()
+        obj.addPhysicalDimensionMapping(second)
+        assert obj.getPhysicalDimensionMappings() == [mapping, second]
+
+    def test_add_physical_dimension_mapping_none_noop(self):
+        """
+        Test that addPhysicalDimensionMapping(None) is a no-op.
+        """
+        obj = self._make_obj()
+
+        result = obj.addPhysicalDimensionMapping(None)
+        assert result is obj
+        assert obj.getPhysicalDimensionMappings() == []
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and adder docstrings carry the spec Note verbatim (adder + None-no-op sentence).
+        """
+        assert inspect.cleandoc(PhysicalDimensionMappingSet.addPhysicalDimensionMapping.__doc__) == (
+            self.PHYSICAL_DIMENSION_MAPPING_NOTE + "\n\nA None value is a no-op and does not append a physicalDimensionMapping."
+        )
+        assert inspect.cleandoc(PhysicalDimensionMappingSet.getPhysicalDimensionMappings.__doc__) == self.PHYSICAL_DIMENSION_MAPPING_NOTE
+
+    def test_arpackage_create_physical_dimension_mapping_set(self):
+        """
+        Test that ARPackage.createPhysicalDimensionMappingSet appends and returns the existing element on a duplicate short name.
+        """
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_package = document.createARPackage("Pkg")
+
+        created = ar_package.createPhysicalDimensionMappingSet("Mappings")
+        assert isinstance(created, PhysicalDimensionMappingSet)
+        assert created.getShortName() == "Mappings"
+
+        duplicate = ar_package.createPhysicalDimensionMappingSet("Mappings")
+        assert duplicate is created
+
+    def test_arpackage_get_physical_dimension_mapping_sets(self):
+        """
+        Test that ARPackage.getPhysicalDimensionMappingSets returns the created sets.
+        """
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_package = document.createARPackage("Pkg")
+        ar_package.createPhysicalDimensionMappingSet("A")
+        ar_package.createPhysicalDimensionMappingSet("B")
+
+        sets = ar_package.getPhysicalDimensionMappingSets()
+        assert [s.getShortName() for s in sets] == ["A", "B"]

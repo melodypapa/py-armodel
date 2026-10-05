@@ -575,7 +575,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, PhysicalDimensionMappingSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -4592,6 +4592,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, mapping)
         self.setChildElementOptionalRefType(child_element, "FIRST-PHYSICAL-DIMENSION-REF", mapping.getFirstPhysicalDimensionRef())
         self.setChildElementOptionalRefType(child_element, "SECOND-PHYSICAL-DIMENSION-REF", mapping.getSecondPhysicalDimensionRef())
+
+    def writePhysicalDimensionMappingSet(self, element: ET.Element, mapping_set: PhysicalDimensionMappingSet):
+        self.logger.debug("writePhysicalDimensionMappingSet %s" % mapping_set.getShortName())
+        child_element = ET.SubElement(element, "PHYSICAL-DIMENSION-MAPPING-SET")
+        self.writeIdentifiable(child_element, mapping_set)
+        mappings = mapping_set.getPhysicalDimensionMappings()
+        if len(mappings) > 0:
+            mappings_element = ET.SubElement(child_element, "PHYSICAL-DIMENSION-MAPPINGS")
+            for mapping in mappings:
+                self.writePhysicalDimensionMapping(mappings_element, mapping)
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)
@@ -17224,6 +17234,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLifeCycleInfoSet(element, ar_element)
         elif isinstance(ar_element, PhysicalDimension):
             self.writePhysicalDimension(element, ar_element)
+        elif isinstance(ar_element, PhysicalDimensionMappingSet):
+            self.writePhysicalDimensionMappingSet(element, ar_element)
         elif isinstance(ar_element, FlatMap):
             self.writeFlatMap(element, ar_element)
         elif isinstance(ar_element, PortInterfaceMappingSet):

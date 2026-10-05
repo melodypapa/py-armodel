@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -2614,6 +2615,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(PhysicalDimension, self.getReferrableElement(short_name, PhysicalDimension))
 
+    def createPhysicalDimensionMappingSet(self, short_name: str) -> PhysicalDimensionMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, PhysicalDimensionMappingSet):
+            element = PhysicalDimensionMappingSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(PhysicalDimensionMappingSet, self.getReferrableElement(short_name, PhysicalDimensionMappingSet))
+
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
 
         if not self.IsReferrableElementExists(short_name, ISignalGroup):
@@ -4594,6 +4602,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getUnits(self) -> List[Unit]:
 
         return list(a for a in self.referrableElements if isinstance(a, Unit))
+
+    def getPhysicalDimensionMappingSets(self) -> List[PhysicalDimensionMappingSet]:
+
+        return list(a for a in self.referrableElements if isinstance(a, PhysicalDimensionMappingSet))
 
     def getUnitGroups(self) -> List[UnitGroup]:
 
@@ -11161,7 +11173,36 @@ class LifeCycleStateDefinitionGroup(ARElement):
 
 
 class PhysicalDimensionMappingSet(ARElement):
-    pass
+    """This class represents a container for a list of mappings between PhysicalDimensions. Tags: atp.recommendedPackage=PhysicalDimensionMappingSets"""
+
+    # PhysicalDimensionMappingSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.78, p.399
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPhysicalDimensionMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalDimensionMappings [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+        self.physicalDimensionMappings: List[PhysicalDimensionMapping] = []
+
+    def addPhysicalDimensionMapping(self, value: Optional[PhysicalDimensionMapping]) -> PhysicalDimensionMappingSet:
+        """
+        This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+
+        A None value is a no-op and does not append a physicalDimensionMapping.
+        """
+        if value is not None:
+            self.physicalDimensionMappings.append(value)
+        return self
+
+    def getPhysicalDimensionMappings(self) -> List[PhysicalDimensionMapping]:
+        """
+        This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+        """
+        return self.physicalDimensionMappings
 
 
 class PostBuildVariantCriterionValueSet(ARElement):

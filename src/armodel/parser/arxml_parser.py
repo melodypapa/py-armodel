@@ -592,7 +592,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -9382,6 +9382,14 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setFirstPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "FIRST-PHYSICAL-DIMENSION-REF"))
         mapping.setSecondPhysicalDimensionRef(self.getChildElementOptionalRefType(element, "SECOND-PHYSICAL-DIMENSION-REF"))
 
+    def readPhysicalDimensionMappingSet(self, element: ET.Element, mapping_set: PhysicalDimensionMappingSet):
+        self.logger.debug("Read PhysicalDimensionMappingSet <%s>" % mapping_set.getShortName())
+        self.readIdentifiable(element, mapping_set)
+        for child_element in self.findall(element, "PHYSICAL-DIMENSION-MAPPINGS/PHYSICAL-DIMENSION-MAPPING"):
+            mapping = PhysicalDimensionMapping()
+            self.readPhysicalDimensionMapping(child_element, mapping)
+            mapping_set.addPhysicalDimensionMapping(mapping)
+
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
@@ -17036,6 +17044,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PHYSICAL-DIMENSION":
                 dimension = parent.createPhysicalDimension(self.getShortName(child_element))
                 self.readPhysicalDimension(child_element, dimension)
+            elif tag_name == "PHYSICAL-DIMENSION-MAPPING-SET":
+                dimension_mapping_set = parent.createPhysicalDimensionMappingSet(self.getShortName(child_element))
+                self.readPhysicalDimensionMappingSet(child_element, dimension_mapping_set)
             elif tag_name == "PARAMETER-INTERFACE":
                 param_interface = parent.createParameterInterface(self.getShortName(child_element))
                 self.readParameterInterface(child_element, param_interface)

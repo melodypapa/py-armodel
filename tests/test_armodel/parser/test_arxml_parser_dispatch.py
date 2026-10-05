@@ -262,6 +262,11 @@ class TestMiscDispatch:
         _dispatch(parser, parent, _snip("PHYSICAL-DIMENSION", "PD1"))
         assert len(parent.getEcucPhysicalDimensions()) == 1
 
+    def test_physical_dimension_mapping_set(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("PHYSICAL-DIMENSION-MAPPING-SET", "PDMS1"))
+        assert len(parent.getPhysicalDimensionMappingSets()) == 1
+
 
 # ==================== Network / bus ====================
 
