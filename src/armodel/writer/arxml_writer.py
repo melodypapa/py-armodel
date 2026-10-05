@@ -16598,6 +16598,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             conditions_tag = ET.SubElement(element, key)
             for condition in conditions:
                 child_element = ET.SubElement(conditions_tag, "TRANSMISSION-MODE-CONDITION")
+                self.writeARObject(child_element, condition)
                 self.setDataFilter(child_element, "DATA-FILTER", condition.getDataFilter())
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF", condition.getISignalInIPduRef())
 

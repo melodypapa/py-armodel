@@ -18,10 +18,12 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    DateTime,
     Integer,
     Numerical,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
@@ -364,6 +366,8 @@ class TestWriterTransmissionModeConditions:
         filter1.setDataFilterType(_literal("maskedNewDiffersX"))
         cond1.setDataFilter(filter1)
         cond1.setISignalInIPduRef(_ref("/sig", "I-SIGNAL-IN-I-PDU"))
+        cond1.setChecksum(String().setValue("1234"))
+        cond1.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         cond2 = TransmissionModeCondition()
         filter2 = DataFilter()
         filter2.setDataFilterType(_literal("never"))
@@ -375,6 +379,9 @@ class TestWriterTransmissionModeConditions:
         assert len(conditions) == 2
         assert conditions[0].find("DATA-FILTER") is not None
         assert conditions[0].find("I-SIGNAL-IN-I-PDU-REF") is not None
+        # AR:AR-OBJECT S/T written on each condition (Rule 0025)
+        assert conditions[0].get("S") == "1234"
+        assert conditions[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setTransmissionModeConditions_empty(self, writer):
         parent = _parent()

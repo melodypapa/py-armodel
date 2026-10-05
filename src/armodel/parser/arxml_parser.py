@@ -15594,6 +15594,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_elements = self.findall(element, key)
         for child_element in child_elements:
             condition = TransmissionModeCondition()
+            self.readARObject(child_element, condition)
             condition.setDataFilter(self.getDataFilter(child_element, "DATA-FILTER"))
             condition.setISignalInIPduRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-IN-I-PDU-REF"))
             result.append(condition)
