@@ -1416,7 +1416,7 @@ from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguag
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     DisplayPresentationEnum,
     SwBitRepresentation,
@@ -1559,6 +1559,18 @@ CALPRM_AXIS_CATEGORY_XML_MAP = {
     "fixAXIS": "FIX_AXIS",
     "resAxis": "RES_AXIS",
     "stdAxis": "STD_AXIS",
+}
+
+#: Mapping between MonotonyEnum literal values and their XML element text
+#: (AR:MONOTONY-ENUM--SIMPLE).
+MONOTONY_XML_MAP = {
+    "decreasing": "DECREASING",
+    "increasing": "INCREASING",
+    "monotonous": "MONOTONOUS",
+    "noMonotony": "NO-MONOTONY",
+    "strictlyDecreasing": "STRICTLY-DECREASING",
+    "strictlyIncreasing": "STRICTLY-INCREASING",
+    "strictMonotonous": "STRICT-MONOTONOUS",
 }
 
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
@@ -7195,13 +7207,16 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Annotation <%s>" % tag_name)
         return annotations
 
+    def readSwCalprmAxisTypeProps(self, element: ET.Element, props: SwCalprmAxisTypeProps):
+        props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
+        props.setMonotony(self._readEnumToken(element, "MONOTONY", MonotonyEnum, MONOTONY_XML_MAP))
+
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
         self.readARObject(element, props)
+        self.readSwCalprmAxisTypeProps(element, props)
         for proxy_element in self.findall(element, "SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY"):
             props.addSwVariableRef(self.readSwVariableRefProxy(proxy_element))
-        props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
-        props.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(element, "MONOTONY")))
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
         props.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
@@ -7239,8 +7254,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getSwAxisGrouped(self, element: ET.Element) -> SwAxisGrouped:
         props = SwAxisGrouped()
-        props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
-        props.setMonotony(cast(Optional[MonotonyEnum], self.getChildElementOptionalLiteral(element, "MONOTONY")))
+        self.readARObject(element, props)
+        self.readSwCalprmAxisTypeProps(element, props)
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
         props.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
         child_element = self.find(element, "SW-CALPRM-REF-PROXY")

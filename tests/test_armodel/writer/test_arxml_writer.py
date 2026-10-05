@@ -1120,7 +1120,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         return axis
 
     def test_setSwCalprmAxis_individual_type_props(self):
-        """MAX-GRADIENT and MONOTONY shall be written inside SW-AXIS-INDIVIDUAL."""
+        """MAX-GRADIENT and MONOTONY shall be written inside SW-AXIS-INDIVIDUAL (MONOTONY as the UPPERCASE XSD wire token)."""
         writer = ARXMLWriter()
         root = ET.Element("SW-CALPRM-AXIS-SET")
         writer.setSwCalprmAxis(root, self._build_individual_axis())
@@ -1132,7 +1132,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         assert individual.find("MAX-GRADIENT") is not None
         assert individual.find("MAX-GRADIENT").text == "2.5"
         assert individual.find("MONOTONY") is not None
-        assert individual.find("MONOTONY").text == "strictlyIncreasing"
+        assert individual.find("MONOTONY").text == "STRICTLY-INCREASING"
 
     def test_setSwCalprmAxis_type_props_roundtrip(self):
         """Write then re-parse: maxGradient and monotony survive a round-trip."""
@@ -1145,6 +1145,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         axis = parser.getSwCalprmAxis(wrapped[0])
         props = axis.getSwCalprmAxisTypeProps()
         assert props.getMaxGradient().getValue() == 2.5
+        assert isinstance(props.getMonotony(), MonotonyEnum)
         assert props.getMonotony().getValue() == "strictlyIncreasing"
 
     def test_setSwCalprmAxis_generic_axis_roundtrip(self):

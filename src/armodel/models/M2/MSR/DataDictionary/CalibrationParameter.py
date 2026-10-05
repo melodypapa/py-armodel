@@ -40,14 +40,16 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
     # SwCalprmAxisTypeProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.49, p.353
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # XML: element group SW-CALPRM-AXIS-TYPE-PROPS inlined into SW-AXIS-INDIVIDUAL / SW-AXIS-GROUPED
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMaxGradient  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  (xml.name=MAX-GRADIENT)
-    # [x] setMaxGradient  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMonotony     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  (xml.name=MONOTONY)
-    # [x] setMonotony     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # XML: element group SW-CALPRM-AXIS-TYPE-PROPS (AUTOSAR_00052.xsd L114844) inlined into SW-AXIS-GROUPED (L114493)
+    # and SW-AXIS-INDIVIDUAL (L114607); MAX-GRADIENT then MONOTONY lead both concrete branches and are serialized
+    # through the reusable readSwCalprmAxisTypeProps/writeSwCalprmAxisTypeProps helpers (Rule 0001.7); MONOTONY
+    # carries the UPPERCASE MONOTONY-ENUM--SIMPLE wire token via MONOTONY_XML_MAP
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxGradient  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=MAX-GRADIENT)
+    # [x] setMaxGradient  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMonotony     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=MONOTONY, UPPERCASE wire token)
+    # [x] setMonotony     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SwCalprmAxisTypeProps:

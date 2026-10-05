@@ -79,13 +79,83 @@ class TestCalprmAxisCategoryEnum:
 
 
 class TestSwCalprmAxisTypeProps:
-    """Test class for SwCalprmAxisTypeProps abstract class."""
+    """Test class for SwCalprmAxisTypeProps abstract class (SWCT Table 5.49, p.353, R23-11)."""
+
+    SPEC_MEMBER_ORDER = ["maxGradient", "monotony"]
+
+    SPEC_NOTES = {
+        "maxGradient": "This attribute defines the maximum permissible gradient for an adjustable object (curve, map or cuboid) with respect to a specific axis. MaxGrad = maximum( absolute((Value i,k - Value i-1,k)/(Axis Point i - Axis Point i-1)) )",
+        "monotony": "This attribute specifies the monotony constraint for an adjustable object (curve, map or cuboid) with respect to a specific axis. This information can be used by MCD system to verify whether the monotony constraint is fulfilled and to prevent from changes violating the constraint.",
+    }
+
+    def _init_field_order(self) -> list:
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "CalibrationParameter.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwCalprmAxisTypeProps")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
 
     def test_sw_calprm_axis_type_props_abstract_class(self):
         """Test that SwCalprmAxisTypeProps cannot be instantiated directly."""
         # This should raise NotImplementedError
         with pytest.raises(TypeError):
             SwCalprmAxisTypeProps()
+
+    def test_sw_calprm_axis_type_props_class_note_verbatim(self):
+        """The class docstring carries the Table 5.49 Note verbatim."""
+        assert (
+            cleandoc(SwCalprmAxisTypeProps.__doc__)
+            == "Base class for the type of the calibration axis. This provides the particular model of the specialization. If the specialization would be the directly from SwCalPrmAxis, the sequence of common properties and the specializes ones would be different."
+        )
+
+    def test_sw_calprm_axis_type_props_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.49 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_calprm_axis_type_props_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getMaxGradient",
+            "setMaxGradient",
+            "getMonotony",
+            "setMonotony",
+        ]
+        for name in expected:
+            assert hasattr(SwCalprmAxisTypeProps, name), f"missing accessor {name}"
+
+    def test_sw_calprm_axis_type_props_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getMaxGradient", "setMaxGradient", "getMonotony", "setMonotony"):
+            hints = typing.get_type_hints(getattr(SwCalprmAxisTypeProps, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.setMaxGradient)["value"] == typing.Optional[Float]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.setMonotony)["value"] == typing.Optional[MonotonyEnum]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.getMaxGradient)["return"] == typing.Optional[Float]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.getMonotony)["return"] == typing.Optional[MonotonyEnum]
+
+    def test_sw_calprm_axis_type_props_accessor_docstrings_verbatim(self):
+        """Getter docstrings carry the Table 5.49 Notes verbatim; setters append the None-no-op sentence."""
+        for attr, note in self.SPEC_NOTES.items():
+            getter = "get" + attr[0].upper() + attr[1:]
+            setter = "set" + attr[0].upper() + attr[1:]
+            assert cleandoc(getattr(SwCalprmAxisTypeProps, getter).__doc__) == note
+            assert cleandoc(getattr(SwCalprmAxisTypeProps, setter).__doc__) == (note + " A None value is a no-op and does not overwrite an existing %s." % attr)
 
     def test_sw_calprm_axis_type_props_initialization(self):
         """Test that a concrete subclass can be initialized with default values."""

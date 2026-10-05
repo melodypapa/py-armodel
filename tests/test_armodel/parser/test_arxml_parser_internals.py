@@ -780,7 +780,7 @@ class TestSwDataDefPropsHandlers:
             "<CATEGORY>FIX_AXIS</CATEGORY>"
             "<SW-AXIS-INDIVIDUAL>"
             "<MAX-GRADIENT>2.5</MAX-GRADIENT>"
-            "<MONOTONY>strictlyIncreasing</MONOTONY>"
+            "<MONOTONY>STRICTLY-INCREASING</MONOTONY>"
             "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>"
             "</SW-AXIS-INDIVIDUAL>",
             root_tag="SW-CALPRM-AXIS",
@@ -810,7 +810,7 @@ class TestSwDataDefPropsHandlers:
             "<CATEGORY>STD_AXIS</CATEGORY>"
             "<SW-AXIS-GROUPED>"
             "<MAX-GRADIENT>0.75</MAX-GRADIENT>"
-            "<MONOTONY>monotonous</MONOTONY>"
+            "<MONOTONY>MONOTONOUS</MONOTONY>"
             "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/shared</SHARED-AXIS-TYPE-REF>"
             "</SW-AXIS-GROUPED>",
             root_tag="SW-CALPRM-AXIS",

@@ -12,7 +12,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, Float, MonotonyEnum, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps
@@ -33,6 +33,10 @@ def _build_axis() -> SwCalprmAxis:
     axis.setSwAxisIndex(AxisIndexType().setValue("1"))
     axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS))
     props = SwAxisGrouped()
+    gradient = Float()
+    gradient.setValue(2.5)
+    props.setMaxGradient(gradient)
+    props.setMonotony(MonotonyEnum().setValue(MonotonyEnum.STRICTLY_INCREASING))
     props.setSharedAxisTypeRef(_build_shared_axis_type_ref())
     axis.setSwCalprmAxisTypeProps(props)
     axis.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY))
@@ -110,6 +114,9 @@ class TestSwCalprmAxisRoundTrip:
             assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
             assert axis.getCategory().getValue() == "stdAxis"
             assert isinstance(axis.getSwCalprmAxisTypeProps(), SwAxisGrouped)
+            assert axis.getSwCalprmAxisTypeProps().getMaxGradient().getValue() == 2.5
+            assert isinstance(axis.getSwCalprmAxisTypeProps().getMonotony(), MonotonyEnum)
+            assert axis.getSwCalprmAxisTypeProps().getMonotony().getValue() == "strictlyIncreasing"
             assert axis.getSwCalprmAxisTypeProps().getSharedAxisTypeRef().getValue() == "/axis/types/shared"
             assert axis.getSwCalibrationAccess().getValue() == "readOnly"
             assert axis.getDisplayFormat().getValue() == "%.3f"
@@ -143,3 +150,56 @@ class TestSwCalprmAxisRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestWriteSwCalprmAxisTypeProps:
+    """Writer tests for the abstract SwCalprmAxisTypeProps element group (SWCT Table 5.49, p.353).
+
+    MAX-GRADIENT then MONOTONY lead both concrete choice branches (XSD element group
+    SW-CALPRM-AXIS-TYPE-PROPS, AUTOSAR_00052.xsd L114844; SW-AXIS-GROUPED complexType
+    L114493 inlines it ahead of the SW-AXIS-GROUPED group). MONOTONY is written as the
+    UPPERCASE XSD wire token (MONOTONY-ENUM--SIMPLE) via MONOTONY_XML_MAP; the abstract
+    class owns the reusable writeSwCalprmAxisTypeProps helper called by both branches
+    (Rule 0001.7).
+    """
+
+    def test_write_helper_emits_base_attrs(self):
+        """writeSwCalprmAxisTypeProps emits MAX-GRADIENT then MONOTONY in XSD group order."""
+        props = SwAxisGrouped()
+        gradient = Float()
+        gradient.setValue(2.5)
+        props.setMaxGradient(gradient)
+        props.setMonotony(MonotonyEnum().setValue(MonotonyEnum.STRICTLY_INCREASING))
+        parent = ET.Element("SW-AXIS-GROUPED")
+        ARXMLWriter().writeSwCalprmAxisTypeProps(parent, props)
+
+        assert [child.tag for child in parent] == ["MAX-GRADIENT", "MONOTONY"]
+        assert parent.find("MAX-GRADIENT").text == "2.5"
+        assert parent.find("MONOTONY").text == "STRICTLY-INCREASING"
+
+    def test_write_helper_omits_unset_attrs(self):
+        props = SwAxisGrouped()
+        parent = ET.Element("SW-AXIS-GROUPED")
+        ARXMLWriter().writeSwCalprmAxisTypeProps(parent, props)
+        assert len(list(parent)) == 0
+
+    def test_write_base_attrs_lead_grouped_choice_branch(self):
+        """MAX-GRADIENT/MONOTONY lead SW-AXIS-GROUPED ahead of the subtype's own elements."""
+        axis = SwCalprmAxis()
+        props = SwAxisGrouped()
+        gradient = Float()
+        gradient.setValue(0.75)
+        props.setMaxGradient(gradient)
+        props.setMonotony(MonotonyEnum().setValue(MonotonyEnum.MONOTONOUS))
+        props.setSharedAxisTypeRef(_build_shared_axis_type_ref())
+        props.setSwAxisIndex(AxisIndexType().setValue("2"))
+        axis.setSwCalprmAxisTypeProps(props)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().setSwCalprmAxis(parent, axis)
+
+        grouped = parent.find("SW-CALPRM-AXIS/SW-AXIS-GROUPED")
+        assert grouped is not None
+        assert [child.tag for child in grouped] == ["MAX-GRADIENT", "MONOTONY", "SHARED-AXIS-TYPE-REF", "SW-AXIS-INDEX"]
+        assert grouped.find("MAX-GRADIENT").text == "0.75"
+        assert grouped.find("MONOTONY").text == "MONOTONOUS"

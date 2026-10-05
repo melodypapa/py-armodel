@@ -9,7 +9,7 @@ mapped to the model members via CALPRM_AXIS_CATEGORY_XML_MAP and
 SW_CALIBRATION_ACCESS_XML_MAP.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, MonotonyEnum
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
@@ -87,3 +87,67 @@ class TestSwCalprmAxisReader:
         assert axis.getSwCalprmAxisTypeProps() is None
         assert axis.getSwCalibrationAccess() is None
         assert axis.getDisplayFormat() is None
+
+
+class TestSwCalprmAxisTypePropsReader:
+    """Reader tests for the abstract SwCalprmAxisTypeProps element group (SWCT Table 5.49, p.353).
+
+    The XSD element group SW-CALPRM-AXIS-TYPE-PROPS (AUTOSAR_00052.xsd L114844) carries
+    MAX-GRADIENT (AR:FLOAT) then MONOTONY (AR:MONOTONY-ENUM--SIMPLE, UPPERCASE wire
+    tokens); both concrete choice branches (SW-AXIS-GROUPED L114493 / SW-AXIS-INDIVIDUAL
+    L114607) inline the group ahead of their own elements. The abstract class owns the
+    reusable readSwCalprmAxisTypeProps helper called by both branches (Rule 0001.7);
+    MONOTONY materializes a typed MonotonyEnum via MONOTONY_XML_MAP.
+    """
+
+    def test_read_helper_populates_base_attrs(self, parser):
+        """readSwCalprmAxisTypeProps populates maxGradient (Float) and monotony (MonotonyEnum) from the XSD wire forms."""
+        element = _snip(
+            "<MAX-GRADIENT>0.75</MAX-GRADIENT><MONOTONY>MONOTONOUS</MONOTONY>",
+            root_tag="SW-AXIS-GROUPED",
+        )
+        props = SwAxisGrouped()
+        parser.readSwCalprmAxisTypeProps(element, props)
+        assert props.getMaxGradient() is not None
+        assert props.getMaxGradient().getValue() == 0.75
+        assert isinstance(props.getMonotony(), MonotonyEnum)
+        assert props.getMonotony().getValue() == "monotonous"
+
+    def test_read_base_attrs_via_grouped_choice(self, parser):
+        """The SW-AXIS-GROUPED choice branch reads the base group attrs (polymorphic dispatch)."""
+        element = _snip(
+            "<SW-AXIS-GROUPED><MAX-GRADIENT>1.5</MAX-GRADIENT><MONOTONY>STRICTLY-INCREASING</MONOTONY>"
+            "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/types/shared</SHARED-AXIS-TYPE-REF></SW-AXIS-GROUPED>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert isinstance(props, SwAxisGrouped)
+        assert props.getMaxGradient().getValue() == 1.5
+        assert isinstance(props.getMonotony(), MonotonyEnum)
+        assert props.getMonotony().getValue() == "strictlyIncreasing"
+        assert props.getSharedAxisTypeRef().getValue() == "/axis/types/shared"
+
+    def test_read_base_attrs_via_individual_choice(self, parser):
+        """The SW-AXIS-INDIVIDUAL choice branch reads the base group attrs (polymorphic dispatch)."""
+        element = _snip(
+            "<SW-AXIS-INDIVIDUAL><MAX-GRADIENT>2.5</MAX-GRADIENT><MONOTONY>DECREASING</MONOTONY>" "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS></SW-AXIS-INDIVIDUAL>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert isinstance(props, SwAxisIndividual)
+        assert props.getMaxGradient().getValue() == 2.5
+        assert isinstance(props.getMonotony(), MonotonyEnum)
+        assert props.getMonotony().getValue() == "decreasing"
+
+    def test_read_empty_type_props_yields_unset_base_attrs(self, parser):
+        element = _snip(
+            "<SW-AXIS-GROUPED/>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert isinstance(props, SwAxisGrouped)
+        assert props.getMaxGradient() is None
+        assert props.getMonotony() is None

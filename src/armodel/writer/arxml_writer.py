@@ -1189,7 +1189,7 @@ from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguag
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwBitRepresentation,
@@ -1309,6 +1309,18 @@ CALPRM_AXIS_CATEGORY_XML_MAP = {
     "fixAXIS": "FIX_AXIS",
     "resAxis": "RES_AXIS",
     "stdAxis": "STD_AXIS",
+}
+
+#: Mapping between MonotonyEnum literal values and their XML element text
+#: (AR:MONOTONY-ENUM--SIMPLE).
+MONOTONY_XML_MAP = {
+    "decreasing": "DECREASING",
+    "increasing": "INCREASING",
+    "monotonous": "MONOTONOUS",
+    "noMonotony": "NO-MONOTONY",
+    "strictlyDecreasing": "STRICTLY-DECREASING",
+    "strictlyIncreasing": "STRICTLY-INCREASING",
+    "strictMonotonous": "STRICT-MONOTONOUS",
 }
 
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
@@ -3748,11 +3760,14 @@ class ARXMLWriter(AbstractARXMLWriter):
                 annotation_tag = ET.SubElement(annotations_tag, "ANNOTATION")
                 self.writeGeneralAnnotation(annotation_tag, annotation)
 
+    def writeSwCalprmAxisTypeProps(self, element: ET.Element, props: SwCalprmAxisTypeProps):
+        self.setChildElementOptionalFloatValue(element, "MAX-GRADIENT", props.getMaxGradient())
+        self._writeEnumToken(element, "MONOTONY", props.getMonotony(), MONOTONY_XML_MAP)
+
     def setSwAxisIndividual(self, element: ET.Element, props: SwAxisIndividual):
         child_element = ET.SubElement(element, "SW-AXIS-INDIVIDUAL")
         self.writeARObject(child_element, props)
-        self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
-        self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
+        self.writeSwCalprmAxisTypeProps(child_element, props)
         if props.getSwVariableRefs():
             variables_element = ET.SubElement(child_element, "SW-VARIABLE-REFS")
             for variable in props.getSwVariableRefs():
@@ -3792,8 +3807,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSwAxisGrouped(self, element: ET.Element, props: SwAxisGrouped):
         child_element = ET.SubElement(element, "SW-AXIS-GROUPED")
         self.writeARObject(child_element, props)
-        self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
-        self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
+        self.writeSwCalprmAxisTypeProps(child_element, props)
         self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.getSharedAxisTypeRef())
         self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", props.getSwAxisIndex())
         swCalprmRef_value = props.getSwCalprmRef()

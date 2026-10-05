@@ -643,15 +643,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwCalprmAxisTypeProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.49, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (206 passed / 0 failed test_CalibrationParameter.py + test_SwCalprmAxis.py + test_arxml_parser_internals.py + test_writer_SwCalprmAxis.py + test_arxml_writer.py + test_member_annotations.py; neighbors: DataDictionary model dir 210, parser/writer -k "Calprm or Axis or Monotony or DataDef or RuleBased or Constant or RecordLayout" 205, 2 pre-existing HEAD failures in test_arxml_parser_orchestrators.py unrelated); 9b deferred to batch confirmation (user instruction)
+  - Note: abstract Class confirmed (`SwCalprmAxisTypeProps (abstract)`, Base ARObject); subclasses SwAxisGrouped (Table 5.55) / SwAxisIndividual (Table 5.50) exist in Axis.py — not touched. Rule 0023 legacy checklist (reader/writer columns, no release column, stale `# Spec verified: R23-11`) — marker removed, 6-column rewrite, stamp WITHHELD (9b batch). Model Red vacuous (impl conformed); reader/writer Red genuine: reusable readSwCalprmAxisTypeProps/writeSwCalprmAxisTypeProps extracted from the four inline duplicate handlers (Rule 0001.7), MONOTONY upgraded from cast-ARLiteral/camelCase emission to typed `_readEnumToken`/UPPERCASE `MONOTONY_XML_MAP` wire form (no fixture carries MONOTONY); 3 stale consumer tests aligned; `getSwAxisGrouped` also gained the missing `readARObject` call (S/T round-trip asymmetry — flagged for 9b). Details in method_deviation_by_class.md `## SwCalprmAxisTypeProps`.
 
 - [ ] `SwAxisGeneric` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.51, p.355
   - module: M2/MSR/DataDictionary/Axis.py
