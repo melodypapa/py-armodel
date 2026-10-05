@@ -150,8 +150,11 @@ all agree; Rule 0001.3). Do not stop at the field default:
 
 - `*` (or any bounded many like `0..2`) → `List[T]` field (default `[]`) with plural
   accessors (`getXxxs`/`addXxx`); `getXxxs() -> List[T]`, `addXxx(value: T)`.
-- `0..1` → **optional single**: the field, the getter return, **and** the setter
-  parameter must ALL be annotated `Optional[T]` (default `None`) — not bare `T`.
+- `0..1` **or `1`** → **optional single**: the field, the getter return, **and** the
+  setter parameter must ALL be annotated `Optional[T]` (default `None`) — not bare `T`.
+  A multiplicity-1 (`1`) attribute is modeled the **same** way as `0..1`: the field is
+  `Optional[T] = None` so the in-memory object can exist unset and the None-no-op setter
+  of Rule 0004 applies. Only the many (`*`) shape differs (`List[T]`).
   ```python
   self.regularExpression: Optional[RegularExpression] = None
 
@@ -167,10 +170,11 @@ all agree; Rule 0001.3). Do not stop at the field default:
   Rule 1.4 violation even if the field defaults to `None` and the tests pass. The
   parser/writer helpers stay optional-typed too (`getChildElementOptional…` /
   `setChildElementOptional…`), so a bare-`T` annotation on any one of them is drift.
-  Because tests/black/ruff do **not** catch a bare-`T` `0..1` annotation (the value is
-  still `None` at runtime), re-verify annotations against the `Mult.` column as part of
-  the Step 9b field-to-spec cross-check — a class whose `0..1` fields were written in an
-  earlier release often carries bare `T`; fix them rather than re-stamping over them.
+  Because tests/black/ruff do **not** catch a bare-`T` single-valued (`0..1`/`1`)
+  annotation (the value is still `None` at runtime), re-verify annotations against the
+  `Mult.` column as part of the Step 9b field-to-spec cross-check — a class whose
+  single-valued (`0..1`/`1`) fields were written in an earlier release often carries
+  bare `T`; fix them rather than re-stamping over them.
 - A spec-`*` member whose **name is singular** still maps to a **plural** Python list
   field + plural accessors (`revisionLabel` `*` → `revisionLabels` +
   `addRevisionLabel`/`getRevisionLabels`). The per-item XML element keeps the singular
@@ -530,7 +534,8 @@ Python 3.8-compatible: `Optional[T]` / `List[T]` / `Dict[K,V]` from `typing` —
   `RunnableEntity.arguments`.
 - **No untyped accessors** — every getter return and setter parameter carries the
   concrete type even if the field is annotated.
-- A `None`-defaulted `0..1` field is annotated `Optional[T]`, never bare `T = None`.
+- A `None`-defaulted single-valued field (`0..1` or `1`) is annotated `Optional[T]`,
+  never bare `T = None`.
 - **No looser-union coercion setters** — `value` is exactly the field type, never
   `Optional[Union[String, str]]` with an `isinstance` branch (dead convenience API that
   breaks the Rule 0004 None no-op). Callers construct typed primitives
@@ -1829,8 +1834,8 @@ migrate them onto `AtpMixedString`; that is a separate project (Phase 2).
 
 Every `self.<member>` assignment that **creates** a member — in `__init__` and in
 `clear()`-style reset methods that (re)create the member set — must be a **PEP 526
-annotated assignment** carrying the member's quota shape, per Rule 0003: plain `T`
-(required, multiplicity 1), `Optional[T]` (0..1), `List[T]` (0..*). The annotation type
+annotated assignment** carrying the member's quota shape, per Rule 0003: `Optional[T]`
+(single-valued — `0..1` and `1`), `List[T]` (`0..*`). The annotation type
 must equal the getter return type. This is the mechanical, repo-wide form of Rule 0003's
 "`__init__` fields annotated" bullet; it exists because the 2026-10-01 AST survey found
 20 untyped member assignments (4 classes) hiding behind getter/setter-only coverage.
@@ -1871,7 +1876,7 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
 - **Step 9a:** run the gate test (`uv run pytest
   tests/test_armodel/models/test_member_annotations.py`) alongside pytest/lint.
 - **Step 9b:** the gate test verifies **form only**; the quota shape itself
-  (0..1 vs 0..* vs required) is confirmed against the spec table's multiplicity column —
+  (single-valued `0..1`/`1` vs `0..*`) is confirmed against the spec table's multiplicity column —
   automation is blind to that. Also: if the sync adds `from __future__ import
   annotations` to a module that did not have it, **all** of that module's quoted
   signatures must be unquoted in the same change (`test_pep563_annotations.py` bans
