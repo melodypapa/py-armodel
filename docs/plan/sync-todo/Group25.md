@@ -604,7 +604,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - Note (Step 1): considerPtoStatus, dtcProps and eventReadinessGroup render 3-col (Attribute | Type | Mult.) in the header block with no Note column; their Note text is taken verbatim from the XSD documentation (AUTOSAR_00052.xsd l.46716-46722 / l.46724 / l.46752-46755; the EVENT-READINESS-GROUPS documentation's intra-paragraph line wrap joined to one line).
   - Note (Step 1): XSD group DIAGNOSTIC-TROUBLE-CODE-UDS (AUTOSAR_00052.xsd l.46711) also carries EVENT-OBD-READINESS-GROUP (NMTOKEN, atp.Status="removed", l.46742-46749), absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). The header block's Base listing (ARElement … Referrable) is the transitive chain; per the confirmed queue row the class stays ARObject-family and derives directly from ARObject — the abstract base DiagnosticTroubleCode is ARElement-homed in ARPackage.py, unreachable from ArObject.py (DiagnosticTroubleCodeObd precedent).
   - Note (Steps 5/6): N/A this pass — DIAGNOSTIC-TROUBLE-CODE-UDS appears in the ARPackage ELEMENTS choice only (AUTOSAR_00052.xsd l.5252; no other parent aggregation in the XSD), whose loop requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach it — the future consumer wires it (cf. DiagnosticTroubleCodeObd, DiagnosticTroubleCodeProps, commit 27e01b079).
-  - note (pending reference, not a deviation): EventObdReadinessGroup (Table 4.160), DiagnosticUdsSeverityEnum (Table 4.177) and DiagnosticWwhObdDtcClassEnum (Table 4.179) are queued later in this file and still empty stubs — eventReadinessGroup/severity/wwhObdDtcClass are typed fields over the stubs (ArObject.py / PrimitiveTypes.py, same batch); no reader/writer impact this pass (Steps 5/6 N/A).
+  - note (pending reference, not a deviation): EventObdReadinessGroup (Table 4.160), DiagnosticUdsSeverityEnum (Table 4.177) and DiagnosticWwhObdDtcClassEnum (Table 4.179) are queued later in this file and still empty stubs — eventReadinessGroup/severity/wwhObdDtcClass are typed fields over the stubs (ArObject.py / PrimitiveTypes.py, same batch); no reader/writer impact this pass (Steps 5/6 N/A). RESOLVED 2026-10-04: EventObdReadinessGroup synced (Table 4.160) — eventReadinessGroup is now backed by the synced class.
 
 - [ ] `DiagnosticTroubleCodeObd` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.159, p.175
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -621,19 +621,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - Note (Step 1): considerPtoStatus and dtcProps render 2-col (Attribute | Type) in the header block with no Note column; their Note text is taken verbatim from the XSD documentation (AUTOSAR_00052.xsd l.46364 / l.46374).
   - Note (Step 1): XSD group DIAGNOSTIC-TROUBLE-CODE-OBD (AUTOSAR_00052.xsd l.46355) also carries EVENT-OBD-READINESS-GROUP (NAME-TOKEN-VALUE-VARIATION-POINT, l.46385) and OBD-DTC-VALUE-3-BYTE (l.46410), both atp.Status="removed" and absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). The header block's Base listing (ARElement … Referrable) is the transitive chain; per the confirmed queue row the class stays ARObject-family and derives directly from ARObject — the abstract base DiagnosticTroubleCode is ARElement-homed in ARPackage.py, unreachable from ArObject.py (DiagnosticMemoryDestinationUserDefined precedent).
   - Note (Steps 5/6): N/A this pass — DIAGNOSTIC-TROUBLE-CODE-OBD appears in the ARPackage ELEMENTS choice only (AUTOSAR_00052.xsd l.5250; no other parent aggregation in the XSD), whose loop requires a Referrable child (createXxx(short_name) + addReferrableElement); the confirmed queue row homes the class ARObject-family in ArObject.py (not Identifiable), so no factory/dispatch can reach it — the future consumer wires it (cf. DiagnosticFunctionIdentifierInhibit, Table 4.215).
-  - note (pending reference, not a deviation): DiagnosticTroubleCodeProps (Table 4.175) and EventObdReadinessGroup (Table 4.160) are queued later in this file and still empty stubs — dtcPropsRef/eventReadinessGroup are typed fields over the stubs (same module, ArObject.py); no reader/writer impact this pass (Steps 5/6 N/A).
+  - note (pending reference, not a deviation): DiagnosticTroubleCodeProps (Table 4.175) and EventObdReadinessGroup (Table 4.160) are queued later in this file and still empty stubs — dtcPropsRef/eventReadinessGroup are typed fields over the stubs (same module, ArObject.py); no reader/writer impact this pass (Steps 5/6 N/A). RESOLVED 2026-10-04: EventObdReadinessGroup synced (Table 4.160) — eventReadinessGroup is now backed by the synced class.
 
 - [ ] `EventObdReadinessGroup` — ARObject — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.160, p.176
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A — see note)
+  - [x] Step 6 — Update parser & writer (Green) (N/A — see note)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none — clean sync; notes below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1361 passed / 0 failed: test_ArObject.py + test_member_annotations.py + test_group21_36_stub_classes.py); npm run lint + black-check clean; 9b deferred to batch stamp (user instruction)
+  - Note (Step 1): Table 4.160 renders in one block (l.5353-5362): class Note "This meta-class represents the ability to define the value of attribute eventObdReadinessGroup. It is only introduced to allow for a variant modeling of this attribute." (matches the XSD group annotation verbatim). Attributes in displayed order: eventObdReadinessGroup (NameToken, 0..1, attr → Optional[NameToken]; rendered "eventObd Readiness Group" — intra-name line wrap joined; consistent with the XSD AR:NMTOKEN-STRING element).
+  - Note (Step 1): the eventObdReadinessGroup row renders 3-col (Attribute | Type | Mult.) with no Note column; its Note text is taken verbatim from the XSD documentation (AUTOSAR_00052.xsd l.57552-57554).
+  - Note (Step 1): the XSD group EVENT-OBD-READINESS-GROUP (AUTOSAR_00052.xsd l.57544) also carries VARIATION-POINT (l.57557-57567, xml.sequenceOffset="10000"), absent from the markdown table → not modeled (Rule 0015 finding, not a deviation). Per the confirmed queue row the class derives directly from ARObject (nested value container, not Identifiable — DiagnosticTroubleCodeUds/DiagnosticTroubleCodeObd precedent).
+  - Note (Steps 5/6): N/A this pass — EVENT-OBD-READINESS-GROUP is aggregated in the XSD only by DiagnosticTroubleCodeObd.eventReadinessGroup (l.46400) and DiagnosticTroubleCodeUds.eventReadinessGroup (l.46756), each through an optional EVENT-READINESS-GROUPS wrapper holding an unbounded EVENT-OBD-READINESS-GROUP choice; both consuming parents are ARObject-family homes in ArObject.py (not Identifiable), so no factory/dispatch can reach them — the future consumer wires the wrapper structure (cf. DiagnosticTroubleCodeUds, DiagnosticTroubleCodeObd, commit 27e01b079).
 
 - [ ] `DiagnosticTroubleCode` — ARElement — R23-11 CP_TPS_DiagnosticExtractTemplate Table 4.161, p.176
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

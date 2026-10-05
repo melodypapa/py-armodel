@@ -2545,3 +2545,68 @@ class TestDiagnosticTroubleCodeUdsPendingReferences:
         assert issubclass(EventObdReadinessGroup, ARObject)
         assert issubclass(DiagnosticUdsSeverityEnum, AREnum)
         assert issubclass(DiagnosticWwhObdDtcClassEnum, AREnum)
+
+
+class TestEventObdReadinessGroup:
+    """
+    Test class for EventObdReadinessGroup functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.160, p.176
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to define the value of attribute eventObdReadinessGroup. It is only introduced to allow for a variant modeling of this attribute."
+    EVENT_OBD_READINESS_GROUP_NOTE = "This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs."
+
+    def _create_group(self) -> EventObdReadinessGroup:
+        return EventObdReadinessGroup()
+
+    def test_initialization(self):
+        """
+        Test that a new EventObdReadinessGroup initializes all attributes to their defaults.
+        """
+        obj = self._create_group()
+
+        assert obj.getEventObdReadinessGroup() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that EventObdReadinessGroup derives from ARObject (confirmed queue row; ARObject is the most-derived reachable base — nested value container, not Identifiable).
+        """
+        assert issubclass(EventObdReadinessGroup, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(EventObdReadinessGroup.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert EventObdReadinessGroup.__init__.__doc__ is None
+
+    def test_get_set_event_obd_readiness_group(self):
+        """
+        Test getEventObdReadinessGroup and setEventObdReadinessGroup round-trip and None no-op.
+        """
+        obj = self._create_group()
+
+        value = NameToken().setValue("OBD_READINESS_GROUP_1")
+        result = obj.setEventObdReadinessGroup(value)
+        assert result is obj  # method chaining
+        assert obj.getEventObdReadinessGroup() is value
+        assert obj.getEventObdReadinessGroup().getValue() == "OBD_READINESS_GROUP_1"
+
+        result = obj.setEventObdReadinessGroup(None)
+        assert result is obj  # method chaining with None
+        assert obj.getEventObdReadinessGroup() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(EventObdReadinessGroup.getEventObdReadinessGroup.__doc__) == self.EVENT_OBD_READINESS_GROUP_NOTE
+        assert inspect.cleandoc(EventObdReadinessGroup.setEventObdReadinessGroup.__doc__) == (
+            self.EVENT_OBD_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventObdReadinessGroup."
+        )

@@ -2010,7 +2010,45 @@ class DiagnosticTroubleCodeUds(ARObject):
 
 
 class EventObdReadinessGroup(ARObject):
-    pass
+    """This meta-class represents the ability to define the value of attribute eventObdReadinessGroup. It is only introduced to allow for a variant modeling of this attribute."""
+
+    # EventObdReadinessGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.160, p.176
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventObdReadinessGroup  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setEventObdReadinessGroup  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # reader/writer [—] = Steps 5/6 N/A this pass — EVENT-OBD-READINESS-GROUP is aggregated only by
+    # DiagnosticTroubleCodeObd.eventReadinessGroup and DiagnosticTroubleCodeUds.eventReadinessGroup
+    # (AUTOSAR_00052.xsd l.46400 / l.46756, each through an optional EVENT-READINESS-GROUPS wrapper
+    # holding an unbounded EVENT-OBD-READINESS-GROUP choice); both consuming parents are ARObject-family
+    # homes in ArObject.py (not Identifiable), so no factory/dispatch can reach them — the future
+    # consumer wires the wrapper structure (cf. DiagnosticTroubleCodeUds, DiagnosticTroubleCodeObd,
+    # commit 27e01b079). The XSD group also carries VARIATION-POINT (AUTOSAR_00052.xsd l.57557-57567,
+    # xml.sequenceOffset="10000"), absent from the markdown table — not modeled (Rule 0015).
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs.
+        self.eventObdReadinessGroup: Optional[NameToken] = None
+
+    def getEventObdReadinessGroup(self) -> Optional[NameToken]:
+        """
+        This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs.
+        """
+        return self.eventObdReadinessGroup
+
+    def setEventObdReadinessGroup(self, value: Optional[NameToken]) -> EventObdReadinessGroup:
+        """
+        This attribute specifies the Event OBD Readiness group for PID $01 and PID $41 computation. This attribute is only applicable for emission-related ECUs.
+
+        A None value is a no-op and does not overwrite an existing eventObdReadinessGroup.
+        """
+        if value is not None:
+            self.eventObdReadinessGroup = value
+        return self
 
 
 class FMAttributeValue(ARObject):
