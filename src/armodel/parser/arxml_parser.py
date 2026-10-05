@@ -10693,6 +10693,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             recovery = CanClusterBusOffRecovery()
+            self.readARObject(child_element, recovery)
             recovery.setBorCounterL1ToL2(self.getChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2"))
             recovery.setBorTimeL1(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1"))
             recovery.setBorTimeL2(self.getChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2"))
@@ -13135,9 +13136,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readFlexrayCommunicationController(self, element: ET.Element, controller: FlexrayCommunicationController):
         self.logger.debug("Read CommunicationController <%s>" % controller.getShortName())
         self.readIdentifiable(element, controller)
-        self.readCommunicationController(element, controller)
         child_element = self.find(element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS/FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
+            self.readCommunicationController(child_element, controller)
             controller.setAcceptedStartupRange(self.getChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE"))
             controller.setAllowHaltDueToClock(self.getChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK"))
             controller.setAllowPassiveToActive(self.getChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE"))
@@ -14065,6 +14066,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             requirements = CanControllerFdConfigurationRequirements()
+            self.readARObject(child_element, requirements)
             requirements.setMaxNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT"))
             requirements.setMaxSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT"))
             requirements.setMaxSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH"))
@@ -15011,6 +15013,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
+            self.readARObject(child_element, i_pdu_ref)
             default_value_element = self.find(child_element, "DEFAULT-VALUE")
             if default_value_element is not None:
                 default_value = PduMappingDefaultValue()
@@ -15758,7 +15761,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.readARObject(element, mapping)
+        mapping.setCommunicationDirection(cast(Optional[CommunicationDirectionType], self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")))
+        for ref in self.getChildElementRefTypeList(element, "EVENT-GROUP-REFS/EVENT-GROUP-REF"):
+            mapping.addEventGroupRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "EVENT-HANDLER-REFS/EVENT-HANDLER-REF"):
+            mapping.addEventHandlerRef(ref)
         mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF"):
+            mapping.addServiceInstanceRef(ref)
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             if isinstance(mapping, VariationPointCapable):

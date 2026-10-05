@@ -10961,6 +10961,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanClusterBusOffRecovery(self, element: ET.Element, key: str, recovery: Optional[CanClusterBusOffRecovery]):
         if recovery is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, recovery)
             self.setChildElementOptionalPositiveInteger(child_element, "BOR-COUNTER-L-1-TO-L-2", cast(Integer, recovery.getBorCounterL1ToL2()))
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-1", recovery.getBorTimeL1())
             self.setChildElementOptionalTimeValue(child_element, "BOR-TIME-L-2", recovery.getBorTimeL2())
@@ -11860,6 +11861,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: Optional[CanControllerFdConfigurationRequirements]):
         if requirements is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, requirements)
             self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMaxNumberOfTimeQuantaPerBit())  # noqa E501
             self.setChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT", requirements.getMaxSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH", requirements.getMaxSyncJumpWidth())
@@ -11929,7 +11931,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             if isinstance(attributes, CanControllerConfigurationRequirements):
                 self.writeCanControllerConfigurationRequirements(child_element, attributes)
             elif isinstance(attributes, CanControllerConfiguration):
-                self.writeCanControllerConfiguration(child_element, attributes)
+                config_element = ET.SubElement(child_element, "CAN-CONTROLLER-CONFIGURATION")
+                self.writeCanControllerConfiguration(config_element, attributes)
             else:
                 self.notImplemented("Unsupported CanControllerAttributes <%s>" % type(attributes))
 
@@ -12615,7 +12618,23 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.writeARObject(element, mapping)
+        self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
+        event_group_refs = mapping.getEventGroupRefs()
+        if len(event_group_refs) > 0:
+            event_group_refs_tag = ET.SubElement(element, "EVENT-GROUP-REFS")
+            for event_group_ref in event_group_refs:
+                self.setChildElementOptionalRefType(event_group_refs_tag, "EVENT-GROUP-REF", event_group_ref)
+        event_handler_refs = mapping.getEventHandlerRefs()
+        if len(event_handler_refs) > 0:
+            event_handler_refs_tag = ET.SubElement(element, "EVENT-HANDLER-REFS")
+            for event_handler_ref in event_handler_refs:
+                self.setChildElementOptionalRefType(event_handler_refs_tag, "EVENT-HANDLER-REF", event_handler_ref)
         self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
+        service_instance_refs = mapping.getServiceInstanceRefs()
+        if len(service_instance_refs) > 0:
+            service_instance_refs_tag = ET.SubElement(element, "SERVICE-INSTANCE-REFS")
+            for service_instance_ref in service_instance_refs:
+                self.setChildElementOptionalRefType(service_instance_refs_tag, "SERVICE-INSTANCE-REF", service_instance_ref)
         self.writeVariationPoint(element, mapping.getVariationPoint())
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
@@ -12659,6 +12678,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
         if indexed is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, indexed)
             self.setChildElementOptionalRefType(child_element, "APPLICATION-ARRAY-ELEMENT-REF", indexed.getApplicationArrayElementRef())
             self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-ARRAY-ELEMENT-REF", indexed.getImplementationArrayElementRef())
             self.setChildElementOptionalIntegerValue(child_element, "INDEX", indexed.getIndex())
@@ -13537,6 +13557,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: Optional[TargetIPduRef]):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, i_pdu_ref)
             default_value = i_pdu_ref.getDefaultValue()
             if default_value is not None and len(default_value.getDefaultValueElements()) > 0:
                 default_value_element = ET.SubElement(child_element, "DEFAULT-VALUE")
@@ -16719,9 +16740,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write FlexrayCommunicationController <%s>" % controller.getShortName())
             controller_element = ET.SubElement(element, "FLEXRAY-COMMUNICATION-CONTROLLER")
             self.writeIdentifiable(controller_element, controller)
-            self.writeCommunicationController(controller_element, controller)
             variant_element = ET.SubElement(controller_element, "FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS")
             child_element = ET.SubElement(variant_element, "FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
+            self.writeCommunicationController(child_element, controller)
             self.setChildElementOptionalIntegerValue(child_element, "ACCEPTED-STARTUP-RANGE", controller.getAcceptedStartupRange())
             self.setChildElementOptionalBooleanValue(child_element, "ALLOW-HALT-DUE-TO-CLOCK", controller.getAllowHaltDueToClock())
             self.setChildElementOptionalIntegerValue(child_element, "ALLOW-PASSIVE-TO-ACTIVE", controller.getAllowPassiveToActive())
@@ -18255,14 +18276,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
-            self.writeAbstractCanCommunicationControllerAttributes(child_element, configuration)
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", configuration.getPropSeg())
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG-1", configuration.getTimeSeg1())
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG-2", configuration.getTimeSeg2())
+            self.writeCanControllerConfiguration(child_element, configuration)
 
     def writeCanControllerConfiguration(self, element: ET.Element, configuration: CanControllerConfiguration):
-        self.setCanControllerConfiguration(element, "CAN-CONTROLLER-CONFIGURATION", configuration)
+        self.writeAbstractCanCommunicationControllerAttributes(element, configuration)
+        self.setChildElementOptionalIntegerValue(element, "PROP-SEG", configuration.getPropSeg())
+        self.setChildElementOptionalIntegerValue(element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+        self.setChildElementOptionalIntegerValue(element, "TIME-SEG-1", configuration.getTimeSeg1())
+        self.setChildElementOptionalIntegerValue(element, "TIME-SEG-2", configuration.getTimeSeg2())
 
     def writeCanXlProps(self, parent: ET.Element, can_xl_props: CanXlProps):
         self.logger.debug("Write CanXlProps %s" % can_xl_props.getShortName())

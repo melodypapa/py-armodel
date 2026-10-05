@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import IndexedArrayElement, SenderRecArrayElementMapping
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -34,6 +34,8 @@ def _ref(value, dest):
 
 def _indexed(application_ref=None, implementation_ref=None, index=None):
     indexed = IndexedArrayElement()
+    indexed.setChecksum(String().setValue("1234"))
+    indexed.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     if application_ref is not None:
         indexed.setApplicationArrayElementRef(_ref(application_ref, "APPLICATION-ARRAY-ELEMENT"))
     if implementation_ref is not None:
@@ -65,6 +67,8 @@ class TestWriteIndexedArrayElement:
         assert element.find("IMPLEMENTATION-ARRAY-ELEMENT-REF").text == "/Types/ImplArray1/Elem"
         assert element.find("IMPLEMENTATION-ARRAY-ELEMENT-REF").attrib["DEST"] == "IMPLEMENTATION-ARRAY-ELEMENT"
         assert element.find("INDEX").text == "3"
+        assert element.get("S") == "1234"
+        assert element.get("T") == "2024-01-01T00:00:00Z"
 
     def test_write_partial_omits_absent_tags(self):
         mapping = SenderRecArrayElementMapping()
@@ -101,3 +105,5 @@ class TestWriteIndexedArrayElement:
         assert indexed.getImplementationArrayElementRef().getValue() == "/Types/ImplArray1/Elem"
         assert indexed.getImplementationArrayElementRef().getDest() == "IMPLEMENTATION-ARRAY-ELEMENT"
         assert indexed.getIndex().getValue() == 3
+        assert indexed.getChecksum().getValue() == "1234"
+        assert indexed.getTimestamp().getValue() == "2024-01-01T00:00:00Z"

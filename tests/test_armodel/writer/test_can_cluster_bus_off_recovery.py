@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster
 from armodel.parser.arxml_parser import ARXMLParser
@@ -45,6 +45,8 @@ def _time(text):
 
 def _new_recovery():
     recovery = CanClusterBusOffRecovery()
+    recovery.setChecksum(String().setValue("1234"))
+    recovery.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     recovery.setBorCounterL1ToL2(_pos_int("8"))
     recovery.setBorTimeL1(_time("0.1"))
     recovery.setBorTimeL2(_time("1.5"))
@@ -76,6 +78,8 @@ class TestWriteCanClusterBusOffRecovery:
         assert tag.find("BOR-TIME-L-2").text == "1.5"
         assert tag.find("BOR-TIME-TX-ENSURED").text == "0.2"
         assert tag.find("MAIN-FUNCTION-PERIOD").text == "0.01"
+        assert tag.get("S") == "1234"
+        assert tag.get("T") == "2024-01-01T00:00:00Z"
 
     def test_write_empty_recovery_omits_child_tags(self):
         parent = _parent()
@@ -107,3 +111,5 @@ class TestWriteCanClusterBusOffRecovery:
         assert recovery.getBorTimeTxEnsured().getValue() == 0.2
         assert isinstance(recovery.getMainFunctionPeriod(), TimeValue)
         assert recovery.getMainFunctionPeriod().getValue() == 0.01
+        assert recovery.getChecksum().getValue() == "1234"
+        assert recovery.getTimestamp().getValue() == "2024-01-01T00:00:00Z"

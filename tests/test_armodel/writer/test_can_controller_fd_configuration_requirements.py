@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, Float, Integer, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     CanControllerConfigurationRequirements,
     CanControllerFdConfigurationRequirements,
@@ -68,6 +68,8 @@ def _time(text):
 
 def _new_fd_requirements():
     req = CanControllerFdConfigurationRequirements()
+    req.setChecksum(String().setValue("1234"))
+    req.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     req.setMaxNumberOfTimeQuantaPerBit(_int("32"))
     req.setMaxSamplePoint(_float("0.8"))
     req.setMaxSyncJumpWidth(_float("0.2"))
@@ -119,6 +121,8 @@ class TestWriteCanControllerFdConfigurationRequirements:
         assert tag.find("MIN-TRCV-DELAY-COMPENSATION-OFFSET").text == "0.0005"
         assert tag.find("PADDING-VALUE").text == "8"
         assert tag.find("TX-BIT-RATE-SWITCH").text == "true"
+        assert tag.get("S") == "1234"
+        assert tag.get("T") == "2024-01-01T00:00:00Z"
 
     def test_write_empty_requirements_omits_child_tags(self):
         parent = _write_holder(CanControllerFdConfigurationRequirements())
@@ -150,3 +154,5 @@ class TestCanControllerFdConfigurationRequirementsRoundTrip:
         assert isinstance(req.getMaxNumberOfTimeQuantaPerBit(), Integer)
         assert isinstance(req.getMaxSamplePoint(), Float)
         assert isinstance(req.getPaddingValue(), PositiveInteger)
+        assert req.getChecksum().getValue() == "1234"
+        assert req.getTimestamp().getValue() == "2024-01-01T00:00:00Z"

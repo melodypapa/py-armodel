@@ -16,7 +16,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 NS = "http://autosar.org/schema/r4.0"
 
 FULL_RECOVERY = (
-    "<BUS-OFF-RECOVERY>"
+    '<BUS-OFF-RECOVERY S="1234" T="2024-01-01T00:00:00Z">'
     "<BOR-COUNTER-L-1-TO-L-2>8</BOR-COUNTER-L-1-TO-L-2>"
     "<BOR-TIME-L-1>0.1</BOR-TIME-L-1>"
     "<BOR-TIME-L-2>1.5</BOR-TIME-L-2>"
@@ -63,6 +63,9 @@ class TestReadCanClusterBusOffRecovery:
         main_function_period = recovery.getMainFunctionPeriod()
         assert isinstance(main_function_period, TimeValue)
         assert main_function_period.getValue() == 0.01
+
+        assert recovery.getChecksum().getValue() == "1234"
+        assert recovery.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_reads_empty_recovery_wrapper_to_none_fields(self, parser):
         cluster = _read_into_cluster("<BUS-OFF-RECOVERY/>")

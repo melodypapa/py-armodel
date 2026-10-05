@@ -649,6 +649,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AbstractCanPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.20, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
+  - Deviation (pre-recorded 2026-10-05, Rule 0023/0012.3): current checklist is legacy 5-column (impl/docstring/test/reader/writer — no `release` column) carrying a stale `# Spec verified: R23-11` stamp, and uses ASCII `[-]` instead of the required `[—]` glyph; the `__init__` row is correctly `[—]/[—]`. Re-run must add the release column, normalise `[-]` → `[—]`, and re-stamp only after 9b.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -661,6 +662,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.21, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
+  - Deviation (pre-recorded 2026-10-05, Rule 0023/0002/0012.3): legacy 5-column checklist (no `release` column) with a stale `# Spec verified: R23-11` stamp; the `__init__` row wrongly shows `[x] reader [x] writer` — `__init__` has no XML element, both must be `[—]`. Re-run must add the release column, fix the `__init__` reader/writer ticks, and re-stamp only after 9b.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -745,6 +747,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `FlexrayFifoConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.31, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
+  - Deviation (pre-recorded 2026-10-05, Rule 0001.6): `createFlexrayFifoRange()` is a no-arg `createXxx` factory returning `FlexrayFifoRange`, which derives from `ARObject` (not `Referrable`) — Rule 0001.6 requires `addXxx(value)` for non-`Referrable` children. Rename to `addFlexrayFifoRange(value: Optional[FlexrayFifoRange])` (None-guarded append, returns self) in this pass.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

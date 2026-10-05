@@ -2556,7 +2556,14 @@ No deviations (synced to R23-11 Table D.17, p.953 — `contextDataPrototype` now
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::DataMapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py`
 
-No deviations — Table 5.22 has a single attribute row (`introduction`, DocumentationBlock 0..1 aggr), implemented with reader/writer coverage via the abstract-base helpers `readDataMapping`/`writeDataMapping`. The four `missing` rows from the old SoftwareComponentTemplate corpus (`communicationDirection`, `eventGroupRefs`, `eventHandlerRefs`, `serviceInstanceRefs`) are removed: all four carry `atp.Status="removed"` in the R23-11 XSD (group DATA-MAPPING, AUTOSAR_00052.xsd line 27249; R4.3.1 Table 5.14 confirms the upstream deletion) — deprecated, not implemented per spec.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `communicationDirection` | `Optional[CommunicationDirectionType]` | `communicationDirection` | `CommunicationDirectionType` | attr | `legacy (R4.3.1 Table 5.14, p.142); removed in R23-11` |
+| `eventGroupRefs` | `List[RefType]` | `eventGroup` | `ConsumedEventGroup` | ref | `legacy (R4.3.1 Table 5.14, p.142); removed in R23-11` |
+| `eventHandlerRefs` | `List[RefType]` | `eventHandler` | `EventHandler` | ref | `legacy (R4.3.1 Table 5.14, p.142); removed in R23-11` |
+| `serviceInstanceRefs` | `List[RefType]` | `serviceInstance` | `AbstractServiceInstance` | ref | `legacy (R4.3.1 Table 5.14, p.142); removed in R23-11` |
+
+Rule 0019 combine case. R23-11 Table 5.22 no longer lists these four members, but all four are documented in the older verified corpus (R4.3.1 Table 5.14, p.142) and authentic R22-11 `*_SystemMapping.arxml` fixtures carry `<COMMUNICATION-DIRECTION>` inside `SENDER-RECEIVER-TO-SIGNAL-MAPPING` (which inlines the `DATA-MAPPING` group). Removing `communicationDirection` broke the lossless integration round-trip over 8 fixtures, so all four are kept as optional legacy members with full reader/writer coverage in XSD group order (`COMMUNICATION-DIRECTION`, `EVENT-GROUP-REFS`, `EVENT-HANDLER-REFS`, `INTRODUCTION`, `SERVICE-INSTANCE-REFS`, `VARIATION-POINT`); fixtures are never edited to force a removal. No other deviations.
 
 ## `EndToEndTransformationDescription`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 987

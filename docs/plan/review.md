@@ -1,1 +1,1 @@
-/sync-autosar-class help me review all the classes in Group16.md are satisfied the skill rules
+/sync-autosar-class help me review all the classes in @docs/plan/sync-todo/Group18.md are satisfied the skill rules
