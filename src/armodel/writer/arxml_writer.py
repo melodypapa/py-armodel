@@ -2355,6 +2355,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE", props.getTransmissionMode())
 
     def writeSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
+        self.writeARObject(element, com_spec)
         representations = com_spec.getCompositeNetworkRepresentations()
         if len(representations) > 0:
             child_element = ET.SubElement(element, "COMPOSITE-NETWORK-REPRESENTATIONS")
@@ -2369,7 +2370,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeNonqueuedSenderComSpec(self, element: ET.Element, com_spec: NonqueuedSenderComSpec):
         child_element = ET.SubElement(element, "NONQUEUED-SENDER-COM-SPEC")
-        self.writeARObject(child_element, com_spec)
         self.writeSenderComSpec(child_element, com_spec)
         self.setDataFilter(child_element, "DATA-FILTER", com_spec.getDataFilter())
         self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
@@ -2416,7 +2416,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeQueuedSenderComSpec(self, element: ET.Element, com_spec: QueuedSenderComSpec):
         child_element = ET.SubElement(element, "QUEUED-SENDER-COM-SPEC")
-        self.writeARObject(child_element, com_spec)
         self.writeSenderComSpec(child_element, com_spec)
 
     def setModeSwitchedAckRequest(self, element: ET.Element, key: str, request: Optional[ModeSwitchedAckRequest]):

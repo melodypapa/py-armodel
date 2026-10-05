@@ -194,6 +194,33 @@ class TestTransmissionAcknowledgementRequest:
 class TestSenderComSpec:
     """Test class for SenderComSpec abstract class (base accessors via NonqueuedSenderComSpec)."""
 
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.67 Notes copied verbatim."""
+        assert SenderComSpec.__doc__.strip() == "Communication attributes for a sender port (PPortPrototype typed by SenderReceiverInterface)."
+        add_note = "This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation"
+        assert SenderComSpec.addCompositeNetworkRepresentation.__doc__.strip() == add_note + " A None value is a no-op and does not append anything."
+        assert SenderComSpec.getCompositeNetworkRepresentations.__doc__.strip() == add_note
+        data_element_note = "Data element these quality of service attributes apply to."
+        assert SenderComSpec.getDataElementRef.__doc__.strip() == data_element_note
+        assert SenderComSpec.setDataElementRef.__doc__.strip() == data_element_note + " A None value is a no-op and does not overwrite an existing dataElementRef."
+        handle_out_of_range_note = "This attribute controls how out-of-range values shall be dealt with."
+        assert SenderComSpec.getHandleOutOfRange.__doc__.strip() == handle_out_of_range_note
+        assert SenderComSpec.setHandleOutOfRange.__doc__.strip() == handle_out_of_range_note + " A None value is a no-op and does not overwrite an existing handleOutOfRange."
+        network_representation_note = (
+            "A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation"
+        )
+        assert SenderComSpec.getNetworkRepresentation.__doc__.strip() == network_representation_note
+        assert SenderComSpec.setNetworkRepresentation.__doc__.strip() == network_representation_note + " A None value is a no-op and does not overwrite an existing networkRepresentation."
+        acknowledge_note = "Requested transmission acknowledgement for data element."
+        assert SenderComSpec.getTransmissionAcknowledge.__doc__.strip() == acknowledge_note
+        assert SenderComSpec.setTransmissionAcknowledge.__doc__.strip() == acknowledge_note + " A None value is a no-op and does not overwrite an existing transmissionAcknowledge."
+        transmission_props_note = "This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec."
+        assert SenderComSpec.getTransmissionProps.__doc__.strip() == transmission_props_note
+        assert SenderComSpec.setTransmissionProps.__doc__.strip() == transmission_props_note + " A None value is a no-op and does not overwrite an existing transmissionProps."
+        uses_e2e_note = "This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+        assert SenderComSpec.getUsesEndToEndProtection.__doc__.strip() == uses_e2e_note
+        assert SenderComSpec.setUsesEndToEndProtection.__doc__.strip() == uses_e2e_note + " A None value is a no-op and does not overwrite an existing usesEndToEndProtection."
+
     def test_sender_com_spec_abstract(self):
         """Test that SenderComSpec is an abstract class that raises TypeError when instantiated."""
         with pytest.raises(TypeError):

@@ -8116,7 +8116,7 @@ class ARXMLParser(AbstractARXMLParser):
         return None
 
     def readSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
-        self.readARObject(element, com_spec)
+        self.readPPortComSpec(element, com_spec)
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))

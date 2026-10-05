@@ -10,13 +10,18 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Numerical, PositiveInteger, RefType, TimeValue, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
+    CompositeNetworkRepresentation,
     HandleOutOfRangeEnum,
     HandleOutOfRangeStatusEnum,
     HandleTimeoutEnum,
     NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
     ReceptionComSpecProps,
     ServerComSpec,
+    TransmissionAcknowledgementRequest,
+    TransmissionComSpecProps,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -271,3 +276,73 @@ class TestReceiverComSpecRoundTrip:
         _, r_port_2 = _round_trip_ports(AUTOSAR.getInstance())
 
         assert r_port_2.getRequiredComSpecs() == []
+
+
+def _new_nonqueued_sender_com_spec():
+    com_spec = NonqueuedSenderComSpec()
+    com_spec.setDataElementRef(_ref("/Swc/Vdp", "VARIABLE-DATA-PROTOTYPE"))
+    com_spec.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.DEFAULT))
+    com_spec.setNetworkRepresentation(SwDataDefProps())
+    com_spec.setTransmissionAcknowledge(TransmissionAcknowledgementRequest().setTimeout(TimeValue().setValue("2.5")))
+    com_spec.setTransmissionProps(TransmissionComSpecProps().setMinimumSendInterval(TimeValue().setValue("0.2")))
+    uses_e2e = Boolean()
+    uses_e2e.setValue(True)
+    com_spec.setUsesEndToEndProtection(uses_e2e)
+    representation = CompositeNetworkRepresentation()
+    com_spec.addCompositeNetworkRepresentation(representation)
+    data_filter = DataFilter()
+    data_filter.setDataFilterType(DataFilterTypeEnum().setValue(DataFilterTypeEnum.ALWAYS))
+    com_spec.setDataFilter(data_filter)
+    com_spec.setInitValue(TextValueSpecification().setValue(VerbatimString().setValue("init")))
+    return com_spec
+
+
+class TestSenderComSpecRoundTrip:
+    def test_nonqueued_sender_com_spec_round_trip(self):
+        """SenderComSpec + NonqueuedSenderComSpec attributes round-trip with field values intact."""
+        document, p_port, _ = _new_document_with_ports()
+
+        p_port.addProvidedComSpec(_new_nonqueued_sender_com_spec())
+
+        p_port_2, _ = _round_trip_ports(document)
+
+        com_specs = p_port_2.getProvidedComSpecs()
+        assert len(com_specs) == 1
+        com_spec = com_specs[0]
+        assert isinstance(com_spec, NonqueuedSenderComSpec)
+        assert com_spec.getDataElementRef().getValue() == "/Swc/Vdp"
+        assert com_spec.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert com_spec.getHandleOutOfRange().getValue() == "default"
+        assert com_spec.getNetworkRepresentation() is not None
+        assert com_spec.getTransmissionAcknowledge().getTimeout().getValue() == 2.5
+        assert com_spec.getTransmissionProps().getMinimumSendInterval().getValue() == 0.2
+        assert com_spec.getUsesEndToEndProtection().getValue() is True
+        assert len(com_spec.getCompositeNetworkRepresentations()) == 1
+        assert isinstance(com_spec.getCompositeNetworkRepresentations()[0], CompositeNetworkRepresentation)
+        assert com_spec.getDataFilter().getDataFilterType().getValue() == "ALWAYS"
+        assert isinstance(com_spec.getInitValue(), TextValueSpecification)
+        assert com_spec.getInitValue().getValue().getValue() == "init"
+
+    def test_sender_com_spec_xml_element_order_matches_xsd(self):
+        """Writer emission order follows the XSD SENDER-COM-SPEC / NONQUEUED-SENDER-COM-SPEC group sequences (Rule 0001.11)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        p_port.addProvidedComSpec(_new_nonqueued_sender_com_spec())
+
+        root = _write_and_load_raw(document)
+        com_spec_element = root.find(".//{*}P-PORT-PROTOTYPE/{*}PROVIDED-COM-SPECS/{*}NONQUEUED-SENDER-COM-SPEC")
+        tags = [child.tag for child in com_spec_element]
+        sender_tags = [
+            "COMPOSITE-NETWORK-REPRESENTATIONS",
+            "DATA-ELEMENT-REF",
+            "HANDLE-OUT-OF-RANGE",
+            "NETWORK-REPRESENTATION",
+            "TRANSMISSION-ACKNOWLEDGE",
+            "TRANSMISSION-PROPS",
+            "USES-END-TO-END-PROTECTION",
+            "DATA-FILTER",
+            "INIT-VALUE",
+        ]
+        emitted = [tag for tag in tags if tag in sender_tags]
+        expected = [tag for tag in sender_tags if tag in set(tags)]
+        assert emitted == expected

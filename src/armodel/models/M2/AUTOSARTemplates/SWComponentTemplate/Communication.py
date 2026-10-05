@@ -333,24 +333,23 @@ class SenderComSpec(PPortComSpec, ABC):
     """
 
     # SenderComSpec method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.178
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.179
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SenderComSpec:
@@ -381,8 +380,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def addCompositeNetworkRepresentation(self, representation: Optional[CompositeNetworkRepresentation]) -> SenderComSpec:
         """
-        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
-        A None value is a no-op and does not append anything.
+        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation A None value is a no-op and does not append anything.
         """
         if representation is not None:
             self.compositeNetworkRepresentations.append(representation)
@@ -402,8 +400,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setDataElementRef(self, value: Optional[RefType]) -> SenderComSpec:
         """
-        Data element these quality of service attributes apply to.
-        A None value is a no-op and does not overwrite an existing dataElementRef.
+        Data element these quality of service attributes apply to. A None value is a no-op and does not overwrite an existing dataElementRef.
         """
         if value is not None:
             self.dataElementRef = value
@@ -417,8 +414,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> SenderComSpec:
         """
-        This attribute controls how out-of-range values shall be dealt with.
-        A None value is a no-op and does not overwrite an existing handleOutOfRange.
+        This attribute controls how out-of-range values shall be dealt with. A None value is a no-op and does not overwrite an existing handleOutOfRange.
         """
         if value is not None:
             self.handleOutOfRange = value
@@ -432,8 +428,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> SenderComSpec:
         """
-        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
-        A None value is a no-op and does not overwrite an existing networkRepresentation.
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation A None value is a no-op and does not overwrite an existing networkRepresentation.
         """
         if value is not None:
             self.networkRepresentation = value
@@ -447,8 +442,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setTransmissionAcknowledge(self, value: Optional[TransmissionAcknowledgementRequest]) -> SenderComSpec:
         """
-        Requested transmission acknowledgement for data element.
-        A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
+        Requested transmission acknowledgement for data element. A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
         """
         if value is not None:
             self.transmissionAcknowledge = value
@@ -462,8 +456,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setTransmissionProps(self, value: Optional[TransmissionComSpecProps]) -> SenderComSpec:
         """
-        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
-        A None value is a no-op and does not overwrite an existing transmissionProps.
+        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec. A None value is a no-op and does not overwrite an existing transmissionProps.
         """
         if value is not None:
             self.transmissionProps = value
@@ -477,8 +470,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> SenderComSpec:
         """
-        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
-        A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
         """
         if value is not None:
             self.usesEndToEndProtection = value

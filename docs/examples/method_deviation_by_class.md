@@ -2216,16 +2216,15 @@ round-tripped there through `HANDLE_TIMEOUT_XML_MAP`); legacy 5-column checklist
 stale marker removed, re-stamp deferred to the batch 9b.
 
 ## `SenderComSpec`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 178
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 179
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dataUpdatePeriod` | `TimeValue` | — | missing |
-| `compositeNetworkRepresentations` | `—` | `networkRepresentation` | `SwDataDefProps` | — | type (spec one vs py list) |
-| — *(missing)* | `—` | `senderIntent` | `SenderIntentEnum` | — | missing |
-| — *(missing)* | `—` | `transmissionProps` | `TransmissionComSpecProps` | — | missing |
+| — *(not modeled)* | `—` | `dataUpdatePeriod` | `TimeValue` | — | deprecated (atp.Status=removed), not implemented |
+
+**Note:** Rule-0023 re-sync 2026-10-05 (this pass re-verified all 7 attributes both directions against Table 4.67, the verbatim Notes with their Stereotypes/Tags tails, member order (page-split table: `usesEndToEndProtection` last), and the XSD SENDER-COM-SPEC group element order; the legacy 5-column checklist was normalized to the 6-column format, the page citation corrected to p.179 per `pdf_page.py`, and the stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Reader/writer: `writeSenderComSpec` now calls `writeARObject` itself (audit `BASE` — the abstract base owns the reusable helper; `writeNonqueuedSenderComSpec`/`writeQueuedSenderComSpec` dropped their own call so each construction path calls it exactly once) and `readSenderComSpec` re-leveled to its direct base helper `readPPortComSpec`. Stale rows removed: the former `compositeNetworkRepresentations`/`networkRepresentation` "type (spec one vs py list)" row was wrong (Table 4.67 mult is `*` for `compositeNetworkRepresentation`, `0..1` for `networkRepresentation` — both modeled correctly); `senderIntent` is an XSD-only AP-candidate element absent from the CP PDF table and is simply not modeled (Rule 0015, no row); `transmissionProps` exists (`getTransmissionProps`/`setTransmissionProps`) so its "missing" row was stale. No Rule 0001.10 missing classes. No stamp (batch 9b).
 
 ## `NonqueuedSenderComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 179
