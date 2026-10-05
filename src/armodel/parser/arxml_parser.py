@@ -12747,14 +12747,12 @@ class ARXMLParser(AbstractARXMLParser):
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
         self.readVariationPointCapable(element, coupling)
 
-    def readFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:
-        coupling = FlexrayNmClusterCoupling()
+    def readFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
         self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmScheduleVariant(cast(Optional[FlexrayNmScheduleVariant], self.getChildElementOptionalLiteral(element, "NM-SCHEDULE-VARIANT")))
         self.readVariationPointCapable(element, coupling)
-        return coupling
 
     def readNmConfigNmClusterCouplings(self, element: ET.Element, nm_config: NmConfig):
         for child_element in self.findall(element, "NM-CLUSTER-COUPLINGS/*"):
@@ -12768,7 +12766,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readUdpNmClusterCoupling(child_element, udp_coupling)
                 nm_config.addNmClusterCouplings(udp_coupling)
             elif tag_name == "FLEXRAY-NM-CLUSTER-COUPLING":
-                nm_config.addNmClusterCouplings(self.readFlexrayNmClusterCoupling(child_element))
+                flexray_coupling = FlexrayNmClusterCoupling()
+                self.readFlexrayNmClusterCoupling(child_element, flexray_coupling)
+                nm_config.addNmClusterCouplings(flexray_coupling)
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
