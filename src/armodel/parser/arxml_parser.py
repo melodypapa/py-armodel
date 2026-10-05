@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 from typing import Any, List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
+from armodel.validation.validator import ARXMLValidator, detect_schema_path
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
     CryptoKeySlot,
     CryptoKeySlotAllowedModification,
@@ -18229,8 +18230,30 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ARPackage <%s>" % tag_name)
 
+    def _validateARXML(self, filename):
+        if self.options["validate"] is False:
+            return
+        with open(filename, "rb") as f:
+            data = f.read()
+        xsd_path = detect_schema_path(data)
+        if xsd_path is None:
+            self.logger.warning("No XSD schema found for <%s>; validation skipped" % filename)
+            return
+        errors = ARXMLValidator(xsd_path).validate_bytes(data)
+        if not errors:
+            return
+        if self.options["warning"] is True:
+            for error in errors:
+                self.logger.warning("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+            return
+        for error in errors:
+            self.logger.error("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+        raise ValueError("ARXML file <%s> failed schema validation with %d error(s)" % (filename, len(errors)))
+
     def load(self, filename, document: AUTOSAR):
         self.logger.info("Loading %s ..." % os.path.realpath(filename))
+
+        self._validateARXML(filename)
 
         tree = ET.parse(filename)
         root = tree.getroot()
