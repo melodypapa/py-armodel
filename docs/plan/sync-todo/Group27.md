@@ -466,15 +466,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ModeSwitchInterface` — PortInterface — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.16, p.113
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 188 + round-trip file 6; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): legacy 5-col checklist + stale stamp removed; single attr modeGroup (ModeDeclarationGroupPrototype 0..1 aggr, createModeGroup factory); class Note Tags tail dropped; XSD MODE-SWITCH-INTERFACE group has no VARIATION-POINT (not VP-capable); reader/writer already symmetric — no parser/writer change; no deviations; no stamp (batch 9b)
 
 - [ ] `DataPrototypeMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.22, p.125
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py

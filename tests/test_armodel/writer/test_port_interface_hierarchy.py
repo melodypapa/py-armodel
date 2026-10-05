@@ -13,7 +13,9 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ArgumentDirectionEnum,
     Boolean,
@@ -170,3 +172,48 @@ class TestClientServerInterfaceRoundTrip:
         parsed_cs = parsed.getClientServerInterfaces()[0]
         assert parsed_cs.getOperations() == []
         assert parsed_cs.getPossibleErrors() == []
+
+
+class TestModeSwitchInterfaceRoundTrip:
+    def test_mode_group_field_values_and_order(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        interface = pkg.createModeSwitchInterface("MSI")
+        mode_group = interface.createModeGroup("ModeGrp")
+        access = SwCalibrationAccessEnum()
+        access.setValue(SwCalibrationAccessEnum.READ_ONLY)
+        mode_group.setSwCalibrationAccess(access)
+        type_tref = RefType()
+        type_tref.setDest("MODE-DECLARATION-GROUP")
+        type_tref.setValue("/Pkg/ModeDclGrp")
+        mode_group.setTypeTRef(type_tref)
+
+        root = _serialize(ET.Element("AR-PACKAGE"), interface)
+        element = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}MODE-SWITCH-INTERFACE" % tuple([NS] * 3))
+        assert [child.tag.split("}")[-1] for child in element] == [
+            "SHORT-NAME",
+            "MODE-GROUP",
+        ]
+        mode_group_element = element.find("{%s}MODE-GROUP" % NS)
+        assert mode_group_element.find("{%s}SHORT-NAME" % NS).text == "ModeGrp"
+        assert mode_group_element.find("{%s}TYPE-TREF" % NS).text == "/Pkg/ModeDclGrp"
+        assert mode_group_element.find("{%s}SW-CALIBRATION-ACCESS" % NS).text == "readOnly"
+
+        parsed = _reparse(root)
+        parsed_interface = parsed.getModeSwitchInterfaces()[0]
+        parsed_mode_group = parsed_interface.getModeGroup()
+        assert isinstance(parsed_mode_group, ModeDeclarationGroupPrototype)
+        assert parsed_mode_group.getShortName() == "ModeGrp"
+        assert parsed_mode_group.getTypeTRef().getValue() == "/Pkg/ModeDclGrp"
+        assert parsed_mode_group.getSwCalibrationAccess().getValue() == "readOnly"
+
+    def test_absent_mode_group_round_trips_to_none(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        interface = pkg.createModeSwitchInterface("MSI")
+
+        root = _serialize(ET.Element("AR-PACKAGE"), interface)
+        element = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}MODE-SWITCH-INTERFACE" % tuple([NS] * 3))
+        assert element.find("{%s}MODE-GROUP" % NS) is None
+
+        parsed = _reparse(root)
+        parsed_interface = parsed.getModeSwitchInterfaces()[0]
+        assert parsed_interface.getModeGroup() is None

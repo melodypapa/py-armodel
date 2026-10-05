@@ -686,17 +686,14 @@ class TriggerInterface(PortInterface):
 
 
 class ModeSwitchInterface(PortInterface):
-    """
-    A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received. Tags: atp.recommendedPackage=PortInterfaces
-    """
+    """A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received."""
 
     # ModeSwitchInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createModeGroup    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeGroup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createModeGroup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroup     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -705,18 +702,7 @@ class ModeSwitchInterface(PortInterface):
         self.modeGroup: Optional[ModeDeclarationGroupPrototype] = None
 
     def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
-        """
-        Creates the ModeDeclarationGroupPrototype of this mode interface.
-        Returns the existing prototype when the short name already exists.
-
-        The ModeDeclarationGroupPrototype of this mode interface.
-
-        Args:
-            short_name: The short name of the ModeDeclarationGroupPrototype
-
-        Returns:
-            The created or existing ModeDeclarationGroupPrototype
-        """
+        """The ModeDeclarationGroupPrototype of this mode interface."""
         if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addReferrableElement(prototype)
@@ -725,14 +711,7 @@ class ModeSwitchInterface(PortInterface):
         return mode_group
 
     def getModeGroup(self) -> Optional[ModeDeclarationGroupPrototype]:
-        """
-        Gets the ModeDeclarationGroupPrototype of this mode interface.
-
-        The ModeDeclarationGroupPrototype of this mode interface.
-
-        Returns:
-            The ModeDeclarationGroupPrototype, or None if not set
-        """
+        """The ModeDeclarationGroupPrototype of this mode interface."""
         return self.modeGroup
 
 
