@@ -25,6 +25,7 @@ if TYPE_CHECKING:
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    CalibrationParameterValue,
     DiagnosticCommonProps,
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
@@ -2622,6 +2623,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(PhysicalDimensionMappingSet, self.getReferrableElement(short_name, PhysicalDimensionMappingSet))
 
+    def createCalibrationParameterValueSet(self, short_name: str) -> CalibrationParameterValueSet:
+
+        if not self.IsReferrableElementExists(short_name, CalibrationParameterValueSet):
+            element = CalibrationParameterValueSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CalibrationParameterValueSet, self.getReferrableElement(short_name, CalibrationParameterValueSet))
+
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
 
         if not self.IsReferrableElementExists(short_name, ISignalGroup):
@@ -4607,6 +4615,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(a for a in self.referrableElements if isinstance(a, PhysicalDimensionMappingSet))
 
+    def getCalibrationParameterValueSets(self) -> List[CalibrationParameterValueSet]:
+
+        return list(a for a in self.referrableElements if isinstance(a, CalibrationParameterValueSet))
+
     def getUnitGroups(self) -> List[UnitGroup]:
 
         return list(a for a in self.referrableElements if isinstance(a, UnitGroup))
@@ -5062,7 +5074,36 @@ BuildActionManifest.__bases__ = (ARElement,)
 
 
 class CalibrationParameterValueSet(ARElement):
-    pass
+    """Specification of a constant that can be part of a package, i.e. it can be defined stand-alone. Tags: atp.recommendedPackage=CalibrationParameterValueSets"""
+
+    # CalibrationParameterValueSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.137, p.477
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCalibrationParameterValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalibrationParameterValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.calibrationParameterValues: List[CalibrationParameterValue] = []
+
+    def addCalibrationParameterValue(self, value: Optional[CalibrationParameterValue]) -> CalibrationParameterValueSet:
+        """
+        This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not append a calibrationParameterValue.
+        """
+        if value is not None:
+            self.calibrationParameterValues.append(value)
+        return self
+
+    def getCalibrationParameterValues(self) -> List[CalibrationParameterValue]:
+        """
+        This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.calibrationParameterValues
 
 
 class DiagnosticMapping(ARElement, ABC):

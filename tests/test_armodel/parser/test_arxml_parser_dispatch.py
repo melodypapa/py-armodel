@@ -267,6 +267,11 @@ class TestMiscDispatch:
         _dispatch(parser, parent, _snip("PHYSICAL-DIMENSION-MAPPING-SET", "PDMS1"))
         assert len(parent.getPhysicalDimensionMappingSets()) == 1
 
+    def test_calibration_parameter_value_set(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("CALIBRATION-PARAMETER-VALUE-SET", "CPVS1"))
+        assert len(parent.getCalibrationParameterValueSets()) == 1
+
 
 # ==================== Network / bus ====================
 

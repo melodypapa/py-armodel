@@ -593,7 +593,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     EvaluatedVariantSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, PhysicalDimensionMappingSet, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, CalibrationParameterValueSet, PhysicalDimensionMappingSet, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AclObjectSet, AclOperation, AclPermission, AclRole
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import DiagnosticCustomServiceInstance, DiagnosticMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -9414,6 +9414,14 @@ class ARXMLParser(AbstractARXMLParser):
         value.setInitializedParameterRef(self.getChildElementOptionalRefType(element, "INITIALIZED-PARAMETER-REF"))
         self.readVariationPointCapable(element, value)
 
+    def readCalibrationParameterValueSet(self, element: ET.Element, calprm_value_set: CalibrationParameterValueSet):
+        self.logger.debug("Read CalibrationParameterValueSet <%s>" % calprm_value_set.getShortName())
+        self.readIdentifiable(element, calprm_value_set)
+        for child_element in self.findall(element, "CALIBRATION-PARAMETER-VALUES/CALIBRATION-PARAMETER-VALUE"):
+            value = CalibrationParameterValue()
+            self.readCalibrationParameterValue(child_element, value)
+            calprm_value_set.addCalibrationParameterValue(value)
+
     def readEndToEndDescriptionDataIds(self, element: ET.Element, parent: EndToEndDescription):
         child_element = self.find(element, "DATA-IDS")
         if child_element is not None:
@@ -17089,6 +17097,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)
+            elif tag_name == "CALIBRATION-PARAMETER-VALUE-SET":
+                calprm_value_set = parent.createCalibrationParameterValueSet(self.getShortName(child_element))
+                self.readCalibrationParameterValueSet(child_element, calprm_value_set)
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)

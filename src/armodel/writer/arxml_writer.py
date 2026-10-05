@@ -576,7 +576,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ShortNameFragment,
     SingleLanguageReferrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, PhysicalDimensionMappingSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, CalibrationParameterValueSet, PhysicalDimensionMappingSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -4625,6 +4625,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildValueSpecification(child_element, "IMPL-INIT-VALUE", value.getImplInitValue())
         self.setChildElementOptionalRefType(child_element, "INITIALIZED-PARAMETER-REF", value.getInitializedParameterRef())
         self.writeVariationPointCapable(child_element, value)
+
+    def writeCalibrationParameterValueSet(self, element: ET.Element, calprm_value_set: CalibrationParameterValueSet):
+        self.logger.debug("writeCalibrationParameterValueSet %s" % calprm_value_set.getShortName())
+        child_element = ET.SubElement(element, "CALIBRATION-PARAMETER-VALUE-SET")
+        self.writeIdentifiable(child_element, calprm_value_set)
+        values = calprm_value_set.getCalibrationParameterValues()
+        if len(values) > 0:
+            values_element = ET.SubElement(child_element, "CALIBRATION-PARAMETER-VALUES")
+            for value in values:
+                self.writeCalibrationParameterValue(values_element, value)
 
     def setRModeInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: RModeInAtomicSwcInstanceRef):
         child_element = ET.SubElement(element, key)
@@ -17113,6 +17123,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeApplicationInterface(element, ar_element)
         elif isinstance(ar_element, BuildActionManifest):
             self.writeBuildActionManifest(element, ar_element)
+        elif isinstance(ar_element, CalibrationParameterValueSet):
+            self.writeCalibrationParameterValueSet(element, ar_element)
         elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
         elif isinstance(ar_element, AclPermission):
