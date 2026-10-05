@@ -283,63 +283,62 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
     """
 
     # IoHwAbstractionServerAnnotation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.47, p.157
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.47, p.157 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getAge                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setAge                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getArgumentRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setArgumentRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getBswResolution            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setBswResolution            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDataElementRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDataElementRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFailureMonitoringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setFilteringDebouncing      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setPulseTest                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setTriggerRef               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAge                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAge                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArgumentRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArgumentRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswResolution          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswResolution          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElementRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFailureMonitoringRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFailureMonitoringRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilteringDebouncing    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilteringDebouncing    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPulseTest              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPulseTest              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer Tags: xml.sequenceOffset=10
+        # In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer
         self.age: Optional[MultidimensionalTime] = None
 
-        # Reference to the corresponding ArgumentDataPrototype. Tags: xml.sequenceOffset=20
+        # Reference to the corresponding ArgumentDataPrototype.
         self.argumentRef: Optional[RefType] = None
 
-        # This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1) Tags: xml.sequenceOffset=30
+        # This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1)
         self.bswResolution: Optional[Float] = None
 
-        # Reference to the corresponding VariableDataPrototype. Tags: xml.sequenceOffset=40
+        # Reference to the corresponding VariableDataPrototype.
         self.dataElementRef: Optional[RefType] = None
 
-        # This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component. Tags: xml.sequenceOffset=50
+        # This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component.
         self.failureMonitoringRef: Optional[RefType] = None
 
-        # This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time Tags: xml.sequenceOffset=60
+        # This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time
         self.filteringDebouncing: Optional[FilterDebouncingEnum] = None
 
-        # This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer Tags: xml.sequenceOffset=70
+        # This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer
         self.pulseTest: Optional[PulseTestEnum] = None
 
-        # Reference to the corresponding Trigger. Tags: xml.sequenceOffset=80
+        # Reference to the corresponding Trigger.
         self.triggerRef: Optional[RefType] = None
 
     def getAge(self) -> Optional[MultidimensionalTime]:
         """
-        In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer Tags: xml.sequenceOffset=10
+        In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer
         """
         return self.age
 
     def setAge(self, value: Optional[MultidimensionalTime]) -> "IoHwAbstractionServerAnnotation":
         """
-        In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer Tags: xml.sequenceOffset=10
+        In case of a SET operation, the age will be interpreted as Delay while in a GET operation (input) it specifies the Lifetime of the signal within the IoHwAbstraction Layer
         A None value is a no-op and does not overwrite an existing age.
         """
         if value is not None:
@@ -348,13 +347,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getArgumentRef(self) -> Optional[RefType]:
         """
-        Reference to the corresponding ArgumentDataPrototype. Tags: xml.sequenceOffset=20
+        Reference to the corresponding ArgumentDataPrototype.
         """
         return self.argumentRef
 
     def setArgumentRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
-        Reference to the corresponding ArgumentDataPrototype. Tags: xml.sequenceOffset=20
+        Reference to the corresponding ArgumentDataPrototype.
         A None value is a no-op and does not overwrite an existing argumentRef.
         """
         if value is not None:
@@ -363,13 +362,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getBswResolution(self) -> Optional[Float]:
         """
-        This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1) Tags: xml.sequenceOffset=30
+        This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1)
         """
         return self.bswResolution
 
     def setBswResolution(self, value: Optional[Float]) -> "IoHwAbstractionServerAnnotation":
         """
-        This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1) Tags: xml.sequenceOffset=30
+        This value is determined by an appropriate combination of the range, the unit as well as the data-elements type, i.e. (ecuSignalRange.upperLimit-ecuSignalRange.lower Limit) / (2ˆdatatypelength - 1)
         A None value is a no-op and does not overwrite an existing bswResolution.
         """
         if value is not None:
@@ -378,13 +377,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getDataElementRef(self) -> Optional[RefType]:
         """
-        Reference to the corresponding VariableDataPrototype. Tags: xml.sequenceOffset=40
+        Reference to the corresponding VariableDataPrototype.
         """
         return self.dataElementRef
 
     def setDataElementRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
-        Reference to the corresponding VariableDataPrototype. Tags: xml.sequenceOffset=40
+        Reference to the corresponding VariableDataPrototype.
         A None value is a no-op and does not overwrite an existing dataElementRef.
         """
         if value is not None:
@@ -393,13 +392,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getFailureMonitoringRef(self) -> Optional[RefType]:
         """
-        This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component. Tags: xml.sequenceOffset=50
+        This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component.
         """
         return self.failureMonitoringRef
 
     def setFailureMonitoringRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
-        This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component. Tags: xml.sequenceOffset=50
+        This is only applicable in SET operations. If it is enabled, the IoHwAbstraction layer will monitor the result of the operation and issue an diagnostic signal. This means especially, that an additional client-server port has to be created. Tools can use this information to cross-check whether for each data-element in a SET operation with FailureMonitoring enabled an additional port is created The referenced port monitors a failure in the to be monitored VariableDataPrototype of the IoHwAbstraction layer. The referenced port has to be another port of the same Actuator or Sensor Component.
         A None value is a no-op and does not overwrite an existing failureMonitoringRef.
         """
         if value is not None:
@@ -408,13 +407,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getFilteringDebouncing(self) -> Optional[FilterDebouncingEnum]:
         """
-        This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time Tags: xml.sequenceOffset=60
+        This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time
         """
         return self.filteringDebouncing
 
     def setFilteringDebouncing(self, value: Optional[FilterDebouncingEnum]) -> "IoHwAbstractionServerAnnotation":
         """
-        This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time Tags: xml.sequenceOffset=60
+        This attribute is used to indicate what kind of filtering/ debouncing has been put to the signal in the IoHw Abstraction layer. rawData means that no modification of the signal has been applied. This is the default value debounceData means that the signal is a mean value waitTimeData means that the signal is delivered by a GET operation after a certain amount of time
         A None value is a no-op and does not overwrite an existing filteringDebouncing.
         """
         if value is not None:
@@ -423,13 +422,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getPulseTest(self) -> Optional[PulseTestEnum]:
         """
-        This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer Tags: xml.sequenceOffset=70
+        This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer
         """
         return self.pulseTest
 
     def setPulseTest(self, value: Optional[PulseTestEnum]) -> "IoHwAbstractionServerAnnotation":
         """
-        This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer Tags: xml.sequenceOffset=70
+        This attribute indicates to the connected SensorActuator SwComponentType whether the VariableDataPrototype can be used to generate pulse test sequences using the IoHwAbstraction layer
         A None value is a no-op and does not overwrite an existing pulseTest.
         """
         if value is not None:
@@ -438,13 +437,13 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     def getTriggerRef(self) -> Optional[RefType]:
         """
-        Reference to the corresponding Trigger. Tags: xml.sequenceOffset=80
+        Reference to the corresponding Trigger.
         """
         return self.triggerRef
 
     def setTriggerRef(self, value: Optional[RefType]) -> "IoHwAbstractionServerAnnotation":
         """
-        Reference to the corresponding Trigger. Tags: xml.sequenceOffset=80
+        Reference to the corresponding Trigger.
         A None value is a no-op and does not overwrite an existing triggerRef.
         """
         if value is not None:

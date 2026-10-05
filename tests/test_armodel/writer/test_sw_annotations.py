@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     DataLimitKindEnum,
     ProcessingKindEnum,
@@ -117,6 +117,36 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert isinstance(annotations[0], ClientServerAnnotation)
         assert annotations[0].getOperationRef().getValue() == "/If/Op"
         assert annotations[0].getOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+
+    def test_io_hw_abstraction_server_annotation_round_trip(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import FilterDebouncingEnum, IoHwAbstractionServerAnnotation
+
+        prototype = PPortPrototype(None, "Port1")
+        annotation = IoHwAbstractionServerAnnotation()
+        annotation.setAge(MultidimensionalTime())
+        annotation.setArgumentRef(_ref("/AUTOSAR/Arg", "ARGUMENT-DATA-PROTOTYPE"))
+        annotation.setBswResolution(Float().setValue("1.5"))
+        annotation.setDataElementRef(_ref("/AUTOSAR/DataElement1", "VARIABLE-DATA-PROTOTYPE"))
+        annotation.setFailureMonitoringRef(_ref("/AUTOSAR/Port2", "PORT-PROTOTYPE"))
+        annotation.setFilteringDebouncing(FilterDebouncingEnum().setValue(FilterDebouncingEnum.DEBOUNCE_DATA))
+        prototype.addIoHwAbstractionServerAnnotation(annotation)
+
+        xml = _serialize(prototype)
+        assert "<IO-HW-ABSTRACTION-SERVER-ANNOTATION>" in xml
+        assert "<AGE" in xml
+        assert 'ARGUMENT-REF DEST="ARGUMENT-DATA-PROTOTYPE"' in xml
+        assert "<BSW-RESOLUTION>1.5</BSW-RESOLUTION>" in xml
+        assert "<FILTERING-DEBOUNCING>debounceData</FILTERING-DEBOUNCING>" in xml
+
+        parsed = _parse(xml)
+        annotations = parsed.getIoHwAbstractionServerAnnotations()
+        assert len(annotations) == 1
+        assert isinstance(annotations[0], IoHwAbstractionServerAnnotation)
+        assert annotations[0].getAge() is not None
+        assert annotations[0].getArgumentRef().getValue() == "/AUTOSAR/Arg"
+        assert annotations[0].getBswResolution().getValue() == 1.5
+        assert annotations[0].getFailureMonitoringRef().getValue() == "/AUTOSAR/Port2"
+        assert annotations[0].getFilteringDebouncing().getValue() == "debounceData"
 
     def test_empty_wrapper_absent(self):
         prototype = PPortPrototype(None, "Port1")
