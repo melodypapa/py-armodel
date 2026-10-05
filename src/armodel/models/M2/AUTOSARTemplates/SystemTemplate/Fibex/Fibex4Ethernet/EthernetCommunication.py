@@ -27,7 +27,8 @@ class RuntimeAddressConfigurationEnum(AREnum):
     """
 
     # RuntimeAddressConfigurationEnum method parity checklist:
-    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 6.121, p.320 (R4.3.1)
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.121, p.320
+    # Spec verified: R4.3.1
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on SocketConnection.runtimePortConfiguration
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1

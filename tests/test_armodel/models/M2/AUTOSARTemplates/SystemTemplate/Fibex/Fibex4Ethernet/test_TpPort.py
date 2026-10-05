@@ -1,6 +1,6 @@
 import inspect
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     TpPort,
 )
@@ -26,17 +26,18 @@ class TestTpPort:
         assert obj.getDynamicallyAssigned() is item
         obj.setDynamicallyAssigned(None)
         assert obj.getDynamicallyAssigned() is item
-        assert obj.setPortNumber(7) is obj
-        assert obj.getPortNumber() == 7
+        number = PositiveInteger().setValue("7")
+        assert obj.setPortNumber(number) is obj
+        assert obj.getPortNumber() is number
         obj.setPortNumber(None)
-        assert obj.getPortNumber() == 7
+        assert obj.getPortNumber() is number
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(TpPort.__doc__).split("\n\n")[0] == CLASS_NOTE
 
     def test_accessor_docstrings_verbatim(self):
         obj = self._obj()
-        assert inspect.cleandoc(obj.getDynamicallyAssigned.__doc__) == "Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete"
-        assert inspect.cleandoc(obj.setDynamicallyAssigned.__doc__).split("\n")[0] == "Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(obj.getDynamicallyAssigned.__doc__) == "Indicates whether the source port is dynamically assigned."
+        assert inspect.cleandoc(obj.setDynamicallyAssigned.__doc__).split("\n")[0] == "Indicates whether the source port is dynamically assigned."
         assert inspect.cleandoc(obj.getPortNumber.__doc__) == "Port Number."
         assert inspect.cleandoc(obj.setPortNumber.__doc__).split("\n")[0] == "Port Number."

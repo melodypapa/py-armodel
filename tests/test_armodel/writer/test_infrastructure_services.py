@@ -5,8 +5,13 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
+    String,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     DoIpEntity,
+    DoIpEntityRoleEnum,
     InfrastructureServices,
     TimeSynchronization,
 )
@@ -66,7 +71,13 @@ class TestWriteInfrastructureServices:
 class TestInfrastructureServicesRoundTrip:
     def test_round_trip_preserves_all_values(self, writer, parser):
         services = InfrastructureServices()
-        services.setDoIpEntity(DoIpEntity())
+        entity = DoIpEntity()
+        role = DoIpEntityRoleEnum()
+        role.setValue("server")
+        entity.setDoIpEntityRole(role)
+        entity.setChecksum(String().setValue("1234"))
+        entity.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        services.setDoIpEntity(entity)
         services.setTimeSynchronization(TimeSynchronization())
 
         parent = ET.Element("NETWORK-ENDPOINT")
@@ -75,7 +86,11 @@ class TestInfrastructureServicesRoundTrip:
         parsed = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
 
         assert isinstance(parsed, InfrastructureServices)
-        assert isinstance(parsed.getDoIpEntity(), DoIpEntity)
+        parsed_entity = parsed.getDoIpEntity()
+        assert isinstance(parsed_entity, DoIpEntity)
+        assert parsed_entity.getDoIpEntityRole().getValue() == "server"
+        assert parsed_entity.getChecksum().getValue() == "1234"
+        assert parsed_entity.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         assert isinstance(parsed.getTimeSynchronization(), TimeSynchronization)
 
     def test_reader_empty_fields(self, parser):

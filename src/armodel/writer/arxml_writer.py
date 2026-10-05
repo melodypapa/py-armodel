@@ -10133,6 +10133,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDoIpEntity(self, element: ET.Element, key: str, entity: Optional[DoIpEntity]):
         if entity is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, entity)
             self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
 
     def setTimeSynchronization(self, element: ET.Element, key: str, sync: Optional[TimeSynchronization]):
@@ -10292,15 +10293,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTpPort(self, element: ET.Element, key: str, port: Optional[TpPort]):
         if port is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, port)
             self.setChildElementOptionalBooleanValue(child_element, "DYNAMICALLY-ASSIGNED", port.getDynamicallyAssigned())
             self.setChildElementOptionalPositiveInteger(child_element, "PORT-NUMBER", port.getPortNumber())
 
     def writeUdpTp(self, element: ET.Element, tp: UdpTp):
         child_element = ET.SubElement(element, "UDP-TP")
+        self.writeARObject(child_element, tp)
         self.setTpPort(child_element, "UDP-TP-PORT", tp.getUdpTpPort())
 
     def writeTcpTp(self, element: ET.Element, tp: TcpTp):
         child_element = ET.SubElement(element, "TCP-TP")
+        self.writeARObject(child_element, tp)
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-INTERVAL", tp.getKeepAliveInterval())
         self.setChildElementOptionalPositiveInteger(child_element, "KEEP-ALIVE-PROBES-MAX", tp.getKeepAliveProbesMax())
         self.setChildElementOptionalTimeValue(child_element, "KEEP-ALIVE-TIME", tp.getKeepAliveTime())
@@ -10312,6 +10316,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeGenericTp(self, element: ET.Element, tp: GenericTp):
         child_element = ET.SubElement(element, "GENERIC-TP")
+        self.writeARObject(child_element, tp)
         self.setChildElementOptionalLiteral(child_element, "TP-ADDRESS", tp.getTpAddress())
         self.setChildElementOptionalLiteral(child_element, "TP-TECHNOLOGY", tp.getTpTechnology())
 
@@ -10339,6 +10344,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setRequestResponseDelay(self, element: ET.Element, key: str, delay: Optional[RequestResponseDelay]):
         if delay is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, delay)
             self.setChildElementOptionalTimeValue(child_element, "MAX-VALUE", delay.getMaxValue())
             self.setChildElementOptionalTimeValue(child_element, "MIN-VALUE", delay.getMinValue())
 

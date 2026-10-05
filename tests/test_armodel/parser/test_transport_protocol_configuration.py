@@ -31,12 +31,14 @@ def _snip(inner: str) -> ET.Element:
 
 
 def test_read_generic_tp_configuration(parser):
-    root = _snip("<TP-CONFIGURATION>" "<GENERIC-TP>" "<TP-ADDRESS>30490</TP-ADDRESS>" "<TP-TECHNOLOGY>UDP</TP-TECHNOLOGY>" "</GENERIC-TP>" "</TP-CONFIGURATION>")
+    root = _snip("<TP-CONFIGURATION>" '<GENERIC-TP S="1234" T="2024-01-01T00:00:00Z">' "<TP-ADDRESS>30490</TP-ADDRESS>" "<TP-TECHNOLOGY>UDP</TP-TECHNOLOGY>" "</GENERIC-TP>" "</TP-CONFIGURATION>")
     configuration = parser.getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
     assert isinstance(configuration, GenericTp)
     assert isinstance(configuration, TransportProtocolConfiguration)
     assert configuration.getTpAddress().getValue() == "30490"
     assert configuration.getTpTechnology().getValue() == "UDP"
+    assert configuration.getChecksum().getValue() == "1234"
+    assert configuration.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 def test_read_tp_configuration_empty(parser):
