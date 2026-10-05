@@ -51,6 +51,7 @@ class AbstractARXMLWriter(ABC):
         self.options["warning"] = False
         self.options["version"] = "4.2.2"
         self.options["unescape_entities"] = False
+        self.options["validate"] = True
         self.logger = logging.getLogger()
 
         self._processOptions(options=options)
@@ -65,6 +66,8 @@ class AbstractARXMLWriter(ABC):
                 self.options["warning"] = options["warning"]
             if "unescape_entities" in options:
                 self.options["unescape_entities"] = options["unescape_entities"]
+            if "validate" in options:
+                self.options["validate"] = options["validate"]
 
     def _raiseError(self, error_msg):
         if self.options["warning"] is True:
