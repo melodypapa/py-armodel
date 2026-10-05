@@ -24,8 +24,10 @@
    Reason: the writer's default `schema_location` is `AUTOSAR_4-0-3.xsd` and legacy R3 files use `autosar.xsd`
    with namespace `http://autosar.org` (the R3.2.3 XSD targets `http://autosar.org/3.2.3` — verified the legacy
    corpus file does NOT validate against it), so raising would break existing behavior for legitimate inputs.
-5. Validation failures surface through the existing `raiseError` (parser) / `_raiseError` (writer) convention —
-   i.e. `ValueError` listing all violations — instead of a new exception class, matching repo convention.
+5. Validation failures are reported **one `logger.error` line per violation, then a single `ValueError`**
+   ("failed schema validation with N error(s)") that aborts load/save. With `warning: True`, each violation
+   is logged via `logger.warning` and load/save continues. This per-error logging is custom code in the gate
+   methods (not the `raiseError`/`_raiseError` helpers, which log a single aggregated message).
 6. A public `register_schema_file(xsd_filename, xsd_path)` extension point lets callers register unbundled
    schemas (e.g. R22-11 `AUTOSAR_00050.xsd`); the fast unit tests use it to plug in a tiny fixture schema.
 7. Corpus audit (verified during planning): of 32 integration files, exactly 1 maps to a bundled schema
@@ -549,12 +551,19 @@ Add the method immediately before `load()`:
             self.logger.warning("No XSD schema found for <%s>; validation skipped" % filename)
             return
         errors = ARXMLValidator(xsd_path).validate_bytes(data)
-        if errors:
-            details = "\n".join("  line %s, col %s: %s" % (error.line, error.column, error.message) for error in errors)
-            self.raiseError("ARXML file <%s> failed schema validation:\n%s" % (filename, details))
+        if not errors:
+            return
+        if self.options["warning"] is True:
+            for error in errors:
+                self.logger.warning("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+            return
+        for error in errors:
+            self.logger.error("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+        raise ValueError("ARXML file <%s> failed schema validation with %d error(s)" % (filename, len(errors)))
 ```
 
-(`raiseError` already implements the warning/raise convention: `warning=True` logs via `self.logger.error`, otherwise raises `ValueError`.)
+(Strict mode: one `logger.error` per violation, then `ValueError` aborts the load — no half-built document.
+`warning: True`: one `logger.warning` per violation, then parsing proceeds.)
 
 - [ ] **Step 5: Run tests to verify they pass**
 
@@ -703,12 +712,19 @@ Add the method immediately before `save()`:
             self.logger.warning("No XSD schema matches the document schema location; validation skipped for <%s>" % filename)
             return
         errors = ARXMLValidator(xsd_path).validate_bytes(data)
-        if errors:
-            details = "\n".join("  line %s, col %s: %s" % (error.line, error.column, error.message) for error in errors)
-            self._raiseError("Generated ARXML file <%s> failed schema validation:\n%s" % (filename, details))
+        if not errors:
+            return
+        if self.options["warning"] is True:
+            for error in errors:
+                self.logger.warning("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+            return
+        for error in errors:
+            self.logger.error("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
+        raise ValueError("Generated ARXML file <%s> failed schema validation with %d error(s)" % (filename, len(errors)))
 ```
 
-(`_raiseError` is the writer-side twin of the parser's `raiseError` — `warning=True` logs, otherwise raises `ValueError`.)
+(Strict mode: one `logger.error` per violation, then `ValueError` — the file is never written.
+`warning: True`: one `logger.warning` per violation, then the file is written.)
 
 - [ ] **Step 5: Run tests to verify they pass**
 
@@ -803,8 +819,9 @@ git commit -m "test(integration): audit corpus files that map to bundled XSD sch
 
 In the spec's Decisions table and §3-§5, replace the R19-11→R23-11 bundling statement with the actual
 bundled set (R23-11, R4.4.0, R4.3.1, R3.2.3 — copied from the repo's `autosar/<release>/xsd/` mirrors),
-replace "new exception on the parser's existing error base" with "the existing `raiseError`/`_raiseError`
-convention (`ValueError` listing all violations)", replace the `ADMIN-DATA` detection fallback with
+replace "new exception on the parser's existing error base" with "per-violation `logger.error` lines followed
+by a single `ValueError` (strict) / per-violation `logger.warning` lines and continue (`warning: True`)",
+replace the `ADMIN-DATA` detection fallback with
 "detection uses `xsi:schemaLocation` only", and add: unresolvable schema → warning + continue
 unvalidated, plus the `register_schema_file` extension point. Reference this plan file.
 
