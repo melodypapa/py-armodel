@@ -62,7 +62,7 @@ class TestApplicationValueSpecification:
         assert spec.getCategory() is category
 
     def test_add_get_sw_axis_conts(self):
-        
+
         spec = ApplicationValueSpecification()
         first = SwAxisCont()
         second = SwAxisCont()
@@ -88,17 +88,17 @@ class TestApplicationValueSpecification:
 
     def test_accessor_type_annotations(self):
         hints = typing.get_type_hints(ApplicationValueSpecification.setCategory)
-        assert hints["value"] is OptionalIdentifier
-        assert typing.get_type_hints(ApplicationValueSpecification.getCategory)["return"] is OptionalIdentifier
+        assert hints["value"] == OptionalIdentifier
+        assert typing.get_type_hints(ApplicationValueSpecification.getCategory)["return"] == OptionalIdentifier
 
         add_hints = typing.get_type_hints(ApplicationValueSpecification.addSwAxisCont)
-        
-        assert add_hints["value"] is OptionalSwAxisCont
+
+        assert add_hints["value"] == OptionalSwAxisCont
         assert typing.get_type_hints(ApplicationValueSpecification.getSwAxisConts)["return"] == typing.List[SwAxisCont]
 
         set_hints = typing.get_type_hints(ApplicationValueSpecification.setSwValueCont)
 
-        assert set_hints["value"] is OptionalSwValueCont
+        assert set_hints["value"] == OptionalSwValueCont
 
     def test_member_docstrings_verbatim(self):
         spec = ApplicationValueSpecification()

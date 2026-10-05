@@ -7857,14 +7857,15 @@ class ARXMLParser(AbstractARXMLParser):
         value_list = None
         child_element = self.find(element, key)
         if child_element is not None:
-            # self.logger.debug("Get ValueList %s" % key)
-            value_list = ValueList()
-            self.readARObject(child_element, value_list)
-            value_list.setV(self.getChildElementOptionalNumerical(child_element, "V"))
-            for vf_element in self.findall(child_element, "VF"):
-                vf = self.getChildElementOptionalNumerical(vf_element, "V")
-                if vf is not None:
-                    value_list.addVf(vf)
+            value_list = self.readValueList(child_element)
+        return value_list
+
+    def readValueList(self, element: ET.Element) -> ValueList:
+        value_list = ValueList()
+        self.readARObject(element, value_list)
+        value_list.setV(self.getChildElementOptionalNumerical(element, "V"))
+        for vf in self.getChildElementNumericalList(element, "VF"):
+            value_list.addVf(vf)
         return value_list
 
     def getSwValueCont(self, element: ET.Element) -> Optional[SwValueCont]:

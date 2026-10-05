@@ -59,12 +59,12 @@ class TestNumericalOrText:
 
     def test_accessor_type_annotations(self):
         hints = typing.get_type_hints(NumericalOrText.setVf)
-        assert hints["value"] is typing.Optional[Numerical]
-        assert typing.get_type_hints(NumericalOrText.getVf)["return"] is typing.Optional[Numerical]
+        assert hints["value"] == typing.Optional[Numerical]
+        assert typing.get_type_hints(NumericalOrText.getVf)["return"] == typing.Optional[Numerical]
 
         vt_hints = typing.get_type_hints(NumericalOrText.setVt)
-        assert vt_hints["value"] is typing.Optional[String]
-        assert typing.get_type_hints(NumericalOrText.getVt)["return"] is typing.Optional[String]
+        assert vt_hints["value"] == typing.Optional[String]
+        assert typing.get_type_hints(NumericalOrText.getVt)["return"] == typing.Optional[String]
 
     def test_member_docstrings_verbatim(self):
         not_text = NumericalOrText()

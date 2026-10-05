@@ -1050,7 +1050,7 @@ class TestValueList:
     def test_value_list_initialization(self):
         value_list = ValueList()
         assert value_list.v is None
-        assert value_list._vf == []
+        assert value_list.vfs == []
 
     def test_value_list_v_methods(self):
         value_list = ValueList()
@@ -1136,3 +1136,50 @@ class TestSwTextProps:
         assert result == sw_text_props
         sw_text_props.setSwMaxTextSize(None)
         assert sw_text_props.getSwMaxTextSize() == max_text_size
+
+
+VALUE_LIST_CLASS_NOTE = "This is a generic list of numerical values."
+
+VALUE_LIST_V_NOTE = "This is a particular numerical value without variation. Tags: xml.sequenceOffset=30"
+
+VALUE_LIST_VF_NOTE = (
+    "This is one entry in the list of numerical values Stereotypes: atpVariation Tags: "
+    "vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false "
+    "xml.typeElement=false xml.typeWrapperElement=false"
+)
+
+
+class TestValueListSpecSync:
+    def test_class_docstring_verbatim(self):
+        docstring = (ValueList.__doc__ or "").strip()
+        assert docstring == VALUE_LIST_CLASS_NOTE
+
+    def test_field_names_spec_verbatim(self):
+        value_list = ValueList()
+        assert value_list.v is None
+        assert value_list.vfs == []
+        assert not hasattr(value_list, "_vf")
+
+    def test_member_docstrings_verbatim(self):
+        value_list = ValueList()
+        assert (value_list.getV.__doc__ or "").strip() == VALUE_LIST_V_NOTE
+        assert (value_list.setV.__doc__ or "").strip().split("\n")[0] == VALUE_LIST_V_NOTE
+        assert (value_list.addVf.__doc__ or "").strip().split("\n")[0] == VALUE_LIST_VF_NOTE
+        assert (value_list.getVfs.__doc__ or "").strip() == VALUE_LIST_VF_NOTE
+
+    def test_add_vf_appends_and_none_noop(self):
+        value_list = ValueList()
+        first = Numerical().setValue("1")
+        second = Numerical().setValue("2")
+        assert value_list.addVf(first) is value_list
+        value_list.addVf(second)
+        assert value_list.vfs == [first, second]
+        value_list.addVf(None)
+        assert value_list.vfs == [first, second]
+
+    def test_get_set_v_none_noop(self):
+        value_list = ValueList()
+        value = Numerical().setValue("1.5")
+        assert value_list.setV(value) is value_list
+        value_list.setV(None)
+        assert value_list.getV() is value

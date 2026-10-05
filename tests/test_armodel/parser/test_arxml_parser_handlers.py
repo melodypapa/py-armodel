@@ -922,7 +922,7 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getValueList_with_vf_list(self, parser):
         element = _snip(
-            "<SW-ARRAYSIZE>" "<VF><V>1.5</V></VF>" "<VF><V>2.5</V></VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
+            "<SW-ARRAYSIZE>" "<VF>1.5</VF>" "<VF>2.5</VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
             root_tag="PARENT",
         )
         value_list = parser.getValueList(element, "SW-ARRAYSIZE")

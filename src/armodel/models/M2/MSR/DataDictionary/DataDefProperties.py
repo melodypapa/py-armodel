@@ -916,68 +916,51 @@ class ValueList(ARObject):
 
     # ValueList method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.127, p.459
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getV                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setV                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVf                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getVfs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getV       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVfs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is a particular numerical value without variation.
+        # This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         self.v: Optional[Numerical] = None
 
-        # This is one entry in the list of numerical values
-        self._vf: List[Numerical] = []
+        # This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        self.vfs: List[Numerical] = []
 
     def getV(self) -> Optional[Numerical]:
         """
-        This is a particular numerical value without variation.
-
-        Returns:
-            Optional[Numerical]: This is a particular numerical value without variation., or None if not set
+        This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         """
         return self.v
 
     def setV(self, value: Optional[Numerical]) -> ValueList:
         """
-        This is a particular numerical value without variation.
+        This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing v.
-
-        Args:
-            value: This is a particular numerical value without variation. to set
-
-        Returns:
-            ValueList: self for method chaining
         """
         if value is not None:
             self.v = value
         return self
 
-    def addVf(self, vf: Numerical) -> ValueList:
+    def addVf(self, vf: Optional[Numerical]) -> ValueList:
         """
-        This is one entry in the list of numerical values
-
-        Args:
-            vf: This is one entry in the list of numerical values to add
-
-        Returns:
-            ValueList: self for method chaining
+        This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        A None value is a no-op and does not append to vfs.
         """
-        self._vf.append(vf)
+        if vf is not None:
+            self.vfs.append(vf)
         return self
 
     def getVfs(self) -> List[Numerical]:
         """
-        This is one entry in the list of numerical values
-
-        Returns:
-            List[Numerical]: The list of entries in insertion order (vf is ordered per spec)
+        This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         """
-        return list(self._vf)
+        return self.vfs
 
 
 class SwTextProps(ARObject):
