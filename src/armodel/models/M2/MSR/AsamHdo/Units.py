@@ -181,46 +181,46 @@ class SingleLanguageUnitNames(MixedContentForUnitNames):
 
 class Unit(ARElement):
     """
-    This is a physical measurement unit. All units that might be defined should stem from SI units. In order to convert one unit into another factor and offset are defined. For the calculation from SI-unit to the defined unit the factor (factorSiToUnit ) and the offset (offsetSiTo Unit ) are applied as follows: x [{unit}] := y * [{siUnit}] * factorSiToUnit [[unit]/{siUnit}] + offsetSiToUnit [{unit}] For the calculation from a unit to SI-unit the reciprocal of the factor (factorSiToUnit ) and the negation of the offset (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit [{unit}]) / (factorSiToUnit [[unit]/{siUnit}]
+    This is a physical measurement unit. All units that might be defined should stem from SI units. In order to convert one unit into another factor and offset are defined. For the calculation from SI-unit to the defined unit the factor (factorSiToUnit ) and the offset (offsetSiTo Unit ) are applied as follows: x [{unit}] := y * [{siUnit}] * factorSiToUnit [[unit]/{siUnit}] + offsetSiToUnit [{unit}] For the calculation from a unit to SI-unit the reciprocal of the factor (factorSiToUnit ) and the negation of the offset (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit [{unit}]) / (factorSiToUnit [[unit]/{siUnit}] Tags: atp.recommendedPackage=Units
     """
 
     # Unit method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.79, p.400
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDisplayName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDisplayName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFactorSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFactorSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDisplayName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisplayName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFactorSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFactorSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file.
+        # This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20
         self.displayName: Optional[SingleLanguageUnitNames] = None
 
-        # This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
+        # This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30
         self.factorSiToUnit: Optional[Float] = None
 
-        # This is the offset for the conversion from and to siUnits.
+        # This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40
         self.offsetSiToUnit: Optional[Float] = None
 
-        # This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted.
+        # This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50
         self.physicalDimensionRef: Optional[RefType] = None
 
     def getDisplayName(self) -> Optional[SingleLanguageUnitNames]:
         """
-        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file.
+        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20
         """
         return self.displayName
 
     def setDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> "Unit":
         """
-        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. A None value is a no-op and does not overwrite an existing displayName.
+        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing displayName.
         """
         if value is not None:
             self.displayName = value
@@ -228,13 +228,13 @@ class Unit(ARElement):
 
     def getFactorSiToUnit(self) -> Optional[Float]:
         """
-        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
+        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30
         """
         return self.factorSiToUnit
 
     def setFactorSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
-        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. A None value is a no-op and does not overwrite an existing factorSiToUnit.
+        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing factorSiToUnit.
         """
         if value is not None:
             self.factorSiToUnit = value
@@ -242,13 +242,13 @@ class Unit(ARElement):
 
     def getOffsetSiToUnit(self) -> Optional[Float]:
         """
-        This is the offset for the conversion from and to siUnits.
+        This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40
         """
         return self.offsetSiToUnit
 
     def setOffsetSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
-        This is the offset for the conversion from and to siUnits. A None value is a no-op and does not overwrite an existing offsetSiToUnit.
+        This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing offsetSiToUnit.
         """
         if value is not None:
             self.offsetSiToUnit = value
@@ -256,13 +256,13 @@ class Unit(ARElement):
 
     def getPhysicalDimensionRef(self) -> Optional[RefType]:
         """
-        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted.
+        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50
         """
         return self.physicalDimensionRef
 
     def setPhysicalDimensionRef(self, value: Optional[RefType]) -> "Unit":
         """
-        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. A None value is a no-op and does not overwrite an existing physicalDimensionRef.
+        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50 A None value is a no-op and does not overwrite an existing physicalDimensionRef.
         """
         if value is not None:
             self.physicalDimensionRef = value
