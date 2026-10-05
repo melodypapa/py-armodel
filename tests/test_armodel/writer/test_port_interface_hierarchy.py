@@ -298,3 +298,55 @@ class TestDataPrototypeMappingRoundTrip:
         parsed_dpm = mapping2.getDataMappings()[0]
         assert parsed_dpm.getSubElementMappings() == []
         assert parsed_dpm.getTextTableMappings() == []
+
+
+class TestModeDeclarationMappingRoundTrip:
+    def _ref(self, dest, value):
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_mode_declaration_mapping_field_values_and_order(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMapping, ModeDeclarationMappingSet
+
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        mapping_set = pkg.createModeDeclarationMappingSet("MDMS")
+        mapping = mapping_set.createModeDeclarationMapping("MDM")
+        mapping.addFirstModeRef(self._ref("MODE-DECLARATION", "/Pkg/UserMode"))
+        mapping.addFirstModeRef(self._ref("MODE-DECLARATION", "/Pkg/UserMode2"))
+        mapping.setSecondModeRef(self._ref("MODE-DECLARATION", "/Pkg/ManagerMode"))
+
+        root = _serialize(ET.Element("AR-PACKAGE"), mapping_set)
+        element = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}MODE-DECLARATION-MAPPING-SET" % tuple([NS] * 3))
+        mdm = element.find("{%s}MODE-DECLARATION-MAPPINGS/{%s}MODE-DECLARATION-MAPPING" % (NS, NS))
+        assert [child.tag.split("}")[-1] for child in mdm] == [
+            "SHORT-NAME",
+            "FIRST-MODE-REFS",
+            "SECOND-MODE-REF",
+        ]
+        first_refs = mdm.findall("{%s}FIRST-MODE-REFS/{%s}FIRST-MODE-REF" % (NS, NS))
+        assert [ref.text for ref in first_refs] == ["/Pkg/UserMode", "/Pkg/UserMode2"]
+        assert all(ref.get("DEST") == "MODE-DECLARATION" for ref in first_refs)
+        assert mdm.find("{%s}SECOND-MODE-REF" % NS).text == "/Pkg/ManagerMode"
+
+        parsed = _reparse(root)
+        parsed_set = parsed.getModeDeclarationMappingSets()[0]
+        assert isinstance(parsed_set, ModeDeclarationMappingSet)
+        parsed_mapping = parsed_set.getModeDeclarationMappings()[0]
+        assert isinstance(parsed_mapping, ModeDeclarationMapping)
+        assert parsed_mapping.getShortName() == "MDM"
+        assert [ref.getValue() for ref in parsed_mapping.getFirstModeRefs()] == ["/Pkg/UserMode", "/Pkg/UserMode2"]
+        assert parsed_mapping.getSecondModeRef().getValue() == "/Pkg/ManagerMode"
+
+    def test_empty_mode_declaration_mapping_set_round_trip(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        mapping_set = pkg.createModeDeclarationMappingSet("MDMS")
+
+        root = _serialize(ET.Element("AR-PACKAGE"), mapping_set)
+        element = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}MODE-DECLARATION-MAPPING-SET" % tuple([NS] * 3))
+        assert element.find("{%s}MODE-DECLARATION-MAPPINGS" % NS) is None
+
+        parsed = _reparse(root)
+        parsed_set = parsed.getModeDeclarationMappingSets()[0]
+        assert parsed_set.getModeDeclarationMappings() == []

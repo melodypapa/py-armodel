@@ -1535,33 +1535,32 @@ class ModeDeclarationMapping(AtpStructureElement):
     """
 
     # ModeDeclarationMapping method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.29, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstModeRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFirstModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondModeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondModeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.29, p.132 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstModeRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirstModeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondModeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondModeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        # This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         self.firstModeRefs: List[RefType] = []
 
-        # This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        # This represents the second ModeDeclaration of the ModeDeclarationMapping.
         self.secondModeRef: Optional[RefType] = None
 
     def getFirstModeRefs(self) -> List[RefType]:
         """
-        This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         """
         return self.firstModeRefs
 
     def addFirstModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
-        This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -1570,13 +1569,13 @@ class ModeDeclarationMapping(AtpStructureElement):
 
     def getSecondModeRef(self) -> Optional[RefType]:
         """
-        This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        This represents the second ModeDeclaration of the ModeDeclarationMapping.
         """
         return self.secondModeRef
 
     def setSecondModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
-        This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        This represents the second ModeDeclaration of the ModeDeclarationMapping.
         A None value is a no-op and does not overwrite an existing secondModeRef.
         """
         if value is not None:
