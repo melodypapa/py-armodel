@@ -53,7 +53,9 @@ def perform_format(args):
             transform = AdminDataTransformer()
             transform.remove(document)
 
-        writer = ARXMLWriter(options={"unescape_entities": args.unescape_entities})
+        writer_options = dict(options)
+        writer_options["unescape_entities"] = args.unescape_entities
+        writer = ARXMLWriter(writer_options)
         writer.save(args.OUTPUT, document)
 
     except Exception as e:

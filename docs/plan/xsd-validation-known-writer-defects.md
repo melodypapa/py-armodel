@@ -47,3 +47,16 @@ Shared root causes:
   the R23-11 `ATP-INSTANCE-REF` group is empty, so `BASE-REF` is not allowed there.
 - **C4 — SHORT-NAME position (4 tests):** the writer emits `SHORT-NAME` in the ECUC def's own element group
   position instead of (only) the Identifiable header position.
+- **C5 — schema-invalid enum token constants in models (no test rows yet — tracked proactively):** several
+  model enum classes define camelCase constant values that the R23-11/R4.4 XSD enumerations reject. Library
+  code following the documented `Enum().setValue(Enum.CONSTANT)` pattern produces schema-invalid documents and
+  now fails the writer gate. The affected constants (found by the Task 4 review; fix = correct the constant
+  values per the XSD enumeration, then re-verify the model tests that assert the old camelCase strings):
+  - `DataTransformationKindEnum.ASYMMETRIC_TO_BYTE_ARRAY = "asymmetricToByteArray"` → XSD: `ASYMMETRIC-TO-BYTE-ARRAY`
+  - `DataIdModeEnum.ALL_16_BIT = "all16Bit"` → XSD: `ALL-16-BIT`
+  - `TransformerClassEnum.SAFETY = "safety"` → XSD: `SAFETY`
+  - `ServiceProviderEnum.COM_MANAGER = "comManager"` → XSD: `COM-MANAGER`
+  - `EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST = "activationAndTriggerUnicast"` → XSD: `ACTIVATION-AND-TRIGGER-UNICAST`
+  - `ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY = "payloadAsPointerToArray"` → XSD: `PAYLOAD-AS-POINTER-TO-ARRAY`
+  - `ApiPrincipleEnum.COMMON = "common"` → XSD: `COMMON` (row 22 above is this defect's test row)
+  - `DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP` single-dash tokens (row 21 above) → XSD: double-dash (`ISO-14229--1` etc.)
