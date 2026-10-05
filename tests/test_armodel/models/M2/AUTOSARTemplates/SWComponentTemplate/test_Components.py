@@ -410,9 +410,11 @@ class TestAtomicSwComponentType:
         """Test AtomicSwComponentType initialization and methods."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        # AtomicSwComponentType is marked as abstract with ABCMeta, but has no abstract methods
-        # so it can actually be instantiated
-        atomic_comp_type = AtomicSwComponentType(ar_root, "TestAtomicSwComponentType")
+
+        class ConcreteAtomicInitSwComponentType(AtomicSwComponentType):
+            pass
+
+        atomic_comp_type = ConcreteAtomicInitSwComponentType(ar_root, "TestAtomicSwComponentType")
 
         assert atomic_comp_type.parent == ar_root
         assert atomic_comp_type.short_name == "TestAtomicSwComponentType"

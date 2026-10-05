@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     ParameterPortAnnotation,
     ProcessingKindEnum,
     PulseTestEnum,
-    SenderReceiverAnnotation,
+    SenderAnnotation,
     SignalFanEnum,
     TriggerPortAnnotation,
 )
@@ -71,7 +71,7 @@ class TestPortPrototypeAnnotationsRoundTrip:
         param.setParameterRef(_ref("/Param", "PARAMETER-DATA-PROTOTYPE"))
         port.addParameterPortAnnotation(param)
 
-        sr = SenderReceiverAnnotation()
+        sr = SenderAnnotation()
         sr.setComputed(_bool(True))
         sr.setDataElementRef(_ref("/Data", "VARIABLE-DATA-PROTOTYPE"))
         sr.setLimitKind(DataLimitKindEnum().setValue(DataLimitKindEnum.MAX))
@@ -134,6 +134,7 @@ class TestPortPrototypeAnnotationsRoundTrip:
             assert sr_list[0].getLimitKind().getValue() == DataLimitKindEnum.MAX
             assert isinstance(sr_list[0].getProcessingKind(), ProcessingKindEnum)
             assert sr_list[0].getProcessingKind().getValue() == ProcessingKindEnum.FILTERED
+            assert isinstance(sr_list[0], SenderAnnotation)
 
             trig_list = port_2.getTriggerPortAnnotations()
             assert len(trig_list) == 1

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -43,7 +43,7 @@ class TestRteEVent:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": ""}
 
-        sw_component = AtomicSwComponentType(document, "MyComponents")
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
         parser.readAtomicSwComponentType(element, sw_component)
 
         internal_behavior = sw_component.getInternalBehavior()
@@ -112,7 +112,7 @@ class TestRteEVent:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": ""}
 
-        sw_component = AtomicSwComponentType(document, "MyComponents")
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
         parser.readAtomicSwComponentType(element, sw_component)
 
         internal_behavior = sw_component.getInternalBehavior()
@@ -175,7 +175,7 @@ class TestRteEVent:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": ""}
 
-        sw_component = AtomicSwComponentType(document, "MyComponents")
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
         parser.readAtomicSwComponentType(element, sw_component)
 
         internal_behavior = sw_component.getInternalBehavior()
@@ -229,7 +229,7 @@ class TestRteEVent:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": ""}
 
-        sw_component = AtomicSwComponentType(document, "MyComponents")
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
         parser.readAtomicSwComponentType(element, sw_component)
 
         internal_behavior = sw_component.getInternalBehavior()

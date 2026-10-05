@@ -44,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     PortGroup,
     PPortPrototype,
     PRPortPrototype,
@@ -603,7 +604,11 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         """Test AtomicSwComponentType full functionality."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        swc = AtomicSwComponentType(ar_root, "TestAtomicSwc")
+
+        class ConcreteAtomicFullSwComponentType(AtomicSwComponentType):
+            pass
+
+        swc = ConcreteAtomicFullSwComponentType(ar_root, "TestAtomicSwc")
 
         # Test internal behavior creation returns the existing element on re-create
         behavior = swc.createSwcInternalBehavior("TestBehavior")
@@ -720,7 +725,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
             ModePortAnnotation,
             NvDataPortAnnotation,
             ParameterPortAnnotation,
-            SenderReceiverAnnotation,
+            SenderAnnotation,
             TriggerPortAnnotation,
         )
 
@@ -737,7 +742,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         port.addNvDataPortAnnotation(nv_data)
         param = ParameterPortAnnotation()
         port.addParameterPortAnnotation(param)
-        sender_recv = SenderReceiverAnnotation()
+        sender_recv = SenderAnnotation()
         port.addSenderReceiverAnnotation(sender_recv)
         trigger = TriggerPortAnnotation()
         port.addTriggerPortAnnotation(trigger)
@@ -1043,3 +1048,417 @@ class TestAbstractRequiredPortPrototypeSpecContract:
     def test_member_order(self):
         """Exactly the one Table 3.3 attribute row after the base attrs."""
         assert list(vars(self._make()).keys())[-1:] == ["requiredComSpecs"]
+
+
+SW_COMPONENT_TYPE_CLASS_NOTE = "Base class for AUTOSAR software components."
+
+SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "consistencyNeeds": "This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.",
+    "port": "The PortPrototypes through which this SwComponentType can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.",
+    "portGroup": "A port group being part of this component.",
+    "swcMappingConstraint": "Reference to constraints that are valid for this SwComponentType.",
+    "swComponentDocumentation": "This adds a documentation to the SwComponentType.",
+    "unitGroup": "This allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.",
+}
+
+SW_COMPONENT_TYPE_MEMBERS = [
+    "consistencyNeeds",
+    "ports",
+    "portGroups",
+    "swcMappingConstraintsRefs",
+    "swComponentDocumentation",
+    "unitGroupRefs",
+]
+
+
+class ConcreteSwComponentType(SwComponentType):
+    pass
+
+
+class Test_SwComponentType_Spec:
+    """Spec pins for SwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.1, p.65)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ConcreteSwComponentType(ar_root, "Swc")
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(SwComponentType, ARElement)
+        assert issubclass(SwComponentType, ARObject)
+
+    def test_abstract_guard(self):
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        with pytest.raises(TypeError, match="SwComponentType is an abstract class"):
+            SwComponentType(ar_root, "swc")
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(SwComponentType.__doc__) == SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert SwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getConsistencyNeeds() == []
+        assert swc.getPorts() == []
+        assert swc.getPortGroups() == []
+        assert swc.getSwcMappingConstraintsRefs() == []
+        assert swc.getSwComponentDocumentation() is None
+        assert swc.getUnitGroupRefs() == []
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == SW_COMPONENT_TYPE_MEMBERS
+
+    def test_docstrings_verbatim(self):
+        getter_notes = {
+            SwComponentType.getConsistencyNeeds: SW_COMPONENT_TYPE_MEMBER_NOTES["consistencyNeeds"],
+            SwComponentType.getPorts: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.getPortGroups: SW_COMPONENT_TYPE_MEMBER_NOTES["portGroup"],
+            SwComponentType.getSwcMappingConstraintsRefs: SW_COMPONENT_TYPE_MEMBER_NOTES["swcMappingConstraint"],
+            SwComponentType.getSwComponentDocumentation: SW_COMPONENT_TYPE_MEMBER_NOTES["swComponentDocumentation"],
+            SwComponentType.getUnitGroupRefs: SW_COMPONENT_TYPE_MEMBER_NOTES["unitGroup"],
+        }
+        for getter, note in getter_notes.items():
+            assert getter.__doc__ is not None, getter.__name__
+            assert getter.__doc__.strip().split("\n")[0] == note, getter.__name__
+        setter_notes = {
+            SwComponentType.createConsistencyNeeds: SW_COMPONENT_TYPE_MEMBER_NOTES["consistencyNeeds"],
+            SwComponentType.createPPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createRPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createPRPortPrototype: SW_COMPONENT_TYPE_MEMBER_NOTES["port"],
+            SwComponentType.createPortGroup: SW_COMPONENT_TYPE_MEMBER_NOTES["portGroup"],
+            SwComponentType.addSwcMappingConstraintRef: SW_COMPONENT_TYPE_MEMBER_NOTES["swcMappingConstraint"],
+            SwComponentType.setSwComponentDocumentation: SW_COMPONENT_TYPE_MEMBER_NOTES["swComponentDocumentation"],
+            SwComponentType.addUnitGroupRef: SW_COMPONENT_TYPE_MEMBER_NOTES["unitGroup"],
+        }
+        for setter, note in setter_notes.items():
+            assert setter.__doc__ is not None, setter.__name__
+            assert note in setter.__doc__, setter.__name__
+        for setter, member in [
+            (SwComponentType.addSwcMappingConstraintRef, "swcMappingConstraintsRefs"),
+            (SwComponentType.setSwComponentDocumentation, "swComponentDocumentation"),
+            (SwComponentType.addUnitGroupRef, "unitGroupRefs"),
+        ]:
+            assert (
+                "A None value is a no-op and does not overwrite an existing %s." % member in setter.__doc__ or "A None value is a no-op and does not append anything." in setter.__doc__
+            ), setter.__name__
+
+    def test_get_set_sw_component_documentation(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
+
+        swc = self._make()
+        doc = SwComponentDocumentation()
+        assert swc == swc.setSwComponentDocumentation(doc)
+        assert swc.getSwComponentDocumentation() is doc
+        assert swc == swc.setSwComponentDocumentation(None)
+        assert swc.getSwComponentDocumentation() is doc
+
+    def test_add_get_swc_mapping_constraint_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Constraints/Mapping1")
+        assert swc == swc.addSwcMappingConstraintRef(ref)
+        assert swc.getSwcMappingConstraintsRefs() == [ref]
+        swc.addSwcMappingConstraintRef(None)
+        assert swc.getSwcMappingConstraintsRefs() == [ref]
+
+    def test_add_get_unit_group_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Units/Group1")
+        assert swc == swc.addUnitGroupRef(ref)
+        assert swc.getUnitGroupRefs() == [ref]
+        swc.addUnitGroupRef(None)
+        assert swc.getUnitGroupRefs() == [ref]
+
+    def test_create_consistency_needs_duplicate_returns_existing(self):
+        swc = self._make()
+        needs = swc.createConsistencyNeeds("Needs")
+        assert needs.short_name == "Needs"
+        assert swc.createConsistencyNeeds("Needs") is needs
+        assert swc.getConsistencyNeeds() == [needs]
+
+    def test_create_port_group_duplicate_returns_existing(self):
+        swc = self._make()
+        group = swc.createPortGroup("Group")
+        assert group.short_name == "Group"
+        assert swc.createPortGroup("Group") is group
+
+    def test_type_hints(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation as SwComponentDocumentation
+
+        hints = typing.get_type_hints(SwComponentType.setSwComponentDocumentation)
+        assert hints["value"] == typing.Optional[SwComponentDocumentation]
+        assert hints["return"] is SwComponentType
+        hints = typing.get_type_hints(SwComponentType.addSwcMappingConstraintRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is SwComponentType
+        hints = typing.get_type_hints(SwComponentType.addUnitGroupRef)
+        assert hints["value"] == typing.Optional[RefType]
+        hints = typing.get_type_hints(SwComponentType.getSwComponentDocumentation)
+        assert hints["return"] == typing.Optional[SwComponentDocumentation]
+        hints = typing.get_type_hints(SwComponentType.getPorts)
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype as PortPrototype
+
+        assert hints["return"] == typing.List[PortPrototype]
+
+
+PARAMETER_SW_COMPONENT_TYPE_CLASS_NOTE = (
+    "The ParameterSwComponentType defines parameters and characteristic values accessible via provided Ports. The provided values are the same for all connected SwComponentPrototypes"
+)
+
+PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "constantMapping": "Reference to the ConstantSpecificationMapping to be applied for the particular ParameterSwComponentType",
+    "dataTypeMapping": "Reference to the DataTypeMapping to be applied for the particular ParameterSwComponentType",
+    "instantiationDataDefProps": "The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of PortPrototypes",
+}
+
+PARAMETER_SW_COMPONENT_TYPE_MEMBERS = [
+    "constantMappingRefs",
+    "dataTypeMappingRefs",
+    "instantiationDataDefProps",
+]
+
+
+class Test_ParameterSwComponentType_Spec:
+    """Spec pins for ParameterSwComponentType (CP_TPS_SoftwareComponentTemplate Table 2.1, p.41)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        return ParameterSwComponentType(ar_root, "ParamSwc")
+
+    def _make_component(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
+
+        return InstantiationDataDefProps()
+
+    def test_inheritance(self):
+        assert issubclass(ParameterSwComponentType, SwComponentType)
+        assert issubclass(ParameterSwComponentType, ARObject)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ParameterSwComponentType.__doc__) == PARAMETER_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ParameterSwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getConstantMappingRefs() == []
+        assert swc.getDataTypeMappingRefs() == []
+        assert swc.getInstantiationDataDefProps() == []
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(PARAMETER_SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == PARAMETER_SW_COMPONENT_TYPE_MEMBERS
+
+    def test_add_get_constant_mapping_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Pkg/ConstantMapping1")
+        assert swc == swc.addConstantMappingRef(ref)
+        assert swc.getConstantMappingRefs() == [ref]
+        swc.addConstantMappingRef(None)
+        assert swc.getConstantMappingRefs() == [ref]
+
+    def test_add_get_data_type_mapping_refs(self):
+        swc = self._make()
+        ref = RefType().setValue("/Pkg/DataTypeMapping1")
+        assert swc == swc.addDataTypeMappingRef(ref)
+        assert swc.getDataTypeMappingRefs() == [ref]
+        swc.addDataTypeMappingRef(None)
+        assert swc.getDataTypeMappingRefs() == [ref]
+
+    def test_add_get_instantiation_data_def_props(self):
+        swc = self._make()
+        props = self._make_component()
+        assert swc == swc.addInstantiationDataDefProps(props)
+        assert swc.getInstantiationDataDefProps() == [props]
+        swc.addInstantiationDataDefProps(None)
+        assert swc.getInstantiationDataDefProps() == [props]
+
+    def test_docstrings_verbatim(self):
+        getter_notes = {
+            ParameterSwComponentType.getConstantMappingRefs: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["constantMapping"],
+            ParameterSwComponentType.getDataTypeMappingRefs: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["dataTypeMapping"],
+            ParameterSwComponentType.getInstantiationDataDefProps: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["instantiationDataDefProps"],
+        }
+        for getter, note in getter_notes.items():
+            assert getter.__doc__ is not None, getter.__name__
+            assert getter.__doc__.strip().split("\n")[0] == note, getter.__name__
+        setter_notes = {
+            ParameterSwComponentType.addConstantMappingRef: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["constantMapping"],
+            ParameterSwComponentType.addDataTypeMappingRef: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["dataTypeMapping"],
+            ParameterSwComponentType.addInstantiationDataDefProps: PARAMETER_SW_COMPONENT_TYPE_MEMBER_NOTES["instantiationDataDefProps"],
+        }
+        for setter, note in setter_notes.items():
+            assert setter.__doc__ is not None, setter.__name__
+            assert note in setter.__doc__, setter.__name__
+        for setter, member in [
+            (ParameterSwComponentType.addConstantMappingRef, "constantMappingRefs"),
+            (ParameterSwComponentType.addDataTypeMappingRef, "dataTypeMappingRefs"),
+            (ParameterSwComponentType.addInstantiationDataDefProps, "instantiationDataDefProps"),
+        ]:
+            assert "A None value is a no-op and does not append anything." in setter.__doc__, setter.__name__
+
+    def test_type_hints(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
+
+        hints = typing.get_type_hints(ParameterSwComponentType.addConstantMappingRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert hints["return"] is ParameterSwComponentType
+        hints = typing.get_type_hints(ParameterSwComponentType.getDataTypeMappingRefs)
+        assert hints["return"] == typing.List[RefType]
+        hints = typing.get_type_hints(ParameterSwComponentType.addInstantiationDataDefProps)
+        assert hints["value"] == typing.Optional[InstantiationDataDefProps]
+        hints = typing.get_type_hints(ParameterSwComponentType.getInstantiationDataDefProps)
+        assert hints["return"] == typing.List[InstantiationDataDefProps]
+
+    def test_inherited_base_accessors(self):
+        swc = self._make()
+        swc.createPPortPrototype("P1")
+        assert [p.short_name for p in swc.getPorts()] == ["P1"]
+
+
+ATOMIC_SW_COMPONENT_TYPE_CLASS_NOTE = "An atomic software component is atomic in the sense that it cannot be further decomposed and distributed across multiple ECUs."
+
+ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "internalBehavior": "The SwcInternalBehaviors owned by an AtomicSwComponentType can be located in a different physical file. Therefore the aggregation is <<atpSplitable>>.",
+    "symbolProps": "This represents the SymbolProps for the AtomicSwComponentType.",
+}
+
+ATOMIC_SW_COMPONENT_TYPE_MEMBERS = [
+    "internalBehavior",
+    "symbolProps",
+]
+
+
+class Test_AtomicSwComponentType_Spec:
+    """Spec pins for AtomicSwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.8, p.70)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class ConcreteAtomicSwComponentType(AtomicSwComponentType):
+            pass
+
+        return ConcreteAtomicSwComponentType(ar_root, "AtomicSwc")
+
+    def test_inheritance(self):
+        assert issubclass(AtomicSwComponentType, SwComponentType)
+        assert issubclass(AtomicSwComponentType, ARObject)
+
+    def test_abstract_guard(self):
+        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        with pytest.raises(TypeError, match="AtomicSwComponentType is an abstract class"):
+            AtomicSwComponentType(ar_root, "atomic")
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(AtomicSwComponentType.__doc__) == ATOMIC_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert AtomicSwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getInternalBehavior() is None
+        assert swc.getSymbolProps() is None
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(ATOMIC_SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == ATOMIC_SW_COMPONENT_TYPE_MEMBERS
+
+    def test_create_swc_internal_behavior_duplicate_returns_existing(self):
+        swc = self._make()
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        assert behavior.short_name == "Behavior"
+        assert swc.createSwcInternalBehavior("Behavior") is behavior
+        assert swc.getInternalBehavior() is behavior
+
+    def test_create_symbol_props_duplicate_returns_existing(self):
+        swc = self._make()
+        props = swc.createSymbolProps("Sym")
+        assert props.short_name == "Sym"
+        assert swc.createSymbolProps("Sym") is props
+        assert swc.getSymbolProps() is props
+
+    def test_docstrings_verbatim(self):
+        assert AtomicSwComponentType.getInternalBehavior.__doc__.strip().split("\n")[0] == ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["internalBehavior"]
+        assert AtomicSwComponentType.createSwcInternalBehavior.__doc__ is not None
+        assert ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["internalBehavior"] in AtomicSwComponentType.createSwcInternalBehavior.__doc__
+        assert AtomicSwComponentType.getSymbolProps.__doc__.strip().split("\n")[0] == ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["symbolProps"]
+        assert ATOMIC_SW_COMPONENT_TYPE_MEMBER_NOTES["symbolProps"] in AtomicSwComponentType.createSymbolProps.__doc__
+
+    def test_type_hints(self):
+        import typing
+
+        hints = typing.get_type_hints(AtomicSwComponentType.getSymbolProps)
+        assert hints["return"] == typing.Optional[SymbolProps]
+        hints = typing.get_type_hints(AtomicSwComponentType.createSymbolProps)
+        assert hints["return"] is SymbolProps
+
+
+APPLICATION_SW_COMPONENT_TYPE_CLASS_NOTE = "The ApplicationSwComponentType is used to represent the application software."
+
+
+class Test_ApplicationSwComponentType_Spec:
+    """Spec pins for ApplicationSwComponentType (CP_TPS_SoftwareComponentTemplate Table 3.9, p.71)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        return document.createARPackage("AUTOSAR").createApplicationSwComponentType("App")
+
+    def test_inheritance(self):
+        assert issubclass(ApplicationSwComponentType, AtomicSwComponentType)
+        assert issubclass(ApplicationSwComponentType, SwComponentType)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ApplicationSwComponentType.__doc__) == APPLICATION_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ApplicationSwComponentType.__init__.__doc__ is None
+
+    def test_no_own_spec_attributes(self):
+        swc = self._make()
+
+        class ConcreteAtomicProbeSwComponentType(AtomicSwComponentType):
+            pass
+
+        probe = ConcreteAtomicProbeSwComponentType(swc.parent, "Probe")
+        assert set(vars(swc)) == set(vars(probe))
+
+    def test_inherited_accessors_via_concrete_class(self):
+        swc = self._make()
+        swc.createPPortPrototype("P1")
+        assert [p.short_name for p in swc.getPorts()] == ["P1"]
+        behavior = swc.createSwcInternalBehavior("B")
+        assert swc.getInternalBehavior() is behavior
+        assert swc.createSymbolProps("S") is swc.getSymbolProps()

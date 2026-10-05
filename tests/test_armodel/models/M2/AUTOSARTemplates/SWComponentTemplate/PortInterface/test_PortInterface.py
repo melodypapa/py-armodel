@@ -13,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum, Boolean, Integer, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AtpPrototype,
     AutosarDataPrototype,
@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterfaceMapping,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    ServerArgumentImplPolicyEnum,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -952,3 +953,358 @@ class TestVariableAndParameterInterfaceMappingSpecContract:
             doc = getattr(VariableAndParameterInterfaceMapping, method).__doc__.strip()
             assert self.DATA_MAPPING_NOTE in doc, "%s docstring must carry the spec Note verbatim" % method
         assert "A None value is a no-op and does not append anything." in VariableAndParameterInterfaceMapping.addDataMapping.__doc__.strip()
+
+
+class TestPortInterfaceSpecSync:
+    """Spec-sync pins for the abstract PortInterface base (CP_TPS_SoftwareComponentTemplate Table 3.18, p.87)."""
+
+    IS_SERVICE_NOTE = (
+        "This flag is set if the PortInterface is to be used for communication between an "
+        "• ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or "
+        "• ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a "
+        "ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set."
+    )
+    SERVICE_KIND_NOTE = "This attribute provides further details about the nature of the applied service."
+    CLASS_NOTE = "Abstract base class for an interface that is either provided or required by a port of a software component."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert PortInterface.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_most_derived_atp_type_branch(self):
+        assert issubclass(PortInterface, AtpType)
+
+    def test_field_annotations_match_spec_multiplicity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        pi = TriggerInterface(ar_root, "PI")
+        assert pi.isService is None
+        assert pi.serviceKind is None
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(PortInterface.getIsService)["return"] == Optional[Boolean]
+        assert typing.get_type_hints(PortInterface.setIsService)["value"] == Optional[Boolean]
+        assert typing.get_type_hints(PortInterface.setIsService)["return"] == PortInterface
+        assert typing.get_type_hints(PortInterface.getServiceKind)["return"] == Optional[ServiceProviderEnum]
+        assert typing.get_type_hints(PortInterface.setServiceKind)["value"] == Optional[ServiceProviderEnum]
+        assert typing.get_type_hints(PortInterface.setServiceKind)["return"] == PortInterface
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert PortInterface.__init__.__doc__ is None
+        assert PortInterface.getIsService.__doc__.strip() == self.IS_SERVICE_NOTE
+        assert self.IS_SERVICE_NOTE in PortInterface.setIsService.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing isService." in PortInterface.setIsService.__doc__.strip()
+        assert PortInterface.getServiceKind.__doc__.strip() == self.SERVICE_KIND_NOTE
+        assert self.SERVICE_KIND_NOTE in PortInterface.setServiceKind.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing serviceKind." in PortInterface.setServiceKind.__doc__.strip()
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(PortInterface.__init__)
+        assert self.IS_SERVICE_NOTE in init_source
+        assert self.SERVICE_KIND_NOTE in init_source
+
+
+class TestClientServerInterfaceSpecSync:
+    """Spec-sync pins for ClientServerInterface (CP_TPS_SoftwareComponentTemplate Table 4.6, p.101)."""
+
+    CLASS_NOTE = "A client/server interface declares a number of operations that can be invoked on a server by a client."
+    OPERATION_NOTE = "ClientServerOperation(s) of this ClientServerInterface."
+    POSSIBLE_ERROR_NOTE = "Application errors that are defined as part of this interface."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ClientServerInterface.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_port_interface(self):
+        assert issubclass(ClientServerInterface, PortInterface)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        assert cs.getOperations() == []
+        assert cs.getPossibleErrors() == []
+
+    def test_create_operation_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        operation = cs.createOperation("Op")
+        assert isinstance(operation, ClientServerOperation)
+        assert operation.parent is cs
+        assert cs.getOperations() == [operation]
+        assert cs.createOperation("Op") is operation
+        assert len(cs.getOperations()) == 1
+
+    def test_create_application_error_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        cs = ClientServerInterface(ar_root, "CS")
+        error = cs.createApplicationError("E1")
+        assert isinstance(error, ApplicationError)
+        assert error.parent is cs
+        assert cs.getPossibleErrors() == [error]
+        assert cs.createApplicationError("E1") is error
+        assert len(cs.getPossibleErrors()) == 1
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ClientServerInterface.createOperation)["short_name"] is str
+        assert typing.get_type_hints(ClientServerInterface.createOperation)["return"] == ClientServerOperation
+        assert typing.get_type_hints(ClientServerInterface.getOperations)["return"] == List[ClientServerOperation]
+        assert typing.get_type_hints(ClientServerInterface.createApplicationError)["return"] == ApplicationError
+        assert typing.get_type_hints(ClientServerInterface.getPossibleErrors)["return"] == List[ApplicationError]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ClientServerInterface.__init__.__doc__ is None
+        for method in ("createOperation", "getOperations"):
+            assert getattr(ClientServerInterface, method).__doc__.strip() == self.OPERATION_NOTE, method
+        for method in ("createApplicationError", "getPossibleErrors"):
+            assert getattr(ClientServerInterface, method).__doc__.strip() == self.POSSIBLE_ERROR_NOTE, method
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ClientServerInterface.__init__)
+        assert self.OPERATION_NOTE in init_source
+        assert self.POSSIBLE_ERROR_NOTE in init_source
+        assert "Stereotypes" not in init_source
+
+
+class TestClientServerOperationSpecSync:
+    """Spec-sync pins for ClientServerOperation (CP_TPS_SoftwareComponentTemplate Table 4.7, p.102)."""
+
+    CLASS_NOTE = "An operation declared within the scope of a client/server interface."
+    ARGUMENT_NOTE = "An argument of this ClientServerOperation"
+    DIAG_NOTE_PREFIX = "This attribute shall only be used in the implementation of diagnostic routines"
+    POSSIBLE_ERROR_NOTE = "Possible errors that may by raised by the referring operation."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ClientServerOperation.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_atp_structure_element_and_vp_capable(self):
+        assert issubclass(ClientServerOperation, AtpStructureElement)
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert issubclass(ClientServerOperation, VariationPointCapable)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        assert operation.getArguments() == []
+        assert operation.getDiagArgIntegrity() is None
+        assert operation.getPossibleErrorRefs() == []
+
+    def test_create_argument_data_prototype_appends_and_duplicate_returns_existing(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        argument = operation.createArgumentDataPrototype("Arg")
+        assert isinstance(argument, ArgumentDataPrototype)
+        assert argument.parent is operation
+        assert operation.getArguments() == [argument]
+        assert operation.createArgumentDataPrototype("Arg") is argument
+        assert len(operation.getArguments()) == 1
+
+    def test_get_set_diag_arg_integrity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        value = Boolean()
+        value.setValue("true")
+        assert operation.setDiagArgIntegrity(value) is operation
+        assert operation.getDiagArgIntegrity() is value
+        operation.setDiagArgIntegrity(None)
+        assert operation.getDiagArgIntegrity() is value
+
+    def test_add_possible_error_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "Op")
+        ref = RefType()
+        ref.setValue("/Pkg/CSI/E1")
+        assert operation.addPossibleErrorRef(ref) is operation
+        assert operation.getPossibleErrorRefs() == [ref]
+        operation.addPossibleErrorRef(None)
+        assert operation.getPossibleErrorRefs() == [ref]
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ClientServerOperation.createArgumentDataPrototype)["return"] == ArgumentDataPrototype
+        assert typing.get_type_hints(ClientServerOperation.getArguments)["return"] == List[ArgumentDataPrototype]
+        assert typing.get_type_hints(ClientServerOperation.getDiagArgIntegrity)["return"] == Optional[Boolean]
+        assert typing.get_type_hints(ClientServerOperation.setDiagArgIntegrity)["value"] == Optional[Boolean]
+        assert typing.get_type_hints(ClientServerOperation.addPossibleErrorRef)["value"] == Optional[RefType]
+        assert typing.get_type_hints(ClientServerOperation.getPossibleErrorRefs)["return"] == List[RefType]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ClientServerOperation.__init__.__doc__ is None
+        for method in ("createArgumentDataPrototype", "getArguments"):
+            assert getattr(ClientServerOperation, method).__doc__.strip() == self.ARGUMENT_NOTE, method
+        assert self.DIAG_NOTE_PREFIX in ClientServerOperation.getDiagArgIntegrity.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing diagArgIntegrity." in ClientServerOperation.setDiagArgIntegrity.__doc__.strip()
+        for method in ("addPossibleErrorRef", "getPossibleErrorRefs"):
+            assert getattr(ClientServerOperation, method).__doc__.strip().startswith(self.POSSIBLE_ERROR_NOTE), method
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ClientServerOperation.__init__)
+        assert self.ARGUMENT_NOTE in init_source
+        assert self.POSSIBLE_ERROR_NOTE in init_source
+        assert "Stereotypes" not in init_source
+        assert "Tags" not in init_source
+
+
+class TestArgumentDataPrototypeSpecSync:
+    """Spec-sync pins for ArgumentDataPrototype (CP_TPS_SoftwareComponentTemplate Table 4.8, p.103)."""
+
+    CLASS_NOTE = "An argument of an operation, much like a data element, but also carries direction information and is owned by a particular ClientServerOperation."
+    DIRECTION_NOTE = "This attribute specifies the direction of the argument prototype."
+    POLICY_NOTE = "This defines how the argument type of the servers RunnableEntity is implemented. If the attribute is not defined this has the same semantics as if the attribute is set to the value useArgumentType for primitive arguments and structures."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ArgumentDataPrototype.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_autosar_data_prototype_and_vp_capable(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
+
+        assert issubclass(ArgumentDataPrototype, AutosarDataPrototype)
+        assert issubclass(ArgumentDataPrototype, VariationPointCapable)
+
+    def test_initialization_defaults(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        assert prototype.getDirection() is None
+        assert prototype.getServerArgumentImplPolicy() is None
+
+    def test_get_set_direction(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        direction = ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.INOUT)
+        assert prototype.setDirection(direction) is prototype
+        assert prototype.getDirection() is direction
+        assert prototype.getDirection().getValue() == "inout"
+        prototype.setDirection(None)
+        assert prototype.getDirection() is direction
+
+    def test_get_set_server_argument_impl_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = ArgumentDataPrototype(ar_root, "Arg")
+        policy = ServerArgumentImplPolicyEnum().setValue(ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE)
+        assert prototype.setServerArgumentImplPolicy(policy) is prototype
+        assert prototype.getServerArgumentImplPolicy() is policy
+        assert prototype.getServerArgumentImplPolicy().getValue() == "useArgumentType"
+        prototype.setServerArgumentImplPolicy(None)
+        assert prototype.getServerArgumentImplPolicy() is policy
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ArgumentDataPrototype.getDirection)["return"] == Optional[ArgumentDirectionEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setDirection)["value"] == Optional[ArgumentDirectionEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setDirection)["return"] == ArgumentDataPrototype
+        assert typing.get_type_hints(ArgumentDataPrototype.getServerArgumentImplPolicy)["return"] == Optional[ServerArgumentImplPolicyEnum]
+        assert typing.get_type_hints(ArgumentDataPrototype.setServerArgumentImplPolicy)["value"] == Optional[ServerArgumentImplPolicyEnum]
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ArgumentDataPrototype.__init__.__doc__ is None
+        assert ArgumentDataPrototype.getDirection.__doc__.strip() == self.DIRECTION_NOTE
+        assert self.DIRECTION_NOTE in ArgumentDataPrototype.setDirection.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing direction." in ArgumentDataPrototype.setDirection.__doc__.strip()
+        assert ArgumentDataPrototype.getServerArgumentImplPolicy.__doc__.strip() == self.POLICY_NOTE
+        assert self.POLICY_NOTE in ArgumentDataPrototype.setServerArgumentImplPolicy.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing serverArgumentImplPolicy." in ArgumentDataPrototype.setServerArgumentImplPolicy.__doc__.strip()
+
+    def test_init_member_comments_are_spec_notes_verbatim(self):
+        init_source = inspect.getsource(ArgumentDataPrototype.__init__)
+        assert self.DIRECTION_NOTE in init_source
+        assert self.POLICY_NOTE in init_source
+
+
+class TestServerArgumentImplPolicyEnumSpecSync:
+    """Spec-sync pins for ServerArgumentImplPolicyEnum (CP_TPS_SoftwareComponentTemplate Table 4.10, p.105)."""
+
+    def test_literals_match_spec_table_exactly(self):
+        """Table 4.10 defines exactly two literals: useArgumentType (index 0) and useVoid (index 2)"""
+        assert ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE == "useArgumentType"
+        assert ServerArgumentImplPolicyEnum.USE_VOID == "useVoid"
+
+    def test_enum_values_in_spec_display_order(self):
+        enum = ServerArgumentImplPolicyEnum()
+        assert enum.getEnumValues() == (
+            ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE,
+            ServerArgumentImplPolicyEnum.USE_VOID,
+        )
+        assert enum.enumValues == ("useArgumentType", "useVoid")
+
+    def test_no_extra_members(self):
+        members = {name for name, value in vars(ServerArgumentImplPolicyEnum).items() if name.isupper()}
+        assert members == {"USE_ARGUMENT_TYPE", "USE_VOID"}
+
+    def test_instantiation_set_value(self):
+        enum = ServerArgumentImplPolicyEnum()
+        result = enum.setValue(ServerArgumentImplPolicyEnum.USE_VOID)
+        assert result is enum
+        assert enum.getValue() == "useVoid"
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ServerArgumentImplPolicyEnum.__doc__.strip() == "This defines how the argument type of the servers RunnableEntity is implemented."
+
+    def test_literal_comments_carry_spec_descriptions(self):
+        import inspect
+
+        source = inspect.getsource(ServerArgumentImplPolicyEnum)
+        assert "The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument Prototype. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2" in source
+
+
+class TestApplicationErrorSpecSync:
+    """Spec-sync pins for ApplicationError (CP_TPS_SoftwareComponentTemplate Table 4.11, p.108)."""
+
+    CLASS_NOTE = "This is a user-defined error that is associated with an element of an AUTOSAR interface. It is specific for the particular functionality or service provided by the AUTOSAR software component."
+    ERROR_CODE_NOTE = "The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification)."
+
+    def test_class_docstring_matches_spec_note(self):
+        assert ApplicationError.__doc__.strip() == self.CLASS_NOTE
+
+    def test_base_is_identifiable(self):
+        assert issubclass(ApplicationError, Identifiable)
+
+    def test_initialization_default(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        error = ApplicationError(ar_root, "E1")
+        assert error.getErrorCode() is None
+
+    def test_get_set_error_code(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        error = ApplicationError(ar_root, "E1")
+        code = Integer()
+        code.setValue("42")
+        assert error.setErrorCode(code) is error
+        assert error.getErrorCode() is code
+        assert error.getErrorCode().getValue() == 42
+        error.setErrorCode(None)
+        assert error.getErrorCode() is code
+
+    def test_accessor_annotations(self):
+        import typing
+
+        assert typing.get_type_hints(ApplicationError.getErrorCode)["return"] == Optional[Integer]
+        assert typing.get_type_hints(ApplicationError.setErrorCode)["value"] == Optional[Integer]
+        assert typing.get_type_hints(ApplicationError.setErrorCode)["return"] == ApplicationError
+
+    def test_docstrings_are_spec_notes_verbatim(self):
+        assert ApplicationError.__init__.__doc__ is None
+        assert ApplicationError.getErrorCode.__doc__.strip() == self.ERROR_CODE_NOTE
+        assert self.ERROR_CODE_NOTE in ApplicationError.setErrorCode.__doc__.strip()
+        assert "A None value is a no-op and does not overwrite an existing error code." in ApplicationError.setErrorCode.__doc__.strip()
+
+    def test_init_member_comment_is_spec_note_verbatim(self):
+        init_source = inspect.getsource(ApplicationError.__init__)
+        assert self.ERROR_CODE_NOTE in init_source

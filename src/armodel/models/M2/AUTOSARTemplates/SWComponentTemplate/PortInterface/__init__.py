@@ -16,12 +16,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecific
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
+
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ArParameterInImplementationDataInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
@@ -40,24 +42,20 @@ class PortInterface(AtpType, ABC):
     """Abstract base class for an interface that is either provided or required by a port of a software component."""
 
     # PortInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.18, p.87
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.18, p.87 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsService   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsService   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceKind [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceKind [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterface:
             raise TypeError("PortInterface is an abstract class.")
         super().__init__(parent, short_name)
 
-        # This flag is set if the PortInterface is to be used for communication between an
-        # ApplicationSwComponentType or ServiceProxySwComponentType or SensorActuatorSwComponentType or
-        # ComplexDeviceDriverSwComponentType or ServiceSwComponentType or EcuAbstractionSwComponentType and a
-        # ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
+        # This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         self.isService: Optional[Boolean] = None
 
         # This attribute provides further details about the nature of the applied service.
@@ -65,33 +63,14 @@ class PortInterface(AtpType, ABC):
 
     def getIsService(self) -> Optional[Boolean]:
         """
-        Gets the isService flag of this PortInterface.
-
-        This flag is set if the PortInterface is to be used for communication between an ApplicationSwComponentType or
-        ServiceProxySwComponentType or SensorActuatorSwComponentType or ComplexDeviceDriverSwComponentType or
-        ServiceSwComponentType or EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service)
-        located on the same ECU. Otherwise the flag is not set.
-
-        Returns:
-            Optional[Boolean]: The isService flag, or None if not set
+        This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         """
         return self.isService
 
     def setIsService(self, value: Optional[Boolean]) -> PortInterface:
         """
-        Sets the isService flag of this PortInterface.
-
-        This flag is set if the PortInterface is to be used for communication between an ApplicationSwComponentType or
-        ServiceProxySwComponentType or SensorActuatorSwComponentType or ComplexDeviceDriverSwComponentType or
-        ServiceSwComponentType or EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service)
-        located on the same ECU. Otherwise the flag is not set.
+        This flag is set if the PortInterface is to be used for communication between an • ApplicationSwComponentType or • ServiceProxySwComponentType or • SensorActuatorSwComponentType or • ComplexDeviceDriverSwComponentType • ServiceSwComponentType • EcuAbstractionSwComponentType and a ServiceSwComponentType (namely an AUTOSAR Service) located on the same ECU. Otherwise the flag is not set.
         A None value is a no-op and does not overwrite an existing isService.
-
-        Args:
-            value: The isService flag to set
-
-        Returns:
-            PortInterface: self for method chaining
         """
         if value is not None:
             self.isService = value
@@ -99,27 +78,14 @@ class PortInterface(AtpType, ABC):
 
     def getServiceKind(self) -> Optional[ServiceProviderEnum]:
         """
-        Gets the serviceKind of this PortInterface.
-
         This attribute provides further details about the nature of the applied service.
-
-        Returns:
-            Optional[ServiceProviderEnum]: The serviceKind, or None if not set
         """
         return self.serviceKind
 
     def setServiceKind(self, value: Optional[ServiceProviderEnum]) -> PortInterface:
         """
-        Sets the serviceKind of this PortInterface.
-
         This attribute provides further details about the nature of the applied service.
         A None value is a no-op and does not overwrite an existing serviceKind.
-
-        Args:
-            value: The serviceKind to set
-
-        Returns:
-            PortInterface: self for method chaining
         """
         if value is not None:
             self.serviceKind = value
@@ -456,7 +422,7 @@ class ServerArgumentImplPolicyEnum(AREnum):
     """
 
     # ServerArgumentImplPolicyEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no methods) — serialized as an attribute value on the consuming class
@@ -467,15 +433,7 @@ class ServerArgumentImplPolicyEnum(AREnum):
     # The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2
     USE_VOID = "useVoid"
 
-    # (accepted deviation, pending user arbitration 2026-10-02): the R23-11 table also defines
-    #  innerPort, while the model carries bidirectional / firstToSecond / secondToFirst which are
-    #  absent from the R23-11 table (cross-corpus drift). Resolved literals require the user's
-    #  9b decision; nothing stamped meanwhile.
-
     def __init__(self):
-        """
-        Initializes a ServerArgumentImplPolicyEnum instance with the spec-defined literals.
-        """
         super().__init__((ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID))
 
 
@@ -485,8 +443,7 @@ class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
 
     # ArgumentDataPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.7, p.303
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.8, p.103 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDirection                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
@@ -540,12 +497,11 @@ class ApplicationError(Identifiable):
     """
 
     # ApplicationError method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorCode      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorCode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorCode  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorCode  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -555,25 +511,14 @@ class ApplicationError(Identifiable):
 
     def getErrorCode(self) -> Optional[Integer]:
         """
-        Gets the error code that the RTE generator is forced to assign to the corresponding error symbol.
-        Note that for error codes certain ranges are predefined (see RTE specification).
-
-        Returns:
-            Integer representing the error code, or None if not set
+        The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification).
         """
         return self.errorCode
 
     def setErrorCode(self, value: Optional[Integer]) -> ApplicationError:
         """
-        Sets the error code that the RTE generator is forced to assign to the corresponding error symbol.
-        Note that for error codes certain ranges are predefined (see RTE specification).
+        The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification).
         A None value is a no-op and does not overwrite an existing error code.
-
-        Args:
-            value: The error code Integer to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.errorCode = value
@@ -586,20 +531,20 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
     """
 
     # ClientServerOperation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getArguments                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setDiagArgIntegrity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrorRefs        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addPossibleErrorRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createArgumentDataPrototype  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDiagArgIntegrity          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagArgIntegrity          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPossibleErrorRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPossibleErrorRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        # An argument of this ClientServerOperation
         self.arguments: List[ArgumentDataPrototype] = []
 
         # This attribute shall only be used in the implementation of diagnostic routines to support the case where input and output arguments are allocated in a shared buffer and might unintentionally overwrite input arguments by tentative write operations to output arguments. This situation can happen during sliced execution or while output parameters are arrays (call by reference). The value true means that the ClientServerOperation is aware of the usage of a shared buffer and takes precautions to avoid unintentional overwrite of input arguments. If the attribute does not exist or is set to false the Client ServerOperation does not have to consider the usage of a shared buffer.
@@ -610,16 +555,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def createArgumentDataPrototype(self, short_name: str) -> ArgumentDataPrototype:
         """
-        Creates an ArgumentDataPrototype of this ClientServerOperation with the given short name,
-        or returns the existing one if it already exists.
-
-        An argument of this ClientServerOperation.
-
-        Args:
-            short_name: The short name for the new ArgumentDataPrototype
-
-        Returns:
-            The created (or existing) ArgumentDataPrototype
+        An argument of this ClientServerOperation
         """
         if not self.IsReferrableElementExists(short_name, ArgumentDataPrototype):
             prototype = ArgumentDataPrototype(self, short_name)
@@ -629,7 +565,7 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
     def getArguments(self) -> List[ArgumentDataPrototype]:
         """
-        An argument of this ClientServerOperation Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=argument.shortName, argument.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        An argument of this ClientServerOperation
         """
         return self.arguments
 
@@ -666,23 +602,22 @@ class ClientServerOperation(AtpStructureElement, VariationPointCapable):
 
 class ClientServerInterface(PortInterface):
     """
-    A client/server interface declares a number of operations that can be invoked on a server by a client. Tags: atp.recommendedPackage=PortInterfaces
+    A client/server interface declares a number of operations that can be invoked on a server by a client.
     """
 
     # ClientServerInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getOperations               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] createOperation             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getPossibleErrors           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] createApplicationError      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createOperation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createApplicationError [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPossibleErrors      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        # ClientServerOperation(s) of this ClientServerInterface.
         self.operations: List[ClientServerOperation] = []
 
         # Application errors that are defined as part of this interface.
@@ -690,7 +625,7 @@ class ClientServerInterface(PortInterface):
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
         """
-        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        ClientServerOperation(s) of this ClientServerInterface.
         """
         if not self.IsReferrableElementExists(short_name, ClientServerOperation):
             operation = ClientServerOperation(self, short_name)
@@ -700,20 +635,13 @@ class ClientServerInterface(PortInterface):
 
     def getOperations(self) -> List[ClientServerOperation]:
         """
-        ClientServerOperation(s) of this ClientServerInterface. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=operation.shortName, operation.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        ClientServerOperation(s) of this ClientServerInterface.
         """
         return self.operations
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
         """
-        Creates an ApplicationError of this ClientServerInterface with the
-        given short name, or returns the existing one if it already exists.
-
-        Args:
-            short_name: The short name for the new ApplicationError
-
-        Returns:
-            The created (or existing) ApplicationError
+        Application errors that are defined as part of this interface.
         """
         if not self.IsReferrableElementExists(short_name, ApplicationError):
             error = ApplicationError(self, short_name)
@@ -759,17 +687,14 @@ class TriggerInterface(PortInterface):
 
 
 class ModeSwitchInterface(PortInterface):
-    """
-    A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received. Tags: atp.recommendedPackage=PortInterfaces
-    """
+    """A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received."""
 
     # ModeSwitchInterface method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createModeGroup    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeGroup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createModeGroup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeGroup     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -778,18 +703,7 @@ class ModeSwitchInterface(PortInterface):
         self.modeGroup: Optional[ModeDeclarationGroupPrototype] = None
 
     def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
-        """
-        Creates the ModeDeclarationGroupPrototype of this mode interface.
-        Returns the existing prototype when the short name already exists.
-
-        The ModeDeclarationGroupPrototype of this mode interface.
-
-        Args:
-            short_name: The short name of the ModeDeclarationGroupPrototype
-
-        Returns:
-            The created or existing ModeDeclarationGroupPrototype
-        """
+        """The ModeDeclarationGroupPrototype of this mode interface."""
         if not self.IsReferrableElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addReferrableElement(prototype)
@@ -798,14 +712,7 @@ class ModeSwitchInterface(PortInterface):
         return mode_group
 
     def getModeGroup(self) -> Optional[ModeDeclarationGroupPrototype]:
-        """
-        Gets the ModeDeclarationGroupPrototype of this mode interface.
-
-        The ModeDeclarationGroupPrototype of this mode interface.
-
-        Returns:
-            The ModeDeclarationGroupPrototype, or None if not set
-        """
+        """The ModeDeclarationGroupPrototype of this mode interface."""
         return self.modeGroup
 
 
@@ -925,8 +832,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     """
 
     # ApplicationCompositeDataTypeSubElementRef method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.35, p.138 (R23-11)
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.35, p.138 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApplicationCompositeElementIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -960,8 +866,7 @@ class MappingDirectionEnum(AREnum):
     """
 
     # MappingDirectionEnum method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -984,8 +889,7 @@ class TextTableValuePair(ARObject):
     """
 
     # TextTableValuePair method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFirstValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1226,40 +1130,39 @@ class SubElementMapping(ARObject):
 
 class DataPrototypeMapping(ARObject):
     """
-    Defines the mapping of two particular VariableDataPrototypes, ParameterDataPrototypes or Argument DataPrototypes with non-equal shortNames, non-equal structure (specific condition is described by [constr_1187]), and/or non-equal semantic (resolution or range) in context of two different Sender ReceiverInterface, NvDataInterface or ParameterInterface or Operations. If the semantic is unequal, the following rules apply: The textTableMapping is only applicable if the referred DataPrototypes are typed by AutosarDataType referring to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE. In the case that the DataPrototypes are typed by AutosarDataType either referring to CompuMethods of category LINEAR, IDENTICAL or referring to no CompuMethod (which is similar as IDENTICAL) the linear conversion factor is calculated out of the factorSiToUnit and offsetSiToUnit attributes of the referred Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred CompuMethods.
+    Defines the mapping of two particular VariableDataPrototypes, ParameterDataPrototypes or ArgumentDataPrototypes with non-equal shortNames, non-equal structure (specific condition is described by [constr_1187]), and/or non-equal semantic (resolution or range) in context of two different SenderReceiverInterface, NvDataInterface or ParameterInterface or Operations. If the semantic is unequal, the following rules apply: The textTableMapping is only applicable if the referred DataPrototypes are typed by AutosarDataType referring to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE. In the case that the DataPrototypes are typed by AutosarDataType either referring to CompuMethods of category LINEAR, IDENTICAL or referring to no CompuMethod (which is similar as IDENTICAL) the linear conversion factor is calculated out of the factorSiToUnit and offsetSiToUnit attributes of the referred Units and the CompuRationalCoeffs of a compuInternalToPhys of the referred CompuMethods.
     """
 
     # DataPrototypeMapping method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.22, p.125
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addSubElementMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubElementMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTextTableMapping          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTextTableMappings         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.22, p.125 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstDataPrototypeRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstDataPrototypeRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstToSecondDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondDataPrototypeRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondDataPrototypeRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondToFirstDataTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSubElementMapping                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElementMappings                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTextTableMapping                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTextTableMappings                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # First to be mapped DataPrototype in context of a Sender ReceiverInterface, NvDataInterface, ParameterInterface or Operation.
+        # First to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         self.firstDataPrototypeRef: Optional[RefType] = None
 
-        # This reference defines the need to execute the Data Transformation <Mip>_<transformerId> functions of the transformation chain when communicating from the Data PrototypeMapping.firstDataPrototype to the Data PrototypeMapping.secondDataPrototype. This reference also specifies the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototype Mapping.secondDataPrototype to the DataPrototype Mapping.firstDataPrototype) if the referenced Data Transformation is symmetric, i.e. attribute Data Transformation.dataTransformationKind is set to symmetric.
+        # This reference defines the need to execute the DataTransformation <Mip>_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.firstDataPrototype to the DataPrototypeMapping.secondDataPrototype. This reference also specifies the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype) if the referenced DataTransformation is symmetric, i.e. attribute DataTransformation.dataTransformationKind is set to symmetric.
         self.firstToSecondDataTransformationRef: Optional[RefType] = None
 
-        # Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, Parameter Interface or Operation.
+        # Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         self.secondDataPrototypeRef: Optional[RefType] = None
 
-        # This defines the need to execute the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the Data PrototypeMapping.firstDataPrototype.
+        # This defines the need to execute the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype.
         self.secondToFirstDataTransformationRef: Optional[RefType] = None
 
         # This represents the owned SubelementMapping.
@@ -1270,13 +1173,13 @@ class DataPrototypeMapping(ARObject):
 
     def getFirstDataPrototypeRef(self) -> Optional[RefType]:
         """
-        First to be mapped DataPrototype in context of a Sender ReceiverInterface, NvDataInterface, ParameterInterface or Operation.
+        First to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         """
         return self.firstDataPrototypeRef
 
     def setFirstDataPrototypeRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
-        First to be mapped DataPrototype in context of a Sender ReceiverInterface, NvDataInterface, ParameterInterface or Operation.
+        First to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         A None value is a no-op and does not overwrite an existing firstDataPrototypeRef.
         """
         if value is not None:
@@ -1285,13 +1188,13 @@ class DataPrototypeMapping(ARObject):
 
     def getFirstToSecondDataTransformationRef(self) -> Optional[RefType]:
         """
-        This reference defines the need to execute the Data Transformation <Mip>_<transformerId> functions of the transformation chain when communicating from the Data PrototypeMapping.firstDataPrototype to the Data PrototypeMapping.secondDataPrototype. This reference also specifies the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototype Mapping.secondDataPrototype to the DataPrototype Mapping.firstDataPrototype) if the referenced Data Transformation is symmetric, i.e. attribute Data Transformation.dataTransformationKind is set to symmetric.
+        This reference defines the need to execute the DataTransformation <Mip>_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.firstDataPrototype to the DataPrototypeMapping.secondDataPrototype. This reference also specifies the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype) if the referenced DataTransformation is symmetric, i.e. attribute DataTransformation.dataTransformationKind is set to symmetric.
         """
         return self.firstToSecondDataTransformationRef
 
     def setFirstToSecondDataTransformationRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
-        This reference defines the need to execute the Data Transformation <Mip>_<transformerId> functions of the transformation chain when communicating from the Data PrototypeMapping.firstDataPrototype to the Data PrototypeMapping.secondDataPrototype. This reference also specifies the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototype Mapping.secondDataPrototype to the DataPrototype Mapping.firstDataPrototype) if the referenced Data Transformation is symmetric, i.e. attribute Data Transformation.dataTransformationKind is set to symmetric.
+        This reference defines the need to execute the DataTransformation <Mip>_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.firstDataPrototype to the DataPrototypeMapping.secondDataPrototype. This reference also specifies the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain (i.e. from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype) if the referenced DataTransformation is symmetric, i.e. attribute DataTransformation.dataTransformationKind is set to symmetric.
         A None value is a no-op and does not overwrite an existing firstToSecondDataTransformationRef.
         """
         if value is not None:
@@ -1300,13 +1203,13 @@ class DataPrototypeMapping(ARObject):
 
     def getSecondDataPrototypeRef(self) -> Optional[RefType]:
         """
-        Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, Parameter Interface or Operation.
+        Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         """
         return self.secondDataPrototypeRef
 
     def setSecondDataPrototypeRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
-        Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, Parameter Interface or Operation.
+        Second to be mapped DataPrototype in context of a SenderReceiverInterface, NvDataInterface, ParameterInterface or Operation.
         A None value is a no-op and does not overwrite an existing secondDataPrototypeRef.
         """
         if value is not None:
@@ -1315,13 +1218,13 @@ class DataPrototypeMapping(ARObject):
 
     def getSecondToFirstDataTransformationRef(self) -> Optional[RefType]:
         """
-        This defines the need to execute the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the Data PrototypeMapping.firstDataPrototype.
+        This defines the need to execute the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype.
         """
         return self.secondToFirstDataTransformationRef
 
     def setSecondToFirstDataTransformationRef(self, value: Optional[RefType]) -> DataPrototypeMapping:
         """
-        This defines the need to execute the reverse Data Transformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the Data PrototypeMapping.firstDataPrototype.
+        This defines the need to execute the reverse DataTransformation <Mip>_Inv_<transformerId> functions of the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the DataPrototypeMapping.firstDataPrototype.
         A None value is a no-op and does not overwrite an existing secondToFirstDataTransformationRef.
         """
         if value is not None:
@@ -1630,33 +1533,32 @@ class ModeDeclarationMapping(AtpStructureElement):
     """
 
     # ModeDeclarationMapping method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.29, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstModeRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFirstModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondModeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondModeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.29, p.132 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstModeRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirstModeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondModeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondModeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        # This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         self.firstModeRefs: List[RefType] = []
 
-        # This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        # This represents the second ModeDeclaration of the ModeDeclarationMapping.
         self.secondModeRef: Optional[RefType] = None
 
     def getFirstModeRefs(self) -> List[RefType]:
         """
-        This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         """
         return self.firstModeRefs
 
     def addFirstModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
-        This represents the first ModeDeclaration of the Mode DeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
+        This represents the first ModeDeclaration of the ModeDeclarationMapping. This reference has the multiplicity 1 .. * to support use cases where e.g. one mode of the mode user is mapped to several modes of the mode manager.
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -1665,13 +1567,13 @@ class ModeDeclarationMapping(AtpStructureElement):
 
     def getSecondModeRef(self) -> Optional[RefType]:
         """
-        This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        This represents the second ModeDeclaration of the ModeDeclarationMapping.
         """
         return self.secondModeRef
 
     def setSecondModeRef(self, value: Optional[RefType]) -> ModeDeclarationMapping:
         """
-        This represents the second ModeDeclaration of the Mode DeclarationMapping.
+        This represents the second ModeDeclaration of the ModeDeclarationMapping.
         A None value is a no-op and does not overwrite an existing secondModeRef.
         """
         if value is not None:
@@ -1792,5 +1694,52 @@ class PortInterfaceMappingSet(ARElement):
         return cast(TriggerInterfaceMapping, self.getReferrableElement(short_name, TriggerInterfaceMapping))
 
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef  # noqa: E402
+
+
 class ImplementationDataTypeSubElementRef(SubElementRef):
-    pass
+    """This meta-class represents the specialization of SubElementMapping with respect to ImplementationDataTypes."""
+
+    # ImplementationDataTypeSubElementRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.34, p.138 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeElement            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeElement            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterImplementationDataTypeElement   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterImplementationDataTypeElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the referenced implementationDataTypeElement.
+        self.implementationDataTypeElement: Optional[ArVariableInImplementationDataInstanceRef] = None
+
+        # This represents the referenced ImplementationDataTypeElement.
+        self.parameterImplementationDataTypeElement: Optional[ArParameterInImplementationDataInstanceRef] = None
+
+    def getImplementationDataTypeElement(self) -> Optional[ArVariableInImplementationDataInstanceRef]:
+        """This represents the referenced implementationDataTypeElement."""
+        return self.implementationDataTypeElement
+
+    def setImplementationDataTypeElement(self, value: Optional[ArVariableInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced implementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing implementationDataTypeElement.
+        """
+        if value is not None:
+            self.implementationDataTypeElement = value
+        return self
+
+    def getParameterImplementationDataTypeElement(self) -> Optional[ArParameterInImplementationDataInstanceRef]:
+        """This represents the referenced ImplementationDataTypeElement."""
+        return self.parameterImplementationDataTypeElement
+
+    def setParameterImplementationDataTypeElement(self, value: Optional[ArParameterInImplementationDataInstanceRef]) -> ImplementationDataTypeSubElementRef:
+        """
+        This represents the referenced ImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing parameterImplementationDataTypeElement.
+        """
+        if value is not None:
+            self.parameterImplementationDataTypeElement = value
+        return self

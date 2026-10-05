@@ -77,45 +77,53 @@ class TestEcucConditionSpecification:
         assert condition_spec.getEcucQueries() == []
         assert condition_spec.getInformalFormula() is None
 
-    def test_set_get_condition_formula(self):
+    def test_get_set_condition_formula(self):
         """
-        Test setConditionFormula stores an EcucConditionFormula and returns self.
+        Test setConditionFormula stores an EcucConditionFormula, returns self, and ignores None.
         """
         condition_spec = self._make_spec()
         formula = EcucConditionFormula()
         result = condition_spec.setConditionFormula(formula)
         assert result is condition_spec
         assert condition_spec.getConditionFormula() is formula
+        condition_spec.setConditionFormula(None)
+        assert condition_spec.getConditionFormula() is formula
 
-    def test_create_get_ecuc_queries(self):
+    def test_get_set_informal_formula(self):
         """
-        Test createEcucQuery appends an EcucQuery and returns it for chaining.
-        """
-        condition_spec = self._make_spec()
-        query = condition_spec.createEcucQuery("Q1")
-        assert query is not None
-        assert query.getShortName() == "Q1"
-        assert condition_spec.getEcucQueries() == [query]
-        assert condition_spec.getEcucQuery("Q1") is query
-
-    def test_create_ecuc_query_none_is_noop(self):
-        """
-        Test createEcucQuery with a None short name is a no-op.
-        """
-        condition_spec = self._make_spec()
-        query = condition_spec.createEcucQuery(None)
-        assert query is None
-        assert condition_spec.getEcucQueries() == []
-
-    def test_set_get_informal_formula(self):
-        """
-        Test setInformalFormula stores an MlFormula and returns self.
+        Test setInformalFormula stores an MlFormula, returns self, and ignores None.
         """
         condition_spec = self._make_spec()
         formula = MlFormula()
         result = condition_spec.setInformalFormula(formula)
         assert result is condition_spec
         assert condition_spec.getInformalFormula() is formula
+        condition_spec.setInformalFormula(None)
+        assert condition_spec.getInformalFormula() is formula
+
+    def test_create_ecuc_query(self):
+        """
+        Test createEcucQuery appends an EcucQuery and returns the existing one for a duplicate short name.
+        """
+        condition_spec = self._make_spec()
+        query = condition_spec.createEcucQuery("Q1")
+        assert query.getShortName() == "Q1"
+        assert condition_spec.getEcucQueries() == [query]
+        assert condition_spec.createEcucQuery("Q1") is query
+        assert len(condition_spec.getEcucQueries()) == 1
+
+    def test_member_annotations(self):
+        """
+        Pin the member annotation forms against the Table 2.42 multiplicities.
+        """
+        import typing
+
+        assert typing.get_type_hints(EcucConditionSpecification.getConditionFormula)["return"] == typing.Optional[EcucConditionFormula]
+        assert typing.get_type_hints(EcucConditionSpecification.setConditionFormula)["value"] == typing.Optional[EcucConditionFormula]
+        assert typing.get_type_hints(EcucConditionSpecification.getEcucQueries)["return"] == typing.List[EcucQuery]
+        assert typing.get_type_hints(EcucConditionSpecification.createEcucQuery)["return"] is EcucQuery
+        assert typing.get_type_hints(EcucConditionSpecification.getInformalFormula)["return"] == typing.Optional[MlFormula]
+        assert typing.get_type_hints(EcucConditionSpecification.setInformalFormula)["value"] == typing.Optional[MlFormula]
 
 
 class TestEcucValidationCondition:
@@ -139,26 +147,39 @@ class TestEcucValidationCondition:
         assert validation_condition.getEcucQueries() == []
         assert validation_condition.getValidationFormula() is None
 
-    def test_create_get_ecuc_queries(self):
+    def test_get_set_validation_formula(self):
         """
-        Test createEcucQuery appends an EcucQuery and returns it for chaining.
-        """
-        validation_condition = self._make_condition()
-        query = validation_condition.createEcucQuery("Q1")
-        assert query is not None
-        assert query.getShortName() == "Q1"
-        assert validation_condition.getEcucQueries() == [query]
-        assert validation_condition.getEcucQuery("Q1") is query
-
-    def test_set_get_validation_formula(self):
-        """
-        Test setValidationFormula stores an EcucConditionFormula and returns self.
+        Test setValidationFormula stores an EcucConditionFormula, returns self, and ignores None.
         """
         validation_condition = self._make_condition()
         formula = EcucConditionFormula()
         result = validation_condition.setValidationFormula(formula)
         assert result is validation_condition
         assert validation_condition.getValidationFormula() is formula
+        validation_condition.setValidationFormula(None)
+        assert validation_condition.getValidationFormula() is formula
+
+    def test_create_ecuc_query(self):
+        """
+        Test createEcucQuery appends an EcucQuery and returns the existing one for a duplicate short name.
+        """
+        validation_condition = self._make_condition()
+        query = validation_condition.createEcucQuery("Q1")
+        assert query.getShortName() == "Q1"
+        assert validation_condition.getEcucQueries() == [query]
+        assert validation_condition.createEcucQuery("Q1") is query
+        assert len(validation_condition.getEcucQueries()) == 1
+
+    def test_member_annotations(self):
+        """
+        Pin the member annotation forms against the Table 2.44 multiplicities.
+        """
+        import typing
+
+        assert typing.get_type_hints(EcucValidationCondition.getEcucQueries)["return"] == typing.List[EcucQuery]
+        assert typing.get_type_hints(EcucValidationCondition.createEcucQuery)["return"] is EcucQuery
+        assert typing.get_type_hints(EcucValidationCondition.getValidationFormula)["return"] == typing.Optional[EcucConditionFormula]
+        assert typing.get_type_hints(EcucValidationCondition.setValidationFormula)["value"] == typing.Optional[EcucConditionFormula]
 
 
 class TestEcucScopeEnum:

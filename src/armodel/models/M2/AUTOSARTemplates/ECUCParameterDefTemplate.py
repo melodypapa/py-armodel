@@ -19,15 +19,14 @@ class EcucConditionSpecification(ARObject):
 
     # EcucConditionSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.42, p.100
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcucQuery      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getInformalFormula   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInformalFormula   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -47,27 +46,19 @@ class EcucConditionSpecification(ARObject):
         """
         return self.conditionFormula
 
-    def setConditionFormula(self, value: EcucConditionFormula) -> EcucConditionSpecification:
+    def setConditionFormula(self, value: Optional[EcucConditionFormula]) -> EcucConditionSpecification:
         """
         Definition of the formula used to define existence dependencies.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing conditionFormula.
         """
         if value is not None:
             self.conditionFormula = value
         return self
 
-    def getEcucQueries(self) -> List[EcucQuery]:
+    def createEcucQuery(self, short_name: str) -> EcucQuery:
         """
         Query to the ECU Configuration Description.
         """
-        return self.ecucQueries
-
-    def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
-        """
-        Creates or returns an existing EcucQuery aggregated by this condition specification.
-        """
-        if short_name is None:
-            return None
         for query in self.ecucQueries:
             if query.getShortName() == short_name:
                 return query
@@ -75,14 +66,11 @@ class EcucConditionSpecification(ARObject):
         self.ecucQueries.append(query)
         return query
 
-    def getEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
+    def getEcucQueries(self) -> List[EcucQuery]:
         """
-        Gets the EcucQuery with the given short name, or None if not present.
+        Query to the ECU Configuration Description.
         """
-        for query in self.ecucQueries:
-            if query.getShortName() == short_name:
-                return query
-        return None
+        return self.ecucQueries
 
     def getInformalFormula(self) -> Optional[MlFormula]:
         """
@@ -90,10 +78,10 @@ class EcucConditionSpecification(ARObject):
         """
         return self.informalFormula
 
-    def setInformalFormula(self, value: MlFormula) -> EcucConditionSpecification:
+    def setInformalFormula(self, value: Optional[MlFormula]) -> EcucConditionSpecification:
         """
         Informal description of the condition used to to define existence dependencies.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing informalFormula.
         """
         if value is not None:
             self.informalFormula = value
@@ -107,13 +95,12 @@ class EcucValidationCondition(Identifiable):
 
     # EcucValidationCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.44, p.103
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEcucQuery       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueries        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValidationFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValidationFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -124,33 +111,21 @@ class EcucValidationCondition(Identifiable):
         # Definition of the formula used to define validation condition.
         self.validationFormula: Optional[EcucConditionFormula] = None
 
+    def createEcucQuery(self, short_name: str) -> EcucQuery:
+        """
+        Query to the ECU Configuration Description.
+        """
+        if not self.IsReferrableElementExists(short_name, EcucQuery):
+            query = EcucQuery(self, short_name)
+            self.addReferrableElement(query)
+            self.ecucQueries.append(query)
+        return cast(EcucQuery, self.getReferrableElement(short_name, EcucQuery))
+
     def getEcucQueries(self) -> List[EcucQuery]:
         """
         Query to the ECU Configuration Description.
         """
         return self.ecucQueries
-
-    def createEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
-        """
-        Creates or returns an existing EcucQuery aggregated by this validation condition.
-        """
-        if short_name is None:
-            return None
-        for query in self.ecucQueries:
-            if query.getShortName() == short_name:
-                return query
-        query = EcucQuery(self, short_name)
-        self.ecucQueries.append(query)
-        return query
-
-    def getEcucQuery(self, short_name: str) -> Optional[EcucQuery]:
-        """
-        Gets the EcucQuery with the given short name, or None if not present.
-        """
-        for query in self.ecucQueries:
-            if query.getShortName() == short_name:
-                return query
-        return None
 
     def getValidationFormula(self) -> Optional[EcucConditionFormula]:
         """
@@ -158,10 +133,10 @@ class EcucValidationCondition(Identifiable):
         """
         return self.validationFormula
 
-    def setValidationFormula(self, value: EcucConditionFormula) -> EcucValidationCondition:
+    def setValidationFormula(self, value: Optional[EcucConditionFormula]) -> EcucValidationCondition:
         """
         Definition of the formula used to define validation condition.
-        A None value is a no-op.
+        A None value is a no-op and does not overwrite an existing validationFormula.
         """
         if value is not None:
             self.validationFormula = value

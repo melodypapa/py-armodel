@@ -1280,10 +1280,11 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
-No deviations — Table 3.8 attributes (`internalBehavior`, `symbolProps`) are implemented
-with parser/writer coverage. The previously recorded `internalBehavior`
-`type (spec many vs py single)` row is removed: the PDF table states `0..1` (the XSD `*`
-is only the atpVariation flattening), so the single-value model is PDF-correct.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.8 attributes (`internalBehavior`, `symbolProps`, each `0..1` aggr) are modeled as `Optional[T]` with `createXxx(short_name)` + getter (children are Referrable), with full reader/writer coverage. The previously recorded `internalBehavior` `type (spec many vs py single)` row stays removed: the PDF table states `0..1` (the XSD `*` is only the atpVariation flattening), so the single-value model is PDF-correct. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 4-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.8, p.70 (abstract Class; Base chain most-derived `SwComponentType`). Docstrings wiped and rewritten verbatim from the markdown Notes; the instantiation guard (`type(self) is AtomicSwComponentType`) added per the abstract table header — one pre-existing test that instantiated the abstract class directly was re-pinned to a concrete subclass. VP: not an XSD anchor (the atpVariation on the internalBehavior row lands on SwcInternalBehavior, Rule 0020); mixin correctly absent. `SwcInternalBehavior` stays a `TYPE_CHECKING`-only import (a runtime bottom import cannot break the Components↔SwcInternalBehavior cycle, and no test resolves that hint at runtime — Rule 0005 exemption). Reader `readAtomicSwComponentType` (readSwComponentType + INTERNAL-BEHAVIORS/SWC-INTERNAL-BEHAVIOR dispatch + SYMBOL-PROPS) and writer `writeAtomicSwComponentType` verified against the XSD group ATOMIC-SW-COMPONENT-TYPE order (INTERNAL-BEHAVIORS before SYMBOL-PROPS) — no edit needed. Round-trip coverage in tests/test_armodel/writer/test_sw_component_type_hierarchy.py (via the dispatched ApplicationSwComponentType). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
 
 ## `AtpBlueprint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 305
@@ -1725,13 +1726,13 @@ The previous `dataTransformation` "type (spec many vs py single)" row was stale 
 ## `SwComponentType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 65
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `consistencyNeeds` | `List[ARObject]` | `consistencyNeeds` | `ConsistencyNeeds` | aggr | Table 4.99 class not yet implemented — ARObject placeholder; reader/writer pending |
-| `swcMappingConstraintsRefs` | `List[RefType]` | `swcMappingConstraintRefs` | `Ref (SwComponentMappingConstraints)` | Refs | class not in markdown/PDF — skipped per user; RefType placeholder |
-| `unitGroupRefs` | `List[RefType]` | `unitGroupRefs` | `Ref (UnitGroup)` | Refs | `UnitGroup` not yet synced (stub); RefType placeholder |
+| — *(no deviation)* | — | — | — | — | No deviations — all six Table 3.1 attributes (consistencyNeeds, port, portGroup, swcMappingConstraint, swComponentDocumentation, unitGroup) are modeled with full reader/writer coverage; the earlier placeholder rows (ConsistencyNeeds/UnitGroup/MappingConstraints) are removed — ConsistencyNeeds and UnitGroup are implemented, and swcMappingConstraint/unitGroup are ref-kind (RefType DEST), needing no aggregate class. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy checklist without the release column and a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.1, p.65 (abstract Class; page-split render — the consistencyNeeds chunk precedes the caption, port..unitGroup follow it; displayed order kept). Base fixed from `AtpType` to `ARElement` per the spec Base chain (most-derived; Package/Note/Base rows verified against FO_TPS_AbstractPlatformSpecification Table 3.5, p.22 — row-identical, nothing merged). Docstrings wiped and rewritten verbatim from the markdown Notes (Stereotypes/Tags tails dropped); `SwComponentDocumentation` moved from `TYPE_CHECKING`-only to a bottom-of-module runtime import so `get_type_hints` pins resolve (Rule 0003/0005). `getPPortPrototypes`/`getRPortPrototypes`/`getPRPortPrototypes`/`getPortPrototypes` kept as added convenience getters (no spec rows). VP: none of the four hierarchy classes is an XSD VARIATION-POINT anchor — the atpVariation stereotypes on the aggr rows land on the member classes (PortPrototype etc., Rule 0020); the mixin is correctly absent. Reader/writer verified against the XSD group SW-COMPONENT-TYPE element order (SW-COMPONENT-DOCUMENTATIONS sequenceOffset=-10 first) — no edit needed. No Rule 0001.10 missing classes (`SwComponentMappingConstraints` is ref-DEST only). `# Spec verified:` withheld (batch 9b).
 
 ## `SwComponentDocumentation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 698
@@ -2143,7 +2144,9 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `serviceInterfaceElementMappingRefs` | `Ref (ServiceInterfaceElementMapping)` | Refs | missing |
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.15 attributes are modeled per multiplicity/kind: `providedOuterPort` (AbstractProvidedPortPrototype, 0..1, ref) as `providedOuterPortRef: Optional[RefType]` and `requiredOuterPort` (AbstractRequiredPortPrototype, 0..1, ref) as `requiredOuterPortRef: Optional[RefType]`, each with its get/set pair (None no-op, chaining). The pre-sync stale `missing` row for `serviceInterfaceElementMappingRefs` was removed: Table 3.15 lists no such attribute (stale row, Rule 0014). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.15, p.83 (concrete Class; Base chain most-derived `SwConnector`, re-synced in this batch). Docstrings wiped and rewritten verbatim from the Table 3.15 Note and the two row Notes in the batch split-paragraph no-op style. Reader/writer coverage already complete: `readPassThroughSwConnector`/`writePassThroughSwConnector` handle PROVIDED-OUTER-PORT-REF / REQUIRED-OUTER-PORT-REF in the PASS-THROUGH-SW-CONNECTOR XSD group order, dispatched from CompositionSwComponentType CONNECTORS. Round-trip coverage in tests/test_armodel/writer/test_sw_composition_connectors.py (field values incl. DEST, element order, empty case). No Rule 0001.10 missing classes (`AbstractProvidedPortPrototype`/`AbstractRequiredPortPrototype` exist as modeled classes; ref kind → RefType per the sibling DelegationSwConnector.outerPort pattern). `# Spec verified:` withheld (batch 9b).
 
 ## `ApplicationError`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 108
@@ -2189,6 +2192,8 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(no deviation)* | — | — | — | — | All 12 spec attributes implemented (`compositeNetworkRepresentation` mult `*` → list; `dataElement`, `handleOutOfRange`, `handleOutOfRangeStatus`, `maxDeltaCounterInit`, `maxNoNewOrRepeatedData`, `networkRepresentation`, `receptionProps`, `replaceWith`, `syncCounterInit`, `transformationComSpecProps` mult `*` → list, `usesEndToEndProtection`). Reader/writer coverage complete. |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified all 12 attributes both directions against Table 4.60, the verbatim Notes (Stereotypes/Tags tails dropped per Rule 0012.2.5.2), the abstract guard, member order, and the XSD RECEIVER-COM-SPEC group element order (AUTOSAR_00052.xsd l.95987): NETWORK-REPRESENTATION moved after MAX-NO-NEW-OR-REPEATED-DATA and USES-END-TO-END-PROTECTION moved to last in reader and writer; XSD-only `dataUpdatePeriod`/`externalReplacementRef`/`receiverIntent` elements are absent from the PDF table and stay unmodeled per Rule 0015). The legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b. Round-trip covered via NonqueuedReceiverComSpec on an RPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
 
 ## `NonqueuedReceiverComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 173
@@ -4173,6 +4178,613 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 
 **Note:** Re-synced 2026-10-03 (Group16 Task 13; no `# Spec verified:` marker ⇒ full 9-step re-run), `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.145 (header block L12495-12500, attribute rows L12502-12503, caption L12505; XSD group `TIME-SYNCHRONIZATION` `AUTOSAR_00052.xsd` L123194). `pdf_page.py` could not run (the shared venv lacks `pypdf`), so `p.469` is taken from the pre-existing `# Spec:` line and the plan Task 13 interface. Defects fixed this pass: **(1) Rule 0001.6** — `timeSyncServer` was exposed as `setTimeSyncServer`/`getTimeSyncServer`, but its child `TimeSyncServerConfiguration` has `Base = ARObject , Referrable` (Table 6.147), so a `0..1` `Referrable` child requires the factory shape; replaced with `createTimeSyncServer(short_name)` (returns the existing child when the short name matches, else constructs `TimeSyncServerConfiguration(self, short_name)`) + `getTimeSyncServer()`. `timeSyncClient` keeps `set`/`get` (child Base `ARObject`, Table 6.146). **(2) Rule 0002** — the checklist was malformed (only the `__init__` row at the top; the accessor rows were scattered inside `__init__` as member comments); rebuilt as a single 6-column block at the top, 5 rows in source order, scalar pair getter-first / factory pair mutator-first, `reader [x]` on the mutators and `writer [x]` on the getters, every row `R23-11`. **(3)** dropped the stale ` (R23-11)` suffix from the `# Spec:` line. **(4) Rule 0013.2** — the parser call site `ARXMLParser.getTimeSynchronization` (L9866-9878) still called the removed `sync.setTimeSyncServer(server)`; updated to `server = sync.createTimeSyncServer(self.getShortName(server_element))` (the `setTimeSyncServer` statement deleted; `readReferrable` + the four attribute reads unchanged), and the now-unused `TimeSyncServerConfiguration` import dropped (ruff F401). The writer `setTimeSynchronization` (L9894) needed no change — it already reads via `getTimeSyncClient()`/`getTimeSyncServer()` and emits `TIME-SYNC-CLIENT` before `TIME-SYNC-SERVER` per XSD `sequenceOffset`. **(5) Rule 0012.2.3** — all docstrings and inline `__init__` member comments were wiped (`__init__` docstring absent) then rewritten verbatim from the Table 6.145 `Note` cells; the wipe-then-rewrite round-tripped byte-identically to the pre-Step-4 text (md5 `533162d995b463af834aaa5aec894568`). Tests: mirror `test_TimeSynchronization.py` 7 passed; reader `tests/test_armodel/parser/test_time_sync_server_configuration.py` (5) + writer `tests/test_armodel/writer/test_time_sync_server_configuration.py` (6); RED 3 failed / 15 passed (all three `AttributeError: 'TimeSynchronization' object has no attribute 'setTimeSyncServer'`, parser L9878) → GREEN 18 passed. A **4th stale call site** outside the reader/writer test pair was also found and fixed: the class-level test `tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/test_EthernetTopology.py::Test_Fibex4EthernetNetworkEndpoint::test_TimeSynchronization` (L1312-1333) still called the removed `setTimeSyncServer`; rewritten to the `createTimeSyncServer` factory shape (plus short-name and parent assertions). Broader regression run over `Fibex4Ethernet/` + `parser/` + `writer/` = 7900 passed. No open deviation; **no** `# Spec verified:` marker written (withheld pending the 9b gate). **No Rule 0001.10 report-only item:** the referenced classes `TimeSyncClientConfiguration` (Table 6.146), `TimeSyncServerConfiguration` (Table 6.147), `TimeSyncTechnologyEnum` and `OrderedMaster` all already carry `# Spec verified: R23-11`.
 
+## `EcucIndexableValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 110
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.46 attribute `index` (`PositiveInteger 0..1 attr`) is modeled as `index: Optional[PositiveInteger]` with the getIndex/setIndex pair (None no-op, chaining). Base stays `ARObject` (most-derived of the spec Base chain; abstract class, guarded instantiation). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 2; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.46, p.110 (abstract Class; Note "Used to support the specification of ordering of parameter values."; Base ARObject; subclasses EcucAbstractReferenceValue, EcucContainerValue, EcucParameterValue) and the XSD group ECUC-INDEXABLE-VALUE (AUTOSAR_00052.xsd l.52461; INDEX, sequenceOffset=-5). Abstract XML-bearing base per Rule 0001.7: now owns the reusable `readEcucIndexableValue`/`writeEcucIndexableValue` helpers; the previously inline-duplicated INDEX handling was replaced by helper calls in `readEcucParameterValue`/`readEcucAbstractReferenceValue`/`readEcucContainerValue` and `writeEcucParameterValue`/`writeEcucAbstractReferenceValue`/`writeEcucContainValue` (XML element order unchanged). Round-trip coverage rides the concrete subclasses (the group has no standalone element). No open deviations.
+
+## `EcucModuleConfigurationValues`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 111
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all six Table 2.47 attributes are modeled with the PDF types and multiplicity in display order (`container` `EcucContainerValue * aggr` → `containers: List[EcucContainerValue]` + createContainer/getContainers, dedicated typed list plus the registry duplicate check; `definition` `EcucModuleDef 0..1 ref` → `definitionRef: Optional[RefType]`; `ecucDefEdition` `RevisionLabelString 0..1 attr`; `implementationConfigVariant` `EcucConfigurationVariantEnum 0..1 attr`; `moduleDescription` `BswImplementation 0..1 ref` → `moduleDescriptionRef: Optional[RefType]`; `postBuildVariantUsed` `Boolean 0..1 attr`). The five 0..1 setters were Optional-ized (Rule 0001.4) and getContainers now returns the typed field directly (Rule 0004). Base stays `ARElement` (most-derived of the spec Base chain; XSD complexType group sequence AR-OBJECT→AR-ELEMENT confirms). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 2; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.47, p.111 (markdown table body split around the caption: Package/Note rows before it, Class/Base/Aggregated-by/Attribute rows after; PDF line-wrap spaces inside identifiers joined, e.g. "variation Point.shortLabel" → "variationPoint.shortLabel") and the XSD group ECUC-MODULE-CONFIGURATION-VALUES (AUTOSAR_00052.xsd l.52693; XML order DEFINITION-REF → ECUC-DEF-EDITION → IMPLEMENTATION-CONFIG-VARIANT → MODULE-DESCRIPTION-REF → POST-BUILD-VARIANT-USED → CONTAINERS, already followed by reader/writer). Writer fix: ECUC-DEF-EDITION now goes through the spec-typed `setChildElementOptionalRevisionLabelString` (matched Rule 0013.2 pair with the reader's `getChildElementOptionalRevisionLabelString`). EcucModuleDef/BswImplementation are ref destinations only — no Rule 0001.10 missing classes. No open deviations.
+
+## `EcucParameterValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 125
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all Table 2.49 members are modeled with the PDF types and multiplicity in display order (`annotation` `Annotation * aggr` (page-split first-page fragment before the caption) → `annotations: List[Annotation]` + addAnnotation/getAnnotations; `definition` `EcucParameterDef 0..1 ref` → `definitionRef: Optional[RefType]`; `isAutoValue` `Boolean 0..1 attr`). Base most-derived `EcucIndexableValue` (page-split Base row `ARObject , EcucIndexableValue`). `variationPoint` deliberately NOT modeled: Table 2.49 has no variationPoint row and the VARIATION-POINT element in the XSD group ECUC-PARAMETER-VALUE is an atpVariation artifact documented "Applicable for: EcucContainerValue.parameterValue" — removed per Rule 0015 (PDF/markdown wins), including the writer emission and the reader call; no integration fixture carries VARIATION-POINT inside an ECUC param value. |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 3, finished inline after the batch dispatch was stopped by the user; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.49, p.125 (abstract Class; class Note "Common class to all types of configuration values."; markdown table split around the caption: Base + annotation rows before it, definition + isAutoValue after) and the XSD complexType/group ECUC-PARAMETER-VALUE (XML order DEFINITION-REF → INDEX (group ECUC-INDEXABLE-VALUE) → ANNOTATION → IS-AUTO-VALUE, already followed by reader/writer). VariationPointCapable mixin dropped from the bases; writer `writeEcucParameterValue` no longer emits VARIATION-POINT and parser `readEcucParameterValue` no longer reads it (symmetric); setter docstrings moved to the batch-2 split-paragraph no-op style. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucTextualParamValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 127
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.50 attribute `value` (`VerbatimString 0..1 attr`, Note "Value of the parameter, not subject to variant handling.") is modeled as `value: Optional[VerbatimString]` with the getValue/setValue pair (None no-op, chaining, split-paragraph setter docstring). Base most-derived `EcucParameterValue` (spec Base `ARObject , EcucIndexableValue , EcucParameterValue`); no VariationPointCapable (no aggr row). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 3; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.50, p.127 (concrete Class; no page-split rows) and the XSD group ECUC-TEXTUAL-PARAM-VALUE (AUTOSAR_00052.xsd l.53629; VALUE type AR:VERBATIM-STRING, 0..1). Writer fix: `writeEcucTextualParamValue` VALUE now goes through the spec-typed `setChildElementOptionalVerbatimString` (new one-line delegation in abstract_arxml_writer.py, matched Rule 0013.2 pair with the reader's `getChildElementOptionalVerbatimString`; was the generic `setChildElementOptionalLiteral`). Round-trip coverage in tests/test_armodel/writer/test_ecuc_textual_param_value.py asserts field values, VARIATION-POINT absence and the empty/minimal case. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucNumericalParamValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 128
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.51 attribute `value` (`Numerical 0..1 attr`) is modeled as `value: Optional[Numerical]` with the getValue/setValue pair (None no-op, chaining, split-paragraph setter docstring); the full Note including the `atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime` tail is copied verbatim. Base most-derived `EcucParameterValue`; no VariationPointCapable (the atpVariation sits on the `value` attr row — attribute-value variation, Rule 0020 NOT-indicator, no class capability). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 3; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.51, p.128 (concrete Class; no page-split rows) and the XSD group ECUC-NUMERICAL-PARAM-VALUE (AUTOSAR_00052.xsd l.53047; VALUE element type AR:NUMERICAL-VALUE-VARIATION-POINT is the atpVariation artifact — PDF type Numerical wins per Rule 0015, 0..1). Reader/writer already used the matched spec-typed pair `getChildElementOptionalNumerical`/`setChildElementOptionalNumerical` (Rule 0013.2 verified by inspection + source pin in the round-trip test). Round-trip coverage in tests/test_armodel/writer/test_ecuc_numerical_param_value.py asserts field values, hex-text preservation, VARIATION-POINT absence and the empty/minimal case. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucAddInfoParamValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 129
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.52 attribute `value` (`DocumentationBlock 0..1 aggr`, Note "Holds the content of the formated text.") is modeled as `value: Optional[DocumentationBlock]` with the getValue/setValue pair (None no-op, chaining, split-paragraph setter docstring). setValue (not createXxx) is correct per Rule 0001.6 — DocumentationBlock is a plain non-Referrable class. Base most-derived `EcucParameterValue`; no VariationPointCapable (no aggr atpVariation row). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 3; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.52, p.129 (concrete Class; no page-split rows) and the XSD group ECUC-ADD-INFO-PARAM-VALUE (AUTOSAR_00052.xsd l.51185; VALUE type AR:DOCUMENTATION-BLOCK, 0..1). Reader/writer already used the matched spec-typed pair `getDocumentationBlock`/`writeDocumentationBlock` — the repo-wide DocumentationBlock element convention (Rule 0013.2 verified by inspection and by the nested-content round-trip test). Round-trip coverage in tests/test_armodel/writer/test_ecuc_add_info_param_value.py asserts field values one level into the DocumentationBlock (P → L10N text), VARIATION-POINT absence and the empty/minimal case. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucAbstractReferenceValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 131
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all Table 2.53 attributes are modeled with the PDF types and multiplicity in display order (`annotation` `Annotation * aggr` → `annotations: List[Annotation]` + addAnnotation/getAnnotations; `definition` `EcucAbstractReferenceDef 0..1 ref` → `definitionRef: Optional[RefType]`; `isAutoValue` `Boolean 0..1 attr`). Base most-derived `EcucIndexableValue` (spec Base `ARObject , EcucIndexableValue`). `variationPoint` deliberately NOT modeled: Table 2.53 has no variationPoint row and the VARIATION-POINT element in the XSD group ECUC-ABSTRACT-REFERENCE-VALUE is an atpVariation artifact documented "Applicable for: EcucContainerValue.referenceValue" — it belongs to the container's referenceValue aggregation, not to the reference values (Rule 0015, same arbitration as EcucParameterValue/Table 2.49). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 4; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.53, p.131 (abstract Class; class Note "Abstract class to be used as common parent for all reference values in the ECU Configuration Description."; PDF line-wrap space inside identifiers joined, "EcucAbstractReference Def" → "EcucAbstractReferenceDef") and the XSD group ECUC-ABSTRACT-REFERENCE-VALUE (AUTOSAR_00052.xsd l.51058; XML order DEFINITION-REF → INDEX (group ECUC-INDEXABLE-VALUE) → ANNOTATIONS → IS-AUTO-VALUE, already followed by reader/writer). VariationPointCapable mixin dropped from the bases; writer `writeEcucAbstractReferenceValue` no longer emits VARIATION-POINT and parser `readEcucAbstractReferenceValue` no longer reads it (symmetric); scalar setter docstrings moved to the batch-2 split-paragraph no-op style. No integration fixture carries VARIATION-POINT inside an ECUC-REFERENCE-VALUE/ECUC-INSTANCE-REFERENCE-VALUE (verified by fixture scan). No Rule 0001.10 missing classes (Annotation, EcucAbstractReferenceDef-as-RefType dest, Boolean are all existing). `# Spec verified:` withheld (batch 9b).
+
+## `EcucReferenceValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 132
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.54 attribute `value` (`Referrable 0..1 ref`, Note "Specifies the destination of the reference.") is modeled as `valueRef: Optional[RefType]` with the getValueRef/setValueRef pair (None no-op, chaining, split-paragraph setter docstring); XSD element VALUE-REF base AR:REF DEST REFERRABLE--SUBTYPES-ENUM confirms the RefType modeling. Base most-derived `EcucAbstractReferenceValue` (spec Base `ARObject , EcucAbstractReferenceValue , EcucIndexableValue`). No variationPoint row (Rule 0020 not triggered). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 4; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.54, p.132 (concrete Class; PDF line-wrap space inside identifiers joined, "EcucAbstractReference Def" → "EcucAbstractReferenceDef") and the XSD complexType ECUC-REFERENCE-VALUE (AUTOSAR_00052.xsd l.53483; group sequence AR-OBJECT → ECUC-INDEXABLE-VALUE → ECUC-ABSTRACT-REFERENCE-VALUE → ECUC-REFERENCE-VALUE, reader/writer already emit/read VALUE-REF last via the matched `getChildElementOptionalRefType`/`setChildElementOptionalRefType` pair). Reader/writer unchanged — `readEcucReferenceValue` calls only `readEcucAbstractReferenceValue` (Rule 0013.1) and `writeEcucReferenceValue` keeps its established omit-empty/None-guard serialization pinned by the existing values-variant tests. Round-trip coverage in tests/test_armodel/writer/test_ecuc_reference_value.py asserts field values, XSD element order, VARIATION-POINT absence and the minimal case. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucInstanceReferenceValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 134
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.55 attribute `value` (`AtpFeature 0..1 iref`, Note "InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef") is modeled as `valueIRef: Optional[AnyInstanceRef]` with the getValueIRef/setValueIRef pair (None no-op, chaining, split-paragraph setter docstring); the Kind-iref Rule 0001.5 suffix (IRef) and the AnyInstanceRef element type both follow the table row, and the XSD element VALUE-IREF is typed AR:ANY-INSTANCE-REF confirming AnyInstanceRef. Base most-derived `EcucAbstractReferenceValue` (spec Base `ARObject , EcucAbstractReferenceValue , EcucIndexableValue`). No variationPoint row (Rule 0020 not triggered). |
+
+**Note:** Batch sync 2026-10-04 (Group27 batch 4; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b; the rules.md 0013.2 "queued fix" for getValueIRef/setValueIRef backed by the wrong field is already resolved on this branch — the accessors are backed by the dedicated `valueIRef` field). Re-synced against R23-11 CP ECUConfiguration Table 2.55, p.134 (concrete Class) and the XSD complexType ECUC-INSTANCE-REFERENCE-VALUE (AUTOSAR_00052.xsd l.52538; group sequence AR-OBJECT → ECUC-INDEXABLE-VALUE → ECUC-ABSTRACT-REFERENCE-VALUE → ECUC-INSTANCE-REFERENCE-VALUE, reader/writer already emit/read VALUE-IREF last; inner ANY-INSTANCE-REF group is CONTEXT-ELEMENT-REF* then TARGET-REF with the atpDerived `base` association carrying no XML element). Reader/writer unchanged — `readEcucInstanceReferenceValue` calls only `readEcucAbstractReferenceValue` (Rule 0013.1) and the matched `getAnyInstanceRef`/`setAnyInstanceRef` pair handles VALUE-IREF. Round-trip coverage in tests/test_armodel/writer/test_ecuc_instance_reference_value.py asserts field values, XSD element order, VARIATION-POINT absence and the minimal case. Observation (AnyInstanceRef scope, not this class): the shared `setAnyInstanceRef`/`getAnyInstanceRefFromElement` helpers also read/write a BASE-REF element although the XSD marks `base` atpDerived (no XML element) — left untouched here, flagged for the AnyInstanceRef sync. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `EcucContainerValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 119
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all four Table 2.48 attributes are modeled with the PDF types and multiplicity in display order (`definition` `EcucContainerDef 0..1 ref` → `definitionRef: Optional[RefType]`; `parameterValue` `EcucParameterValue * aggr` → `parameterValues: List[EcucParameterValue]` + addParameterValue/getParameterValues; `referenceValue` `EcucAbstractReferenceValue * aggr` → `referenceValues: List[EcucAbstractReferenceValue]` + addReferenceValue/getReferenceValues; `subContainer` `EcucContainerValue * aggr` → `subContainers: List[EcucContainerValue]` + createSubContainer/getSubContainers, dedicated typed list plus the registry duplicate check). Base most-derived `Identifiable` (spec Base `ARObject , EcucIndexableValue , Identifiable`; EcucIndexableValue kept as the second base for the shared INDEX slot). `variationPoint` deliberately NOT modeled: Table 2.48 has no variationPoint row and the VARIATION-POINT element in the XSD group ECUC-CONTAINER-VALUE is an atpVariation artifact documented "Applicable for: EcucModuleConfigurationValues.container / EcucContainerValue.subContainer" — it covers the aggregations, not the container itself (Rule 0015, same arbitration as EcucParameterValue/Table 2.49 and EcucAbstractReferenceValue/Table 2.53). |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUConfiguration Table 2.48, p.119 (concrete Class; class Note "Represents a Container definition in the ECU Configuration Description."; PDF line-wrap spaces inside identifiers joined, "parameterValue.variation Point.shortLabel" → "parameterValue.variationPoint.shortLabel", "sub Container.variationPoint.shortLabel" → "subContainer.variationPoint.shortLabel", confirmed by the XSD atp.Splitkey appinfo) and the XSD group ECUC-CONTAINER-VALUE (AUTOSAR_00052.xsd l.51678; XML order DEFINITION-REF → PARAMETER-VALUES (choice of ECUC-ADD-INFO/ECUC-NUMERICAL/ECUC-TEXTUAL-PARAM-VALUE) → REFERENCE-VALUES (choice of ECUC-INSTANCE-REFERENCE-VALUE/ECUC-REFERENCE-VALUE) → SUB-CONTAINERS (ECUC-CONTAINER-VALUE) — already followed by reader/writer; INDEX from the ECUC-INDEXABLE-VALUE group emitted after DEFINITION-REF per the established sequenceOffset convention). VariationPointCapable mixin dropped from the bases (reader/writer were already VP-free — no readVariationPointCapable/writeVariationPointCapable call existed in readEcucContainerValue/writeEcucContainValue, so no parser/writer edit was needed). The 0..1 setDefinitionRef was Optional-ized (Rule 0001.4) and addParameterValue/addReferenceValue gained the None no-op guard (Rule 0004). Reader `readEcucContainerValue` calls readIdentifiable + readEcucIndexableValue exactly once each (Rule 0013.1); writer helper keeps its pre-existing public spelling `writeEcucContainValue` (name kept, not renamed — no table obligation). Round-trip coverage in tests/test_armodel/writer/test_ecuc_container_value.py asserts field values one level down (nested sub-container, polymorphic parameter/reference values), XSD element order, VARIATION-POINT absence and the minimal case. No Rule 0001.10 missing classes (EcucContainerDef is reached as a RefType DEST, Annotation/DocumentationBlock/AnyInstanceRef all exist). `# Spec verified:` withheld (batch 9b).
+
+## `HwDescriptionEntity`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 15
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 2.1 attributes are modeled with the PDF types and multiplicity in display order (`hwAttributeValue` `HwAttributeValue * aggr` → `hwAttributeValues: List[HwAttributeValue]` + addHwAttributeValue/getHwAttributeValues; `hwCategory` `HwCategory * ref` → `hwCategoryRefs: List[RefType]` + addHwCategoryRef/getHwCategoryRefs; `hwType` `HwType 0..1 ref` → `hwTypeRef: Optional[RefType]` + getHwTypeRef/setHwTypeRef). Base most-derived `Referrable` (spec Base `ARObject , Referrable`); no variationPoint row in Table 2.1 and the XSD group HW-DESCRIPTION-ENTITY carries no VARIATION-POINT element. |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUResourceTemplate Table 2.1, p.15 (abstract Class; PDF line-wrap space inside the identifier joined, "hwAttribute Value" → "hwAttributeValue") and the XSD group HW-DESCRIPTION-ENTITY (AUTOSAR_00052.xsd l.65772; XML order HW-TYPE-REF → HW-CATEGORY-REFS → HW-ATTRIBUTE-VALUES, already followed by reader/writer). addHwAttributeValue/addHwCategoryRef/setHwTypeRef gained `Optional` value parameters and `HwDescriptionEntity` return annotations (Rule 0003); getter/setter docstrings moved to the batch split-paragraph no-op style with the spec Notes verbatim. The pre-existing `TYPE_CHECKING`-only `HwAttributeValue` import was replaced by a bottom-of-module runtime import (Rule 0003/0005 cycle-breaker) so the get_type_hints pin tests resolve. Reader `readHwDescriptionEntity` walks the Identifiable chain (comment in source): the class itself is Referrable-only per its table, but every concrete subclass (HwElement, HwPin, HwPinGroup, HwType) is Identifiable per its own spec Base, so the shared helper reads the SHORT-NAME/UUID level — helper-level design note, not a spec deviation. Round-trip coverage in tests/test_armodel/writer/test_ecu_resource_template_hw.py asserts field values one level into HW-ATTRIBUTE-VALUE (HW-ATTRIBUTE-DEF-REF, V) plus the empty case. No Rule 0001.10 missing classes (HwAttributeValue, HwCategory-as-RefType dest, RefType all exist). `# Spec verified:` withheld (batch 9b).
+
+## `HwPinGroupContent`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 20
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwPin` | `Optional[HwPin]` | `hwPin` | `HwPin` | aggr | type (XSD `*` vs PDF 0..1): the XSD group raises the upper multiplicity to unbounded "due to resolving an atpVariation stereotype. The previous value was 1" (AUTOSAR_00052.xsd l.66267); the PDF Table 2.6 Mult column keeps 0..1 — PDF wins per Rule 0015, modeled as the optional single slot |
+| `hwPinGroup` | `Optional[HwPinGroup]` | `hwPinGroup` | `HwPinGroup` | aggr | type (XSD `*` vs PDF 0..1): same atpVariation-resolved XSD upper bound (l.66277); PDF Table 2.6 Mult 0..1 kept per Rule 0015 |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUResourceTemplate Table 2.6, p.20 (concrete Class carrying the `<<atpMixed>>` stereotype — an element-mixture marker, not `<<atpMixedString>>`: the XSD complexType HW-PIN-GROUP-CONTENT has `mixed="false"`, so no AtpMixedString mixin) and the XSD group HW-PIN-GROUP-CONTENT (AUTOSAR_00052.xsd l.66256; `xsd:choice` of HW-PIN/HW-PIN-GROUP, no VARIATION-POINT element). Class docstring was fabricated prose — wiped and rewritten with the spec Note verbatim; `__init__` docstring removed (Rule 0012.2.4); paraphrased getter docstrings rewritten verbatim. `setHwPinGroup` migrated to `createHwPinGroup(short_name)` per Rule 0001.6 (HwPinGroup Base includes Identifiable) and both factories gained the duplicate-returns-existing check (Rule 0004); parser `readHwPinGroupContent` now populates via the mutators `createHwPin`/`createHwPinGroup` (no chained calls). Reader/writer element order per the XSD choice (HW-PIN before HW-PIN-GROUP; reader iterates children in document order, writer emits pin then group). Round-trip coverage in tests/test_armodel/writer/test_ecu_resource_template_hw.py asserts nested HwPin field values one level down, a HwPinGroup nested inside HwPinGroupContent and the empty-content case. No Rule 0001.10 missing classes (HwPin, HwPinGroup exist and are stamped). `# Spec verified:` withheld (batch 9b).
+
+## `HwElementConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 21
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 2.8 attributes are modeled with the PDF types and multiplicity in display order (`hwElement` `HwElement * ref` → `hwElementRefs: List[RefType]` + addHwElementRef/getHwElementRefs; `hwPinConnection` `HwPinConnector * aggr` → `hwPinConnections: List[HwPinConnector]` + addHwPinConnection/getHwPinConnections; `hwPinGroupConnection` `HwPinGroupConnector * aggr` → `hwPinGroupConnections: List[HwPinGroupConnector]` + addHwPinGroupConnection/getHwPinGroupConnections). Base most-derived `Describable` (spec Base `ARObject , Describable`; Describable exists as a stamped model class, GenericStructure/GeneralTemplateClasses/Identifiable.py l.507). `variationPoint` deliberately NOT modeled: Table 2.8 has no variationPoint row and the VARIATION-POINT element in the XSD group HW-ELEMENT-CONNECTOR is an atpVariation artifact documented "Applicable for: HwElement.hwElementConnection" — it covers the containing aggregation, not the connector itself (Rule 0015, same arbitration as EcucContainerValue/Table 2.48); the VariationPointCapable mixin was dropped from the bases. |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUResourceTemplate Table 2.8, p.21 (concrete Class; class Note + class-level constr_11002 appended to the docstring) and the XSD group HW-ELEMENT-CONNECTOR (AUTOSAR_00052.xsd l.65909). addHwElementRef/addHwPinConnection/addHwPinGroupConnection gained `Optional` value parameters and `HwElementConnector` return annotations (Rule 0003); docstrings moved to the batch split-paragraph no-op style with the spec Notes verbatim; parser/writer were already VP-free for this class (no readVariationPoint/writeVariationPoint call existed), so the mixin removal needed no parser/writer edit. Reader/writer re-shaped to the XSD group: wrapper elements HW-ELEMENT-REFS (choice of HW-ELEMENT-REF), HW-PIN-GROUP-CONNECTIONS (choice of HW-PIN-GROUP-CONNECTOR) and HW-PIN-CONNECTIONS (choice of HW-PIN-CONNECTOR) — the previous unwrapped serialization emitted spec-invalid XML; wrappers are emitted only when non-empty (Rule 0001.7). As part of the same aggregator-group fix the inner item element names were corrected HW-PIN-CONNECTION → HW-PIN-CONNECTOR and HW-PIN-GROUP-CONNECTION → HW-PIN-GROUP-CONNECTOR in the shared family helpers (the item names the XSD choice mandates; inner wrappers HW-PIN-REFS/HW-PIN-CONNECTIONS/HW-PIN-GROUP-REFS land with the HwPinConnector/HwPinGroupConnector syncs). Round-trip coverage in tests/test_armodel/writer/test_ecu_resource_template_hw.py asserts field values, the XSD element order and the empty-connector case. No Rule 0001.10 missing classes (HwPinConnector, HwPinGroupConnector, Describable exist). `# Spec verified:` withheld (batch 9b).
+
+## `HwPinGroupConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 22
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 2.9 attributes are modeled with the PDF types and multiplicity in display order (`hwPinConnection` `HwPinConnector * aggr` → `hwPinConnections: List[HwPinConnector]` + addHwPinConnection/getHwPinConnections; `hwPinGroup` `HwPinGroup * ref` → `hwPinGroupRefs: List[RefType]` + addHwPinGroupRef/getHwPinGroupRefs). Base most-derived `Describable` (spec Base `ARObject , Describable`). `variationPoint` deliberately NOT modeled: Table 2.9 has no variationPoint row and the VARIATION-POINT element in the XSD group HW-PIN-GROUP-CONNECTOR is an atpVariation artifact documented "Applicable for: HwElementConnector.hwPinGroupConnection" (Rule 0015, same arbitration as HwElementConnector/Table 2.8); the VariationPointCapable mixin was dropped from the bases. |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUResourceTemplate Table 2.9, p.22 (concrete Class; class Note + class-level constr_11003 appended to the docstring; PDF line-wrap space inside identifiers joined) and the XSD group HW-PIN-GROUP-CONNECTOR (AUTOSAR_00052.xsd l.66193). addHwPinConnection/addHwPinGroupRef gained `Optional` value parameters and `HwPinGroupConnector` return annotations (Rule 0003); docstrings moved to the batch split-paragraph no-op style with the spec Notes verbatim; parser/writer were already VP-free for this class, so the mixin removal needed no parser/writer edit. Reader/writer re-shaped to the XSD group: item element name HW-PIN-GROUP-CONNECTION → HW-PIN-GROUP-CONNECTOR (done with the HwElementConnector aggregator fix) and the inner wrappers HW-PIN-CONNECTIONS (choice of HW-PIN-CONNECTOR) and HW-PIN-GROUP-REFS (choice of HW-PIN-GROUP-REF) — emitted only when non-empty, read via the wrapper paths (Rule 0001.7). Round-trip coverage in tests/test_armodel/writer/test_ecu_resource_template_hw.py asserts field values, the XSD element order and the empty case. No Rule 0001.10 missing classes (HwPinConnector exists). `# Spec verified:` withheld (batch 9b).
+
+## `HwPinConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 22
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 2.10 attribute `hwPin` (`HwPin * ref`, Note "This association connects two hardware pins.") is modeled as `hwPinRefs: List[RefType]` with the addHwPinRef/getHwPinRefs pair (None no-op, chaining); constr_11004 (exactly 2 references) is a class-level constraint carried in the docstring, not an accessor obligation. Base most-derived `Describable` (spec Base `ARObject , Describable`). `variationPoint` deliberately NOT modeled: Table 2.10 has no variationPoint row and the VARIATION-POINT element in the XSD group HW-PIN-CONNECTOR is an atpVariation artifact documented "Applicable for: HwElementConnector.hwPinConnection / HwPinGroupConnector.hwPinConnection" (Rule 0015, same arbitration as HwElementConnector/Table 2.8); the VariationPointCapable mixin was dropped from the bases. |
+
+**Note:** Batch sync 2026-10-04 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP ECUResourceTemplate Table 2.10, p.22 (concrete Class; class Note + class-level constr_11004 appended to the docstring) and the XSD group HW-PIN-CONNECTOR (AUTOSAR_00052.xsd l.66093). addHwPinRef gained the `Optional` value parameter and the `HwPinConnector` return annotation (Rule 0003); docstrings moved to the batch split-paragraph no-op style with the spec Notes verbatim; parser/writer were already VP-free for this class, so the mixin removal needed no parser/writer edit. Reader/writer re-shaped to the XSD group: item element name HW-PIN-CONNECTION → HW-PIN-CONNECTOR (done with the aggregator fixes) and the inner wrapper HW-PIN-REFS (choice of HW-PIN-REF) — emitted only when non-empty, read via the wrapper path (Rule 0001.7); the Describable content (DESC/CATEGORY/INTRODUCTION/ADMIN-DATA) round-trips through the shared readDescribable/writeDescribable pair (Rule 0013.1/0013.2). Round-trip coverage in tests/test_armodel/writer/test_ecu_resource_template_hw.py asserts ref values/dests, the XSD element order and the empty case. No Rule 0001.10 missing classes (HwPin is reached as a RefType DEST). `# Spec verified:` withheld (batch 9b).
+
+## `CommunicationController`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 53
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 3.3 attribute `wakeUpByControllerSupported` (Boolean, 0..1, attr) is modeled as `wakeUpByControllerSupported: Optional[Boolean]` with the get/setWakeUpByControllerSupported pair (None no-op, chaining). Base most-derived `Identifiable` (spec Base `ARObject , Identifiable , MultilanguageReferrable , Referrable`); abstract per the table header, `type(self)` guard kept. VP-capable kept: unlike the Hw* Group27 classes, the VARIATION-POINT element in the XSD group COMMUNICATION-CONTROLLER (AUTOSAR_00052.xsd l.20388) is documented "Applicable for: EcuInstance.commController", so the VariationPointCapable mixin stays and VP round-trips through the shared readIdentifiable/writeIdentifiable handling (Rule 0020). Defining-table arbitration: the row cited both CP_TPS_ECUResourceTemplate Table 3.3 p.31 and CP_TPS_SystemTemplate Table 3.3 p.53 — the ECUResource caption ("CommunicationController HwElement Attributes", the HwType category attribute `communicationControllerType`) is a same-number caption collision on a different class, so the SystemTemplate table (Package row = CoreTopology) is the defining one; nothing merged from it. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SystemTemplate Table 3.3, p.53 (abstract Class). Class docstring dropped the stale `Tags: vh.latestBindingTime=postBuild` tail (Note verbatim); attribute inline comment + getter/setter docstrings are the spec Note verbatim in the batch split-paragraph no-op style. Model/tests: typed-primitive (`Boolean`) round-trip replaced the legacy raw-`bool` usage; docstring-verbatim pins and `get_type_hints` pins added. Reader/writer were already complete — readCommunicationController/writeCommunicationController (WAKE-UP-BY-CONTROLLER-SUPPORTED only) are called by the Can/Ethernet/Flexray/Lin concrete subclass readers/writers which own their own readIdentifiable/writeIdentifiable calls; VP handled at the Identifiable level. Round-trip coverage in tests/test_armodel/writer/test_communication_controller.py (via the dispatched LinMaster) asserts the wake-up value, VP-before-content order and the empty case. Noted, not fixed (pre-existing subclass-aggregator gap outside this class): `UserDefinedCommunicationController` (spec subclass, Table 3.3 Subclasses row) has no reader/writer dispatch branch in read/writeEcuInstanceCommControllers. No Rule 0001.10 missing classes.
+
+## `ParameterSwComponentType`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 41
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 2.1 attributes (constantMapping, dataTypeMapping, instantiationDataDefProps) are modeled per multiplicity/kind: the two ref rows as `List[RefType]` with add/get pairs, the `*` aggr row as `List[InstantiationDataDefProps]` with `addInstantiationDataDefProps` (child Base `ARObject`, non-Referrable → add, not create). |
+
+**Note:** Batch sync 2026-10-05 (Group27; class was a bare `class ParameterSwComponentType(SwComponentType): pass` stub). Implemented from R23-11 CP SoftwareComponentTemplate Table 2.1, p.41 (concrete Class; Base chain most-derived `SwComponentType`; Package row = Components verified). Class docstring is the verbatim Table 2.1 Note (Tags tail dropped); member Notes verbatim in the batch split style. Reader/writer added per the XSD group PARAMETER-SW-COMPONENT-TYPE element order (CONSTANT-MAPPING-REFS, DATA-TYPE-MAPPING-REFS, INSTANTIATION-DATA-DEF-PROPSS; item element INSTANTIATION-DATA-DEF-PROPS with PARAMETER-INSTANCE / SW-DATA-DEF-PROPS / VARIABLE-INSTANCE + VARIATION-POINT, same inline shape as the existing NvBlockDescriptor handling); AR-PACKAGE/ELEMENTS dispatch added on both sides plus `ARPackage.createParameterSwComponentType`. `InstantiationDataDefProps` (synced, Table 7.41) reached via a bottom-of-module runtime import for the `get_type_hints` pins (Rule 0003/0005). No Rule 0001.10 missing classes (`ConstantSpecificationMappingSet`/`DataTypeMappingSet` are ref-DESTs only). `# Spec verified:` withheld (batch 9b).
+
+## `ApplicationSwComponentType`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 71
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Table 3.9 has no own attributes ("-"); the class inherits the full AtomicSwComponentType/SwComponentType surface, whose reader/writer coverage (APPLICATION-SW-COMPONENT-TYPE dispatch) is verified. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.9, p.71 (concrete Class; Base chain most-derived `AtomicSwComponentType`). The second cited rendering, CP_TPS_DiagnosticExtractTemplate Table 5.8, p.231, is row-identical (same Note without changes, same Base, "-" attributes) — nothing merged, single defining table. Checklist re-written in the 6-column format; no field/accessor/parser/writer change needed. Round-trip through the AR-PACKAGE dispatch covered in tests/test_armodel/writer/test_sw_component_type_hierarchy.py. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `InstantiationRTEEventProps`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 85
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Composition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.17 attributes are modeled per multiplicity/kind: the `refinedEvent` iref row (RTEEvent, 0..1, concretized by the XSD to INSTANCE-EVENT-IN-COMPOSITION-INSTANCE-REF) as `refinedEventIRef: Optional[InstanceEventInCompositionInstanceRef]`, and the `shortLabel` attr row (Identifier, 0..1) as `shortLabel: Optional[Identifier]`. |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.17, p.85 (abstract Class; Base `ARObject`; `type(self)` guard kept; subclass `InstantiationTimingEventProps` per the Subclasses row). Docstrings wiped and rewritten: class docstring is the verbatim Table 3.17 Note; member inline comments + getter/setter docstrings are the spec Notes verbatim in the batch split-paragraph no-op style. Rule 0015 variationPoint arbitration: Table 3.17 has no variationPoint row, so the `VariationPointCapable` mixin was removed and the symmetric parser/writer handling dropped (`readVariationPointCapable`/`writeVariationPointCapable` calls removed from read/writeInstantiationRTEEventProps; incoming VARIATION-POINT is ignored — parser re-pinned in test_variation_point_capable_arobject.py). Reader/writer coverage was already complete (REFINED-EVENT-IREF / SHORT-LABEL, XSD group order). Round-trip coverage added in tests/test_armodel/writer/test_sw_composition_connectors.py (field values via INSTANTIATION-TIMING-EVENT-PROPS dispatch, no-VP-written, incoming-VP-ignored, empty-wrapper case). No Rule 0001.10 missing classes (`RTEEvent` exists; iref concretized by `InstanceEventInCompositionInstanceRef`). `# Spec verified:` withheld (batch 9b).
+
+## `InstantiationTimingEventProps`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 85
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Composition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 3.16 attribute `period` (TimeValue, 0..1, attr) is modeled as `period: Optional[TimeValue]` with the get/setPeriod pair (None no-op, chaining). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.16, p.85 (concrete Class; Base `ARObject , InstantiationRTEEventProps` — most-derived base `InstantiationRTEEventProps`, itself re-synced in this batch). Docstrings wiped and rewritten verbatim from the Table 3.16 Note and the `period` row Note in the batch split-paragraph no-op style. Rule 0015 variationPoint arbitration: Table 3.16 has no variationPoint row; the VP handling lived on the base `InstantiationRTEEventProps` and was removed there (shared read/writeInstantiationRTEEventProps helpers). Reader/writer coverage already complete: `readInstantiationTimingEventProps`/`writeInstantiationRTEEventProps` handle PERIOD after the base group's REFINED-EVENT-IREF / SHORT-LABEL (XSD complexType INSTANTIATION-TIMING-EVENT-PROPS = AR-OBJECT + INSTANTIATION-RTE-EVENT-PROPS + INSTANTIATION-TIMING-EVENT-PROPS group order); dispatched from read/writeCompositionSwComponentTypeInstantiationRTEEventProps via the INSTANTIATION-RTE-EVENT-PROPSS wrapper. Round-trip coverage in tests/test_armodel/writer/test_sw_composition_connectors.py (field values, element order, empty-wrapper). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `SwConnector`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 80
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Composition`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 3.12 attribute `mapping` (PortInterfaceMapping, 0..1, ref) is modeled as `mappingRef: Optional[RefType]` with the get/setMappingRef pair (None no-op, chaining). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.12, p.80 (abstract Class; Base chain most-derived `AtpStructureElement` — the modeled class exists at GenericStructure/AbstractStructure.py, so no Rule 0016.4 fallback needed; subclasses per the table: AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector). Docstrings wiped and rewritten verbatim from the Table 3.12 Note and the `mapping` row Note in the batch split-paragraph no-op style. Rule 0015 variationPoint arbitration: Table 3.12 has no variationPoint row, so the `VariationPointCapable` mixin was removed from SwConnector — the already-synced subclasses AssemblySwConnector/DelegationSwConnector inherit the removal (their own tables, 3.13/3.14, likewise carry no variationPoint row; neither their readers/writers nor any test used connector VP handling, so behavior is unchanged). Reader/writer coverage already complete: `readSwConnector`/`writeSwConnector` handle MAPPING-REF (the SW-CONNECTOR XSD group's only element) and are called by all three concrete subclass readers/writers; CompositionSwComponentType dispatches ASSEMBLY/DELEGATION/PASS-THROUGH-SW-CONNECTOR. Round-trip coverage in tests/test_armodel/writer/test_sw_composition_connectors.py (field values via the PassThroughSwConnector carrier, MAPPING-REF absence case). No Rule 0001.10 missing classes (`PortInterfaceMapping` is the ref DEST only, exists as a modeled class). `# Spec verified:` withheld (batch 9b).
+
+## `PortInterface`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 87
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 3.18 attributes are modeled per multiplicity/kind: `isService` (Boolean, 0..1, attr) as `isService: Optional[Boolean]` and `serviceKind` (ServiceProviderEnum, 0..1, attr) as `serviceKind: Optional[ServiceProviderEnum]`, each with the get/set pair (None no-op, chaining). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 3.18, p.87 (abstract Class; defining-table decision: the Base chain names both `ARElement` and `AtpType` — kept the role-matching most-derived branch `AtpType` per Rule 0001.2, consistent with AtpType Table 5.6 listing PortInterface as a subclass). Second citation FO AbstractPlatformSpecification Table 3.6, p.27 verified row-identical (same Note/Base, no attribute rows) — no Rule 0019 merge, single defining `# Spec:` line. Docstrings wiped and rewritten verbatim (the isService Note keeps the spec's bullet rendering). Rule 0015/0020 variationPoint arbitration: the `isService` atpVariation is an **attr**-row (attribute-value variation, serialized as BOOLEAN-VALUE-VARIATION-POINT in the XSD), not an aggr VP trigger, and the PORT-INTERFACE XSD group carries no VARIATION-POINT element — PortInterface is correctly NOT VP-capable, no mixin. Step 6 fixes (inherited-attribute coverage, Rule 0001.7): `writeTriggerInterface` never wrote IS-SERVICE/SERVICE-KIND (silent drop), `writeSenderReceiverInterface` wrote IS-SERVICE but not SERVICE-KIND, and `readSenderReceiverInterface`/`readTriggerInterface` did not level through `readDataInterface` — all four now go through the shared `readPortInterface`/`writePortInterface` helpers; `writePortInterface` switched from field access to the getIsService/getServiceKind getters (Rule 0013.2). Round-trip coverage added in tests/test_armodel/writer/test_port_interface_hierarchy.py (field values, XSD element order IS-SERVICE→SERVICE-KIND, absent-element case). ServiceProviderEnum is a runtime import now (bottom of TYPE_CHECKING block) so `get_type_hints` pins resolve on all Pythons. No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ServiceProviderEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 90 (header row; caption page 91)
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `WATCH_DOG_MANAGER` | `AREnum` literal | `watchDogManager` | literal (atp.EnumerationLiteralIndex=17) | — | missing — the literal member existed but was not registered in the `__init__` enum-value tuple; registered (stale `test_initialization` expectation re-pinned to the full 24-literal tuple). |
+
+**Note:** Batch sync 2026-10-05 (Group27). Re-verified against R23-11 CP SoftwareComponentTemplate Table 3.20 (page-split Enumeration table: page-1 body anyStandardized…j1939RequestManager renders above the caption, page-2 body nonVolatileRamManager…watchDogManager below it; displayed order = page order, 24 literals — member names/values match the `Literal` column exactly). Defining-table decision: the `# Spec:` line keeps p.90 (header-row page where `Enumeration ServiceProviderEnum` first appears; pdf_page.py reports the caption page p.91 — noted in the checklist line). Class docstring is the table `Note` verbatim. AREnum adaptation: Steps 5/6 N/A — a standalone enum has no own XML element; it is serialized as the SERVICE-KIND attribute value on the consuming class and round-tripped there (covered by TestPortInterfaceRoundTrip in tests/test_armodel/writer/test_port_interface_hierarchy.py). `# Spec verified:` withheld (batch 9b).
+
+## `ClientServerInterface`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 101
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.6 attributes are modeled per multiplicity/kind: `operation` (ClientServerOperation, *, aggr) as the dedicated typed list `operations: List[ClientServerOperation]` with `createOperation`/`getOperations` (createXxx because the child's Base reaches Referrable; duplicate short name returns the existing element), and `possibleError` (ApplicationError, *, aggr) as `possibleErrors: List[ApplicationError]` with `createApplicationError`/`getPossibleErrors`. |
+
+**Note:** Batch sync 2026-10-05 (Group27; stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.6, p.101 (concrete Class; Base most-derived `PortInterface`). Second citation CP DiagnosticExtractTemplate Table 5.13, p.236 verified row-identical — no Rule 0019 merge, single defining `# Spec:` line. Docstrings wiped and rewritten verbatim (dropped the `Tags: atp.recommendedPackage=PortInterfaces` tail from the class docstring and the `Stereotypes:/Tags:` tail from the operation-row docstrings per Rule 0012.2.5.2). Rule 0015/0020 variationPoint arbitration: the `operation` aggr row carries atpVariation, but per Rule 0020 the capability lands on the aggregated PartClass (`ClientServerOperation` — VARIATION-POINT "Applicable for: ClientServerInterface.operation" sits in the CLIENT-SERVER-OPERATION XSD group), not on the aggregator; the CLIENT-SERVER-INTERFACE complexType carries no VARIATION-POINT element — ClientServerInterface is correctly NOT VP-capable. Reader/writer coverage already complete and symmetric (read/writeClientServerInterface → OPERATIONS then POSSIBLE-ERRORS, XSD group order; five-place dispatch via createOperation/createApplicationError). Round-trip coverage in tests/test_armodel/writer/test_port_interface_hierarchy.py (field values one level down, empty-wrapper case). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ClientServerOperation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 102
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.7 attributes are modeled per multiplicity/kind: `argument (ordered)` (ArgumentDataPrototype, *, aggr) as the dedicated typed list `arguments: List[ArgumentDataPrototype]` with `createArgumentDataPrototype`/`getArguments`, `diagArgIntegrity` (Boolean, 0..1, attr) as `diagArgIntegrity: Optional[Boolean]`, and `possibleError` (ApplicationError, *, **ref**) as `possibleErrorRefs: List[RefType]` with `addPossibleErrorRef`/`getPossibleErrorRefs`. |
+
+**Note:** Batch sync 2026-10-05 (Group27; stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.7, p.102 (concrete Class; Base most-derived `AtpStructureElement`). Second citation FO AbstractPlatformSpecification Table 3.8, p.29 is a restricted rendering (argument row only, FO Note "remote procedure call" variant) — CP table is defining, no Rule 0019 merge. Docstrings wiped and rewritten verbatim (dropped the `Stereotypes:/Tags:` tail from the argument Note per Rule 0012.2.5.2). Accessor order corrected to spec-row/mutator-first shape (`createArgumentDataPrototype` before `getArguments`). Rule 0015/0020 variationPoint arbitration: the `argument` aggr row carries atpVariation and the XSD anchor VARIATION-POINT ("Applicable for: ClientServerInterface.operation") sits in the CLIENT-SERVER-OPERATION group — ClientServerOperation keeps the `VariationPointCapable` mixin (handled symmetrically by read/writeIdentifiable). Reader/writer coverage already complete and symmetric (read/writeClientServerOperation → ARGUMENTS wrapper, DIAG-ARG-INTEGRITY, POSSIBLE-ERROR-REFS — XSD group order). Round-trip coverage in tests/test_armodel/writer/test_port_interface_hierarchy.py (field values, element order, None no-ops). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ArgumentDataPrototype`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 103
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.8 attributes are modeled per multiplicity/kind: `direction` (ArgumentDirectionEnum, 0..1, attr) as `direction: Optional[ArgumentDirectionEnum]` and `serverArgumentImplPolicy` (ServerArgumentImplPolicyEnum, 0..1, attr) as `serverArgumentImplPolicy: Optional[ServerArgumentImplPolicyEnum]`, each with the get/set pair (None no-op, chaining). |
+
+**Note:** Batch sync 2026-10-05 (Group27; stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.8, p.103 (concrete Class; Base most-derived `AutosarDataPrototype`) — page-split table (direction row on the header page, serverArgumentImplPolicy row on the caption page; displayed order direction→serverArgumentImplPolicy matches the member order). Defining-table decision: the checklist previously cited BSWModuleDescriptionTemplate Table D.7, p.303; re-cited to the CP SWC Table 4.8 per the batch queue. Second citation FO AbstractPlatformSpecification Table 3.10, p.29 verified row-identical for the direction row (FO drops serverArgumentImplPolicy — restricted rendering); no Rule 0019 merge. Docstrings were already the spec Notes verbatim (verified by diff). Rule 0015/0020 variationPoint arbitration: the argument aggr row on ClientServerOperation carries atpVariation and the XSD anchor VARIATION-POINT ("Applicable for: ClientServerOperation.argument") sits in the ARGUMENT-DATA-PROTOTYPE group — ArgumentDataPrototype keeps the `VariationPointCapable` mixin (symmetric via read/writeIdentifiable). Reader/writer coverage already complete and symmetric (read/writeArgumentDataPrototype → DIRECTION then SERVER-ARGUMENT-IMPL-POLICY, XSD group order; dispatched from read/writeClientServerOperationArguments via the ARGUMENTS wrapper). Round-trip coverage in tests/test_armodel/writer/test_port_interface_hierarchy.py (DIRECTION/SERVER-ARGUMENT-IMPL-POLICY element order + values). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ServerArgumentImplPolicyEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 105
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.10 `Literal` rows are modeled 1:1: `USE_ARGUMENT_TYPE = "useArgumentType"` (atp.EnumerationLiteralIndex=0) and `USE_VOID = "useVoid"` (atp.EnumerationLiteralIndex=2); the enum registers exactly these two values in displayed order. |
+
+**Note:** Batch sync 2026-10-05 (Group27; stale `# Spec verified: R23-11` marker removed, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.10, p.105 (Enumeration; Note verbatim as class docstring). **Literal arbitration resolved by the table:** Table 4.10 defines exactly `useArgumentType` and `useVoid` — the historically pending literals (innerPort / bidirectional / firstToSecond / secondToFirst) belong to other tables (PortPrototype connectable-combination tables / MappingDirectionEnum Table 4.37) and are not part of this enum; the stale "pending user arbitration" comment block was removed and the two-literal set confirmed (the table wins). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the SERVER-ARGUMENT-IMPL-POLICY attribute value on the consuming class (round-tripped via ArgumentDataPrototype in tests/test_armodel/writer/test_port_interface_hierarchy.py). Tests pin member presence/values, no-extra-members, instantiability, docstring and literal-comment verbatim text. `# Spec verified:` withheld (batch 9b).
+
+## `ApplicationError`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 108
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.11 attribute `errorCode` (Integer, 0..1, attr) is modeled as `errorCode: Optional[Integer]` with the get/setErrorCode pair (None no-op, chaining). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy Rule 0023 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.11, p.108 (concrete Class; Base most-derived `Identifiable`). Docstrings wiped and rewritten verbatim (the previous getter/setter docstrings were "Gets/Sets the error code…" paraphrases — replaced with the spec Note; kept the spec's "error code" two-word no-op sentence). Reader/writer coverage already complete and symmetric (readPossibleErrors → readIdentifiable + ERROR-CODE via getChildElementOptionalIntegerValue; writeApplicationError → writeIdentifiable + ERROR-CODE; dispatched from read/writeClientServerInterface via the POSSIBLE-ERRORS wrapper with APPLICATION-ERROR items, XSD group order). Round-trip coverage in tests/test_armodel/writer/test_port_interface_hierarchy.py (ERROR-CODE value 42, empty POSSIBLE-ERRORS case). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ModeSwitchInterface`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 113
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.16 attribute `modeGroup` (ModeDeclarationGroupPrototype, 0..1, aggr) is modeled as `modeGroup: Optional[ModeDeclarationGroupPrototype]` with the `createModeGroup`/`getModeGroup` pair (Referrable child factory, duplicate short name returns the existing element). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.16, p.113 (concrete Class; Base chain most-derived `PortInterface`). Docstrings wiped and rewritten verbatim from the Table 4.16 Note and the `modeGroup` row Note (the class Note's `Tags: atp.recommendedPackage=PortInterfaces` tail dropped per Rule 0012.2.5.2; the old createModeGroup "Creates the..." Args/Returns paraphrase replaced). Rule 0015/0020 variationPoint arbitration: Table 4.16 has no variationPoint row; the MODE-SWITCH-INTERFACE XSD group (AUTOSAR_00052.xsd l.82942) carries no VARIATION-POINT element — not VP-capable, no mixin. Reader/writer coverage verified symmetric: `readModeSwitchInterface`/`writeModeSwitchInterface` level through the shared `readPortInterface`/`writePortInterface` helpers and handle MODE-GROUP (the group's only element) via `readModeSwitchInterfaceModeGroup`/`writeModeSwitchInterfaceModeGroup`; ARPackage port dispatch already routes MODE-SWITCH-INTERFACE. Round-trip coverage added in tests/test_armodel/writer/test_port_interface_hierarchy.py (field values, XSD element order, absent MODE-GROUP case). No Rule 0001.10 missing classes. `# Spec verified:` withheld (batch 9b).
+
+## `ModeDeclarationMapping`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 132
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `firstModeRefs` | `List[RefType]` | `firstMode` | `ModeDeclaration` | ref | type (XML REF DEST=MODE-DECLARATION--SUBTYPES-ENUM vs PDF class) — modeled as `RefType` per the XML form; spec 1..* pragmatically modeled as `*` list |
+| `secondModeRef` | `Optional[RefType]` | `secondMode` | `ModeDeclaration` | ref | type (XML REF vs PDF class) — modeled as `RefType` per the XML form |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.29, p.132 (concrete Class; Base chain most-derived `AtpStructureElement`). Docstrings wiped and rewritten: the markdown wrap artifact `Mode DeclarationMapping` joined to `ModeDeclarationMapping` in every Note (class + both attribute rows, verified against the MODE-DECLARATION-MAPPING XSD group documentation, AUTOSAR_00052.xsd l.82316). Reader/writer coverage verified symmetric and in XSD group order (FIRST-MODE-REFS wrapper with FIRST-MODE-REF items, then SECOND-MODE-REF): `readModeDeclarationMapping`/`writeModeDeclarationMapping` via `readModeDeclarationMappingFirstModeRefs`/`writeModeDeclarationMappingFirstModeRefs` (`getChildElementRefTypeList` wrapper iteration); dispatched from `readModeDeclarationMappingSet`/`writeModeDeclarationMappingSet`. Round-trip coverage added in tests/test_armodel/writer/test_port_interface_hierarchy.py (field values + DEST attributes + element order via the ModeDeclarationMappingSet carrier, empty-set case). No Rule 0001.10 missing classes (`ModeDeclaration` exists as a modeled class). `# Spec verified:` withheld (batch 9b).
+
+## `ImplementationDataTypeSubElementRef`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 138
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `implementationDataTypeElement` | `Optional[ArVariableInImplementationDataInstanceRef]` | `implementationDataTypeElement` | `ArVariableInImplementationDataInstanceRef` | aggr | No deviations — 0..1 aggr of a non-Identifiable instance-ref object, setXxx/getXxx pair |
+| `parameterImplementationDataTypeElement` | `Optional[ArParameterInImplementationDataInstanceRef]` | `parameterImplementationDataTypeElement` | `ArParameterInImplementationDataInstanceRef` | aggr | referenced class was a bare stub — pre-synced in this pass with its AR-PARAMETER-IN-IMPLEMENTATION-DATA-INSTANCE-REF XSD-group fields (contextDataPrototypeRefs, portPrototypeRef, rootParameterDataPrototypeRef, targetDataPrototypeRef); the class itself still owes its own spec-table sync pass |
+
+**Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` stub with no checklist — full 9-step sync from scratch). Re-synced against R23-11 CP SoftwareComponentTemplate Table 4.34, p.138 (concrete Class; Base chain most-derived `SubElementRef`, which is abstract with the `type(self) is SubElementRef` guard). Both Table 4.34 attributes modeled per multiplicity/kind with the get/set pair (None no-op, chaining); the `ArVariableInImplementationDataInstanceRef` import sits at the bottom of the PortInterface module (Rule 0005 cycle-breaker, `# noqa: E402`) and `ArParameterInImplementationDataInstanceRef` comes from the ArObject module where it is defined. Step 6: the SubElementRef polymorphic dispatch was previously ApplicationComposite-only — `setSubElementRef` gained the IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF branch (wrapper elements IMPLEMENTATION-DATA-TYPE-ELEMENT / PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT, each emitting PORT-PROTOTYPE-REF → ROOT-*-DATA-PROTOTYPE-REF → CONTEXT-DATA-PROTOTYPE-REFS (wrapper, only when non-empty) → TARGET-DATA-PROTOTYPE-REF per the AR-*-IN-IMPLEMENTATION-DATA-INSTANCE-REF XSD groups, AUTOSAR_00052.xsd l.5576/5665) and `getSubElementMapping` gained the matching FIRST-ELEMENTS/SECOND-ELEMENTS dispatch branches (`getImplementationDataTypeSubElementRef`). Round-trip coverage added in tests/test_armodel/writer/test_port_interface_hierarchy.py (both subtype branches with field values, XSD order, empty-wrapper case, plus the ApplicationComposite subtype regression). No `# Spec verified:` stamp yet (batch 9b).
+
+## `ApplicationCompositeDataTypeSubElementRef`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 138
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.35 attribute `applicationCompositeElement` (ApplicationCompositeElementDataPrototype, 0..1, iref; InstanceRef implemented by ApplicationCompositeElementInPortInterfaceInstanceRef) is modeled as `applicationCompositeElementIRef: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]` with the get/set pair (None no-op, chaining), per the Rule 0001.5 iref naming. |
+
+**Note:** Batch re-sync 2026-10-05 (Group27; the class already carried the current 6-column checklist from an earlier pass — this pass re-verified field-to-spec both directions, verbatim docstrings, PEP 526 annotated members, blank-line attribute spacing, and reader/writer coverage; the `# Spec verified: R23-11` marker was removed at session start per the batch convention, re-stamp deferred to the batch 9b; the `# Spec:` line normalized to the batch's plain-PDF-name format). Verified against R23-11 CP SoftwareComponentTemplate Table 4.35, p.138 (concrete Class; Base chain most-derived `SubElementRef`, abstract with the instantiation guard). The iref is a fixed-concrete instance ref — read/written flat via `getApplicationCompositeElementInPortInterfaceInstanceRef`/`setApplicationCompositeElementInPortInterfaceInstanceRef` under the APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF element of the SUB-ELEMENT-REF dispatch (`getSubElementMapping` FIRST-ELEMENTS/SECOND-ELEMENTS branches, `setSubElementRef`). Round-trip coverage in tests/test_armodel/writer/test_port_interface_hierarchy.py (`test_application_composite_sub_element_ref_still_round_trips`, field values via the SubElementMapping carrier, added with the ImplementationDataTypeSubElementRef sibling). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/test_ApplicationCompositeDataTypeSubElementRef.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `MappingDirectionEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 146
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the three Table 4.37 Literal rows map 1:1: `BIDIRECTIONAL = "bidirectional"` (atp.EnumerationLiteralIndex=0), `FIRST_TO_SECOND = "firstToSecond"` (idx 1), `SECOND_TO_FIRST = "secondToFirst"` (idx 2). |
+
+**Note:** Batch re-sync 2026-10-05 (Group27; the class already carried the current 6-column checklist from an earlier pass — this pass re-verified members 1:1 against the Enumeration table and instantiability; the `# Spec verified: R23-11` marker was removed at session start per the batch convention, re-stamp deferred to the batch 9b; the `# Spec:` line normalized to the batch's plain-PDF-name format). Table 4.37 carries exactly three literals — bidirectional / firstToSecond / secondToFirst. The `innerPort` literal flagged in the batch-10 arbitration note does NOT belong to this table region: it is the `innerPort` iref attribute of `DelegationSwConnector` (SWC TPS Table 4.10, md line 2408) — no `innerPort` literal exists in any MappingDirectionEnum rendering, so the enum's literal set stays at three. Steps 5/6 N/A: a standalone enum has no own XML element — it is serialized as the MAPPING-DIRECTION literal attribute value on the consuming TextTableMapping (round-tripped there). New test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/test_MappingDirectionEnum.py (member values, exact literal set, instantiability via `MappingDirectionEnum().setValue(...)`, docstring pin). No stamp (batch 9b).
+
+## `TextTableValuePair`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 146
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.38 attributes are modeled per multiplicity/kind: `firstValue` (Numerical, 0..1, attr) and `secondValue` (Numerical, 0..1, attr), each as `Optional[Numerical]` with the get/set pair (None no-op, chaining). |
+
+**Note:** Batch re-sync 2026-10-05 (Group27; the class already carried the current 6-column checklist from an earlier pass — this pass re-verified field-to-spec both directions, verbatim docstrings, PEP 526 annotated members, and reader/writer coverage; the `# Spec verified: R23-11` marker was removed at session start per the batch convention, re-stamp deferred to the batch 9b; the `# Spec:` line normalized to the batch's plain-PDF-name format). The attr-level `atpVariation` stereotype on both rows is attribute-value variation (Rule 0020 NOT-indicator): the XSD serializes FIRST-VALUE/SECOND-VALUE as NUMERICAL-VALUE-VARIATION-POINT (an atpVariation artifact), and the PDF Numerical type is kept per Rule 0015 — the reader/writer use the spec-typed `getChildElementOptionalNumerical`/`setChildElementOptionalNumerical` pair (TEXT-TABLE-VALUE-PAIR element, AUTOSAR_00052.xsd l.122580, order FIRST-VALUE → SECOND-VALUE). Round-trip coverage in tests/test_armodel/writer/test_text_table_mapping.py (field values via the TextTableMapping VALUE-PAIRS wrapper, empty-wrapper case). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/test_TextTableValuePair.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `DataTransformation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 150
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.39 attributes are modeled per multiplicity/kind: `dataTransformationKind` (DataTransformationKindEnum, 0..1, attr), `executeDespiteDataUnavailability` (Boolean, 0..1, attr), and `transformerChain (ordered)` (*, ref) as `transformerChainRefs: List[RefType]` with `addTransformerChainRef` (spec-singular many → plural Python naming per Rule 0001.4). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Defining-table decision: re-cited from SystemTemplate Table 7.2, p.763 to CP SoftwareComponentTemplate Table 4.39, p.150 (the primary citation); SystemTemplate Table 7.2 verified row-identical (Package/Note/Base/Aggregated-by/all attribute rows) — single `# Spec:` line, no Rule 0019 merge. Class docstring Note verbatim + the table-adjacent class-level constraint [constr_1888] appended. Rule 0015/0020 variationPoint arbitration: Table 4.39 has no variationPoint row; the XSD VARIATION-POINT in the DATA-TRANSFORMATION group (AUTOSAR_00052.xsd l.28234, "Applicable for: DataTransformationSet.dataTransformation") is the aggregator's atpSplitable/atpVariation artifact — `VariationPointCapable` mixin removed; reader/writer never handled VARIATION-POINT on this class (verified symmetric, no parser/writer change), and the new empty-wrapper round-trip test pins VARIATION-POINT absence. Reader/writer coverage verified complete and XSD-ordered (DATA-TRANSFORMATION-KIND → EXECUTE-DESPITE-DATA-UNAVAILABILITY → TRANSFORMER-CHAIN-REFS/TRANSFORMER-CHAIN-REF wrapper). Round-trip coverage in tests/test_armodel/writer/test_data_transformation.py (field values incl. chain-ref DEST, empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `DataTransformationKindEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 150
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.40 `Literal` rows are modeled 1:1 in displayed order: `ASYMMETRIC_FROM_BYTE_ARRAY = "asymmetricFromByteArray"` (atp.EnumerationLiteralIndex=0), `ASYMMETRIC_TO_BYTE_ARRAY = "asymmetricToByteArray"` (index=1), `SYMMETRIC = "symmetric"` (index=2). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified literal set 1:1 against Table 4.40, member values, registration-tuple order, instantiability, and the verbatim class Note; the stale `# Spec verified: R23-11` marker was removed at session start per the batch convention, re-stamp deferred to the batch 9b; the checklist normalized to the 6-column `# (no methods)`-row variant). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the DATA-TRANSFORMATION-KIND attribute value on the consuming class (round-tripped via DataTransformation in tests/test_armodel/writer/test_data_transformation.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_DataTransformationKindEnum.py. No stamp (batch 9b).
+
+## `TransformationTechnology`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 199
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all seven Table 4.87 attributes are modeled per multiplicity/kind in displayed order: `bufferProperties` (BufferProperties, 0..1, aggr → set/get, non-Referrable child), `hasInternalState` (Boolean, 0..1), `needsOriginalData` (Boolean, 0..1), `protocol` (String, 0..1), `transformationDescription` (TransformationDescription, 0..1, aggr of the abstract child), `transformerClass` (TransformerClassEnum, 0..1), `version` (String, 0..1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy 5-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Defining-table decision: re-cited from SystemTemplate Table 7.3, p.764 to CP SoftwareComponentTemplate Table 4.87, p.199 (the primary citation); SystemTemplate Table 7.3 verified row-identical — single `# Spec:` line, no Rule 0019 merge. Class docstring Note verbatim (the `Tags: xml.namePlural=TRANSFORMATION-TECHNOLOGIES` tail dropped per Rule 0012.2.5.2). Accessor groups reordered to getter-first per attribute (Rule 0001.11 — was setter-first). Rule 0015/0020 variationPoint arbitration: Table 4.87 has no variationPoint row (the transformationDescription row's atpVariation is the aggregated class's splitkey); the XSD VARIATION-POINT in the TRANSFORMATION-TECHNOLOGY group (AUTOSAR_00052.xsd l.125871, "Applicable for: DataTransformationSet.transformationTechnology") is the aggregator's artifact — `VariationPointCapable` mixin removed; reader/writer never handled VARIATION-POINT on this class (verified symmetric, no parser/writer change), and the round-trip test pins VARIATION-POINT absence. XSD upper-multiplicity note: the XSD raises transformationDescription to * (atpVariation resolution, TRANSFORMATION-DESCRIPTIONS wrapper) while the PDF says 0..1 — the PDF single-field model is kept per Rule 0015 with the reader/writer dispatching on the concrete subtype element inside the wrapper (current behavior, verified). Reader/writer coverage verified complete and XSD-ordered (BUFFER-PROPERTIES → HAS-INTERNAL-STATE → NEEDS-ORIGINAL-DATA → PROTOCOL → TRANSFORMATION-DESCRIPTIONS → TRANSFORMER-CLASS → VERSION). Round-trip coverage added in tests/test_armodel/writer/test_data_transformation.py (field values one level down into BufferProperties/EndToEndTransformationDescription, empty-wrapper + VARIATION-POINT absence). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `SenderReceiverAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 152
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all four Table 4.41 attributes are modeled per multiplicity/kind in displayed order: `computed` (Boolean, 0..1, attr), `dataElement` (VariableDataPrototype, 0..1, ref → `dataElementRef: Optional[RefType]`), `limitKind` (DataLimitKindEnum, 0..1, attr), `processingKind` (ProcessingKindEnum, 0..1, attr). |
+
+**Note:** Batch sync 2026-10-05 (Group27; legacy 4-column checklist with a stale `# Spec verified: R23-11` marker — marker removed at session start, re-stamp deferred to the batch 9b). Abstract-ified per the spec header "SenderReceiverAnnotation (abstract)": direct instantiation now raises TypeError (GeneralAnnotation guard pattern); concrete subclasses SenderAnnotation/ReceiverAnnotation re-pinned in tests/test_armodel/{models/.../ApplicationAttributes,models/.../Components,parser}/ — all direct `SenderReceiverAnnotation()` constructor calls across tests/ were grep-audited and re-pinned. Reader/writer element-name fix (XSD arbitration, AUTOSAR_00052.xsd): the wrapper SENDER-RECEIVER-ANNOTATIONS carries a choice of RECEIVER-ANNOTATION/SENDER-ANNOTATION elements only — the previous `<SENDER-RECEIVER-ANNOTATION>` child element is absent from the XSD; the writer now dispatches on isinstance (ReceiverAnnotation → RECEIVER-ANNOTATION, else SENDER-ANNOTATION) and the parser on the XSD child tag, both through the abstract base's reusable `readSenderReceiverAnnotation`/`writeSenderReceiverAnnotation` helpers (Rule 0001.7 abstract XML-bearing base). No integration fixture carried the removed element (grep-verified). Markdown line-wrap artifact joined: "AtomicSw ComponentType" → "AtomicSwComponentType" in the limitKind Note. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `SenderAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 153
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Table 4.42 has no `Attribute` rows (the displayed Attribute row is `-`); the class contributes only its identity under Base `ARObject, GeneralAnnotation, SenderReceiverAnnotation` (modeled as subclass of SenderReceiverAnnotation, the most-derived base). |
+
+**Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` subclass). Explicit `__init__` calling super() (checklist row), class Note verbatim. XSD: SENDER-ANNOTATION group is empty (`<xsd:sequence/>`, AUTOSAR_00052.xsd l.104235); the element is written/read via the base's dispatch (writer isinstance → SENDER-ANNOTATION child of SENDER-RECEIVER-ANNOTATIONS; parser tag dispatch) — covered by test_sender_annotation_round_trip in tests/test_armodel/writer/test_sw_annotations.py (Steps 5/6 via the abstract base's reusable helpers). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ReceiverAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 153
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.43 attribute is modeled per multiplicity/kind: `signalAge` (MultidimensionalTime, 0..1, aggr → `setSignalAge`/`getSignalAge`, non-Referrable child). |
+
+**Note:** Batch sync 2026-10-05 (Group27; previously a bare `pass` subclass — the spec signalAge attribute was entirely missing). Class Note verbatim. XSD: RECEIVER-ANNOTATION group is SIGNAL-AGE only (AUTOSAR_00052.xsd l.95956), after the inherited GENERAL-ANNOTATION and SENDER-RECEIVER-ANNOTATION groups in the complexType sequence — reader reads the inherited base group via `readSenderReceiverAnnotation` then `readReceiverAnnotation` (SIGNAL-AGE → MultidimensionalTime); writer emits the base group then SIGNAL-AGE under the RECEIVER-ANNOTATION element (isinstance dispatch). Round-trip coverage in tests/test_armodel/writer/test_sw_annotations.py (field values incl. base fields + signalAge, empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ProcessingKindEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 153
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.44 `Literal` rows are modeled 1:1 in displayed order: `FILTERED = "filtered"` (atp.EnumerationLiteralIndex=0), `NONE = "none"` (index=1), `RAW = "raw"` (index=2). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified literal set 1:1 against Table 4.44, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column `# (no methods)`-row variant and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the PROCESSING-KIND attribute value on the consuming class (round-tripped via SenderReceiverAnnotation in tests/test_armodel/writer/test_sw_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_ProcessingKindEnum.py. No stamp (batch 9b).
+
+## `DataLimitKindEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 154
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.45 `Literal` rows are modeled 1:1 in displayed order: `MAX = "max"` (atp.EnumerationLiteralIndex=0), `MIN = "min"` (index=1), `NONE = "none"` (index=2). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified literal set 1:1 against Table 4.45, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column `# (no methods)`-row variant and the marker removed per the batch convention, re-stamp deferred to the batch 9b). Page-number correction: the stale checklist cited p.153; pdf_page.py gives p.154 for Table 4.45 — `# Spec:` line corrected. AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the LIMIT-KIND attribute value on the consuming class (round-tripped via SenderReceiverAnnotation in tests/test_armodel/writer/test_sw_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_DataLimitKindEnum.py. No stamp (batch 9b).
+
+## `ClientServerAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 155
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.46 attribute is modeled per multiplicity/kind: `operation` (ClientServerOperation, 0..1, ref → `operationRef: Optional[RefType]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setOperationRef, writer on getOperationRef — both were marked on both rows). Reader (OPERATION-REF via setOperationRef inside readPortPrototype) and writer (OPERATION-REF via getOperationRef in writeClientServerAnnotation) verified against the XSD CLIENT-SERVER-ANNOTATION group order (single element). Round-trip coverage added in tests/test_armodel/writer/test_sw_annotations.py (field values incl. DEST, empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `IoHwAbstractionServerAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 157
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all eight Table 4.47 attributes are modeled per multiplicity/kind in displayed order: `age` (MultidimensionalTime, 0..1, aggr → set/get), `argument` (ArgumentDataPrototype, 0..1, ref → `argumentRef`), `bswResolution` (Float, 0..1, attr), `dataElement` (VariableDataPrototype, 0..1, ref → `dataElementRef`), `failureMonitoring` (PortPrototype, 0..1, ref → `failureMonitoringRef`), `filteringDebouncing` (FilterDebouncingEnum, 0..1, attr), `pulseTest` (PulseTestEnum, 0..1, attr), `trigger` (Trigger, 0..1, ref → `triggerRef`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, types, None-no-op setters, and member order; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Docstring hygiene: the `Tags: xml.sequenceOffset=NN` tails were dropped from the inline comments and getter/setter docstrings (Rule 0012.2.5.2) — Notes now verbatim per the markdown. Checklist corrections: `# Spec:` line re-formatted with `(R23-11)`; reader/writer columns re-split per Rule 0002 (reader on each setter, writer on each getter — filteringDebouncing/pulseTest/triggerRef rows previously marked on both). Reader/writer verified against the XSD IO-HW-ABSTRACTION-SERVER-ANNOTATION group order (AGE → ARGUMENT-REF → BSW-RESOLUTION → DATA-ELEMENT-REF → FAILURE-MONITORING-REF → FILTERING-DEBOUNCING → PULSE-TEST → TRIGGER-REF, AUTOSAR_00052.xsd l.73413). Round-trip coverage added in tests/test_armodel/writer/test_sw_annotations.py (field values, empty-wrapper case); full-field round-trip in tests/test_armodel/writer/test_io_hw_annotation.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `FilterDebouncingEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 157
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — all three Table 4.48 `Literal` rows are modeled 1:1 in displayed order: `DEBOUNCE_DATA = "debounceData"` (atp.EnumerationLiteralIndex=0), `RAW_DATA = "rawData"` (index=1), `WAIT_TIME_DATE = "waitTimeDate"` (index=2). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.48, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the FILTERING-DEBOUNCING attribute value on the consuming class (round-tripped via IoHwAbstractionServerAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_FilterDebouncingEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `PulseTestEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 157
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.49 `Literal` rows are modeled 1:1 in displayed order: `DISABLE = "disable"` (atp.EnumerationLiteralIndex=0), `ENABLE = "enable"` (index=1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.49, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the PULSE-TEST attribute value on the consuming class (round-tripped via IoHwAbstractionServerAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_PulseTestEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ParameterPortAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 158-159
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.50 attribute is modeled per multiplicity/kind: `parameter` (ParameterDataPrototype, 0..1, ref → `parameterRef: Optional[RefType]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Step-1 finding: the markdown render of Table 4.50 drops the Class header block (Package/Note/Base rows); the PDF (p.158) shows Base = `ARObject, GeneralAnnotation` — the class keeps its `GeneralAnnotation` base (most-derived per Rule 0001.2, consistent with the XSD complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.88153). The `# Spec:` line cites pp.158-159 (split table: header rows p.158, attribute rows + caption p.159). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setParameterRef, writer on getParameterRef — both were marked on both rows). Reader (PARAMETER-REF via setParameterRef inside readPortPrototype) and writer (PARAMETER-REF via getParameterRef in writeParameterPortAnnotation, wrapper PARAMETER-PORT-ANNOTATIONS only when non-empty) verified against the XSD group order (single element). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values incl. DEST + empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `ModePortAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 159
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.51 attribute is modeled per multiplicity/kind: `modeGroup` (ModeDeclarationGroupPrototype, 0..1, ref → `modeGroupRef: Optional[RefType]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setModeGroupRef, writer on getModeGroupRef — both were marked on both rows). Reader (MODE-GROUP-REF via setModeGroupRef inside readPortPrototype) and writer (MODE-GROUP-REF via getModeGroupRef in writeModePortAnnotation, wrapper MODE-PORT-ANNOTATIONS only when non-empty) verified against the XSD MODE-PORT-ANNOTATION group order (single element; complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.82829). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values incl. DEST + empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `TriggerPortAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 160
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.52 attribute is modeled per multiplicity/kind: `trigger` (Trigger, 0..1, ref → `triggerRef: Optional[RefType]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setTriggerRef, writer on getTriggerRef — both were marked on both rows). Reader (TRIGGER-REF via setTriggerRef inside readPortPrototype) and writer (TRIGGER-REF via getTriggerRef in writeTriggerPortAnnotation, wrapper TRIGGER-PORT-ANNOTATIONS only when non-empty) verified against the XSD TRIGGER-PORT-ANNOTATION group order (single element; complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.126669). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values incl. DEST + empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `NvDataPortAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 160
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.53 attribute is modeled per multiplicity/kind: `variable` (VariableDataPrototype, 0..1, ref → `variableRef: Optional[RefType]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setVariableRef, writer on getVariableRef — both were marked on both rows). Reader (VARIABLE-REF via setVariableRef inside readPortPrototype) and writer (VARIABLE-REF via getVariableRef in writeNvDataPortAnnotation, wrapper NV-DATA-PORT-ANNOTATIONS only when non-empty) verified against the XSD NV-DATA-PORT-ANNOTATION group order (single element; complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.86329). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values incl. DEST + empty-wrapper case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `DelegatedPortAnnotation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 162
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.54 attribute is modeled per multiplicity/kind: `signalFan` (SignalFanEnum, 0..1, attr → `signalFan: Optional[SignalFanEnum]`). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setSignalFan, writer on getSignalFan — both were marked on both rows). Reader (SIGNAL-FAN via getChildElementOptionalLiteral → SignalFanEnum().setValue inside readPortPrototype, single DELEGATED-PORT-ANNOTATION child via setDelegatedPortAnnotation) and writer (SIGNAL-FAN via getSignalFan in writeDelegatedPortAnnotation, element only when set) verified against the XSD DELEGATED-PORT-ANNOTATION group order (single element; complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.30933). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values + absence case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `SignalFanEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 162
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.55 `Literal` rows are modeled 1:1 in displayed order: `NFOLD = "nfold"` (atp.EnumerationLiteralIndex=0), `SINGLE = "single"` (index=1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.55, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the SIGNAL-FAN attribute value on the consuming class (round-tripped via DelegatedPortAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_SignalFanEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `PPortComSpec`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 166
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Table 4.58 has an empty `Attribute` column; the abstract class models zero own members on Base `ARObject`, instantiation-guarded. |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the empty attribute set both directions, the verbatim class Note, the abstract guard, and instantiability via a concrete subclass; the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; per-row `release` column added. No XML elements (XSD P-PORT-COM-SPEC group has an empty sequence, AUTOSAR_00052.xsd l.87489) — reader/writer coverage flows through the concrete-subclass dispatch (writePPortComSpec / readPPortComSpec five-place switches), round-trip covered via ServerComSpec on a PPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `RPortComSpec`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 167
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Table 4.59 has an empty `Attribute` column; the abstract class models zero own members on Base `ARObject`, instantiation-guarded. |
+
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the empty attribute set both directions, the verbatim class Note, the abstract guard, and instantiability via a concrete subclass; the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; per-row `release` column added. No XML elements (XSD R-PORT-COM-SPEC group has an empty sequence, AUTOSAR_00052.xsd l.95189) — reader/writer coverage flows through the concrete-subclass dispatch (writeRPortComSpec / readRequiredComSpec five-place switches), round-trip covered via ClientComSpec on an RPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `HandleOutOfRangeStatusEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 172
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.61 `Literal` rows are modeled 1:1 in displayed order: `INDICATE = "indicate"` (atp.EnumerationLiteralIndex=0), `SILENT = "silent"` (index=1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.61, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the HANDLE-OUT-OF-RANGE-STATUS attribute value on the consuming class (round-tripped via ReceiverComSpec in tests/test_armodel/writer/test_com_spec_family.py). No Rule 0001.10 missing classes. No stamp (batch 9b).
 ## `EcucDestinationUriDefRefType`
 - **PDF:** — (XSD-only; no own table in the R23-11 or R4.3.1 markdown corpora)  | **XSD:** `AUTOSAR_00052.xsd` DESTINATION-URI-REF nested type, l.51614 (group ECUC-CONTAINER-DEF)
 - **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`

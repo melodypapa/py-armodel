@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
     UriString,
+    VerbatimString,
 )
 
 
@@ -155,6 +156,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, value)
 
     def setChildElementOptionalDateTime(self, element: ET.Element, key: str, literal: Optional[DateTime]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalVerbatimString(self, element: ET.Element, key: str, literal: Optional[VerbatimString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: Optional[RefType]):

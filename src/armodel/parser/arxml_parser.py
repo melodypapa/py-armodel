@@ -464,6 +464,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition
     DiagnosticLogicalOperatorEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucIndexableValue,
     BooleanValue,
     ConfigReferenceValue,
     Container,
@@ -846,6 +847,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     ParameterPortAnnotation,
     ProcessingKindEnum,
     PulseTestEnum,
+    ReceiverAnnotation,
+    SenderAnnotation,
     SenderReceiverAnnotation,
     SignalFanEnum,
     TriggerPortAnnotation,
@@ -888,6 +891,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
@@ -967,6 +971,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, ModeSwitchEventTriggeredActivity, NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ImplementationDataTypeSubElementRef,
     ApplicationCompositeDataTypeSubElementRef,
     ArgumentDataPrototype,
     ClientServerApplicationErrorMapping,
@@ -1012,6 +1017,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
     SwcInternalBehavior,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ArParameterInImplementationDataInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess, VariableAccessScopeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
@@ -7621,12 +7627,11 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
         com_spec.setHandleOutOfRangeStatus(cast(Optional[HandleOutOfRangeStatusEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS")))
         com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
         com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
-        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
+        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         reception_props = self.getReceptionComSpecProps(element, "RECEPTION-PROPS")
         if reception_props is not None:
             com_spec.setReceptionProps(reception_props)
@@ -7637,6 +7642,7 @@ class ARXMLParser(AbstractARXMLParser):
             com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
         self.readTransformationComSpecPropss(element, com_spec)
+        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getReceptionComSpecProps(self, element: ET.Element, key: str) -> Optional[ReceptionComSpecProps]:
         child_element = self.find(element, key)
@@ -7908,21 +7914,61 @@ class ARXMLParser(AbstractARXMLParser):
             prm_annotation = ParameterPortAnnotation()
             prm_annotation.setParameterRef(self.getChildElementOptionalRefType(child, "PARAMETER-REF"))
             prototype.addParameterPortAnnotation(prm_annotation)
-        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-RECEIVER-ANNOTATION"):
-            sender_annotation = SenderReceiverAnnotation()
-            sender_annotation.setComputed(self.getChildElementOptionalBooleanValue(child, "COMPUTED"))
-            sender_annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
-            limit_kind = self.getChildElementOptionalLiteral(child, "LIMIT-KIND")
-            if limit_kind is not None:
-                sender_annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
-            processing_kind = self.getChildElementOptionalLiteral(child, "PROCESSING-KIND")
-            if processing_kind is not None:
-                sender_annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-ANNOTATION"):
+            sender_annotation = SenderAnnotation()
+            self.readSenderReceiverAnnotation(child, sender_annotation)
             prototype.addSenderReceiverAnnotation(sender_annotation)
+        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/RECEIVER-ANNOTATION"):
+            receiver_annotation = ReceiverAnnotation()
+            self.readSenderReceiverAnnotation(child, receiver_annotation)
+            self.readReceiverAnnotation(child, receiver_annotation)
+            prototype.addSenderReceiverAnnotation(receiver_annotation)
         for child in self.findall(element, "TRIGGER-PORT-ANNOTATIONS/TRIGGER-PORT-ANNOTATION"):
             trigger_annotation = TriggerPortAnnotation()
             trigger_annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
             prototype.addTriggerPortAnnotation(trigger_annotation)
+
+    def readSenderReceiverAnnotation(self, element: ET.Element, annotation: SenderReceiverAnnotation):
+        annotation.setComputed(self.getChildElementOptionalBooleanValue(element, "COMPUTED"))
+        annotation.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        limit_kind = self.getChildElementOptionalLiteral(element, "LIMIT-KIND")
+        if limit_kind is not None:
+            annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
+        processing_kind = self.getChildElementOptionalLiteral(element, "PROCESSING-KIND")
+        if processing_kind is not None:
+            annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+
+    def readReceiverAnnotation(self, element: ET.Element, annotation: ReceiverAnnotation):
+        signal_age_element = self.find(element, "SIGNAL-AGE")
+        if signal_age_element is not None:
+            signal_age = MultidimensionalTime()
+            self.readMultidimensionalTime(signal_age_element, signal_age)
+            annotation.setSignalAge(signal_age)
+
+    def readParameterSwComponentTypeConstantMappings(self, element: ET.Element, parent: ParameterSwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "CONSTANT-MAPPING-REFS/CONSTANT-MAPPING-REF"):
+            parent.addConstantMappingRef(ref)
+
+    def readParameterSwComponentTypeDataTypeMappings(self, element: ET.Element, parent: ParameterSwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "DATA-TYPE-MAPPING-REFS/DATA-TYPE-MAPPING-REF"):
+            parent.addDataTypeMappingRef(ref)
+
+    def readParameterSwComponentTypeInstantiationDataDefProps(self, element: ET.Element, parent: ParameterSwComponentType):
+        for child_element in self.findall(element, "INSTANTIATION-DATA-DEF-PROPSS/INSTANTIATION-DATA-DEF-PROPS"):
+            props = InstantiationDataDefProps()
+            self.readARObject(child_element, props)
+            props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
+            props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            self.readVariationPointCapable(child_element, props)
+            parent.addInstantiationDataDefProps(props)
+
+    def readParameterSwComponentType(self, element: ET.Element, parent: ParameterSwComponentType):
+        self.logger.debug("Read ParameterSwComponentType <%s>" % parent.getShortName())
+        self.readSwComponentType(element, parent)
+        self.readParameterSwComponentTypeConstantMappings(element, parent)
+        self.readParameterSwComponentTypeDataTypeMappings(element, parent)
+        self.readParameterSwComponentTypeInstantiationDataDefProps(element, parent)
 
     def readSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         for child_element in self.findall(element, "PORTS/*"):
@@ -8601,7 +8647,6 @@ class ARXMLParser(AbstractARXMLParser):
             self.readInstanceEventInCompositionInstanceRef(refined_event_element, refined_event)
             props.setRefinedEventIRef(refined_event)
         props.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
-        self.readVariationPointCapable(element, props)
 
     def readInstantiationTimingEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
         self.readInstantiationRTEEventProps(element, props)
@@ -8696,8 +8741,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSenderReceiverInterface(self, element, sr_interface: SenderReceiverInterface):
         self.logger.debug("Read SenderReceiverInterface <%s>" % sr_interface.getShortName())
-        self.readIdentifiable(element, sr_interface)
-        sr_interface.setIsService(self.getChildElementOptionalBooleanValue(element, "IS-SERVICE"))
+        self.readDataInterface(element, sr_interface)
         self.readSenderReceiverInterfaceDataElements(element, sr_interface)
         self.readSenderReceiverInterfaceInvalidationPolicies(element, sr_interface)
         self.readSenderReceiverInterfaceMetaDataItemSets(element, sr_interface)
@@ -9422,7 +9466,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("Read TriggerInterface <%s>" % trigger_if.getShortName())
-        self.readIdentifiable(element, trigger_if)
+        self.readDataInterface(element, cast(DataInterface, trigger_if))
         self.readTriggerInterfaceTriggers(element, trigger_if)
 
     def readModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):
@@ -12424,9 +12468,8 @@ class ARXMLParser(AbstractARXMLParser):
                 pin = content.createHwPin(self.getShortName(child_element))
                 self.readHwPin(child_element, pin)
             elif tag_name == "HW-PIN-GROUP":
-                child_group = HwPinGroup(content, self.getShortName(child_element))
+                child_group = content.createHwPinGroup(self.getShortName(child_element))
                 self.readHwPinGroup(child_element, child_group)
-                content.setHwPinGroup(child_group)
 
     def readHwPin(self, element: ET.Element, hw_pin: HwPin):
         self.readHwDescriptionEntity(element, hw_pin)
@@ -12450,26 +12493,26 @@ class ARXMLParser(AbstractARXMLParser):
     def readHwPinConnector(self, element: ET.Element) -> HwPinConnector:
         pin = HwPinConnector()
         self.readDescribable(element, pin)
-        for ref in self.getChildElementRefTypeList(element, "HW-PIN-REF"):
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-REFS/HW-PIN-REF"):
             pin.addHwPinRef(ref)
         return pin
 
     def readHwPinGroupConnector(self, element: ET.Element) -> HwPinGroupConnector:
         group = HwPinGroupConnector()
         self.readDescribable(element, group)
-        for child_element in self.findall(element, "HW-PIN-CONNECTION"):
+        for child_element in self.findall(element, "HW-PIN-CONNECTIONS/HW-PIN-CONNECTOR"):
             group.addHwPinConnection(self.readHwPinConnector(child_element))
-        for ref in self.getChildElementRefTypeList(element, "HW-PIN-GROUP-REF"):
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-GROUP-REFS/HW-PIN-GROUP-REF"):
             group.addHwPinGroupRef(ref)
         return group
 
     def readHwElementConnector(self, element: ET.Element, connector: HwElementConnector):
         self.readDescribable(element, connector)
-        for ref in self.getChildElementRefTypeList(element, "HW-ELEMENT-REF"):
+        for ref in self.getChildElementRefTypeList(element, "HW-ELEMENT-REFS/HW-ELEMENT-REF"):
             connector.addHwElementRef(ref)
-        for child_element in self.findall(element, "HW-PIN-CONNECTION"):
+        for child_element in self.findall(element, "HW-PIN-CONNECTIONS/HW-PIN-CONNECTOR"):
             connector.addHwPinConnection(self.readHwPinConnector(child_element))
-        for child_element in self.findall(element, "HW-PIN-GROUP-CONNECTION"):
+        for child_element in self.findall(element, "HW-PIN-GROUP-CONNECTIONS/HW-PIN-GROUP-CONNECTOR"):
             connector.addHwPinGroupConnection(self.readHwPinGroupConnector(child_element))
 
     def readHwElementHwElementConnections(self, element: ET.Element, hw_element: HwElement):
@@ -13532,7 +13575,7 @@ class ARXMLParser(AbstractARXMLParser):
             cond.setConditionFormula(self.readEcucConditionFormula(formula_element))
         for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
             query = cond.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, cast(EcucQuery, query))
+            self.readEcucQuery(query_element, query)
         cond.setInformalFormula(cast(MlFormula, self.getMlFormula(child_element, "INFORMAL-FORMULA")))
         return cond
 
@@ -13541,7 +13584,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, vc)
         for query_element in self.findall(element, "ECUC-QUERYS/ECUC-QUERY"):
             query = vc.createEcucQuery(self.getShortName(query_element))
-            self.readEcucQuery(query_element, cast(EcucQuery, query))
+            self.readEcucQuery(query_element, query)
         formula_element = self.find(element, "VALIDATION-FORMULA")
         if formula_element is not None:
             vc.setValidationFormula(self.readEcucConditionFormula(formula_element))
@@ -15194,13 +15237,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ModuleConfiguration container <%s>" % tag_name)
 
+    def readEcucIndexableValue(self, element: ET.Element, value: EcucIndexableValue):
+        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, param_value)
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
         param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
-        self.readVariationPointCapable(element, param_value)
 
     def readEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         self.readEcucParameterValue(element, param_value)
@@ -15234,11 +15279,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, value)
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
         value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
-        self.readVariationPointCapable(element, value)
 
     def readEcucReferenceValue(self, element: ET.Element, value: EcucReferenceValue):
         self.readEcucAbstractReferenceValue(element, value)
@@ -15280,7 +15324,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.readIdentifiable(element, container_value)
         container_value.setDefinitionRef(cast(RefType, self.getChildElementOptionalRefType(element, "DEFINITION-REF")))
-        container_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        self.readEcucIndexableValue(element, container_value)
         self.readEcucContainerValueParameterValues(element, container_value)
         self.readEcucContainerValueReferenceValues(element, container_value)
         self.readEcucContainerValueSubContainers(element, container_value)
@@ -16403,16 +16447,40 @@ class ARXMLParser(AbstractARXMLParser):
             mappings.append(mapping)
         return mappings
 
+    def getImplementationDataTypeSubElementRef(self, element: ET.Element) -> ImplementationDataTypeSubElementRef:
+        sub_element_ref = ImplementationDataTypeSubElementRef()
+        for impl_element in self.findall(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT"):
+            iref = ArVariableInImplementationDataInstanceRef()
+            iref.setPortPrototypeRef(self.getChildElementOptionalRefType(impl_element, "PORT-PROTOTYPE-REF"))
+            iref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(impl_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(impl_element, "CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF"):
+                iref.addContextDataPrototypeRef(ref)
+            iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(impl_element, "TARGET-DATA-PROTOTYPE-REF"))
+            sub_element_ref.setImplementationDataTypeElement(iref)
+        for param_element in self.findall(element, "PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT"):
+            param_iref = ArParameterInImplementationDataInstanceRef()
+            param_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(param_element, "PORT-PROTOTYPE-REF"))
+            param_iref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(param_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(param_element, "CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF"):
+                param_iref.addContextDataPrototypeRef(ref)
+            param_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(param_element, "TARGET-DATA-PROTOTYPE-REF"))
+            sub_element_ref.setParameterImplementationDataTypeElement(param_iref)
+        return sub_element_ref
+
     def getSubElementMapping(self, element: ET.Element) -> SubElementMapping:
         mapping = SubElementMapping()
         for ref_element in self.findall(element, "FIRST-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
                 mapping.setFirstElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
+            elif self.getTagName(ref_element) == "IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setFirstElement(self.getImplementationDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported firstElement SubElementRef <%s>" % self.getTagName(ref_element))
         for ref_element in self.findall(element, "SECOND-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
                 mapping.setSecondElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
+            elif self.getTagName(ref_element) == "IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setSecondElement(self.getImplementationDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported secondElement SubElementRef <%s>" % self.getTagName(ref_element))
         for text_table in self.findall(element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
@@ -16581,6 +16649,8 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 type = parent.createCompositionSwComponentType(self.getShortName(child_element))
                 self.readCompositionSwComponentType(child_element, type)
+            elif tag_name == "PARAMETER-SW-COMPONENT-TYPE":
+                self.readParameterSwComponentType(child_element, parent.createParameterSwComponentType(self.getShortName(child_element)))
             elif tag_name == "ALIAS-NAME-SET":
                 alias_set = parent.createAliasNameSet(self.getShortName(child_element))
                 self.readAliasNameSet(child_element, alias_set)
