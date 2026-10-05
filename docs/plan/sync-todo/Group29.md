@@ -851,15 +851,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinSlave` — LinCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.41, p.97
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Table 3.41 Note "Describing the properties of the referring ecu as a LIN slave."; most-derived modeled base LinCommunicationController (Base row: ARObject, CommunicationController, Identifiable, LinCommunicationController, MultilanguageReferrable, Referrable; concrete class — XSD complexType LIN-SLAVE abstract="false", fills the existing in-file stub in place); eight own attrs 0..1 in displayed order — assignNad (Boolean), configuredNad (Integer), functionId (PositiveInteger), initialNad (Integer), linErrorResponse (LinErrorResponse, aggr), nasTimeout (TimeValue), supplierId (PositiveInteger), variantId (PositiveInteger); no `*` aggr / Referrable children (all setXxx; linErrorResponse 0..1 → setLinErrorResponse); Aggregated by EcuInstance.commController + MachineDesign.communicationController (XSD line 50381 EcuInstance COMM-CONTROLLERS choice; MachineDesign side not wired — LinMaster/TtcanCommunicationController precedent). XSD LIN-SLAVE group (line 77663) wraps via LIN-SLAVE-VARIANTS/LIN-SLAVE-CONDITIONAL; LIN-SLAVE-CONTENT (line 77893) = ASSIGN-NAD, CONFIGURED-NAD, FUNCTION-ID, INITIAL-NAD, LIN-ERROR-RESPONSE, NAS-TIMEOUT, (SAVE-CONFIGURATION carries atp.Status="removed", absent from the R23-11 table — not modeled, Rule 0015), SUPPLIER-ID, VARIANT-ID (XSD order = markdown row order); dispatch is the EcuInstance COMM-CONTROLLERS choice — the missing LIN-SLAVE branch belongs to this row (LinMaster report note): createLinSlave factory on EcuInstance + tag/isinstance branches (parser + writer), entry helpers readLinSlave/writeLinSlave calling read/writeLinCommunicationController exactly once.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — all eight attributes modeled with spec types/multiplicities in displayed order (all 0..1: assignNad Boolean, configuredNad Integer, functionId PositiveInteger, initialNad Integer, linErrorResponse LinErrorResponse aggr, nasTimeout TimeValue, supplierId PositiveInteger, variantId PositiveInteger; no `*` aggr / Referrable children → setXxx accessors only, setLinErrorResponse for the 0..1 aggr); member order = markdown row order, reader/writer XML element order = XSD LIN-SLAVE-CONTENT sequenceOffset (the two orders coincide); docstrings byte-identical to the markdown Notes (enforced by the model test's verbatim asserts across class Note + 8 inline comments + 16 accessor docstrings; period-less "LIN function ID"/"LIN Supplier ID"/"Specifies the Variant ID" kept verbatim); reader/writer entry points call readIdentifiable/writeIdentifiable on the outer element and read/writeLinCommunicationController exactly once each on the LIN-SLAVE-VARIANTS/LIN-SLAVE-CONDITIONAL wrapper (audit BASE clean); the missing EcuInstance COMM-CONTROLLERS LIN-SLAVE branch added in this pass (parser tag dispatch + writer isinstance dispatch + createLinSlave factory on EcuInstance, LinMaster 35db48e9b / TtcanCommunicationController 20da1fc7f precedent). XSD LIN-SLAVE-CONTENT member SAVE-CONFIGURATION carries atp.Status="removed" (since 4.4.0) and is absent from the R23-11 Table 3.41 — not modeled (Rule 0015). MachineDesign COMMUNICATION-CONTROLLERS choice not wired — no MachineDesign reader/writer path in this codebase (LinMaster precedent). linErrorResponse member type LinErrorResponse (Table 3.42, queued row after this one) exists in LinCommunication.py; its current shape (ARObject, responseError ref → responseErrorRef Optional[RefType], Note verbatim) does not conflict with this row — full re-sync in its own queued pass. Stub-guard row (test_group21_36_stub_classes.py) keeps holding on the in-place fill. Re-stamp deferred to batch 9b per user instruction.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2376+8150+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinErrorResponse` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.42, p.97
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

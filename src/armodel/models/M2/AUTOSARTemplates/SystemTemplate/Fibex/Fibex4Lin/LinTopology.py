@@ -573,4 +573,158 @@ class LinPhysicalChannel(PhysicalChannel):
 
 
 class LinSlave(LinCommunicationController):
-    pass
+    """
+    Describing the properties of the referring ecu as a LIN slave.
+    """
+
+    # LinSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.41, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignNad            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignNad            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfiguredNad        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfiguredNad        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialNad           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialNad           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinErrorResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinErrorResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNasTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNasTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupplierId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupplierId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariantId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariantId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported.
+        self.assignNad: Optional[Boolean] = None
+
+        # To distinguish LIN slaves that are used twice or more within the same cluster.
+        self.configuredNad: Optional[Integer] = None
+
+        # LIN function ID
+        self.functionId: Optional[PositiveInteger] = None
+
+        # This attribute represents the initial NAD.
+        self.initialNad: Optional[Integer] = None
+
+        # Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        self.linErrorResponse: Optional[LinErrorResponse] = None
+
+        # Value of the N_AS timeout. Unit: seconds.
+        self.nasTimeout: Optional[TimeValue] = None
+
+        # LIN Supplier ID
+        self.supplierId: Optional[PositiveInteger] = None
+
+        # Specifies the Variant ID
+        self.variantId: Optional[PositiveInteger] = None
+
+    def getAssignNad(self) -> Optional[Boolean]:
+        """This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported."""
+        return self.assignNad
+
+    def setAssignNad(self, value: Optional[Boolean]) -> LinSlave:
+        """
+        This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported.
+        A None value is a no-op and does not overwrite an existing assignNad.
+        """
+        if value is not None:
+            self.assignNad = value
+        return self
+
+    def getConfiguredNad(self) -> Optional[Integer]:
+        """To distinguish LIN slaves that are used twice or more within the same cluster."""
+        return self.configuredNad
+
+    def setConfiguredNad(self, value: Optional[Integer]) -> LinSlave:
+        """
+        To distinguish LIN slaves that are used twice or more within the same cluster.
+        A None value is a no-op and does not overwrite an existing configuredNad.
+        """
+        if value is not None:
+            self.configuredNad = value
+        return self
+
+    def getFunctionId(self) -> Optional[PositiveInteger]:
+        """LIN function ID"""
+        return self.functionId
+
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        LIN function ID
+        A None value is a no-op and does not overwrite an existing functionId.
+        """
+        if value is not None:
+            self.functionId = value
+        return self
+
+    def getInitialNad(self) -> Optional[Integer]:
+        """This attribute represents the initial NAD."""
+        return self.initialNad
+
+    def setInitialNad(self, value: Optional[Integer]) -> LinSlave:
+        """
+        This attribute represents the initial NAD.
+        A None value is a no-op and does not overwrite an existing initialNad.
+        """
+        if value is not None:
+            self.initialNad = value
+        return self
+
+    def getLinErrorResponse(self) -> Optional[LinErrorResponse]:
+        """Each slave node shall publish one response error in one of its transmitted unconditional frames."""
+        return self.linErrorResponse
+
+    def setLinErrorResponse(self, value: Optional[LinErrorResponse]) -> LinSlave:
+        """
+        Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        A None value is a no-op and does not overwrite an existing linErrorResponse.
+        """
+        if value is not None:
+            self.linErrorResponse = value
+        return self
+
+    def getNasTimeout(self) -> Optional[TimeValue]:
+        """Value of the N_AS timeout. Unit: seconds."""
+        return self.nasTimeout
+
+    def setNasTimeout(self, value: Optional[TimeValue]) -> LinSlave:
+        """
+        Value of the N_AS timeout. Unit: seconds.
+        A None value is a no-op and does not overwrite an existing nasTimeout.
+        """
+        if value is not None:
+            self.nasTimeout = value
+        return self
+
+    def getSupplierId(self) -> Optional[PositiveInteger]:
+        """LIN Supplier ID"""
+        return self.supplierId
+
+    def setSupplierId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        LIN Supplier ID
+        A None value is a no-op and does not overwrite an existing supplierId.
+        """
+        if value is not None:
+            self.supplierId = value
+        return self
+
+    def getVariantId(self) -> Optional[PositiveInteger]:
+        """Specifies the Variant ID"""
+        return self.variantId
+
+    def setVariantId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        Specifies the Variant ID
+        A None value is a no-op and does not overwrite an existing variantId.
+        """
+        if value is not None:
+            self.variantId = value
+        return self

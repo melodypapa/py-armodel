@@ -29,6 +29,7 @@ if TYPE_CHECKING:
         LinCommunicationConnector,
         LinMaster,
         LinPhysicalChannel,
+        LinSlave,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -991,6 +992,7 @@ class EcuInstance(FibexElement):
     # [x] createEthernetCommunicationController                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationController                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createLinSlave                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTtcanCommunicationController                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1313,6 +1315,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
         return cast(LinMaster, self.getReferrableElement(short_name, LinMaster))
+
+    def createLinSlave(self, short_name: str) -> LinSlave:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinSlave
+
+        if not self.IsReferrableElementExists(short_name, LinSlave):
+            controller = LinSlave(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(LinSlave, self.getReferrableElement(short_name, LinSlave))
 
     def createTtcanCommunicationController(self, short_name: str) -> TtcanCommunicationController:
         """

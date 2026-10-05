@@ -1277,6 +1277,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlave,
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
@@ -14681,6 +14682,21 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE"))
             controller.setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
 
+    def readLinSlave(self, element: ET.Element, controller: LinSlave):
+        self.logger.debug("Read LinSlave %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+        child_element = self.find(element, "LIN-SLAVE-VARIANTS/LIN-SLAVE-CONDITIONAL")
+        if child_element is not None:
+            self.readLinCommunicationController(child_element, controller)
+            controller.setAssignNad(self.getChildElementOptionalBooleanValue(child_element, "ASSIGN-NAD"))
+            controller.setConfiguredNad(self.getChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD"))
+            controller.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
+            controller.setInitialNad(self.getChildElementOptionalIntegerValue(child_element, "INITIAL-NAD"))
+            controller.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
+            controller.setNasTimeout(self.getChildElementOptionalTimeValue(child_element, "NAS-TIMEOUT"))
+            controller.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
+            controller.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
+
     def getLinErrorResponse(self, element: ET.Element, key: str) -> Optional[LinErrorResponse]:
         response = None
         child_element = self.find(element, key)
@@ -14755,6 +14771,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthernetCommunicationController(child_element, instance.createEthernetCommunicationController(self.getShortName(child_element)))
             elif tag_name == "LIN-MASTER":
                 self.readLinMaster(child_element, instance.createLinMaster(self.getShortName(child_element)))
+            elif tag_name == "LIN-SLAVE":
+                self.readLinSlave(child_element, instance.createLinSlave(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONTROLLER":
                 self.readFlexrayCommunicationController(child_element, instance.createFlexrayCommunicationController(self.getShortName(child_element)))
             elif tag_name == "TTCAN-COMMUNICATION-CONTROLLER":

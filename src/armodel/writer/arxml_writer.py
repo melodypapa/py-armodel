@@ -1059,6 +1059,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlave,
     LinSlaveConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
@@ -12399,6 +12400,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEthernetCommunicationController(child_element, controller)
                 elif isinstance(controller, LinMaster):
                     self.writeLinMaster(child_element, controller)
+                elif isinstance(controller, LinSlave):
+                    self.writeLinSlave(child_element, controller)
                 elif isinstance(controller, FlexrayCommunicationController):
                     self.writeFlexrayCommunicationController(child_element, controller)
                 elif isinstance(controller, TtcanCommunicationController):
@@ -16630,6 +16633,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setLinSlaveConfig(slaves_tag, "LIN-SLAVE-CONFIG", slave)
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE", controller.getTimeBase())
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE-JITTER", controller.getTimeBaseJitter())
+
+    def writeLinSlave(self, element: ET.Element, controller: LinSlave):
+        self.logger.debug("Write LinSlave <%s>" % controller.getShortName())
+        child_element = ET.SubElement(element, "LIN-SLAVE")
+        self.writeIdentifiable(child_element, controller)
+        variants_tag = ET.SubElement(child_element, "LIN-SLAVE-VARIANTS")
+        cond_tag = ET.SubElement(variants_tag, "LIN-SLAVE-CONDITIONAL")
+        self.writeLinCommunicationController(cond_tag, controller)
+        self.setChildElementOptionalBooleanValue(cond_tag, "ASSIGN-NAD", controller.getAssignNad())
+        self.setChildElementOptionalIntegerValue(cond_tag, "CONFIGURED-NAD", controller.getConfiguredNad())
+        self.setChildElementOptionalPositiveInteger(cond_tag, "FUNCTION-ID", controller.getFunctionId())
+        self.setChildElementOptionalIntegerValue(cond_tag, "INITIAL-NAD", controller.getInitialNad())
+        self.setLinErrorResponse(cond_tag, "LIN-ERROR-RESPONSE", controller.getLinErrorResponse())
+        self.setChildElementOptionalTimeValue(cond_tag, "NAS-TIMEOUT", controller.getNasTimeout())
+        self.setChildElementOptionalPositiveInteger(cond_tag, "SUPPLIER-ID", controller.getSupplierId())
+        self.setChildElementOptionalPositiveInteger(cond_tag, "VARIANT-ID", controller.getVariantId())
 
     def setLinErrorResponse(self, element: ET.Element, key: str, response: Optional[LinErrorResponse]):
         if response is not None:

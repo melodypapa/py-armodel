@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlave,
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
@@ -46,7 +47,16 @@ class MockParent(ARObject):
 
 LIN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "LIN bus specific communication controller attributes."
 LIN_MASTER_CLASS_NOTE = "Describing the properties of the refering ecu as a LIN master."
+LIN_SLAVE_CLASS_NOTE = "Describing the properties of the referring ecu as a LIN slave."
 LIN_SLAVE_NOTE = "LinSlaves that are handled by the LinMaster."
+LIN_SLAVE_ASSIGN_NAD_NOTE = "This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported."
+LIN_SLAVE_CONFIGURED_NAD_NOTE = "To distinguish LIN slaves that are used twice or more within the same cluster."
+LIN_SLAVE_FUNCTION_ID_NOTE = "LIN function ID"
+LIN_SLAVE_INITIAL_NAD_NOTE = "This attribute represents the initial NAD."
+LIN_SLAVE_LIN_ERROR_RESPONSE_NOTE = "Each slave node shall publish one response error in one of its transmitted unconditional frames."
+LIN_SLAVE_NAS_TIMEOUT_NOTE = "Value of the N_AS timeout. Unit: seconds."
+LIN_SLAVE_SUPPLIER_ID_NOTE = "LIN Supplier ID"
+LIN_SLAVE_VARIANT_ID_NOTE = "Specifies the Variant ID"
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
@@ -262,6 +272,209 @@ class TestLinMaster:
         assert annotations["linSlaves"] == "List[LinSlaveConfig]"
         assert annotations["timeBase"] == "Optional[TimeValue]"
         assert annotations["timeBaseJitter"] == "Optional[TimeValue]"
+
+
+class TestLinSlave:
+    """
+    Describing the properties of the referring ecu as a LIN slave.
+    """
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.41: ARObject, CommunicationController, Identifiable, LinCommunicationController, MultilanguageReferrable, Referrable)"""
+        assert issubclass(LinSlave, LinCommunicationController)
+        assert issubclass(LinSlave, CommunicationController)
+        assert issubclass(LinSlave, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.41)"""
+        assert inspect.cleandoc(LinSlave.__doc__).strip() == LIN_SLAVE_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinSlave.__init__.__doc__ is None
+
+    def test_initialization(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave.getShortName() == "TestSlave"
+        assert slave.getParent() is parent
+        assert isinstance(slave, LinCommunicationController)
+        assert isinstance(slave, CommunicationController)
+        assert isinstance(slave, ARObject)
+
+        assert slave.getProtocolVersion() is None
+        assert slave.getAssignNad() is None
+        assert slave.getConfiguredNad() is None
+        assert slave.getFunctionId() is None
+        assert slave.getInitialNad() is None
+        assert slave.getLinErrorResponse() is None
+        assert slave.getNasTimeout() is None
+        assert slave.getSupplierId() is None
+        assert slave.getVariantId() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.41: assignNad, configuredNad, functionId, initialNad, linErrorResponse, nasTimeout, supplierId, variantId)"""
+        source = inspect.getsource(LinSlave.__init__)
+        assert source.index("self.assignNad") < source.index("self.configuredNad")
+        assert source.index("self.configuredNad") < source.index("self.functionId")
+        assert source.index("self.functionId") < source.index("self.initialNad")
+        assert source.index("self.initialNad") < source.index("self.linErrorResponse")
+        assert source.index("self.linErrorResponse") < source.index("self.nasTimeout")
+        assert source.index("self.nasTimeout") < source.index("self.supplierId")
+        assert source.index("self.supplierId") < source.index("self.variantId")
+
+    def test_get_set_assign_nad(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setAssignNad(True)
+        assert slave.getAssignNad() is True
+
+        assert slave == slave.setAssignNad(None)
+        assert slave.getAssignNad() is True
+
+    def test_get_set_configured_nad(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setConfiguredNad(3)
+        assert slave.getConfiguredNad() == 3
+
+        assert slave == slave.setConfiguredNad(None)
+        assert slave.getConfiguredNad() == 3
+
+    def test_get_set_function_id(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setFunctionId(17)
+        assert slave.getFunctionId() == 17
+
+        assert slave == slave.setFunctionId(None)
+        assert slave.getFunctionId() == 17
+
+    def test_get_set_initial_nad(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setInitialNad(1)
+        assert slave.getInitialNad() == 1
+
+        assert slave == slave.setInitialNad(None)
+        assert slave.getInitialNad() == 1
+
+    def test_set_lin_error_response(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+        response = LinErrorResponse()
+
+        assert slave == slave.setLinErrorResponse(response)
+        assert slave.getLinErrorResponse() is response
+
+        assert slave == slave.setLinErrorResponse(None)
+        assert slave.getLinErrorResponse() is response
+
+    def test_get_set_nas_timeout(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setNasTimeout(0.1)
+        assert slave.getNasTimeout() == 0.1
+
+        assert slave == slave.setNasTimeout(None)
+        assert slave.getNasTimeout() == 0.1
+
+    def test_get_set_supplier_id(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setSupplierId(2721)
+        assert slave.getSupplierId() == 2721
+
+        assert slave == slave.setSupplierId(None)
+        assert slave.getSupplierId() == 2721
+
+    def test_get_set_variant_id(self):
+        parent = MockParent()
+        slave = LinSlave(parent, "TestSlave")
+
+        assert slave == slave.setVariantId(5)
+        assert slave.getVariantId() == 5
+
+        assert slave == slave.setVariantId(None)
+        assert slave.getVariantId() == 5
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.41)"""
+        self._assert_docstring(LinSlave.getAssignNad, LIN_SLAVE_ASSIGN_NAD_NOTE)
+        self._assert_docstring(LinSlave.setAssignNad, LIN_SLAVE_ASSIGN_NAD_NOTE, "assignNad")
+
+        self._assert_docstring(LinSlave.getConfiguredNad, LIN_SLAVE_CONFIGURED_NAD_NOTE)
+        self._assert_docstring(LinSlave.setConfiguredNad, LIN_SLAVE_CONFIGURED_NAD_NOTE, "configuredNad")
+
+        self._assert_docstring(LinSlave.getFunctionId, LIN_SLAVE_FUNCTION_ID_NOTE)
+        self._assert_docstring(LinSlave.setFunctionId, LIN_SLAVE_FUNCTION_ID_NOTE, "functionId")
+
+        self._assert_docstring(LinSlave.getInitialNad, LIN_SLAVE_INITIAL_NAD_NOTE)
+        self._assert_docstring(LinSlave.setInitialNad, LIN_SLAVE_INITIAL_NAD_NOTE, "initialNad")
+
+        self._assert_docstring(LinSlave.getLinErrorResponse, LIN_SLAVE_LIN_ERROR_RESPONSE_NOTE)
+        self._assert_docstring(LinSlave.setLinErrorResponse, LIN_SLAVE_LIN_ERROR_RESPONSE_NOTE, "linErrorResponse")
+
+        self._assert_docstring(LinSlave.getNasTimeout, LIN_SLAVE_NAS_TIMEOUT_NOTE)
+        self._assert_docstring(LinSlave.setNasTimeout, LIN_SLAVE_NAS_TIMEOUT_NOTE, "nasTimeout")
+
+        self._assert_docstring(LinSlave.getSupplierId, LIN_SLAVE_SUPPLIER_ID_NOTE)
+        self._assert_docstring(LinSlave.setSupplierId, LIN_SLAVE_SUPPLIER_ID_NOTE, "supplierId")
+
+        self._assert_docstring(LinSlave.getVariantId, LIN_SLAVE_VARIANT_ID_NOTE)
+        self._assert_docstring(LinSlave.setVariantId, LIN_SLAVE_VARIANT_ID_NOTE, "variantId")
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        expected_getters = {
+            "getAssignNad": (Optional[Boolean], LIN_SLAVE_ASSIGN_NAD_NOTE),
+            "getConfiguredNad": (Optional[Integer], LIN_SLAVE_CONFIGURED_NAD_NOTE),
+            "getFunctionId": (Optional[PositiveInteger], LIN_SLAVE_FUNCTION_ID_NOTE),
+            "getInitialNad": (Optional[Integer], LIN_SLAVE_INITIAL_NAD_NOTE),
+            "getLinErrorResponse": (Optional[LinErrorResponse], LIN_SLAVE_LIN_ERROR_RESPONSE_NOTE),
+            "getNasTimeout": (Optional[TimeValue], LIN_SLAVE_NAS_TIMEOUT_NOTE),
+            "getSupplierId": (Optional[PositiveInteger], LIN_SLAVE_SUPPLIER_ID_NOTE),
+            "getVariantId": (Optional[PositiveInteger], LIN_SLAVE_VARIANT_ID_NOTE),
+        }
+        for name, (return_hint, _) in expected_getters.items():
+            getter_hints = get_type_hints(getattr(LinSlave, name))
+            assert getter_hints["return"] == return_hint
+
+            setter_hints = get_type_hints(getattr(LinSlave, "set" + name[3:]))
+            assert setter_hints["value"] == return_hint
+            assert setter_hints["return"] == LinSlave
+
+        src = inspect.getsource(sys.modules[LinSlave.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinSlave")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["assignNad"] == "Optional[Boolean]"
+        assert annotations["configuredNad"] == "Optional[Integer]"
+        assert annotations["functionId"] == "Optional[PositiveInteger]"
+        assert annotations["initialNad"] == "Optional[Integer]"
+        assert annotations["linErrorResponse"] == "Optional[LinErrorResponse]"
+        assert annotations["nasTimeout"] == "Optional[TimeValue]"
+        assert annotations["supplierId"] == "Optional[PositiveInteger]"
+        assert annotations["variantId"] == "Optional[PositiveInteger]"
 
 
 class TestLinSlaveConfigIdent:
