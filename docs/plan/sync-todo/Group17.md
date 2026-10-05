@@ -161,6 +161,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-28: 13171 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayAbsolutelyScheduledTiming` — ARObject — R23-11 markdown · Table 6.82
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayCommunication.py
   - Note: NEW row (recorded 2026-09-28: FlexrayFrameTriggering.communicationCycle member type existed as a STUB — untyped accessors, bare-T field, fabricated docstring, no `# Spec:` line — and was fully synced in commit 33a54c26d without own queue row, Rule 0001.10/0017 row-parity) — module M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayCommunication.py; Table 6.82, p.423 (CP_TPS_SystemTemplate); attrs communicationCycle (CommunicationCycle, aggr) + slotID (PositiveInteger); Notes verbatim + constr_9126/9127; serialized inside the consuming FlexrayFrameTriggering element.
   - [x] Step 1 — Sync members & description from spec — executed inside the 33a54c26d pass (Table 6.82 located, rows extracted in displayed order)
   - [x] Step 2 — Write model class unit test (Red) — executed inside the 33a54c26d pass (TestFlexrayAbsolutelyScheduledTiming in mirrored test_FlexrayCommunication.py — old untyped-API tests replaced)
