@@ -1105,6 +1105,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: F401
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
@@ -10176,6 +10177,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CAN-PHYSICAL-CHANNEL")
         self.writePhysicalChannel(child_element, channel)
 
+    def writeTtcanPhysicalChannel(self, element: ET.Element, channel: TtcanPhysicalChannel):
+        self.logger.debug("Set TtcanPhysicalChannel %s" % channel.getShortName())
+        child_element = ET.SubElement(element, "TTCAN-PHYSICAL-CHANNEL")
+        self.writePhysicalChannel(child_element, channel)
+
     def writeScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
         self.writeDocumentationBlock(element, "INTRODUCTION", entry.getIntroduction())
         self.setChildElementOptionalTimeValue(element, "DELAY", entry.getDelay())
@@ -10976,6 +10982,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for channel in channels:
                 if isinstance(channel, CanPhysicalChannel):
                     self.writeCanPhysicalChannel(child_element, channel)
+                elif isinstance(channel, TtcanPhysicalChannel):
+                    self.writeTtcanPhysicalChannel(child_element, channel)
                 elif isinstance(channel, LinPhysicalChannel):
                     self.writeLinPhysicalChannel(child_element, channel)
                 elif isinstance(channel, EthernetPhysicalChannel):

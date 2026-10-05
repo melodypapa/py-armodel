@@ -721,15 +721,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TtcanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.26, p.77
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): TTCAN-PHYSICAL-CHANNEL is a CONCRETE XSD element (AUTOSAR_00052.xsd line 20220, inside the CommunicationClusterContent PHYSICAL-CHANNELS unbounded choice — sibling of CAN-PHYSICAL-CHANNEL), so reader/writer coverage is wired through that consumer's read/writeCommunicationClusterPhysicalChannels dispatch instead of N/A (CanPhysicalChannel precedent 10e6b6aab). Table 3.26 renders no attribute rows and the XSD group TTCAN-PHYSICAL-CHANNEL (line 127126) is an empty sequence; Note "TTCAN bus specific physical channel attributes."; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable (most-derived modeled = AbstractCanPhysicalChannel); Aggregated by CommunicationCluster.physicalChannel. Needs the createTtcanPhysicalChannel factory on CommunicationCluster (CoreTopology.py, EcuInstance createTtcanCommunicationController precedent 20da1fc7f) + readTtcanPhysicalChannel/writeTtcanPhysicalChannel entry helpers calling readPhysicalChannel/writePhysicalChannel exactly once (no readAbstractCanPhysicalChannel exists — base owns no helpers).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - Step 8 (2026-10-05): deviations — spec Package tail Fibex4Ttcan::TtcanTopology has no codebase package; class placed in the nearest modeled ancestor AbstractCanPhysicalChannel's module CanTopology.py (queue-hint arbitration, TtcanCommunicationController precedent 20da1fc7f). The aggregator factory createTtcanPhysicalChannel was added to CommunicationCluster (CoreTopology.py) whose checklist block is the grandfathered 5-column pre-release-column format — the new row matches the host format and gains its release column at CommunicationCluster's own re-sync pass (Rule 0002 grandfathering). No attribute deviations: Table 3.26 renders no attribute rows, docstring is the verbatim Note, reader/writer call the base helpers exactly once in both directions (audit BASE clean); no fabrication, no flattening.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2228+8059+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `TtcanCommunicationConnector` — AbstractCanCommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.27, p.77
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py

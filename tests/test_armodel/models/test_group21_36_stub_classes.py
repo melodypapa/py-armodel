@@ -3410,12 +3410,6 @@ STUBS = [
         "AbstractCanCommunicationConnector",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology",
-        "TtcanPhysicalChannel",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology",
-        "AbstractCanPhysicalChannel",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "UserDefinedCluster",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",

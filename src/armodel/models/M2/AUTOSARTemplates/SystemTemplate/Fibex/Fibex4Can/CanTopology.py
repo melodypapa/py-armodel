@@ -1786,4 +1786,15 @@ class TtcanCommunicationConnector(AbstractCanCommunicationConnector):
 
 
 class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
-    pass
+    """
+    TTCAN bus specific physical channel attributes.
+    """
+
+    # TtcanPhysicalChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.26, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable; reader/writer coverage flows through the concrete TTCAN-PHYSICAL-CHANNEL dispatch — XSD group TTCAN-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 127126, is an empty sequence)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

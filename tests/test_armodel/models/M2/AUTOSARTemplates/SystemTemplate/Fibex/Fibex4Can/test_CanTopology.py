@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfigurationRequirements,
     CanPhysicalChannel,
     TtcanCommunicationController,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
 
@@ -1374,3 +1375,44 @@ class TestTtcanCommunicationController:
                 assert hint.__forward_arg__ == "TtcanCommunicationController", "set" + field
             else:
                 assert hint == TtcanCommunicationController, "set" + field
+
+
+TTCAN_PHYSICAL_CHANNEL_CLASS_NOTE = "TTCAN bus specific physical channel attributes."
+
+
+class TestTtcanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.26: ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(TtcanPhysicalChannel, AbstractCanPhysicalChannel)
+        assert issubclass(TtcanPhysicalChannel, PhysicalChannel)
+        assert issubclass(TtcanPhysicalChannel, Identifiable)
+        assert issubclass(TtcanPhysicalChannel, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited PhysicalChannel fields default to empty (Table 3.26 has no attribute rows)"""
+        channel = TtcanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, TtcanPhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.26)"""
+        assert inspect.cleandoc(TtcanPhysicalChannel.__doc__).strip() == TTCAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert TtcanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.26 has no attribute rows)"""
+        own_methods = [name for name in TtcanPhysicalChannel.__dict__ if inspect.isfunction(getattr(TtcanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(TtcanPhysicalChannel.__init__)
+        assert "self." not in source

@@ -11,6 +11,7 @@ if TYPE_CHECKING:
         CanCommunicationController,
         CanPhysicalChannel,
         TtcanCommunicationController,
+        TtcanPhysicalChannel,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
         EthernetCommunicationConnector,
@@ -438,6 +439,7 @@ class CommunicationCluster(FibexElement, ABC):
     # [x] createLinPhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEthernetPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createFlexrayPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createTtcanPhysicalChannel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getProtocolName              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setProtocolName              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -553,6 +555,18 @@ class CommunicationCluster(FibexElement, ABC):
             self.addReferrableElement(channel)
             self.physicalChannel.append(channel)
         return self.getReferrableElement(short_name, FlexrayPhysicalChannel)
+
+    def createTtcanPhysicalChannel(self, short_name: str) -> TtcanPhysicalChannel:
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanPhysicalChannel
+
+        if not self.IsReferrableElementExists(short_name, TtcanPhysicalChannel):
+            channel = TtcanPhysicalChannel(self, short_name)
+            self.addReferrableElement(channel)
+            self.physicalChannel.append(channel)
+        return cast(TtcanPhysicalChannel, self.getReferrableElement(short_name, TtcanPhysicalChannel))
 
     def getProtocolName(self) -> Optional[String]:
         """

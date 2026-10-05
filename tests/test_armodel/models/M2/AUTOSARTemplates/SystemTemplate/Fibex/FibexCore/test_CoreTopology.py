@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanCommunicationController,
     CanPhysicalChannel,
     TtcanCommunicationController,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     EthernetCommunicationConnector,
@@ -603,6 +604,24 @@ class Test_FibexCoreTopology:
         flexray_channel = cluster.createFlexrayPhysicalChannel("flexray_channel")
         assert isinstance(flexray_channel, FlexrayPhysicalChannel)
         assert len(cluster.getPhysicalChannels()) >= 4  # Another channel created
+
+    def test_CommunicationCluster_create_ttcan_physical_channel(self):
+        """Test createTtcanPhysicalChannel: create, dedup by short name, append to physicalChannel (Table 3.26 consumer)."""
+        parent = MockParent()
+        cluster = CanCluster(parent, "test_cluster_ttcan")
+
+        channel = cluster.createTtcanPhysicalChannel("ttcan_channel")
+        assert isinstance(channel, TtcanPhysicalChannel)
+        assert channel.getShortName() == "ttcan_channel"
+        assert channel in cluster.getPhysicalChannels()
+
+        again = cluster.createTtcanPhysicalChannel("ttcan_channel")
+        assert again is channel
+        assert len(cluster.getPhysicalChannels()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(CommunicationCluster.createTtcanPhysicalChannel, localns={"TtcanPhysicalChannel": TtcanPhysicalChannel})
+        assert hints["return"] is TtcanPhysicalChannel
 
     def test_PhysicalChannel_spec_attributes(self):
         """Test PhysicalChannel spec attributes (Table 3.7) per Rule 0001."""

@@ -1331,6 +1331,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: F401
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
@@ -9864,6 +9865,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)
 
+    def readTtcanPhysicalChannel(self, element: ET.Element, channel: TtcanPhysicalChannel):
+        self.logger.debug("Read TtcanPhysicalChannel %s" % channel.getShortName())
+        self.readPhysicalChannel(element, channel)
+
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
         entry.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         entry.setDelay(self.getChildElementOptionalTimeValue(element, "DELAY"))
@@ -10679,6 +10684,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "CAN-PHYSICAL-CHANNEL":
                 channel = cluster.createCanPhysicalChannel(self.getShortName(child_element))
                 self.readCanPhysicalChannel(child_element, channel)
+            elif tag_name == "TTCAN-PHYSICAL-CHANNEL":
+                channel = cluster.createTtcanPhysicalChannel(self.getShortName(child_element))
+                self.readTtcanPhysicalChannel(child_element, channel)
             elif tag_name == "LIN-PHYSICAL-CHANNEL":
                 channel = cluster.createLinPhysicalChannel(self.getShortName(child_element))
                 self.readLinPhysicalChannel(child_element, channel)
