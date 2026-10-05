@@ -15629,6 +15629,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             timing = CyclicTiming()
+            self.readARObject(child_element, timing)
             timing.setTimeOffset(self.getTimeRangeType(child_element, "TIME-OFFSET"))
             timing.setTimePeriod(self.getTimeRangeType(child_element, "TIME-PERIOD"))
         return timing

@@ -436,11 +436,15 @@ class TestWriterCyclicTiming:
         period = TimeRangeType()
         period.setValue(_time(0.1))
         timing.setTimePeriod(period)
+        timing.setChecksum(String().setValue("1234"))
+        timing.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         parent = _parent()
         writer.setCyclicTiming(parent, "CYCLIC-TIMING", timing)
         assert parent[0].tag == "CYCLIC-TIMING"
         assert parent[0].find("TIME-OFFSET") is not None
         assert parent[0].find("TIME-PERIOD") is not None
+        assert parent[0].get("S") == "1234"
+        assert parent[0].get("T") == "2024-01-01T00:00:00Z"
 
     def test_setCyclicTiming_none(self, writer):
         parent = _parent()

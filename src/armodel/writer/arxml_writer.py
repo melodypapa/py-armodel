@@ -16629,6 +16629,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCyclicTiming(self, element: ET.Element, key: str, timing: Optional[CyclicTiming]):
         if timing is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setTimeRangeType(child_element, "TIME-OFFSET", timing.getTimeOffset())
             self.setTimeRangeType(child_element, "TIME-PERIOD", timing.getTimePeriod())
 
