@@ -16674,6 +16674,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
         if frame is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, frame)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
             self.setChildElementOptionalIntegerValue(child_element, "INDEX", frame.getIndex())
 

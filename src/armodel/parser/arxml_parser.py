@@ -14724,9 +14724,14 @@ class ARXMLParser(AbstractARXMLParser):
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
-            frame = LinOrderedConfigurableFrame()
-            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
-            frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+            frame = self.readLinOrderedConfigurableFrame(child_element)
+        return frame
+
+    def readLinOrderedConfigurableFrame(self, child_element: ET.Element) -> LinOrderedConfigurableFrame:
+        frame = LinOrderedConfigurableFrame()
+        self.readARObject(child_element, frame)
+        frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+        frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
         return frame
 
     def getLinSlaveConfig(self, element: ET.Element, key: str) -> Optional[LinSlaveConfig]:
@@ -14755,10 +14760,7 @@ class ARXMLParser(AbstractARXMLParser):
         ordered_wrapper = self.find(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                ordered_frame = LinOrderedConfigurableFrame()
-                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                config.addLinOrderedConfigurableFrame(ordered_frame)
+                config.addLinOrderedConfigurableFrame(self.readLinOrderedConfigurableFrame(frame_element))
         config.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION")))
         config.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
         config.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
@@ -14863,10 +14865,7 @@ class ARXMLParser(AbstractARXMLParser):
         ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                ordered_frame = LinOrderedConfigurableFrame()
-                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                connector.addLinOrderedConfigurableFrame(ordered_frame)
+                connector.addLinOrderedConfigurableFrame(self.readLinOrderedConfigurableFrame(frame_element))
         connector.setScheduleChangeNextTimeBase(self.getChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE"))
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):

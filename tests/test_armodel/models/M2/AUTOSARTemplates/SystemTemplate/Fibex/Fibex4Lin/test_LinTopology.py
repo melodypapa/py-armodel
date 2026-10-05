@@ -74,6 +74,11 @@ LIN_SLAVE_CONFIG_IDENT_CLASS_NOTE = "This meta-class is created to add the abili
 LIN_CONFIGURABLE_FRAME_CLASS_NOTE = "Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command."
 LIN_CONFIGURABLE_FRAME_FRAME_NOTE = "Reference to a Frame that is processed by the slave node."
 LIN_CONFIGURABLE_FRAME_MESSAGE_ID_NOTE = "MessageId for the referenced frame"
+LIN_ORDERED_CONFIGURABLE_FRAME_CLASS_NOTE = (
+    "With the assignment of the index to a frame a mapping of Pids to Frames is possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range command."
+)
+LIN_ORDERED_CONFIGURABLE_FRAME_FRAME_NOTE = "Reference to a Frame that is processed by the slave node."
+LIN_ORDERED_CONFIGURABLE_FRAME_INDEX_NOTE = "This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave."
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
@@ -850,9 +855,19 @@ class TestLinConfigurableFrame:
 
 
 class TestLinOrderedConfigurableFrame:
-    """
-    With the assignment of the index to a frame a mapping of Pids to Frames is possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range command.
-    """
+    """Test cases for LinOrderedConfigurableFrame (Table 3.45, p.99)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.45: ARObject)"""
+        assert issubclass(LinOrderedConfigurableFrame, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.45)"""
+        assert inspect.cleandoc(LinOrderedConfigurableFrame.__doc__).strip() == LIN_ORDERED_CONFIGURABLE_FRAME_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinOrderedConfigurableFrame.__init__.__doc__ is None
 
     def test_initialization(self):
         obj = LinOrderedConfigurableFrame()
@@ -861,6 +876,11 @@ class TestLinOrderedConfigurableFrame:
         assert obj.parent is None
         assert obj.getFrameRef() is None
         assert obj.getIndex() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.45: frame, index)"""
+        source = inspect.getsource(LinOrderedConfigurableFrame.__init__)
+        assert source.index("self.frameRef") < source.index("self.index")
 
     def test_get_set_frame_ref(self):
         obj = LinOrderedConfigurableFrame()
@@ -880,6 +900,20 @@ class TestLinOrderedConfigurableFrame:
 
         assert obj == obj.setIndex(None)
         assert obj.getIndex() == 3
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.45)"""
+        self._assert_docstring(LinOrderedConfigurableFrame.getFrameRef, LIN_ORDERED_CONFIGURABLE_FRAME_FRAME_NOTE)
+        self._assert_docstring(LinOrderedConfigurableFrame.setFrameRef, LIN_ORDERED_CONFIGURABLE_FRAME_FRAME_NOTE, "frameRef")
+
+        self._assert_docstring(LinOrderedConfigurableFrame.getIndex, LIN_ORDERED_CONFIGURABLE_FRAME_INDEX_NOTE)
+        self._assert_docstring(LinOrderedConfigurableFrame.setIndex, LIN_ORDERED_CONFIGURABLE_FRAME_INDEX_NOTE, "index")
 
     def test_type_annotations(self):
         import ast
