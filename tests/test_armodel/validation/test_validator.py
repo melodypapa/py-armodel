@@ -9,7 +9,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 TINY_XSD = os.path.join(DATA_DIR, "tiny_autosar.xsd")
 
 VALID_DOC = '<AUTOSAR xmlns="http://autosar.org/schema/r4.0"' ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' ' xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_TINY.xsd"/>'
-INVALID_DOC = (
+INVALID_DOC = (  # xsd-skip: deliberately invalid fixture asserted to produce structured validation errors
     '<AUTOSAR xmlns="http://autosar.org/schema/r4.0"'
     ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
     ' xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_TINY.xsd">'

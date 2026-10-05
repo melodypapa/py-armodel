@@ -18,7 +18,7 @@ VALID_DOC = (
     ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
     ' xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_TINY.xsd"/>'
 )
-SCHEMA_INVALID_DOC = (
+SCHEMA_INVALID_DOC = (  # xsd-skip: deliberately schema-invalid fixture asserted to raise via the parser gate
     '<?xml version="1.0" encoding="UTF-8"?>\n'
     '<AUTOSAR xmlns="http://autosar.org/schema/r4.0"'
     ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
@@ -83,7 +83,7 @@ def test_no_matching_schema_logs_warning_and_continues(tmp_path):
 
 
 def test_namespace_mismatch_logs_warning_and_continues(tmp_path):
-    legacy_doc = (
+    legacy_doc = (  # xsd-skip: legacy namespace deliberately mismatched to exercise the no-matching-schema warning branch
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<AUTOSAR xmlns="http://autosar.org"'
         ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'

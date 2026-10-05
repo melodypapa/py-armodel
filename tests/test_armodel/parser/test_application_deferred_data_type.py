@@ -13,7 +13,7 @@ class TestApplicationDeferredDataTypeParser:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         xml_content = """
-            <AUTOSAR xmlns="http://autosar.org/schema/r4.0">
+            <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd">
                 <AR-PACKAGES>
                     <AR-PACKAGE>
                         <SHORT-NAME>AppPkg</SHORT-NAME>
@@ -40,7 +40,7 @@ class TestApplicationDeferredDataTypeParser:
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         xml_content = """
-            <AUTOSAR xmlns="http://autosar.org/schema/r4.0">
+            <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00052.xsd">
                 <AR-PACKAGES>
                     <AR-PACKAGE>
                         <SHORT-NAME>AppPkg</SHORT-NAME>
