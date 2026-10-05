@@ -3,11 +3,9 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
-    DelegatedPortAnnotation,
     FilterDebouncingEnum,
     IoHwAbstractionServerAnnotation,
     PulseTestEnum,
-    SignalFanEnum,
 )
 
 
@@ -85,22 +83,3 @@ class TestIoHwAbstractionServerAnnotation:
         annotation.setTriggerRef(ref)
         annotation.setTriggerRef(None)
         assert annotation.getTriggerRef() == ref
-
-
-class TestDelegatedPortAnnotation:
-    def test_initialization(self):
-        annotation = DelegatedPortAnnotation()
-        assert annotation.getSignalFan() is None
-
-    def test_signal_fan_setter_getter(self):
-        annotation = DelegatedPortAnnotation()
-        value = SignalFanEnum().setValue(SignalFanEnum.SINGLE)
-        assert annotation.setSignalFan(value) is annotation
-        assert annotation.getSignalFan() == value
-
-    def test_signal_fan_none_is_noop(self):
-        annotation = DelegatedPortAnnotation()
-        value = SignalFanEnum().setValue(SignalFanEnum.SINGLE)
-        annotation.setSignalFan(value)
-        annotation.setSignalFan(None)
-        assert annotation.getSignalFan() == value

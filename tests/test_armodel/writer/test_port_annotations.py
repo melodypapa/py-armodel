@@ -6,9 +6,11 @@ import tempfile
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    DelegatedPortAnnotation,
     ModePortAnnotation,
     NvDataPortAnnotation,
     ParameterPortAnnotation,
+    SignalFanEnum,
     TriggerPortAnnotation,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -136,3 +138,26 @@ class TestNvDataPortAnnotationRoundTrip:
         port_2 = _round_trip(AUTOSAR.getInstance())
 
         assert port_2.getNvDataPortAnnotations() == []
+
+
+class TestDelegatedPortAnnotationRoundTrip:
+    def test_round_trip(self):
+        _, port = _new_document_with_port()
+
+        delegated = DelegatedPortAnnotation()
+        delegated.setSignalFan(SignalFanEnum().setValue(SignalFanEnum.SINGLE))
+        port.setDelegatedPortAnnotation(delegated)
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        delegated_2 = port_2.getDelegatedPortAnnotation()
+        assert delegated_2 is not None
+        assert isinstance(delegated_2.getSignalFan(), SignalFanEnum)
+        assert delegated_2.getSignalFan().getValue() == "single"
+
+    def test_absence(self):
+        _, port = _new_document_with_port()
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        assert port_2.getDelegatedPortAnnotation() is None
