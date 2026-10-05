@@ -13540,6 +13540,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: Optional[TargetIPduRef]):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, i_pdu_ref)
             default_value = i_pdu_ref.getDefaultValue()
             if default_value is not None and len(default_value.getDefaultValueElements()) > 0:
                 default_value_element = ET.SubElement(child_element, "DEFAULT-VALUE")

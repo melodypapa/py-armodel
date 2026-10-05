@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, PduMappingDefaultValue, TargetIPduRef
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -42,6 +42,8 @@ def _ref(value, dest="PDU-TRIGGERING"):
 
 def _new_target(with_elements=True):
     target = TargetIPduRef()
+    target.setChecksum(String().setValue("1234"))
+    target.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     target.setTargetIPduRef(_ref("/Cluster/PT_Target"))
     if with_elements:
         default_value = PduMappingDefaultValue()
@@ -69,6 +71,8 @@ class TestSetTargetIPduRef:
         assert len(elements) == 1
         assert elements[0].find("ELEMENT-BYTE-VALUE").text == "171"
         assert elements[0].find("ELEMENT-POSITION").text == "0"
+        assert node.get("S") == "1234"
+        assert node.get("T") == "2024-01-01T00:00:00Z"
 
     def test_write_ref_only_omits_default_value(self):
         parent = ET.Element("PARENT")
@@ -97,3 +101,5 @@ class TestSetTargetIPduRef:
         assert len(elements) == 1
         assert elements[0].getElementByteValue().getValue() == 171
         assert elements[0].getElementPosition().getValue() == 0
+        assert target.getChecksum().getValue() == "1234"
+        assert target.getTimestamp().getValue() == "2024-01-01T00:00:00Z"

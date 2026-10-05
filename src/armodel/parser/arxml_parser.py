@@ -15013,6 +15013,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
+            self.readARObject(child_element, i_pdu_ref)
             default_value_element = self.find(child_element, "DEFAULT-VALUE")
             if default_value_element is not None:
                 default_value = PduMappingDefaultValue()
