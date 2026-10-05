@@ -193,10 +193,9 @@ class TransmissionModeDefinitionEnum(AREnum):
 
     # TransmissionModeDefinitionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.73, p.181
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TransmissionComSpecProps.transmissionMode
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod. Tags: atp.EnumerationLiteralIndex=0
     CYCLIC = "cyclic"

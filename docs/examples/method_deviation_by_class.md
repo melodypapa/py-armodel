@@ -2278,6 +2278,19 @@ tokens (`DEFAULT`/`EXTERNAL-REPLACEMENT`/`IGNORE`/`INVALID`/`NONE`/`SATURATE` pe
 `AR:HANDLE-OUT-OF-RANGE-ENUM--SIMPLE`) while the model keeps the camelCase literals. No Rule 0001.10 missing classes.
 No stamp (batch 9b).
 
+## `TransmissionModeDefinitionEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 181
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+No deviations — members `CYCLIC`/`CYCLIC_AND_ON_CHANGE`/`TRIGGERED` match the Table 4.73 literals
+`cyclic`/`cyclicAndOnChange`/`triggered` 1:1 (UPPER_CASE member names, member values = spec literals exactly,
+indexes 0/2/1 per `atp.EnumerationLiteralIndex`, member order = markdown displayed row order); class docstring =
+Table 4.73 Note verbatim; standalone `AREnum` (Steps 5/6 N/A — serialized as the `TransmissionComSpecProps.
+transmissionMode` attribute value and round-tripped there through `TRANSMISSION_MODE_DEFINITION_XML_MAP`, landed
+with the TransmissionComSpecProps commit); legacy 5-column checklist normalized to the 6-column format, stale
+marker removed, re-stamp deferred to the batch 9b.
+
 ## `ClientComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 187
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`

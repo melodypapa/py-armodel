@@ -1012,18 +1012,24 @@ class TestTransmissionComSpecProps:
 
 
 class TestTransmissionModeDefinitionEnum:
-    """Test class for TransmissionModeDefinitionEnum class."""
+    """Test class for TransmissionModeDefinitionEnum class (Table 4.73)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.73 Note copied verbatim."""
+        assert TransmissionModeDefinitionEnum.__doc__.strip() == "This meta-class defines possible settings for the transmission mode."
 
     def test_members(self):
-        """Test TransmissionModeDefinitionEnum member values."""
+        """Test TransmissionModeDefinitionEnum member values and registration order (Literal rows in displayed order)."""
         enum = TransmissionModeDefinitionEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            TransmissionModeDefinitionEnum.CYCLIC,
+            TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE,
+            TransmissionModeDefinitionEnum.TRIGGERED,
+        ]
         assert TransmissionModeDefinitionEnum.CYCLIC == "cyclic"
         assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE == "cyclicAndOnChange"
         assert TransmissionModeDefinitionEnum.TRIGGERED == "triggered"
-        assert TransmissionModeDefinitionEnum.CYCLIC in values
-        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE in values
-        assert TransmissionModeDefinitionEnum.TRIGGERED in values
         assert len(values) == 3
 
     def test_instantiable(self):
