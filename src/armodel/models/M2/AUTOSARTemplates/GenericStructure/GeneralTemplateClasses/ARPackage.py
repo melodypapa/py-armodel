@@ -21,6 +21,7 @@ if TYPE_CHECKING:
         Collection,
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+    from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisType
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -89,6 +90,7 @@ from importlib import import_module as _import_module  # noqa: E402
 _LAZY_IMPORTS = {
     "ApplicationDeferredDataType": "armodel.models.M2.AUTOSARTemplates.AbstractPlatform",
     "SwBaseType": "armodel.models.M2.MSR.AsamHdo.BaseTypes",
+    "SwAxisType": "armodel.models.M2.MSR.DataDictionary.Axis",
 }
 
 
@@ -3924,6 +3926,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             props = E2EProfileCompatibilityProps(self, short_name)
             self.addReferrableElement(props)
         return cast(E2EProfileCompatibilityProps, self.getReferrableElement(short_name, E2EProfileCompatibilityProps))
+
+    def createSwAxisType(self, short_name: str) -> SwAxisType:
+
+        if not self.IsReferrableElementExists(short_name, SwAxisType):
+            axis_type = SwAxisType(self, short_name)
+            self.addReferrableElement(axis_type)
+        return cast(SwAxisType, self.getReferrableElement(short_name, SwAxisType))
 
     def createTlvDataIdDefinitionSet(self, short_name: str) -> TlvDataIdDefinitionSet:
 
@@ -9629,10 +9638,6 @@ class SecurityEventContextMappingFunctionalCluster(ARElement):
 
 
 class SecurityEventDefinition(ARElement):
-    pass
-
-
-class SwAxisType(ARElement):
     pass
 
 

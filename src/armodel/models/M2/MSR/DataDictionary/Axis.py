@@ -1,10 +1,12 @@
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class SwGenericAxisParam(ARObject):
@@ -329,3 +331,49 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         if value is not None:
             self.swCalprmRef = value
         return self
+
+
+class SwAxisType(ARElement):
+    """
+    This meta-class represents a specific axis calculation strategy. No formal specification is given, due to the fact that it is possible to use arbitrary algorithms for calculating axis-points. Instead, the algorithm is described verbally but the parameters are specified formally with respect to their names and constraints. As a result, SwAxisType mainly reserves appropriate keywords.
+    """
+
+    # SwAxisType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.52, p.356
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisDesc           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwGenericAxisDesc           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwGenericAxisParamType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParamTypes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Associated axis description in textual form.
+        self.swGenericAxisDesc: Optional[DocumentationBlock] = None
+
+        # Parameters for this calculation algorithm.
+        self.swGenericAxisParamTypes: List[SwGenericAxisParamType] = []
+
+    def getSwGenericAxisDesc(self) -> Optional[DocumentationBlock]:
+        """Associated axis description in textual form."""
+        return self.swGenericAxisDesc
+
+    def setSwGenericAxisDesc(self, value: Optional[DocumentationBlock]) -> "SwAxisType":
+        """Associated axis description in textual form. A None value is a no-op and does not overwrite an existing swGenericAxisDesc."""
+        if value is not None:
+            self.swGenericAxisDesc = value
+        return self
+
+    def createSwGenericAxisParamType(self, short_name: str) -> SwGenericAxisParamType:
+        """Parameters for this calculation algorithm."""
+        if not self.IsReferrableElementExists(short_name, SwGenericAxisParamType):
+            param_type = SwGenericAxisParamType(self, short_name)
+            self.addReferrableElement(param_type)
+            self.swGenericAxisParamTypes.append(param_type)
+        return cast(SwGenericAxisParamType, self.getReferrableElement(short_name, SwGenericAxisParamType))
+
+    def getSwGenericAxisParamTypes(self) -> List[SwGenericAxisParamType]:
+        """Parameters for this calculation algorithm."""
+        return self.swGenericAxisParamTypes

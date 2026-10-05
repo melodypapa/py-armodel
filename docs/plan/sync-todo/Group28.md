@@ -668,16 +668,35 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (243 passed / 0 failed: test_Axis.py, test_CalibrationParameter.py, test_SwCalprmAxis.py, test_writer_SwCalprmAxis.py, test_member_annotations.py, test_arxml_parser_internals.py, test_arxml_writer.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwAxisType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.52, p.356
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/MSR/DataDictionary/Axis.py (moved from ARPackage.py stub per Rule 0007 — spec Package row `M2::MSR::DataDictionary::Axis`)
+  - [x] Step 1 — Sync members & description from spec — 2 attrs (swGenericAxisDesc DocumentationBlock 0..1,
+    swGenericAxisParamType SwGenericAxisParamType * aggr → swGenericAxisParamTypes dedicated list +
+    create/get pair; child is Referrable → createXxx shape); base ARElement; XSD group SW-AXIS-TYPE
+    (00052.xsd L114621: DESC offset 20, PARAM-TYPES wrapper offset 30; no VARIATION-POINT — not VP-capable)
+  - [x] Step 2 — Write model class unit test (Red) — TestSwAxisType battery in test_Axis.py (verbatim
+    class Note pin, AST member-order, accessor-order, get/set + None no-op, create duplicate-returns-existing)
+  - [x] Step 3 — Implement model class (Green) — moved from the ARPackage.py 5-line stub to Axis.py
+    (Rule 0007; stub battery row re-pointed); ARPackage.createSwAxisType factory + lazy import added;
+    PEP 526 members, blank-line blocks, chaining setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + both member Notes verbatim from the
+    markdown (Table 5.52 is page-split: body renders before the caption; pdf_page.py p.356)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_SwAxisType.py
+    (3 reader tests) + tests/test_armodel/writer/test_writer_SwAxisType.py (4 writer incl. ARPackage
+    dispatch + 4-parametrized save→reload round-trips). TDD-order note: the reader/writer implementation
+    landed before the RW tests ran (session was resumed mid-class after the prior agent hit its usage
+    limit — Steps 5/6 order inverted for the RW pair; the tests genuinely exercise the new dispatch and
+    all pass first-run)
+  - [x] Step 6 — Update parser & writer (Green) — parser: readARPackageElementsRest SW-AXIS-TYPE dispatch +
+    new readSwAxisType (getDocumentationBlock + readIdentifiable + DATA-CONSTR-REF leaf pair, children
+    registered via createSwGenericAxisParamType); writer: writeARPackageElementRest SwAxisType dispatch +
+    new writeSwAxisType (writeIdentifiable + writeDocumentationBlock + existing setSwGenericAxisParamType
+    child helper; wrapper only when non-empty; XSD group order)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; citation
+    AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.52, p.356; stamp WITHHELD (9b deferred)
+  - [x] Step 8 — Deviations — none; tracker entry appended (## SwAxisType: no deviations, placement
+    move, new reader/writer wiring, no fixture carries SW-AXIS-TYPE)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1242 passed / 0 failed: test_SwAxisType.py
+    parser+writer, test_Axis.py, test_group21_36_stub_classes.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwGenericAxisParam` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.53, p.356
   - module: M2/MSR/DataDictionary/Axis.py

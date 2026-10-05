@@ -1188,7 +1188,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwAxisType, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
@@ -16361,6 +16361,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, props)
             self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
+    def writeSwAxisType(self, element: ET.Element, axis_type: SwAxisType):
+        if axis_type is not None:
+            child_element = ET.SubElement(element, "SW-AXIS-TYPE")
+            self.writeIdentifiable(child_element, axis_type)
+            self.writeDocumentationBlock(child_element, "SW-GENERIC-AXIS-DESC", axis_type.getSwGenericAxisDesc())
+            param_types = axis_type.getSwGenericAxisParamTypes()
+            if len(param_types) > 0:
+                wrapper = ET.SubElement(child_element, "SW-GENERIC-AXIS-PARAM-TYPES")
+                for param_type in param_types:
+                    self.setSwGenericAxisParamType(wrapper, param_type)
+
     def writeAliasNameAssignment(self, element: ET.Element, assignment: AliasNameAssignment):
         self.setChildElementOptionalString(element, "SHORT-LABEL", assignment.getShortLabel())
         self.setMultiLongName(element, "LABEL", assignment.getLabel())
@@ -16759,6 +16770,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataTransformationSet(element, ar_element)
         elif isinstance(ar_element, E2EProfileCompatibilityProps):
             self.writeE2EProfileCompatibilityProps(element, ar_element)
+        elif isinstance(ar_element, SwAxisType):
+            self.writeSwAxisType(element, ar_element)
         elif isinstance(ar_element, TlvDataIdDefinitionSet):
             self.writeTlvDataIdDefinitionSet(element, ar_element)
         elif isinstance(ar_element, FlexrayFrame):

@@ -1415,7 +1415,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, SingleLanguageUnitNames, Unit, UnitGroup
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwAxisType, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum, SwCalprmAxis, SwCalprmAxisSet, SwCalprmAxisTypeProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     DisplayPresentationEnum,
@@ -12872,6 +12872,19 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, props)
         props.setTransitToInvalidExtended(self.getChildElementOptionalBooleanValue(element, "TRANSIT-TO-INVALID-EXTENDED"))
 
+    def readSwAxisType(self, element: ET.Element, axis_type: SwAxisType):
+        self.logger.debug("Read SwAxisType <%s>" % axis_type.getShortName())
+        self.readARElement(element, axis_type)
+        desc = self.getDocumentationBlock(element, "SW-GENERIC-AXIS-DESC")
+        if desc is not None:
+            axis_type.setSwGenericAxisDesc(desc)
+        wrapper = self.find(element, "SW-GENERIC-AXIS-PARAM-TYPES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "SW-GENERIC-AXIS-PARAM-TYPE"):
+                param_type = axis_type.createSwGenericAxisParamType(self.getShortName(child_element))
+                self.readIdentifiable(child_element, param_type)
+                param_type.setDataConstrRef(self.getChildElementOptionalRefType(child_element, "DATA-CONSTR-REF"))
+
     def readKeywordClassifications(self, element: ET.Element, keyword: Keyword):
         for literal in self.getChildElementLiteralValueList(element, "CLASSIFICATIONS/CLASSIFICATION"):
             keyword.addClassification(cast(Optional[NameToken], literal))
@@ -16717,6 +16730,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDataTransformationSet(child_element, transformation_set)
         elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
             self.readE2EProfileCompatibilityProps(child_element, parent.createE2EProfileCompatibilityProps(self.getShortName(child_element)))
+        elif tag_name == "SW-AXIS-TYPE":
+            self.readSwAxisType(child_element, parent.createSwAxisType(self.getShortName(child_element)))
         elif tag_name == "TLV-DATA-ID-DEFINITION-SET":
             tlv_data_id_definition_set = parent.createTlvDataIdDefinitionSet(self.getShortName(child_element))
             self.readTlvDataIdDefinitionSet(child_element, tlv_data_id_definition_set)
