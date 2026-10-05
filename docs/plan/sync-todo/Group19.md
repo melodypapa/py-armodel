@@ -966,8 +966,8 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       ReferenceDef + setDestinationType via getChildElementOptionalLiteral —
       the stamped readEcucInstanceReferenceDef helper choice for String-typed
       fields) + dispatch branches in readEcucContainerDefReferences AND
-      readEcucDestinationUriPolicyReferences (direct construction +
-      addReference — policy convention). WRITER: writeEcucForeignReferenceDef
+      readEcucDestinationUriPolicyReferences (createEcucForeignReferenceDef
+      factory — policy convention). WRITER: writeEcucForeignReferenceDef
       (writeEcucAbstractExternalReferenceDef + setChildElementOptionalLiteral,
       DESTINATION-TYPE flat — XSD has no VARIANTS wrapper) + isinstance
       branches in writeEcucContainerDefReferences AND
