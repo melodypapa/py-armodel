@@ -12747,6 +12747,7 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))
+        self.readVariationPointCapable(element, coupling)
         return coupling
 
     def getFlexrayNmClusterCoupling(self, element: ET.Element) -> FlexrayNmClusterCoupling:

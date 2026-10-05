@@ -9444,6 +9444,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
         child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER-COUPLING")
