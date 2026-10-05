@@ -71,6 +71,7 @@ class TestPPortComSpecRoundTrip:
         queue = PositiveInteger()
         queue.setValue("4")
         com_spec.setQueueLength(queue)
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
         p_port.addProvidedComSpec(com_spec)
 
         p_port_2, _ = _round_trip_ports(AUTOSAR.getInstance())
@@ -80,6 +81,32 @@ class TestPPortComSpecRoundTrip:
         assert com_specs[0].getOperationRef().getValue() == "/Swc/Iface/Op"
         assert com_specs[0].getOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
         assert com_specs[0].getQueueLength().getValue() == 4
+        transformation_props = com_specs[0].getTransformationComSpecProps()
+        assert len(transformation_props) == 1
+        assert isinstance(transformation_props[0], UserDefinedTransformationComSpecProps)
+
+    def test_server_com_spec_xml_element_order_matches_xsd(self):
+        """Writer emission order follows the XSD SERVER-COM-SPEC group sequence (Rule 0001.11)."""
+        document, p_port, _ = _new_document_with_ports()
+
+        com_spec = ServerComSpec()
+        com_spec.setOperationRef(_ref("/Swc/Iface/Op", "CLIENT-SERVER-OPERATION"))
+        queue = PositiveInteger()
+        queue.setValue("4")
+        com_spec.setQueueLength(queue)
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+        p_port.addProvidedComSpec(com_spec)
+
+        root = _write_and_load_raw(document)
+        com_spec_element = root.find(".//{*}P-PORT-PROTOTYPE/{*}PROVIDED-COM-SPECS/{*}SERVER-COM-SPEC")
+        tags = [child.tag.split("}")[-1] for child in com_spec_element]
+        server_tags = [
+            "OPERATION-REF",
+            "QUEUE-LENGTH",
+            "TRANSFORMATION-COM-SPEC-PROPSS",
+        ]
+        emitted = [tag for tag in tags if tag in server_tags]
+        assert emitted == server_tags
 
     def test_empty_provided_com_specs(self):
         _, p_port, _ = _new_document_with_ports()

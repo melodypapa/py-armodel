@@ -1200,36 +1200,60 @@ class TestUserDefinedTransformationComSpecProps:
 
 
 class TestServerComSpec:
-    """Test class for ServerComSpec class."""
+    """Test class for ServerComSpec class (Table 4.78)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.78 Notes copied verbatim."""
+        assert ServerComSpec.__doc__.strip() == "Communication attributes for a server port (PPortPrototype and ClientServerInterface)."
+        operation_note = "Operation these communication attributes apply to."
+        assert ServerComSpec.getOperationRef.__doc__.strip() == operation_note
+        assert ServerComSpec.setOperationRef.__doc__.strip() == operation_note + " A None value is a no-op and does not overwrite an existing operationRef."
+        queue_note = "Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed."
+        assert ServerComSpec.getQueueLength.__doc__.strip() == queue_note
+        assert ServerComSpec.setQueueLength.__doc__.strip() == queue_note + " A None value is a no-op and does not overwrite an existing queueLength."
+        transformation_note = "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        assert ServerComSpec.addTransformationComSpecProps.__doc__.strip() == transformation_note + " A None value is a no-op and does not append anything."
+        assert ServerComSpec.getTransformationComSpecProps.__doc__.strip() == transformation_note
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, PPortComSpec (Table 4.78); most-derived base PPortComSpec."""
+        com_spec = ServerComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_server_com_spec_initialization(self):
-        """Test ServerComSpec initialization and methods."""
+        """Test ServerComSpec field defaults."""
         server = ServerComSpec()
         assert server.operationRef is None
         assert server.queueLength is None
         assert server.transformationComSpecProps == []
 
-        # Test setters and getters
+    def test_get_set_operation_ref(self):
+        """Test operationRef accessor pair and None no-op."""
+        server = ServerComSpec()
         ref = RefType()
         ref.setValue("/Test/Operation")
-        server.setOperationRef(ref)
-        assert server.getOperationRef() == ref
-
-        queue_len = PositiveInteger()
-        queue_len.setValue(10)
-        server.setQueueLength(queue_len)
-        assert server.getQueueLength() == queue_len
-
-        # Test transformationComSpecProps methods
-        e2e_props = EndToEndTransformationComSpecProps()
-        server.addTransformationComSpecProps(e2e_props)
-        assert e2e_props in server.getTransformationComSpecProps()
-
-        # None no-op checks
+        assert server.setOperationRef(ref) is server
+        assert server.getOperationRef() is ref
         server.setOperationRef(None)
         assert server.getOperationRef() is ref
+
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair and None no-op."""
+        server = ServerComSpec()
+        queue_len = PositiveInteger()
+        queue_len.setValue(10)
+        assert server.setQueueLength(queue_len) is server
+        assert server.getQueueLength() is queue_len
         server.setQueueLength(None)
         assert server.getQueueLength() is queue_len
+
+    def test_add_transformation_com_spec_props(self):
+        """Test transformationComSpecProps add/get and None no-op."""
+        server = ServerComSpec()
+        e2e_props = EndToEndTransformationComSpecProps()
+        assert server.addTransformationComSpecProps(e2e_props) is server
+        assert server.getTransformationComSpecProps() == [e2e_props]
         server.addTransformationComSpecProps(None)
         assert len(server.getTransformationComSpecProps()) == 1
 

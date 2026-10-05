@@ -1252,15 +1252,14 @@ class ServerComSpec(PPortComSpec):
 
     # ServerComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.78, p.188
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1282,8 +1281,7 @@ class ServerComSpec(PPortComSpec):
 
     def setOperationRef(self, value: Optional[RefType]) -> ServerComSpec:
         """
-        Operation these communication attributes apply to.
-        A None value is a no-op and does not overwrite an existing operationRef.
+        Operation these communication attributes apply to. A None value is a no-op and does not overwrite an existing operationRef.
         """
         if value is not None:
             self.operationRef = value
@@ -1297,8 +1295,7 @@ class ServerComSpec(PPortComSpec):
 
     def setQueueLength(self, value: Optional[PositiveInteger]) -> ServerComSpec:
         """
-        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
-        A None value is a no-op and does not overwrite an existing queueLength.
+        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value
@@ -1306,8 +1303,7 @@ class ServerComSpec(PPortComSpec):
 
     def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ServerComSpec:
         """
-        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
-        A None value is a no-op and does not append anything.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation. A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.transformationComSpecProps.append(value)
