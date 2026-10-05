@@ -369,3 +369,24 @@ class TestSwValuesSpecSync:
         assert (sw_values.setVt.__doc__ or "").strip().split("\n")[0] == VT_NOTE
         assert (sw_values.addVtf.__doc__ or "").strip().split("\n")[0] == VTF_NOTE
         assert (sw_values.getVtfs.__doc__ or "").strip() == VTF_NOTE
+
+
+VALUE_GROUP_CLASS_NOTE = "This element enables values to be grouped. It can be used to perform row and column-orientated " "groupings, so that these can be rendered properly e.g. as a table."
+
+LABEL_NOTE = "This label allows to give the valueGroup a particular name. It can be used if the Values are rendered " "as a table. Tags: xml.sequenceOffset=20"
+VG_CONTENTS_NOTE = (
+    "This represents the contents of the value group. Tags: xml.roleElement=false xml.roleWrapperElement=false " "xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false"
+)
+
+
+class TestValueGroupSpecSync:
+    def test_class_docstring_verbatim(self):
+        docstring = (ValueGroup.__doc__ or "").strip()
+        assert docstring == VALUE_GROUP_CLASS_NOTE
+
+    def test_member_docstrings_verbatim(self):
+        value_group = ValueGroup()
+        assert (value_group.getLabel.__doc__ or "").strip() == LABEL_NOTE
+        assert (value_group.setLabel.__doc__ or "").strip().split("\n")[0] == LABEL_NOTE
+        assert (value_group.getVgContents.__doc__ or "").strip() == VG_CONTENTS_NOTE
+        assert (value_group.setVgContents.__doc__ or "").strip().split("\n")[0] == VG_CONTENTS_NOTE

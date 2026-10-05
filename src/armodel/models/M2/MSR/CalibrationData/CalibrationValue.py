@@ -341,42 +341,32 @@ class ValueGroup(ARObject):
 
     # ValueGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.126, p.459
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLabel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLabel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVgContents          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVgContents          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLabel         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLabel         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVgContents    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVgContents    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table.
+        # This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table. Tags: xml.sequenceOffset=20
         self.label: Optional[MultilanguageLongName] = None
 
-        # This represents the contents of the value group.
+        # This represents the contents of the value group. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.vgContents: Optional[SwValues] = None
 
     def getLabel(self) -> Optional[MultilanguageLongName]:
         """
-        This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table.
-
-        Returns:
-            Optional[MultilanguageLongName]: This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table., or None if not set
+        This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table. Tags: xml.sequenceOffset=20
         """
         return self.label
 
     def setLabel(self, value: Optional[MultilanguageLongName]) -> ValueGroup:
         """
-        This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table.
+        This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing label.
-
-        Args:
-            value: This label allows to give the valueGroup a particular name. It can be used if the Values are rendered as a table. to set
-
-        Returns:
-            ValueGroup: self for method chaining
         """
         if value is not None:
             self.label = value
@@ -384,23 +374,14 @@ class ValueGroup(ARObject):
 
     def getVgContents(self) -> Optional[SwValues]:
         """
-        This represents the contents of the value group.
-
-        Returns:
-            Optional[SwValues]: This represents the contents of the value group., or None if not set
+        This represents the contents of the value group. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.vgContents
 
     def setVgContents(self, value: Optional[SwValues]) -> ValueGroup:
         """
-        This represents the contents of the value group.
+        This represents the contents of the value group. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing vgContents.
-
-        Args:
-            value: This represents the contents of the value group. to set
-
-        Returns:
-            ValueGroup: self for method chaining
         """
         if value is not None:
             self.vgContents = value

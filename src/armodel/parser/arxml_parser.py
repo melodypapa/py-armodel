@@ -7826,23 +7826,31 @@ class ARXMLParser(AbstractARXMLParser):
         value_group = None
         child_element = self.find(element, key)
         if child_element is not None:
-            value_group = ValueGroup()
-            self.readARObject(child_element, value_group)
-            value_group.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
-            has_v = self.find(child_element, "V") is not None
-            has_vf = self.find(child_element, "VF") is not None
-            has_vt = self.find(child_element, "VT") is not None
-            has_vtf = self.find(child_element, "VTF") is not None
-            if has_v or has_vf or has_vt or has_vtf:
-                contents = SwValues()
-                for vf in self.getChildElementNumericalList(child_element, "VF"):
-                    contents.addVf(vf)
-                for v in self.getChildElementNumericalList(child_element, "V"):
-                    contents.addV(v)
-                contents.setVt(self.getChildElementOptionalVerbatimString(child_element, "VT"))
-                for vtf_element in self.findall(child_element, "VTF"):
-                    contents.addVtf(self.getNumericalOrText(vtf_element))
-                value_group.setVgContents(contents)
+            value_group = self.readValueGroup(child_element)
+        return value_group
+
+    def readValueGroup(self, element: ET.Element) -> ValueGroup:
+        value_group = ValueGroup()
+        self.readARObject(element, value_group)
+        value_group.setLabel(self.getMultilanguageLongName(element, "LABEL"))
+        has_v = self.find(element, "V") is not None
+        has_vf = self.find(element, "VF") is not None
+        has_vt = self.find(element, "VT") is not None
+        has_vtf = self.find(element, "VTF") is not None
+        has_vg = self.find(element, "VG") is not None
+        if has_v or has_vf or has_vt or has_vtf or has_vg:
+            contents = SwValues()
+            for vf in self.getChildElementNumericalList(element, "VF"):
+                contents.addVf(vf)
+            contents.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
+            for v in self.getChildElementNumericalList(element, "V"):
+                contents.addV(v)
+            for vtf_element in self.findall(element, "VTF"):
+                contents.addVtf(self.getNumericalOrText(vtf_element))
+            nested_element = self.find(element, "VG")
+            if nested_element is not None:
+                contents.setVg(self.readValueGroup(nested_element))
+            value_group.setVgContents(contents)
         return value_group
 
     def getValueList(self, element: ET.Element, key: str) -> Optional[ValueList]:

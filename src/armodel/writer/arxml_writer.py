@@ -588,7 +588,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     Integer,
-    Float,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -2559,10 +2558,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             contents = value_group.getVgContents()
             if contents is not None:
                 for vf in contents.getVfs():
-                    self.setChildElementOptionalFloatValue(child_element, "VF", cast(Float, vf))
-                self.setChildElementOptionalLiteral(child_element, "VT", contents.getVt())
+                    self.setChildElementOptionalNumericalValue(child_element, "VF", vf)
+                self.setChildElementOptionalVerbatimString(child_element, "VT", contents.getVt())
                 for v in contents.getVs():
-                    self.setChildElementOptionalFloatValue(child_element, "V", cast(Float, v))
+                    self.setChildElementOptionalNumericalValue(child_element, "V", v)
+                self.setValueGroup(child_element, "VG", contents.getVg())
                 for vtf in contents.getVtfs():
                     self.writeNumericalOrText(child_element, "VTF", vtf)
 
