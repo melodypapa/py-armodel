@@ -4391,7 +4391,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, arguments)
             self.setChildElementOptionalNumericalValue(child_element, "V", arguments.getV())
             self.setChildElementOptionalNumericalValue(child_element, "VF", arguments.getVf())
-            self.setChildElementOptionalLiteral(child_element, "VT", arguments.getVt())
+            self.setChildElementOptionalVerbatimString(child_element, "VT", arguments.getVt())
             self.writeNumericalOrText(child_element, "VTF", arguments.getVtf())
             self.writeVariationPointCapable(child_element, arguments)
 

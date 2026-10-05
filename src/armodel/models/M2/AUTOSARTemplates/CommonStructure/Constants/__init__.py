@@ -861,18 +861,17 @@ class RuleArguments(ARObject, VariationPointCapable):
     """
 
     # RuleArguments method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.57, p.329
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getV                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setV                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVtf                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVtf                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.134, p.470
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getV       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVf      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVtf     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVtf     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -880,22 +879,18 @@ class RuleArguments(ARObject, VariationPointCapable):
         # This represents a numerical value for the RuleBased ValueSpecification.
         self.v: Optional[Numerical] = None
 
-        # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        # The latest binding time of the VariationPoint shall be pre CompileTime.
+        # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         self.vf: Optional[Numerical] = None
 
         # This represents a textual value for the RuleBasedValue Specification.
         self.vt: Optional[VerbatimString] = None
 
-        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.vtf: Optional[NumericalOrText] = None
 
     def getV(self) -> Optional[Numerical]:
         """
         This represents a numerical value for the RuleBased ValueSpecification.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
         """
         return self.v
 
@@ -903,12 +898,6 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         This represents a numerical value for the RuleBased ValueSpecification.
         A None value is a no-op and does not overwrite an existing v.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.v = value
@@ -916,25 +905,14 @@ class RuleArguments(ARObject, VariationPointCapable):
 
     def getVf(self) -> Optional[Numerical]:
         """
-        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        The latest binding time of the VariationPoint shall be pre CompileTime.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         """
         return self.vf
 
     def setVf(self, value: Optional[Numerical]) -> RuleArguments:
         """
-        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        The latest binding time of the VariationPoint shall be pre CompileTime.
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing vf.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vf = value
@@ -943,9 +921,6 @@ class RuleArguments(ARObject, VariationPointCapable):
     def getVt(self) -> Optional[VerbatimString]:
         """
         This represents a textual value for the RuleBasedValue Specification.
-
-        Returns:
-            Optional[VerbatimString]: The textual value, or None if not set
         """
         return self.vt
 
@@ -953,12 +928,6 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         This represents a textual value for the RuleBasedValue Specification.
         A None value is a no-op and does not overwrite an existing vt.
-
-        Args:
-            value: The textual value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vt = value
@@ -966,23 +935,14 @@ class RuleArguments(ARObject, VariationPointCapable):
 
     def getVtf(self) -> Optional[NumericalOrText]:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
-
-        Returns:
-            Optional[NumericalOrText]: The value, or None if not set
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.vtf
 
     def setVtf(self, value: Optional[NumericalOrText]) -> RuleArguments:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing vtf.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vtf = value

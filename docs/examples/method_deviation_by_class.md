@@ -1454,13 +1454,15 @@ No deviations.
 | — *(missing)* | `—` | `mcDataInstanceRefs` | `Ref (McDataInstance)` | Refs | missing |
 
 ## `RuleArguments`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 329
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 470  | **table:** Table 5.134
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(no deviation)* | — | — | — | — | `v` (Numerical 0..1 attr via `getV`/`setV`), `vf` (Numerical 0..1 attr via `getVf`/`setVf`), `vt` (VerbatimString 0..1 attr via `getVt`/`setVt`), `vtf` (NumericalOrText 0..1 aggr via `getVtf`/`setVtf`) all implemented per Table D.57. The old `addV`/`getVs` and `addVtf`/`getVtfs` list shapes and the missing `vf` are resolved. |
+| — | — | — | — | — | No deviations — all four Table 5.134 attributes are modeled with spec shapes: `v` (Numerical, `0..1`, attr via `getV`/`setV`), `vf` (Numerical, `0..1`, attr via `getVf`/`setVf`), `vt` (VerbatimString, `0..1`, attr via `getVt`/`setVt`), `vtf` (NumericalOrText, `0..1`, aggr via `getVtf`/`setVtf`). Base `ARObject`; VP-capable kept — the XSD group RULE-ARGUMENTS (AUTOSAR_00052.xsd L100862) anchors VARIATION-POINT ("Applicable for: RuleBasedValueSpecification.arguments"), the Rule 0020 XSD verification. Although the group is an atpMixed `maxOccurs="unbounded"` choice, the class-scoped attributes keep the PDF `0..1` single-valued shape (one RuleArguments holds one argument; the `*`-many side lives on RuleBasedValueSpecification.arguments), so no SwValues-style list carve-out applies. |
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — 5-column, no release column, stale `# Spec verified: R23-11` with a wrong citation — BSWModuleDescriptionTemplate Table D.57, a reproduction — removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction; citation FIXED to the defining SWCT Table 5.134, p.470). Model Red vacuous on behavior (fields/accessors/types/member order pre-existed conforming — the earlier D.57-era pass had already resolved the list shapes); genuine Red: Rule 0012 docstrings — the Google-style "Args:/Returns:" paraphrases dropped the `Stereotypes:/Tags:` tails; wiped and rewritten verbatim from the markdown Notes (tails kept per 0012.2.5.3). Reader `getRuleArguments` unchanged (already mutator-driven: V/VF via `getChildElementOptionalNumericalValue` — the NUMERICAL-VALUE-VARIATION-POINT text form per the ValueList precedent — VT via `getChildElementOptionalVerbatimString`, VTF via `getNumericalOrText`, `readARObject` + `readVariationPointCapable` base calls). One Rule 0013.2 to-fix fixed in this pass (output-neutral): writer VT `setChildElementOptionalLiteral` → the matched `setChildElementOptionalVerbatimString` pair. Round-trip tests added on both sides (reader element tests; writer element + schema-validated save→reload through the ConstantSpecification VALUE-SPEC dispatch with the NUMERICAL-RULE-BASED-VALUE-SPECIFICATION carrier). Referenced member types `NumericalOrText` (Table 5.123, synced in the prior batch) — no missing classes.
 
 ## `RuleBasedValueCont`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 330
