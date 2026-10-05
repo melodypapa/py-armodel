@@ -681,99 +681,115 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `FilterDebouncingEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.48, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `c23b54460`
+  - note (Step 1): p.157 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `PulseTestEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.49, p.157
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `b532d9a21`
+  - note (Step 1): p.157 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `ParameterPortAnnotation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.50, p.159
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `9d56752e3`
+  - note (Step 1): split table pp.158-159; PDF p.158 Base row = ARObject, GeneralAnnotation (markdown render drops the header block) — GeneralAnnotation base kept; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `ModePortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.51, p.159
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `2849ecb9c`
+  - note (Step 1): p.159 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `TriggerPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.52, p.160
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `f2d78fca3`
+  - note (Step 1): p.160 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `NvDataPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.53, p.160
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `b0ec28fdd`
+  - note (Step 1): p.160 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `DelegatedPortAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.54, p.162
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `1461e45c2`
+  - note (Step 1): p.162 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `SignalFanEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.55, p.162
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — same batch gates green (unit tree 17,919/0); 9b deferred to batch confirmation (user instruction); sync commit `332ce3438`
+  - note (Step 1): p.162 confirmed via pdf_page.py; Steps 5/6 N/A for the three enums (attribute-value on the consuming class); stale legacy `# Spec verified: R23-11` marker removed per Rule 0023/batch convention; no stamp (batch 9b)
 
 - [ ] `PPortComSpec` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.58, p.166
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
