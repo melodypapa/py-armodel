@@ -788,15 +788,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.36, p.93
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-05): removed the stale `# Spec verified: R23-11` marker and rebuilt the checklist in the 6-column format (release column, `[—]` glyphs). Step 1 finding: Table 3.36 renders no attribute rows (`-`) and the XSD group LIN-CLUSTER-CONTENT (AUTOSAR_00052.xsd line 76978) is an empty sequence — the class declares no own fields/accessors (concrete `<<atpVariation>>` subclass, most-derived modeled base CommunicationCluster per the Base column + the XSD complexType chain, class Note "LIN specific attributes Tags: atp.recommendedPackage=CommunicationClusters" verbatim). Model + reader/writer tests written first and passed unchanged (conformant impl); parser/writer needed no changes — readLinCluster/writeLinCluster call read/writeIdentifiable on the outer element and read/writeCommunicationCluster exactly once each on the LIN-CLUSTER-VARIANTS/LIN-CLUSTER-CONDITIONAL wrapper per the CanCluster/TtcanCluster/FlexrayCluster/EthernetCluster convention, and the ARPackage.element dispatch + createLinCluster factory were already wired — the new tests pin the contract (SHORT-NAME + inherited BAUDRATE/PROTOCOL-NAME/PROTOCOL-VERSION field values through the CONDITIONAL wrapper, empty-wrapper and wrapperless reader cases, XSD-order exactly-once writer emission, full/empty round-trips through the entry points and the file-level ARPackage dispatch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2351+8123+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.37, p.93
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py

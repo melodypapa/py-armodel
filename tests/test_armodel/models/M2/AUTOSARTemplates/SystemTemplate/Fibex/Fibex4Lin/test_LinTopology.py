@@ -764,3 +764,20 @@ class TestLinCluster:
 
         assert cluster == cluster.setProtocolVersion(None)
         assert cluster.getProtocolVersion() == "2.2"
+
+    def test_inheritance(self):
+        assert issubclass(LinCluster, CommunicationCluster)
+        assert issubclass(LinCluster, FibexElement)
+        assert issubclass(LinCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = LinCluster(MockParent(), "cluster")  # Table 3.36 carries no abstract stereotype
+
+        assert isinstance(cluster, CommunicationCluster)
+
+    def test_class_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.36, p.93)."""
+        assert LinCluster.__doc__.strip() == "LIN specific attributes Tags: atp.recommendedPackage=CommunicationClusters"
+
+    def test_init_has_no_docstring(self):
+        assert LinCluster.__init__.__doc__ is None
