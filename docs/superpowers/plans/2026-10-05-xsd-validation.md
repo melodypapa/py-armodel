@@ -31,11 +31,17 @@
 6. A public `register_schema_file(xsd_filename, xsd_path)` extension point lets callers register unbundled
    schemas (e.g. R22-11 `AUTOSAR_00050.xsd`); the fast unit tests use it to plug in a tiny fixture schema.
 7. Corpus audit (verified during planning): of 32 integration files, exactly 1 maps to a bundled schema
-   (`Os_ECUC_4.4.0.arxml` → R4.4.0) and it **VALIDATES**. The audit test asserts that file stays valid; other
-   files' schema filenames (`AUTOSAR_00050/00043.xsd`, `AUTOSAR_4-0-3.xsd`, `autosar.xsd`) are not bundled and
-   are skipped by detection.
+   (`Os_ECUC_4.4.0.arxml` → R4.4.0), its parse input **VALIDATES** and its **writer output VALIDATES too**
+   (verified by parsing the file, saving with `ARXMLWriter`, and re-validating the output). The audit test
+   asserts both stay valid; other files' schema filenames (`AUTOSAR_00050/00043.xsd`, `AUTOSAR_4-0-3.xsd`,
+   `autosar.xsd`) are not bundled and are skipped by detection.
 8. Detection uses **only** `xsi:schemaLocation` — the spec's `ADMIN-DATA` fallback is dropped (no AUTOSAR tool
    writes resolvable schema info there; a speculative fallback adds surface without value). Task 6 amends the spec.
+9. **The round-trip integration suite (`tests/integration_tests/test_roundtrip.py`) exercises both gates for
+   free**: it constructs `ARXMLParser()`/`ARXMLWriter()` with default options, so with validation ON by default
+   every round-tripped file whose schema location maps to a bundled XSD is validated on parse AND on save, and a
+   schema-invalid input/output fails the round-trip. No code change needed in `test_roundtrip.py` — Task 5 adds
+   a verification run plus the standalone audit test for explicit, per-file assertions.
 
 ---
 
@@ -745,10 +751,12 @@ git commit -m "feat(writer): validate generated ARXML against bundled XSD before
 
 ---
 
-### Task 5: Corpus audit test + full battery + lint/type/format
+### Task 5: Validation in the parser/writer test suites (round-trip + corpus audit) + full battery + lint/type/format
 
 **Files:**
 - Test: `tests/integration_tests/test_xsd_corpus_audit.py`
+- Verify (no code change): `tests/integration_tests/test_roundtrip.py` — with validation ON by default, its
+  `ARXMLParser()`/`ARXMLWriter()` calls now gate every round-trip on XSD validity (see header note 9).
 
 - [ ] **Step 1: Write the corpus audit test**
 
@@ -787,11 +795,21 @@ Run: `uv run pytest tests/integration_tests/test_xsd_corpus_audit.py -v --no-cov
 Expected: `test_corpus_mapping_present` passes; exactly 1 parametrized case (`Os_ECUC_4.4.0.arxml`, verified VALID during planning) passes.
 If additional files appear or the mapped file fails: stop and investigate with the user before loosening anything.
 
-- [ ] **Step 3: Run the full test battery**
+- [ ] **Step 3: Verify the round-trip suite exercises the gates**
+
+Run: `uv run pytest tests/integration_tests/test_roundtrip.py --no-coverage -q`
+Expected: all passed. With validation ON by default, the bundled-schema file (`Os_ECUC_4.4.0.arxml`) is now
+schema-validated on parse and on save inside this suite (its writer output was verified VALID during planning);
+the remaining files log "No XSD schema found ... validation skipped" warnings and round-trip as before.
+A failure here means either (a) the writer produced schema-invalid ARXML for a bundled-schema file — a real
+finding to investigate — or (b) a test constructs a parser/writer with a bundled schema location on an
+intentionally imperfect fixture; report rather than silently weakening the gate.
+
+- [ ] **Step 4: Run the full test battery**
 
 Run: `uv run pytest tests/ --no-coverage -q` (expected battery ≈ 17,000+ tests, 0 failures; local `tests/integration_tests/custom_files/` round-trip length-compare failures are a known pre-existing local condition — confirm any failures match that pattern before investigating further)
 
-- [ ] **Step 4: Lint, type-check, format**
+- [ ] **Step 5: Lint, type-check, format**
 
 ```bash
 npm run lint
@@ -800,7 +818,7 @@ npm run black
 
 Expected: mypy green (the new package is fully typed, `ignore_missing_imports` covers lxml); ruff/flake8 green; black reformats only the new/modified files if needed. Re-run `uv run pytest tests/test_armodel/validation/ --no-coverage -q` after black.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add tests/integration_tests/test_xsd_corpus_audit.py
