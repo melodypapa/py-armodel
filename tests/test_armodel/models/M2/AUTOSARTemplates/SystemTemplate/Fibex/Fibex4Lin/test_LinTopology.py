@@ -57,6 +57,19 @@ LIN_SLAVE_LIN_ERROR_RESPONSE_NOTE = "Each slave node shall publish one response 
 LIN_SLAVE_NAS_TIMEOUT_NOTE = "Value of the N_AS timeout. Unit: seconds."
 LIN_SLAVE_SUPPLIER_ID_NOTE = "LIN Supplier ID"
 LIN_SLAVE_VARIANT_ID_NOTE = "Specifies the Variant ID"
+LIN_SLAVE_CONFIG_CLASS_NOTE = "Node attributes of LIN slaves that are handled by the LinMaster. In the System Description LIN slaves may be described in the context of the Lin Master. In an ECU Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the Lin Master. The values of attributes of LinSlaveConfig and the corresponding LinSlave shall be identical (if both are defined in a System Description)."
+LIN_SLAVE_CONFIG_CONFIGURED_NAD_NOTE = "To distinguish LIN slaves that are used twice or more within the same cluster."
+LIN_SLAVE_CONFIG_FUNCTION_ID_NOTE = "LIN function ID."
+LIN_SLAVE_CONFIG_IDENT_NOTE = "This adds the ability to become referrable to LinSlave Config."
+LIN_SLAVE_CONFIG_INITIAL_NAD_NOTE = "Initial NAD of the LIN slave."
+LIN_SLAVE_CONFIG_LIN_CONFIGURABLE_FRAME_NOTE = "List of all frames that are processed by the slave node"
+LIN_SLAVE_CONFIG_LIN_ERROR_RESPONSE_NOTE = "Each slave node shall publish one response error in one of its transmitted unconditional frames."
+LIN_SLAVE_CONFIG_LIN_ORDERED_CONFIGURABLE_FRAME_NOTE = (
+    "List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command."
+)
+LIN_SLAVE_CONFIG_PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different."
+LIN_SLAVE_CONFIG_SUPPLIER_ID_NOTE = "LIN Supplier ID."
+LIN_SLAVE_CONFIG_VARIANT_ID_NOTE = "Specifies the Variant ID."
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
@@ -857,6 +870,18 @@ class TestLinSlaveConfig:
     Node attributes of LIN slaves that are handled by the LinMaster. In the System Description LIN slaves may be described in the context of the Lin Master. In an ECU Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the Lin Master. The values of attributes of LinSlaveConfig and the corresponding LinSlave shall be identical (if both are defined in a System Description).
     """
 
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.39: ARObject)"""
+        assert issubclass(LinSlaveConfig, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.39)"""
+        assert inspect.cleandoc(LinSlaveConfig.__doc__).strip() == LIN_SLAVE_CONFIG_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert LinSlaveConfig.__init__.__doc__ is None
+
     def test_initialization(self):
         obj = LinSlaveConfig()
 
@@ -872,6 +897,19 @@ class TestLinSlaveConfig:
         assert obj.getProtocolVersion() is None
         assert obj.getSupplierId() is None
         assert obj.getVariantId() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.39: configuredNad, functionId, ident, initialNad, linConfigurableFrame, linErrorResponse, linOrderedConfigurableFrame, protocolVersion, supplierId, variantId)"""
+        source = inspect.getsource(LinSlaveConfig.__init__)
+        assert source.index("self.configuredNad") < source.index("self.functionId")
+        assert source.index("self.functionId") < source.index("self.ident")
+        assert source.index("self.ident") < source.index("self.initialNad")
+        assert source.index("self.initialNad") < source.index("self.linConfigurableFrames")
+        assert source.index("self.linConfigurableFrames") < source.index("self.linErrorResponse")
+        assert source.index("self.linErrorResponse") < source.index("self.linOrderedConfigurableFrames")
+        assert source.index("self.linOrderedConfigurableFrames") < source.index("self.protocolVersion")
+        assert source.index("self.protocolVersion") < source.index("self.supplierId")
+        assert source.index("self.supplierId") < source.index("self.variantId")
 
     def test_get_set_configured_nad(self):
         obj = LinSlaveConfig()
@@ -971,9 +1009,85 @@ class TestLinSlaveConfig:
         assert obj == obj.setVariantId(None)
         assert obj.getVariantId() == 9
 
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def _assert_adder_docstring(self, method, note, list_name):
+        doc = method.__doc__
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == note + "\nA None value is a no-op and does not extend %s." % list_name
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter/adder docstrings carry the spec Note verbatim (Table 3.39)"""
+        self._assert_docstring(LinSlaveConfig.getConfiguredNad, LIN_SLAVE_CONFIG_CONFIGURED_NAD_NOTE)
+        self._assert_docstring(LinSlaveConfig.setConfiguredNad, LIN_SLAVE_CONFIG_CONFIGURED_NAD_NOTE, "configuredNad")
+
+        self._assert_docstring(LinSlaveConfig.getFunctionId, LIN_SLAVE_CONFIG_FUNCTION_ID_NOTE)
+        self._assert_docstring(LinSlaveConfig.setFunctionId, LIN_SLAVE_CONFIG_FUNCTION_ID_NOTE, "functionId")
+
+        self._assert_docstring(LinSlaveConfig.getIdent, LIN_SLAVE_CONFIG_IDENT_NOTE)
+        self._assert_docstring(LinSlaveConfig.setIdent, LIN_SLAVE_CONFIG_IDENT_NOTE, "ident")
+
+        self._assert_docstring(LinSlaveConfig.getInitialNad, LIN_SLAVE_CONFIG_INITIAL_NAD_NOTE)
+        self._assert_docstring(LinSlaveConfig.setInitialNad, LIN_SLAVE_CONFIG_INITIAL_NAD_NOTE, "initialNad")
+
+        self._assert_docstring(LinSlaveConfig.getLinConfigurableFrames, LIN_SLAVE_CONFIG_LIN_CONFIGURABLE_FRAME_NOTE)
+        self._assert_adder_docstring(LinSlaveConfig.addLinConfigurableFrame, LIN_SLAVE_CONFIG_LIN_CONFIGURABLE_FRAME_NOTE, "linConfigurableFrames")
+
+        self._assert_docstring(LinSlaveConfig.getLinErrorResponse, LIN_SLAVE_CONFIG_LIN_ERROR_RESPONSE_NOTE)
+        self._assert_docstring(LinSlaveConfig.setLinErrorResponse, LIN_SLAVE_CONFIG_LIN_ERROR_RESPONSE_NOTE, "linErrorResponse")
+
+        self._assert_docstring(LinSlaveConfig.getLinOrderedConfigurableFrames, LIN_SLAVE_CONFIG_LIN_ORDERED_CONFIGURABLE_FRAME_NOTE)
+        self._assert_adder_docstring(LinSlaveConfig.addLinOrderedConfigurableFrame, LIN_SLAVE_CONFIG_LIN_ORDERED_CONFIGURABLE_FRAME_NOTE, "linOrderedConfigurableFrames")
+
+        self._assert_docstring(LinSlaveConfig.getProtocolVersion, LIN_SLAVE_CONFIG_PROTOCOL_VERSION_NOTE)
+        self._assert_docstring(LinSlaveConfig.setProtocolVersion, LIN_SLAVE_CONFIG_PROTOCOL_VERSION_NOTE, "protocolVersion")
+
+        self._assert_docstring(LinSlaveConfig.getSupplierId, LIN_SLAVE_CONFIG_SUPPLIER_ID_NOTE)
+        self._assert_docstring(LinSlaveConfig.setSupplierId, LIN_SLAVE_CONFIG_SUPPLIER_ID_NOTE, "supplierId")
+
+        self._assert_docstring(LinSlaveConfig.getVariantId, LIN_SLAVE_CONFIG_VARIANT_ID_NOTE)
+        self._assert_docstring(LinSlaveConfig.setVariantId, LIN_SLAVE_CONFIG_VARIANT_ID_NOTE, "variantId")
+
     def test_type_annotations(self):
         import ast
         import inspect
+
+        expected_getters = {
+            "getConfiguredNad": Optional[Integer],
+            "getFunctionId": Optional[PositiveInteger],
+            "getIdent": Optional[LinSlaveConfigIdent],
+            "getInitialNad": Optional[Integer],
+            "getLinErrorResponse": Optional[LinErrorResponse],
+            "getLinConfigurableFrames": List[LinConfigurableFrame],
+            "getLinOrderedConfigurableFrames": List[LinOrderedConfigurableFrame],
+            "getProtocolVersion": Optional[String],
+            "getSupplierId": Optional[PositiveInteger],
+            "getVariantId": Optional[PositiveInteger],
+        }
+        for name, return_hint in expected_getters.items():
+            getter_hints = get_type_hints(getattr(LinSlaveConfig, name))
+            assert getter_hints["return"] == return_hint
+
+        expected_setters = {
+            "setConfiguredNad": (Optional[Integer], LinSlaveConfig),
+            "setFunctionId": (Optional[PositiveInteger], LinSlaveConfig),
+            "setIdent": (Optional[LinSlaveConfigIdent], LinSlaveConfig),
+            "setInitialNad": (Optional[Integer], LinSlaveConfig),
+            "setLinErrorResponse": (Optional[LinErrorResponse], LinSlaveConfig),
+            "addLinConfigurableFrame": (LinConfigurableFrame, LinSlaveConfig),
+            "addLinOrderedConfigurableFrame": (LinOrderedConfigurableFrame, LinSlaveConfig),
+            "setProtocolVersion": (Optional[String], LinSlaveConfig),
+            "setSupplierId": (Optional[PositiveInteger], LinSlaveConfig),
+            "setVariantId": (Optional[PositiveInteger], LinSlaveConfig),
+        }
+        for name, (value_hint, return_hint) in expected_setters.items():
+            setter_hints = get_type_hints(getattr(LinSlaveConfig, name))
+            assert setter_hints["value"] == value_hint
+            assert setter_hints["return"] == return_hint
 
         src = inspect.getsource(sys.modules[LinSlaveConfig.__module__])
         tree = ast.parse(src)

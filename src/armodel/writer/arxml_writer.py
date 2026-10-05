@@ -16678,6 +16678,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLinSlaveConfig(self, element: ET.Element, key: str, config: LinSlaveConfig):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.setChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD", config.getConfiguredNad())
             self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", cast(Integer, config.getFunctionId()))
             slave_ident = config.getIdent()

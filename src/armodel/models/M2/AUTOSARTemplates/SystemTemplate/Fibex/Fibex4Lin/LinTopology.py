@@ -331,29 +331,28 @@ class LinSlaveConfig(ARObject):
 
     # LinSlaveConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.39, p.95
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfiguredNad                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfiguredNad                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunctionId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdent                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdent                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitialNad                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitialNad                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinConfigurableFrames             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinConfigurableFrame              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinErrorResponse                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLinErrorResponse                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinOrderedConfigurableFrames      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinOrderedConfigurableFrame       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProtocolVersion                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProtocolVersion                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupplierId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSupplierId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVariantId                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVariantId                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfiguredNad                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfiguredNad                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdent                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialNad                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialNad                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinConfigurableFrames        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinConfigurableFrame         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinErrorResponse             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinErrorResponse             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinOrderedConfigurableFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinOrderedConfigurableFrame  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupplierId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupplierId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariantId                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariantId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -364,7 +363,7 @@ class LinSlaveConfig(ARObject):
         # LIN function ID.
         self.functionId: Optional[PositiveInteger] = None
 
-        # This adds the ability to become referrable to LinSlaveConfig.
+        # This adds the ability to become referrable to LinSlave Config.
         self.ident: Optional[LinSlaveConfigIdent] = None
 
         # Initial NAD of the LIN slave.
@@ -415,12 +414,12 @@ class LinSlaveConfig(ARObject):
         return self
 
     def getIdent(self) -> Optional[LinSlaveConfigIdent]:
-        """This adds the ability to become referrable to LinSlaveConfig."""
+        """This adds the ability to become referrable to LinSlave Config."""
         return self.ident
 
     def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> LinSlaveConfig:
         """
-        This adds the ability to become referrable to LinSlaveConfig.
+        This adds the ability to become referrable to LinSlave Config.
         A None value is a no-op and does not overwrite an existing ident.
         """
         if value is not None:

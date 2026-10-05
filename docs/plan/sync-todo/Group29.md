@@ -827,15 +827,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinSlaveConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.39, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Rule 0023/0012.3 re-run of a legacy 5-column checklist (no release column) carrying a stale R23-11 spec-verified stamp — marker removed, checklist rebuilt 6-column, re-stamp deferred to batch 9b. Table 3.39 (page-split render, rows alphabetical) Note "Node attributes of LIN slaves that are handled by the LinMaster. …"; Base = ARObject; Aggregated by LinMaster.linSlave; ten own attrs 0..1/`*` in displayed order — configuredNad (Integer), functionId (PositiveInteger), ident (LinSlaveConfigIdent, aggr), initialNad (Integer), linConfigurableFrame (LinConfigurableFrame, `*` aggr), linErrorResponse (LinErrorResponse, aggr), linOrderedConfigurableFrame (LinOrderedConfigurableFrame, `*` aggr), protocolVersion (String), supplierId (PositiveInteger), variantId (PositiveInteger); no Referrable children registry (ARObject base has none — ident held in a dedicated Optional field, set/get accessors). XSD group LIN-SLAVE-CONFIG (AUTOSAR_00052.xsd line 77742) = the 10 elements in the same order; member LIN-SLAVE-ECU-REF carries atp.Status="removed" and is absent from the R23-11 table — not modeled (Rule 0015); element AR:LIN-SLAVE-CONFIG (line 77447) lives in the LIN-MASTER LIN-SLAVES wrapper (consumer path per Rule 0001.7). Drifts to fix: ident docstring "LinSlaveConfig" → markdown verbatim "LinSlave Config." (wrap artifact kept per FlexrayCluster precedent); entry helpers getLinSlaveConfig/setLinSlaveConfig lack the readARObject/writeARObject base-helper calls (Rule 0025 — S/T dropped).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale `# Spec verified: R23-11` marker removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column (release column, `[—]` glyphs). Two drifts fixed in this pass: (1) ident docstring normalized to the markdown verbatim "This adds the ability to become referrable to LinSlave Config." — the mid-identifier wrap artifact "LinSlave Config" is part of the R23-11 markdown Note and is kept verbatim (FlexrayCluster precedent: "cSamplesPer Bit"); (2) entry helpers getLinSlaveConfig/setLinSlaveConfig gained the readARObject/writeARObject base-helper calls (Rule 0025 — inherited S/T were silently dropped; audit BASE now clean). Non-blocking arbitration: XSD group member LIN-SLAVE-ECU-REF (AUTOSAR_00052.xsd line 77806) carries atp.Status="removed" and is absent from the R23-11 Table 3.39 — not modeled (Rule 0015); ident (0..1, Referrable-typed LinSlaveConfigIdent on an ARObject-derived parent) keeps the set/getIdent + dedicated Optional-field shape instead of a createXxx(short_name) registry factory — ARObject provides no Referrable elements registry to register it in, and the reader constructs LinSlaveConfigIdent(config, short-name) + setIdent (matched pairs across layers). No fabrication, no flattening; all ten attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer XML element order = XSD LIN-SLAVE-CONFIG group sequenceOffset — the two orders coincide); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 10 inline comments + 20 accessor docstrings).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2381+8155+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinSlaveConfigIdent` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.40, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py

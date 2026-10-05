@@ -14732,6 +14732,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinSlaveConfig(self, child_element: ET.Element) -> LinSlaveConfig:
         config = LinSlaveConfig()
+        self.readARObject(child_element, config)
         config.setConfiguredNad(self.getChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD"))
         config.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
         ident_element = self.find(child_element, "IDENT")
