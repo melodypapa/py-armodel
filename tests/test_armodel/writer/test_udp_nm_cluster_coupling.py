@@ -67,7 +67,8 @@ class TestWriteUdpNmClusterCoupling:
         wrapper.append(parent.find("UDP-NM-CLUSTER-COUPLING"))
         wrapper.set("xmlns", NS)
         coupling_element = ET.fromstring(ET.tostring(wrapper, encoding="unicode"))[0]
-        parsed = ARXMLParser().readUdpNmClusterCoupling(coupling_element)
+        parsed = UdpNmClusterCoupling()
+        ARXMLParser().readUdpNmClusterCoupling(coupling_element, parsed)
         refs = parsed.getCoupledClusterRefs()
         assert [ref.getValue() for ref in refs] == ["/Clusters/Eth1"]
         assert refs[0].getDest() == "ETHERNET-CLUSTER"
@@ -101,6 +102,7 @@ class TestWriteUdpNmClusterCoupling:
         wrapper.append(parent.find("UDP-NM-CLUSTER-COUPLING"))
         wrapper.set("xmlns", NS)
         coupling_element = ET.fromstring(ET.tostring(wrapper, encoding="unicode"))[0]
-        parsed = ARXMLParser().readUdpNmClusterCoupling(coupling_element)
+        parsed = UdpNmClusterCoupling()
+        ARXMLParser().readUdpNmClusterCoupling(coupling_element, parsed)
         assert parsed.getVariationPoint() is not None
         assert parsed.getVariationPoint().getShortLabel().getValue() == "VP2"

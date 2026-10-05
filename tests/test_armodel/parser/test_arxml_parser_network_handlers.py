@@ -2457,7 +2457,10 @@ class TestNmConfigHandlers:
             "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>",
             root_tag="UDP-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.readUdpNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import UdpNmClusterCoupling
+
+        coupling = UdpNmClusterCoupling()
+        parser.readUdpNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
     def test_readNmConfigNmClusterCouplings_can(self, parser):
