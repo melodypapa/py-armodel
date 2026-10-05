@@ -1899,13 +1899,7 @@ class TestISignalAndGroupHandlers:
 
     def test_getCyclicTiming_sets_timePeriod(self, parser):
         element = _snip(
-            '<CYCLIC-TIMING S="1234" T="2024-01-01T00:00:00Z">'
-            "<TIME-PERIOD>"
-            "<VALUE>"
-            "<VALUE>0.1</VALUE>"
-            "</VALUE>"
-            "</TIME-PERIOD>"
-            "</CYCLIC-TIMING>",
+            '<CYCLIC-TIMING S="1234" T="2024-01-01T00:00:00Z">' "<TIME-PERIOD>" "<VALUE>" "<VALUE>0.1</VALUE>" "</VALUE>" "</TIME-PERIOD>" "</CYCLIC-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getCyclicTiming(element, "CYCLIC-TIMING")
@@ -1915,9 +1909,7 @@ class TestISignalAndGroupHandlers:
 
     def test_getEventControlledTiming_sets_numberOfRepetitions(self, parser):
         element = _snip(
-            '<EVENT-CONTROLLED-TIMING S="1234" T="2024-01-01T00:00:00Z">'
-            "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>"
-            "</EVENT-CONTROLLED-TIMING>",
+            '<EVENT-CONTROLLED-TIMING S="1234" T="2024-01-01T00:00:00Z">' "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>" "</EVENT-CONTROLLED-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getEventControlledTiming(element, "EVENT-CONTROLLED-TIMING")
@@ -1925,6 +1917,7 @@ class TestISignalAndGroupHandlers:
         assert timing.getNumberOfRepetitions().getValue() == 5
         assert timing.getChecksum().getValue() == "1234"
         assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
     def test_readISignalIPdu_sets_length(self, parser):
         from armodel.models import ISignalIPdu
 
@@ -1962,6 +1955,7 @@ class TestISignalAndGroupHandlers:
         )
         parser.readISignalIPdu(element, ipdu)
         assert ipdu.getUnusedBitPattern().getValue() == 0
+
     def test_getTimeRangeType_reads_checksum_and_timestamp(self, parser):
         """TimeRangeType and its TimeRangeTypeTolerance subclasses carry AR:AR-OBJECT (Rule 0025)."""
         element = _snip(
@@ -1997,7 +1991,6 @@ class TestISignalAndGroupHandlers:
         assert len(conditions) == 1
         assert conditions[0].getChecksum().getValue() == "1234"
         assert conditions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
-
 
 
 class TestISignalIPduIPduTimingSpecification:
