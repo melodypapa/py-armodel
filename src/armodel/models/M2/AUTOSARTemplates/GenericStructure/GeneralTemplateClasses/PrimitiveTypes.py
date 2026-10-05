@@ -1355,10 +1355,13 @@ class MonotonyEnum(AREnum):
 
     # MonotonyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.87, p.408
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on InternalConstrs.monotony, PhysConstrs.monotony, SwCalprmAxisTypeProps.monotony
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on InternalConstrs.monotony, PhysConstrs.monotony,
+    # SwCalprmAxisTypeProps.monotony; the XSD wire tokens (AR:MONOTONY-ENUM--SIMPLE: DECREASING,
+    # INCREASING, MONOTONOUS, NO-MONOTONY, STRICT-MONOTONOUS, STRICTLY-DECREASING, STRICTLY-INCREASING)
+    # differ from the camelCase spec literals and ride MONOTONY_XML_MAP + _readEnumToken/_writeEnumToken
+    # in BOTH arxml_parser.py and arxml_writer.py (round-trip pinned on the consuming classes)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the related curve needs to be monotony decreasing. Tags: atp.EnumerationLiteralIndex=0
     DECREASING = "decreasing"

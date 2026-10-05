@@ -1162,7 +1162,7 @@ class TestByteOrderEnum:
 
 class TestMonotonyEnum:
     """
-    Test class for MonotonyEnum functionality.
+    Test class for MonotonyEnum functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.87, p.408).
     """
 
     def test_initialization(self):
@@ -1184,6 +1184,26 @@ class TestMonotonyEnum:
         assert enum.validateEnumValue("decreasing") is True
         assert enum.validateEnumValue("strictMonotonous") is True
         assert enum.validateEnumValue("invalid") is False
+
+    def test_literal_display_order(self):
+        """Members appear in the markdown Table 5.87 display order (EnumerationLiteralIndex 0-6)."""
+        enum = MonotonyEnum()
+
+        assert enum.getEnumValues() == [
+            "decreasing",
+            "increasing",
+            "monotonous",
+            "noMonotony",
+            "strictlyDecreasing",
+            "strictlyIncreasing",
+            "strictMonotonous",
+        ]
+
+    def test_set_value_round_trip(self):
+        """Instantiability and setValue/getValue round-trip."""
+        enum = MonotonyEnum()
+        assert enum.setValue(MonotonyEnum.NO_MONOTONY) is enum
+        assert enum.getValue() == "noMonotony"
 
 
 class TestCIdentifier:
