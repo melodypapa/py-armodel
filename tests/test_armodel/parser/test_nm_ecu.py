@@ -85,6 +85,18 @@ class TestParseNmEcu:
         assert nodes[0].getDest() == "NM-NODE"
         assert nodes[0].getValue() == "/Clusters/Can1/node"
 
+    def test_parse_nm_ecu_variation_point(self):
+        xml = (
+            "<NmEcu xmlns='%s'>"
+            "<ECU-INSTANCE-REF DEST='ECU-INSTANCE'>/Topology/Ecu1</ECU-INSTANCE-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>VP1</SHORT-LABEL></VARIATION-POINT>"
+            "</NmEcu>" % NS
+        )
+        ecu = _parse_nm_ecu(xml)
+        assert ecu.getVariationPoint() is not None
+        assert ecu.getVariationPoint().getShortLabel().getValue() == "VP1"
+        assert ecu.getEcuInstanceRef().getValue() == "/Topology/Ecu1"
+
     def test_parse_nm_ecu_ignores_cluster_level_attributes(self):
         xml = "<NmEcu xmlns='%s'><NM-NODE-DETECTION-ENABLED>true</NM-NODE-DETECTION-ENABLED></NmEcu>" % NS
         ecu = _parse_nm_ecu(xml)

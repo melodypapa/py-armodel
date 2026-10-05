@@ -9610,7 +9610,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
         child_element = ET.SubElement(element, "NM-ECU")
-        self.writeIdentifiable(child_element, nm_ecu)
+        self.writeIdentifiable(child_element, nm_ecu, write_variation_point=False)
         self.writeBusDependentNmEcus(child_element, nm_ecu)
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", nm_ecu.getEcuInstanceRef())
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUS-SYNCHRONIZATION-ENABLED", nm_ecu.getNmBusSynchronizationEnabled())
@@ -9623,6 +9623,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-REMOTE-SLEEP-IND-ENABLED", nm_ecu.getNmRemoteSleepIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-STATE-CHANGE-IND-ENABLED", nm_ecu.getNmStateChangeIndEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-USER-DATA-ENABLED", nm_ecu.getNmUserDataEnabled())
+        self.writeVariationPointCapable(child_element, nm_ecu)
 
     def writeNmConfigNmIfEcus(self, element: ET.Element, nm_config: NmConfig):
         ecus = nm_config.getNmIfEcus()
