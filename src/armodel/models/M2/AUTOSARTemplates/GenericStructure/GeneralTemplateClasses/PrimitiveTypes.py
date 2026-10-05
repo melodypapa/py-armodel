@@ -893,10 +893,13 @@ class IntervalTypeEnum(AREnum):
 
     # IntervalTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.88, p.409
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType;
+    # the XSD wire tokens (AR:INTERVAL-TYPE-ENUM--SIMPLE: CLOSED|INFINITE|OPEN — INFINITE carries
+    # atp.Status="removed" in the XSD and is absent from the Table 5.88 Literal rows, so not modeled)
+    # differ from the camelCase spec literals and ride INTERVAL_TYPE_XML_MAP + _readEnumToken/
+    # _writeEnumToken in BOTH arxml_parser.py and arxml_writer.py (round-trip pinned on Limit)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The area is limited by the value given. The value itself is included. Tags: atp.EnumerationLiteralIndex=0
     CLOSED = "closed"

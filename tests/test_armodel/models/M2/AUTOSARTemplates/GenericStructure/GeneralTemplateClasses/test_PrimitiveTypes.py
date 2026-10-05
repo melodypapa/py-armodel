@@ -803,7 +803,7 @@ class TestNameToken:
 
 class TestIntervalTypeEnum:
     """
-    Test class for IntervalTypeEnum functionality.
+    Test class for IntervalTypeEnum functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.88, p.409).
     """
 
     def test_initialization(self):
@@ -820,6 +820,18 @@ class TestIntervalTypeEnum:
         assert enum.validateEnumValue("closed") is True
         assert enum.validateEnumValue("open") is True
         assert enum.validateEnumValue("invalid") is False
+
+    def test_literal_display_order(self):
+        """Members appear in the markdown Table 5.88 display order (EnumerationLiteralIndex 0, 2)."""
+        enum = IntervalTypeEnum()
+
+        assert enum.getEnumValues() == ["closed", "open"]
+
+    def test_set_value_round_trip(self):
+        """Instantiability and setValue/getValue round-trip."""
+        enum = IntervalTypeEnum()
+        assert enum.setValue(IntervalTypeEnum.CLOSED) is enum
+        assert enum.getValue() == "closed"
 
 
 class TestLimit:
