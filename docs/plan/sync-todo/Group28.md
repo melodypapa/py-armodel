@@ -760,51 +760,51 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PhysicalDimension` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.76, p.398
   - module: M2/MSR/AsamHdo/Units.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `995b22a85`
 
 - [ ] `PhysicalDimensionMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.77, p.399
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `e8c89613f`
 
 - [ ] `PhysicalDimensionMappingSet` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.78, p.399
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `262eb0db3`
 
 - [ ] `Unit` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.79, p.400
   - module: M2/MSR/AsamHdo/Units.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `f801a63d1`
 
 - [ ] `PhysConstrs` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.84, p.406
   - module: M2/MSR/AsamHdo/Constraints/GlobalConstraints.py
