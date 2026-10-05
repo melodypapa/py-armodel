@@ -479,15 +479,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DataPrototypeMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.22, p.125
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 199 + round-trip file 8; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): legacy 5-col checklist + stale stamp removed; 6 attrs in display order (4 refs modeled as RefType per XML form, subElementMapping * aggr, textTableMapping 0..2 aggr as list); markdown wrap artifacts joined against XSD doc ground truth; reader/writer already symmetric in XSD group order; ref-type deviations recorded (XML-form); no stamp (batch 9b)
 
 - [ ] `ModeDeclarationMapping` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.29, p.132
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py

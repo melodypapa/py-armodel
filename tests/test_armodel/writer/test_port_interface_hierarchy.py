@@ -26,6 +26,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ApplicationError,
     ClientServerInterface,
     ServerArgumentImplPolicyEnum,
+    SubElementMapping,
+    TextTableMapping,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -217,3 +219,82 @@ class TestModeSwitchInterfaceRoundTrip:
         parsed = _reparse(root)
         parsed_interface = parsed.getModeSwitchInterfaces()[0]
         assert parsed_interface.getModeGroup() is None
+
+
+class TestDataPrototypeMappingRoundTrip:
+    def _ref(self, dest, value):
+        ref = RefType()
+        ref.setDest(dest)
+        ref.setValue(value)
+        return ref
+
+    def test_data_prototype_mapping_field_values_and_order(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            DataPrototypeMapping,
+            VariableAndParameterInterfaceMapping,
+        )
+
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        map_set = pkg.createPortInterfaceMappingSet("PIMS")
+        mapping = map_set.createVariableAndParameterInterfaceMapping("VAPIM")
+        assert isinstance(mapping, VariableAndParameterInterfaceMapping)
+
+        data_mapping = DataPrototypeMapping()
+        data_mapping.setFirstDataPrototypeRef(self._ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/First"))
+        data_mapping.setFirstToSecondDataTransformationRef(self._ref("DATA-TRANSFORMATION", "/Pkg/DT"))
+        data_mapping.setSecondDataPrototypeRef(self._ref("VARIABLE-DATA-PROTOTYPE", "/Pkg/Second"))
+        data_mapping.setSecondToFirstDataTransformationRef(self._ref("DATA-TRANSFORMATION", "/Pkg/DTInv"))
+        data_mapping.addSubElementMapping(SubElementMapping())
+        data_mapping.addTextTableMapping(TextTableMapping())
+        mapping.addDataMapping(data_mapping)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeVariableAndParameterInterfaceMapping(parent, mapping)
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+        dpm = reparsed.find("{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING" % (NS, NS, NS))
+        assert [child.tag.split("}")[-1] for child in dpm] == [
+            "FIRST-DATA-PROTOTYPE-REF",
+            "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF",
+            "SECOND-DATA-PROTOTYPE-REF",
+            "SECOND-TO-FIRST-DATA-TRANSFORMATION-REF",
+            "SUB-ELEMENT-MAPPINGS",
+            "TEXT-TABLE-MAPPINGS",
+        ]
+        assert dpm.find("{%s}FIRST-DATA-PROTOTYPE-REF" % NS).text == "/Pkg/First"
+        assert dpm.find("{%s}FIRST-TO-SECOND-DATA-TRANSFORMATION-REF" % NS).text == "/Pkg/DT"
+        assert dpm.find("{%s}SECOND-DATA-PROTOTYPE-REF" % NS).text == "/Pkg/Second"
+        assert dpm.find("{%s}SECOND-TO-FIRST-DATA-TRANSFORMATION-REF" % NS).text == "/Pkg/DTInv"
+
+        mapping2 = map_set.createVariableAndParameterInterfaceMapping("VAPIM2")
+        ARXMLParser().readVariableAndParameterInterfaceMapping(reparsed[0], mapping2)
+        parsed_dpm = mapping2.getDataMappings()[0]
+        assert isinstance(parsed_dpm, DataPrototypeMapping)
+        assert parsed_dpm.getFirstDataPrototypeRef().getValue() == "/Pkg/First"
+        assert parsed_dpm.getFirstToSecondDataTransformationRef().getValue() == "/Pkg/DT"
+        assert parsed_dpm.getSecondDataPrototypeRef().getValue() == "/Pkg/Second"
+        assert parsed_dpm.getSecondToFirstDataTransformationRef().getValue() == "/Pkg/DTInv"
+        assert len(parsed_dpm.getSubElementMappings()) == 1
+        assert len(parsed_dpm.getTextTableMappings()) == 1
+
+    def test_empty_data_prototype_mapping_wrappers_not_serialized(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping
+
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        map_set = pkg.createPortInterfaceMappingSet("PIMS")
+        mapping = map_set.createVariableAndParameterInterfaceMapping("VAPIM")
+        mapping.addDataMapping(DataPrototypeMapping())
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeVariableAndParameterInterfaceMapping(parent, mapping)
+        xml_text = ET.tostring(parent, encoding="unicode")
+        reparsed = ET.fromstring(xml_text.replace("PARENT", "PARENT xmlns='%s'" % NS, 1))
+        dpm = reparsed.find("{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING" % (NS, NS, NS))
+        assert dpm is not None
+        assert len(list(dpm)) == 0
+
+        mapping2 = map_set.createVariableAndParameterInterfaceMapping("VAPIM2")
+        ARXMLParser().readVariableAndParameterInterfaceMapping(reparsed[0], mapping2)
+        parsed_dpm = mapping2.getDataMappings()[0]
+        assert parsed_dpm.getSubElementMappings() == []
+        assert parsed_dpm.getTextTableMappings() == []
