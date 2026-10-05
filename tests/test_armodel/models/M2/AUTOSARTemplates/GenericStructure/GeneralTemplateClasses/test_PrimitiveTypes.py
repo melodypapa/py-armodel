@@ -53,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
+    DiagnosticWwhObdDtcClassEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -3027,3 +3028,55 @@ class TestDiagnosticUdsSeverityEnum:
         enum.setValue(DiagnosticUdsSeverityEnum.NO_SEVERITY)
 
         assert enum.getValue() == "noSeverity"
+
+
+class TestDiagnosticWwhObdDtcClassEnum:
+    """
+    Test class for DiagnosticWwhObdDtcClassEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.179, p.188
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "demDtcWwhObdClassA",
+            "demDtcWwhObdClassB1",
+            "demDtcWwhObdClassB2",
+            "demDtcWwhObdClassC",
+            "demDtcWwhObdClassNoInformation",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum member values.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A == "demDtcWwhObdClassA"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1 == "demDtcWwhObdClassB1"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2 == "demDtcWwhObdClassB2"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C == "demDtcWwhObdClassC"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION == "demDtcWwhObdClassNoInformation"
+
+        assert enum.validateEnumValue("demDtcWwhObdClassA") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassB1") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassB2") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassC") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassNoInformation") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum instantiability and getValue.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+        enum.setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION)
+
+        assert enum.getValue() == "demDtcWwhObdClassNoInformation"

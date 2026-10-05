@@ -2617,7 +2617,41 @@ class DiagnosticUdsSeverityEnum(AREnum):
 
 
 class DiagnosticWwhObdDtcClassEnum(AREnum):
-    pass
+    """
+    This meta-class represents the ability to model severity classes of an WWH-OBD DTC.
+    """
+
+    # DiagnosticWwhObdDtcClassEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.179, p.188
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This attribute represents the severity class A. Tags: atp.EnumerationLiteralIndex=0
+    DEM_DTC_WWH_OBD_CLASS_A = "demDtcWwhObdClassA"
+
+    # This attribute represents the severity class B1. Tags: atp.EnumerationLiteralIndex=1
+    DEM_DTC_WWH_OBD_CLASS_B1 = "demDtcWwhObdClassB1"
+
+    # This attribute represents the severity class B2. Tags: atp.EnumerationLiteralIndex=2
+    DEM_DTC_WWH_OBD_CLASS_B2 = "demDtcWwhObdClassB2"
+
+    # This attribute represents the severity class C. Tags: atp.EnumerationLiteralIndex=3
+    DEM_DTC_WWH_OBD_CLASS_C = "demDtcWwhObdClassC"
+
+    # This attribute represents the option to intentionally not describe a dedicated severity class of an WWH-OBD DTC. Tags: atp.EnumerationLiteralIndex=4
+    DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION = "demDtcWwhObdClassNoInformation"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C,
+                DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION,
+            ]
+        )
 
 
 class EthGlobalTimeMessageFormatEnum(AREnum):

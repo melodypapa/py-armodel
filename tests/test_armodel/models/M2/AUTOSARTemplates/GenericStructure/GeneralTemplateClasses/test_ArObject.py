@@ -2489,7 +2489,7 @@ class TestDiagnosticTroubleCodeUds:
         """
         obj = self._create_trouble_code()
 
-        value = DiagnosticWwhObdDtcClassEnum([])
+        value = DiagnosticWwhObdDtcClassEnum().setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A)
         result = obj.setWwhObdDtcClass(value)
         assert result is obj  # method chaining
         assert obj.getWwhObdDtcClass() is value
