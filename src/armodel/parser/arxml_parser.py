@@ -569,6 +569,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    SwAxisCont,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -7874,10 +7875,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
-        axis_conts = [self.getRuleBasedAxisCont(child_element) for child_element in self.findall(element, "SW-AXIS-CONTS/RULE-BASED-AXIS-CONT")]
-        if len(axis_conts) > 0:
-            value_spec.setSwAxisCont(axis_conts)
+        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalIdentifier(element, "CATEGORY")))
+        for child_element in self.findall(element, "SW-AXIS-CONTS/SW-AXIS-CONT"):
+            value_spec.addSwAxisCont(self.getSwAxisCont(child_element))
         value_spec.setSwValueCont(self.getSwValueCont(element))
 
         self.logger.debug("readApplicationValueSpecification Category %s" % value_spec.category)
@@ -9121,10 +9121,16 @@ class ARXMLParser(AbstractARXMLParser):
     def getApplicationValueSpecification(self, element: ET.Element) -> ApplicationValueSpecification:
         value_spec = ApplicationValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
-        value_spec.setShortLabel(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "SHORT-LABEL")))
+        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalIdentifier(element, "CATEGORY")))
+        for child_element in self.findall(element, "SW-AXIS-CONTS/SW-AXIS-CONT"):
+            value_spec.addSwAxisCont(self.getSwAxisCont(child_element))
         value_spec.setSwValueCont(self.getSwValueCont(element))
         return value_spec
+
+    def getSwAxisCont(self, element: ET.Element) -> SwAxisCont:
+        axis_cont = SwAxisCont()
+        self.readARObject(element, axis_cont)
+        return axis_cont
 
     def getNumericalOrText(self, element: ET.Element) -> NumericalOrText:
         not_text = NumericalOrText()

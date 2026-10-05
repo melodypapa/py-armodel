@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from abc import ABC
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, SwAxisCont
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -113,19 +113,30 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
 class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
     This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in particular compound primitives). For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with SW-INSTANCE in ASAM CDF 2.0.
+
+    [constr_10503] ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 and ROW_DIR SwRecordLayout: In the context of an ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 that is applied to a DataPrototype typed by an ApplicationPrimitiveDataType where the swDataDefProps.swRecordLayout refers to a SwRecordLayout with a ROW_DIR approach, the value of ApplicationValueSpecification.swValueCont.swArraysize.v[i] (i.e., counting up from the first element of swArraysize.v) shall be identical to the number of axis points of the respective SwCalprmAxisSet.swCalprmAxis where attribute swAxisIndex is set to i.
+
+    [constr_10504] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists for ROW_DIR SwRecordLayout: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize can be identical to the value of ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult if the referenced ApplicationPrimitiveDataType.swDataDefProps.swRecordLayout defines a rowfirst ROW_DIR layout at the time when the ValueSpecification is applied.
+
+    [constr_10505] ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 and COLUMN_DIR SwRecordLayout: In the context of an ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 that is applied to a DataPrototype typed by an ApplicationPrimitiveDataType where the swDataDefProps.swRecordLayout refers to a SwRecordLayout with a COLUMN_DIR approach, the value of ApplicationValueSpecification.swValueCont.swArraysize.v[-i] (i.e., counting down from the last element of swArraysize.v) shall be identical to the number of axis points of the respective SwCalprmAxisSet.swCalprmAxis where attribute swAxisIndex is set to i.
+
+    [constr_10506] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists for COLUMN_DIR SwRecordLayout: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize can be taken over from the reversed values of ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult if the referenced ApplicationPrimitiveDataType.swDataDefProps.swRecordLayout defines a column-first COLUMN_DIR layout at the time when the ValueSpecification is applied.
+
+    [constr_10507] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSize exists: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSize exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize shall contain a single v and the value of v shall be identical to the value of attribute swValueBlockSize at the time when the ValueSpecification is applied.
+
+    [constr_2052] Values of swArraysize and the number of values provided by swValuesPhys shall be consistent: swValuesPhys shall define as many values as the attribute swArraysize (if this attribute exists) defines.
     """
 
     # ApplicationValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.122, p.455
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.122, p.455
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwAxisCont               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwAxisCont   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisConts  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwValueCont  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValueCont  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         CompositeRuleBasedValueArgument.__init__(self)
@@ -133,48 +144,56 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
 
         # Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         self.category: Optional[Identifier] = None
-        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
-        self.swAxisCont: List[RuleBasedAxisCont] = []
-        # This represents the values of a Compound Primitive Data Type.
-        self.swValueCont: Optional[RuleBasedValueCont] = None
 
-    def getCategory(self):
+        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
+        self.swAxisConts: List[SwAxisCont] = []
+
+        # This represents the values of a Compound Primitive Data Type.
+        self.swValueCont: Optional[SwValueCont] = None
+
+    def getCategory(self) -> Optional[Identifier]:
         """
         Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         """
         return self.category
 
-    def setCategory(self, value):
+    def setCategory(self, value: Optional[Identifier]) -> ApplicationValueSpecification:
         """
         Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
+        A None value is a no-op and does not overwrite an existing category.
         """
-        self.category = value
+        if value is not None:
+            self.category = value
         return self
 
-    def getSwAxisCont(self):
+    def addSwAxisCont(self, value: Optional[SwAxisCont]) -> ApplicationValueSpecification:
+        """
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
+        A None value is a no-op and does not append to swAxisConts.
+        """
+        if value is not None:
+            self.swAxisConts.append(value)
+        return self
+
+    def getSwAxisConts(self) -> List[SwAxisCont]:
         """
         This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         """
-        return self.swAxisCont
+        return self.swAxisConts
 
-    def setSwAxisCont(self, value):
-        """
-        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
-        """
-        self.swAxisCont = value
-        return self
-
-    def getSwValueCont(self):
+    def getSwValueCont(self) -> Optional[SwValueCont]:
         """
         This represents the values of a Compound Primitive Data Type.
         """
         return self.swValueCont
 
-    def setSwValueCont(self, value):
+    def setSwValueCont(self, value: Optional[SwValueCont]) -> ApplicationValueSpecification:
         """
         This represents the values of a Compound Primitive Data Type.
+        A None value is a no-op and does not overwrite an existing swValueCont.
         """
-        self.swValueCont = value
+        if value is not None:
+            self.swValueCont = value
         return self
 
 
@@ -1367,6 +1386,7 @@ class RuleBasedValueSpecification(ARObject):
 # its annotations, and the DataDictionary imports below are annotation targets consumed through the
 # CalibrationParameter/DataDefProperties import chains, so they must run after this module's class
 # definitions; placed at the bottom so both sides of each cycle are fully initialized (Rule 0005).
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList  # noqa: E402

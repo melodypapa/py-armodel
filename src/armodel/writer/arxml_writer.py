@@ -552,6 +552,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    SwAxisCont,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -4359,13 +4360,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if value_spec is not None:
             child_element = ET.SubElement(element, "APPLICATION-VALUE-SPECIFICATION")
             self.writeValueSpecification(child_element, value_spec)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", value_spec.getCategory())
-            axis_conts = value_spec.getSwAxisCont()
+            self.setChildElementOptionalIdentifier(child_element, "CATEGORY", value_spec.getCategory())
+            axis_conts = value_spec.getSwAxisConts()
             if len(axis_conts) > 0:
                 axis_conts_tag = ET.SubElement(child_element, "SW-AXIS-CONTS")
                 for axis_cont in axis_conts:
-                    self.writeRuleBasedAxisCont(axis_conts_tag, axis_cont)
+                    self.writeSwAxisCont(axis_conts_tag, axis_cont)
             self.writeSwValueCont(child_element, value_spec.getSwValueCont())
+
+    def writeSwAxisCont(self, element: ET.Element, axis_cont: SwAxisCont):
+        if axis_cont is not None:
+            child_element = ET.SubElement(element, "SW-AXIS-CONT")
+            self.writeARObject(child_element, axis_cont)
 
     def writeNumericalOrText(self, element: ET.Element, key: str, not_text: Optional[NumericalOrText]):
         if not_text is not None:

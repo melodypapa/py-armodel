@@ -1211,6 +1211,15 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 |---|---|---|---|---|---|
 | — | — | — | — | — | No deviations — Table D.6 attributes (`category` via `getCategory`/`setCategory`, `swAxisCont` `*` via plural `swAxisConts`/`addSwAxisCont`/`getSwAxisConts`, `swValueCont` 0..1 via guarded `getSwValueCont`/`setSwValueCont`) all implemented per Rule 1.4. |
 
+## `ApplicationValueSpecification`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 455  | **table:** Table 5.122
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
+
+No deviations — all three Table 5.122 attributes are modeled with spec shapes: `category` (Identifier, `0..1`, attr), `swAxisCont (ordered)` (SwAxisCont, `*`, aggr → plural `swAxisConts: List[SwAxisCont]` + `addSwAxisCont`/`getSwAxisConts` per Rule 0001.4), `swValueCont` (SwValueCont, `0..1`, aggr). Base `(CompositeRuleBasedValueArgument, ValueSpecification)` kept — the XSD complexType (AUTOSAR_00052.xsd L4120) refs AR-OBJECT + COMPOSITE-RULE-BASED-VALUE-ARGUMENT + VALUE-SPECIFICATION groups, matching the stamped sibling `ApplicationRuleBasedValueSpecification`; VP capability is inherited via ValueSpecification (group VALUE-SPECIFICATION anchors VARIATION-POINT), no own field. Stale shape fixed this pass (no deviation rows remain): the pre-sync block typed `swAxisCont` as `List[RuleBasedAxisCont]` and `swValueCont` as `RuleBasedValueCont` (wrong per the Table 5.122 Type column) and exposed the `*` member through `get/setSwAxisCont`; types and accessor shape now match the table.
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; stale `# Spec verified: R23-11` with a wrong citation — `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf` Table 5.122 — removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction). Class docstring = Note verbatim + the section's six class-level constraints ([constr_10503]..[constr_10507], [constr_2052]) appended in compact form. Reader (`getApplicationValueSpecification`/`readApplicationValueSpecification`) and writer (`writeApplicationValueSpecification`) moved from the old `SW-AXIS-CONTS/RULE-BASED-AXIS-CONT` shape to the XSD group shape — `SW-AXIS-CONT` children via new `getSwAxisCont`/`writeSwAxisCont` (base-helper call `readARObject`/`writeARObject` present from this pass; SwAxisCont's own attribute reads land with its Group28 pass) — and CATEGORY upgraded to the spec-typed `getChildElementOptionalIdentifier`/`setChildElementOptionalIdentifier` pair. Element order = XSD group order CATEGORY, SW-AXIS-CONTS, SW-VALUE-CONT. Referenced member types `SwAxisCont` (Table 5.124) and `SwValueCont` (Table 5.121, stamped) queued in this batch — no missing classes.
+
 ## `ArgumentDataPrototype`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 303
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
