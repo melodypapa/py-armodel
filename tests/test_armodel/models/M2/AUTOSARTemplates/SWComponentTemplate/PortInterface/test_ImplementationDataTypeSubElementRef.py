@@ -70,20 +70,18 @@ class TestImplementationDataTypeSubElementRef:
             return " ".join(doc.split())
 
         assert norm(sub_element_ref.getImplementationDataTypeElement.__doc__) == IMPL_ELEMENT_NOTE
-        assert norm(sub_element_ref.setImplementationDataTypeElement.__doc__) == (
-            IMPL_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing implementationDataTypeElement."
-        )
+        assert norm(sub_element_ref.setImplementationDataTypeElement.__doc__) == (IMPL_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing implementationDataTypeElement.")
         assert norm(sub_element_ref.getParameterImplementationDataTypeElement.__doc__) == PARAM_ELEMENT_NOTE
         assert norm(sub_element_ref.setParameterImplementationDataTypeElement.__doc__) == (
             PARAM_ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing parameterImplementationDataTypeElement."
         )
 
     def test_get_type_hints_pins(self):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
-            ArVariableInImplementationDataInstanceRef,
-        )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
             ArParameterInImplementationDataInstanceRef,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+            ArVariableInImplementationDataInstanceRef,
         )
 
         hints = typing.get_type_hints(ImplementationDataTypeSubElementRef.getImplementationDataTypeElement)

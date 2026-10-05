@@ -9,10 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 )
 
 SPEC_NOTE = "This meta-class represents the specialization of SubElementMapping with respect to ApplicationCompositeDataTypes."
-ELEMENT_NOTE = (
-    "This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: "
-    "ApplicationCompositeElementInPortInterfaceInstanceRef"
-)
+ELEMENT_NOTE = "This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: " "ApplicationCompositeElementInPortInterfaceInstanceRef"
 
 
 class TestApplicationCompositeDataTypeSubElementRef:
@@ -56,9 +53,7 @@ class TestApplicationCompositeDataTypeSubElementRef:
             return " ".join(doc.split())
 
         assert norm(sub_element_ref.getApplicationCompositeElementIRef.__doc__) == ELEMENT_NOTE
-        assert norm(sub_element_ref.setApplicationCompositeElementIRef.__doc__) == (
-            ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing applicationCompositeElementIRef."
-        )
+        assert norm(sub_element_ref.setApplicationCompositeElementIRef.__doc__) == (ELEMENT_NOTE + " A None value is a no-op and does not overwrite an existing applicationCompositeElementIRef.")
 
     def test_get_type_hints_pins(self):
         hints = typing.get_type_hints(ApplicationCompositeDataTypeSubElementRef.getApplicationCompositeElementIRef)

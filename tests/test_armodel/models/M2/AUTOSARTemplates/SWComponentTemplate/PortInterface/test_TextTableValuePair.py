@@ -56,15 +56,9 @@ class TestTextTableValuePair:
             return " ".join(doc.split())
 
         assert norm(value_pair.getFirstValue.__doc__) == VALUE_NOTE
-        assert norm(value_pair.setFirstValue.__doc__) == (
-            VALUE_NOTE + " A None value is a no-op and does not overwrite an existing firstValue."
-        )
-        assert norm(value_pair.getSecondValue.__doc__).startswith(
-            "Value of second DataPrototype provided similar to a numerical"
-        )
-        assert "A None value is a no-op and does not overwrite an existing secondValue." in norm(
-            value_pair.setSecondValue.__doc__
-        )
+        assert norm(value_pair.setFirstValue.__doc__) == (VALUE_NOTE + " A None value is a no-op and does not overwrite an existing firstValue.")
+        assert norm(value_pair.getSecondValue.__doc__).startswith("Value of second DataPrototype provided similar to a numerical")
+        assert "A None value is a no-op and does not overwrite an existing secondValue." in norm(value_pair.setSecondValue.__doc__)
 
     def test_get_type_hints_pins(self):
         hints = typing.get_type_hints(TextTableValuePair.getFirstValue)

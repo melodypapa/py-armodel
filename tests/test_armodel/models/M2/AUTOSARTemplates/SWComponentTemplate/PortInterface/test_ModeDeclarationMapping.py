@@ -79,13 +79,9 @@ class TestModeDeclarationMapping:
             return " ".join(doc.split())
 
         assert norm(mapping.getFirstModeRefs.__doc__) == FIRST_MODE_NOTE
-        assert norm(mapping.addFirstModeRef.__doc__) == (
-            FIRST_MODE_NOTE + " A None value is a no-op and does not append anything."
-        )
+        assert norm(mapping.addFirstModeRef.__doc__) == (FIRST_MODE_NOTE + " A None value is a no-op and does not append anything.")
         assert norm(mapping.getSecondModeRef.__doc__) == SECOND_MODE_NOTE
-        assert norm(mapping.setSecondModeRef.__doc__) == (
-            SECOND_MODE_NOTE + " A None value is a no-op and does not overwrite an existing secondModeRef."
-        )
+        assert norm(mapping.setSecondModeRef.__doc__) == (SECOND_MODE_NOTE + " A None value is a no-op and does not overwrite an existing secondModeRef.")
 
     def test_get_type_hints_pins(self):
         hints = typing.get_type_hints(ModeDeclarationMapping.getFirstModeRefs)

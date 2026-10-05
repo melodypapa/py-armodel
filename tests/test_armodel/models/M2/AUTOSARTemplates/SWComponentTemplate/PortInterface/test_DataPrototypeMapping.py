@@ -123,25 +123,17 @@ class TestDataPrototypeMapping:
             return " ".join(doc.split())
 
         assert norm(mapping.getFirstDataPrototypeRef.__doc__) == FIRST_DATA_NOTE
-        assert norm(mapping.setFirstDataPrototypeRef.__doc__) == (
-            FIRST_DATA_NOTE + " A None value is a no-op and does not overwrite an existing firstDataPrototypeRef."
-        )
-        assert norm(mapping.getFirstToSecondDataTransformationRef.__doc__).startswith(
-            "This reference defines the need to execute the DataTransformation <Mip>_<transformerId> functions"
-        )
+        assert norm(mapping.setFirstDataPrototypeRef.__doc__) == (FIRST_DATA_NOTE + " A None value is a no-op and does not overwrite an existing firstDataPrototypeRef.")
+        assert norm(mapping.getFirstToSecondDataTransformationRef.__doc__).startswith("This reference defines the need to execute the DataTransformation <Mip>_<transformerId> functions")
         assert norm(mapping.getSecondDataPrototypeRef.__doc__) == SECOND_DATA_NOTE
         assert norm(mapping.getSecondToFirstDataTransformationRef.__doc__) == (
             "This defines the need to execute the reverse DataTransformation <Mip>_Inv_<transformerId> functions of "
             "the transformation chain when communicating from the DataPrototypeMapping.secondDataPrototype to the "
             "DataPrototypeMapping.firstDataPrototype."
         )
-        assert norm(mapping.addSubElementMapping.__doc__) == (
-            SUB_ELEMENT_NOTE + " A None value is a no-op and does not append anything."
-        )
+        assert norm(mapping.addSubElementMapping.__doc__) == (SUB_ELEMENT_NOTE + " A None value is a no-op and does not append anything.")
         assert norm(mapping.getSubElementMappings.__doc__) == SUB_ELEMENT_NOTE
-        assert norm(mapping.addTextTableMapping.__doc__) == (
-            TEXT_TABLE_NOTE + " A None value is a no-op and does not append anything."
-        )
+        assert norm(mapping.addTextTableMapping.__doc__) == (TEXT_TABLE_NOTE + " A None value is a no-op and does not append anything.")
         assert norm(mapping.getTextTableMappings.__doc__) == TEXT_TABLE_NOTE
 
     def test_get_type_hints_pins(self):

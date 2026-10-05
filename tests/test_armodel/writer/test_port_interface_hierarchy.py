@@ -15,7 +15,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ArgumentDirectionEnum,
     Boolean,
@@ -25,11 +24,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ClientServerInterface,
-    ServerArgumentImplPolicyEnum,
     DataPrototypeMapping,
+    ServerArgumentImplPolicyEnum,
     SubElementMapping,
     TextTableMapping,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -403,8 +403,7 @@ class TestImplementationDataTypeSubElementRefRoundTrip:
 
         first_element = reparsed.find(
             "{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING/"
-            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}FIRST-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF"
-            % (NS, NS, NS, NS, NS, NS, NS)
+            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}FIRST-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF" % (NS, NS, NS, NS, NS, NS, NS)
         )
         assert [child.tag.split("}")[-1] for child in first_element] == ["IMPLEMENTATION-DATA-TYPE-ELEMENT"]
         impl_element = first_element.find("{%s}IMPLEMENTATION-DATA-TYPE-ELEMENT" % NS)
@@ -420,8 +419,7 @@ class TestImplementationDataTypeSubElementRefRoundTrip:
 
         second_element = reparsed.find(
             "{%s}VARIABLE-AND-PARAMETER-INTERFACE-MAPPING/{%s}DATA-MAPPINGS/{%s}DATA-PROTOTYPE-MAPPING/"
-            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}SECOND-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF"
-            % (NS, NS, NS, NS, NS, NS, NS)
+            "{%s}SUB-ELEMENT-MAPPINGS/{%s}SUB-ELEMENT-MAPPING/{%s}SECOND-ELEMENTS/{%s}IMPLEMENTATION-DATA-TYPE-SUB-ELEMENT-REF" % (NS, NS, NS, NS, NS, NS, NS)
         )
         param_element = second_element.find("{%s}PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT" % NS)
         assert [child.tag.split("}")[-1] for child in param_element] == [
