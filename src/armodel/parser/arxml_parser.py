@@ -14175,9 +14175,10 @@ class ARXMLParser(AbstractARXMLParser):
         can_xl_props.setCanXlConfigReqs(self.getCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS"))
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
-        attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
+        self.readARObject(element, attributes)
+        attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-ATTRIBUTES"))
         attributes.setCanControllerFdRequirements(self.getCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS"))
-        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION"))
+        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-ATTRIBUTES"))
         attributes.setCanControllerXlRequirements(self.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS"))
 
     def readCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):

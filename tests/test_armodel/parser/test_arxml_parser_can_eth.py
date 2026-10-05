@@ -253,11 +253,11 @@ class TestReadAbstractCanCommunicationControllerAttributes:
 
         attributes = CanControllerConfigurationRequirements()
         element = _snip(
-            "<CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<CAN-CONTROLLER-XL-ATTRIBUTES>"
             "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
             "<PROP-SEG>4</PROP-SEG>"
             "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
-            "</CAN-CONTROLLER-XL-CONFIGURATION>"
+            "</CAN-CONTROLLER-XL-ATTRIBUTES>"
             "<CAN-CONTROLLER-XL-REQUIREMENTS>"
             "<ERROR-SIGNALING-ENABLED>false</ERROR-SIGNALING-ENABLED>"
             "</CAN-CONTROLLER-XL-REQUIREMENTS>"

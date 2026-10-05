@@ -448,7 +448,7 @@ class TestWriterAbstractCanCommunicationControllerAttributes:
         parent = _parent()
         writer.writeAbstractCanCommunicationControllerAttributes(parent, attrs)
 
-        xl_el = parent.find("CAN-CONTROLLER-XL-CONFIGURATION")
+        xl_el = parent.find("CAN-CONTROLLER-XL-ATTRIBUTES")
         assert xl_el is not None
         assert xl_el.find("ERROR-SIGNALING-ENABLED").text == "true"
         assert xl_el.find("PROP-SEG").text == "4"

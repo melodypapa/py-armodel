@@ -11942,9 +11942,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED", requirements.getTrcvPwmModeEnabled())
 
     def writeAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
-        self.setCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION", attributes.getCanControllerFdAttributes())
+        self.writeARObject(element, attributes)
+        self.setCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-ATTRIBUTES", attributes.getCanControllerFdAttributes())
         self.setCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS", attributes.getCanControllerFdRequirements())
-        self.setCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION", attributes.getCanControllerXlAttributes())
+        self.setCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-ATTRIBUTES", attributes.getCanControllerXlAttributes())
         self.setCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS", attributes.getCanControllerXlRequirements())
 
     def writeCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):

@@ -786,17 +786,16 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
     # AbstractCanCommunicationControllerAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.13, p.64
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanControllerFdAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerFdAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerFdRequirements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerFdRequirements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerXlAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerXlAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerXlRequirements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerXlRequirements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
