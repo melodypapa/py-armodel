@@ -51,6 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -1819,6 +1820,49 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         enum.setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1)
 
         assert enum.getValue() == "iso14229_1"
+
+
+class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
+    """
+    Test class for DiagnosticTypeOfFreezeFrameRecordNumerationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.172, p.184
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "calculated",
+            "configured",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum member values.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED == "calculated"
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED == "configured"
+
+        assert enum.validateEnumValue("calculated") is True
+        assert enum.validateEnumValue("configured") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum instantiability and getValue.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+        enum.setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED)
+
+        assert enum.getValue() == "calculated"
 
 
 class TestDiagnosticEventCombinationBehaviorEnum:

@@ -72,7 +72,7 @@ def _make_primary(package) -> DiagnosticMemoryDestinationPrimary:
     primary.setMemoryEntryStorageTrigger(DiagnosticMemoryEntryStorageTriggerEnum().setValue(DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED))
     primary.setStatusBitHandlingTestFailedSinceLastClear(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL))
     primary.setStatusBitStorageTestFailed(Boolean().setValue(False))
-    primary.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("CALCULATED"))
+    primary.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum().setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED))
     primary.setTypeOfDtcSupported(DiagnosticTypeOfDtcSupportedEnum().setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1))
     return primary
 
@@ -166,7 +166,7 @@ class TestWriteDiagnosticMemoryDestinationPrimary:
             assert primary_2.getStatusBitStorageTestFailed() is not None
             assert primary_2.getStatusBitStorageTestFailed().value is False
             assert primary_2.getTypeOfFreezeFrameRecordNumeration() is not None
-            assert primary_2.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
+            assert primary_2.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

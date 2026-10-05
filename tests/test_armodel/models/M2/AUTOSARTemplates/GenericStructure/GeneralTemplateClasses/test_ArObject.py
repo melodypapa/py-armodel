@@ -1610,11 +1610,11 @@ class TestDiagnosticMemoryDestination:
 
     def test_get_set_type_of_freeze_frame_record_numeration(self):
         """
-        Test getTypeOfFreezeFrameRecordNumeration and setTypeOfFreezeFrameRecordNumeration round-trip and None no-op (interim raw-literal shape — the enum is a stub).
+        Test getTypeOfFreezeFrameRecordNumeration and setTypeOfFreezeFrameRecordNumeration round-trip and None no-op.
         """
         obj = self._create_destination()
 
-        value = DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("calculated")
+        value = DiagnosticTypeOfFreezeFrameRecordNumerationEnum().setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED)
         result = obj.setTypeOfFreezeFrameRecordNumeration(value)
         assert result is obj  # method chaining
         assert obj.getTypeOfFreezeFrameRecordNumeration() is value

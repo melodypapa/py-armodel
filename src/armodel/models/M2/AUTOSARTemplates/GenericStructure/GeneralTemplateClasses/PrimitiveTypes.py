@@ -2557,7 +2557,29 @@ class DiagnosticTypeOfDtcSupportedEnum(AREnum):
 
 
 class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
-    pass
+    """
+    FreezeFrame record numeration type
+    """
+
+    # DiagnosticTypeOfFreezeFrameRecordNumerationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.172, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Freeze frame records will be numbered consecutive starting by 1 in their chronological order. Tags: atp.EnumerationLiteralIndex=0
+    CALCULATED = "calculated"
+
+    # Freeze frame records will be numbered based on the given configuration in their chronological order. Tags: atp.EnumerationLiteralIndex=1
+    CONFIGURED = "configured"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED,
+                DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED,
+            ]
+        )
 
 
 class DiagnosticUdsSeverityEnum(AREnum):

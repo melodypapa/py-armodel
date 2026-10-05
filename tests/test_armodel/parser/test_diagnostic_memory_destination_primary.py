@@ -101,5 +101,5 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         assert primary.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
         assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
         assert primary.getStatusBitStorageTestFailed().value is True
-        assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
+        assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
         assert primary.getTypeOfDtcSupported().getValue() == "saeJ1939_73"

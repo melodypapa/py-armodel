@@ -13,10 +13,9 @@ they are synced (Rule 0001.7 abstract-XML-bearing-base clause). Both concrete
 subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance.
 
-clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger and
-statusBitHandlingTestFailedSinceLastClear are read through the _enumToken path
-against their synced enums; typeOfFreezeFrameRecordNumeration is round-tripped
-as a raw literal until its enum (Table 4.172, Group25) gains its literals.
+clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger,
+statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
+are read through the _enumToken path against their synced enums.
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_destination.py
 """
@@ -27,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     DiagnosticMemoryEntryStorageTriggerEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
 )
 
 NS = "http://autosar.org/schema/r4.0"
@@ -98,11 +98,12 @@ class TestReadDiagnosticMemoryDestination:
         assert destination.getStatusBitStorageTestFailed() is not None
         assert destination.getStatusBitStorageTestFailed().value is False
 
-    def test_read_sets_type_of_freeze_frame_record_numeration_as_raw_literal(self, parser):
-        """Test that TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION is round-tripped as a raw literal while its enum is a stub."""
+    def test_read_sets_type_of_freeze_frame_record_numeration(self, parser):
+        """Test that the TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION token is read as the typed enum literal."""
         destination = self._read(parser, "<TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION>CONFIGURED</TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION>")
         assert destination.getTypeOfFreezeFrameRecordNumeration() is not None
-        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "CONFIGURED"
+        assert isinstance(destination.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
+        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "configured"
 
     def test_read_empty_leaves_all_fields_none(self, parser):
         """Test that an element without group children leaves every field None."""
@@ -143,4 +144,6 @@ class TestReadDiagnosticMemoryDestination:
         assert isinstance(destination.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
         assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
         assert destination.getStatusBitStorageTestFailed().value is True
-        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
+        assert destination.getTypeOfFreezeFrameRecordNumeration() is not None
+        assert isinstance(destination.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
+        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"

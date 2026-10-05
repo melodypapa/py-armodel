@@ -14,11 +14,9 @@ subclasses are still unsynced stubs queued later in Group25, so the tests drive
 the helper directly through a minimal concrete subclass instance and assert
 field values / XSD sequenceOffset child order.
 
-clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger and
-statusBitHandlingTestFailedSinceLastClear are written through the _enumToken
-path against their synced enums; typeOfFreezeFrameRecordNumeration is
-round-tripped as a raw literal until its enum (Table 4.172, Group25) gains its
-literals.
+clearDtcLimitation, eventDisplacementStrategy, memoryEntryStorageTrigger,
+statusBitHandlingTestFailedSinceLastClear and typeOfFreezeFrameRecordNumeration
+are written through the _enumToken path against their synced enums.
 
 Round-trip counterpart: tests/test_armodel/parser/test_diagnostic_memory_destination.py
 """
@@ -68,7 +66,7 @@ def _make_destination() -> _ConcreteDiagnosticMemoryDestination:
         DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum().setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL)
     )
     destination.setStatusBitStorageTestFailed(Boolean().setValue(False))
-    destination.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum([]).setValue("CONFIGURED"))
+    destination.setTypeOfFreezeFrameRecordNumeration(DiagnosticTypeOfFreezeFrameRecordNumerationEnum().setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED))
     return destination
 
 
@@ -141,4 +139,5 @@ class TestWriteDiagnosticMemoryDestination:
         assert reloaded.getStatusBitStorageTestFailed() is not None
         assert reloaded.getStatusBitStorageTestFailed().value is False
         assert reloaded.getTypeOfFreezeFrameRecordNumeration() is not None
-        assert reloaded.getTypeOfFreezeFrameRecordNumeration().getValue() == "CONFIGURED"
+        assert isinstance(reloaded.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
+        assert reloaded.getTypeOfFreezeFrameRecordNumeration().getValue() == "configured"

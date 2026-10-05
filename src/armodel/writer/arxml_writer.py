@@ -1437,6 +1437,13 @@ DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
     "saeJ2012_da": "SAE-J-2012-DA",
 }
 
+#: Mapping between DiagnosticTypeOfFreezeFrameRecordNumerationEnum literal values and their XML element text
+#: (AR:DIAGNOSTIC-TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION-ENUM--SIMPLE).
+DIAGNOSTIC_TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_XML_MAP = {
+    "calculated": "CALCULATED",
+    "configured": "CONFIGURED",
+}
+
 DTC_FORMAT_TYPE_XML_MAP = {
     "j1939": "J-1939",
     "obd": "OBD",
@@ -15010,8 +15017,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             element, "STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR", destination.getStatusBitHandlingTestFailedSinceLastClear(), DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP
         )
         self.setChildElementOptionalBooleanValue(element, "STATUS-BIT-STORAGE-TEST-FAILED", destination.getStatusBitStorageTestFailed())
-        # TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION is round-tripped as a raw literal until DiagnosticTypeOfFreezeFrameRecordNumerationEnum (Table 4.172, Group25) gains its literals; switch to _readEnumToken/_writeEnumToken then.
-        self.setChildElementOptionalLiteral(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION", cast(ARLiteral, destination.getTypeOfFreezeFrameRecordNumeration()))
+        self._writeEnumToken(element, "TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION", destination.getTypeOfFreezeFrameRecordNumeration(), DIAGNOSTIC_TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_XML_MAP)
 
     def writeDiagnosticMemoryDestinationPrimary(self, element: ET.Element, primary: DiagnosticMemoryDestinationPrimary):
         self.logger.debug("Write DiagnosticMemoryDestinationPrimary %s" % primary.getShortName())
