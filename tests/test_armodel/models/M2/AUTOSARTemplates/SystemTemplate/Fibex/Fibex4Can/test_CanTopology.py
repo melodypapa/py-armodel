@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
     CanPhysicalChannel,
+    TtcanCommunicationConnector,
     TtcanCommunicationController,
     TtcanPhysicalChannel,
 )
@@ -1415,4 +1416,46 @@ class TestTtcanPhysicalChannel:
         assert own_methods == ["__init__"]
 
         source = inspect.getsource(TtcanPhysicalChannel.__init__)
+        assert "self." not in source
+
+
+TTCAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "TTCAN bus specific communication connector attributes."
+
+
+class TestTtcanCommunicationConnector:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.27: ARObject, AbstractCanCommunicationConnector, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(TtcanCommunicationConnector, AbstractCanCommunicationConnector)
+        assert issubclass(TtcanCommunicationConnector, CommunicationConnector)
+        assert issubclass(TtcanCommunicationConnector, Identifiable)
+        assert issubclass(TtcanCommunicationConnector, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited CommunicationConnector fields default to empty (Table 3.27 has no attribute rows)"""
+        connector = TtcanCommunicationConnector(MockParent(), "conn")
+
+        assert isinstance(connector, TtcanCommunicationConnector)
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getCommControllerRef() is None
+        assert connector.getCreateEcuWakeupSource() is None
+        assert connector.getDynamicPncToChannelMappingEnabled() is None
+        assert connector.getEcuCommPortInstances() == []
+        assert connector.getPncFilterArrayMasks() == []
+        assert connector.getPncGatewayType() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.27)"""
+        assert inspect.cleandoc(TtcanCommunicationConnector.__doc__).strip() == TTCAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert TtcanCommunicationConnector.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.27 has no attribute rows)"""
+        own_methods = [name for name in TtcanCommunicationConnector.__dict__ if inspect.isfunction(getattr(TtcanCommunicationConnector, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(TtcanCommunicationConnector.__init__)
         assert "self." not in source

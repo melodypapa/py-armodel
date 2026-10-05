@@ -10,6 +10,7 @@ if TYPE_CHECKING:
         CanCommunicationConnector,
         CanCommunicationController,
         CanPhysicalChannel,
+        TtcanCommunicationConnector,
         TtcanCommunicationController,
         TtcanPhysicalChannel,
     )
@@ -996,6 +997,7 @@ class EcuInstance(FibexElement):
     # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTtcanCommunicationConnector                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1377,6 +1379,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(connector)
             self.connectors.append(connector)
         return cast(LinCommunicationConnector, self.getReferrableElement(short_name, LinCommunicationConnector))
+
+    def createTtcanCommunicationConnector(self, short_name: str) -> TtcanCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanCommunicationConnector
+
+        if not self.IsReferrableElementExists(short_name, TtcanCommunicationConnector):
+            connector = TtcanCommunicationConnector(self, short_name)
+            self.addReferrableElement(connector)
+            self.connectors.append(connector)
+        return cast(TtcanCommunicationConnector, self.getReferrableElement(short_name, TtcanCommunicationConnector))
 
     def getConnectors(self) -> List[CommunicationConnector]:
         """

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanCommunicationConnector,
     CanCommunicationController,
     CanPhysicalChannel,
+    TtcanCommunicationConnector,
     TtcanCommunicationController,
     TtcanPhysicalChannel,
 )
@@ -1891,6 +1892,24 @@ class Test_FibexCoreEcuInstance:
         # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
         hints = typing.get_type_hints(EcuInstance.createTtcanCommunicationController, localns={"TtcanCommunicationController": TtcanCommunicationController})
         assert hints["return"] is TtcanCommunicationController
+
+    def test_EcuInstance_create_ttcan_communication_connector(self):
+        """Test createTtcanCommunicationConnector: create, dedup by short name, append to connectors (Table 3.27 consumer)."""
+        parent = MockParent()
+        ecu = EcuInstance(parent, "test_ecu_ttcan_conn")
+
+        connector = ecu.createTtcanCommunicationConnector("ttcan_connector")
+        assert isinstance(connector, TtcanCommunicationConnector)
+        assert connector.getShortName() == "ttcan_connector"
+        assert connector in ecu.getConnectors()
+
+        again = ecu.createTtcanCommunicationConnector("ttcan_connector")
+        assert again is connector
+        assert len(ecu.getConnectors()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(EcuInstance.createTtcanCommunicationConnector, localns={"TtcanCommunicationConnector": TtcanCommunicationConnector})
+        assert hints["return"] is TtcanCommunicationConnector
 
 
 class Test_ClientIdRange:

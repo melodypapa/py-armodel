@@ -1782,7 +1782,18 @@ class J1939Cluster(AbstractCanCluster):
 
 
 class TtcanCommunicationConnector(AbstractCanCommunicationConnector):
-    pass
+    """
+    TTCAN bus specific communication connector attributes.
+    """
+
+    # TtcanCommunicationConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.27, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanCommunicationConnector, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable; reader/writer coverage flows through the concrete TTCAN-COMMUNICATION-CONNECTOR dispatch — XSD group TTCAN-COMMUNICATION-CONNECTOR, AUTOSAR_00052.xsd line 126966, is an empty sequence)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class TtcanPhysicalChannel(AbstractCanPhysicalChannel):

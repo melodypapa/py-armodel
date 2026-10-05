@@ -922,6 +922,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    TtcanCommunicationConnector,
     TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
@@ -12422,6 +12423,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK", connector.getPncWakeupDataMask())
         self.setChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC", cast(Integer, connector.getPncWakeupDlc()))
 
+    def writeTtcanCommunicationConnector(self, element: ET.Element, connector: TtcanCommunicationConnector):
+        self.logger.debug("Write TtcanCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)
+
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
@@ -12461,6 +12466,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(connector, CanCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "CAN-COMMUNICATION-CONNECTOR")
                     self.writeCanCommunicationConnector(child_element, connector)
+                elif isinstance(connector, TtcanCommunicationConnector):
+                    child_element = ET.SubElement(connectors_tag, "TTCAN-COMMUNICATION-CONNECTOR")
+                    self.writeTtcanCommunicationConnector(child_element, connector)
                 elif isinstance(connector, EthernetCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "ETHERNET-COMMUNICATION-CONNECTOR")
                     self.writeEthernetCommunicationConnector(child_element, connector)

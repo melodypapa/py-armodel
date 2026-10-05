@@ -1104,6 +1104,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    TtcanCommunicationConnector,
     TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
@@ -14816,6 +14817,10 @@ class ARXMLParser(AbstractARXMLParser):
         connector.setPncWakeupDataMask(self.getChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK"))
         connector.setPncWakeupDlc(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC"))
 
+    def readTtcanCommunicationConnector(self, element: ET.Element, connector: TtcanCommunicationConnector):
+        self.logger.debug("Read TtcanCommunicationConnector %s" % connector.getShortName())
+        self.readCommunicationConnector(element, connector)
+
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
         connector.setEthIpPropsRef(self.getChildElementOptionalRefType(element, "ETH-IP-PROPS-REF"))
@@ -14855,6 +14860,8 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "CAN-COMMUNICATION-CONNECTOR":
                 connector = instance.createCanCommunicationConnector(self.getShortName(child_element))
                 self.readCanCommunicationConnector(child_element, connector)
+            elif tag_name == "TTCAN-COMMUNICATION-CONNECTOR":
+                self.readTtcanCommunicationConnector(child_element, instance.createTtcanCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-COMMUNICATION-CONNECTOR":
                 self.readEthernetCommunicationConnector(child_element, instance.createEthernetCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "LIN-COMMUNICATION-CONNECTOR":
