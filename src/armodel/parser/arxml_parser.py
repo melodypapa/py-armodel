@@ -15762,7 +15762,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.readARObject(element, mapping)
         mapping.setCommunicationDirection(cast(Optional[CommunicationDirectionType], self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")))
+        for ref in self.getChildElementRefTypeList(element, "EVENT-GROUP-REFS/EVENT-GROUP-REF"):
+            mapping.addEventGroupRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "EVENT-HANDLER-REFS/EVENT-HANDLER-REF"):
+            mapping.addEventHandlerRef(ref)
         mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        for ref in self.getChildElementRefTypeList(element, "SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF"):
+            mapping.addServiceInstanceRef(ref)
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
             if isinstance(mapping, VariationPointCapable):

@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -41,6 +42,13 @@ def _communication_direction(value="in") -> CommunicationDirectionType:
     direction = CommunicationDirectionType()
     direction.setValue(value)
     return direction
+
+
+def _ref(value, dest):
+    ref = RefType()
+    ref.setValue(value)
+    ref.setDest(dest)
+    return ref
 
 
 def _new_mapping_with_introduction() -> DataMapping:
@@ -83,11 +91,28 @@ class TestWriteDataMapping:
         assert direction is not None
         assert direction.text == "in"
 
+    def test_write_ref_lists(self):
+        mapping = _ConcreteDataMapping()
+        mapping.addEventGroupRef(_ref("/eg", "CONSUMED-EVENT-GROUP"))
+        mapping.addEventHandlerRef(_ref("/eh", "EVENT-HANDLER"))
+        mapping.addServiceInstanceRef(_ref("/si", "SERVICE-INSTANCE"))
+
+        element = _write(mapping)
+
+        assert [child.tag for child in element] == ["EVENT-GROUP-REFS", "EVENT-HANDLER-REFS", "SERVICE-INSTANCE-REFS"]
+        assert element.find("EVENT-GROUP-REFS/EVENT-GROUP-REF").text == "/eg"
+        assert element.find("EVENT-GROUP-REFS/EVENT-GROUP-REF").attrib["DEST"] == "CONSUMED-EVENT-GROUP"
+        assert element.find("EVENT-HANDLER-REFS/EVENT-HANDLER-REF").text == "/eh"
+        assert element.find("SERVICE-INSTANCE-REFS/SERVICE-INSTANCE-REF").text == "/si"
+
     def test_write_empty_mapping_omits_elements(self):
         element = _write(_ConcreteDataMapping())
 
         assert element.find("COMMUNICATION-DIRECTION") is None
+        assert element.find("EVENT-GROUP-REFS") is None
+        assert element.find("EVENT-HANDLER-REFS") is None
         assert element.find("INTRODUCTION") is None
+        assert element.find("SERVICE-INSTANCE-REFS") is None
         assert element.find("VARIATION-POINT") is None
         assert len(element) == 0
 

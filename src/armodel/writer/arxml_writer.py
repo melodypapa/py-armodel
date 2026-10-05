@@ -12618,7 +12618,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.writeARObject(element, mapping)
         self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
+        event_group_refs = mapping.getEventGroupRefs()
+        if len(event_group_refs) > 0:
+            event_group_refs_tag = ET.SubElement(element, "EVENT-GROUP-REFS")
+            for event_group_ref in event_group_refs:
+                self.setChildElementOptionalRefType(event_group_refs_tag, "EVENT-GROUP-REF", event_group_ref)
+        event_handler_refs = mapping.getEventHandlerRefs()
+        if len(event_handler_refs) > 0:
+            event_handler_refs_tag = ET.SubElement(element, "EVENT-HANDLER-REFS")
+            for event_handler_ref in event_handler_refs:
+                self.setChildElementOptionalRefType(event_handler_refs_tag, "EVENT-HANDLER-REF", event_handler_ref)
         self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
+        service_instance_refs = mapping.getServiceInstanceRefs()
+        if len(service_instance_refs) > 0:
+            service_instance_refs_tag = ET.SubElement(element, "SERVICE-INSTANCE-REFS")
+            for service_instance_ref in service_instance_refs:
+                self.setChildElementOptionalRefType(service_instance_refs_tag, "SERVICE-INSTANCE-REF", service_instance_ref)
         self.writeVariationPoint(element, mapping.getVariationPoint())
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):

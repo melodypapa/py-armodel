@@ -29,8 +29,14 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationDirection [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
     # [x] setCommunicationDirection [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getEventHandlerRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addEventHandlerRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
     # [x] getIntroduction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIntroduction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addServiceInstanceRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         if type(self) is DataMapping:
@@ -41,8 +47,17 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
         # This attribute controls the direction into which the mapped SystemSignal is communicated with respect to the kind of PortPrototype used as the context element of the DataMapping.
         self.communicationDirection: Optional[CommunicationDirectionType] = None
 
+        # Via this reference a connection between the VFB View and the Ethernet EventGroups can be created.
+        self.eventGroupRefs: List[RefType] = []
+
+        # Via this reference a connection between the VFB View and the Ethernet EventHandlers can be created.
+        self.eventHandlerRefs: List[RefType] = []
+
         # This represents introductory documentation about the data mapping.
         self.introduction: Optional[DocumentationBlock] = None
+
+        # Via this reference a connection between the VFB View and the Ethernet Services can be created.
+        self.serviceInstanceRefs: List[RefType] = []
 
     def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
         """
@@ -59,6 +74,36 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
             self.communicationDirection = value
         return self
 
+    def getEventGroupRefs(self) -> List[RefType]:
+        """
+        Via this reference a connection between the VFB View and the Ethernet EventGroups can be created.
+        """
+        return self.eventGroupRefs
+
+    def addEventGroupRef(self, value: Optional[RefType]) -> DataMapping:
+        """
+        Via this reference a connection between the VFB View and the Ethernet EventGroups can be created.
+        A None value is a no-op and does not extend the eventGroupRefs list.
+        """
+        if value is not None:
+            self.eventGroupRefs.append(value)
+        return self
+
+    def getEventHandlerRefs(self) -> List[RefType]:
+        """
+        Via this reference a connection between the VFB View and the Ethernet EventHandlers can be created.
+        """
+        return self.eventHandlerRefs
+
+    def addEventHandlerRef(self, value: Optional[RefType]) -> DataMapping:
+        """
+        Via this reference a connection between the VFB View and the Ethernet EventHandlers can be created.
+        A None value is a no-op and does not extend the eventHandlerRefs list.
+        """
+        if value is not None:
+            self.eventHandlerRefs.append(value)
+        return self
+
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         This represents introductory documentation about the data mapping.
@@ -72,6 +117,21 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
         """
         if value is not None:
             self.introduction = value
+        return self
+
+    def getServiceInstanceRefs(self) -> List[RefType]:
+        """
+        Via this reference a connection between the VFB View and the Ethernet Services can be created.
+        """
+        return self.serviceInstanceRefs
+
+    def addServiceInstanceRef(self, value: Optional[RefType]) -> DataMapping:
+        """
+        Via this reference a connection between the VFB View and the Ethernet Services can be created.
+        A None value is a no-op and does not extend the serviceInstanceRefs list.
+        """
+        if value is not None:
+            self.serviceInstanceRefs.append(value)
         return self
 
 

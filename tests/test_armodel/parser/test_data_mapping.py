@@ -58,6 +58,26 @@ class TestReadDataMapping:
         assert direction is not None
         assert direction.getValue() == "in"
 
+    def test_read_ref_lists(self):
+        element = _snip(
+            "<EVENT-GROUP-REFS>"
+            "<EVENT-GROUP-REF DEST='CONSUMED-EVENT-GROUP'>/eg</EVENT-GROUP-REF>"
+            "</EVENT-GROUP-REFS>"
+            "<EVENT-HANDLER-REFS>"
+            "<EVENT-HANDLER-REF DEST='EVENT-HANDLER'>/eh</EVENT-HANDLER-REF>"
+            "</EVENT-HANDLER-REFS>"
+            "<SERVICE-INSTANCE-REFS>"
+            "<SERVICE-INSTANCE-REF DEST='SERVICE-INSTANCE'>/si</SERVICE-INSTANCE-REF>"
+            "</SERVICE-INSTANCE-REFS>"
+        )
+        mapping = _ConcreteDataMapping()
+
+        ARXMLParser().readDataMapping(element, mapping)
+
+        assert [r.getValue() for r in mapping.getEventGroupRefs()] == ["/eg"]
+        assert [r.getValue() for r in mapping.getEventHandlerRefs()] == ["/eh"]
+        assert [r.getValue() for r in mapping.getServiceInstanceRefs()] == ["/si"]
+
     def test_read_without_introduction(self):
         element = _snip("")
         mapping = _ConcreteDataMapping()
@@ -65,7 +85,10 @@ class TestReadDataMapping:
         ARXMLParser().readDataMapping(element, mapping)
 
         assert mapping.getCommunicationDirection() is None
+        assert mapping.getEventGroupRefs() == []
+        assert mapping.getEventHandlerRefs() == []
         assert mapping.getIntroduction() is None
+        assert mapping.getServiceInstanceRefs() == []
         assert mapping.getVariationPoint() is None
 
     def test_read_variation_point(self):
