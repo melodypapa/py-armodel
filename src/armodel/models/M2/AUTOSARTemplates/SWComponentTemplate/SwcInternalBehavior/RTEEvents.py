@@ -11,7 +11,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RTriggerInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -603,7 +603,40 @@ class WaitPoint(Identifiable):
 
 
 class ExternalTriggerOccurredEvent(RTEEvent):
-    pass
+    """
+    This event is raised when the referenced Trigger has occurred.
+
+    [constr_1949] Existence of attribute ExternalTriggerOccurredEvent.trigger: For each ExternalTriggerOccurredEvent, attribute trigger shall exist at the time when the RTE is generated.
+    """
+
+    # ExternalTriggerOccurredEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.20, p.545
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTriggerIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        self.triggerIRef: Optional[RTriggerInAtomicSwcInstanceRef] = None
+
+    def getTriggerIRef(self) -> Optional[RTriggerInAtomicSwcInstanceRef]:
+        """
+        The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[RTriggerInAtomicSwcInstanceRef]) -> ExternalTriggerOccurredEvent:
+        """
+        The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self
 
 
 class OsTaskExecutionEvent(RTEEvent):

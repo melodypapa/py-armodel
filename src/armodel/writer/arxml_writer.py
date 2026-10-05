@@ -743,6 +743,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     PTriggerInAtomicSwcTypeInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
+    RTriggerInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
@@ -864,6 +865,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataReceivedEvent,
     DataSendCompletedEvent,
     DataWriteCompletedEvent,
+    ExternalTriggerOccurredEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -4771,6 +4773,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRTEEvent(child_element, event)
             self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
+    def writeRTriggerInAtomicSwcInstanceRef(self, element: ET.Element, key: str, instance_ref: Optional[RTriggerInAtomicSwcInstanceRef]):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF", instance_ref.getContextRPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", instance_ref.getTargetTriggerRef())
+
+    def writeExternalTriggerOccurredEvent(self, element: ET.Element, event: ExternalTriggerOccurredEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "EXTERNAL-TRIGGER-OCCURRED-EVENT")
+            self.writeRTEEvent(child_element, event)
+            self.writeRTriggerInAtomicSwcInstanceRef(child_element, "TRIGGER-IREF", event.getTriggerIRef())
+
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -4801,6 +4816,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDataSendCompletedEvent(child_element, event)
                 elif isinstance(event, DataWriteCompletedEvent):
                     self.writeDataWriteCompletedEvent(child_element, event)
+                elif isinstance(event, ExternalTriggerOccurredEvent):
+                    self.writeExternalTriggerOccurredEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
 

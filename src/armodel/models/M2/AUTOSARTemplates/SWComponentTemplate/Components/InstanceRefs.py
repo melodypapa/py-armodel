@@ -403,6 +403,58 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
         return self
 
 
+class RTriggerInAtomicSwcInstanceRef(TriggerInAtomicSwcInstanceRef):
+    # RTriggerInAtomicSwcInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.6, p.945
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRPortRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRPortRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetTriggerRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Tags: xml.sequenceOffset=20
+        self.contextRPortRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.targetTriggerRef: Optional[RefType] = None
+
+    def getContextRPortRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=20
+        """
+        return self.contextRPortRef
+
+    def setContextRPortRef(self, value: Optional[RefType]) -> "RTriggerInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing contextRPortRef.
+        """
+        if value is not None:
+            self.contextRPortRef = value
+        return self
+
+    def getTargetTriggerRef(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.targetTriggerRef
+
+    def setTargetTriggerRef(self, value: Optional[RefType]) -> "RTriggerInAtomicSwcInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing targetTriggerRef.
+        """
+        if value is not None:
+            self.targetTriggerRef = value
+        return self
+
+
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     """"""
 

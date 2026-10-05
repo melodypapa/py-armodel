@@ -16,10 +16,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    DateTime,
     Identifier,
     Integer,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501  # noqa E501
@@ -437,6 +439,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         behavior.createAsynchronousServerCallReturnsEvent("ascr")
         behavior.createInternalTriggerOccurredEvent("ito")
         behavior.createDataWriteCompletedEvent("dwc")
+        behavior.createExternalTriggerOccurredEvent("eto")
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         events_tag = parent.find("EVENTS")
@@ -450,6 +453,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         assert "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
         assert "INTERNAL-TRIGGER-OCCURRED-EVENT" in tags
         assert "DATA-WRITE-COMPLETED-EVENT" in tags
+        assert "EXTERNAL-TRIGGER-OCCURRED-EVENT" in tags
 
     def test_dispatches_operation_and_data_events(self, writer):
         behavior = _make_behavior()
@@ -3223,6 +3227,94 @@ class TestModeSwitchedAckEventRoundTrip:
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "msa1")
             assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestExternalTriggerOccurredEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an ExternalTriggerOccurredEvent with triggerIRef (Table 7.20)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RTriggerInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ExternalTriggerOccurredEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createExternalTriggerOccurredEvent("eto1")
+        iref = RTriggerInAtomicSwcInstanceRef()
+        iref.setChecksum(String().setValue("csum"))
+        iref.setTimestamp(DateTime().setValue("2024-11-01T09:39:52+02:00"))
+        iref.setContextRPortRef(_ref("/Pkg/App/rp_trig", "R-PORT-PROTOTYPE"))
+        iref.setTargetTriggerRef(_ref("/Pkg/App/trigger1", "TRIGGER"))
+        event.setTriggerIRef(iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "eto1")
+            assert isinstance(event_2, ExternalTriggerOccurredEvent)
+            got = event_2.getTriggerIRef()
+            assert got is not None
+            assert got.getChecksum() is not None
+            assert got.getChecksum().getValue() == "csum"
+            assert got.getTimestamp() is not None
+            ctx = got.getContextRPortRef()
+            assert ctx.getValue() == "/Pkg/App/rp_trig"
+            assert ctx.getDest() == "R-PORT-PROTOTYPE"
+            tgt = got.getTargetTriggerRef()
+            assert tgt.getValue() == "/Pkg/App/trigger1"
+            assert tgt.getDest() == "TRIGGER"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an ExternalTriggerOccurredEvent without triggerIRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createExternalTriggerOccurredEvent("eto1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("EXTERNAL-TRIGGER-OCCURRED-EVENT"))
+            assert all(not c.tag.endswith("TRIGGER-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "eto1")
+            assert event_2.getTriggerIRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

@@ -13,7 +13,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    POperationInAtomicSwcInstanceRef,
+    RModeInAtomicSwcInstanceRef,
+    RTriggerInAtomicSwcInstanceRef,
+    RVariableInAtomicSwcInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -21,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataReceiveErrorEvent,
     DataSendCompletedEvent,
     DataWriteCompletedEvent,
+    ExternalTriggerOccurredEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -706,6 +712,69 @@ class TestModeSwitchedAckEvent:
         assert typing.get_type_hints(event.getEventSourceRef).get("return") == typing.Optional[RefType]
         assert typing.get_type_hints(event.setEventSourceRef).get("value") == typing.Optional[RefType]
         assert typing.get_type_hints(event.setEventSourceRef).get("return") is ModeSwitchedAckEvent
+
+
+class TestExternalTriggerOccurredEvent:
+    """Test class for ExternalTriggerOccurredEvent class (Table 7.20)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.20 Note + constr_1949 verbatim."""
+        assert inspect.getdoc(ExternalTriggerOccurredEvent) == (
+            "This event is raised when the referenced Trigger has occurred."
+            "\n\n"
+            "[constr_1949] Existence of attribute ExternalTriggerOccurredEvent.trigger: For each ExternalTriggerOccurredEvent, attribute trigger shall exist at the time when the RTE is generated."
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ExternalTriggerOccurredEvent(ar_root, "TestExternalTriggerOccurredEvent")
+
+        note = "The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef"
+
+        assert inspect.getdoc(event.getTriggerIRef) == note
+        assert inspect.getdoc(event.setTriggerIRef) == note + "\n\nA None value is a no-op and does not overwrite an existing triggerIRef."
+
+    def test_initialization(self):
+        """Test ExternalTriggerOccurredEvent initialization defaults (own + inherited)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ExternalTriggerOccurredEvent(ar_root, "TestExternalTriggerOccurredEvent")
+
+        assert event.parent == ar_root
+        assert event.short_name == "TestExternalTriggerOccurredEvent"
+        assert event.disabledModeIRefs == []
+        assert event.startOnEventRef is None
+        assert event.triggerIRef is None
+        assert isinstance(event, RTEEvent)
+
+    def test_get_set_trigger_iref(self):
+        """setTriggerIRef returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ExternalTriggerOccurredEvent(ar_root, "TestExternalTriggerOccurredEvent")
+
+        iref = RTriggerInAtomicSwcInstanceRef()
+        iref.setContextRPortRef(RefType().setValue("/MyComponents/rp_trigger"))
+        iref.setTargetTriggerRef(RefType().setValue("/MyComponents/trigger_1"))
+        assert event.setTriggerIRef(iref) is event
+        assert event.getTriggerIRef() == iref
+        assert event.getTriggerIRef().getContextRPortRef().getValue() == "/MyComponents/rp_trigger"
+        assert event.getTriggerIRef().getTargetTriggerRef().getValue() == "/MyComponents/trigger_1"
+
+        event.setTriggerIRef(None)
+        assert event.getTriggerIRef() == iref
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed Optional[RTriggerInAtomicSwcInstanceRef] annotations."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ExternalTriggerOccurredEvent(ar_root, "TestExternalTriggerOccurredEvent")
+
+        assert typing.get_type_hints(event.getTriggerIRef).get("return") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setTriggerIRef).get("value") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setTriggerIRef).get("return") is ExternalTriggerOccurredEvent
 
 
 class TestBackgroundEvent:

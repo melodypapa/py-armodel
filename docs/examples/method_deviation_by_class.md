@@ -2654,6 +2654,20 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — *(missing)* | `—` | `maxSizeToFill` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `rule` | `Identifier` | — | missing |
 
+## `ExternalTriggerOccurredEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 545
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+No deviations (2026-10-05 sync, Table 7.20, p.545): `pass` stub replaced with the full class — Note + [constr_1949] class docstring, `triggerIRef` (0..1 iref) typed `Optional[RTriggerInAtomicSwcInstanceRef]` with get/set pair, 6-column checklist, no stamp (batch 9b pending, user instruction). Full five-place polymorphic pattern wired: `createExternalTriggerOccurredEvent` + `getExternalTriggerOccurredEvents` filters on SwcInternalBehavior (checklist rows added), `readExternalTriggerOccurredEvent`/`writeExternalTriggerOccurredEvent` helpers, reader TRIGGER-IREF branch via new `readRTriggerInAtomicSwcInstanceRef`, writer via new `writeRTriggerInAtomicSwcInstanceRef`, and EVENTS dispatch branches both sides. Referenced member type `RTriggerInAtomicSwcInstanceRef` synced in the same commit (its own Table D.6, p.945) — no missing classes.
+
+## `RTriggerInAtomicSwcInstanceRef`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 945
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py`
+
+No deviations (2026-10-05 sync, Table D.6, p.945): concrete instance-ref synced from its own table mirroring the `PTriggerInAtomicSwcTypeInstanceRef` sibling — Base most-derived `TriggerInAtomicSwcInstanceRef` (already stamped R23-11, Table D.5), `contextRPortRef` (0..1 ref, Tags: xml.sequenceOffset=20) and `targetTriggerRef` (0..1 ref, Tags: xml.sequenceOffset=30) typed `Optional[RefType]` with get/set pairs, no class docstring (table Note empty, appendix-D family convention), 6-column checklist, no stamp (batch 9b pending). XSD group R-TRIGGER-IN-ATOMIC-SWC-INSTANCE-REF (AUTOSAR_00052.xsd L95456): CONTEXT-R-PORT-REF + TARGET-TRIGGER-REF; family contract tests added to test_InstanceRefs_family.py CONCRETE set.
+
 ## `ModeSwitchedAckEvent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 545
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`

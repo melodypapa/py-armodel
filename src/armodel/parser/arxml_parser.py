@@ -919,6 +919,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     PTriggerInAtomicSwcTypeInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
+    RTriggerInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
@@ -1052,6 +1053,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataReceivedEvent,
     DataSendCompletedEvent,
     DataWriteCompletedEvent,
+    ExternalTriggerOccurredEvent,
     InitEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -6709,6 +6711,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
+    def readRTriggerInAtomicSwcInstanceRef(self, element: ET.Element, parent: ExternalTriggerOccurredEvent):
+        child_element = self.find(element, "TRIGGER-IREF")
+        if child_element is not None:
+            instance_ref = RTriggerInAtomicSwcInstanceRef()
+            self.readARObject(child_element, instance_ref)
+            instance_ref.setContextRPortRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF"))
+            instance_ref.setTargetTriggerRef(self.getChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF"))
+            parent.setTriggerIRef(instance_ref)
+
+    def readExternalTriggerOccurredEvent(self, element: ET.Element, event: ExternalTriggerOccurredEvent):
+        # self.logger.debug("Read ExternalTriggerOccurredEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        self.readRTriggerInAtomicSwcInstanceRef(element, event)
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -6737,6 +6753,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readDataSendCompletedEvent(child_element, parent.createDataSendCompletedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-WRITE-COMPLETED-EVENT":
                 self.readDataWriteCompletedEvent(child_element, parent.createDataWriteCompletedEvent(self.getShortName(child_element)))
+            elif tag_name == "EXTERNAL-TRIGGER-OCCURRED-EVENT":
+                self.readExternalTriggerOccurredEvent(child_element, parent.createExternalTriggerOccurredEvent(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 
