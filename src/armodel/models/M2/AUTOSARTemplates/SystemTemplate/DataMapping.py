@@ -25,6 +25,7 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
     # DataMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.22, p.217 (R23-11)
     # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 5.14, p.142 (R4.3.1)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCommunicationDirection [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
