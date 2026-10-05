@@ -20,6 +20,9 @@
 3. `xml.xsd` (W3C namespace schema, 643 bytes) is imported by R23-11/R4.3.1/R4.4.0 but only ships in the R4.4.0
    dir; the plan copies it into every bundled release dir so each dir is self-contained. R23-11 compiles in ~0.1 s
    with the resolver trick already proven by `tests/test_armodel/xsd_validation.py`.
+   **SUPERSEDED during execution (user request):** a SINGLE shared copy lives at `schemas/xml.xsd` and
+   `_AUTOSARResolver` falls back to `SCHEMA_DIR` when the import is not next to the importing schema. Do not
+   "restore" per-release xml.xsd copies.
 4. **Unresolvable schema (no matching bundled XSD) → log a warning and continue unvalidated** — NOT an error.
    Reason: the writer's default `schema_location` is `AUTOSAR_4-0-3.xsd` and legacy R3 files use `autosar.xsd`
    with namespace `http://autosar.org` (the R3.2.3 XSD targets `http://autosar.org/3.2.3` — verified the legacy
