@@ -2,7 +2,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import TYPE_CHECKING, Dict, List, Optional, cast
+from typing import TYPE_CHECKING, List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -39,6 +39,7 @@ class MacMulticastGroup(Identifiable):
 
     # MacMulticastGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.48, p.104
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMacMulticastAddress    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -179,35 +180,11 @@ class CouplingPortAbstractShaper(Identifiable, ABC):
     # Spec: AUTOSAR_00052.xsd line 23449 (xsd:group COUPLING-PORT-ABSTRACT-SHAPER, atp.Status="candidate"; XSD-only, no Class/Enumeration table in the repo corpora)
     # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] registerShaper    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperClass    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getShaperTag      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # (accepted deviation, 2026-09-30 user arbitration: the XSD models this abstract class as the
-    #  empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER consumed by the CouplingPortFifo.shaper choice
-    #  (xsd L23763: COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER);
-    #  the repo maps that polymorphic choice to this registry-based abstract base + concrete subclasses
-    #  — the two concrete children register themselves by XSD element name at import time)
-
-    _shaper_registry: Dict[str, type] = {}
-
-    @classmethod
-    def registerShaper(cls, xml_tag: str, shaper_cls):
-        """Register the concrete shaper class for an XSD coupling-port shaper element name."""
-        cls._shaper_registry[xml_tag] = shaper_cls
-
-    @classmethod
-    def getShaperClass(cls, xml_tag: str):
-        """Return the concrete shaper class registered for an XSD coupling-port shaper element name, or None."""
-        return cls._shaper_registry.get(xml_tag)
-
-    @classmethod
-    def getShaperTag(cls, shaper_cls):
-        """Return the XSD coupling-port shaper element name registered for a concrete shaper class, or None."""
-        for tag, shaper_class in cls._shaper_registry.items():
-            if shaper_class is shaper_cls:
-                return tag
-        return None
+    # (the XSD models this abstract class as the empty xsd:group COUPLING-PORT-ABSTRACT-SHAPER,
+    #  consumed by the CouplingPortFifo.shaper choice (xsd L23763:
+    #  COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER | COUPLING-PORT-CREDIT-BASED-SHAPER); the reader and
+    #  writer dispatch that choice by comparing the element name against those two XSD tags)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortAbstractShaper:
@@ -233,8 +210,8 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
     # [x] getTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTrafficShaperGroupRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
-    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
-    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the reader and writer dispatch that
+    #  choice by matching the element name against this class's XSD tag)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -294,9 +271,6 @@ class CouplingPortAsynchronousTrafficShaper(CouplingPortAbstractShaper):
         return self
 
 
-CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER", CouplingPortAsynchronousTrafficShaper)
-
-
 class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     """
     Defines a Credit Based Shaper (CBS) for the CouplingPort egress structure.
@@ -314,8 +288,8 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
     # [x] getUpperBoundary    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUpperBoundary    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (concrete child of the abstract CouplingPortAbstractShaper: the XSD models the polymorphic
-    #  CouplingPortFifo.shaper choice via this class's xsd:group — the repo maps that choice to the
-    #  shaper registry; accepted deviation, 2026-09-30 user arbitration, recorded on the parent)
+    #  CouplingPortFifo.shaper choice via this class's xsd:group — the reader and writer dispatch that
+    #  choice by matching the element name against this class's XSD tag)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -373,9 +347,6 @@ class CouplingPortCreditBasedShaper(CouplingPortAbstractShaper):
         if value is not None:
             self.upperBoundary = value
         return self
-
-
-CouplingPortAbstractShaper.registerShaper("COUPLING-PORT-CREDIT-BASED-SHAPER", CouplingPortCreditBasedShaper)
 
 
 class CouplingPortFifo(CouplingPortStructuralElement):
@@ -2097,7 +2068,8 @@ class Ipv4AddressSourceEnum(AREnum):
     """
 
     # Ipv4AddressSourceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.137, p.465
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv4Configuration.ipv4AddressSource
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2299,7 +2271,8 @@ class IpAddressKeepEnum(AREnum):
     """
 
     # IpAddressKeepEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv4Configuration/Ipv6Configuration.ipAddressKeepBehavior
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2325,7 +2298,8 @@ class Ipv6AddressSourceEnum(AREnum):
     """
 
     # Ipv6AddressSourceEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Ipv6Configuration.ipv6AddressSource
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -2690,15 +2664,16 @@ class DoIpEntity(ARObject):
     """
 
     # DoIpEntity method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.150, p.471 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.150, p.471
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDoIpEntityRole    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpEntityRole    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getDoIpEntityRole              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setDoIpEntityRole              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Identifies the role in terms of DoIP this network-node has.
         self.doIpEntityRole: Optional[DoIpEntityRoleEnum] = None
 
@@ -3631,20 +3606,21 @@ class GenericTp(TransportProtocolConfiguration):
     """
 
     # GenericTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.126, p.459
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddress     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpTechnology  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpTechnology  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getTpAddress                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTpAddress                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Transport Protocol dependent Address.
         self.tpAddress: Optional[String] = None
 
-        # [x] getTpTechnology                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTpTechnology                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Name of the used Transport Protocol.
         self.tpTechnology: Optional[String] = None
 
@@ -3703,32 +3679,33 @@ class TpPort(ARObject):
     """
 
     # TpPort method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.133, p.461 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.133, p.461
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicallyAssigned [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicallyAssigned [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortNumber          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortNumber          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setDynamicallyAssigned         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-        # Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        # Indicates whether the source port is dynamically assigned.
         self.dynamicallyAssigned: Optional[Boolean] = None
 
-        # [x] getPortNumber                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setPortNumber                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Port Number.
         self.portNumber: Optional[PositiveInteger] = None
 
     def getDynamicallyAssigned(self) -> Optional[Boolean]:
         """
-        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        Indicates whether the source port is dynamically assigned.
         """
         return self.dynamicallyAssigned
 
     def setDynamicallyAssigned(self, value: Optional[Boolean]) -> TpPort:
         """
-        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
+        Indicates whether the source port is dynamically assigned.
         A None value is a no-op and does not overwrite an existing dynamicallyAssigned.
         """
         if value is not None:
@@ -3757,15 +3734,16 @@ class UdpTp(TcpUdpConfig):
     """
 
     # UdpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.128, p.459 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.128, p.459
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getUdpTpPort     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdpTpPort     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getUdpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setUdpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Udp Port configuration.
         self.udpTpPort: Optional[TpPort] = None
 
@@ -3791,50 +3769,51 @@ class TcpTp(TcpUdpConfig):
     """
 
     # TcpTp method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.129, p.460
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getKeepAliveInterval         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveInterval         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAliveProbesMax        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveProbesMax        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAlives                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAlives                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeepAliveTime             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeepAliveTime             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNaglesAlgorithm           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNaglesAlgorithm           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiveWindowMin          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceiveWindowMin          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpRetransmissionTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpRetransmissionTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpTpPort                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpTpPort                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # [x] getKeepAliveInterval           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveInterval           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Specifies the interval in seconds between subsequent keepalive probes.
         self.keepAliveInterval: Optional[TimeValue] = None
 
-        # [x] getKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveProbesMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Maximum number of times that TCP retransmits an individual data segment before aborting the connection.
         self.keepAliveProbesMax: Optional[PositiveInteger] = None
 
-        # [x] getKeepAlives                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAlives                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Indicates if Keep-Alive messages are sent.
         self.keepAlives: Optional[Boolean] = None
 
-        # [x] getKeepAliveTime               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setKeepAliveTime               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Specifies the time in seconds between the last data packet sent and the first keepalive probe.
         self.keepAliveTime: Optional[TimeValue] = None
 
-        # [x] getNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setNaglesAlgorithm             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Indicates if Nagle's Algorithm is used.
         self.naglesAlgorithm: Optional[Boolean] = None
 
-        # [x] getReceiveWindowMin            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setReceiveWindowMin            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Minimum size of the TCP receive window in bytes.
         self.receiveWindowMin: Optional[PositiveInteger] = None
 
-        # [x] getTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTcpRetransmissionTimeout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # Defines the timeout in seconds before an unacknowledged TCP segment is sent again. If the tcp RetransmissionTimeout is not defined or set to "INF", no TCP segments shall be re-transmitted.
         self.tcpRetransmissionTimeout: Optional[TimeValue] = None
 
-        # [x] getTcpTpPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setTcpTpPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # TCP Port configuration.
         self.tcpTpPort: Optional[TpPort] = None
 
@@ -3965,15 +3944,16 @@ class VlanConfig(Identifiable):
     """
 
     # VlanConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.50, p.106 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.50, p.106
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVlanIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # [x] getVlanIdentifier              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-        # [x] setVlanIdentifier              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
         # A VLAN is identified by this attribute according to IEEE 802.1Q. The allowed values range is from 0..4095.
         self.vlanIdentifier: Optional[PositiveInteger] = None
 

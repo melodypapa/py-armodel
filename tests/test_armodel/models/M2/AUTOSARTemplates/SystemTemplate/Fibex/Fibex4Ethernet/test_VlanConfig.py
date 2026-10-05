@@ -1,5 +1,6 @@
 import inspect
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     VlanConfig,
 )
@@ -19,10 +20,11 @@ class TestVlanConfig:
 
     def test_setters_round_trip_and_none_noop(self):
         obj = self._obj()
-        assert obj.setVlanIdentifier(7) is obj
-        assert obj.getVlanIdentifier() == 7
+        value = PositiveInteger().setValue("7")
+        assert obj.setVlanIdentifier(value) is obj
+        assert obj.getVlanIdentifier() is value
         obj.setVlanIdentifier(None)
-        assert obj.getVlanIdentifier() == 7
+        assert obj.getVlanIdentifier() is value
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(VlanConfig.__doc__).split("\n\n")[0] == CLASS_NOTE

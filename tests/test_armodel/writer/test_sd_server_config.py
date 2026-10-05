@@ -96,6 +96,8 @@ def _new_config(records=True):
     delay = RequestResponseDelay()
     delay.setMaxValue(_time("0.5"))
     delay.setMinValue(_time("0.05"))
+    delay.setChecksum(String().setValue("1234"))
+    delay.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     config.setRequestResponseDelay(delay)
     config.setServerServiceMajorVersion(_pos_int("1"))
     config.setServerServiceMinorVersion(_pos_int("2"))
@@ -180,6 +182,8 @@ class TestSdServerConfigRoundTrip:
         assert parsed.getOfferCyclicDelay().getValue() == 2.0
         assert parsed.getRequestResponseDelay().getMaxValue().getValue() == 0.5
         assert parsed.getRequestResponseDelay().getMinValue().getValue() == 0.05
+        assert parsed.getRequestResponseDelay().getChecksum().getValue() == "1234"
+        assert parsed.getRequestResponseDelay().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         assert parsed.getServerServiceMajorVersion().getValue() == 1
         assert parsed.getServerServiceMinorVersion().getValue() == 2
         assert parsed.getTtl().getValue() == 10

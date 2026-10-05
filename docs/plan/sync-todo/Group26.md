@@ -728,229 +728,256 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EcucIntegerParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.16, p.60
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (406 passed ECUCParameterDefTemplate + ecuc writer/def + parser handlers + member-annotation gate; ruff/flake8/black clean on touched files; set-based checklist OK); 9b deferred to batch confirmation (user instruction); sync commit `62c89e7a9`
+  - note (Step 1): re-sync to 6-col bar — fields had NO Note comments, methods had NO docstrings, setter params were bare `UnlimitedInteger` (→ Optional per 0..1); attrs displayed order defaultValue, max, min ✓ types UnlimitedInteger ✓; XSD group l.52553 order DEFAULT-VALUE → MAX → MIN already matched reader/writer; atpVariation RS_ECUC_00083/00084 tails kept in notes verbatim
 
 - [ ] `EcucAbstractStringParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.18, p.63
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (407 passed battery incl. new string-param full round-trip + member-annotation gate; ruff/flake8/black clean on touched files; set-based checklist OK); 9b deferred to batch confirmation (user instruction); sync commit `024153f73`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); untyped `__init__(parent, short_name)` params annotated; attrs displayed order defaultValue (VerbatimString), maxLength, minLength, regularExpression (RegularExpression) ✓ all 0..1 Optional ✓ notes verbatim ✓; reader/writer ECUC-STRING-PARAM-DEF-VARIANTS/CONDITIONAL wrapper order matched XSD (subclass-specific conditional wrappers, Rule 0013); test class already at bar (abstract guard + defaults + get/set None-no-op per attr)
 
 - [ ] `EcucStringParamDef` — EcucAbstractStringParamDef — R23-11 CP_TPS_ECUConfiguration Table 2.19, p.64
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (410 passed battery; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `0e1c4660e`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes (`-` row) ✓ class docstring single-line Note verbatim; inherited attrs round-tripped via the EcucStringParamDef CONDITIONAL-wrapper round-trip (EcucAbstractStringParamDef commit)
 
 - [ ] `EcucMultilineStringParamDef` — EcucAbstractStringParamDef — R23-11 CP_TPS_ECUConfiguration Table 2.20, p.64
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (414 passed battery incl. new multiline round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `fdee6f9a4`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes ✓ class docstring single-line Note verbatim (spec embedded double quotes kept); test_none was calling writeEcucFunctionNameDef (copy-paste) — fixed to writeEcucMultilineStringParamDef; full reload round-trip via MULTILINE CONDITIONAL wrapper
 
 - [ ] `EcucFunctionNameDef` — EcucAbstractStringParamDef — R23-11 CP_TPS_ECUConfiguration Table 2.22, p.65
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (418 passed battery incl. new function-name round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `e44edd9d6`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes ✓ class docstring single-line Note verbatim; full reload round-trip via ECUC-FUNCTION-NAME-DEF-VARIANTS/CONDITIONAL wrapper (createEcucFunctionNameDef factory row lives on EcucParamConfContainerDef's checklist)
 
 - [ ] `EcucEnumerationParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.23, p.66
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (431 passed battery incl. new enum-param reload round-trip + createLiteral dedupe test; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `5085d038d`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); attrs displayed order defaultValue (Identifier 0..1), literal (* aggr) ✓; literal note was missing its `Tags: atp.Splitkey=literal.shortName` tail on inline comment + getter + createLiteral docstring — added verbatim; createLiteral registry dedupe shape ✓ (IsReferrableElementExists + addReferrableElement); XSD LITERALS/ECUC-ENUMERATION-LITERAL-DEF wrapper matched reader/writer
 
 - [ ] `EcucEnumerationLiteralDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.24, p.67
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (425 passed battery incl. new literal reload round-trip + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `48d98b4b4`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); SYNCED BEFORE EcucEnumerationParamDef (Rule 0016.5 dependency-first — it is EcucEnumerationParamDef.literal's member type though file order lists T2.23 first); Base Identifiable ✓; attrs displayed order ecucCond (0..1 aggr), origin ✓ notes verbatim; XSD group l.52155 order ECUC-COND → ORIGIN matched reader/writer; full reload round-trip via parent EcucEnumerationParamDef LITERALS wrapper
 
 - [ ] `EcucAddInfoParamDef` — EcucParameterDef — R23-11 CP_TPS_ECUConfiguration Table 2.25, p.68
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (434 passed battery; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `cf5c0e361`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); zero own attributes (`-` row) ✓ class docstring single-line Note verbatim; inherited EcucParameterDef attrs (DERIVATION/SYMBOLIC-NAME-VALUE/WITH-AUTO) round-tripped on the EcucParameterDef consuming-wrapper suites; reader readEcucAddInfoParamDef/writer writeEcucAddInfoParamDef delegate to read/writeEcucParameterDef
 
 - [ ] `EcucAbstractReferenceDef` — EcucDefinitionElement — R23-11 CP_TPS_ECUConfiguration Table 2.26, p.71
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (439 passed battery incl. new WITH-AUTO reload round-trip via EcucReferenceDef + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `1475d37c0`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); most-derived base EcucCommonAttributes ✓ (spec Base chain EcucCommonAttributes > EcucDefinitionElement); inline `__init__` withAuto comment was TRUNCATED (dropped the isAuto sentences) → full Note verbatim; untyped `__init__(parent, short_name)` params annotated; attr withAuto (Boolean 0..1) ✓; reader/writer readEcucCommonAttributes+WITH-AUTO order matched XSD
 
 - [ ] `EcucAbstractInternalReferenceDef` — EcucAbstractReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.27, p.72
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (passed battery incl. new requiresSymbolicNameValue get/set + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `0035a3d95`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); abstract ✓ Base EcucAbstractReferenceDef ✓; attr requiresSymbolicNameValue (Boolean 0..1) ✓ note verbatim (TPS_ECUC_02108 kept); class docstring multi-line paraphrase → single-line verbatim; untyped `__init__` params annotated; reader/writer WITH-AUTO → REQUIRES-SYMBOLIC-NAME-VALUE order matched XSD; REQUIRES-SYMBOLIC-NAME-VALUE reload covered via concrete EcucReferenceDef round-trips
 
 - [ ] `EcucAbstractExternalReferenceDef` — EcucAbstractReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.28, p.72
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (446 passed battery; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `af8e9109c`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); abstract ✓ Base EcucAbstractReferenceDef ✓; zero own attributes (`-` row) ✓ class docstring multi-line → single-line verbatim (spec 'an another' grammar quirk kept); untyped `__init__` params annotated; inherited WITH-AUTO round-trip covered on the EcucAbstractReferenceDef row; concrete subclasses (EcucForeignReferenceDef T2.31 / EcucInstanceReferenceDef T2.32) carry their own rows
 
 - [ ] `EcucChoiceReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.30, p.74
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (452 passed battery incl. new DESTINATION-REFS reload round-trip + addDestinationRef None-no-op test; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `b85e3d520`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); attr destination (* ref → destinationRefs + addDestinationRef, plural per spec-`*` singular name Rule 0001.4) ✓; note was missing `Stereotypes: atpUriDef` tail on inline comment + getter + addDestinationRef docstring — added verbatim; class docstring multi-line → single-line verbatim; XSD DESTINATION-REFS wrapper (guarded len>0) matched reader/writer; empty-wrapper omission case covered
 
 - [ ] `EcucInstanceReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 CP_TPS_ECUConfiguration Table 2.32, p.77
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (459 passed battery incl. new DESTINATION-CONTEXT/DESTINATION-TYPE reload round-trip + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `c27549b51`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); attrs displayed order destinationContext, destinationType (String 0..1) ✓; spec apostrophe quirk `to which'` kept verbatim on both notes (markdown cell rendering, DiagnosticServiceSwMapping 'Thi' precedent); class docstring multi-line → single-line verbatim; XSD own group order DESTINATION-CONTEXT → DESTINATION-TYPE matched reader/writer
 
 - [ ] `EcucDestinationUriDefSet` — ARElement — R23-11 CP_TPS_ECUConfiguration Table 2.34, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (631 passed battery incl. new create-dedupe + docstring tests; DESTINATION-URI-DEF-SET ARPackage-dispatch reload round-trips pre-existing in test_writer_ecuc_def.py (Uri1/Uri2) re-verified green; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `f580ebdee`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); most-derived base kept AtpBlueprintable per the EcucDefinitionCollection T2.1 arbitration precedent (ARElement import would cycle; ATP-BLUEPRINTABLE precedes own group in XSD l.52587+); class docstring was missing `Tags: atp.recommendedPackage=EcucDestinationUriDefSets` tail — added verbatim; attr destinationUriDef (* aggr) ✓; createEcucDestinationUriDef was registry-less (no dedupe, no addReferrableElement) → migrated to the Identifiable registry pattern (IsReferrableElementExists + addReferrableElement); addDestinationUriDef removed (Referrable child ⇒ createXxx shape per Rule 0001.6) and its test migrated
 
 - [ ] `EcucDestinationUriDef` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.35, p.82
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (626 passed battery incl. new get/set + docstring-verbatim tests; DESTINATION-URI-POLICY nested reload covered by the EcucDestinationUriPolicy row's full round-trip; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `2f69e3cc2`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); Base Identifiable ✓; single attr destinationUriPolicy (0..1 aggr, ARObject child → setXxx shape per Rule 0001.6) ✓ note verbatim ✓; reader readEcucDestinationUriDef (readIdentifiable + DESTINATION-URI-POLICY) / writer writeEcucDestinationUriDef matched XSD; DESTINATION-URI-DEFS wrapper + ECUC-DESTINATION-URI-DEF dispatch covered on the DefSet row's round-trips
 
 - [ ] `EcucDestinationUriPolicy` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.36, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (624 passed battery incl. full-policy reload round-trip (CONTAINERS + nesting contract + PARAMETERS + REFERENCES) + 17-factory append/dedupe tests; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `37330e12c`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); Base ARObject ✓; attrs displayed order container/destinationUriNestingContract/parameter/reference ✓ notes verbatim; RULE 0001.6 SHAPE FIX — addContainer/addParameter/addReference (Referrable children) replaced by 17 createXxx<Subtype>(short_name) factories (2 container + 9 parameter + 6 reference; inline list-scan dedupe per the createEcucQuery pattern); parser policy readers migrated construct+add → create+read, incl. 15 latent calls to never-existing policy.createBooleanParamDef-style methods (would have AttributeError'd on first parse hit); writer gap fixed — writeEcucDestinationUriPolicyParameters lacked the EcucAddInfoParamDef isinstance branch (reader accepted ADD-INFO, writer would notImplemented); empty-wrapper (CONTAINERS/PARAMETERS/REFERENCES len>0 guards) + None-noop setters covered
 
 - [ ] `EcucDestinationUriNestingContractEnum` — AREnum — R23-11 CP_TPS_ECUConfiguration Table 2.37, p.83
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (462 passed battery incl. new enum tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `9a8cb02be`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); literals in XSD declaration order = markdown display order (LEAF-OF-TARGET-CONTAINER, TARGET-CONTAINER, VERTEX-OF-TARGET-CONTAINER) ✓ member values + literal notes verbatim ✓ class docstring verbatim ✓; standalone enum — Steps 5/6 N/A for own XML element (Rules 0010–0011), XML token round-trips on the consuming EcucDestinationUriPolicy DESTINATION-URI-NESTING-CONTRACT (this batch's policy row)
 
 - [ ] `EcucDerivationSpecification` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.38, p.87
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (638 passed battery; full derivation reload round-trip pre-existing in TestWriterEcucDerivationSpecification.test_round_trip (CALCULATION-FORMULA refs + ECUC-QUERYS + expression + INFORMAL-FORMULA) re-verified green; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `91a9e3ee3`
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); LAST ROW of the batch; Base ARObject ✓; attrs displayed order calculationFormula/ecucQuery/informalFormula ✓; class docstring was a PARAPHRASE ("or of elements...") → spec Note verbatim with the markdown bullet separators `•` kept; createEcucQuery factory docstring was a helper paraphrase → attr Note verbatim (aligns with the EcucParamConfContainerDef factory convention; NOTE: same paraphrase remains on the stamped EcucConditionSpecification/EcucValidationCondition createEcucQuery — sibling deviation to reconcile when T2.42/T2.44 re-sync); getEcucQuery convenience lookup has no XML element ([—]/[—])
 
 - [ ] `EcucQuery` — Identifiable — R23-11 CP_TPS_ECUConfiguration Table 2.40, p.89
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (485 passed battery incl. new ECUC-QUERY nested reload round-trip (DERIVATION → ECUC-QUERYS → ECUC-QUERY → ECUC-QUERY-EXPRESSION → CONFIG-ELEMENT-DEF-GLOBAL-REF) + docstring-verbatim tests; ruff/black clean); 9b deferred to batch confirmation (user instruction); sync commit `8bb9dbd18`
+
+  - note (Step 1): re-sync to 6-col bar — stale 5-col `# Spec verified: R23-11` removed (re-written at batch 9b); SYNCED BEFORE EcucDerivationSpecification (Rule 0016.5 — it is EcucDerivationSpecification.ecucQuery's member type, also consumed by EcucConditionSpecification/EcucValidationCondition); Base Identifiable ✓; single attr ecucQueryExpression (0..1 aggr, ARObject child → setXxx) ✓ notes verbatim; reader readEcucQuery / writer writeEcucQuery matched XSD (ECUC-QUERY-EXPRESSION wrapper after writeIdentifiable; CONFIG-ELEMENT-DEF-GLOBAL-REF → CONFIG-ELEMENT-DEF-LOCAL-REF)
 

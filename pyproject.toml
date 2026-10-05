@@ -118,12 +118,3 @@ files = ["src/armodel"]
 ignore_missing_imports = true
 warn_redundant_casts = true
 warn_unused_ignores = true
-
-# Legacy modules with pre-existing type debt (mypy gradual adoption baseline):
-# bodies are fully analyzed but reported errors are suppressed. Drain by fixing
-# a module's errors and deleting its entry; new modules must NOT be added.
-[[tool.mypy.overrides]]
-module = [
-    "armodel.parser.arxml_parser",
-]
-ignore_errors = true

@@ -9,7 +9,9 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     PositiveInteger,
+    String,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import (
     TcpOptionFilterList,
@@ -56,6 +58,8 @@ def _option(value):
 def test_round_trip_full(writer, parser, tmp_path):
     pkg = AUTOSAR.getInstance().createARPackage("Pkg")
     tcp_set = pkg.createTcpOptionFilterSet("FilterSet")
+    tcp_set.setChecksum(String().setValue("1234"))
+    tcp_set.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     list1 = tcp_set.createTcpOptionFilterList("List1")
     list1.addAllowedTcpOption(_option(2))
     list1.addAllowedTcpOption(_option(8))
@@ -72,6 +76,8 @@ def test_round_trip_full(writer, parser, tmp_path):
     re_set = re_pkg.getReferrableElement("FilterSet", TcpOptionFilterSet)
     assert re_set is not None
     assert isinstance(re_set, TcpOptionFilterSet)
+    assert re_set.getChecksum().getValue() == "1234"
+    assert re_set.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     lists = re_set.getTcpOptionFilterLists()
     assert len(lists) == 2
