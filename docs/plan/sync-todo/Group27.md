@@ -565,7 +565,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2038; transform/swc/system/VP subset 1176; whole unit tree 17,820/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2038; transform/swc/system/VP subset 1176; whole unit tree 17,820/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `e34755cfd`
   - note (Step 1): legacy 5-col checklist + stale stamp removed; defining table re-cited CP SWC Table 4.39 p.150 (SystemTemplate T7.2 row-identical — single # Spec line); 3 attrs (kind 0..1 enum, executeDespiteDataUnavailability 0..1 Boolean, transformerChain * ref → transformerChainRefs); constr_1888 appended to class Note; VP mixin removed per Rule 0015/0020 (XSD VP artifact "Applicable for: DataTransformationSet.dataTransformation"; reader/writer never handled it — no parser/writer change); no deviations; no stamp (batch 9b)
 
 - [ ] `DataTransformationKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.40, p.150
@@ -578,7 +578,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — round-tripped on the consuming class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (enum test 4 passed; transformer suite 119; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (enum test 4 passed; transformer suite 119; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `19d7d01e4`
   - note (Step 1): already at the current bar — 3 literals verified 1:1 in displayed order (asymmetricFromByteArray/asymmetricToByteArray/symmetric, indices 0/1/2), registration tuple and Note verbatim; stale `# Spec verified:` removed for batch 9b; checklist normalized to the 6-col `__init__`-row variant; Steps 5/6 N/A (serialized as DATA-TRANSFORMATION-KIND on DataTransformation); no deviations; no stamp (batch 9b)
 
 - [ ] `SenderReceiverAnnotation` — GeneralAnnotation — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.41, p.152
@@ -975,6 +975,6 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2050; transform/swc/system/VP subset 1178; whole unit tree 17,834/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2050; transform/swc/system/VP subset 1178; whole unit tree 17,834/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `fecff00ac`
   - note (Step 1): legacy 5-col checklist + stale stamp removed; defining table re-cited CP SWC Table 4.87 p.199 (SystemTemplate T7.3 row-identical — single # Spec line); 7 attrs in display order (bufferProperties 0..1 aggr set/get, hasInternalState/needsOriginalData/protocol/transformationDescription/transformerClass/version 0..1); accessor groups reordered getter-first (Rule 0001.11); class Note Tags tail dropped; VP mixin removed per Rule 0015/0020 (XSD artifact "Applicable for: DataTransformationSet.transformationTechnology"; reader/writer never handled it); XSD transformationDescription * (atpVariation) vs PDF 0..1 — PDF kept per Rule 0015; no deviations; no stamp (batch 9b)
 
