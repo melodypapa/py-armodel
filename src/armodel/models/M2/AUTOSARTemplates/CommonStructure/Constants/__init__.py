@@ -422,25 +422,27 @@ class ConstantReference(ValueSpecification):
         return self
 
 
-class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
+class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, AbstractRuleBasedValueSpecification):
     """
     This meta-class represents rule based values for DataPrototypes typed by ApplicationDataTypes (ApplicationArrayDataType or a compound ApplicationPrimitiveDataType which also boils down to an array-nature).
+
+    [constr_1922] Existence of ApplicationRuleBasedValueSpecification.category: For each ApplicationRuleBasedValueSpecification, attribute category shall exist at the time when the RTE is generated.
     """
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.302
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.129, p.463
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwAxisConts              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwAxisCont   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisConts  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwValueCont  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValueCont  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        super().__init__()
+        CompositeRuleBasedValueArgument.__init__(self)
+        AbstractRuleBasedValueSpecification.__init__(self)
 
         # This represents the category of the RuleBasedValue Specification Tags: xml.sequenceOffset=-20
         self.category: Optional[Identifier] = None

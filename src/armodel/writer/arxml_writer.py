@@ -4429,7 +4429,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if value_spec is not None:
             child_element = ET.SubElement(element, "APPLICATION-RULE-BASED-VALUE-SPECIFICATION")
             self.writeValueSpecification(child_element, value_spec)
-            self.setChildElementOptionalLiteral(child_element, "CATEGORY", value_spec.getCategory())
+            self.setChildElementOptionalIdentifier(child_element, "CATEGORY", value_spec.getCategory())
             axis_conts = value_spec.getSwAxisConts()
             if len(axis_conts) > 0:
                 axis_conts_tag = ET.SubElement(child_element, "SW-AXIS-CONTS")

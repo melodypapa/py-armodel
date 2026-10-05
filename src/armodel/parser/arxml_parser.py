@@ -9201,7 +9201,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getApplicationRuleBasedValueSpecification(self, element: ET.Element) -> ApplicationRuleBasedValueSpecification:
         value_spec = ApplicationRuleBasedValueSpecification()
         self.readValueSpecification(element, value_spec)
-        value_spec.setCategory(cast(Optional[Identifier], self.getChildElementOptionalLiteral(element, "CATEGORY")))
+        value_spec.setCategory(self.getChildElementOptionalIdentifier(element, "CATEGORY"))
         for child_element in self.findall(element, "SW-AXIS-CONTS/RULE-BASED-AXIS-CONT"):
             value_spec.addSwAxisCont(self.getRuleBasedAxisCont(child_element))
         value_spec.setSwValueCont(self.getRuleBasedValueCont(element))
