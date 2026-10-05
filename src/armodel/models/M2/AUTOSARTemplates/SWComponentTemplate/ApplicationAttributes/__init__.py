@@ -648,8 +648,28 @@ __all__ = [
 
 
 class ReceiverAnnotation(SenderReceiverAnnotation):
-    pass
+    """
+    Annotation of a receiver port, specifying properties of data elements that don't affect communication or generation of the RTE. The given attributes are requirements on the required data.
+    """
+
+    # ReceiverAnnotation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.43, p.153 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class SenderAnnotation(SenderReceiverAnnotation):
-    pass
+    """
+    Annotation of a sender port, specifying properties of data elements that don't affect communication or generation of the RTE.
+    """
+
+    # SenderAnnotation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.42, p.153 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [ ] __init__  [ ] impl  [ ] docstring  [ ] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
