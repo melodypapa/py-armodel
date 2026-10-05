@@ -86,6 +86,13 @@ def _ref(value):
     return ref
 
 
+def _typed_ref(value, dest):
+    ref = RefType()
+    ref.setValue(value)
+    ref.setDest(dest)
+    return ref
+
+
 def _build_master(pkg):
     instance = pkg.createEcuInstance("EcuInst")
     master = instance.createLinMaster("LinMaster")
@@ -102,16 +109,16 @@ def _build_master(pkg):
     slave2 = LinSlaveConfig()
 
     frame = LinConfigurableFrame()
-    frame.setFrameRef(_ref("/Pkg/LinFrame"))
+    frame.setFrameRef(_typed_ref("/Pkg/LinFrame", "LIN-FRAME"))
     frame.setMessageId(_pint(42))
     slave2.addLinConfigurableFrame(frame)
 
     response = LinErrorResponse()
-    response.setResponseErrorRef(_ref("/Pkg/ISignalTriggering"))
+    response.setResponseErrorRef(_typed_ref("/Pkg/ISignalTriggering", "I-SIGNAL-TRIGGERING"))
     slave2.setLinErrorResponse(response)
 
     ordered = LinOrderedConfigurableFrame()
-    ordered.setFrameRef(_ref("/Pkg/LinFrame2"))
+    ordered.setFrameRef(_typed_ref("/Pkg/LinFrame2", "LIN-FRAME"))
     ordered.setIndex(_int(7))
     slave2.addLinOrderedConfigurableFrame(ordered)
 

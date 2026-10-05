@@ -144,13 +144,13 @@ class TestWriteImplementationDataTypeElement:
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")
         data_type = pkg.createImplementationDataType("ImplType")
         element = data_type.createImplementationDataTypeElement("Elem")
-        element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue(ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY))
+        element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-POINTER-TO-ARRAY"))
         element.setArraySize(PositiveInteger().setValue("4"))
-        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE))
-        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE))
+        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue("ALL-INDICES-SAME-ARRAY-SIZE"))
+        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("FIXED-SIZE"))
         element.setIsOptional(Boolean().setValue(True))
         sub_element = element.createImplementationDataTypeElement("Sub")
-        sub_element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue(ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY))
+        sub_element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-ARRAY"))
 
         _save_and_reload()
 
@@ -159,16 +159,16 @@ class TestWriteImplementationDataTypeElement:
         assert data_type is not None
         element = data_type.getSubElements()[0]
         assert element.getArrayImplPolicy() is not None
-        assert element.getArrayImplPolicy().getValue() == "payloadAsPointerToArray"
+        assert element.getArrayImplPolicy().getValue() == "PAYLOAD-AS-POINTER-TO-ARRAY"
         assert element.getArraySize() is not None
         assert element.getArraySize().getValue() == 4
         assert element.getArraySizeHandling() is not None
-        assert element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+        assert element.getArraySizeHandling().getValue() == "ALL-INDICES-SAME-ARRAY-SIZE"
         assert element.getArraySizeSemantics() is not None
-        assert element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert element.getArraySizeSemantics().getValue() == "FIXED-SIZE"
         assert element.getIsOptional() is not None
         assert element.getIsOptional().getValue() is True
         sub_element = element.getSubElements()[0]
         assert sub_element.getShortName() == "Sub"
         assert sub_element.getArrayImplPolicy() is not None
-        assert sub_element.getArrayImplPolicy().getValue() == "payloadAsArray"
+        assert sub_element.getArrayImplPolicy().getValue() == "PAYLOAD-AS-ARRAY"
