@@ -8,7 +8,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     IoHwAbstractionServerAnnotation,
     ModePortAnnotation,
     NvDataPortAnnotation,
-    ParameterPortAnnotation,
     PulseTestEnum,
     SignalFanEnum,
     TriggerPortAnnotation,
@@ -127,25 +126,6 @@ class TestNvDataPortAnnotation:
         annotation.setVariableRef(ref)
         annotation.setVariableRef(None)
         assert annotation.getVariableRef() == ref
-
-
-class TestParameterPortAnnotation:
-    def test_initialization(self):
-        annotation = ParameterPortAnnotation()
-        assert annotation.getParameterRef() is None
-
-    def test_parameter_ref_setter_getter(self):
-        annotation = ParameterPortAnnotation()
-        ref = _ref(dest="PARAMETER-DATA-PROTOTYPE")
-        assert annotation.setParameterRef(ref) is annotation
-        assert annotation.getParameterRef() == ref
-
-    def test_parameter_ref_none_is_noop(self):
-        annotation = ParameterPortAnnotation()
-        ref = _ref(dest="PARAMETER-DATA-PROTOTYPE")
-        annotation.setParameterRef(ref)
-        annotation.setParameterRef(None)
-        assert annotation.getParameterRef() == ref
 
 
 class TestTriggerPortAnnotation:
