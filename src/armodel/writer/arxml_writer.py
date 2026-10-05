@@ -584,7 +584,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     Numerical,
     Limit,
-    PositiveInteger,
     RefType,
     Integer,
     Float,
@@ -12359,9 +12358,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(masks) > 0:
             masks_tag = ET.SubElement(element, "PNC-FILTER-ARRAY-MASKS")
             for mask in masks:
-                mask_value = PositiveInteger()
-                mask_value.setValue(mask)
-                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", cast(Integer, mask_value))
+                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", cast(Integer, mask))
         self.setChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE", connector.getPncGatewayType())
 
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):

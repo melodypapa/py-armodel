@@ -5,7 +5,8 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanPhysicalChannel,
@@ -671,17 +672,44 @@ class Test_FibexCoreTopology:
         assert isinstance(pdu_triggering, PduTriggering)
         assert pdu_triggering in channel.getPduTriggerings()
 
-    def test_CommunicationConnector_methods(self):
-        """Test CommunicationConnector concrete implementation methods (Table 3.4)."""
 
-        class ConcreteCommunicationConnector(CommunicationConnector):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
+COMMUNICATION_CONNECTOR_CLASS_NOTE = "The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance."
 
-        parent = MockParent()
-        connector = ConcreteCommunicationConnector(parent, "test_communication_connector")
 
-        # Test default values
+class ConcreteCommunicationConnector(CommunicationConnector):
+    pass
+
+
+class TestCommunicationConnector:
+    """Test cases for CommunicationConnector (Table 3.4, p.54)."""
+
+    MEMBERS = [
+        "commControllerRef",
+        "createEcuWakeupSource",
+        "dynamicPncToChannelMappingEnabled",
+        "ecuCommPortInstances",
+        "pncFilterArrayMasks",
+        "pncGatewayType",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CommunicationConnector, Identifiable)
+        assert issubclass(CommunicationConnector, VariationPointCapable)
+        assert issubclass(CommunicationConnector, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="CommunicationConnector is an abstract class"):
+            CommunicationConnector(MockParent(), "test_communication_connector")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CommunicationConnector.__doc__) == COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CommunicationConnector.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+
         assert connector.getCommControllerRef() is None
         assert connector.getCreateEcuWakeupSource() is None
         assert connector.getDynamicPncToChannelMappingEnabled() is None
@@ -689,61 +717,138 @@ class Test_FibexCoreTopology:
         assert connector.getPncFilterArrayMasks() == []
         assert connector.getPncGatewayType() is None
 
-        # commController (ref, CommunicationController, 0..1)
-        ref1 = object()
-        connector.setCommControllerRef(ref1)
-        assert connector.getCommControllerRef() == ref1
-        assert connector == connector.setCommControllerRef(ref1)  # method chaining
+    def test_member_order(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        members = [k for k in vars(connector) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_comm_controller_ref(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        ref = RefType()
+        ref.setValue("/Systems/S/ECUS/Ecu/CTRL")
+        ref.setDest("CAN-COMMUNICATION-CONTROLLER")
+
+        assert connector == connector.setCommControllerRef(ref)
+        assert connector.getCommControllerRef() is ref
+        assert connector.getCommControllerRef().getValue() == "/Systems/S/ECUS/Ecu/CTRL"
+
         assert connector == connector.setCommControllerRef(None)  # None no-op
-        assert connector.getCommControllerRef() == ref1  # unchanged
+        assert connector.getCommControllerRef() is ref  # unchanged
 
-        # createEcuWakeupSource (attr, Boolean, 0..1)
-        connector.setCreateEcuWakeupSource(True)
+    def test_get_set_create_ecu_wakeup_source(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        flag = Boolean()
+        flag.setValue(True)
+
+        assert connector == connector.setCreateEcuWakeupSource(flag)
+        assert connector.getCreateEcuWakeupSource() is flag
         assert connector.getCreateEcuWakeupSource().getValue() is True
-        assert connector == connector.setCreateEcuWakeupSource(True)  # method chaining
+
         assert connector == connector.setCreateEcuWakeupSource(None)  # None no-op
-        assert connector.getCreateEcuWakeupSource().getValue() is True  # unchanged
+        assert connector.getCreateEcuWakeupSource() is flag  # unchanged
 
-        # dynamicPncToChannelMappingEnabled (attr, Boolean, 0..1)
-        connector.setDynamicPncToChannelMappingEnabled(False)
+    def test_get_set_dynamic_pnc_to_channel_mapping_enabled(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        flag = Boolean()
+        flag.setValue(False)
+
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(flag)
+        assert connector.getDynamicPncToChannelMappingEnabled() is flag
         assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False
-        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # method chaining
+
         assert connector == connector.setDynamicPncToChannelMappingEnabled(None)  # None no-op
-        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False  # unchanged
+        assert connector.getDynamicPncToChannelMappingEnabled() is flag  # unchanged
 
-        # pncGatewayType (attr, PncGatewayTypeEnum, 0..1)
-        connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE
-        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)  # method chaining
+    def test_get_set_pnc_gateway_type(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        gateway_type = PncGatewayTypeEnum()
+        gateway_type.setValue(PncGatewayTypeEnum.ACTIVE)
+
+        assert connector == connector.setPncGatewayType(gateway_type)
+        assert connector.getPncGatewayType() is gateway_type
+        assert connector.getPncGatewayType().getValue() == "active"
+
         assert connector == connector.setPncGatewayType(None)  # None no-op
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE  # unchanged
+        assert connector.getPncGatewayType() is gateway_type  # unchanged
 
-        # pncFilterArrayMask (ordered, attr, PositiveInteger, *)
-        connector.addPncFilterArrayMask(0xFF)
-        connector.addPncFilterArrayMask(0x01)
-        assert connector.getPncFilterArrayMasks() == [0xFF, 0x01]  # ordered
-        assert connector == connector.addPncFilterArrayMask(0x01)  # method chaining
+    def test_add_pnc_filter_array_mask(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        mask1 = PositiveInteger()
+        mask1.setValue("255")
+        mask2 = PositiveInteger()
+        mask2.setValue("1")
 
-        # ecuCommPortInstance (aggr, CommConnectorPort, *) -> dedicated typed list
+        assert connector == connector.addPncFilterArrayMask(mask1)
+        assert connector == connector.addPncFilterArrayMask(mask2)
+        assert connector.getPncFilterArrayMasks() == [mask1, mask2]  # ordered, insertion order
+        assert connector.getPncFilterArrayMasks()[0].getValue() == 255
+
+        assert connector == connector.addPncFilterArrayMask(None)  # None no-op
+        assert connector.getPncFilterArrayMasks() == [mask1, mask2]  # unchanged
+
+    def test_create_ports_append(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+
         frame_port = connector.createFramePort("frame_port")
         assert isinstance(frame_port, FramePort)
-        assert frame_port in connector.getEcuCommPortInstances()
-        assert len(connector.getEcuCommPortInstances()) == 1  # exactly one port
+        assert frame_port.getShortName() == "frame_port"
+        assert connector.getEcuCommPortInstances() == [frame_port]
 
         ipdu_port = connector.createIPduPort("ipdu_port")
         assert isinstance(ipdu_port, IPduPort)
-        assert ipdu_port in connector.getEcuCommPortInstances()
-        assert len(connector.getEcuCommPortInstances()) == 2
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port]
 
         isignal_port = connector.createISignalPort("isignal_port")
         assert isinstance(isignal_port, ISignalPort)
-        assert isignal_port in connector.getEcuCommPortInstances()
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port, isignal_port]
+
+    def test_create_port_duplicate_returns_existing(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        frame_port = connector.createFramePort("frame_port")
+        ipdu_port = connector.createIPduPort("ipdu_port")
+        isignal_port = connector.createISignalPort("isignal_port")
+
+        assert connector.createFramePort("frame_port") is frame_port
+        assert connector.createIPduPort("ipdu_port") is ipdu_port
+        assert connector.createISignalPort("isignal_port") is isignal_port
         assert len(connector.getEcuCommPortInstances()) == 3
 
-        # createXxx returns the existing element on duplicate short name
-        dup = connector.createFramePort("frame_port")
-        assert dup is frame_port
-        assert len(connector.getEcuCommPortInstances()) == 3  # no duplicate
+    def test_get_ecu_comm_port_instances_preserves_insertion_order(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        second = connector.createFramePort("b_port")
+        first = connector.createFramePort("a_port")
+
+        assert connector.getEcuCommPortInstances() == [second, first]
+
+    def test_type_hints(self):
+        for getter, setter, value_type in [
+            ("getCommControllerRef", "setCommControllerRef", RefType),
+            ("getCreateEcuWakeupSource", "setCreateEcuWakeupSource", Boolean),
+            ("getDynamicPncToChannelMappingEnabled", "setDynamicPncToChannelMappingEnabled", Boolean),
+            ("getPncGatewayType", "setPncGatewayType", PncGatewayTypeEnum),
+        ]:
+            hints = typing.get_type_hints(getattr(CommunicationConnector, getter))
+            assert hints["return"] == typing.Optional[value_type], getter
+            hints = typing.get_type_hints(getattr(CommunicationConnector, setter))
+            assert hints["value"] == typing.Optional[value_type], setter
+            _assert_return_is(hints, CommunicationConnector)
+
+        hints = typing.get_type_hints(CommunicationConnector.getEcuCommPortInstances)
+        assert hints["return"] == typing.List[CommConnectorPort]
+        hints = typing.get_type_hints(CommunicationConnector.addPncFilterArrayMask)
+        assert hints["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(CommunicationConnector.getPncFilterArrayMasks)["return"] == typing.List[PositiveInteger]
+
+        # concrete port classes are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        localns = {"FramePort": FramePort, "IPduPort": IPduPort, "ISignalPort": ISignalPort}
+        for creator, port_type in [
+            ("createFramePort", FramePort),
+            ("createIPduPort", IPduPort),
+            ("createISignalPort", ISignalPort),
+        ]:
+            hints = typing.get_type_hints(getattr(CommunicationConnector, creator), localns=localns)
+            assert hints["short_name"] is str, creator
+            _assert_return_is(hints, port_type)
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."

@@ -819,10 +819,10 @@ class TestWriterCommunicationConnector:
     def test_optional_attributes(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createCanCommunicationConnector("cc")
-        connector.setCreateEcuWakeupSource(True)
-        connector.setDynamicPncToChannelMappingEnabled(False)
-        connector.addPncFilterArrayMask(255)
-        connector.addPncFilterArrayMask(1)
+        connector.setCreateEcuWakeupSource(_bool(True))
+        connector.setDynamicPncToChannelMappingEnabled(_bool(False))
+        connector.addPncFilterArrayMask(_posint(255))
+        connector.addPncFilterArrayMask(_posint(1))
         parent = _parent()
         writer.writeCommunicationConnector(parent, connector)
         assert parent.find("CREATE-ECU-WAKEUP-SOURCE").text == "true"

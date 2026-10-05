@@ -727,23 +727,22 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
 
     # CommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.4, p.54
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
@@ -796,10 +795,6 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         A None value is a no-op and does not overwrite an existing createEcuWakeupSource.
         """
         if value is not None:
-            if not isinstance(value, Boolean):
-                boolean = Boolean()
-                boolean.setValue(value)
-                value = boolean
             self.createEcuWakeupSource = value
         return self
 
@@ -815,20 +810,10 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         A None value is a no-op and does not overwrite an existing dynamicPncToChannelMappingEnabled.
         """
         if value is not None:
-            if not isinstance(value, Boolean):
-                boolean = Boolean()
-                boolean.setValue(value)
-                value = boolean
             self.dynamicPncToChannelMappingEnabled = value
         return self
 
-    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
-        """
-        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return list(sorted(self.ecuCommPortInstances, key=lambda o: o.getShortName()))
-
-    def createFramePort(self, short_name) -> FramePort:
+    def createFramePort(self, short_name: str) -> FramePort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -840,7 +825,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(FramePort, self.getReferrableElement(short_name))
 
-    def createIPduPort(self, short_name) -> IPduPort:
+    def createIPduPort(self, short_name: str) -> IPduPort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -852,7 +837,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(IPduPort, self.getReferrableElement(short_name))
 
-    def createISignalPort(self, short_name) -> ISignalPort:
+    def createISignalPort(self, short_name: str) -> ISignalPort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -864,11 +849,11 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(ISignalPort, self.getReferrableElement(short_name))
 
-    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
         """
-        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        return self.pncFilterArrayMasks
+        return self.ecuCommPortInstances
 
     def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> CommunicationConnector:
         """
@@ -878,6 +863,12 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         if value is not None:
             self.pncFilterArrayMasks.append(value)
         return self
+
+    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        """
+        return self.pncFilterArrayMasks
 
     def getPncGatewayType(self) -> Optional[PncGatewayTypeEnum]:
         """

@@ -14757,7 +14757,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommunicationConnectorEcuCommPortInstances(element, connector)
         for mask in self.findall(element, "PNC-FILTER-ARRAY-MASKS/PNC-FILTER-ARRAY-MASK"):
             if mask.text is not None:
-                connector.addPncFilterArrayMask(cast(Optional[PositiveInteger], int(mask.text.strip())))
+                mask_value = PositiveInteger()
+                mask_value.setValue(mask.text)
+                connector.addPncFilterArrayMask(mask_value)
         connector.setPncGatewayType(cast(Optional[PncGatewayTypeEnum], self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE")))
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):

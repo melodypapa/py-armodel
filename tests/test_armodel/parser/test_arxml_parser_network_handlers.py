@@ -3177,7 +3177,7 @@ class TestEcuInstanceHandlers:
         parser.readCommunicationConnector(element, conn)
         assert conn.getCreateEcuWakeupSource().getValue() is True
         assert conn.getDynamicPncToChannelMappingEnabled().getValue() is False
-        assert conn.getPncFilterArrayMasks() == [255, 1]
+        assert [mask.getValue() for mask in conn.getPncFilterArrayMasks()] == [255, 1]
         assert conn.getPncGatewayType().getValue() == "active"
 
     def test_readFramePort_sets_communicationDirection(self, parser):
