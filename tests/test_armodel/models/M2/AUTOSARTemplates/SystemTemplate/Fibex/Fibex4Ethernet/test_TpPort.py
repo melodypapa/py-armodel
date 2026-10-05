@@ -37,7 +37,7 @@ class TestTpPort:
 
     def test_accessor_docstrings_verbatim(self):
         obj = self._obj()
-        assert inspect.cleandoc(obj.getDynamicallyAssigned.__doc__) == "Indicates whether the source port is dynamically assigned."
-        assert inspect.cleandoc(obj.setDynamicallyAssigned.__doc__).split("\n")[0] == "Indicates whether the source port is dynamically assigned."
+        assert inspect.cleandoc(obj.getDynamicallyAssigned.__doc__) == "Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(obj.setDynamicallyAssigned.__doc__).split("\n")[0] == "Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete"
         assert inspect.cleandoc(obj.getPortNumber.__doc__) == "Port Number."
         assert inspect.cleandoc(obj.setPortNumber.__doc__).split("\n")[0] == "Port Number."

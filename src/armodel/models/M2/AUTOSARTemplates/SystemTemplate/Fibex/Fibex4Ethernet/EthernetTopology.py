@@ -3691,7 +3691,7 @@ class TpPort(ARObject):
     def __init__(self):
         super().__init__()
 
-        # Indicates whether the source port is dynamically assigned.
+        # Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
         self.dynamicallyAssigned: Optional[Boolean] = None
 
         # Port Number.
@@ -3699,13 +3699,13 @@ class TpPort(ARObject):
 
     def getDynamicallyAssigned(self) -> Optional[Boolean]:
         """
-        Indicates whether the source port is dynamically assigned.
+        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
         """
         return self.dynamicallyAssigned
 
     def setDynamicallyAssigned(self, value: Optional[Boolean]) -> TpPort:
         """
-        Indicates whether the source port is dynamically assigned.
+        Indicates whether the source port is dynamically assigned. Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing dynamicallyAssigned.
         """
         if value is not None:
