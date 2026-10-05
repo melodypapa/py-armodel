@@ -15,7 +15,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `NmEcu` (input · R23-11 markdown · Table 6.300)
+- [x] `NmEcu` (input · R23-11 markdown · Table 6.300)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
   - note: deviation-tracked in method_deviation_by_class.md + method_deviation_by_class_v2.md — reviewed at Step 1: v1 rows (busSpecificNmEcu/nmMultipleChannelsEnabled/nmPassiveModeEnabled missing) were stale pre-R23-11 findings, replaced; v2 gained the accepted nmCoordinator placeholder row
   - [x] Step 1 — Sync members & description from spec — Table 6.300, p.674; Note "ECU on which NM is running."; Base ARObject,Identifiable,MultilanguageReferrable,Referrable; 10 attrs in displayed order (busDependentNmEcu `*` aggr, ecuInstance 0..1 ref, nmBusSynchronizationEnabled/nmComControlEnabled 0..1 Boolean, nmCoordinator 0..1 aggr NmCoordinator, nmCycletimeMainFunction 0..1 TimeValue, nmPduRxIndicationEnabled/nmRemoteSleepIndEnabled/nmStateChangeIndEnabled/nmUserDataEnabled 0..1 Boolean); reader/writer XML order per XSD group NM-ECU (AUTOSAR_00052.xsd l.84602)
@@ -29,7 +29,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - 9b batch audit 2026-10-05: FAIL — the nmCoordinator placeholder deviation resolved by implementing its member type NmCoordinator (Table 6.302, p.675) in SystemTemplate/NetworkManagement.py (leaf package, Rule 0007) with index/nmCoordSyncSupport/nmGlobalCoordinatorTime attrs + nmNode refs; NmEcu.nmCoordinator retyped Optional[ARObject] → Optional[NmCoordinator]; NM-COORDINATOR reader (getNmCoordinator) + writer wired in XSD group order; removed the empty NmCoordinator ARObject stub from ArObject.py; legacy NM-ACTIVE-COORDINATOR/NM-SHUTDOWN-DELAY-TIMER remain unmodeled (atp.Status="removed", no PDF/markdown basis in R23-11 or R4.3.1 → Rule 0015, Rule 0019 cond. 2 fails); checklist reader/writer columns flipped [x]; commit 559d53600; Step 9 stays open (no stamp — user: fix first)
   - 9b batch audit 2026-10-06 (VP): FAIL Rule 0001.11 — writeNmEcu emitted a set VARIATION-POINT right after ADMIN-DATA (writeIdentifiable default) instead of LAST per XSD group NM-ECU (sequenceOffset=10000, AUTOSAR_00052.xsd l.84733); reader was correct (readIdentifiable VP gate). Fixed in-pass: write_variation_point=False + writeVariationPointCapable last + VP order/round-trip writer tests + parser VP-read test; Step 9 stays open (no stamp)
   - 9b batch audit 2026-10-06 (NmCoordinator tests): dedicated reader/writer test files were missing for the in-pass NmCoordinator (Table 6.302) — coverage was only indirect inside test_nm_ecu.py, unlike every other batch class; added tests/test_armodel/parser/test_nm_coordinator.py (field values + empty case) and tests/test_armodel/writer/test_nm_coordinator.py (XSD group order INDEX → NM-COORD-SYNC-SUPPORT → NM-GLOBAL-COORDINATOR-TIME → NM-NODE-REFS, empty case, round-trip); Step 9 stays open (no stamp)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-29: 13577 passed / 0 failed, lint + black clean; 9b confirmed 2026-10-06 (batch stamp wave, user instruction) — # Spec verified: R23-11 written
 
 - [ ] `CanNmCluster` (input · R23-11 markdown · Table 6.311)
   - module: M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
