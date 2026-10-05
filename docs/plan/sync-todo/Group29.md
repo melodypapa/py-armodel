@@ -681,15 +681,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AbstractCanCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.22, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-05): removed the stale R23-11 spec-verified marker and rebuilt the checklist in the 6-column format (release column, `[—]` glyphs). No model/parser/writer source change was needed: Table 3.22 has no Attribute rows and the XSD group ABSTRACT-CAN-COMMUNICATION-CONNECTOR (AUTOSAR_00052.xsd line 135) is an empty sequence — the class already matched spec (most-derived base CommunicationConnector; ABC guard kept — its only direct constructor call is the abstract-guard test, concrete subclasses CanCommunicationConnector/TtcanCommunicationConnector unaffected; Note-verbatim class docstring and no-own-members state now pinned by the new model tests). Reader/writer coverage pinned through the concrete CAN-COMMUNICATION-CONNECTOR path by new parser/writer tests (abstract-level isinstance, base CommunicationConnector field values with exactly-once base-helper emission, empty-wrapper emission, full/empty round-trips; no own helpers required — Rule 0001.7 applies to abstract classes with own XML-bearing attributes).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2200+8026 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `TtcanCluster` — AbstractCanCluster — R23-11 CP_TPS_SystemTemplate Table 3.24, p.76
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py

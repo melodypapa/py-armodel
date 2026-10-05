@@ -1142,6 +1142,51 @@ class TestCanCommunicationController:
         assert "self." not in source
 
 
+ABSTRACT_CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN CommunicationConnector attributes."
+
+
+class TestAbstractCanCommunicationConnector:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.22: ARObject, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(AbstractCanCommunicationConnector, CommunicationConnector)
+        assert issubclass(AbstractCanCommunicationConnector, Identifiable)
+        assert issubclass(AbstractCanCommunicationConnector, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.22)"""
+        with pytest.raises(TypeError, match="AbstractCanCommunicationConnector is an abstract class"):
+            AbstractCanCommunicationConnector(MockParent(), "test_abstract_can_communication_connector")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.22)"""
+        assert inspect.cleandoc(AbstractCanCommunicationConnector.__doc__).strip() == ABSTRACT_CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanCommunicationConnector.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.22 has no attribute rows)"""
+        own_methods = [name for name in AbstractCanCommunicationConnector.__dict__ if inspect.isfunction(getattr(AbstractCanCommunicationConnector, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(AbstractCanCommunicationConnector.__init__)
+        assert "self." not in source
+
+    def test_initialization_defaults_via_concrete_subclass(self):
+        """Test __init__ + the inherited CommunicationConnector accessors through the concrete subclass CanCommunicationConnector (Table 3.22 is abstract)"""
+        connector = CanCommunicationConnector(MockParent(), "conn")
+
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getCommControllerRef() is None
+        assert connector.getCreateEcuWakeupSource() is None
+        assert connector.getDynamicPncToChannelMappingEnabled() is None
+        assert connector.getEcuCommPortInstances() == []
+        assert connector.getPncFilterArrayMasks() == []
+        assert connector.getPncGatewayType() is None
+
+
 ABSTRACT_CAN_PHYSICAL_CHANNEL_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes."
 
 
