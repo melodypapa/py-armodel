@@ -2654,6 +2654,13 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — *(missing)* | `—` | `maxSizeToFill` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `rule` | `Identifier` | — | missing |
 
+## `ModeSwitchedAckEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 545
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+No deviations (2026-10-05 sync, Table 7.19, p.545): partial prior implementation re-synced from scratch — untyped Google-style accessors ("Gets the event source reference.") wiped and rewritten verbatim from the markdown Note, setter/getter retyped `Optional[RefType]` (0..1), 4-column checklist (rows ending at `test`, no `# Spec:` line) replaced with the 6-column format; class docstring Note + [constr_1948] appended. Reader/writer vacuous Red (noted): `readModeSwitchedAckEvent`/`writeModeSwitchedAckEvent` already conformed to the XSD group MODE-SWITCHED-ACK-EVENT (EVENT-SOURCE-REF via readRTEEvent/writeRTEEvent + SwcInternalBehavior EVENTS dispatch + createModeSwitchedAckEvent factory); schema-validated save→reload round-trip added both sides.
+
 ## `SwcModeSwitchEvent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 544
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`

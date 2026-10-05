@@ -646,10 +646,29 @@ class TestInternalTriggerOccurredEvent:
 
 
 class TestModeSwitchedAckEvent:
-    """Test class for ModeSwitchedAckEvent class."""
+    """Test class for ModeSwitchedAckEvent class (Table 7.19)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.19 Note + constr_1948 verbatim."""
+        assert inspect.getdoc(ModeSwitchedAckEvent) == (
+            "This event is raised when the referenced ModeSwitchPoint has been processed or an error occurred."
+            "\n\n"
+            "[constr_1948] Existence of attribute ModeSwitchedAckEvent.eventSource: For each ModeSwitchedAckEvent, attribute eventSource shall exist at the time when the RTE is generated."
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ModeSwitchedAckEvent(ar_root, "TestModeSwitchedAckEvent")
+
+        note = "The referenced ModeSwitchPoint raises this ModeSwitchedAckEvent when the ModeSwitchPoint has been processed."
+
+        assert inspect.getdoc(event.getEventSourceRef) == note
+        assert inspect.getdoc(event.setEventSourceRef) == note + "\n\nA None value is a no-op and does not overwrite an existing eventSourceRef."
 
     def test_mode_switched_ack_event_initialization(self):
-        """Test ModeSwitchedAckEvent initialization and methods."""
+        """Test ModeSwitchedAckEvent initialization defaults (own + inherited)."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = ModeSwitchedAckEvent(ar_root, "TestModeSwitchedAckEvent")
@@ -659,14 +678,34 @@ class TestModeSwitchedAckEvent:
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
         assert event.eventSourceRef is None
+        assert isinstance(event, RTEEvent)
 
-        # Test eventSourceRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_get_set_eventSourceRef(self):
+        """setEventSourceRef returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ModeSwitchedAckEvent(ar_root, "TestModeSwitchedAckEvent")
 
         source_ref = RefType()
-        source_ref.setValue("/Source/Ref")
-        event.setEventSourceRef(source_ref)
+        source_ref.setDest("MODE-SWITCH-POINT")
+        source_ref.setValue("/MyComponents/MySwc_IB/msp_1")
+        assert event.setEventSourceRef(source_ref) is event
         assert event.getEventSourceRef() == source_ref
+        assert event.getEventSourceRef().getDest() == "MODE-SWITCH-POINT"
+        assert event.getEventSourceRef().getValue() == "/MyComponents/MySwc_IB/msp_1"
+
+        event.setEventSourceRef(None)
+        assert event.getEventSourceRef() == source_ref
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed Optional[RefType] annotations."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = ModeSwitchedAckEvent(ar_root, "TestModeSwitchedAckEvent")
+
+        assert typing.get_type_hints(event.getEventSourceRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(event.setEventSourceRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(event.setEventSourceRef).get("return") is ModeSwitchedAckEvent
 
 
 class TestBackgroundEvent:

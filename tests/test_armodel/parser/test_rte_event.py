@@ -63,6 +63,46 @@ class TestRteEVent:
         assert irefs[0].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/On"
         assert irefs[1].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/Off"
 
+    def test_mode_switched_ack_events(self):
+        xml_content = """
+            <APPLICATION-SW-COMPONENT-TYPE>
+              <SHORT-NAME>MyComponents</SHORT-NAME>
+              <INTERNAL-BEHAVIORS>
+                <SWC-INTERNAL-BEHAVIOR T="2024-11-01T09:39:52+02:00" UUID="0c573b8e-57a1-4bc5-b815-07b6e0094060">
+                  <SHORT-NAME>MyInternalBehavior</SHORT-NAME>
+                  <EVENTS>
+                    <MODE-SWITCHED-ACK-EVENT>
+                      <SHORT-NAME>msa_event1</SHORT-NAME>
+                      <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/MyComponents/MySwc_IB/re_msa_1</START-ON-EVENT-REF>
+                      <EVENT-SOURCE-REF DEST="MODE-SWITCH-POINT">/MyComponents/MySwc_IB/msp_1</EVENT-SOURCE-REF>
+                    </MODE-SWITCHED-ACK-EVENT>
+                  </EVENTS>
+                </SWC-INTERNAL-BEHAVIOR>
+              </INTERNAL-BEHAVIORS>
+            </APPLICATION-SW-COMPONENT-TYPE>
+        """  # noqa E501
+
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": ""}
+
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
+        parser.readAtomicSwComponentType(element, sw_component)
+
+        internal_behavior = sw_component.getInternalBehavior()
+        assert internal_behavior is not None
+        events = internal_behavior.getModeSwitchedAckEvents()
+        assert len(events) == 1
+
+        event = events[0]
+        assert event.getShortName() == "msa_event1"
+        assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_msa_1"
+        assert event.getEventSourceRef() is not None
+        assert event.getEventSourceRef().getDest() == "MODE-SWITCH-POINT"
+        assert event.getEventSourceRef().getValue() == "/MyComponents/MySwc_IB/msp_1"
+
     def test_data_send_completed_events(self):
         xml_content = """
             <APPLICATION-SW-COMPONENT-TYPE>

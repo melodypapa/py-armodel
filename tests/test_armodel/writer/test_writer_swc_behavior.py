@@ -3150,3 +3150,79 @@ class TestSwcModeSwitchEventRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestModeSwitchedAckEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ModeSwitchedAckEvent with eventSourceRef (Table 7.19)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createModeSwitchedAckEvent("msa1")
+        event.setEventSourceRef(_ref("/Pkg/App/Behavior/msp1", "MODE-SWITCH-POINT"))
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "msa1")
+            assert isinstance(event_2, ModeSwitchedAckEvent)
+            ref = event_2.getEventSourceRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Behavior/msp1"
+            assert ref.getDest() == "MODE-SWITCH-POINT"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a ModeSwitchedAckEvent without eventSourceRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createModeSwitchedAckEvent("msa1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("MODE-SWITCHED-ACK-EVENT"))
+            assert all(not c.tag.endswith("EVENT-SOURCE-REF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "msa1")
+            assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
