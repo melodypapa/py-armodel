@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0023*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0026*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -222,7 +222,7 @@ as each step finishes (*Rule 0018*).
 | 1 | Sync members & description from the PDF by class name | 0001 (§§1.1–1.5, 1.11), 0007, 0015 | — |
 | **2** | **Write the model class unit test** | 0006 | **Red** |
 | **3** | **Implement the model class** | 0001 (§§1.6, 1.8, 1.10), 0003, 0004, 0005, 0008, 0009, 0010, 0011, 0022 | **Green** |
-| 4 | Sync description — **wipe all old docstrings**, rewrite from markdown | 0012 (§§2–4, incl. 2.5.3 enum-literal `Tags:`) | — |
+| 4 | Sync description — **wipe all old docstrings**, rewrite from markdown | 0012 (§§2–4; 2.5.3 keeps the `Tags:` tail verbatim) | — |
 | **5** | **Write the reader/writer round-trip test** | 0006, 0025 | **Red** |
 | **6** | **Update the parser (reader) & writer** | 0001 (§1.7), 0013, 0025 | **Green** |
 | 7 | Update checklist comment (`# Spec:` + rows; **marker deferred to 9b**) | 0002, 0024 | — |
@@ -244,7 +244,7 @@ as each step finishes (*Rule 0018*).
   - element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*)
   - **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*)
   - **member order** — class member/accessor/checklist order matches the markdown/PDF displayed row order, and reader/writer XML element order matches XSD `sequenceOffset`, checked independently (*0001.11*)
-  - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence; a leftover `Tags:`/`Stereotypes:` tail is not verbatim — an `AREnum` *literal* comment is the one place the tag stays, *0012.2.5.3*)
+  - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence; the `Tags:`/`Stereotypes:` tail is part of the verbatim `Note` and stays, at every level, *0012.2.5.3*)
   - **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit)
   - **quota shape vs spec multiplicity** — every member's `Optional`/`List`/plain annotation matches the table's multiplicity column (0..1 → `Optional[T]`, 0..* → `List[T]`, 1 → plain `T`), checked by eye since the *0022* gate test verifies form only (*0022*)
   - deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
@@ -518,7 +518,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0023*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0026*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
