@@ -16,52 +16,49 @@ class SwGenericAxisParam(ARObject):
 
     # SwGenericAxisParam method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.53, p.356
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVfs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVfs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        # Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20
         self.swGenericAxisParamTypeRef: Optional[RefType] = None
 
-        # This attribute represents the value of the generic axis parameter.
+        # This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false
         self.vfs: List[Numerical] = []
 
     def getSwGenericAxisParamTypeRef(self) -> Optional[RefType]:
         """
-        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20
         """
         return self.swGenericAxisParamTypeRef
 
     def setSwGenericAxisParamTypeRef(self, value: Optional[RefType]) -> "SwGenericAxisParam":
         """
-        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
-        A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef.
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef.
         """
         if value is not None:
             self.swGenericAxisParamTypeRef = value
         return self
 
-    def getVfs(self) -> List[Numerical]:
-        """
-        This attribute represents the value of the generic axis parameter.
-        """
-        return self.vfs
-
     def addVf(self, value: Optional[Numerical]) -> "SwGenericAxisParam":
         """
-        This attribute represents the value of the generic axis parameter.
-        A None value is a no-op and is not appended to vfs.
+        This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false A None value is a no-op and is not appended to vfs.
         """
         if value is not None:
             self.vfs.append(value)
         return self
+
+    def getVfs(self) -> List[Numerical]:
+        """
+        This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false
+        """
+        return self.vfs
 
 
 class SwAxisGeneric(ARObject):

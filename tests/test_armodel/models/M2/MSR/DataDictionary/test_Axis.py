@@ -24,7 +24,92 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 
 
 class TestSwGenericAxisParam:
-    """Test class for SwGenericAxisParam class."""
+    """Test class for SwGenericAxisParam class (SWCT Table 5.53, p.356, R23-11)."""
+
+    SPEC_MEMBER_ORDER = ["swGenericAxisParamTypeRef", "vfs"]
+
+    SPEC_CLASS_NOTE = (
+        "This meta-class describes a specific parameter of a generic axis. The name of the parameter is defined through "
+        "a reference to a parameter type defined on a corresponding axis type. The value of the parameter is given here "
+        "in case that it is not changeable during calibration. Example is shift / offset in a fixed axis."
+    )
+
+    SPEC_NOTES = {
+        "swGenericAxisParamTypeRef": (
+            "Parameter type defined on a corresponding axis type. References can only be made to axis parameters types "
+            "which are defined within the referenced axis type. Tags: xml.sequenceOffset=20"
+        ),
+        "vfs": (
+            "This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation "
+            "Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false "
+            "xml.sequenceOffset=30 xml.typeElement=false"
+        ),
+    }
+
+    def _axis_class(self) -> ast.ClassDef:
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "Axis.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        return next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwGenericAxisParam")
+
+    def _init_field_order(self) -> list:
+        init = next(n for n in self._axis_class().body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_generic_axis_param_class_note_verbatim(self):
+        """The class docstring carries the Table 5.53 Note verbatim."""
+        assert cleandoc(SwGenericAxisParam.__doc__) == self.SPEC_CLASS_NOTE
+
+    def test_sw_generic_axis_param_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.53 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_generic_axis_param_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first, lists mutator-first (Rule 0001.11)."""
+        expected = [
+            "getSwGenericAxisParamTypeRef",
+            "setSwGenericAxisParamTypeRef",
+            "addVf",
+            "getVfs",
+        ]
+        source_order = [n.name for n in self._axis_class().body if isinstance(n, ast.FunctionDef) and n.name != "__init__"]
+        assert source_order == expected
+        for name in expected:
+            assert hasattr(SwGenericAxisParam, name), f"missing accessor {name}"
+
+    def test_sw_generic_axis_param_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwGenericAxisParamTypeRef", "setSwGenericAxisParamTypeRef", "addVf", "getVfs"):
+            hints = typing.get_type_hints(getattr(SwGenericAxisParam, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+        assert typing.get_type_hints(SwGenericAxisParam.setSwGenericAxisParamTypeRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(SwGenericAxisParam.getSwGenericAxisParamTypeRef)["return"] == typing.Optional[RefType]
+        assert typing.get_type_hints(SwGenericAxisParam.addVf)["value"] == typing.Optional[Numerical]
+        assert typing.get_type_hints(SwGenericAxisParam.getVfs)["return"] == typing.List[Numerical]
+
+    def test_sw_generic_axis_param_accessor_docstrings_verbatim(self):
+        """Getter docstrings carry the Table 5.53 Notes verbatim (Tags:/Stereotypes: tails kept, Rule 0012.2.5.3); mutators append the None-no-op sentence."""
+        assert cleandoc(SwGenericAxisParam.getSwGenericAxisParamTypeRef.__doc__) == self.SPEC_NOTES["swGenericAxisParamTypeRef"]
+        assert cleandoc(SwGenericAxisParam.setSwGenericAxisParamTypeRef.__doc__) == (
+            self.SPEC_NOTES["swGenericAxisParamTypeRef"] + " A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef."
+        )
+        assert cleandoc(SwGenericAxisParam.addVf.__doc__) == (self.SPEC_NOTES["vfs"] + " A None value is a no-op and is not appended to vfs.")
+        assert cleandoc(SwGenericAxisParam.getVfs.__doc__) == self.SPEC_NOTES["vfs"]
 
     def test_sw_generic_axis_param_initialization(self):
         """Test that a SwGenericAxisParam object can be initialized with default values."""
@@ -35,21 +120,32 @@ class TestSwGenericAxisParam:
     def test_sw_generic_axis_param_type_ref_methods(self):
         """Test the swGenericAxisParamTypeRef getter and setter."""
         sw_generic_axis_param = SwGenericAxisParam()
-        ref = RefType()
+        ref = RefType().setValue("/axis/types/fixed/shift")
+        ref.setDest("SW-GENERIC-AXIS-PARAM-TYPE")
 
         result = sw_generic_axis_param.setSwGenericAxisParamTypeRef(ref)
         assert sw_generic_axis_param.getSwGenericAxisParamTypeRef() == ref
         assert result == sw_generic_axis_param
 
+    def test_sw_generic_axis_param_type_ref_setter_none_noop(self):
+        """Test that setSwGenericAxisParamTypeRef(None) does not overwrite an existing reference."""
+        sw_generic_axis_param = SwGenericAxisParam()
+        ref = RefType().setValue("/axis/types/fixed/shift")
+
+        assert sw_generic_axis_param.setSwGenericAxisParamTypeRef(ref) is sw_generic_axis_param
+        assert sw_generic_axis_param.setSwGenericAxisParamTypeRef(None) is sw_generic_axis_param
+        assert sw_generic_axis_param.getSwGenericAxisParamTypeRef() is ref
+
     def test_sw_generic_axis_param_vfs_methods(self):
         """Test adding and getting numerical values."""
         sw_generic_axis_param = SwGenericAxisParam()
-        value = Numerical()
-        value.setValue("1.5")
+        first = Numerical().setValue("1.5")
+        second = Numerical().setValue("2.5")
 
-        result = sw_generic_axis_param.addVf(value)
+        result = sw_generic_axis_param.addVf(first)
+        sw_generic_axis_param.addVf(second)
         vfs = sw_generic_axis_param.getVfs()
-        assert value in vfs
+        assert vfs == [first, second]
         assert result == sw_generic_axis_param
 
     def test_sw_generic_axis_param_vfs_none_noop(self):

@@ -55,7 +55,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     ScaleConstrValidityEnum,
 )
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     CalprmAxisCategoryEnum,
     SwCalprmAxis,
@@ -214,6 +214,94 @@ class TestSwAxisGroupedWriter:
         assert child.tag == "SW-GENERIC-AXIS-PARAM-TYPE"
         assert child.find("SHORT-NAME").text == "param"
         assert child.find("DATA-CONSTR-REF").text == "/constraints/axis"
+
+
+class TestSwGenericAxisParamWriter:
+    def test_set_sw_generic_axis_param_element_order_and_values(self, writer):
+        """SW-GENERIC-AXIS-PARAM-TYPE-REF (sequenceOffset 20) precedes the VF list (30) per XSD group SW-GENERIC-AXIS-PARAM."""
+        param = SwGenericAxisParam()
+        param.setSwGenericAxisParamTypeRef(_ref("SW-GENERIC-AXIS-PARAM-TYPE", "/axis/types/fixed/shift"))
+        param.addVf(_numerical("1.5"))
+        param.addVf(_numerical("-2.25e-3"))
+
+        parent = _parent()
+        writer.setSwGenericAxisParam(parent, param)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM"
+        assert [element.tag for element in child] == ["SW-GENERIC-AXIS-PARAM-TYPE-REF", "VF", "VF"]
+        ref_el = child.find("SW-GENERIC-AXIS-PARAM-TYPE-REF")
+        assert ref_el.text == "/axis/types/fixed/shift"
+        assert ref_el.attrib.get("DEST") == "SW-GENERIC-AXIS-PARAM-TYPE"
+        assert [vf.text for vf in child.findall("VF")] == ["1.5", "-2.25e-3"]
+
+    def test_set_sw_generic_axis_param_omits_unset_members(self, writer):
+        param = SwGenericAxisParam()
+        parent = _parent()
+        writer.setSwGenericAxisParam(parent, param)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM"
+        assert len(list(child)) == 0
+
+
+class TestSwGenericAxisParamRoundTrip:
+    def test_round_trip_via_sw_axis_individual(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("AxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        generic = SwAxisGeneric()
+        generic.setSwAxisTypeRef(_ref("SW-AXIS-TYPE", "/axis/types/fixed"))
+        param = SwGenericAxisParam()
+        param.setSwGenericAxisParamTypeRef(_ref("SW-GENERIC-AXIS-PARAM-TYPE", "/axis/types/fixed/shift"))
+        param.addVf(_numerical("1.5"))
+        param.addVf(_numerical("2.5"))
+        generic.addSwGenericAxisParam(param)
+        props.setSwAxisGeneric(generic)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisIndividual)
+            generic_2 = props_2.getSwAxisGeneric()
+            assert generic_2 is not None
+            assert generic_2.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+            assert generic_2.getSwAxisTypeRef().getDest() == "SW-AXIS-TYPE"
+            params_2 = generic_2.getSwGenericAxisParams()
+            assert len(params_2) == 1
+            param_2 = params_2[0]
+            assert param_2.getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+            assert param_2.getSwGenericAxisParamTypeRef().getDest() == "SW-GENERIC-AXIS-PARAM-TYPE"
+            vfs_2 = param_2.getVfs()
+            assert len(vfs_2) == 2
+            assert vfs_2[0].getValue() == 1.5
+            assert vfs_2[1].getValue() == 2.5
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
 
 class TestSwCalprmAxisWriter:
