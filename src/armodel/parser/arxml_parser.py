@@ -7466,12 +7466,11 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setHandleOutOfRange(cast(Optional[HandleOutOfRangeEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE")))
         com_spec.setHandleOutOfRangeStatus(cast(Optional[HandleOutOfRangeStatusEnum], self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS")))
         com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
         com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
-        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
+        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         reception_props = self.getReceptionComSpecProps(element, "RECEPTION-PROPS")
         if reception_props is not None:
             com_spec.setReceptionProps(reception_props)
@@ -7482,6 +7481,7 @@ class ARXMLParser(AbstractARXMLParser):
             com_spec.setReplaceWith(variable_access)
         com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
         self.readTransformationComSpecPropss(element, com_spec)
+        com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getReceptionComSpecProps(self, element: ET.Element, key: str) -> ReceptionComSpecProps:
         child_element = self.find(element, key)

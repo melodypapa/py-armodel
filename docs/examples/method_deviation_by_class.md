@@ -2193,6 +2193,8 @@ XSD-only — synced 2026-09-24 from `AUTOSAR_00052.xsd` line 145398 (`XML-SPACE-
 |---|---|---|---|---|---|
 | — *(no deviation)* | — | — | — | — | All 12 spec attributes implemented (`compositeNetworkRepresentation` mult `*` → list; `dataElement`, `handleOutOfRange`, `handleOutOfRangeStatus`, `maxDeltaCounterInit`, `maxNoNewOrRepeatedData`, `networkRepresentation`, `receptionProps`, `replaceWith`, `syncCounterInit`, `transformationComSpecProps` mult `*` → list, `usesEndToEndProtection`). Reader/writer coverage complete. |
 
+**Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified all 12 attributes both directions against Table 4.60, the verbatim Notes (Stereotypes/Tags tails dropped per Rule 0012.2.5.2), the abstract guard, member order, and the XSD RECEIVER-COM-SPEC group element order (AUTOSAR_00052.xsd l.95987): NETWORK-REPRESENTATION moved after MAX-NO-NEW-OR-REPEATED-DATA and USES-END-TO-END-PROTECTION moved to last in reader and writer; XSD-only `dataUpdatePeriod`/`externalReplacementRef`/`receiverIntent` elements are absent from the PDF table and stay unmodeled per Rule 0015). The legacy 5-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b. Round-trip covered via NonqueuedReceiverComSpec on an RPortPrototype in tests/test_armodel/writer/test_com_spec_family.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
+
 ## `NonqueuedReceiverComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 173
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`

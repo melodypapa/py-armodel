@@ -2274,12 +2274,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             for representation in representations:
                 self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
-        self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE-STATUS", com_spec.getHandleOutOfRangeStatus())
         self.setChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT", com_spec.getMaxDeltaCounterInit())
         self.setChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA", com_spec.getMaxNoNewOrRepeatedData())
-        self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
+        self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.writeReceptionComSpecProps(element, "RECEPTION-PROPS", com_spec.getReceptionProps())
         self.writeReceiverReplaceWith(element, "REPLACE-WITH", com_spec.getReplaceWith())
         self.setChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT", com_spec.getSyncCounterInit())
@@ -2294,6 +2293,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeUserDefinedTransformationComSpecProps(props_tag, prop)
                 else:
                     self.notImplemented("Unsupported TransformationComSpecProps %s" % type(prop))
+        self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
 
     def writeReceptionComSpecProps(self, element: ET.Element, key: str, props: Optional[ReceptionComSpecProps]):
         if props is not None:
