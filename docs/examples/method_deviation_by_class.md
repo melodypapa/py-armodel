@@ -4737,3 +4737,14 @@ Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-memb
 | — *(no deviation)* | — | — | — | — | No deviations — the single Table 4.54 attribute is modeled per multiplicity/kind: `signalFan` (SignalFanEnum, 0..1, attr → `signalFan: Optional[SignalFanEnum]`). |
 
 **Note:** Batch sync 2026-10-05 (Group27; the class already carried the current bar from an earlier pass — this pass re-verified the field-to-spec cross-check both directions, verbatim Notes, None-no-op setter, and get/set types; the stale `# Spec verified: R23-11` marker was removed per the batch convention, re-stamp deferred to the batch 9b). Checklist corrections: `# Spec:` line re-formatted with the `(R23-11)` suffix; reader/writer columns re-split per Rule 0002 (reader on setSignalFan, writer on getSignalFan — both were marked on both rows). Reader (SIGNAL-FAN via getChildElementOptionalLiteral → SignalFanEnum().setValue inside readPortPrototype, single DELEGATED-PORT-ANNOTATION child via setDelegatedPortAnnotation) and writer (SIGNAL-FAN via getSignalFan in writeDelegatedPortAnnotation, element only when set) verified against the XSD DELEGATED-PORT-ANNOTATION group order (single element; complexType sequence AR-OBJECT → GENERAL-ANNOTATION → own group, AUTOSAR_00052.xsd l.30933). Round-trip coverage added in tests/test_armodel/writer/test_port_annotations.py (field values + absence case). No Rule 0001.10 missing classes. No stamp (batch 9b).
+
+## `SignalFanEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 162
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::ApplicationAttributes`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — both Table 4.55 `Literal` rows are modeled 1:1 in displayed order: `NFOLD = "nfold"` (atp.EnumerationLiteralIndex=0), `SINGLE = "single"` (index=1). |
+
+**Note:** Batch sync 2026-10-05 (Group27; the enum already carried the current bar from an earlier pass — this pass re-verified the literal set 1:1 against Table 4.55, member values, registration-tuple order, instantiability, and the verbatim class Note; the legacy 4-column checklist with a stale `# Spec verified: R23-11` marker was normalized to the 6-column format and the marker removed per the batch convention, re-stamp deferred to the batch 9b). AREnum adaptation: Steps 5/6 N/A — standalone enum, serialized as the SIGNAL-FAN attribute value on the consuming class (round-tripped via DelegatedPortAnnotation in tests/test_armodel/writer/test_port_annotations.py). New mirrored model test file tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes/test_SignalFanEnum.py. No Rule 0001.10 missing classes. No stamp (batch 9b).
