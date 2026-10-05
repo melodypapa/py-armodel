@@ -1915,3 +1915,169 @@ re-sync is a Step 9b finding.
 *Legacy-format checklists (Rule 0023 re-sync inventory)*. Drain it through per-class
 sync sessions, one at a time; the inventory never fails the checker by itself.
 
+## Rule 0024 — The class checklist is one contiguous block above `__init__` *(added after the Group16 batch-9b closeout, 2026-10-05)*
+
+Rule 0002 requires one row per method, in source order. It does **not** say where the
+rows live — and that omission is load-bearing, because the most natural place to type a
+row while writing an accessor is next to the field it belongs to, i.e. inside the
+`__init__` body where the spec-`Note` member comment already lives.
+
+What comes out of that is a file where **every row is `[x]`**, the block at the top
+still shows `__init__`, the row *count* looks plausible to a text reader, and the whole
+test suite passes. Every pre-existing gate is blind to it:
+
+- the 6-column parser in `eval_skill_static_checks.py` only recognises the **legacy**
+  row shape (Rule 0023), so a scattered 6-column row is not even a finding;
+- `pytest` cannot see a comment;
+- a 9b reviewer reading the block sees a complete-looking checklist and stops.
+
+**The rule:** the checklist is a **single contiguous run of comment lines that starts
+above `def __init__` and ends before it**, and **every** `[x] <method>` checklist row in
+the class lives inside that run. Exactly one header per class. A row found elsewhere in
+the class body is a defect even when its content is correct — move it into the block; do
+not re-derive the row.
+
+**Why this is stated as its own rule rather than a clarification of 0002:** a
+clarification would be read as "the rows should be in the block, ideally". The Group16
+evidence is that the shape is not a style preference but the difference between a class
+whose checklist means anything and one that does not — 6 of the 14 classes confirmed on
+2026-10-05 (`DoIpEntity`, `TpPort`, `VlanConfig`, `GenericTp`, `TcpTp`, `UdpTp`) carried
+1 row in the block and 2–16 rows inside `__init__`, and had done so since 2026-09-28
+while their rows reported "6-col checklist" done.
+
+**Mechanical (this one is fully checkable — do not eyeball it):**
+
+```bash
+python .agents/skills/sync-autosar-class/audit_class.py <ClassName>   # BLOCK + ROWS
+```
+
+`BLOCK` fails when the block starts after `__init__`, runs past it, or when a checklist
+row appears anywhere outside it; `ROWS` fails when the block's rows are not exactly the
+class's methods in source order (AST, not text). Run it at **Step 7** (after writing the
+checklist) and again at **9a**.
+
+## Rule 0025 — Reader/writer base-helper *symmetry*: never call it zero times either *(added after the Group16 batch-9b closeout, 2026-10-05)*
+
+Rule 0013.1 governs calling the base reader helper **twice** (which double-registers the
+object in `UUIDMgr`). Its mirror image — **never calling it** — is the more common
+failure and is completely silent, because the parse still succeeds and the assertions
+still pass; the class simply loses the state the base level owns:
+
+| Base level | What is lost when its helper is skipped |
+|---|---|
+| `ARObject` | `S` (checksum) / `T` (timestamp) attributes |
+| `Referrable` | the above + `SHORT-NAME-FRAGMENTS` |
+| `Identifiable` | the above + `UUID`, `CATEGORY`, `ADMIN-DATA`, `DESC`, `INTRODUCTION` |
+
+Group16 2026-10-05: **7 of 14** classes (`DoIpEntity`, `TpPort`, `VlanConfig`,
+`GenericTp`, `TcpTp`, `UdpTp`, `RequestResponseDelay`) each dropped `AR:AR-OBJECT` `S`/`T`
+in **both** directions while their Step 8 read "no deviations".
+
+**The asymmetry case is the one to watch for.** `VlanConfig`'s writer already called
+`writeIdentifiable`, so its checklist row read `writer [x]` and the class looked covered;
+only the reader was short. One-sided coverage is exactly what a `[x]`-everywhere
+checklist cannot express, so **check the two sides independently** — never infer the
+reader from the writer or the reverse.
+
+**Naming is not uniform, so match on behaviour, not on a name:**
+
+- the reader helper may be `readXxx` (`readTcpTp`) **or** `getXxx` (`getTpPort`,
+  `getDoIpEntity`, `getRequestResponseDelay`);
+- the writer helper may be `writeXxx` (`writeGenericTp`) **or** `setXxx`
+  (`setTpPort`, `setDoIpEntity`, `setRequestResponseDelay`);
+- a class with no helper of its own is read/written **inline by its aggregator** under the
+  parent's attribute name — `VlanConfig` is emitted by `writeEthernetPhysicalChannelVlan`
+  through `channel.getVlan()`. That is legitimate; the base-helper call still has to
+  happen somewhere on that path.
+
+The obligation is therefore: **on whichever function constructs or emits the class, some
+base reader/writer helper for one of its ancestors is called.** A concrete intermediate
+base that owns no helper (an abstract placeholder like `TcpUdpConfig`) does not satisfy
+it — the obligation is discharged at the nearest ancestor that does (`readARObject`).
+
+**Mechanical:**
+
+```bash
+python .agents/skills/sync-autosar-class/audit_class.py <ClassName>   # BASE
+```
+
+`BASE` resolves the ancestor chain, keeps only the ancestors that actually own a
+`read<Name>` helper (which excludes mixins like `ABC` / `VariationPointCapable` and
+placeholders like `PackageableElement`), finds the entry points by the naming rules
+above, and fails when none of them calls a base helper. It reports `WARN`, not `FAIL`,
+when it cannot identify an entry point at all — that is the signal to trace the path by
+hand, not a pass. When the audit adds `readARObject`/`writeARObject` (or
+`readIdentifiable`/…) to satisfy `BASE`, add a round-trip assertion that sets and reads
+back the attributes that level owns, so the fix is pinned by a test instead of by a
+comment.
+
+## Rule 0026 — The todo row is a claim; the source is the evidence *(added after the Group16 batch-9b closeout, 2026-10-05)*
+
+Rule 0012.1 makes the marker the review gate and warns that "an existing marker is not
+proof". It says nothing about the **todo row's own text**, which is where a deferred
+batch actually goes wrong: a row carries a prose summary of a past session's work
+("steps 1-8; verbatim Note + attr notes, PEP 526 types, 6-col checklist"), and a later
+session reading it has no way to tell a summary that was true from one that was
+hoped-for.
+
+Group16 2026-10-05 is the worked example. All 14 pending rows reported Steps 1-8
+complete with a 6-column checklist. **13 of 14 had drifted**, in ways the summaries
+actively concealed: 6 had their accessor rows outside the block (Rule 0024), 7 were
+missing a base-helper call (Rule 0025), 2 carried a `Tags:` tail, 1 had a malformed
+`# Spec:` form. Nothing in the row text hinted at any of it. Conversely
+`MacMulticastGroup`'s row said "6-col checklist" and the class was clean apart from the
+absent marker — so the row text was wrong in **both** directions and neither direction
+was a reliable signal.
+
+**The rule — a batch or deferred 9b re-derives every row from source before confirming
+any of them.** Concretely, before the first 9b of a batch:
+
+1. run the mechanical audit over **every** row in the batch, not a sample:
+
+   ```bash
+   python .agents/skills/sync-autosar-class/audit_class.py <Class> [<Class> ...]
+   ```
+
+2. a row whose audit **FAIL**s does not go to 9b. Re-run the steps the failure implicits
+   — `BLOCK`/`ROWS` → Step 7 (and 0002), `BASE` → Steps 5/6, `DOC` → Step 4, `STAMP` →
+   Step 8 — and record what the audit caught in that row's Step 8 note, so the next
+   reader of the file learns from the near-miss rather than repeating it;
+
+3. a row whose audit is clean still needs the 9b items automation cannot judge (verbatim
+   `Note` diff, most-derived base, member order, quota shape) before its marker is
+   written. A clean audit narrows 9b; it never replaces it.
+
+Corollary for the **row text itself**: a Step 1-8 summary is a *description of intent*.
+When a later pass re-verifies a row against source, the finding worth writing down is
+the **delta from what the row claimed** ("row said 6-col checklist; the accessor rows
+were inside `__init__`"), not a restatement of the work. A row that says only
+"9a passed, 9b confirmed" teaches the next session nothing and will be re-litigated.
+
+**What "already-verified short-circuit" means here.** The short-circuit at the top of a
+todo file is about the *marker* in the source. It never licenses skipping the source
+audit of rows that have **no** marker, and it never applies to a batch 9b: confirming N
+classes at once is precisely the situation where the per-class verification is most
+likely to have been skipped and least likely to be noticed.
+
+### 0012.2.5.3 — `Tags:`/`Stereotypes:` tails: attribute Notes vs enum literals *(clarified after the Group16 batch-9b closeout, 2026-10-05)*
+
+Rule 0012.2.5.2 says to drop the `Stereotypes:`/`Tags:` tail from an attribute `Note`.
+Group16 showed the boundary being drawn in the wrong place in both directions, so state
+it explicitly:
+
+- **Strip the tail** from the **class docstring**, from every `__init__` **member
+  comment**, and from every **accessor docstring** — those carry the attribute's
+  semantic sentence, and the tag metadata is a rendering artefact of the converted
+  markdown.
+- **Keep the tail** on an **`AREnum` literal comment.** The converted markdown renders
+  the literal's description cell as
+  `Static configuration is used to obtain the address information. Tags: atp.EnumerationValue=0`
+  — for a literal, the index/tag *is* part of the description cell, there is no separate
+  attribute `Note` to strip it from, and the repo's already-stamped enums keep it
+  (compare `DoIpEntityRoleEnum`, `PduCollectionTriggerEnum`, `TimeSyncTechnologyEnum`).
+  Stripping it there would make the enum diverge from every sibling.
+
+`audit_class.py DOC` encodes exactly this split: it fails on a tail in the class /
+member / accessor docstrings and reports the enum literal case as `INFO`.
+
+
