@@ -317,28 +317,78 @@ class TestFlexrayTopology:
         assert cluster == cluster.setMaxWithoutClockCorrectionPassive(35)
 
 
+FLEXRAY_FIFO_RANGE_CLASS_NOTE = "FIFO Frame Id range acceptance criteria."
+RANGE_MAX_NOTE = "Max Range."
+RANGE_MIN_NOTE = "Min Range."
+
+
 class TestFlexrayFifoRange:
-    def test_flexray_fifo_range_defaults(self):
-        fifo_range = FlexrayFifoRange()
+    def _make(self) -> FlexrayFifoRange:
+        return FlexrayFifoRange()
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_initialization(self):
+        fifo_range = self._make()
+
         assert isinstance(fifo_range, ARObject)
         assert fifo_range.getRangeMax() is None
         assert fifo_range.getRangeMin() is None
 
-    def test_flexray_fifo_range_setters(self):
-        fifo_range = FlexrayFifoRange()
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(FlexrayFifoRange.__doc__).strip() == FLEXRAY_FIFO_RANGE_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayFifoRange.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(FlexrayFifoRange.__init__)
+        order = [
+            "self.rangeMax:",
+            "self.rangeMin:",
+        ]
+        indexes = [source.index(member) for member in order]
+        assert indexes == sorted(indexes)
+
+    def test_get_set_range_max(self):
+        fifo_range = self._make()
+
         assert fifo_range == fifo_range.setRangeMax(200)
         assert fifo_range.getRangeMax() == 200
+
+        assert fifo_range == fifo_range.setRangeMax(None)
+        assert fifo_range.getRangeMax() == 200
+
+        self._pin(FlexrayFifoRange.getRangeMax, FlexrayFifoRange.setRangeMax, Optional[Integer], FlexrayFifoRange)
+
+    def test_get_set_range_min(self):
+        fifo_range = self._make()
+
         assert fifo_range == fifo_range.setRangeMin(100)
         assert fifo_range.getRangeMin() == 100
 
-    def test_flexray_fifo_range_none_noop(self):
-        fifo_range = FlexrayFifoRange()
-        fifo_range.setRangeMax(200)
-        fifo_range.setRangeMin(100)
-        fifo_range.setRangeMax(None)
-        fifo_range.setRangeMin(None)
-        assert fifo_range.getRangeMax() == 200
+        assert fifo_range == fifo_range.setRangeMin(None)
         assert fifo_range.getRangeMin() == 100
+
+        self._pin(FlexrayFifoRange.getRangeMin, FlexrayFifoRange.setRangeMin, Optional[Integer], FlexrayFifoRange)
+
+    def test_range_max_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoRange.getRangeMax, RANGE_MAX_NOTE)
+        self._assert_docstring(FlexrayFifoRange.setRangeMax, RANGE_MAX_NOTE, "rangeMax")
+
+    def test_range_min_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayFifoRange.getRangeMin, RANGE_MIN_NOTE)
+        self._assert_docstring(FlexrayFifoRange.setRangeMin, RANGE_MIN_NOTE, "rangeMin")
 
 
 class TestFlexrayFifoConfiguration:

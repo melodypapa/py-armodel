@@ -11901,6 +11901,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setFlexrayFifoRange(self, element: ET.Element, key: str, fifo_range: FlexrayFifoRange):
         if fifo_range is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, fifo_range)
             self.setChildElementOptionalIntegerValue(child_element, "RANGE-MAX", fifo_range.getRangeMax())
             self.setChildElementOptionalIntegerValue(child_element, "RANGE-MIN", fifo_range.getRangeMin())
 
@@ -11912,8 +11913,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CHANNEL-REF", configuration.getChannelRef())
             self.setChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION", configuration.getCycleRepetition())
             self.setChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH", configuration.getFifoDepth())
-            for fifo_range in configuration.getFlexrayFifoRanges():
-                self.setFlexrayFifoRange(child_element, "FLEXRAY-FIFO-RANGE", fifo_range)
+            fifo_ranges = configuration.getFlexrayFifoRanges()
+            if len(fifo_ranges) > 0:
+                ranges_element = ET.SubElement(child_element, "FIFO-RANGES")
+                for fifo_range in fifo_ranges:
+                    self.setFlexrayFifoRange(ranges_element, "FLEXRAY-FIFO-RANGE", fifo_range)
             self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK", configuration.getMsgIdMask())
             self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH", configuration.getMsgIdMatch())
 

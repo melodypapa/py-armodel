@@ -2250,7 +2250,7 @@ class TestWriteFlexrayFifoConfiguration:
         assert channel_ref.text == "/FlexrayCluster/ChannelA"
         assert el.find("CYCLE-REPETITION").text == "4"
         assert el.find("FIFO-DEPTH").text == "8"
-        range_el = el.find("FLEXRAY-FIFO-RANGE")
+        range_el = el.find("FIFO-RANGES/FLEXRAY-FIFO-RANGE")
         assert range_el.find("RANGE-MAX").text == "200"
         assert range_el.find("RANGE-MIN").text == "100"
         assert el.find("MSG-ID-MASK").text == "16"

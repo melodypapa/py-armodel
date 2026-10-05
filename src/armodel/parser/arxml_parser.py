@@ -14091,6 +14091,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             fifo_range = FlexrayFifoRange()
+            self.readARObject(child_element, fifo_range)
             fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MAX"))
             fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MIN"))
         return fifo_range
@@ -14105,10 +14106,10 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNEL-REF"))
             configuration.setCycleRepetition(self.getChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION"))
             configuration.setFifoDepth(self.getChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH"))
-            for range_child in self.findall(child_element, "FLEXRAY-FIFO-RANGE"):
-                fifo_range = configuration.createFlexrayFifoRange()
-                fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
-                fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
+            for range_child in self.findall(child_element, "FIFO-RANGES/FLEXRAY-FIFO-RANGE"):
+                fifo_range = self.getFlexrayFifoRange(range_child, ".")
+                if fifo_range is not None:
+                    configuration.getFlexrayFifoRanges().append(fifo_range)
             configuration.setMsgIdMask(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK"))
             configuration.setMsgIdMatch(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH"))
         return configuration

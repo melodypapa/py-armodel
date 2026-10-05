@@ -1168,13 +1168,12 @@ class FlexrayFifoRange(ARObject):
 
     # FlexrayFifoRange method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.32, p.87
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRangeMax  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRangeMax  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRangeMin  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRangeMin  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRangeMax  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRangeMax  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRangeMin  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRangeMin  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

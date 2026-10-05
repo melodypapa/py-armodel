@@ -772,17 +772,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `FlexrayFifoRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.32, p.87
+- [x] `FlexrayFifoRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.32, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale spec-verified stamp removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column; model surface already at bar (ARObject base, rangeMax/rangeMin `Optional[Integer]` 0..1 in displayed order, PEP 526 + blank lines, verbatim Notes after full wipe/rewrite) so Steps 2–3 tests were born GREEN. Reader/writer fixed to XSD ground truth in this pass (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): writer now emits the FIFO-RANGES wrapper (only when non-empty) between FIFO-DEPTH and MSG-ID-MASK and reader descends `FIFO-RANGES/FLEXRAY-FIFO-RANGE` via the getFlexrayFifoRange entry point, which now calls readARObject exactly once (writeARObject mirrored in setFlexrayFifoRange) so inherited S/T round-trip; fragment verified schema-valid against AUTOSAR_00052.xsd FLEXRAY-FIFO-CONFIGURATION (old bare-range shape confirmed invalid). Reader list insertion uses `getFlexrayFifoRanges().append(...)` transitionally — replaced by the next row's pre-recorded `addFlexrayFifoRange(value)` rename (FlexrayFifoConfiguration, Table 3.31). Two stale unit tests asserting the old wrapper-less shape updated (parser test_arxml_parser_network_handlers.py, writer test_writer_frame_channel.py); no integration fixture touched.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2315+8090 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `LinCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.36, p.93
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
