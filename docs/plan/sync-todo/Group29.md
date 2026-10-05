@@ -747,15 +747,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `FlexrayCluster` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.29, p.81
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): queue base `ARObject` arbitrated to `CommunicationCluster` — Table 3.29 Base row lists "ARElement, ARObject, CollectableElement, CommunicationCluster, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, UploadableDesignElement, Uploadable" (most-derived modeled base = CommunicationCluster; XSD complexType FLEXRAY-CLUSTER, AUTOSAR_00052.xsd line 60095, chains AR:COMMUNICATION-CLUSTER immediately before AR:FLEXRAY-CLUSTER — Rule 0015). Note "FlexRay specific attributes to the physicalCluster"; 35 own attrs 0..1 in displayed order = the 35 FLEXRAY-CLUSTER-CONTENT elements (line 60156, same order); no `*` aggr / Referrable children; Aggregated by ARPackage.element (createFlexrayCluster, ARPackage.py:4366; reader/writer dispatch arxml_parser.py:17305 / arxml_writer.py:17435). Rule 0023/0012.3 re-run: legacy 5-column checklist (no release column) carrying a stale R23-11 spec-verified stamp — marker removed, checklist rebuilt 6-column, re-stamp deferred to batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no deviations — base arbitration resolved to the spec (queue's `ARObject` was stale; Table 3.29 Base column and the XSD complexType both give CommunicationCluster as most-derived modeled base); all 35 attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer element order = XSD FLEXRAY-CLUSTER-CONTENT sequenceOffset — the two orders coincide here); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 35 inline comments + 35 getter/setter docstrings; markdown quirks kept verbatim, e.g. "cSamplesPer Bit", "awakeup symbol", "Unit: gDbit"); reader/writer already fully wired (ARPackage.element dispatch, CONDITIONAL wrapper carrying the inherited COMMUNICATION-CLUSTER content per the 9a-verified CanCluster/TtcanCluster convention, base helpers read/writeIdentifiable + read/writeCommunicationCluster called exactly once each — audit BASE clean); no fabrication, no flattening, no missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2310+8081 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `FlexrayFifoConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.31, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py

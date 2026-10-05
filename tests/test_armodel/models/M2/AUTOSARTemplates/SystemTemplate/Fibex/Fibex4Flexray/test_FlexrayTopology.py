@@ -11,7 +11,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayFifoRange,
     FlexrayPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, FlexrayChannelName, PhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+    FibexElement,
+    FlexrayChannelName,
+    PhysicalChannel,
+)
 
 
 class MockParent(ARObject):
@@ -1109,3 +1116,619 @@ class TestFlexrayPhysicalChannel:
     def test_channel_name_docstrings_are_spec_note(self):
         self._assert_docstring(FlexrayPhysicalChannel.getChannelName, CHANNEL_NAME_NOTE)
         self._assert_docstring(FlexrayPhysicalChannel.setChannelName, CHANNEL_NAME_NOTE, "channelName")
+
+
+FLEXRAY_CLUSTER_CLASS_NOTE = "FlexRay specific attributes to the physicalCluster"
+ACTIONPOINTOFFSET_NOTE = "The offset of the action point in networks"
+BIT_NOTE = "Nominal bit time (= 1 / fx:SPEED). gdBit = cSamplesPer Bit * gdSampleClockPeriod. Unit: seconds (gdBit)"
+CASRXLOWMAX_NOTE = "Upper limit of the Collision Avoidance Symbol (CAS) acceptance window. Unit:bitDuration"
+COLDSTARTATTEMPTS_NOTE = "The maximum number of times that a node in this cluster is permitted to attempt to start the cluster by initiating schedule synchronization"
+CYCLE_NOTE = "Length of the cycle. Unit: seconds"
+CYCLECOUNTMAX_NOTE = "Maximum cycle counter value in a given cluster. Remark: Set to 63 for FlexRay Protocol 2.1 Rev. A compliance."
+DETECTNITERROR_NOTE = "Indicates whether NIT error status of each cluster shall be detected or not."
+DYNAMICSLOTIDLEPHASE_NOTE = "The duration of the dynamic slot idle phase in minislots."
+IGNOREAFTERTX_NOTE = "Duration for which the bitstrobing is paused after transmission [gdBit]."
+LISTENNOISE_NOTE = "Upper limit for the start up and wake up listen timeout in the presence of noise. Expressed as a multiple of the cluster constant pdListenTimeout. Unit microticks"
+MACROPERCYCLE_NOTE = "The number of macroticks in a communication cycle"
+MACROTICKDURATION_NOTE = "Duration of the cluster wide nominal macrotick, expressed in s."
+MAXWITHOUTCLOCKCORRECTIONFATAL_NOTE = "Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active or POC:normal passive state into the POC:halt state."
+MAXWITHOUTCLOCKCORRECTIONPASSIVE_NOTE = "Threshold concerning vClockCorrectionFailedCounter. Defines the number of consecutive even/odd Cycle pairs with missing clock correction terms that will cause the protocol to transition from the POC:normal active state to the POC:normal passive state."
+MINISLOTACTIONPOINTOFFSET_NOTE = "The Offset of the action point within a minislot. Unit: macroticks"
+MINISLOTDURATION_NOTE = "The duration of a minislot (dynamic segment). Unit: macroticks."
+NETWORKIDLETIME_NOTE = "The duration of the network idle time in macroticks"
+NETWORKMANAGEMENTVECTORLENGTH_NOTE = "Length of the Network Management vector in a cluster [bytes]"
+NUMBEROFMINISLOTS_NOTE = "Number of Minislots in the dynamic segment."
+NUMBEROFSTATICSLOTS_NOTE = "The number of static slots in the static segment."
+OFFSETCORRECTIONSTART_NOTE = "Start of the offset correction phase within the Network Idle Time (NIT), expressed as the number of macroticks from the start of cycle. Unit: macroticks"
+PAYLOADLENGTHSTATIC_NOTE = "Globally configured payload length of a static frame. Unit: 16-bit WORDS."
+SAFETYMARGIN_NOTE = "Additional timespan in macroticks which takes jitter into account to be able to set the JobListPointer to the next possible job which can be executed in case the FlexRay Job List Execution Function has be resynchronized."
+SAMPLECLOCKPERIOD_NOTE = "Sample clock period. Unit: seconds"
+STATICSLOTDURATION_NOTE = "The duration of a slot in the static segment. Unit: macroticks"
+SYMBOLWINDOW_NOTE = "The duration of the symbol window. Unit: macroticks"
+SYMBOLWINDOWACTIONPOINTOFFSET_NOTE = "Number of macroticks the action point offset is from the beginning of the symbol window [Macroticks]."
+SYNCFRAMEIDCOUNTMAX_NOTE = "Maximum number of distinct syncframe identifiers present in a given cluster. This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gSyncNodeMax."
+TRANCEIVERSTANDBYDELAY_NOTE = "The duration of timer t_TrcvStdbyDelay in seconds. The granularity of this parameter shall be restricted to full Flex Ray cycles (cycle). The transceiver status setting to STANDBY shall be delayed by this value. Not specifying a value or a value of 0 shall imply that the timer is not used."
+TRANSMISSIONSTARTSEQUENCEDURATION_NOTE = "Number of bits in the Transmission Start Sequence [gd Bits]."
+WAKEUPRXIDLE_NOTE = "Number of bits used by the node to test the duration of the 'idle' or HIGH phase of a received wakeup. Unit:bit Duration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxIdle."
+WAKEUPRXLOW_NOTE = "Number of bits used by the node to test the duration of the LOW phase of a received wakeup. Unit:bitDuration Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxLow."
+WAKEUPRXWINDOW_NOTE = "The size of the window used to detect wakeups [gdBit]. Remarks: This parameter maps to FlexRay Protocol 2.1 Rev. A parameter gdWakeupSymbolRxWindow."
+WAKEUPTXACTIVE_NOTE = "Number of bits used by the node to transmit the LOW phase of awakeup symbol and the HIGH and LOW phases of a WUDOP. Unit:bitDuration"
+WAKEUPTXIDLE_NOTE = "Number of bits used by the node to transmit the 'idle' part of a wakeup symbol. Unit: gDbit"
+
+
+class TestFlexrayCluster:
+    """Test cases for FlexrayCluster (Table 3.29, p.81)."""
+
+    MEMBERS = [
+        "actionPointOffset",
+        "bit",
+        "casRxLowMax",
+        "coldStartAttempts",
+        "cycle",
+        "cycleCountMax",
+        "detectNitError",
+        "dynamicSlotIdlePhase",
+        "ignoreAfterTx",
+        "listenNoise",
+        "macroPerCycle",
+        "macrotickDuration",
+        "maxWithoutClockCorrectionFatal",
+        "maxWithoutClockCorrectionPassive",
+        "minislotActionPointOffset",
+        "minislotDuration",
+        "networkIdleTime",
+        "networkManagementVectorLength",
+        "numberOfMinislots",
+        "numberOfStaticSlots",
+        "offsetCorrectionStart",
+        "payloadLengthStatic",
+        "safetyMargin",
+        "sampleClockPeriod",
+        "staticSlotDuration",
+        "symbolWindow",
+        "symbolWindowActionPointOffset",
+        "syncFrameIdCountMax",
+        "tranceiverStandbyDelay",
+        "transmissionStartSequenceDuration",
+        "wakeupRxIdle",
+        "wakeupRxLow",
+        "wakeupRxWindow",
+        "wakeupTxActive",
+        "wakeupTxIdle",
+    ]
+
+    def _make(self) -> FlexrayCluster:
+        return FlexrayCluster(MockParent(), "test_flexray_cluster")
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_inheritance(self):
+        assert issubclass(FlexrayCluster, CommunicationCluster)
+        assert issubclass(FlexrayCluster, FibexElement)
+        assert issubclass(FlexrayCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = FlexrayCluster(MockParent(), "cluster")  # Table 3.29 carries no abstract stereotype
+
+        assert isinstance(cluster, CommunicationCluster)
+
+    def test_initialization(self):
+        cluster = self._make()
+
+        assert cluster.getShortName() == "test_flexray_cluster"
+        assert isinstance(cluster, CommunicationCluster)
+        assert cluster.getBaudrate() is None
+        assert cluster.getPhysicalChannels() == []
+        assert cluster.getProtocolName() is None
+        assert cluster.getProtocolVersion() is None
+        assert cluster.getActionPointOffset() is None
+        assert cluster.getBit() is None
+        assert cluster.getCasRxLowMax() is None
+        assert cluster.getColdStartAttempts() is None
+        assert cluster.getCycle() is None
+        assert cluster.getCycleCountMax() is None
+        assert cluster.getDetectNitError() is None
+        assert cluster.getDynamicSlotIdlePhase() is None
+        assert cluster.getIgnoreAfterTx() is None
+        assert cluster.getListenNoise() is None
+        assert cluster.getMacroPerCycle() is None
+        assert cluster.getMacrotickDuration() is None
+        assert cluster.getMaxWithoutClockCorrectionFatal() is None
+        assert cluster.getMaxWithoutClockCorrectionPassive() is None
+        assert cluster.getMinislotActionPointOffset() is None
+        assert cluster.getMinislotDuration() is None
+        assert cluster.getNetworkIdleTime() is None
+        assert cluster.getNetworkManagementVectorLength() is None
+        assert cluster.getNumberOfMinislots() is None
+        assert cluster.getNumberOfStaticSlots() is None
+        assert cluster.getOffsetCorrectionStart() is None
+        assert cluster.getPayloadLengthStatic() is None
+        assert cluster.getSafetyMargin() is None
+        assert cluster.getSampleClockPeriod() is None
+        assert cluster.getStaticSlotDuration() is None
+        assert cluster.getSymbolWindow() is None
+        assert cluster.getSymbolWindowActionPointOffset() is None
+        assert cluster.getSyncFrameIdCountMax() is None
+        assert cluster.getTranceiverStandbyDelay() is None
+        assert cluster.getTransmissionStartSequenceDuration() is None
+        assert cluster.getWakeupRxIdle() is None
+        assert cluster.getWakeupRxLow() is None
+        assert cluster.getWakeupRxWindow() is None
+        assert cluster.getWakeupTxActive() is None
+        assert cluster.getWakeupTxIdle() is None
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(FlexrayCluster.__doc__).strip() == FLEXRAY_CLUSTER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert FlexrayCluster.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(FlexrayCluster.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_get_set_action_point_offset(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setActionPointOffset(value)
+        assert cluster.getActionPointOffset() == value
+        assert cluster == cluster.setActionPointOffset(None)
+        assert cluster.getActionPointOffset() == value
+        self._pin(FlexrayCluster.getActionPointOffset, FlexrayCluster.setActionPointOffset, Optional[Integer], FlexrayCluster)
+
+    def test_action_point_offset_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getActionPointOffset, ACTIONPOINTOFFSET_NOTE)
+        self._assert_docstring(FlexrayCluster.setActionPointOffset, ACTIONPOINTOFFSET_NOTE, "actionPointOffset")
+
+    def test_get_set_bit(self):
+        cluster = self._make()
+        value = TimeValue().setValue("0.005")
+        assert cluster == cluster.setBit(value)
+        assert cluster.getBit() == value
+        assert cluster == cluster.setBit(None)
+        assert cluster.getBit() == value
+        self._pin(FlexrayCluster.getBit, FlexrayCluster.setBit, Optional[TimeValue], FlexrayCluster)
+
+    def test_bit_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getBit, BIT_NOTE)
+        self._assert_docstring(FlexrayCluster.setBit, BIT_NOTE, "bit")
+
+    def test_get_set_cas_rx_low_max(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setCasRxLowMax(value)
+        assert cluster.getCasRxLowMax() == value
+        assert cluster == cluster.setCasRxLowMax(None)
+        assert cluster.getCasRxLowMax() == value
+        self._pin(FlexrayCluster.getCasRxLowMax, FlexrayCluster.setCasRxLowMax, Optional[Integer], FlexrayCluster)
+
+    def test_cas_rx_low_max_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getCasRxLowMax, CASRXLOWMAX_NOTE)
+        self._assert_docstring(FlexrayCluster.setCasRxLowMax, CASRXLOWMAX_NOTE, "casRxLowMax")
+
+    def test_get_set_cold_start_attempts(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setColdStartAttempts(value)
+        assert cluster.getColdStartAttempts() == value
+        assert cluster == cluster.setColdStartAttempts(None)
+        assert cluster.getColdStartAttempts() == value
+        self._pin(FlexrayCluster.getColdStartAttempts, FlexrayCluster.setColdStartAttempts, Optional[Integer], FlexrayCluster)
+
+    def test_cold_start_attempts_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getColdStartAttempts, COLDSTARTATTEMPTS_NOTE)
+        self._assert_docstring(FlexrayCluster.setColdStartAttempts, COLDSTARTATTEMPTS_NOTE, "coldStartAttempts")
+
+    def test_get_set_cycle(self):
+        cluster = self._make()
+        value = TimeValue().setValue("0.005")
+        assert cluster == cluster.setCycle(value)
+        assert cluster.getCycle() == value
+        assert cluster == cluster.setCycle(None)
+        assert cluster.getCycle() == value
+        self._pin(FlexrayCluster.getCycle, FlexrayCluster.setCycle, Optional[TimeValue], FlexrayCluster)
+
+    def test_cycle_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getCycle, CYCLE_NOTE)
+        self._assert_docstring(FlexrayCluster.setCycle, CYCLE_NOTE, "cycle")
+
+    def test_get_set_cycle_count_max(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setCycleCountMax(value)
+        assert cluster.getCycleCountMax() == value
+        assert cluster == cluster.setCycleCountMax(None)
+        assert cluster.getCycleCountMax() == value
+        self._pin(FlexrayCluster.getCycleCountMax, FlexrayCluster.setCycleCountMax, Optional[Integer], FlexrayCluster)
+
+    def test_cycle_count_max_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getCycleCountMax, CYCLECOUNTMAX_NOTE)
+        self._assert_docstring(FlexrayCluster.setCycleCountMax, CYCLECOUNTMAX_NOTE, "cycleCountMax")
+
+    def test_get_set_detect_nit_error(self):
+        cluster = self._make()
+        value = Boolean().setValue(True)
+        assert cluster == cluster.setDetectNitError(value)
+        assert cluster.getDetectNitError() == value
+        assert cluster == cluster.setDetectNitError(None)
+        assert cluster.getDetectNitError() == value
+        self._pin(FlexrayCluster.getDetectNitError, FlexrayCluster.setDetectNitError, Optional[Boolean], FlexrayCluster)
+
+    def test_detect_nit_error_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getDetectNitError, DETECTNITERROR_NOTE)
+        self._assert_docstring(FlexrayCluster.setDetectNitError, DETECTNITERROR_NOTE, "detectNitError")
+
+    def test_get_set_dynamic_slot_idle_phase(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setDynamicSlotIdlePhase(value)
+        assert cluster.getDynamicSlotIdlePhase() == value
+        assert cluster == cluster.setDynamicSlotIdlePhase(None)
+        assert cluster.getDynamicSlotIdlePhase() == value
+        self._pin(FlexrayCluster.getDynamicSlotIdlePhase, FlexrayCluster.setDynamicSlotIdlePhase, Optional[Integer], FlexrayCluster)
+
+    def test_dynamic_slot_idle_phase_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getDynamicSlotIdlePhase, DYNAMICSLOTIDLEPHASE_NOTE)
+        self._assert_docstring(FlexrayCluster.setDynamicSlotIdlePhase, DYNAMICSLOTIDLEPHASE_NOTE, "dynamicSlotIdlePhase")
+
+    def test_get_set_ignore_after_tx(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setIgnoreAfterTx(value)
+        assert cluster.getIgnoreAfterTx() == value
+        assert cluster == cluster.setIgnoreAfterTx(None)
+        assert cluster.getIgnoreAfterTx() == value
+        self._pin(FlexrayCluster.getIgnoreAfterTx, FlexrayCluster.setIgnoreAfterTx, Optional[Integer], FlexrayCluster)
+
+    def test_ignore_after_tx_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getIgnoreAfterTx, IGNOREAFTERTX_NOTE)
+        self._assert_docstring(FlexrayCluster.setIgnoreAfterTx, IGNOREAFTERTX_NOTE, "ignoreAfterTx")
+
+    def test_get_set_listen_noise(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setListenNoise(value)
+        assert cluster.getListenNoise() == value
+        assert cluster == cluster.setListenNoise(None)
+        assert cluster.getListenNoise() == value
+        self._pin(FlexrayCluster.getListenNoise, FlexrayCluster.setListenNoise, Optional[Integer], FlexrayCluster)
+
+    def test_listen_noise_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getListenNoise, LISTENNOISE_NOTE)
+        self._assert_docstring(FlexrayCluster.setListenNoise, LISTENNOISE_NOTE, "listenNoise")
+
+    def test_get_set_macro_per_cycle(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setMacroPerCycle(value)
+        assert cluster.getMacroPerCycle() == value
+        assert cluster == cluster.setMacroPerCycle(None)
+        assert cluster.getMacroPerCycle() == value
+        self._pin(FlexrayCluster.getMacroPerCycle, FlexrayCluster.setMacroPerCycle, Optional[Integer], FlexrayCluster)
+
+    def test_macro_per_cycle_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMacroPerCycle, MACROPERCYCLE_NOTE)
+        self._assert_docstring(FlexrayCluster.setMacroPerCycle, MACROPERCYCLE_NOTE, "macroPerCycle")
+
+    def test_get_set_macrotick_duration(self):
+        cluster = self._make()
+        value = TimeValue().setValue("0.005")
+        assert cluster == cluster.setMacrotickDuration(value)
+        assert cluster.getMacrotickDuration() == value
+        assert cluster == cluster.setMacrotickDuration(None)
+        assert cluster.getMacrotickDuration() == value
+        self._pin(FlexrayCluster.getMacrotickDuration, FlexrayCluster.setMacrotickDuration, Optional[TimeValue], FlexrayCluster)
+
+    def test_macrotick_duration_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMacrotickDuration, MACROTICKDURATION_NOTE)
+        self._assert_docstring(FlexrayCluster.setMacrotickDuration, MACROTICKDURATION_NOTE, "macrotickDuration")
+
+    def test_get_set_max_without_clock_correction_fatal(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setMaxWithoutClockCorrectionFatal(value)
+        assert cluster.getMaxWithoutClockCorrectionFatal() == value
+        assert cluster == cluster.setMaxWithoutClockCorrectionFatal(None)
+        assert cluster.getMaxWithoutClockCorrectionFatal() == value
+        self._pin(FlexrayCluster.getMaxWithoutClockCorrectionFatal, FlexrayCluster.setMaxWithoutClockCorrectionFatal, Optional[Integer], FlexrayCluster)
+
+    def test_max_without_clock_correction_fatal_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMaxWithoutClockCorrectionFatal, MAXWITHOUTCLOCKCORRECTIONFATAL_NOTE)
+        self._assert_docstring(FlexrayCluster.setMaxWithoutClockCorrectionFatal, MAXWITHOUTCLOCKCORRECTIONFATAL_NOTE, "maxWithoutClockCorrectionFatal")
+
+    def test_get_set_max_without_clock_correction_passive(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setMaxWithoutClockCorrectionPassive(value)
+        assert cluster.getMaxWithoutClockCorrectionPassive() == value
+        assert cluster == cluster.setMaxWithoutClockCorrectionPassive(None)
+        assert cluster.getMaxWithoutClockCorrectionPassive() == value
+        self._pin(FlexrayCluster.getMaxWithoutClockCorrectionPassive, FlexrayCluster.setMaxWithoutClockCorrectionPassive, Optional[Integer], FlexrayCluster)
+
+    def test_max_without_clock_correction_passive_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMaxWithoutClockCorrectionPassive, MAXWITHOUTCLOCKCORRECTIONPASSIVE_NOTE)
+        self._assert_docstring(FlexrayCluster.setMaxWithoutClockCorrectionPassive, MAXWITHOUTCLOCKCORRECTIONPASSIVE_NOTE, "maxWithoutClockCorrectionPassive")
+
+    def test_get_set_minislot_action_point_offset(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setMinislotActionPointOffset(value)
+        assert cluster.getMinislotActionPointOffset() == value
+        assert cluster == cluster.setMinislotActionPointOffset(None)
+        assert cluster.getMinislotActionPointOffset() == value
+        self._pin(FlexrayCluster.getMinislotActionPointOffset, FlexrayCluster.setMinislotActionPointOffset, Optional[Integer], FlexrayCluster)
+
+    def test_minislot_action_point_offset_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMinislotActionPointOffset, MINISLOTACTIONPOINTOFFSET_NOTE)
+        self._assert_docstring(FlexrayCluster.setMinislotActionPointOffset, MINISLOTACTIONPOINTOFFSET_NOTE, "minislotActionPointOffset")
+
+    def test_get_set_minislot_duration(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setMinislotDuration(value)
+        assert cluster.getMinislotDuration() == value
+        assert cluster == cluster.setMinislotDuration(None)
+        assert cluster.getMinislotDuration() == value
+        self._pin(FlexrayCluster.getMinislotDuration, FlexrayCluster.setMinislotDuration, Optional[Integer], FlexrayCluster)
+
+    def test_minislot_duration_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getMinislotDuration, MINISLOTDURATION_NOTE)
+        self._assert_docstring(FlexrayCluster.setMinislotDuration, MINISLOTDURATION_NOTE, "minislotDuration")
+
+    def test_get_set_network_idle_time(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setNetworkIdleTime(value)
+        assert cluster.getNetworkIdleTime() == value
+        assert cluster == cluster.setNetworkIdleTime(None)
+        assert cluster.getNetworkIdleTime() == value
+        self._pin(FlexrayCluster.getNetworkIdleTime, FlexrayCluster.setNetworkIdleTime, Optional[Integer], FlexrayCluster)
+
+    def test_network_idle_time_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getNetworkIdleTime, NETWORKIDLETIME_NOTE)
+        self._assert_docstring(FlexrayCluster.setNetworkIdleTime, NETWORKIDLETIME_NOTE, "networkIdleTime")
+
+    def test_get_set_network_management_vector_length(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setNetworkManagementVectorLength(value)
+        assert cluster.getNetworkManagementVectorLength() == value
+        assert cluster == cluster.setNetworkManagementVectorLength(None)
+        assert cluster.getNetworkManagementVectorLength() == value
+        self._pin(FlexrayCluster.getNetworkManagementVectorLength, FlexrayCluster.setNetworkManagementVectorLength, Optional[Integer], FlexrayCluster)
+
+    def test_network_management_vector_length_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getNetworkManagementVectorLength, NETWORKMANAGEMENTVECTORLENGTH_NOTE)
+        self._assert_docstring(FlexrayCluster.setNetworkManagementVectorLength, NETWORKMANAGEMENTVECTORLENGTH_NOTE, "networkManagementVectorLength")
+
+    def test_get_set_number_of_minislots(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setNumberOfMinislots(value)
+        assert cluster.getNumberOfMinislots() == value
+        assert cluster == cluster.setNumberOfMinislots(None)
+        assert cluster.getNumberOfMinislots() == value
+        self._pin(FlexrayCluster.getNumberOfMinislots, FlexrayCluster.setNumberOfMinislots, Optional[Integer], FlexrayCluster)
+
+    def test_number_of_minislots_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getNumberOfMinislots, NUMBEROFMINISLOTS_NOTE)
+        self._assert_docstring(FlexrayCluster.setNumberOfMinislots, NUMBEROFMINISLOTS_NOTE, "numberOfMinislots")
+
+    def test_get_set_number_of_static_slots(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setNumberOfStaticSlots(value)
+        assert cluster.getNumberOfStaticSlots() == value
+        assert cluster == cluster.setNumberOfStaticSlots(None)
+        assert cluster.getNumberOfStaticSlots() == value
+        self._pin(FlexrayCluster.getNumberOfStaticSlots, FlexrayCluster.setNumberOfStaticSlots, Optional[Integer], FlexrayCluster)
+
+    def test_number_of_static_slots_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getNumberOfStaticSlots, NUMBEROFSTATICSLOTS_NOTE)
+        self._assert_docstring(FlexrayCluster.setNumberOfStaticSlots, NUMBEROFSTATICSLOTS_NOTE, "numberOfStaticSlots")
+
+    def test_get_set_offset_correction_start(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setOffsetCorrectionStart(value)
+        assert cluster.getOffsetCorrectionStart() == value
+        assert cluster == cluster.setOffsetCorrectionStart(None)
+        assert cluster.getOffsetCorrectionStart() == value
+        self._pin(FlexrayCluster.getOffsetCorrectionStart, FlexrayCluster.setOffsetCorrectionStart, Optional[Integer], FlexrayCluster)
+
+    def test_offset_correction_start_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getOffsetCorrectionStart, OFFSETCORRECTIONSTART_NOTE)
+        self._assert_docstring(FlexrayCluster.setOffsetCorrectionStart, OFFSETCORRECTIONSTART_NOTE, "offsetCorrectionStart")
+
+    def test_get_set_payload_length_static(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setPayloadLengthStatic(value)
+        assert cluster.getPayloadLengthStatic() == value
+        assert cluster == cluster.setPayloadLengthStatic(None)
+        assert cluster.getPayloadLengthStatic() == value
+        self._pin(FlexrayCluster.getPayloadLengthStatic, FlexrayCluster.setPayloadLengthStatic, Optional[Integer], FlexrayCluster)
+
+    def test_payload_length_static_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getPayloadLengthStatic, PAYLOADLENGTHSTATIC_NOTE)
+        self._assert_docstring(FlexrayCluster.setPayloadLengthStatic, PAYLOADLENGTHSTATIC_NOTE, "payloadLengthStatic")
+
+    def test_get_set_safety_margin(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setSafetyMargin(value)
+        assert cluster.getSafetyMargin() == value
+        assert cluster == cluster.setSafetyMargin(None)
+        assert cluster.getSafetyMargin() == value
+        self._pin(FlexrayCluster.getSafetyMargin, FlexrayCluster.setSafetyMargin, Optional[Integer], FlexrayCluster)
+
+    def test_safety_margin_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getSafetyMargin, SAFETYMARGIN_NOTE)
+        self._assert_docstring(FlexrayCluster.setSafetyMargin, SAFETYMARGIN_NOTE, "safetyMargin")
+
+    def test_get_set_sample_clock_period(self):
+        cluster = self._make()
+        value = TimeValue().setValue("0.005")
+        assert cluster == cluster.setSampleClockPeriod(value)
+        assert cluster.getSampleClockPeriod() == value
+        assert cluster == cluster.setSampleClockPeriod(None)
+        assert cluster.getSampleClockPeriod() == value
+        self._pin(FlexrayCluster.getSampleClockPeriod, FlexrayCluster.setSampleClockPeriod, Optional[TimeValue], FlexrayCluster)
+
+    def test_sample_clock_period_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getSampleClockPeriod, SAMPLECLOCKPERIOD_NOTE)
+        self._assert_docstring(FlexrayCluster.setSampleClockPeriod, SAMPLECLOCKPERIOD_NOTE, "sampleClockPeriod")
+
+    def test_get_set_static_slot_duration(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setStaticSlotDuration(value)
+        assert cluster.getStaticSlotDuration() == value
+        assert cluster == cluster.setStaticSlotDuration(None)
+        assert cluster.getStaticSlotDuration() == value
+        self._pin(FlexrayCluster.getStaticSlotDuration, FlexrayCluster.setStaticSlotDuration, Optional[Integer], FlexrayCluster)
+
+    def test_static_slot_duration_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getStaticSlotDuration, STATICSLOTDURATION_NOTE)
+        self._assert_docstring(FlexrayCluster.setStaticSlotDuration, STATICSLOTDURATION_NOTE, "staticSlotDuration")
+
+    def test_get_set_symbol_window(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setSymbolWindow(value)
+        assert cluster.getSymbolWindow() == value
+        assert cluster == cluster.setSymbolWindow(None)
+        assert cluster.getSymbolWindow() == value
+        self._pin(FlexrayCluster.getSymbolWindow, FlexrayCluster.setSymbolWindow, Optional[Integer], FlexrayCluster)
+
+    def test_symbol_window_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getSymbolWindow, SYMBOLWINDOW_NOTE)
+        self._assert_docstring(FlexrayCluster.setSymbolWindow, SYMBOLWINDOW_NOTE, "symbolWindow")
+
+    def test_get_set_symbol_window_action_point_offset(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setSymbolWindowActionPointOffset(value)
+        assert cluster.getSymbolWindowActionPointOffset() == value
+        assert cluster == cluster.setSymbolWindowActionPointOffset(None)
+        assert cluster.getSymbolWindowActionPointOffset() == value
+        self._pin(FlexrayCluster.getSymbolWindowActionPointOffset, FlexrayCluster.setSymbolWindowActionPointOffset, Optional[Integer], FlexrayCluster)
+
+    def test_symbol_window_action_point_offset_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getSymbolWindowActionPointOffset, SYMBOLWINDOWACTIONPOINTOFFSET_NOTE)
+        self._assert_docstring(FlexrayCluster.setSymbolWindowActionPointOffset, SYMBOLWINDOWACTIONPOINTOFFSET_NOTE, "symbolWindowActionPointOffset")
+
+    def test_get_set_sync_frame_id_count_max(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setSyncFrameIdCountMax(value)
+        assert cluster.getSyncFrameIdCountMax() == value
+        assert cluster == cluster.setSyncFrameIdCountMax(None)
+        assert cluster.getSyncFrameIdCountMax() == value
+        self._pin(FlexrayCluster.getSyncFrameIdCountMax, FlexrayCluster.setSyncFrameIdCountMax, Optional[Integer], FlexrayCluster)
+
+    def test_sync_frame_id_count_max_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getSyncFrameIdCountMax, SYNCFRAMEIDCOUNTMAX_NOTE)
+        self._assert_docstring(FlexrayCluster.setSyncFrameIdCountMax, SYNCFRAMEIDCOUNTMAX_NOTE, "syncFrameIdCountMax")
+
+    def test_get_set_tranceiver_standby_delay(self):
+        cluster = self._make()
+        value = Float().setValue("0.5")
+        assert cluster == cluster.setTranceiverStandbyDelay(value)
+        assert cluster.getTranceiverStandbyDelay() == value
+        assert cluster == cluster.setTranceiverStandbyDelay(None)
+        assert cluster.getTranceiverStandbyDelay() == value
+        self._pin(FlexrayCluster.getTranceiverStandbyDelay, FlexrayCluster.setTranceiverStandbyDelay, Optional[Float], FlexrayCluster)
+
+    def test_tranceiver_standby_delay_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getTranceiverStandbyDelay, TRANCEIVERSTANDBYDELAY_NOTE)
+        self._assert_docstring(FlexrayCluster.setTranceiverStandbyDelay, TRANCEIVERSTANDBYDELAY_NOTE, "tranceiverStandbyDelay")
+
+    def test_get_set_transmission_start_sequence_duration(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setTransmissionStartSequenceDuration(value)
+        assert cluster.getTransmissionStartSequenceDuration() == value
+        assert cluster == cluster.setTransmissionStartSequenceDuration(None)
+        assert cluster.getTransmissionStartSequenceDuration() == value
+        self._pin(FlexrayCluster.getTransmissionStartSequenceDuration, FlexrayCluster.setTransmissionStartSequenceDuration, Optional[Integer], FlexrayCluster)
+
+    def test_transmission_start_sequence_duration_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getTransmissionStartSequenceDuration, TRANSMISSIONSTARTSEQUENCEDURATION_NOTE)
+        self._assert_docstring(FlexrayCluster.setTransmissionStartSequenceDuration, TRANSMISSIONSTARTSEQUENCEDURATION_NOTE, "transmissionStartSequenceDuration")
+
+    def test_get_set_wakeup_rx_idle(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setWakeupRxIdle(value)
+        assert cluster.getWakeupRxIdle() == value
+        assert cluster == cluster.setWakeupRxIdle(None)
+        assert cluster.getWakeupRxIdle() == value
+        self._pin(FlexrayCluster.getWakeupRxIdle, FlexrayCluster.setWakeupRxIdle, Optional[Integer], FlexrayCluster)
+
+    def test_wakeup_rx_idle_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getWakeupRxIdle, WAKEUPRXIDLE_NOTE)
+        self._assert_docstring(FlexrayCluster.setWakeupRxIdle, WAKEUPRXIDLE_NOTE, "wakeupRxIdle")
+
+    def test_get_set_wakeup_rx_low(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setWakeupRxLow(value)
+        assert cluster.getWakeupRxLow() == value
+        assert cluster == cluster.setWakeupRxLow(None)
+        assert cluster.getWakeupRxLow() == value
+        self._pin(FlexrayCluster.getWakeupRxLow, FlexrayCluster.setWakeupRxLow, Optional[Integer], FlexrayCluster)
+
+    def test_wakeup_rx_low_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getWakeupRxLow, WAKEUPRXLOW_NOTE)
+        self._assert_docstring(FlexrayCluster.setWakeupRxLow, WAKEUPRXLOW_NOTE, "wakeupRxLow")
+
+    def test_get_set_wakeup_rx_window(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setWakeupRxWindow(value)
+        assert cluster.getWakeupRxWindow() == value
+        assert cluster == cluster.setWakeupRxWindow(None)
+        assert cluster.getWakeupRxWindow() == value
+        self._pin(FlexrayCluster.getWakeupRxWindow, FlexrayCluster.setWakeupRxWindow, Optional[Integer], FlexrayCluster)
+
+    def test_wakeup_rx_window_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getWakeupRxWindow, WAKEUPRXWINDOW_NOTE)
+        self._assert_docstring(FlexrayCluster.setWakeupRxWindow, WAKEUPRXWINDOW_NOTE, "wakeupRxWindow")
+
+    def test_get_set_wakeup_tx_active(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setWakeupTxActive(value)
+        assert cluster.getWakeupTxActive() == value
+        assert cluster == cluster.setWakeupTxActive(None)
+        assert cluster.getWakeupTxActive() == value
+        self._pin(FlexrayCluster.getWakeupTxActive, FlexrayCluster.setWakeupTxActive, Optional[Integer], FlexrayCluster)
+
+    def test_wakeup_tx_active_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getWakeupTxActive, WAKEUPTXACTIVE_NOTE)
+        self._assert_docstring(FlexrayCluster.setWakeupTxActive, WAKEUPTXACTIVE_NOTE, "wakeupTxActive")
+
+    def test_get_set_wakeup_tx_idle(self):
+        cluster = self._make()
+        value = Integer().setValue("2")
+        assert cluster == cluster.setWakeupTxIdle(value)
+        assert cluster.getWakeupTxIdle() == value
+        assert cluster == cluster.setWakeupTxIdle(None)
+        assert cluster.getWakeupTxIdle() == value
+        self._pin(FlexrayCluster.getWakeupTxIdle, FlexrayCluster.setWakeupTxIdle, Optional[Integer], FlexrayCluster)
+
+    def test_wakeup_tx_idle_docstrings_are_spec_note(self):
+        self._assert_docstring(FlexrayCluster.getWakeupTxIdle, WAKEUPTXIDLE_NOTE)
+        self._assert_docstring(FlexrayCluster.setWakeupTxIdle, WAKEUPTXIDLE_NOTE, "wakeupTxIdle")

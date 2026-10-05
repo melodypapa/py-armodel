@@ -596,79 +596,78 @@ class FlexrayCluster(CommunicationCluster):
 
     # FlexrayCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.29, p.81
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getActionPointOffset         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setActionPointOffset         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBit                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBit                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCasRxLowMax               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCasRxLowMax               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getColdStartAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setColdStartAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCycle                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCycle                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCycleCountMax             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCycleCountMax             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDetectNitError            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDetectNitError            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDynamicSlotIdlePhase      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDynamicSlotIdlePhase      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIgnoreAfterTx             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIgnoreAfterTx             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getListenNoise               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setListenNoise               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacroPerCycle             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacroPerCycle             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacrotickDuration         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacrotickDuration         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxWithoutClockCorrectionFatal [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxWithoutClockCorrectionFatal [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxWithoutClockCorrectionPassive [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxWithoutClockCorrectionPassive [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinislotActionPointOffset [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinislotActionPointOffset [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinislotDuration          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinislotDuration          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkIdleTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkIdleTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkManagementVectorLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkManagementVectorLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNumberOfMinislots         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNumberOfMinislots         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNumberOfStaticSlots       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNumberOfStaticSlots       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOffsetCorrectionStart     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOffsetCorrectionStart     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPayloadLengthStatic       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPayloadLengthStatic       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSafetyMargin              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSafetyMargin              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSampleClockPeriod         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSampleClockPeriod         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStaticSlotDuration        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStaticSlotDuration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolWindow              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolWindow              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolWindowActionPointOffset [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSymbolWindowActionPointOffset [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncFrameIdCountMax       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncFrameIdCountMax       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTranceiverStandbyDelay    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTranceiverStandbyDelay    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionStartSequenceDuration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionStartSequenceDuration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupRxIdle              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupRxIdle              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupRxLow               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupRxLow               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupRxWindow            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupRxWindow            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupTxActive            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupTxActive            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupTxIdle              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupTxIdle              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActionPointOffset            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActionPointOffset            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBit                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBit                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCasRxLowMax                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCasRxLowMax                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColdStartAttempts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColdStartAttempts            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCycle                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycle                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCycleCountMax                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleCountMax                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDetectNitError               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDetectNitError               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicSlotIdlePhase         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicSlotIdlePhase         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIgnoreAfterTx                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIgnoreAfterTx                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getListenNoise                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setListenNoise                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacroPerCycle                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacroPerCycle                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacrotickDuration            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacrotickDuration            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxWithoutClockCorrectionFatal [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxWithoutClockCorrectionFatal [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxWithoutClockCorrectionPassive [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxWithoutClockCorrectionPassive [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinislotActionPointOffset    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinislotActionPointOffset    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinislotDuration             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinislotDuration             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkIdleTime              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkIdleTime              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkManagementVectorLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkManagementVectorLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumberOfMinislots            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfMinislots            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumberOfStaticSlots          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfStaticSlots          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionStart        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionStart        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPayloadLengthStatic          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPayloadLengthStatic          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSafetyMargin                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSafetyMargin                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSampleClockPeriod            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSampleClockPeriod            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticSlotDuration           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticSlotDuration           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbolWindow                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbolWindow                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbolWindowActionPointOffset [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbolWindowActionPointOffset [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncFrameIdCountMax          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncFrameIdCountMax          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTranceiverStandbyDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTranceiverStandbyDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionStartSequenceDuration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionStartSequenceDuration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRxIdle                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRxIdle                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRxLow                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRxLow                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRxWindow               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRxWindow               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupTxActive               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupTxActive               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupTxIdle                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupTxIdle                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
