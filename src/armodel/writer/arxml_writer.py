@@ -1331,6 +1331,28 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+#: Mapping between ArraySizeSemanticsEnum literal values and their XML element text
+#: (AR:ARRAY-SIZE-SEMANTICS-ENUM--SIMPLE).
+ARRAY_SIZE_SEMANTICS_XML_MAP = {
+    "fixedSize": "FIXED-SIZE",
+    "variableSize": "VARIABLE-SIZE",
+}
+
+#: Mapping between DisplayPresentationEnum literal values and their XML element text
+#: (AR:DISPLAY-PRESENTATION-ENUM--SIMPLE).
+DISPLAY_PRESENTATION_XML_MAP = {
+    "presentationContinuous": "PRESENTATION-CONTINUOUS",
+    "presentationDiscrete": "PRESENTATION-DISCRETE",
+}
+
+#: Mapping between ArraySizeHandlingEnum literal values and their XML element text
+#: (AR:ARRAY-SIZE-HANDLING-ENUM--SIMPLE).
+ARRAY_SIZE_HANDLING_XML_MAP = {
+    "allIndicesDifferentArraySize": "ALL-INDICES-DIFFERENT-ARRAY-SIZE",
+    "allIndicesSameArraySize": "ALL-INDICES-SAME-ARRAY-SIZE",
+    "inheritedFromArrayElementTypeSize": "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE",
+}
+
 #: Mapping between SwCalibrationAccessEnum literal values and their XML element text
 #: (AR:SW-CALIBRATION-ACCESS-ENUM--SIMPLE).
 SW_CALIBRATION_ACCESS_XML_MAP = {
@@ -3965,7 +3987,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if props.getSwVariableRefs():
             variables_element = ET.SubElement(child_element, "SW-VARIABLE-REFS")
             for variable in props.getSwVariableRefs():
-                self.setSwVariableRefProxy(variables_element, "SW-VARIABLE-REF-PROXY", variable)
+                self.writeSwVariableRefProxyContent(variables_element, variable)
         self.setChildElementOptionalRefType(child_element, "INPUT-VARIABLE-TYPE-REF", props.getInputVariableTypeRef())
         self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", props.getCompuMethodRef())
         self.setChildElementOptionalRefType(child_element, "UNIT-REF", props.getUnitRef())
@@ -4004,9 +4026,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwCalprmAxisTypeProps(child_element, props)
         self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.getSharedAxisTypeRef())
         self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", props.getSwAxisIndex())
-        swCalprmRef_value = props.getSwCalprmRef()
-        if swCalprmRef_value is not None:
-            self.setSwCalprmRefProxy(child_element, "SW-CALPRM-REF-PROXY", swCalprmRef_value)
+        self.writeSwCalprmRefProxyContent(child_element, props.getSwCalprmRef())
 
     def setSwCalprmAxis(self, element: ET.Element, axis: SwCalprmAxis):
         if axis is not None:
@@ -4045,7 +4065,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, props)
             sw_data_def_props_variants_tag = ET.SubElement(child_element, "SW-DATA-DEF-PROPS-VARIANTS")
             conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
-            self.setChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION", props.getDisplayPresentation())
+            self._writeEnumToken(conditional_tag, "DISPLAY-PRESENTATION", props.getDisplayPresentation(), DISPLAY_PRESENTATION_XML_MAP)
             self.setChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE", props.getStepSize())
             self.setSwValueBlockSizeMults(conditional_tag, props.getSwValueBlockSizeMults())
             self.setAnnotations(conditional_tag, props.getAnnotations())
@@ -4064,7 +4084,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT", props.getDisplayFormat())
             self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
             self.setSwHostVariable(conditional_tag, props.getSwHostVariable())
-            self.setChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy())
+            self._writeEnumToken(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy(), SW_IMPL_POLICY_XML_MAP)
             self.setChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER", props.getAdditionalNativeTypeQualifier())
             self.setChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION", props.getSwIntendedResolution())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD", props.getSwInterpolationMethod())
@@ -4088,13 +4108,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             mults_element = ET.SubElement(element, "SW-VALUE-BLOCK-SIZE-MULTS")
             for mult in mults:
                 value_element = ET.SubElement(mults_element, "NUMERICAL-VALUE-VARIATION-POINT")
-                self.setChildElementOptionalNumericalValue(value_element, "V", mult)
+                if mult is not None:
+                    self.writeARType(value_element, mult)
+                    if mult._text is not None:
+                        value_element.text = mult._text
 
     def setSwComparisonVariables(self, element: ET.Element, comparison_variables: List[SwVariableRefProxy]):
         if len(comparison_variables) > 0:
             comparison_variables_element = ET.SubElement(element, "SW-COMPARISON-VARIABLES")
             for comparison_variable in comparison_variables:
-                self.setSwVariableRefProxy(comparison_variables_element, "SW-VARIABLE-REF-PROXY", comparison_variable)
+                self.writeSwVariableRefProxyContent(comparison_variables_element, comparison_variable)
 
     def setSwHostVariable(self, element: ET.Element, host_variable: Optional[SwVariableRefProxy]):
         if host_variable is not None:
@@ -4104,15 +4127,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         if proxy is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, proxy)
-            self.setAutosarVariableRef(child_element, "AUTOSAR-VARIABLE", proxy.getAutosarVariable())
-            self.setChildElementOptionalRefType(child_element, "MC-DATA-INSTANCE-VAR-REF", proxy.getMcDataInstanceVarRef())
+            self.writeSwVariableRefProxyContent(child_element, proxy)
 
-    def setSwCalprmRefProxy(self, element: ET.Element, key: str, proxy: Optional[SwCalprmRefProxy]):
+    def writeSwVariableRefProxyContent(self, element: ET.Element, proxy: Optional[SwVariableRefProxy]):
+        """Write the SW-VARIABLE-REF-PROXY group members (AUTOSAR-VARIABLE, MC-DATA-INSTANCE-VAR-REF) inline."""
         if proxy is not None:
-            child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, proxy)
-            self.setAutosarParameterRef(child_element, "AR-PARAMETER", proxy.getArParameter())
-            self.setChildElementOptionalRefType(child_element, "MC-DATA-INSTANCE-REF", proxy.getMcDataInstanceRef())
+            self.setAutosarVariableRef(element, "AUTOSAR-VARIABLE", proxy.getAutosarVariable())
+            self.setChildElementOptionalRefType(element, "MC-DATA-INSTANCE-VAR-REF", proxy.getMcDataInstanceVarRef())
+
+    def writeSwCalprmRefProxyContent(self, element: ET.Element, proxy: Optional[SwCalprmRefProxy]):
+        """Write the SW-CALPRM-REF-PROXY group members (AR-PARAMETER, MC-DATA-INSTANCE-REF) inline."""
+        if proxy is not None:
+            self.setAutosarParameterRef(element, "AR-PARAMETER", proxy.getArParameter())
+            self.setChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF", proxy.getMcDataInstanceRef())
 
     def setSwDataDependency(self, element: ET.Element, dependency: Optional[SwDataDependency]):
         if dependency is not None:
@@ -4130,14 +4157,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             if args is not None:
                 args_element = ET.SubElement(dependency_element, "SW-DATA-DEPENDENCY-ARGS")
                 self.writeARObject(args_element, args)
-                self.setSwCalprmRefProxy(args_element, "SW-CALPRM-REF-PROXY", args.getSwCalprmRef())
-                self.setSwVariableRefProxy(args_element, "SW-VARIABLE-REF-PROXY", args.getSwVariable())
+                self.writeSwCalprmRefProxyContent(args_element, args.getSwCalprmRef())
+                self.writeSwVariableRefProxyContent(args_element, args.getSwVariable())
 
     def setSwTextProps(self, element: ET.Element, props: Optional[SwTextProps]):
         if props is not None:
             child_element = ET.SubElement(element, "SW-TEXT-PROPS")
             self.writeARObject(child_element, props)
-            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", props.getArraySizeSemantics())
+            self._writeEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", props.getArraySizeSemantics(), ARRAY_SIZE_SEMANTICS_XML_MAP)
             self.setChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE", props.getSwMaxTextSize())
             self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", props.getBaseTypeRef())
             self.setChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER", props.getSwFillCharacter())
@@ -7759,7 +7786,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if protection is not None:
             child_element = ET.SubElement(element, "END-TO-END-PROTECTION")
             self.writeIdentifiable(child_element, protection, write_variation_point=False)
-            self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", protection.getEndToEndProfile())
+            self.setEndToEndDescription(child_element, "END-TO-END-PROFILE", cast(EndToEndDescription, protection.getEndToEndProfile()))
             self.writeEndToEndProtectionEndToEndProtectionISignalIPdus(child_element, protection)
             self.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(child_element, protection)
             self.writeVariationPointCapable(child_element, protection)
@@ -8871,8 +8898,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeAbstractImplementationDataTypeElement(child_element, impl_data_type_element)
         self.setChildElementOptionalLiteral(child_element, "ARRAY-IMPL-POLICY", impl_data_type_element.getArrayImplPolicy())
         self.setChildElementOptionalPositiveInteger(child_element, "ARRAY-SIZE", cast(Integer, impl_data_type_element.getArraySize()))
-        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", impl_data_type_element.getArraySizeHandling())
-        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", impl_data_type_element.getArraySizeSemantics())
+        self._writeEnumToken(child_element, "ARRAY-SIZE-HANDLING", impl_data_type_element.getArraySizeHandling(), ARRAY_SIZE_HANDLING_XML_MAP)
+        self._writeEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", impl_data_type_element.getArraySizeSemantics(), ARRAY_SIZE_SEMANTICS_XML_MAP)
         self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", impl_data_type_element.getIsOptional())
         self.writeImplementationDataTypeElementSubElements(child_element, impl_data_type_element)
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", impl_data_type_element.getSwDataDefProps())
@@ -9018,8 +9045,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if array_element is not None:
             child_element = ET.SubElement(element, "ELEMENT")
             self.writeApplicationCompositeElementDataPrototype(child_element, array_element)
-            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", array_element.getArraySizeHandling())
-            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", array_element.getArraySizeSemantics())
+            self._writeEnumToken(child_element, "ARRAY-SIZE-HANDLING", array_element.getArraySizeHandling(), ARRAY_SIZE_HANDLING_XML_MAP)
+            self._writeEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", array_element.getArraySizeSemantics(), ARRAY_SIZE_SEMANTICS_XML_MAP)
             self.setChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF", array_element.getIndexDataTypeRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", array_element.getMaxNumberOfElements())
 
@@ -15305,7 +15332,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write DiagnosticDataElement %s" % data_element.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-DATA-ELEMENT")
         self.writeIdentifiable(child_element, data_element, write_variation_point=False)
-        self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", data_element.getArraySizeSemantics())
+        self._writeEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", data_element.getArraySizeSemantics(), ARRAY_SIZE_SEMANTICS_XML_MAP)
         self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS", cast(Integer, data_element.getMaxNumberOfElements()))
         self.setChildElementOptionalPositiveInteger(child_element, "SCALING-INFO-SIZE", cast(Integer, data_element.getScalingInfoSize()))
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", data_element.getSwDataDefProps())

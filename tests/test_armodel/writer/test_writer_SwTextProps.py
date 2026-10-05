@@ -42,7 +42,7 @@ class TestWriteSwTextProps:
         assert child_element is not None
         tags = [element.tag for element in child_element]
         assert tags == ["ARRAY-SIZE-SEMANTICS", "SW-MAX-TEXT-SIZE", "BASE-TYPE-REF", "SW-FILL-CHARACTER"]
-        assert child_element.find("ARRAY-SIZE-SEMANTICS").text == "fixedSize"
+        assert child_element.find("ARRAY-SIZE-SEMANTICS").text == "FIXED-SIZE"
         assert child_element.find("SW-MAX-TEXT-SIZE").text == "200"
         base_type_ref_element = child_element.find("BASE-TYPE-REF")
         assert base_type_ref_element.text == "/DataTypes/BaseTypes/uint8"

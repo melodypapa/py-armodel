@@ -14,7 +14,8 @@ from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 class TestBaseTypeReader:
     def test_read_base_type_definition_field_values(self, parser):
-        root = _snip("""
+        root = _snip(
+            """
             <SW-BASE-TYPE>
                 <SHORT-NAME>uint8</SHORT-NAME>
                 <BASE-TYPE-SIZE>8</BASE-TYPE-SIZE>
@@ -23,7 +24,8 @@ class TestBaseTypeReader:
                 <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
                 <NATIVE-DECLARATION>unsigned char</NATIVE-DECLARATION>
             </SW-BASE-TYPE>
-            """)
+            """
+        )
         pkg = _autosar_root().createARPackage("TestPkg")
         data_type = pkg.createSwBaseType("uint8")
 

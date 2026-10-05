@@ -1595,6 +1595,28 @@ SW_IMPL_POLICY_XML_MAP = {
     "standard": "STANDARD",
 }
 
+#: Mapping between ArraySizeSemanticsEnum literal values and their XML element text
+#: (AR:ARRAY-SIZE-SEMANTICS-ENUM--SIMPLE).
+ARRAY_SIZE_SEMANTICS_XML_MAP = {
+    "fixedSize": "FIXED-SIZE",
+    "variableSize": "VARIABLE-SIZE",
+}
+
+#: Mapping between DisplayPresentationEnum literal values and their XML element text
+#: (AR:DISPLAY-PRESENTATION-ENUM--SIMPLE).
+DISPLAY_PRESENTATION_XML_MAP = {
+    "presentationContinuous": "PRESENTATION-CONTINUOUS",
+    "presentationDiscrete": "PRESENTATION-DISCRETE",
+}
+
+#: Mapping between ArraySizeHandlingEnum literal values and their XML element text
+#: (AR:ARRAY-SIZE-HANDLING-ENUM--SIMPLE).
+ARRAY_SIZE_HANDLING_XML_MAP = {
+    "allIndicesDifferentArraySize": "ALL-INDICES-DIFFERENT-ARRAY-SIZE",
+    "allIndicesSameArraySize": "ALL-INDICES-SAME-ARRAY-SIZE",
+    "inheritedFromArrayElementTypeSize": "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE",
+}
+
 #: Mapping between SwCalibrationAccessEnum literal values and their XML element text
 #: (AR:SW-CALIBRATION-ACCESS-ENUM--SIMPLE).
 SW_CALIBRATION_ACCESS_XML_MAP = {
@@ -2612,19 +2634,23 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         instance_ref = None
         if child_element is not None:
-            instance_ref = AutosarVariableRef()
-            self.readARObject(child_element, instance_ref)
-            implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
-            if implementation_ref_element is not None:
-                implementation_ref = ArVariableInImplementationDataInstanceRef()
-                implementation_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "PORT-PROTOTYPE-REF"))
-                implementation_ref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
-                for ref in self.getChildElementRefTypeList(implementation_ref_element, "CONTEXT-DATA-PROTOTYPE-REF"):
-                    implementation_ref.addContextDataPrototypeRef(ref)
-                implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
-                instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
-            instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(cast(ET.Element, self.find(child_element, "AUTOSAR-VARIABLE-IREF"))))
-            instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
+            instance_ref = self.parseAutosarVariableRefElement(child_element)
+        return instance_ref
+
+    def parseAutosarVariableRefElement(self, child_element: ET.Element) -> AutosarVariableRef:
+        instance_ref = AutosarVariableRef()
+        self.readARObject(child_element, instance_ref)
+        implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
+        if implementation_ref_element is not None:
+            implementation_ref = ArVariableInImplementationDataInstanceRef()
+            implementation_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "PORT-PROTOTYPE-REF"))
+            implementation_ref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(implementation_ref_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                implementation_ref.addContextDataPrototypeRef(ref)
+            implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
+            instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
+        instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(cast(ET.Element, self.find(child_element, "AUTOSAR-VARIABLE-IREF"))))
+        instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 
     def readArParameterInImplementationDataInstanceRef(self, element: ET.Element, instance_ref: ArParameterInImplementationDataInstanceRef):
@@ -6702,7 +6728,7 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         if child_element is not None:
             props = SwTextProps()
-            props.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
+            props.setArraySizeSemantics(self._readEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", ArraySizeSemanticsEnum, ARRAY_SIZE_SEMANTICS_XML_MAP))
             props.setSwMaxTextSize(self.getChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE"))
             props.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
             props.setSwFillCharacter(self.getChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER"))
@@ -7382,8 +7408,10 @@ class ARXMLParser(AbstractARXMLParser):
         props = SwAxisIndividual()
         self.readARObject(element, props)
         self.readSwCalprmAxisTypeProps(element, props)
-        for proxy_element in self.findall(element, "SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY"):
-            props.addSwVariableRef(self.readSwVariableRefProxy(proxy_element))
+        variables_wrapper = self.find(element, "SW-VARIABLE-REFS")
+        if variables_wrapper is not None:
+            for proxy in self.readSwVariableRefProxyGroupInstances(variables_wrapper):
+                props.addSwVariableRef(proxy)
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
         props.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
@@ -7425,9 +7453,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwCalprmAxisTypeProps(element, props)
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
         props.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
-        child_element = self.find(element, "SW-CALPRM-REF-PROXY")
-        if child_element is not None:
-            props.setSwCalprmRef(self.readSwCalprmRefProxy(child_element))
+        ar_parameter = self.getAutosarParameterRef(element, "AR-PARAMETER")
+        mc_data_instance_ref = self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF")
+        if ar_parameter is not None or mc_data_instance_ref is not None:
+            calprm = SwCalprmRefProxy()
+            calprm.setArParameter(ar_parameter)
+            calprm.setMcDataInstanceRef(mc_data_instance_ref)
+            props.setSwCalprmRef(calprm)
         return props
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
@@ -7478,7 +7510,7 @@ class ARXMLParser(AbstractARXMLParser):
                 for annotation in self.getAnnotations(conditional_tag):
                     sw_data_def_props.addAnnotation(annotation)
 
-                sw_data_def_props.setDisplayPresentation(cast(Optional[DisplayPresentationEnum], self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION")))
+                sw_data_def_props.setDisplayPresentation(self._readEnumToken(conditional_tag, "DISPLAY-PRESENTATION", DisplayPresentationEnum, DISPLAY_PRESENTATION_XML_MAP))
                 sw_data_def_props.setStepSize(self.getChildElementOptionalFloatValue(conditional_tag, "STEP-SIZE"))
                 self.readSwDataDefPropsBits(conditional_tag, sw_data_def_props)
                 sw_data_def_props.setSwAddrMethodRef(self.getChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF"))
@@ -7494,7 +7526,7 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_data_def_props.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT")))
                 sw_data_def_props.setImplementationDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF"))
                 self.readSwHostVariable(conditional_tag, sw_data_def_props)
-                sw_data_def_props.setSwImplPolicy(cast(Optional[SwImplPolicyEnum], self.getChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY")))
+                sw_data_def_props.setSwImplPolicy(self._readEnumToken(conditional_tag, "SW-IMPL-POLICY", SwImplPolicyEnum, SW_IMPL_POLICY_XML_MAP))
                 sw_data_def_props.setAdditionalNativeTypeQualifier(cast(Optional[NativeDeclarationString], self.getChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER")))
                 sw_data_def_props.setSwIntendedResolution(self.getChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION"))
                 sw_data_def_props.setSwInterpolationMethod(cast(Optional[Identifier], self.getChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD")))
@@ -7517,14 +7549,34 @@ class ARXMLParser(AbstractARXMLParser):
         value_block_size = self.getChildElementOptionalNumericalValue(element, "SW-VALUE-BLOCK-SIZE")
         props.setSwValueBlockSize(value_block_size)
         for mult_element in self.findall(element, "SW-VALUE-BLOCK-SIZE-MULTS/NUMERICAL-VALUE-VARIATION-POINT"):
-            value = self.getChildElementOptionalNumericalValue(mult_element, "VALUE")
-            if value is None:
-                value = self.getChildElementOptionalNumericalValue(mult_element, "V")
-            props.addSwValueBlockSizeMult(value)
+            text = (mult_element.text or "").strip()
+            if text != "":
+                props.addSwValueBlockSizeMult(Numerical().setValue(text))
 
     def readSwComparisonVariables(self, element: ET.Element, props: SwDataDefProps):
-        for proxy_element in self.findall(element, "SW-COMPARISON-VARIABLES/SW-VARIABLE-REF-PROXY"):
-            props.addSwComparisonVariable(self.readSwVariableRefProxy(proxy_element))
+        container = self.find(element, "SW-COMPARISON-VARIABLES")
+        if container is None:
+            return
+        for proxy in self.readSwVariableRefProxyGroupInstances(container):
+            props.addSwComparisonVariable(proxy)
+
+    def readSwVariableRefProxyGroupInstances(self, container: ET.Element) -> List[SwVariableRefProxy]:
+        """Read consecutive SW-VARIABLE-REF-PROXY group instances (AUTOSAR-VARIABLE?, MC-DATA-INSTANCE-VAR-REF?) inlined in container."""
+        proxies: List[SwVariableRefProxy] = []
+        proxy: Optional[SwVariableRefProxy] = None
+        for child in list(container):
+            tag = self.getTagName(child)
+            if tag == "AUTOSAR-VARIABLE":
+                proxy = SwVariableRefProxy()
+                proxy.setAutosarVariable(self.parseAutosarVariableRefElement(child))
+                proxies.append(proxy)
+            elif tag == "MC-DATA-INSTANCE-VAR-REF":
+                if proxy is None:
+                    proxy = SwVariableRefProxy()
+                    proxies.append(proxy)
+                proxy.setMcDataInstanceVarRef(self._getChildElementRefTypeDestAndValue(child))
+                proxy = None
+        return proxies
 
     def readSwHostVariable(self, element: ET.Element, props: SwDataDefProps):
         host_variable_element = self.find(element, "SW-HOST-VARIABLE")
@@ -7556,12 +7608,20 @@ class ARXMLParser(AbstractARXMLParser):
             if args_element is not None:
                 args = SwDataDependencyArgs()
                 self.readARObject(args_element, args)
-                calprm_element = self.find(args_element, "SW-CALPRM-REF-PROXY")
-                if calprm_element is not None:
-                    args.setSwCalprmRef(self.readSwCalprmRefProxy(calprm_element))
-                variable_element = self.find(args_element, "SW-VARIABLE-REF-PROXY")
-                if variable_element is not None:
-                    args.setSwVariable(self.readSwVariableRefProxy(variable_element))
+                ar_parameter = self.getAutosarParameterRef(args_element, "AR-PARAMETER")
+                mc_data_instance_ref = self.getChildElementOptionalRefType(args_element, "MC-DATA-INSTANCE-REF")
+                if ar_parameter is not None or mc_data_instance_ref is not None:
+                    calprm = SwCalprmRefProxy()
+                    calprm.setArParameter(ar_parameter)
+                    calprm.setMcDataInstanceRef(mc_data_instance_ref)
+                    args.setSwCalprmRef(calprm)
+                variable = self.getAutosarVariableRef(args_element, "AUTOSAR-VARIABLE")
+                var_ref = self.getChildElementOptionalRefType(args_element, "MC-DATA-INSTANCE-VAR-REF")
+                if variable is not None or var_ref is not None:
+                    sw_variable = SwVariableRefProxy()
+                    sw_variable.setAutosarVariable(variable)
+                    sw_variable.setMcDataInstanceVarRef(var_ref)
+                    args.setSwVariable(sw_variable)
                 dependency.setSwDataDependencyArgs(args)
             props.setSwDataDependency(dependency)
 
@@ -7614,8 +7674,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAutosarDataType(element, cast(AutosarDataType, impl_data_type_element))
         impl_data_type_element.setArrayImplPolicy(cast(Optional[ArrayImplPolicyEnum], self.getChildElementOptionalLiteral(element, "ARRAY-IMPL-POLICY")))
         impl_data_type_element.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
-        impl_data_type_element.setArraySizeHandling(cast(Optional[ArraySizeHandlingEnum], self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-HANDLING")))
-        impl_data_type_element.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS")))
+        impl_data_type_element.setArraySizeHandling(self._readEnumToken(element, "ARRAY-SIZE-HANDLING", ArraySizeHandlingEnum, ARRAY_SIZE_HANDLING_XML_MAP))
+        impl_data_type_element.setArraySizeSemantics(self._readEnumToken(element, "ARRAY-SIZE-SEMANTICS", ArraySizeSemanticsEnum, ARRAY_SIZE_SEMANTICS_XML_MAP))
         impl_data_type_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
         self.readImplementationDataTypeSubElements(element, cast(ImplementationDataType, impl_data_type_element))
 
@@ -9429,8 +9489,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("Read ApplicationArrayElement %s" % short_name)
             array_element = parent.createApplicationArrayElement(short_name)
             self.readApplicationCompositeElementDataPrototype(child_element, array_element)
-            array_element.setArraySizeHandling(cast(Optional[ArraySizeHandlingEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING")))
-            array_element.setArraySizeSemantics(cast(Optional[ArraySizeSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS")))
+            array_element.setArraySizeHandling(self._readEnumToken(child_element, "ARRAY-SIZE-HANDLING", ArraySizeHandlingEnum, ARRAY_SIZE_HANDLING_XML_MAP))
+            array_element.setArraySizeSemantics(self._readEnumToken(child_element, "ARRAY-SIZE-SEMANTICS", ArraySizeSemanticsEnum, ARRAY_SIZE_SEMANTICS_XML_MAP))
             array_element.setIndexDataTypeRef(self.getChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF"))
             array_element.setMaxNumberOfElements(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-ELEMENTS"))
 
@@ -11552,9 +11612,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticDataElement(self, element: ET.Element, data_element: DiagnosticDataElement):
         self.readIdentifiable(element, data_element)
-        array_size_semantics = self.getChildElementOptionalLiteral(element, "ARRAY-SIZE-SEMANTICS")
-        if array_size_semantics is not None:
-            data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(array_size_semantics.getValue()))
+        data_element.setArraySizeSemantics(self._readEnumToken(element, "ARRAY-SIZE-SEMANTICS", ArraySizeSemanticsEnum, ARRAY_SIZE_SEMANTICS_XML_MAP))
         data_element.setMaxNumberOfElements(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-ELEMENTS"))
         data_element.setScalingInfoSize(self.getChildElementOptionalPositiveInteger(element, "SCALING-INFO-SIZE"))
         data_element.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))

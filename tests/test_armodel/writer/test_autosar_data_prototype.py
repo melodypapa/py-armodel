@@ -99,7 +99,7 @@ class TestAutosarDataPrototypeWriter:
                     </ELEMENTS>
                 </AR-PACKAGE>
             </AR-PACKAGES>
-        </AUTOSAR>"""
+        </AUTOSAR>"""  # xsd-skip: fragment embeds runtime ET.tostring(writer output); static scan cannot resolve it
 
         document = AUTOSARDoc()
         ARXMLParser().readARPackages(ET.fromstring(xml), document)

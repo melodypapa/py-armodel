@@ -91,7 +91,7 @@ class TestArParameterInImplementationDataInstanceRefWriter:
 
         parent = ET.Element("PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT")
         ARXMLWriter().writeArParameterInImplementationDataInstanceRef(parent, iref)
-        xml = f"""<AUTOSAR xmlns='{NS}'>{ET.tostring(parent, encoding="unicode")}</AUTOSAR>"""
+        xml = f"""<AUTOSAR xmlns='{NS}'>{ET.tostring(parent, encoding="unicode")}</AUTOSAR>"""  # xsd-skip: runtime writer output, static scan cannot resolve
 
         element = ET.fromstring(xml)[0]
         iref_read = ArParameterInImplementationDataInstanceRef()

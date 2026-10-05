@@ -56,8 +56,8 @@ class TestWriteApplicationArrayElement:
         assert tags.index("INDEX-DATA-TYPE-REF") < tags.index("MAX-NUMBER-OF-ELEMENTS")
         assert child_element.find("TYPE-TREF").text == "/DataTypes/uint8"
         assert child_element.find("TYPE-TREF").attrib["DEST"] == "APPLICATION-PRIMITIVE-DATA-TYPE"
-        assert child_element.find("ARRAY-SIZE-HANDLING").text == "allIndicesSameArraySize"
-        assert child_element.find("ARRAY-SIZE-SEMANTICS").text == "variableSize"
+        assert child_element.find("ARRAY-SIZE-HANDLING").text == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert child_element.find("ARRAY-SIZE-SEMANTICS").text == "VARIABLE-SIZE"
         assert child_element.find("INDEX-DATA-TYPE-REF").text == "/DataTypes/IndexType"
         assert child_element.find("INDEX-DATA-TYPE-REF").attrib["DEST"] == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert child_element.find("MAX-NUMBER-OF-ELEMENTS").text == "4"

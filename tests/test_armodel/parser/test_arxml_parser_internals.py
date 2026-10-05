@@ -702,7 +702,7 @@ class TestSwDataDefPropsHandlers:
         element = _snip(
             "<SHARED-AXIS-TYPE-REF DEST='APPLICATION-PRIMITIVE-DATA-TYPE'>/axis/type</SHARED-AXIS-TYPE-REF>"
             "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
-            "<SW-CALPRM-REF-PROXY><MC-DATA-INSTANCE-REF DEST='MC-DATA-INSTANCE'>/axis/calprm</MC-DATA-INSTANCE-REF></SW-CALPRM-REF-PROXY>",
+            "<MC-DATA-INSTANCE-REF DEST='MC-DATA-INSTANCE'>/axis/calprm</MC-DATA-INSTANCE-REF>",
             root_tag="SW-AXIS-GROUPED",
         )
         props = parser.getSwAxisGrouped(element)
@@ -744,8 +744,8 @@ class TestSwDataDefPropsHandlers:
     def test_getSwAxisIndividual_parses_variable_refs_and_unit(self, parser):
         element = _snip(
             "<SW-VARIABLE-REFS>"
-            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v1</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
-            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v2</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
+            "<MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v1</MC-DATA-INSTANCE-VAR-REF>"
+            "<MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v2</MC-DATA-INSTANCE-VAR-REF>"
             "</SW-VARIABLE-REFS>"
             "<UNIT-REF DEST='UNIT'>/units/u</UNIT-REF>",
             root_tag="SW-AXIS-INDIVIDUAL",

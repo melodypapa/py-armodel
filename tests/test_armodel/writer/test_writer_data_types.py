@@ -179,7 +179,7 @@ class TestSwAxisIndividualWriter:
         writer.setSwAxisIndividual(parent, props)
 
         child = parent[0]
-        assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
+        assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
         assert child.find("UNIT-REF").text == "/units/u"
 
 
@@ -201,7 +201,7 @@ class TestSwAxisGroupedWriter:
         assert ref_el.text == "/shared"
         assert ref_el.attrib.get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert child.find("SW-AXIS-INDEX").text == "1"
-        assert child.find("SW-CALPRM-REF-PROXY/MC-DATA-INSTANCE-REF").text == "/calprm"
+        assert child.find("MC-DATA-INSTANCE-REF").text == "/calprm"
 
     def test_set_sw_generic_axis_param_type_writes_data_constraint(self, writer):
         param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
@@ -348,7 +348,7 @@ class TestSwDataDefPropsWriter:
         props.setStepSize(_float("0.5"))
         props.setDataConstrRef(_ref("DATA-CONSTR", "/dc"))
         props.setImplementationDataTypeRef(_ref("IMPLEMENTATION-DATA-TYPE", "/idt"))
-        props.setSwImplPolicy(_literal("STANDARD"))
+        props.setSwImplPolicy(_literal("standard"))
         props.setSwIntendedResolution(_numerical("8"))
         props.setSwRecordLayoutRef(_ref("SW-RECORD-LAYOUT", "/rl"))
         props.setValueAxisDataTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/vad"))

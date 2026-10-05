@@ -23,7 +23,7 @@ class TestSwTextPropsReader:
         )
         props = parser.getSwTextProps(element, "SW-TEXT-PROPS")
         assert props is not None
-        assert props.getArraySizeSemantics().getValue() == "FIXED-SIZE"
+        assert props.getArraySizeSemantics().getValue() == "fixedSize"
         assert props.getSwMaxTextSize().getValue() == 200
         assert props.getBaseTypeRef().getValue() == "/DataTypes/BaseTypes/uint8"
         assert props.getBaseTypeRef().getDest() == "SW-BASE-TYPE"
