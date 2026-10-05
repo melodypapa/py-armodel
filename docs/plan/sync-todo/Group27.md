@@ -967,13 +967,14 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TransformationTechnology` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.87, p.199; also CP_TPS_SystemTemplate Table 7.3, p.764
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (model suite 2050; transform/swc/system/VP subset 1178; whole unit tree 17,834/0; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): legacy 5-col checklist + stale stamp removed; defining table re-cited CP SWC Table 4.87 p.199 (SystemTemplate T7.3 row-identical — single # Spec line); 7 attrs in display order (bufferProperties 0..1 aggr set/get, hasInternalState/needsOriginalData/protocol/transformationDescription/transformerClass/version 0..1); accessor groups reordered getter-first (Rule 0001.11); class Note Tags tail dropped; VP mixin removed per Rule 0015/0020 (XSD artifact "Applicable for: DataTransformationSet.transformationTechnology"; reader/writer never handled it); XSD transformationDescription * (atpVariation) vs PDF 0..1 — PDF kept per Rule 0015; no deviations; no stamp (batch 9b)
 

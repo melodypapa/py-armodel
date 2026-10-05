@@ -16,10 +16,13 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    BufferProperties,
     DataTransformation,
     DataTransformationKindEnum,
     DataTransformationSet,
+    EndToEndTransformationDescription,
     TransformationTechnology,
+    TransformerClassEnum,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -93,3 +96,60 @@ class TestDataTransformationRoundTrip:
 
         assert "TRANSFORMER-CHAIN-REFS" not in xml
         assert "VARIATION-POINT" not in xml
+
+
+class TestTransformationTechnologyRoundTrip:
+    def test_round_trip_field_values(self, tmp_path):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        document, package, dtf_set = _build_document()
+        tech = dtf_set.createTransformationTechnology("Tech")
+        buffer_props = tech.getBufferProperties()
+        assert buffer_props is None
+        tech.setBufferProperties(BufferProperties().setHeaderLength(PositiveInteger().setValue("24")).setInPlace(Boolean().setValue(True)))
+        tech.setHasInternalState(Boolean().setValue(True))
+        tech.setNeedsOriginalData(Boolean().setValue(False))
+        tech.setProtocol(String().setValue("EndToEnd"))
+        desc = EndToEndTransformationDescription()
+        desc.setCrcOffset(PositiveInteger().setValue("8"))
+        tech.setTransformationDescription(desc)
+        tech.setTransformerClass(TransformerClassEnum().setValue(TransformerClassEnum.SAFETY))
+        tech.setVersion(String().setValue("2.0"))
+
+        file_name = str(tmp_path / "technology.arxml")
+        ARXMLWriter().save(file_name, document)
+
+        reload = AUTOSAR.getInstance()
+        reload.clear()
+        reload.setARRelease("R23-11")
+        ARXMLParser().load(file_name, reload)
+
+        dtf_set2 = reload.find("/Transformers/Set")
+        tech2 = dtf_set2.getTransformationTechnologies()[0]
+        assert isinstance(tech2, TransformationTechnology)
+        assert tech2.getShortName() == "Tech"
+        assert tech2.getBufferProperties().getHeaderLength().getValue() == 24
+        assert tech2.getBufferProperties().getInPlace().getValue() is True
+        assert tech2.getHasInternalState().getValue() is True
+        assert tech2.getNeedsOriginalData().getValue() is False
+        assert tech2.getProtocol().getValue() == "EndToEnd"
+        desc2 = tech2.getTransformationDescription()
+        assert isinstance(desc2, EndToEndTransformationDescription)
+        assert desc2.getCrcOffset().getValue() == 8
+        assert tech2.getTransformerClass().getValue() == "safety"
+        assert tech2.getVersion().getValue() == "2.0"
+
+    def test_element_order_and_empty_wrappers(self):
+        document, package, dtf_set = _build_document()
+        tech = dtf_set.createTransformationTechnology("Tech")
+        tech.setHasInternalState(Boolean().setValue(True))
+
+        xml = _serialize_package(package)
+
+        assert "TRANSFORMATION-TECHNOLOGYS" in xml
+        tech_element = xml[xml.index("<TRANSFORMATION-TECHNOLOGY>") : xml.index("</TRANSFORMATION-TECHNOLOGY>")]
+        assert "BUFFER-PROPERTIES" not in tech_element
+        assert "TRANSFORMATION-DESCRIPTIONS" not in tech_element
+        assert "VARIATION-POINT" not in tech_element
+        assert "HAS-INTERNAL-STATE" in tech_element
+        assert "VERSION" not in tech_element

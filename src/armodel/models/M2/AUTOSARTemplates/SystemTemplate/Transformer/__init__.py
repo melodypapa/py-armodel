@@ -793,30 +793,29 @@ class TransformerClassEnum(AREnum):
         super().__init__([TransformerClassEnum.CUSTOM, TransformerClassEnum.SAFETY, TransformerClassEnum.SECURITY, TransformerClassEnum.SERIALIZER])
 
 
-class TransformationTechnology(Identifiable, VariationPointCapable):
+class TransformationTechnology(Identifiable):
     """
-    A TransformationTechnology is a transformer inside a transformer chain. Tags: xml.namePlural=TRANSFORMATION-TECHNOLOGIES
+    A TransformationTechnology is a transformer inside a transformer chain.
     """
 
     # TransformationTechnology method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.3, p.764
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBufferProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBufferProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHasInternalState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHasInternalState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNeedsOriginalData  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNeedsOriginalData  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProtocol           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProtocol           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformationDescription [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationDescription [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransformerClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformerClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVersion             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVersion             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.87, p.199 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBufferProperties             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBufferProperties             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHasInternalState             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHasInternalState             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNeedsOriginalData            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNeedsOriginalData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocol                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocol                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationDescription    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformationDescription    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerClass             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerClass             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersion                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -842,6 +841,12 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         # Version of the implemented protocol.
         self.version: Optional[String] = None
 
+    def getBufferProperties(self) -> Optional[BufferProperties]:
+        """
+        Aggregation of the mandatory BufferProperties.
+        """
+        return self.bufferProperties
+
     def setBufferProperties(self, value: Optional[BufferProperties]) -> TransformationTechnology:
         """
         Aggregation of the mandatory BufferProperties.
@@ -851,11 +856,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.bufferProperties = value
         return self
 
-    def getBufferProperties(self) -> Optional[BufferProperties]:
+    def getHasInternalState(self) -> Optional[Boolean]:
         """
-        Aggregation of the mandatory BufferProperties.
+        This attribute defines whether the Transformer has an internal state or not.
         """
-        return self.bufferProperties
+        return self.hasInternalState
 
     def setHasInternalState(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
@@ -866,11 +871,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.hasInternalState = value
         return self
 
-    def getHasInternalState(self) -> Optional[Boolean]:
+    def getNeedsOriginalData(self) -> Optional[Boolean]:
         """
-        This attribute defines whether the Transformer has an internal state or not.
+        Specifies whether this transformer gets access to the SWC's original data.
         """
-        return self.hasInternalState
+        return self.needsOriginalData
 
     def setNeedsOriginalData(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
@@ -881,11 +886,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.needsOriginalData = value
         return self
 
-    def getNeedsOriginalData(self) -> Optional[Boolean]:
+    def getProtocol(self) -> Optional[String]:
         """
-        Specifies whether this transformer gets access to the SWC's original data.
+        Specifies the protocol that is implemented by this transformer.
         """
-        return self.needsOriginalData
+        return self.protocol
 
     def setProtocol(self, value: Optional[String]) -> TransformationTechnology:
         """
@@ -896,11 +901,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.protocol = value
         return self
 
-    def getProtocol(self) -> Optional[String]:
+    def getTransformationDescription(self) -> Optional[TransformationDescription]:
         """
-        Specifies the protocol that is implemented by this transformer.
+        A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
         """
-        return self.protocol
+        return self.transformationDescription
 
     def setTransformationDescription(self, value: Optional[TransformationDescription]) -> TransformationTechnology:
         """
@@ -911,11 +916,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.transformationDescription = value
         return self
 
-    def getTransformationDescription(self) -> Optional[TransformationDescription]:
+    def getTransformerClass(self) -> Optional[TransformerClassEnum]:
         """
-        A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
+        Specifies to which transformer class this transformer belongs.
         """
-        return self.transformationDescription
+        return self.transformerClass
 
     def setTransformerClass(self, value: Optional[TransformerClassEnum]) -> TransformationTechnology:
         """
@@ -926,11 +931,11 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
             self.transformerClass = value
         return self
 
-    def getTransformerClass(self) -> Optional[TransformerClassEnum]:
+    def getVersion(self) -> Optional[String]:
         """
-        Specifies to which transformer class this transformer belongs.
+        Version of the implemented protocol.
         """
-        return self.transformerClass
+        return self.version
 
     def setVersion(self, value: Optional[String]) -> TransformationTechnology:
         """
@@ -940,12 +945,6 @@ class TransformationTechnology(Identifiable, VariationPointCapable):
         if value is not None:
             self.version = value
         return self
-
-    def getVersion(self) -> Optional[String]:
-        """
-        Version of the implemented protocol.
-        """
-        return self.version
 
 
 class DataTransformationSet(ARElement):
