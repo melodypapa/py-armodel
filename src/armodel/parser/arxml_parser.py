@@ -12742,6 +12742,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getUdpNmClusterCoupling(self, element: ET.Element) -> UdpNmClusterCoupling:
         coupling = UdpNmClusterCoupling()
+        self.readARObject(element, coupling)
         for ref in self.getChildElementRefTypeList(element, "COUPLED-CLUSTER-REFS/COUPLED-CLUSTER-REF"):
             coupling.addCoupledClusterRef(ref)
         coupling.setNmImmediateRestartEnabled(self.getChildElementOptionalBooleanValue(element, "NM-IMMEDIATE-RESTART-ENABLED"))

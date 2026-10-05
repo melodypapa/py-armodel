@@ -9436,6 +9436,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")

@@ -4,7 +4,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import UdpNmClusterCoupling
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -65,3 +65,13 @@ class TestWriteUdpNmClusterCoupling:
         assert [ref.getValue() for ref in refs] == ["/Clusters/Eth1"]
         assert refs[0].getDest() == "ETHERNET-CLUSTER"
         assert parsed.getNmImmediateRestartEnabled().getValue() is True
+
+    def test_write_udp_nm_cluster_coupling_writes_checksum_and_timestamp(self):
+        coupling = _new_coupling()
+        coupling.setChecksum(String().setValue("5678"))
+        coupling.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeUdpNmClusterCoupling(parent, coupling)
+        coupling_element = parent.find("UDP-NM-CLUSTER-COUPLING")
+        assert coupling_element.attrib["S"] == "5678"
+        assert coupling_element.attrib["T"] == "2024-01-01T00:00:00Z"
