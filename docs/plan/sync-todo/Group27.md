@@ -544,15 +544,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TextTableValuePair` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.38, p.146
   - module: M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (mirrored test 7 passed; ruff/black/mypy clean at batch level); 9b deferred to batch confirmation (user instruction)
+  - note (Step 1): already at the current bar — firstValue/secondValue (Numerical 0..1 attr); attr-level atpVariation = attribute-value variation, XSD NUMERICAL-VALUE-VARIATION-POINT artifact, PDF Numerical kept per Rule 0015; reader/writer spec-typed pair verified; stale `# Spec verified:` removed for batch 9b; no deviations; no stamp (batch 9b)
 
 - [ ] `DataTransformation` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.39, p.150; also CP_TPS_SystemTemplate Table 7.2, p.763
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
