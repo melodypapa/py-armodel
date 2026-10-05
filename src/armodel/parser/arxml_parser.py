@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from typing import Any, List, Optional, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
-from armodel.validation.validator import ARXMLValidator, detect_schema_path
+from armodel.validation.validator import ARXMLValidator, detect_schema_info, get_schema_target_namespace
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.CryptoDeployment import (
     CryptoKeySlot,
     CryptoKeySlotAllowedModification,
@@ -18235,9 +18235,13 @@ class ARXMLParser(AbstractARXMLParser):
             return
         with open(filename, "rb") as f:
             data = f.read()
-        xsd_path = detect_schema_path(data)
+        xsd_path, document_namespace = detect_schema_info(data)
         if xsd_path is None:
             self.logger.warning("No XSD schema found for <%s>; validation skipped" % filename)
+            return
+        target_namespace = get_schema_target_namespace(xsd_path)
+        if document_namespace != target_namespace:
+            self.logger.warning("Schema <%s> targets namespace <%s> but the document namespace is <%s>; validation skipped" % (filename, target_namespace, document_namespace))
             return
         errors = ARXMLValidator(xsd_path).validate_bytes(data)
         if not errors:
@@ -18248,7 +18252,8 @@ class ARXMLParser(AbstractARXMLParser):
             return
         for error in errors:
             self.logger.error("Schema error in <%s> line %s, col %s: %s" % (filename, error.line, error.column, error.message))
-        raise ValueError("ARXML file <%s> failed schema validation with %d error(s)" % (filename, len(errors)))
+        first = errors[0]
+        raise ValueError("ARXML file <%s> failed schema validation with %d error(s) (first: line %s, col %s: %s)" % (filename, len(errors), first.line, first.column, first.message))
 
     def load(self, filename, document: AUTOSAR):
         self.logger.info("Loading %s ..." % os.path.realpath(filename))

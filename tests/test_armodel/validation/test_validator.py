@@ -6,8 +6,10 @@ from lxml import etree
 from armodel.validation.validator import (
     ARXMLValidator,
     ValidationError,
+    detect_schema_info,
     detect_schema_path,
     get_schema,
+    get_schema_target_namespace,
     register_schema_file,
 )
 
@@ -33,6 +35,11 @@ def _register_tiny_schema():
 class TestDetectSchemaPath:
     def test_returns_tiny_xsd_for_registered_location(self):
         assert detect_schema_path(VALID_DOC.encode("utf-8")) == TINY_XSD
+
+    def test_detect_schema_info_returns_namespace(self):
+        xsd_path, namespace = detect_schema_info(VALID_DOC.encode("utf-8"))
+        assert xsd_path == TINY_XSD
+        assert namespace == "http://autosar.org/schema/r4.0"
 
     def test_returns_none_without_schema_location(self):
         assert detect_schema_path(b'<AUTOSAR xmlns="http://autosar.org/schema/r4.0"/>') is None
@@ -68,6 +75,9 @@ class TestARXMLValidator:
         errors = ARXMLValidator(TINY_XSD).validate_bytes(b"<NOT-XML>")
         assert len(errors) == 1
         assert errors[0].domain == "syntax"
+
+    def test_get_schema_target_namespace(self):
+        assert get_schema_target_namespace(TINY_XSD) == "http://autosar.org/schema/r4.0"
 
     def test_resolver_falls_back_to_shared_xml_xsd(self):
         importing_xsd = os.path.join(DATA_DIR, "importing_autosar.xsd")

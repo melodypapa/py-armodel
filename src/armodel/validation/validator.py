@@ -1,7 +1,7 @@
 import os
 import threading
 import xml.etree.ElementTree as ET
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 from lxml import etree
 
@@ -40,18 +40,37 @@ def register_schema_file(xsd_filename: str, xsd_path: str) -> None:
     _SCHEMA_PATHS[xsd_filename.lower()] = xsd_path
 
 
-def detect_schema_path(data: bytes) -> Optional[str]:
+def detect_schema_info(data: bytes) -> Tuple[Optional[str], Optional[str]]:
     try:
         root = ET.fromstring(data)
     except ET.ParseError:
-        return None
+        return None, None
     schema_location = root.attrib.get(XSI_SCHEMA_LOCATION)
     if not schema_location:
-        return None
+        return None, None
     tokens = schema_location.split()
     if len(tokens) < 2:
-        return None
-    return _SCHEMA_PATHS.get(tokens[-1].lower())
+        return None, None
+    xsd_path = _SCHEMA_PATHS.get(tokens[-1].lower())
+    tag = root.tag
+    namespace = tag[1 : tag.index("}")] if isinstance(tag, str) and tag.startswith("{") else None
+    return xsd_path, namespace
+
+
+def detect_schema_path(data: bytes) -> Optional[str]:
+    return detect_schema_info(data)[0]
+
+
+_SCHEMA_NS_CACHE: Dict[str, Optional[str]] = {}
+
+
+def get_schema_target_namespace(xsd_path: str) -> Optional[str]:
+    key = os.path.realpath(xsd_path)
+    with _CACHE_LOCK:
+        if key not in _SCHEMA_NS_CACHE:
+            root = ET.parse(key).getroot()
+            _SCHEMA_NS_CACHE[key] = root.attrib.get("targetNamespace")
+        return _SCHEMA_NS_CACHE[key]
 
 
 def get_schema(xsd_path: str) -> etree.XMLSchema:

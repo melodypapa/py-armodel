@@ -1,3 +1,4 @@
+import logging
 import os
 
 import pytest
@@ -8,6 +9,8 @@ from armodel.validation.validator import register_schema_file
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "validation", "data")
 TINY_XSD = os.path.join(DATA_DIR, "tiny_autosar.xsd")
+
+register_schema_file("AUTOSAR_TINY.xsd", TINY_XSD)
 
 VALID_DOC = (
     '<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -23,12 +26,6 @@ SCHEMA_INVALID_DOC = (
     "<BOGUS/>"
     "</AUTOSAR>"
 )
-
-
-@pytest.fixture(autouse=True)
-def _register_tiny_schema():
-    register_schema_file("AUTOSAR_TINY.xsd", TINY_XSD)
-    yield
 
 
 @pytest.fixture(autouse=True)
@@ -62,7 +59,9 @@ def test_schema_invalid_file_raises_with_line_number(tmp_path):
 def test_warning_mode_logs_and_continues(tmp_path, caplog):
     document = AUTOSAR.getInstance()
     parser = ARXMLParser(options={"warning": True})
+    caplog.set_level(logging.WARNING)
     parser.load(_write(tmp_path, "invalid.arxml", SCHEMA_INVALID_DOC), document)
+    assert any("Schema error" in record.getMessage() for record in caplog.records)
 
 
 def test_validate_false_skips_validation(tmp_path):
@@ -81,3 +80,15 @@ def test_no_matching_schema_logs_warning_and_continues(tmp_path):
     document = AUTOSAR.getInstance()
     parser = ARXMLParser()
     parser.load(_write(tmp_path, "unbundled.arxml", doc_without_bundled_schema), document)
+
+
+def test_namespace_mismatch_logs_warning_and_continues(tmp_path):
+    legacy_doc = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<AUTOSAR xmlns="http://autosar.org"'
+        ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
+        ' xsi:schemaLocation="http://autosar.org autosar.xsd"/>'
+    )
+    document = AUTOSAR.getInstance()
+    parser = ARXMLParser()
+    parser.load(_write(tmp_path, "legacy.arxml", legacy_doc), document)
