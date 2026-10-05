@@ -11,6 +11,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     EthernetFrameTriggering,
@@ -133,3 +134,15 @@ class TestReadPhysicalChannel:
         assert channel.getISignalTriggerings() == []
         assert channel.getManagedPhysicalChannelRefs() == []
         assert channel.getPduTriggerings() == []
+
+
+class TestReadCanPhysicalChannelDispatch:
+    """Table 3.21: the CAN-PHYSICAL-CHANNEL dispatch branch constructs the concrete CanPhysicalChannel (Rule 0001.7 dispatch coverage)."""
+
+    def test_dispatch_creates_can_physical_channel_instance(self, parser):
+        cluster = _read_into_cluster(BARE_CHANNEL)
+        channel = cluster.getPhysicalChannels()[0]
+
+        assert isinstance(channel, CanPhysicalChannel)
+        assert channel.getShortName() == "ch"
+        assert channel.getCommConnectorRefs() == []

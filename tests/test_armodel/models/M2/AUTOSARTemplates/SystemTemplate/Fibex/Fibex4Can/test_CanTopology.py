@@ -1184,3 +1184,44 @@ class TestAbstractCanPhysicalChannel:
         assert channel.getISignalTriggerings() == []
         assert channel.getManagedPhysicalChannelRefs() == []
         assert channel.getPduTriggerings() == []
+
+
+CAN_PHYSICAL_CHANNEL_CLASS_NOTE = "CAN bus specific physical channel attributes."
+
+
+class TestCanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.21: ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(CanPhysicalChannel, AbstractCanPhysicalChannel)
+        assert issubclass(CanPhysicalChannel, PhysicalChannel)
+        assert issubclass(CanPhysicalChannel, Identifiable)
+        assert issubclass(CanPhysicalChannel, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited PhysicalChannel fields default to empty (Table 3.21 has no attribute rows)"""
+        channel = CanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, CanPhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.21)"""
+        assert inspect.cleandoc(CanPhysicalChannel.__doc__).strip() == CAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.21 has no attribute rows)"""
+        own_methods = [name for name in CanPhysicalChannel.__dict__ if inspect.isfunction(getattr(CanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(CanPhysicalChannel.__init__)
+        assert "self." not in source

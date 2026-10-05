@@ -668,15 +668,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `CanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.21, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
   - Deviation (pre-recorded 2026-10-05, Rule 0023/0002/0012.3): legacy 5-column checklist (no `release` column) with a stale `# Spec verified: R23-11` stamp; the `__init__` row wrongly shows `[x] reader [x] writer` — `__init__` has no XML element, both must be `[—]`. Re-run must add the release column, fix the `__init__` reader/writer ticks, and re-stamp only after 9b.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-05): removed the stale `# Spec verified: R23-11` marker and rebuilt the checklist in the 6-column format, fixing the `__init__` reader/writer ticks to `[—]` (`__init__` has no XML element). Table 3.21 renders no attribute rows and the XSD group CAN-PHYSICAL-CHANNEL (AUTOSAR_00052.xsd line 15574) is an empty sequence — the class declares no own fields/accessors (concrete subclass of the freshly re-synced AbstractCanPhysicalChannel; inherited accessors re-tested unchanged). Model + reader/writer tests written first passed unchanged (conformant impl); parser/writer needed no changes — the parser dispatch coverage gained a test pinning that the CAN-PHYSICAL-CHANNEL branch constructs a CanPhysicalChannel instance (writer dispatch already pinned by test_writer_frame_channel.py; entry helpers, field values, and empty-wrapper emission pinned by the base's concrete-path tests from d5b7c507a).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2194+8019 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `AbstractCanCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.22, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
