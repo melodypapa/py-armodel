@@ -85,8 +85,8 @@ class TestIpv4Configuration:
         )
         assert inspect.cleandoc(obj.getDefaultGateway.__doc__) == "IP address of the default gateway."
         assert inspect.cleandoc(obj.setDefaultGateway.__doc__).split("\n")[0] == "IP address of the default gateway."
-        assert inspect.cleandoc(obj.getDnsServerAddresses.__doc__) == "IP addresses of preconfigured DNS servers."
-        assert inspect.cleandoc(obj.addDnsServerAddress.__doc__).split("\n")[0] == "IP addresses of preconfigured DNS servers."
+        assert inspect.cleandoc(obj.getDnsServerAddresses.__doc__) == "IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"
+        assert inspect.cleandoc(obj.addDnsServerAddress.__doc__).split("\n")[0] == "IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"
         assert inspect.cleandoc(obj.getIpAddressKeepBehavior.__doc__) == "Defines the lifetime of a dynamically fetched IP address."
         assert inspect.cleandoc(obj.setIpAddressKeepBehavior.__doc__).split("\n")[0] == "Defines the lifetime of a dynamically fetched IP address."
         assert (

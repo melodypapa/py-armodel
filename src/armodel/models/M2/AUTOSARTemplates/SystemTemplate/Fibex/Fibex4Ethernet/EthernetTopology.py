@@ -2126,7 +2126,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
         # IP address of the default gateway.
         self.defaultGateway: Optional[Ip4AddressString] = None
 
-        # IP addresses of preconfigured DNS servers.
+        # IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip4AddressString] = []
 
         # Defines the lifetime of a dynamically fetched IP address.
@@ -2176,7 +2176,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
 
     def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4Configuration:
         """
-        IP addresses of preconfigured DNS servers.
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and is not appended to dnsServerAddresses.
         """
         if value is not None:
@@ -2185,7 +2185,7 @@ class Ipv4Configuration(NetworkEndpointAddress):
 
     def getDnsServerAddresses(self) -> List[Ip4AddressString]:
         """
-        IP addresses of preconfigured DNS servers.
+        IP addresses of preconfigured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         """
         return self.dnsServerAddresses
 
