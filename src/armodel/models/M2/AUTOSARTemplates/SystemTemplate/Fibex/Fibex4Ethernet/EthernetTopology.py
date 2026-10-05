@@ -69,27 +69,26 @@ class MacMulticastGroup(Identifiable):
 
 class EthernetCluster(CommunicationCluster):
     """
-    Ethernet-specific cluster attributes.
+    Ethernet-specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
     """
 
     # EthernetCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.47, p.103
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCouplingPortConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortConnections        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createMacMulticastGroup           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacMulticastGroups             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCouplingPortConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortConnections        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMacMulticastGroup           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacMulticastGroups             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Specification of connections between CouplingElements and EcuInstances.
+        # Specification of connections between CouplingElements and EcuInstances. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=postBuild
         self.couplingPortConnections: List[CouplingPortConnection] = []
 
         # The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
@@ -103,7 +102,7 @@ class EthernetCluster(CommunicationCluster):
 
     def addCouplingPortConnection(self, value: Optional[CouplingPortConnection]) -> EthernetCluster:
         """
-        Specification of connections between CouplingElements and EcuInstances.
+        Specification of connections between CouplingElements and EcuInstances. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to couplingPortConnections.
         """
         if value is not None:
@@ -111,11 +110,15 @@ class EthernetCluster(CommunicationCluster):
         return self
 
     def getCouplingPortConnections(self) -> List[CouplingPortConnection]:
-        """Specification of connections between CouplingElements and EcuInstances."""
+        """
+        Specification of connections between CouplingElements and EcuInstances. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=postBuild
+        """
         return self.couplingPortConnections
 
     def getCouplingPortStartupActiveTime(self) -> Optional[TimeValue]:
-        """The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests."""
+        """
+        The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
+        """
         return self.couplingPortStartupActiveTime
 
     def setCouplingPortStartupActiveTime(self, value: Optional[TimeValue]) -> EthernetCluster:
@@ -128,7 +131,9 @@ class EthernetCluster(CommunicationCluster):
         return self
 
     def getCouplingPortSwitchoffDelay(self) -> Optional[TimeValue]:
-        """Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports)."""
+        """
+        Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports).
+        """
         return self.couplingPortSwitchoffDelay
 
     def setCouplingPortSwitchoffDelay(self, value: Optional[TimeValue]) -> EthernetCluster:
@@ -141,7 +146,9 @@ class EthernetCluster(CommunicationCluster):
         return self
 
     def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
-        """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
+        """
+        MacMulticastGroup that is defined for the Subnet (EthernetCluster).
+        """
         if not self.IsReferrableElementExists(short_name, MacMulticastGroup):
             group = MacMulticastGroup(self, short_name)
             self.addReferrableElement(group)
@@ -149,7 +156,9 @@ class EthernetCluster(CommunicationCluster):
         return cast(MacMulticastGroup, self.getReferrableElement(short_name, MacMulticastGroup))
 
     def getMacMulticastGroups(self) -> List[MacMulticastGroup]:
-        """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
+        """
+        MacMulticastGroup that is defined for the Subnet (EthernetCluster).
+        """
         return self.macMulticastGroups
 
 

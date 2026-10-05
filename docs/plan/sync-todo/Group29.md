@@ -908,13 +908,13 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EthernetCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.47, p.103
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): deviations — all resolved in this pass. Writer defects fixed (own code, NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): (1) writeEthernetCluster emitted MAC-MULTICAST-GROUPS before COUPLING-PORT-CONNECTIONS — now emits ETHERNET-CLUSTER-CONTENT in XSD sequenceOffset order (COUPLING-PORT-CONNECTIONS, COUPLING-PORT-STARTUP-ACTIVE-TIME, COUPLING-PORT-SWITCHOFF-DELAY, MAC-MULTICAST-GROUPS); (2) entry point called writeARElement (a one-line writeIdentifiable delegation) — normalized to the direct writeIdentifiable call per the CanCluster/TtcanCluster/FlexrayCluster convention (Rule 0013.2 symmetry with readIdentifiable); reader own-field read order aligned to the same XSD order (cosmetic). Model docstrings restored verbatim in the Step 4 wipe/rewrite: class Note's `Tags: atp.recommendedPackage=CommunicationClusters` tail and couplingPortConnection's full Note (`Note: This atpSplitable property … Tags: vh.latestBindingTime=postBuild`) were truncated in the legacy file. The tracker's stale `missing` row `ethernetClusterVariant`/`EthernetClusterConditional` documents the atpVariation VARIANTS/CONDITIONAL wrapper, deliberately not a modeled attribute (Rule 0001.7) — same accepted shape as sibling FlexrayCluster/TtcanCluster tracker rows, tracker untouched per sibling precedent. No fabrication, no flattening, no missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2347+8113+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)

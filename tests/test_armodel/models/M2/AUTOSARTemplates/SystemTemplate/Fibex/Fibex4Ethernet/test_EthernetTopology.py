@@ -8,6 +8,7 @@ of the respective classes.
 """
 
 import inspect
+from typing import List, Optional, get_type_hints
 
 import pytest
 
@@ -60,6 +61,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import InitialSdDelayConfig, RequestResponseDelay, SoAdConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, FibexElement
 
 
 def _pos_int(text):
@@ -1787,3 +1789,131 @@ class TestEthernetPhysicalChannel:
         duplicate = channel.createVlanConfig("Vlan")
         assert duplicate is vlan
         assert channel.getVlan() is vlan
+
+
+ETHERNET_CLUSTER_CLASS_NOTE = "Ethernet-specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"
+COUPLING_PORT_CONNECTIONS_NOTE = "Specification of connections between CouplingElements and EcuInstances. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=postBuild"
+COUPLING_PORT_STARTUP_ACTIVE_TIME_NOTE = "The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests."
+COUPLING_PORT_SWITCHOFF_DELAY_NOTE = "Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports)."
+MAC_MULTICAST_GROUP_NOTE = "MacMulticastGroup that is defined for the Subnet (EthernetCluster)."
+
+
+class TestEthernetCluster:
+    """Test cases for EthernetCluster (Table 3.47, p.103)."""
+
+    MEMBERS = [
+        "couplingPortConnections",
+        "couplingPortStartupActiveTime",
+        "couplingPortSwitchoffDelay",
+        "macMulticastGroups",
+    ]
+
+    def _make(self) -> EthernetCluster:
+        return EthernetCluster(MockParent(), "test_ethernet_cluster")
+
+    def _assert_docstring(self, method, note, noop=None):
+        expected = note if noop is None else note + "\n" + noop
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_inheritance(self):
+        assert issubclass(EthernetCluster, CommunicationCluster)
+        assert issubclass(EthernetCluster, FibexElement)
+        assert issubclass(EthernetCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = EthernetCluster(MockParent(), "cluster")  # Table 3.47 carries no abstract stereotype
+
+        assert isinstance(cluster, CommunicationCluster)
+
+    def test_initialization(self):
+        cluster = self._make()
+
+        assert cluster.getShortName() == "test_ethernet_cluster"
+        assert isinstance(cluster, CommunicationCluster)
+        assert cluster.getBaudrate() is None
+        assert cluster.getPhysicalChannels() == []
+        assert cluster.getProtocolName() is None
+        assert cluster.getProtocolVersion() is None
+        assert cluster.getCouplingPortConnections() == []
+        assert cluster.getCouplingPortStartupActiveTime() is None
+        assert cluster.getCouplingPortSwitchoffDelay() is None
+        assert cluster.getMacMulticastGroups() == []
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(EthernetCluster.__doc__).strip() == ETHERNET_CLUSTER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert EthernetCluster.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(EthernetCluster.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_get_set_coupling_port_startup_active_time(self):
+        cluster = self._make()
+        value = TimeValue().setValue("100")
+        assert cluster == cluster.setCouplingPortStartupActiveTime(value)
+        assert cluster.getCouplingPortStartupActiveTime() == value
+        assert cluster == cluster.setCouplingPortStartupActiveTime(None)
+        assert cluster.getCouplingPortStartupActiveTime() == value
+        self._pin(EthernetCluster.getCouplingPortStartupActiveTime, EthernetCluster.setCouplingPortStartupActiveTime, Optional[TimeValue], EthernetCluster)
+
+    def test_coupling_port_startup_active_time_docstrings_are_spec_note(self):
+        self._assert_docstring(EthernetCluster.getCouplingPortStartupActiveTime, COUPLING_PORT_STARTUP_ACTIVE_TIME_NOTE)
+        self._assert_docstring(
+            EthernetCluster.setCouplingPortStartupActiveTime, COUPLING_PORT_STARTUP_ACTIVE_TIME_NOTE, "A None value is a no-op and does not overwrite an existing couplingPortStartupActiveTime."
+        )
+
+    def test_get_set_coupling_port_switchoff_delay(self):
+        cluster = self._make()
+        value = TimeValue().setValue("0.5")
+        assert cluster == cluster.setCouplingPortSwitchoffDelay(value)
+        assert cluster.getCouplingPortSwitchoffDelay() == value
+        assert cluster == cluster.setCouplingPortSwitchoffDelay(None)
+        assert cluster.getCouplingPortSwitchoffDelay() == value
+        self._pin(EthernetCluster.getCouplingPortSwitchoffDelay, EthernetCluster.setCouplingPortSwitchoffDelay, Optional[TimeValue], EthernetCluster)
+
+    def test_coupling_port_switchoff_delay_docstrings_are_spec_note(self):
+        self._assert_docstring(EthernetCluster.getCouplingPortSwitchoffDelay, COUPLING_PORT_SWITCHOFF_DELAY_NOTE)
+        self._assert_docstring(
+            EthernetCluster.setCouplingPortSwitchoffDelay, COUPLING_PORT_SWITCHOFF_DELAY_NOTE, "A None value is a no-op and does not overwrite an existing couplingPortSwitchoffDelay."
+        )
+
+    def test_add_coupling_port_connection(self):
+        cluster = self._make()
+        connection = CouplingPortConnection()
+        assert cluster == cluster.addCouplingPortConnection(connection)
+        assert cluster.getCouplingPortConnections() == [connection]
+        cluster.addCouplingPortConnection(None)
+        assert cluster.getCouplingPortConnections() == [connection]
+        hints = get_type_hints(EthernetCluster.addCouplingPortConnection)
+        assert hints.get("value") == Optional[CouplingPortConnection]
+        assert hints.get("return") is EthernetCluster
+        assert get_type_hints(EthernetCluster.getCouplingPortConnections).get("return") == List[CouplingPortConnection]
+
+    def test_coupling_port_connection_docstrings_are_spec_note(self):
+        self._assert_docstring(EthernetCluster.addCouplingPortConnection, COUPLING_PORT_CONNECTIONS_NOTE, "A None value is a no-op and does not append to couplingPortConnections.")
+        self._assert_docstring(EthernetCluster.getCouplingPortConnections, COUPLING_PORT_CONNECTIONS_NOTE)
+
+    def test_create_mac_multicast_group(self):
+        cluster = self._make()
+        group = cluster.createMacMulticastGroup("MulticastGroup")
+        assert isinstance(group, MacMulticastGroup)
+        assert group.getShortName() == "MulticastGroup"
+        assert cluster.getMacMulticastGroups() == [group]
+        duplicate = cluster.createMacMulticastGroup("MulticastGroup")
+        assert duplicate is group
+        assert cluster.getMacMulticastGroups() == [group]
+
+    def test_mac_multicast_group_docstrings_are_spec_note(self):
+        self._assert_docstring(EthernetCluster.createMacMulticastGroup, MAC_MULTICAST_GROUP_NOTE)
+        self._assert_docstring(EthernetCluster.getMacMulticastGroups, MAC_MULTICAST_GROUP_NOTE)

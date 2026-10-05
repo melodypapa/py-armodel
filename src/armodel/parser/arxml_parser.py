@@ -10917,10 +10917,10 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
+            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
             cluster.setCouplingPortStartupActiveTime(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME"))
             cluster.setCouplingPortSwitchoffDelay(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY"))
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
-            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def readDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
         condition.setInitValue(self.getChildElementOptionalBooleanValue(element, "INIT-VALUE"))

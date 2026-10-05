@@ -11828,15 +11828,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Set EthernetCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-CLUSTER")
-        self.writeARElement(child_element, cast(ARElement, cluster))
+        self.writeIdentifiable(child_element, cluster)
 
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-VARIANTS")
         child_element = ET.SubElement(child_element, "ETHERNET-CLUSTER-CONDITIONAL")
         self.writeCommunicationCluster(child_element, cluster)
+        self.writeEthernetClusterCouplingPortConnections(child_element, cluster)
         self.setChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME", cluster.getCouplingPortStartupActiveTime())
         self.setChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY", cluster.getCouplingPortSwitchoffDelay())
         self.writeEthernetClusterMacMulticastGroups(child_element, cluster)
-        self.writeEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def writeCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Write CanFrame %s" % frame.getShortName())
