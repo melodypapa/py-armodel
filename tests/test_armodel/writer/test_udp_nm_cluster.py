@@ -4,7 +4,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import UdpNmCluster
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -47,6 +48,12 @@ def _time(value):
     time_value = TimeValue()
     time_value.setValue(value)
     return time_value
+
+
+def _vp(label):
+    vp = VariationPoint()
+    vp.setShortLabel(Identifier().setValue(label))
+    return vp
 
 
 def _new_cluster():
@@ -117,3 +124,25 @@ class TestWriteUdpNmCluster:
         assert cluster.getNmRepeatMessageTime().getValue() == 0.5
         assert cluster.getNmWaitBusSleepTime().getValue() == 0.2
         assert cluster.getVlanRef().getValue() == "/Topology/Vlan1"
+
+    def test_write_udp_nm_cluster_writes_variation_point_last(self):
+        cluster = _new_cluster()
+        cluster.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeUdpNmCluster(parent, cluster)
+        cluster_element = parent.find("UDP-NM-CLUSTER")
+        tags = [child.tag for child in cluster_element if child.tag != "SHORT-NAME"]
+        assert tags == _XSD_ELEMENT_ORDER + ["VARIATION-POINT"]
+        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_udp_nm_cluster_round_trips_variation_point(self):
+        cluster = _new_cluster()
+        cluster.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeUdpNmCluster(parent, cluster)
+        parent.set("xmlns", NS)
+        root = ET.fromstring(ET.tostring(parent, encoding="unicode")).find("{%s}UDP-NM-CLUSTER" % NS)
+        parsed = UdpNmCluster(MockParent(), "UdpNmCluster")
+        ARXMLParser().readUdpNmCluster(root, parsed)
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "VP1"

@@ -963,6 +963,7 @@ class TpAddress(Identifiable, VariationPointCapable):
 
     # TpAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.238, p.588
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1005,6 +1006,7 @@ class LinTpConnection(TpConnection, VariationPointCapable):
 
     # LinTpConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.261, p.616
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataPduRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

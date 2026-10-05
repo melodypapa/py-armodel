@@ -760,62 +760,62 @@ Status: **29/29** completed
 
 Status: **26/26** completed
 
-| Class Name                                 | Status   | Commit ID |
-| ------------------------------------------ | -------- | --------- |
-| `CanClusterBusOffRecovery`                 | [x] Done  | 9c4a146ff0 |
-| `CanCommunicationConnector`                | [x] Done  | 6e9794500d |
-| `CanControllerConfiguration`               | [x] Done  | 5de9869ed6 |
-| `CanControllerConfigurationRequirements`   | [x] Done  | cd843bee26 |
-| `CanControllerFdConfigurationRequirements` | [x] Done  | a115435650 |
-| `ResumePosition`                           | [x] Done  | 40c0abb9b1 |
-| `ApplicationEntry`                         | [x] Done  | 8a6c27cb1c |
-| `LinScheduleTable`                         | [x] Done  | 0215ceb16a |
-| `RunMode`                                  | [x] Done  | 0215ceb16a |
-| `LinCommunicationConnector`                | [x] Done  | da0534323b |
-| `FlexrayFrameTriggering`                   | [x] Done  | 3ab64d2b03 |
-| `FlexrayAbsolutelyScheduledTiming`         | [x] Done  | 3ab64d2b03 |
-| `FlexrayCommunicationConnector`            | [x] Done  | 73bba1d58a |
-| `FlexrayCommunicationController`           | [x] Done  | 0c1ff9a927 |
-| `FlexrayPhysicalChannel`                   | [x] Done  | 7774a8ec9b |
-| `DataMapping`                              | [x] Done  | dc0553786f |
-| `IndexedArrayElement`                      | [x] Done  | 9eb93f743f |
-| `SenderRecRecordElementMapping`            | [x] Done  | dc019f9575 |
-| `SenderRecRecordTypeMapping`               | [x] Done  | abbfc40109 |
-| `SenderReceiverToSignalMapping`            | [x] Done  | 44442b8b6a |
-| `SenderReceiverToSignalGroupMapping`       | [x] Done  | f921dd6fb4 |
-| `DefaultValueElement`                      | [x] Done  | 721cca6400 |
-| `FrameMapping`                             | [x] Done  | a5f62ee06d |
-| `ISignalMapping`                           | [x] Done  | ba0f1a12a8 |
-| `TargetIPduRef`                            | [x] Done  | 4d2c155383 |
-| `Gateway`                                  | [x] Done  | a00d99f993 |
+| Class Name                                 | Status   | Commit ID  |
+| ------------------------------------------ | -------- | ---------- |
+| `CanClusterBusOffRecovery`                 | [x] Done | 9c4a146ff0 |
+| `CanCommunicationConnector`                | [x] Done | 6e9794500d |
+| `CanControllerConfiguration`               | [x] Done | 5de9869ed6 |
+| `CanControllerConfigurationRequirements`   | [x] Done | cd843bee26 |
+| `CanControllerFdConfigurationRequirements` | [x] Done | a115435650 |
+| `ResumePosition`                           | [x] Done | 40c0abb9b1 |
+| `ApplicationEntry`                         | [x] Done | 8a6c27cb1c |
+| `LinScheduleTable`                         | [x] Done | 0215ceb16a |
+| `RunMode`                                  | [x] Done | 0215ceb16a |
+| `LinCommunicationConnector`                | [x] Done | da0534323b |
+| `FlexrayFrameTriggering`                   | [x] Done | 3ab64d2b03 |
+| `FlexrayAbsolutelyScheduledTiming`         | [x] Done | 3ab64d2b03 |
+| `FlexrayCommunicationConnector`            | [x] Done | 73bba1d58a |
+| `FlexrayCommunicationController`           | [x] Done | 0c1ff9a927 |
+| `FlexrayPhysicalChannel`                   | [x] Done | 7774a8ec9b |
+| `DataMapping`                              | [x] Done | dc0553786f |
+| `IndexedArrayElement`                      | [x] Done | 9eb93f743f |
+| `SenderRecRecordElementMapping`            | [x] Done | dc019f9575 |
+| `SenderRecRecordTypeMapping`               | [x] Done | abbfc40109 |
+| `SenderReceiverToSignalMapping`            | [x] Done | 44442b8b6a |
+| `SenderReceiverToSignalGroupMapping`       | [x] Done | f921dd6fb4 |
+| `DefaultValueElement`                      | [x] Done | 721cca6400 |
+| `FrameMapping`                             | [x] Done | a5f62ee06d |
+| `ISignalMapping`                           | [x] Done | ba0f1a12a8 |
+| `TargetIPduRef`                            | [x] Done | 4d2c155383 |
+| `Gateway`                                  | [x] Done | a00d99f993 |
 
 ## Group18
 
-Status: **0/17** completed
+Status: **17/17** completed
 
-| Class Name                                  | Status       | Commit ID |
-| ------------------------------------------- | ------------ | --------- |
-| `NmEcu`                                     | [ ] Pending* | N/A       |
-| `CanNmCluster`                              | [ ] Pending* | N/A       |
-| `UdpNmCluster`                              | [ ] Pending* | N/A       |
-| `CanNmNode`                                 | [ ] Pending* | N/A       |
-| `UdpNmNode`                                 | [ ] Pending* | N/A       |
-| `CanNmClusterCoupling`                      | [ ] Pending* | N/A       |
-| `UdpNmClusterCoupling`                      | [ ] Pending* | N/A       |
-| `FlexrayNmClusterCoupling`                  | [ ] Pending* | N/A       |
-| `SecOcCryptoServiceMapping`                 | [ ] Pending* | N/A       |
-| `EndToEndTransformationISignalProps`        | [ ] Pending* | N/A       |
-| `TpAddress`                                 | [ ] Pending* | N/A       |
-| `LinTpConnection`                           | [ ] Pending* | N/A       |
-| `EndToEndProtectionISignalIPdu`             | [ ] Pending* | N/A       |
-| `SwcToEcuMapping`                           | [ ] Pending* | N/A       |
-| `ApplicationPartitionToEcuPartitionMapping` | [ ] Pending* | N/A       |
-| `SwcToImplMapping`                          | [ ] Pending* | N/A       |
-| `AppOsTaskProxyToEcuTaskProxyMapping`       | [ ] Pending* | N/A       |
+| Class Name                                  | Status   | Commit ID  |
+| ------------------------------------------- | -------- | ---------- |
+| `NmEcu`                                     | [x] Done | c5eafef533 |
+| `CanNmCluster`                              | [x] Done | 97b3ffb12e |
+| `UdpNmCluster`                              | [x] Done | c32d27a505 |
+| `CanNmNode`                                 | [x] Done | 3d406b5e98 |
+| `UdpNmNode`                                 | [x] Done | f933ce83ac |
+| `CanNmClusterCoupling`                      | [x] Done | 8561fbb806 |
+| `UdpNmClusterCoupling`                      | [x] Done | a1ffa0b85a |
+| `FlexrayNmClusterCoupling`                  | [x] Done | 50b09ee73b |
+| `SecOcCryptoServiceMapping`                 | [x] Done | eec98574a9 |
+| `EndToEndTransformationISignalProps`        | [x] Done | 4c91e36810 |
+| `TpAddress`                                 | [x] Done | cedb8f8498 |
+| `LinTpConnection`                           | [x] Done | fa26bba13a |
+| `EndToEndProtectionISignalIPdu`             | [x] Done | 7426eaaa52 |
+| `SwcToEcuMapping`                           | [x] Done | fc5c1e2c39 |
+| `ApplicationPartitionToEcuPartitionMapping` | [x] Done | baccb40d25 |
+| `SwcToImplMapping`                          | [x] Done | 7fbdba572b |
+| `AppOsTaskProxyToEcuTaskProxyMapping`       | [x] Done | 860f23a95c |
 
 ## Group19
 
-Status: **6/16** completed
+Status: **3/16** completed
 
 | Class Name                       | Status       | Commit ID  |
 | -------------------------------- | ------------ | ---------- |
@@ -832,9 +832,9 @@ Status: **6/16** completed
 | `EcucReferenceDef`               | [x] Done     | 0d45067479 |
 | `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
 | `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done     | N/A        |
-| `EcucParameterDerivationFormula` | [x] Done     | N/A        |
-| `EcucQueryExpression`            | [x] Done     | N/A        |
+| `EcucConditionFormula`           | [ ] Pending* | N/A        |
+| `EcucParameterDerivationFormula` | [ ] Pending* | N/A        |
+| `EcucQueryExpression`            | [ ] Pending* | N/A        |
 
 ## Group20
 
@@ -1905,7 +1905,7 @@ Status: **0/75** completed
 | `IEEE1722TpAcfLin`                          | [ ] Created     | N/A       |
 | `IEEE1722TpAcfLinPart`                      | [ ] Created     | N/A       |
 | `BusspecificNmEcu`                          | [ ] Implemented | N/A       |
-| `NmCoordinator`                             | [ ] Created     | N/A       |
+| `NmCoordinator`                             | [ ] Implemented | N/A       |
 | `NmNode`                                    | [ ] Implemented | N/A       |
 | `NmCoordinatorRoleEnum`                     | [ ] Implemented | N/A       |
 | `FlexrayNmScheduleVariant`                  | [ ] Implemented | N/A       |

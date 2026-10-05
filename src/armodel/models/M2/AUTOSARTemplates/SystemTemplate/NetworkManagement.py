@@ -37,6 +37,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
 
     # CanNmClusterCoupling method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.313, p.684
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -109,6 +110,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
 
     # FlexrayNmClusterCoupling method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.308, p.679
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -404,6 +406,7 @@ class CanNmNode(NmNode):
 
     # CanNmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.314, p.684
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -825,6 +828,7 @@ class UdpNmNode(NmNode):
 
     # UdpNmNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.318, p.689
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllNmMessagesKeepAwake    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1114,6 +1118,7 @@ class NmEcu(Identifiable, VariationPointCapable):
 
     # NmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.300, p.674
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addBusDependentNmEcu           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1700,6 +1705,7 @@ class CanNmCluster(NmCluster):
 
     # CanNmCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.311, p.682
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNmBusloadReductionActive     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2244,6 +2250,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
 
     # UdpNmClusterCoupling method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.317, p.688
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addCoupledClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -2304,6 +2311,7 @@ class UdpNmCluster(NmCluster):
 
     # UdpNmCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.315, p.687
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNmCbvPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
