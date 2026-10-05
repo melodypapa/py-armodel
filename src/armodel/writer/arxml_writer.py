@@ -11861,6 +11861,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: Optional[CanControllerFdConfigurationRequirements]):
         if requirements is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, requirements)
             self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT", requirements.getMaxNumberOfTimeQuantaPerBit())  # noqa E501
             self.setChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT", requirements.getMaxSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH", requirements.getMaxSyncJumpWidth())

@@ -20,7 +20,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 from tests.test_armodel.parser._helpers import _snip
 
 FULL_FD_REQUIREMENTS = (
-    "<CAN-CONTROLLER-FD-REQUIREMENTS>"
+    '<CAN-CONTROLLER-FD-REQUIREMENTS S="1234" T="2024-01-01T00:00:00Z">'
     "<MAX-NUMBER-OF-TIME-QUANTA-PER-BIT>32</MAX-NUMBER-OF-TIME-QUANTA-PER-BIT>"
     "<MAX-SAMPLE-POINT>0.8</MAX-SAMPLE-POINT>"
     "<MAX-SYNC-JUMP-WIDTH>0.2</MAX-SYNC-JUMP-WIDTH>"
@@ -83,6 +83,9 @@ def _assert_full_fd_requirements(req):
     value = req.getTxBitRateSwitch()
     assert isinstance(value, Boolean)
     assert value.getValue() is True
+
+    assert req.getChecksum().getValue() == "1234"
+    assert req.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestReadCanControllerFdConfigurationRequirements:
