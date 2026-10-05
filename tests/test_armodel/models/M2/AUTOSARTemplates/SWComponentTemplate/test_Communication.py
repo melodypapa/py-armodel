@@ -69,12 +69,25 @@ class TestHandleInvalidEnum:
 
 
 class TestPPortComSpec:
-    """Test class for PPortComSpec abstract class."""
+    """Test class for PPortComSpec abstract class (Table 4.58)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.58 Note copied verbatim."""
+        assert (
+            PPortComSpec.__doc__.strip()
+            == "Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for all kinds of provide ports, independent of client-server or sender-receiver communication patterns."
+        )
 
     def test_pport_com_spec_abstract(self):
         """Test that PPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
         with pytest.raises(TypeError):
             PPortComSpec()
+
+    def test_concrete_subclass_is_instantiable(self):
+        """A concrete subclass (Base = ARObject, no own attributes) instantiates cleanly."""
+        com_spec = ServerComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
 
 class TestRPortComSpec:
