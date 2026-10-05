@@ -1064,53 +1064,46 @@ class RuleBasedAxisCont(ARObject):
 
 class RuleBasedValueCont(ARObject):
     """
-    This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK) or an array.
+    This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, BLK) or an array.
+
+    [constr_1924] Existence of RuleBasedValueCont.ruleBasedValues: For each RuleBasedValueCont, attribute ruleBasedValues shall exist at the time when the contract phase generation is executed.
+
+    [constr_2058] Mandatory information of a RuleBasedValueCont: If the attribute swValueCont is defined for an ApplicationRuleBasedValueSpecification the RuleBasedValueCont shall always define the attribute swArraysize if the ApplicationRuleBasedValueSpecification is of category CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, or VAL_BLK.
     """
 
     # RuleBasedValueCont method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.58, p.330
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRuleBasedValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuleBasedValues           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.131, p.465
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwArraysize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        # This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
-        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        # For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         self.swArraysize: Optional[ValueList] = None
 
-        # This represents the physical unit of the provided values.
+        # This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         self.unitRef: Optional[RefType] = None
 
     def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
         """
-        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
-
-        Returns:
-            Optional[RuleBasedValueSpecification]: The value specification, or None if not set
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         """
         return self.ruleBasedValues
 
     def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> RuleBasedValueCont:
         """
-        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
-
-        Args:
-            value: The value specification to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.ruleBasedValues = value
@@ -1118,25 +1111,14 @@ class RuleBasedValueCont(ARObject):
 
     def getSwArraysize(self) -> Optional[ValueList]:
         """
-        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
-
-        Returns:
-            Optional[ValueList]: The array size, or None if not set
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         """
         return self.swArraysize
 
     def setSwArraysize(self, value: Optional[ValueList]) -> RuleBasedValueCont:
         """
-        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing swArraysize.
-
-        Args:
-            value: The array size to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.swArraysize = value
@@ -1144,23 +1126,14 @@ class RuleBasedValueCont(ARObject):
 
     def getUnitRef(self) -> Optional[RefType]:
         """
-        This represents the physical unit of the provided values.
-
-        Returns:
-            Optional[RefType]: The unit reference, or None if not set
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         """
         return self.unitRef
 
     def setUnitRef(self, value: Optional[RefType]) -> RuleBasedValueCont:
         """
-        This represents the physical unit of the provided values.
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing unitRef.
-
-        Args:
-            value: The unit reference to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.unitRef = value
