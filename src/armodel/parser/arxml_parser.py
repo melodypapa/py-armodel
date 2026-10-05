@@ -15761,6 +15761,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.readARObject(element, mapping)
+        mapping.setCommunicationDirection(cast(Optional[CommunicationDirectionType], self.getChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION")))
         mapping.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:

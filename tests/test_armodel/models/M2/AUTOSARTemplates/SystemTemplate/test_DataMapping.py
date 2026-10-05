@@ -784,11 +784,14 @@ class TestSenderReceiverToSignalMapping:
         assert mapping.getSignalToReceiverTextTableMapping() is None
         assert mapping.getSystemSignalRef() is None
 
-    def test_removed_communication_direction(self):
+    def test_inherits_legacy_communication_direction(self):
         mapping = self._make()
 
-        assert not hasattr(mapping, "getCommunicationDirection")
-        assert not hasattr(mapping, "setCommunicationDirection")
+        # Rule 0019 legacy member on the DataMapping base (R4.3.1 Table 5.14, removed in R23-11);
+        # kept because authentic R22-11 SystemMapping fixtures carry COMMUNICATION-DIRECTION.
+        assert hasattr(mapping, "getCommunicationDirection")
+        assert hasattr(mapping, "setCommunicationDirection")
+        assert mapping.getCommunicationDirection() is None
 
     def test_class_docstring_is_spec_note(self):
         assert inspect.cleandoc(SenderReceiverToSignalMapping.__doc__).strip() == SENDER_RECEIVER_TO_SIGNAL_MAPPING_CLASS_NOTE

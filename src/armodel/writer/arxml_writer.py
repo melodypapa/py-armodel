@@ -12617,6 +12617,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDataMapping(self, element: ET.Element, mapping: DataMapping):
         self.writeARObject(element, mapping)
+        self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", mapping.getCommunicationDirection())
         self.writeDocumentationBlock(element, "INTRODUCTION", mapping.getIntroduction())
         self.writeVariationPoint(element, mapping.getVariationPoint())
 

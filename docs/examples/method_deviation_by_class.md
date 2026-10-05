@@ -2556,7 +2556,11 @@ No deviations (synced to R23-11 Table D.17, p.953 — `contextDataPrototype` now
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::DataMapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py`
 
-No deviations — Table 5.22 has a single attribute row (`introduction`, DocumentationBlock 0..1 aggr), implemented with reader/writer coverage via the abstract-base helpers `readDataMapping`/`writeDataMapping`. The four `missing` rows from the old SoftwareComponentTemplate corpus (`communicationDirection`, `eventGroupRefs`, `eventHandlerRefs`, `serviceInstanceRefs`) are removed: all four carry `atp.Status="removed"` in the R23-11 XSD (group DATA-MAPPING, AUTOSAR_00052.xsd line 27249; R4.3.1 Table 5.14 confirms the upstream deletion) — deprecated, not implemented per spec.
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `communicationDirection` | `Optional[CommunicationDirectionType]` | `communicationDirection` | `CommunicationDirectionType` | attr | `legacy (R4.3.1 Table 5.14, p.142); removed in R23-11` |
+
+Rule 0019 combine case. R23-11 Table 5.22 no longer lists `communicationDirection`, but it is documented in the older verified corpus (R4.3.1 Table 5.14, p.142, `CommunicationDirectionType 0..1 attr`) and authentic R22-11 `*_SystemMapping.arxml` fixtures carry `<COMMUNICATION-DIRECTION>` inside `SENDER-RECEIVER-TO-SIGNAL-MAPPING` (which inlines the `DATA-MAPPING` group). Removing it broke the lossless integration round-trip over 8 fixtures, so it is kept as an optional legacy member with full reader/writer coverage (`readDataMapping`/`writeDataMapping`, XSD order COMMUNICATION-DIRECTION → INTRODUCTION → VARIATION-POINT); fixtures are never edited to force a removal. The remaining three `missing` rows from the old SoftwareComponentTemplate corpus (`eventGroupRefs`, `eventHandlerRefs`, `serviceInstanceRefs`) stay removed — all carry `atp.Status="removed"` in the R23-11 XSD (group DATA-MAPPING, AUTOSAR_00052.xsd line 27249; R4.3.1 Table 5.14 confirms the upstream deletion) and no fixture carries their elements.
 
 ## `EndToEndTransformationDescription`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 987

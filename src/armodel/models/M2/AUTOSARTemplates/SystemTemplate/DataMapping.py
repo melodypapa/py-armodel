@@ -5,7 +5,10 @@ from __future__ import annotations
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
@@ -20,11 +23,14 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
     """
 
     # DataMapping method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.22, p.217
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.22, p.217 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SystemTemplate.pdf, Table 5.14, p.142 (R4.3.1)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getIntroduction [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIntroduction [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationDirection [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setCommunicationDirection [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getIntroduction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DataMapping:
@@ -32,8 +38,26 @@ class DataMapping(ARObject, VariationPointCapable, ABC):
 
         super().__init__()
 
+        # This attribute controls the direction into which the mapped SystemSignal is communicated with respect to the kind of PortPrototype used as the context element of the DataMapping.
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
+
         # This represents introductory documentation about the data mapping.
         self.introduction: Optional[DocumentationBlock] = None
+
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        This attribute controls the direction into which the mapped SystemSignal is communicated with respect to the kind of PortPrototype used as the context element of the DataMapping.
+        """
+        return self.communicationDirection
+
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> DataMapping:
+        """
+        This attribute controls the direction into which the mapped SystemSignal is communicated with respect to the kind of PortPrototype used as the context element of the DataMapping.
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
+        if value is not None:
+            self.communicationDirection = value
+        return self
 
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
