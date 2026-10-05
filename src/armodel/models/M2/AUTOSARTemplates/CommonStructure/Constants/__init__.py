@@ -783,41 +783,33 @@ class NumericalOrText(ARObject, VariationPointCapable):
 class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ImplementationDataType of category ARRAY).
+
+    [constr_1925] Existence of NumericalRuleBasedValueSpecification.ruleBasedValues: For each NumericalRuleBasedValueSpecification, attribute ruleBasedValues shall exist at the time when the contract phase generation is executed.
     """
 
     # NumericalRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.132, p.467
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the rule based value specification for the array.
+        # This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
     def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
         """
-        This represents the rule based value specification for the array.
-
-        Returns:
-            Optional[RuleBasedValueSpecification]: The rule based value specification, or None if not set
+        This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         """
         return self.ruleBasedValues
 
     def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> NumericalRuleBasedValueSpecification:
         """
-        This represents the rule based value specification for the array.
+        This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
-
-        Args:
-            value: The rule based value specification to set
-
-        Returns:
-            NumericalRuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.ruleBasedValues = value

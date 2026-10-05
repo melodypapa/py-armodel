@@ -2601,13 +2601,23 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — | — | — | — | — | No deviations — Table 5.130 attributes (`category` via `getCategory`/`setCategory`, `unit` Ref via `getUnitRef`/`setUnitRef`, `swArraysize` via `getSwArraysize`/`setSwArraysize`, `swAxisIndex` via `getSwAxisIndex`/`setSwAxisIndex`, `ruleBasedValues` via `getRuleBasedValues`/`setRuleBasedValues`) all implemented per Rule 1.4. |
 
 ## `NumericalRuleBasedValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 467
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 467  | **table:** Table 5.132
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
+| — | — | — | — | — | No deviations — the single Table 5.132 attribute `ruleBasedValues` (RuleBasedValueSpecification, `0..1`, aggr via `getRuleBasedValues`/`setRuleBasedValues`) is modeled with the spec shape. Base chain `ARObject, AbstractRuleBasedValueSpecification, ValueSpecification` → most-derived `AbstractRuleBasedValueSpecification`; VP capability inherited via ValueSpecification (group VALUE-SPECIFICATION anchors VARIATION-POINT), no own field. The stale `missing` row below is superseded — `ruleBasedValues` has been implemented with full reader/writer coverage (`RULE-BASED-VALUES` role element, `xml.roleElement=true` shape) since the earlier pass. |
+
+<details><summary>Superseded stale rows (Rule 0026 audit trail)</summary>
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
 | — *(missing)* | `—` | `ruleBasedValues` | `RuleBasedValueSpecification` | — | missing |
+
+</details>
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — 5-column, no release column, stale `# Spec verified: R23-11` removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction; the `# Spec:` citation was already the defining SWCT Table 5.132, p.467). Model Red genuine on Rule 0012 docstrings only — the Google-style "Returns:/Args:" paraphrases and a missing `Tags:` tail on `ruleBasedValues`; wiped and rewritten verbatim from the markdown Note (tail kept per 0012.2.5.3), class docstring = Note verbatim + [constr_1925] appended in compact form. Reader/writer vacuous Red (noted): `getNumericalRuleBasedValueSpecification` (readValueSpecification + RULE-BASED-VALUES via `getRuleBasedValueSpecification`) and `writeNumericalRuleBasedValueSpecification` already conformed to the XSD group; the RULE-BASED-VALUES wrapper is omitted when unset. Round-trip tests added on both sides incl. the dispatch through `getValueSpecification` and the schema-validated save→reload through the ConstantSpecification VALUE-SPEC dispatch. Referenced member type `RuleBasedValueSpecification` synced in this batch — no missing classes.
 
 ## `CompositeRuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 471
