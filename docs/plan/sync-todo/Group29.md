@@ -707,15 +707,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TtcanCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.25, p.77
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): queue hint arbitrated — TTCAN-COMMUNICATION-CONTROLLER is a CONCRETE XSD element (AUTOSAR_00052.xsd line 50382, inside the EcuInstance COMM-CONTROLLERS choice; also line 79522 MachineDesign COMMUNICATION-CONTROLLERS, not parsed/written by this codebase), so the reader/writer coverage is wired through that consumer instead of N/A (mission Step-1 arbitration; NmCoordinator precedent 559d53600). The named controller child needs Referrable identity, unreachable from ArObject.py (import cycle), so the class is implemented in CanTopology.py (nearest modeled ancestor AbstractCanCommunicationController's module, sibling of CanCommunicationController — same placement the queue hints for TtcanPhysicalChannel/TtcanCommunicationConnector) and the stub-guard row is removed. Table 3.25 Note "TTCAN bus specific communication port attributes."; Base = ARObject, AbstractCanCommunicationController, CommunicationController, Identifiable, MultilanguageReferrable, Referrable; 8 own attrs in displayed order — applWatchdogLimit (Integer 0..1), expectedTxTrigger (Integer 0..1), externalClockSynchronisation (Boolean 0..1), initialRefOffset (Integer 0..1), master (Boolean 0..1), timeMasterPriority (Integer 0..1), timeTriggeredCanLevel (Integer 0..1), txEnableWindowLength (Integer 0..1); no `*` aggr / Referrable children. XSD complexType (line 127016) wraps inherited + own content in TTCAN-COMMUNICATION-CONTROLLER-VARIANTS/TTCAN-COMMUNICATION-CONTROLLER-CONDITIONAL; TTCAN-COMMUNICATION-CONTROLLER-CONTENT (line 127068) = the 8 INTEGER/BOOLEAN elements; consumer dispatch is EcuInstance COMM-CONTROLLERS (createTtcanCommunicationController + tag/isinstance branches, currently raiseError/notImplemented on TTCAN).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): deviations — queue-hint placement arbitrated (see Step 1 finding): implemented in CanTopology.py with most-derived modeled base AbstractCanCommunicationController (Rule 0001.2; Rule 0007 nearest-modeled-ancestor placement, cf. TtcanCluster), ArObject.py stub removed and the generated stub-guard row dropped (NmCoordinator precedent 559d53600); MachineDesign COMMUNICATION-CONTROLLERS choice (XSD line 79522) not wired — MachineDesign has no reader/writer path in this codebase; no other deviations (docstrings verbatim from the markdown Note, reader/writer wired in both directions, no fabrication, no flattening).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1687+2222+8048 passed / 0 failed: models GenericStructure+SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `TtcanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.26, p.77
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py

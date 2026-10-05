@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
     CanPhysicalChannel,
+    TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
 
@@ -1270,3 +1271,106 @@ class TestCanPhysicalChannel:
 
         source = inspect.getsource(CanPhysicalChannel.__init__)
         assert "self." not in source
+
+
+TTCAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "TTCAN bus specific communication port attributes."
+
+TTCAN_COMMUNICATION_CONTROLLER_ATTRIBUTE_NOTES = {
+    "applWatchdogLimit": "The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.",
+    "expectedTxTrigger": "The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.",
+    "externalClockSynchronisation": "One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).",
+    "initialRefOffset": "The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.",
+    "master": "One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.",
+    "timeMasterPriority": "The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.",
+    "timeTriggeredCanLevel": "One bit shall be used to distinguish between Level 1 and Level 2.",
+    "txEnableWindowLength": "The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.",
+}
+
+
+class TestTtcanCommunicationController:
+    """Test cases for TtcanCommunicationController (Table 3.25, p.77)."""
+
+    MEMBERS = [
+        "applWatchdogLimit",
+        "expectedTxTrigger",
+        "externalClockSynchronisation",
+        "initialRefOffset",
+        "master",
+        "timeMasterPriority",
+        "timeTriggeredCanLevel",
+        "txEnableWindowLength",
+    ]
+
+    def _new_controller(self, name="controller"):
+        return TtcanCommunicationController(MockParent(), name)
+
+    def _member_value(self, field):
+        if field in ("externalClockSynchronisation", "master"):
+            return Boolean().setValue(True)
+        return Integer().setValue(8)
+
+    def test_inheritance(self):
+        assert issubclass(TtcanCommunicationController, AbstractCanCommunicationController)
+        assert issubclass(TtcanCommunicationController, CommunicationController)
+        assert issubclass(TtcanCommunicationController, Identifiable)
+        assert issubclass(TtcanCommunicationController, ARObject)
+
+    def test_concrete_instantiation(self):
+        controller = self._new_controller()  # Table 3.25 carries no abstract stereotype
+
+        assert isinstance(controller, AbstractCanCommunicationController)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(TtcanCommunicationController.__doc__) == TTCAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert TtcanCommunicationController.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        controller = self._new_controller()
+
+        for field in self.MEMBERS:
+            assert getattr(controller, "get" + field[0].upper() + field[1:])() is None, field
+        assert controller.getCanControllerAttributes() is None
+
+    def test_member_order(self):
+        controller = self._new_controller()
+        members = [k for k in vars(controller) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_members(self):
+        for field in self.MEMBERS:
+            controller = self._new_controller()
+            value = self._member_value(field)
+            setter = getattr(controller, "set" + field[0].upper() + field[1:])
+            getter = getattr(controller, "get" + field[0].upper() + field[1:])
+
+            assert controller == setter(value)
+            assert getter() is value
+
+            assert controller == setter(None)  # None no-op
+            assert getter() is value  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in TTCAN_COMMUNICATION_CONTROLLER_ATTRIBUTE_NOTES.items():
+            getter = getattr(TtcanCommunicationController, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCommunicationController, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        for field in self.MEMBERS:
+            member_type = Boolean if field in ("externalClockSynchronisation", "master") else Integer
+            getter = getattr(TtcanCommunicationController, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCommunicationController, "set" + field[0].upper() + field[1:])
+
+            hints = typing.get_type_hints(getter)
+            assert hints["return"] == typing.Optional[member_type], "get" + field
+            hints = typing.get_type_hints(setter)
+            assert hints["value"] == typing.Optional[member_type], "set" + field
+            hint = hints["return"]
+            if isinstance(hint, typing.ForwardRef):  # CanTopology uses `from __future__ import annotations`
+                assert hint.__forward_arg__ == "TtcanCommunicationController", "set" + field
+            else:
+                assert hint == TtcanCommunicationController, "set" + field

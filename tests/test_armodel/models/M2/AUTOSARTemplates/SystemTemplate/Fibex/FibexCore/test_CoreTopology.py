@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanCommunicationConnector,
     CanCommunicationController,
     CanPhysicalChannel,
+    TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     EthernetCommunicationConnector,
@@ -1853,6 +1854,24 @@ class Test_FibexCoreEcuInstance:
         assert hints["return"] is CanCommunicationController
         hints = typing.get_type_hints(EcuInstance.createCanCommunicationConnector, localns=localns)
         assert hints["return"] is CanCommunicationConnector
+
+    def test_EcuInstance_create_ttcan_communication_controller(self):
+        """Test createTtcanCommunicationController: create, dedup by short name, append to commControllers."""
+        parent = MockParent()
+        ecu = EcuInstance(parent, "test_ecu_ttcan")
+
+        controller = ecu.createTtcanCommunicationController("ttcan_controller")
+        assert isinstance(controller, TtcanCommunicationController)
+        assert controller.getShortName() == "ttcan_controller"
+        assert controller in ecu.getCommControllers()
+
+        again = ecu.createTtcanCommunicationController("ttcan_controller")
+        assert again is controller
+        assert len(ecu.getCommControllers()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(EcuInstance.createTtcanCommunicationController, localns={"TtcanCommunicationController": TtcanCommunicationController})
+        assert hints["return"] is TtcanCommunicationController
 
 
 class Test_ClientIdRange:

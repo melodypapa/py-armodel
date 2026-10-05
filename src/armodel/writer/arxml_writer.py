@@ -922,6 +922,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
     SocketConnectionBundle,
@@ -12000,6 +12001,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         cond_tag = ET.SubElement(variants_tag, "CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
         self.writeAbstractCanCommunicationController(cond_tag, controller)
 
+    def writeTtcanCommunicationController(self, element: ET.Element, controller: TtcanCommunicationController):
+        child_element = ET.SubElement(element, "TTCAN-COMMUNICATION-CONTROLLER")
+        self.logger.debug("Write TtcanCommunicationController %s" % controller.getShortName())
+        self.writeIdentifiable(child_element, controller)
+        variants_tag = ET.SubElement(child_element, "TTCAN-COMMUNICATION-CONTROLLER-VARIANTS")
+        cond_tag = ET.SubElement(variants_tag, "TTCAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        self.writeAbstractCanCommunicationController(cond_tag, controller)
+        self.setChildElementOptionalIntegerValue(cond_tag, "APPL-WATCHDOG-LIMIT", cast(Integer, controller.getApplWatchdogLimit()))
+        self.setChildElementOptionalIntegerValue(cond_tag, "EXPECTED-TX-TRIGGER", cast(Integer, controller.getExpectedTxTrigger()))
+        self.setChildElementOptionalBooleanValue(cond_tag, "EXTERNAL-CLOCK-SYNCHRONISATION", controller.getExternalClockSynchronisation())
+        self.setChildElementOptionalIntegerValue(cond_tag, "INITIAL-REF-OFFSET", cast(Integer, controller.getInitialRefOffset()))
+        self.setChildElementOptionalBooleanValue(cond_tag, "MASTER", controller.getMaster())
+        self.setChildElementOptionalIntegerValue(cond_tag, "TIME-MASTER-PRIORITY", cast(Integer, controller.getTimeMasterPriority()))
+        self.setChildElementOptionalIntegerValue(cond_tag, "TIME-TRIGGERED-CAN-LEVEL", cast(Integer, controller.getTimeTriggeredCanLevel()))
+        self.setChildElementOptionalIntegerValue(cond_tag, "TX-ENABLE-WINDOW-LENGTH", cast(Integer, controller.getTxEnableWindowLength()))
+
     def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.writeIdentifiable(element, item)
 
@@ -12370,6 +12387,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeLinMaster(child_element, controller)
                 elif isinstance(controller, FlexrayCommunicationController):
                     self.writeFlexrayCommunicationController(child_element, controller)
+                elif isinstance(controller, TtcanCommunicationController):
+                    self.writeTtcanCommunicationController(child_element, controller)
                 else:
                     self.notImplemented("Unsupported Communication Controller <%s>" % type(controller))
 

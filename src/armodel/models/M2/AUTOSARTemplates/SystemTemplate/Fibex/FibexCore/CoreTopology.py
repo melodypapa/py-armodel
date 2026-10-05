@@ -10,6 +10,7 @@ if TYPE_CHECKING:
         CanCommunicationConnector,
         CanCommunicationController,
         CanPhysicalChannel,
+        TtcanCommunicationController,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
         EthernetCommunicationConnector,
@@ -975,6 +976,7 @@ class EcuInstance(FibexElement):
     # [x] createEthernetCommunicationController                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationController                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTtcanCommunicationController                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1295,6 +1297,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
         return cast(LinMaster, self.getReferrableElement(short_name, LinMaster))
+
+    def createTtcanCommunicationController(self, short_name: str) -> TtcanCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanCommunicationController
+
+        if not self.IsReferrableElementExists(short_name, TtcanCommunicationController):
+            controller = TtcanCommunicationController(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(TtcanCommunicationController, self.getReferrableElement(short_name, TtcanCommunicationController))
 
     def getCommControllers(self) -> List[CommunicationController]:
         """

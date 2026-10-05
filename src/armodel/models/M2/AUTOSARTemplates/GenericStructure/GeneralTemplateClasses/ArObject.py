@@ -2572,10 +2572,6 @@ class TriggerToSignalMapping(ARObject):
     pass
 
 
-class TtcanCommunicationController(ARObject):
-    pass
-
-
 class UserDefinedCommunicationConnector(ARObject):
     pass
 

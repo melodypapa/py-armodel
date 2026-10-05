@@ -1010,6 +1010,178 @@ class CanCommunicationController(AbstractCanCommunicationController):
         super().__init__(parent, short_name)
 
 
+class TtcanCommunicationController(AbstractCanCommunicationController):
+    """TTCAN bus specific communication port attributes."""
+
+    # TtcanCommunicationController method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.25, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplWatchdogLimit            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplWatchdogLimit            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExpectedTxTrigger            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExpectedTxTrigger            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExternalClockSynchronisation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExternalClockSynchronisation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRefOffset             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRefOffset             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaster                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaster                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeMasterPriority           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeMasterPriority           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeTriggeredCanLevel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeTriggeredCanLevel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxEnableWindowLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxEnableWindowLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        self.applWatchdogLimit: Optional[Integer] = None
+
+        # The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        self.expectedTxTrigger: Optional[Integer] = None
+
+        # One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        self.externalClockSynchronisation: Optional[Boolean] = None
+
+        # The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        self.initialRefOffset: Optional[Integer] = None
+
+        # One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        self.master: Optional[Boolean] = None
+
+        # The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        self.timeMasterPriority: Optional[Integer] = None
+
+        # One bit shall be used to distinguish between Level 1 and Level 2.
+        self.timeTriggeredCanLevel: Optional[Integer] = None
+
+        # The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        self.txEnableWindowLength: Optional[Integer] = None
+
+    def getApplWatchdogLimit(self) -> Optional[Integer]:
+        """
+        The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        """
+        return self.applWatchdogLimit
+
+    def setApplWatchdogLimit(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        A None value is a no-op and does not overwrite an existing applWatchdogLimit.
+        """
+        if value is not None:
+            self.applWatchdogLimit = value
+        return self
+
+    def getExpectedTxTrigger(self) -> Optional[Integer]:
+        """
+        The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        """
+        return self.expectedTxTrigger
+
+    def setExpectedTxTrigger(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        A None value is a no-op and does not overwrite an existing expectedTxTrigger.
+        """
+        if value is not None:
+            self.expectedTxTrigger = value
+        return self
+
+    def getExternalClockSynchronisation(self) -> Optional[Boolean]:
+        """
+        One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        """
+        return self.externalClockSynchronisation
+
+    def setExternalClockSynchronisation(self, value: Optional[Boolean]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        A None value is a no-op and does not overwrite an existing externalClockSynchronisation.
+        """
+        if value is not None:
+            self.externalClockSynchronisation = value
+        return self
+
+    def getInitialRefOffset(self) -> Optional[Integer]:
+        """
+        The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        """
+        return self.initialRefOffset
+
+    def setInitialRefOffset(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        A None value is a no-op and does not overwrite an existing initialRefOffset.
+        """
+        if value is not None:
+            self.initialRefOffset = value
+        return self
+
+    def getMaster(self) -> Optional[Boolean]:
+        """
+        One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        """
+        return self.master
+
+    def setMaster(self, value: Optional[Boolean]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        A None value is a no-op and does not overwrite an existing master.
+        """
+        if value is not None:
+            self.master = value
+        return self
+
+    def getTimeMasterPriority(self) -> Optional[Integer]:
+        """
+        The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        """
+        return self.timeMasterPriority
+
+    def setTimeMasterPriority(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        A None value is a no-op and does not overwrite an existing timeMasterPriority.
+        """
+        if value is not None:
+            self.timeMasterPriority = value
+        return self
+
+    def getTimeTriggeredCanLevel(self) -> Optional[Integer]:
+        """
+        One bit shall be used to distinguish between Level 1 and Level 2.
+        """
+        return self.timeTriggeredCanLevel
+
+    def setTimeTriggeredCanLevel(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to distinguish between Level 1 and Level 2.
+        A None value is a no-op and does not overwrite an existing timeTriggeredCanLevel.
+        """
+        if value is not None:
+            self.timeTriggeredCanLevel = value
+        return self
+
+    def getTxEnableWindowLength(self) -> Optional[Integer]:
+        """
+        The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        """
+        return self.txEnableWindowLength
+
+    def setTxEnableWindowLength(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        A None value is a no-op and does not overwrite an existing txEnableWindowLength.
+        """
+        if value is not None:
+            self.txEnableWindowLength = value
+        return self
+
+
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     """
     Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes.
