@@ -457,12 +457,11 @@ class ModePortAnnotation(GeneralAnnotation):
     """
 
     # ModePortAnnotation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.51, p.159
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.51, p.159 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setModeGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

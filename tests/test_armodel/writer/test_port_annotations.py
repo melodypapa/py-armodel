@@ -5,7 +5,10 @@ import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import ParameterPortAnnotation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    ModePortAnnotation,
+    ParameterPortAnnotation,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -62,3 +65,26 @@ class TestParameterPortAnnotationRoundTrip:
         port_2 = _round_trip(AUTOSAR.getInstance())
 
         assert port_2.getParameterPortAnnotations() == []
+
+
+class TestModePortAnnotationRoundTrip:
+    def test_round_trip(self):
+        _, port = _new_document_with_port()
+
+        mode = ModePortAnnotation()
+        mode.setModeGroupRef(_ref("/Swc/ModeGroup", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        port.addModePortAnnotation(mode)
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        mode_list = port_2.getModePortAnnotations()
+        assert len(mode_list) == 1
+        assert mode_list[0].getModeGroupRef().getValue() == "/Swc/ModeGroup"
+        assert mode_list[0].getModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+
+    def test_empty_wrapper_list(self):
+        _, port = _new_document_with_port()
+
+        port_2 = _round_trip(AUTOSAR.getInstance())
+
+        assert port_2.getModePortAnnotations() == []

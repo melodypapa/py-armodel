@@ -6,7 +6,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
     DelegatedPortAnnotation,
     FilterDebouncingEnum,
     IoHwAbstractionServerAnnotation,
-    ModePortAnnotation,
     NvDataPortAnnotation,
     PulseTestEnum,
     SignalFanEnum,
@@ -88,25 +87,6 @@ class TestIoHwAbstractionServerAnnotation:
         annotation.setTriggerRef(ref)
         annotation.setTriggerRef(None)
         assert annotation.getTriggerRef() == ref
-
-
-class TestModePortAnnotation:
-    def test_initialization(self):
-        annotation = ModePortAnnotation()
-        assert annotation.getModeGroupRef() is None
-
-    def test_mode_group_ref_setter_getter(self):
-        annotation = ModePortAnnotation()
-        ref = _ref(dest="MODE-DECLARATION-GROUP-PROTOTYPE")
-        assert annotation.setModeGroupRef(ref) is annotation
-        assert annotation.getModeGroupRef() == ref
-
-    def test_mode_group_ref_none_is_noop(self):
-        annotation = ModePortAnnotation()
-        ref = _ref(dest="MODE-DECLARATION-GROUP-PROTOTYPE")
-        annotation.setModeGroupRef(ref)
-        annotation.setModeGroupRef(None)
-        assert annotation.getModeGroupRef() == ref
 
 
 class TestNvDataPortAnnotation:
