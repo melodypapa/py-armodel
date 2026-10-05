@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARD
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuGenericMath
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwBitRepresentation,
@@ -63,7 +64,7 @@ CONDITIONAL_XML = """
         <COMPU-METHOD-REF DEST="COMPU-METHOD">/CompuMethods/cm</COMPU-METHOD-REF>
         <DATA-CONSTR-REF DEST="DATA-CONSTR">/DataConstrs/dc</DATA-CONSTR-REF>
         <SW-DATA-DEPENDENCY>
-            <SW-DATA-DEPENDENCY-FORMULA>input1 + input2</SW-DATA-DEPENDENCY-FORMULA>
+            <SW-DATA-DEPENDENCY-FORMULA LEVEL="ASAMHDO">input1 + input2</SW-DATA-DEPENDENCY-FORMULA>
             <SW-DATA-DEPENDENCY-ARGS>
                 <MC-DATA-INSTANCE-VAR-REF DEST="MC-DATA-INSTANCE">/McDataInstances/input1</MC-DATA-INSTANCE-VAR-REF>
             </SW-DATA-DEPENDENCY-ARGS>
@@ -345,7 +346,10 @@ class TestSwDataDefPropsParser:
         props = _load_props()
         dependency = props.getSwDataDependency()
         assert dependency is not None
-        assert dependency.getSwDataDependencyFormula() is not None
+        formula = dependency.getSwDataDependencyFormula()
+        assert isinstance(formula, CompuGenericMath)
+        assert formula.getMixedString() == "input1 + input2"
+        assert formula.getLevel().getValue() == "ASAMHDO"
         args = dependency.getSwDataDependencyArgs()
         assert args is not None
         assert args.getSwVariable().getMcDataInstanceVarRef().getValue() == "/McDataInstances/input1"
@@ -388,6 +392,7 @@ class TestSwDataDependencyArgsParser:
         props = _load_props_xml(SW_DATA_DEPENDENCY_FULL_ARGS_XML)
         dependency = props.getSwDataDependency()
         assert dependency is not None
+        assert dependency.getSwDataDependencyFormula() is None
         args = dependency.getSwDataDependencyArgs()
         assert args is not None
 

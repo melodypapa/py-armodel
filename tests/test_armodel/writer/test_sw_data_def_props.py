@@ -31,10 +31,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     NativeDeclarationString,
     Numerical,
+    PrimitiveIdentifier,
     RefType,
     String,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuGenericMath
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     DisplayPresentationEnum,
@@ -137,6 +139,10 @@ def _build_props():
     arg_variable.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/input1"))
     args.setSwVariable(arg_variable)
     dependency.setSwDataDependencyArgs(args)
+    formula = CompuGenericMath()
+    formula.setMixedString("input1 + input2")
+    formula.setLevel(PrimitiveIdentifier().setValue("ASAMHDO"))
+    dependency.setSwDataDependencyFormula(formula)
     props.setSwDataDependency(dependency)
     props.setSwHostVariable(SwVariableRefProxy().setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/McDataInstances/host")))
     props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
@@ -271,6 +277,8 @@ class TestWriteSwDataDefProps:
         dependency = props.getSwDataDependency()
         assert dependency is not None
         assert dependency.getSwDataDependencyArgs().getSwVariable().getMcDataInstanceVarRef().getValue() == "/McDataInstances/input1"
+        assert dependency.getSwDataDependencyFormula().getMixedString() == "input1 + input2"
+        assert dependency.getSwDataDependencyFormula().getLevel().getValue() == "ASAMHDO"
 
         assert props.getSwHostVariable().getMcDataInstanceVarRef().getValue() == "/McDataInstances/host"
 
@@ -438,3 +446,57 @@ class TestWriteSwDataDependencyArgs:
         data_type.setSwDataDefProps(props)
         raw = _save_and_reload()
         assert self._args_element(raw) is None
+
+
+class TestWriteSwDataDependency:
+    """Writer coverage for SW-DATA-DEPENDENCY (SWCT Table 5.58, p.374, R23-11).
+
+    XSD child order inside SW-DATA-DEPENDENCY follows the sequenceOffsets —
+    SW-DATA-DEPENDENCY-FORMULA (30) before SW-DATA-DEPENDENCY-ARGS (40) —
+    independent of the class member order (markdown display: args row first).
+    """
+
+    def _dependency_element(self, raw):
+        root = ET.fromstring(raw)
+        for element in root.iter():
+            if element.tag.split("}")[-1] == "SW-DATA-DEPENDENCY":
+                return element
+        return None
+
+    def test_write_sw_data_dependency_child_order_follows_xsd(self):
+        package = AUTOSAR.getInstance().createARPackage("DataDependency")
+        data_type = package.createImplementationDataType("DependencyDt")
+        props = SwDataDefProps()
+        dependency = SwDataDependency()
+        dependency.setSwDataDependencyArgs(SwDataDependencyArgs())
+        formula = CompuGenericMath()
+        formula.setMixedString("input1 + input2")
+        formula.setLevel(PrimitiveIdentifier().setValue("ASAMHDO"))
+        dependency.setSwDataDependencyFormula(formula)
+        props.setSwDataDependency(dependency)
+        data_type.setSwDataDefProps(props)
+        raw = _save_and_reload()
+        dependency_element = self._dependency_element(raw)
+        assert dependency_element is not None
+        tags = [child.tag.split("}")[-1] for child in dependency_element]
+        assert tags == ["SW-DATA-DEPENDENCY-FORMULA", "SW-DATA-DEPENDENCY-ARGS"]
+
+    def test_write_sw_data_dependency_formula_only_roundtrip(self):
+        package = AUTOSAR.getInstance().createARPackage("FormulaOnly")
+        data_type = package.createImplementationDataType("FormulaDt")
+        props = SwDataDefProps()
+        dependency = SwDataDependency()
+        formula = CompuGenericMath()
+        formula.setMixedString("B = sqrt(1 - A*A)")
+        formula.setLevel(PrimitiveIdentifier().setValue("INFORMAL"))
+        dependency.setSwDataDependencyFormula(formula)
+        props.setSwDataDependency(dependency)
+        data_type.setSwDataDefProps(props)
+        _save_and_reload()
+        reloaded = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0].getSwDataDefProps().getSwDataDependency()
+        assert reloaded is not None
+        assert reloaded.getSwDataDependencyArgs() is None
+        formula = reloaded.getSwDataDependencyFormula()
+        assert isinstance(formula, CompuGenericMath)
+        assert formula.getMixedString() == "B = sqrt(1 - A*A)"
+        assert formula.getLevel().getValue() == "INFORMAL"

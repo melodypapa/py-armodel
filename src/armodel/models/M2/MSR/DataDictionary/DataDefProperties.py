@@ -210,49 +210,48 @@ class SwDataDependency(ARObject):
 
     # SwDataDependency method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.58, p.374
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwDataDependencyFormula     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDependencyFormula     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwDataDependencyArgs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDependencyArgs        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwDataDependencyArgs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDependencyArgs     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDependencyFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDependencyFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This element describes the formula with which the dependencies between the participating objects are defined.
-        self.swDataDependencyFormula: Optional[CompuGenericMath] = None
-
-        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed).
+        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40
         self.swDataDependencyArgs: Optional[SwDataDependencyArgs] = None
 
-    def getSwDataDependencyFormula(self) -> Optional[CompuGenericMath]:
-        """
-        This element describes the formula with which the dependencies between the participating objects are defined.
-        """
-        return self.swDataDependencyFormula
-
-    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> SwDataDependency:
-        """
-        This element describes the formula with which the dependencies between the participating objects are defined. A None value is a no-op and does not overwrite an existing swDataDependencyFormula.
-        """
-        if value is not None:
-            self.swDataDependencyFormula = value
-        return self
+        # This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30
+        self.swDataDependencyFormula: Optional[CompuGenericMath] = None
 
     def getSwDataDependencyArgs(self) -> Optional[SwDataDependencyArgs]:
         """
-        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed).
+        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40
         """
         return self.swDataDependencyArgs
 
     def setSwDataDependencyArgs(self, value: Optional[SwDataDependencyArgs]) -> SwDataDependency:
         """
-        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). A None value is a no-op and does not overwrite an existing swDataDependencyArgs.
+        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing swDataDependencyArgs.
         """
         if value is not None:
             self.swDataDependencyArgs = value
+        return self
+
+    def getSwDataDependencyFormula(self) -> Optional[CompuGenericMath]:
+        """
+        This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30
+        """
+        return self.swDataDependencyFormula
+
+    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> SwDataDependency:
+        """
+        This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing swDataDependencyFormula.
+        """
+        if value is not None:
+            self.swDataDependencyFormula = value
         return self
 
 

@@ -393,28 +393,130 @@ class TestSwDataDependencyArgs:
 
 
 class TestSwDataDependency:
-    """Test class for SwDataDependency class."""
+    """Test class for SwDataDependency class (SWCT Table 5.58, p.374, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.58 (R23-11) — swDataDependencyArgs (offset 40) is displayed
+    # BEFORE swDataDependencyFormula (offset 30); the XSD element order is
+    # independent and stays FORMULA-then-ARGS in the reader/writer.
+    SPEC_MEMBER_ORDER = [
+        "swDataDependencyArgs",
+        "swDataDependencyFormula",
+    ]
+
+    CLASS_NOTE = (
+        "This element describes the interdependencies of data objects, e.g. variables and parameters. "
+        "Use cases: • Calculate the value of a calibration parameter (by the MCD system) from the value(s) "
+        "of other calibration parameters. • Virtual data - that means the data object is not directly in the "
+        'ecu and this property describes how the "virtual variable" can be computed from the real ones '
+        "(by the MCD system)."
+    )
+    SW_DATA_DEPENDENCY_ARGS_NOTE = "Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40"
+    SW_DATA_DEPENDENCY_FORMULA_NOTE = "This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30"
+    SW_DATA_DEPENDENCY_ARGS_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swDataDependencyArgs."
+    SW_DATA_DEPENDENCY_FORMULA_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swDataDependencyFormula."
+
+    def _class_source(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        return open(src, encoding="utf-8").read()
+
+    def _init_field_order(self):
+        tree = ast.parse(self._class_source())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependency")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def _method_source_order(self):
+        tree = ast.parse(self._class_source())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependency")
+        return [n.name for n in cls.body if isinstance(n, ast.FunctionDef)]
+
+    def test_sw_data_dependency_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.58 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_dependency_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first (Rule 0001.11)."""
+        assert self._method_source_order() == [
+            "__init__",
+            "getSwDataDependencyArgs",
+            "setSwDataDependencyArgs",
+            "getSwDataDependencyFormula",
+            "setSwDataDependencyFormula",
+        ]
+
+    def test_sw_data_dependency_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwDataDependencyArgs", "setSwDataDependencyArgs", "getSwDataDependencyFormula", "setSwDataDependencyFormula"):
+            hints = typing.get_type_hints(getattr(SwDataDependency, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_data_dependency_has_spec_note(self):
+        assert cleandoc(SwDataDependency.__doc__) == self.CLASS_NOTE
+
+    def test_sw_data_dependency_init_has_no_docstring(self):
+        assert SwDataDependency.__init__.__doc__ is None
+
+    def test_sw_data_dependency_members_are_pep526_annotated(self):
+        source = getsource(SwDataDependency.__init__)
+        assert "self.swDataDependencyArgs: Optional[SwDataDependencyArgs] = None" in source
+        assert "self.swDataDependencyFormula: Optional[CompuGenericMath] = None" in source
+        assert "# type:" not in source
+
+    def test_sw_data_dependency_inline_comments_match_spec_notes(self):
+        source = getsource(SwDataDependency.__init__)
+        assert "# " + self.SW_DATA_DEPENDENCY_ARGS_NOTE in source
+        assert "# " + self.SW_DATA_DEPENDENCY_FORMULA_NOTE in source
+
+    def test_sw_data_dependency_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependency.getSwDataDependencyArgs.__doc__) == self.SW_DATA_DEPENDENCY_ARGS_NOTE
+        assert cleandoc(SwDataDependency.getSwDataDependencyFormula.__doc__) == self.SW_DATA_DEPENDENCY_FORMULA_NOTE
+
+    def test_sw_data_dependency_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependency.setSwDataDependencyArgs.__doc__) == self.SW_DATA_DEPENDENCY_ARGS_NOTE + self.SW_DATA_DEPENDENCY_ARGS_NONE_NOOP
+        assert cleandoc(SwDataDependency.setSwDataDependencyFormula.__doc__) == self.SW_DATA_DEPENDENCY_FORMULA_NOTE + self.SW_DATA_DEPENDENCY_FORMULA_NONE_NOOP
 
     def test_sw_data_dependency_initialization(self):
         dependency = SwDataDependency()
-        assert dependency.getSwDataDependencyFormula() is None
         assert dependency.getSwDataDependencyArgs() is None
+        assert dependency.getSwDataDependencyFormula() is None
 
     def test_sw_data_dependency_methods(self):
         dependency = SwDataDependency()
-        formula = CompuGenericMath()
         args = SwDataDependencyArgs()
+        formula = CompuGenericMath()
 
-        assert dependency.setSwDataDependencyFormula(formula) == dependency
-        assert dependency.getSwDataDependencyFormula() == formula
         assert dependency.setSwDataDependencyArgs(args) == dependency
         assert dependency.getSwDataDependencyArgs() == args
+        assert dependency.setSwDataDependencyFormula(formula) == dependency
+        assert dependency.getSwDataDependencyFormula() == formula
 
     def test_sw_data_dependency_none_noop(self):
         dependency = SwDataDependency()
+        args = SwDataDependencyArgs()
         formula = CompuGenericMath()
+        dependency.setSwDataDependencyArgs(args)
         dependency.setSwDataDependencyFormula(formula)
+
+        dependency.setSwDataDependencyArgs(None)
         dependency.setSwDataDependencyFormula(None)
+        assert dependency.getSwDataDependencyArgs() == args
         assert dependency.getSwDataDependencyFormula() == formula
 
 
