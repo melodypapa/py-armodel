@@ -15650,6 +15650,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             # self.logger.debug("Get TransmissionModeTiming of <%s>" % key)
             timing = TransmissionModeTiming()
+            self.readARObject(child_element, timing)
             timing.setCyclicTiming(self.getCyclicTiming(child_element, "CYCLIC-TIMING"))
             timing.setEventControlledTiming(self.getEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING"))
         return timing

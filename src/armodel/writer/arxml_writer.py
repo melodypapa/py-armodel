@@ -16638,6 +16638,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if timing is not None:
             self.logger.debug("Set TransmissionModeTiming of <%s>" % key)
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, timing)
             self.setCyclicTiming(child_element, "CYCLIC-TIMING", timing.getCyclicTiming())
             self.setEventControlledTiming(child_element, "EVENT-CONTROLLED-TIMING", timing.getEventControlledTiming())
 

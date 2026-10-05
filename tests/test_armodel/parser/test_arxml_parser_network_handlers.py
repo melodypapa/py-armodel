@@ -1880,12 +1880,22 @@ class TestISignalAndGroupHandlers:
 
     def test_getTransmissionModeTiming_sets_cyclicTiming(self, parser):
         element = _snip(
-            "<TRANSMISSION-MODE-TIMING>" "<CYCLIC-TIMING>" "<TIME-PERIOD>" "<VALUE>" "<VALUE>0.1</VALUE>" "</VALUE>" "</TIME-PERIOD>" "</CYCLIC-TIMING>" "</TRANSMISSION-MODE-TIMING>",
+            '<TRANSMISSION-MODE-TIMING S="1234" T="2024-01-01T00:00:00Z">'
+            "<CYCLIC-TIMING>"
+            "<TIME-PERIOD>"
+            "<VALUE>"
+            "<VALUE>0.1</VALUE>"
+            "</VALUE>"
+            "</TIME-PERIOD>"
+            "</CYCLIC-TIMING>"
+            "</TRANSMISSION-MODE-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getTransmissionModeTiming(element, "TRANSMISSION-MODE-TIMING")
         assert timing is not None
         assert timing.getCyclicTiming() is not None
+        assert timing.getChecksum().getValue() == "1234"
+        assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_getCyclicTiming_sets_timePeriod(self, parser):
         element = _snip(
