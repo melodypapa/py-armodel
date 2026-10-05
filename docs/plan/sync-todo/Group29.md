@@ -910,15 +910,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `LinPhysicalChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.46, p.100
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-05): Rule 0023 full re-run of a legacy 4-column class (all `[ ]`, no stamp — never at the current bar). Queue base `ARObject` arbitrated to `PhysicalChannel` — Table 3.46 Base row lists "ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable" (most-derived modeled = PhysicalChannel; XSD complexType LIN-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 77574, chains AR:PHYSICAL-CHANNEL immediately before AR:LIN-PHYSICAL-CHANNEL — Rule 0015; existing code + sibling CanPhysicalChannel/TtcanPhysicalChannel already conform). Class Note "LIN specific attributes to the physicalChannel"; Aggregated by CommunicationCluster.physicalChannel. Two own attrs in displayed order — busIdleTimeoutPeriod (TimeValue 0..1, "This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel."), scheduleTable (LinScheduleTable * aggr, Note with Stereotypes/Tags tail; LinScheduleTable is Referrable-derived via Identifiable and already stamped Table 6.93 p.432 → createLinScheduleTable factory shape stands). XSD group LIN-PHYSICAL-CHANNEL (line 77544) = BUS-IDLE-TIMEOUT-PERIOD, SCHEDULE-TABLES wrapper (choice of LIN-SCHEDULE-TABLE). Reader/writer GAP found: readLinPhysicalChannel/writeLinPhysicalChannel never touch BUS-IDLE-TIMEOUT-PERIOD — to fix in Step 6 (XSD order: BUS-IDLE-TIMEOUT-PERIOD before SCHEDULE-TABLES).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-05): no remaining deviations — the queue-hint base `ARObject` was arbitrated to `PhysicalChannel` at Step 1 (Table 3.46 Base column + XSD complexType chain, Rule 0015; the existing code already conformed). Fixed this class's reader/writer gap found at Step 1 (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): readLinPhysicalChannel/writeLinPhysicalChannel never touched BUS-IDLE-TIMEOUT-PERIOD — both now read/write it via the TimeValue helpers in XSD sequenceOffset order (BUS-IDLE-TIMEOUT-PERIOD before the SCHEDULE-TABLES wrapper, LIN-PHYSICAL-CHANNEL group AUTOSAR_00052.xsd line 77544); base helpers read/writePhysicalChannel called exactly once each (audit BASE clean both directions). Markdown quirk kept verbatim per Rule 0015/0001.4: the scheduleTable Note's Tags tail reads "schedule Table.variationPoint.shortLabel" (capital T mid-word). Referenced member type LinScheduleTable exists and is already stamped (Table 6.93, p.432, Fibex4Lin/LinCommunication.py) — no missing classes; no fabrication, no flattening.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2409+8188+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `EthernetCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.47, p.103
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

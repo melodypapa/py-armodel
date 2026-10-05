@@ -10020,6 +10020,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
         self.readPhysicalChannel(element, channel)
+        channel.setBusIdleTimeoutPeriod(self.getChildElementOptionalTimeValue(element, "BUS-IDLE-TIMEOUT-PERIOD"))
         self.readLinPhysicalChannelScheduleTables(element, channel)
 
     def getIpv4Configuration(self, element: ET.Element) -> Ipv4Configuration:

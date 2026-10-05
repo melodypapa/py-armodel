@@ -528,39 +528,45 @@ class LinCluster(CommunicationCluster):
 
 
 class LinPhysicalChannel(PhysicalChannel):
-    """
-    Represents a LIN physical channel in the communication system,
-    defining LIN-specific properties including bus idle timeout
-    and schedule tables for LIN network communication.
-    """
+    """LIN specific attributes to the physicalChannel"""
 
     # LinPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
-    # [ ] setBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
-    # [ ] getScheduleTables            [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinScheduleTable       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.46, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBusIdleTimeoutPeriod [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBusIdleTimeoutPeriod [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScheduleTables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLinScheduleTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel.
         self.busIdleTimeoutPeriod: Optional[TimeValue] = None
+
+        # Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.scheduleTables: List[LinScheduleTable] = []
 
-    def getBusIdleTimeoutPeriod(self):
+    def getBusIdleTimeoutPeriod(self) -> Optional[TimeValue]:
+        """This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel."""
         return self.busIdleTimeoutPeriod
 
-    def setBusIdleTimeoutPeriod(self, value):
+    def setBusIdleTimeoutPeriod(self, value: Optional[TimeValue]) -> LinPhysicalChannel:
+        """
+        This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel.
+        A None value is a no-op and does not overwrite an existing busIdleTimeoutPeriod.
+        """
         if value is not None:
             self.busIdleTimeoutPeriod = value
         return self
 
-    def getScheduleTables(self):
+    def getScheduleTables(self) -> List[LinScheduleTable]:
+        """Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.scheduleTables
 
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinScheduleTable
-
+        """Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, LinScheduleTable):
             end_point = LinScheduleTable(self, short_name)
             self.addReferrableElement(end_point)

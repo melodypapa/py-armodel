@@ -17,7 +17,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse, LinScheduleTable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCluster,
     LinCommunicationConnector,
@@ -25,11 +25,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinPhysicalChannel,
     LinSlave,
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, FibexElement
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, FibexElement, PhysicalChannel
 
 
 class MockParent(ARObject):
@@ -82,6 +83,9 @@ LIN_ORDERED_CONFIGURABLE_FRAME_INDEX_NOTE = "This attribute is used to order the
 TIME_BASE_NOTE = 'Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.'
 TIME_BASE_JITTER_NOTE = 'The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.'
 PROTOCOL_VERSION_NOTE = "Version specifier for a communication protocol."
+LIN_PHYSICAL_CHANNEL_CLASS_NOTE = "LIN specific attributes to the physicalChannel"
+BUS_IDLE_TIMEOUT_PERIOD_NOTE = "This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel."
+SCHEDULE_TABLE_NOTE = "Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild"
 
 
 class _ConcreteController(LinCommunicationController):
@@ -1261,3 +1265,114 @@ class TestLinCluster:
 
     def test_init_has_no_docstring(self):
         assert LinCluster.__init__.__doc__ is None
+
+
+class TestLinPhysicalChannel:
+    """
+    LIN specific attributes to the physicalChannel
+    """
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.46: ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(LinPhysicalChannel, PhysicalChannel)
+        assert issubclass(LinPhysicalChannel, ARObject)
+
+    def test_concrete_instantiation(self):
+        channel = LinPhysicalChannel(MockParent(), "lin_ch")  # Table 3.46 carries no abstract stereotype
+
+        assert isinstance(channel, PhysicalChannel)
+
+    def test_class_docstring_is_spec_note(self):
+        """Class docstring carries the spec Note verbatim (Table 3.46, p.100)."""
+        assert inspect.cleandoc(LinPhysicalChannel.__doc__).strip() == LIN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert LinPhysicalChannel.__init__.__doc__ is None
+
+    def test_initialization(self):
+        parent = MockParent()
+        channel = LinPhysicalChannel(parent, "TestChannel")
+
+        assert channel.getShortName() == "TestChannel"
+        assert channel.getParent() is parent
+        assert isinstance(channel, PhysicalChannel)
+        assert isinstance(channel, ARObject)
+
+        assert channel.getBusIdleTimeoutPeriod() is None
+        assert channel.getScheduleTables() == []
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.46: busIdleTimeoutPeriod, scheduleTable)"""
+        source = inspect.getsource(LinPhysicalChannel.__init__)
+        assert source.index("self.busIdleTimeoutPeriod") < source.index("self.scheduleTables")
+
+    def test_get_set_bus_idle_timeout_period(self):
+        parent = MockParent()
+        channel = LinPhysicalChannel(parent, "TestChannel")
+
+        assert channel == channel.setBusIdleTimeoutPeriod(0.5)
+        assert channel.getBusIdleTimeoutPeriod() == 0.5
+
+        assert channel == channel.setBusIdleTimeoutPeriod(None)
+        assert channel.getBusIdleTimeoutPeriod() == 0.5
+
+    def test_create_lin_schedule_table(self):
+        parent = MockParent()
+        channel = LinPhysicalChannel(parent, "TestChannel")
+
+        table = channel.createLinScheduleTable("table1")
+        assert isinstance(table, LinScheduleTable)
+        assert table.getShortName() == "table1"
+        assert table.getParent() is channel
+        assert channel.getScheduleTables() == [table]
+
+        duplicate = channel.createLinScheduleTable("table1")
+        assert duplicate is table
+        assert channel.getScheduleTables() == [table]
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter/creator docstrings carry the spec Note verbatim (Table 3.46)"""
+        self._assert_docstring(LinPhysicalChannel.getBusIdleTimeoutPeriod, BUS_IDLE_TIMEOUT_PERIOD_NOTE)
+        self._assert_docstring(LinPhysicalChannel.setBusIdleTimeoutPeriod, BUS_IDLE_TIMEOUT_PERIOD_NOTE, "busIdleTimeoutPeriod")
+
+        self._assert_docstring(LinPhysicalChannel.getScheduleTables, SCHEDULE_TABLE_NOTE)
+        self._assert_docstring(LinPhysicalChannel.createLinScheduleTable, SCHEDULE_TABLE_NOTE)
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        getter_hints = get_type_hints(LinPhysicalChannel.getBusIdleTimeoutPeriod)
+        assert getter_hints["return"] == Optional[TimeValue]
+
+        setter_hints = get_type_hints(LinPhysicalChannel.setBusIdleTimeoutPeriod)
+        assert setter_hints["value"] == Optional[TimeValue]
+        assert setter_hints["return"] == LinPhysicalChannel
+
+        getter_hints = get_type_hints(LinPhysicalChannel.getScheduleTables)
+        assert getter_hints["return"] == List[LinScheduleTable]
+
+        create_hints = get_type_hints(LinPhysicalChannel.createLinScheduleTable)
+        assert create_hints["short_name"] is str
+        assert create_hints["return"] == LinScheduleTable
+
+        src = inspect.getsource(sys.modules[LinPhysicalChannel.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinPhysicalChannel")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["busIdleTimeoutPeriod"] == "Optional[TimeValue]"
+        assert annotations["scheduleTables"] == "List[LinScheduleTable]"

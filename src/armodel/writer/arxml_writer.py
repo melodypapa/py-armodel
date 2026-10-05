@@ -10317,6 +10317,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set LinPhysicalChannel %s" % channel.getShortName())
         child_element = ET.SubElement(element, "LIN-PHYSICAL-CHANNEL")
         self.writePhysicalChannel(child_element, channel)
+        self.setChildElementOptionalTimeValue(child_element, "BUS-IDLE-TIMEOUT-PERIOD", channel.getBusIdleTimeoutPeriod())
         self.writeLinPhysicalChannelScheduleTables(child_element, channel)
 
     def setIpv4Configuration(self, element: ET.Element, configuration: Ipv4Configuration):
