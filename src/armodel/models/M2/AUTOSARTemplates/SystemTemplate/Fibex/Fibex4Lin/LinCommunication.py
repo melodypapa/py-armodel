@@ -122,6 +122,7 @@ class ResumePosition(AREnum):
 
     # ResumePosition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.95, p.432
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on LinScheduleTable.resumePosition
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
