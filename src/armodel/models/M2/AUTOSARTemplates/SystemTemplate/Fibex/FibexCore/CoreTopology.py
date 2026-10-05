@@ -585,19 +585,20 @@ class CommunicationCluster(FibexElement, ABC):
 
 
 class AbstractCanCluster(CommunicationCluster, ABC):
-    """Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes."""
+    """
+    Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes.
+    """
 
     # AbstractCanCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.8, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBusOffRecovery      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBusOffRecovery      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanFdBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanFdBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanXlBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanXlBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBusOffRecovery [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBusOffRecovery [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanFdBaudrate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanFdBaudrate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanXlBaudrate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanXlBaudrate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:

@@ -11000,6 +11000,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalTimeValue(child_element, "MAIN-FUNCTION-PERIOD", recovery.getMainFunctionPeriod())
 
     def writeAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
+        self.writeCommunicationCluster(element, cluster)
         self.setCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY", cluster.getBusOffRecovery())
         self.setChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE", cluster.getCanFdBaudrate())
         self.setChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE", cluster.getCanXlBaudrate())
@@ -11022,7 +11023,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
             child_element = ET.SubElement(child_element, "CAN-CLUSTER-VARIANTS")
             child_element = ET.SubElement(child_element, "CAN-CLUSTER-CONDITIONAL")
-            self.writeCommunicationCluster(child_element, cluster)
             self.writeAbstractCanCluster(child_element, cluster)
 
     def writeJ1939Cluster(self, element: ET.Element, cluster: J1939Cluster):
@@ -11033,7 +11033,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
             child_element = ET.SubElement(child_element, "J-1939-CLUSTER-VARIANTS")
             child_element = ET.SubElement(child_element, "J-1939-CLUSTER-CONDITIONAL")
-            self.writeCommunicationCluster(child_element, cluster)
             self.writeAbstractCanCluster(child_element, cluster)
             self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-ID", cast(Integer, cluster.getNetworkId()))
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())

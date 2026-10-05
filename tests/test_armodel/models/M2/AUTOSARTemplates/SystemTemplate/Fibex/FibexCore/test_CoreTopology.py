@@ -5,7 +5,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, PositiveInteger, PositiveUnlimitedInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
@@ -1071,6 +1071,113 @@ class TestPhysicalChannel:
             assert hints["short_name"] is str, creator
             _assert_return_is(hints, triggering_type)
         assert typing.get_type_hints(PhysicalChannel.getFrameTriggerings, localns={"FrameTriggering": FrameTriggering})["return"] == typing.List[FrameTriggering]
+
+
+ABSTRACT_CAN_CLUSTER_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes."
+
+ABSTRACT_CAN_CLUSTER_ATTRIBUTE_NOTES = {
+    "busOffRecovery": "CAN bus off monitoring / recovery at system level.",
+    "canFdBaudrate": "Specifies the data segment baud rate of the controller in bits/s.",
+    "canXlBaudrate": "Specifies the data segment baud rate of the CAN XL controller in bits/s.",
+}
+
+
+class TestAbstractCanCluster:
+    """Test cases for AbstractCanCluster (Table 3.8, p.62)."""
+
+    MEMBERS = [
+        "busOffRecovery",
+        "canFdBaudrate",
+        "canXlBaudrate",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(AbstractCanCluster, CommunicationCluster)
+        assert issubclass(AbstractCanCluster, FibexElement)
+        assert issubclass(AbstractCanCluster, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="AbstractCanCluster is an abstract class"):
+            AbstractCanCluster(MockParent(), "test_abstract_can_cluster")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(AbstractCanCluster.__doc__) == ABSTRACT_CAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert AbstractCanCluster.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        cluster = CanCluster(MockParent(), "cluster")
+
+        assert cluster.getBusOffRecovery() is None
+        assert cluster.getCanFdBaudrate() is None
+        assert cluster.getCanXlBaudrate() is None
+
+    def test_member_order(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_bus_off_recovery(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+    def test_get_set_can_fd_baudrate(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        baudrate = PositiveUnlimitedInteger()
+        baudrate.setValue("500000")
+
+        assert cluster == cluster.setCanFdBaudrate(baudrate)
+        assert cluster.getCanFdBaudrate() is baudrate
+        assert cluster.getCanFdBaudrate().getValue() == 500000
+
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is baudrate  # unchanged
+
+    def test_get_set_can_xl_baudrate(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        baudrate = PositiveUnlimitedInteger()
+        baudrate.setValue("10000000")
+
+        assert cluster == cluster.setCanXlBaudrate(baudrate)
+        assert cluster.getCanXlBaudrate() is baudrate
+        assert cluster.getCanXlBaudrate().getValue() == 10000000
+
+        assert cluster == cluster.setCanXlBaudrate(None)  # None no-op
+        assert cluster.getCanXlBaudrate() is baudrate  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in ABSTRACT_CAN_CLUSTER_ATTRIBUTE_NOTES.items():
+            getter = getattr(AbstractCanCluster, "get" + field[0].upper() + field[1:])
+            setter = getattr(AbstractCanCluster, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        # CanClusterBusOffRecovery is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        localns = {"CanClusterBusOffRecovery": CanClusterBusOffRecovery}
+        hints = typing.get_type_hints(AbstractCanCluster.getBusOffRecovery, localns=localns)
+        assert hints["return"] == typing.Optional[CanClusterBusOffRecovery]
+        hints = typing.get_type_hints(AbstractCanCluster.setBusOffRecovery, localns=localns)
+        assert hints["value"] == typing.Optional[CanClusterBusOffRecovery]
+        _assert_return_is(hints, AbstractCanCluster)
+
+        for getter, setter in [
+            ("getCanFdBaudrate", "setCanFdBaudrate"),
+            ("getCanXlBaudrate", "setCanXlBaudrate"),
+        ]:
+            hints = typing.get_type_hints(getattr(AbstractCanCluster, getter))
+            assert hints["return"] == typing.Optional[PositiveUnlimitedInteger], getter
+            hints = typing.get_type_hints(getattr(AbstractCanCluster, setter))
+            assert hints["value"] == typing.Optional[PositiveUnlimitedInteger], setter
+            _assert_return_is(hints, AbstractCanCluster)
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."
