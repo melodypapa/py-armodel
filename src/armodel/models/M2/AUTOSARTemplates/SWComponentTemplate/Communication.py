@@ -1686,10 +1686,9 @@ class HandleTimeoutEnum(AREnum):
 
     # HandleTimeoutEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.65, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on NonqueuedReceiverComSpec.handleTimeoutType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If set to none no replacement shall take place. Tags: atp.EnumerationLiteralIndex=0
     NONE = "none"

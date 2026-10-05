@@ -1345,18 +1345,30 @@ class TestHandleOutOfRangeStatusEnum:
 
 
 class TestHandleTimeoutEnum:
-    """Test cases for HandleTimeoutEnum class."""
+    """Test cases for HandleTimeoutEnum class (Table 4.65)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.65 Note copied verbatim."""
+        assert HandleTimeoutEnum.__doc__.strip() == "Strategies of handling a reception timeout violation."
 
     def test_members(self):
-        """Test HandleTimeoutEnum member values."""
+        """Test HandleTimeoutEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleTimeoutEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            HandleTimeoutEnum.NONE,
+            HandleTimeoutEnum.REPLACE,
+            HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE,
+        ]
         assert HandleTimeoutEnum.NONE == "none"
         assert HandleTimeoutEnum.REPLACE == "replace"
         assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE == "replaceByTimeoutSubstitutionValue"
-        assert HandleTimeoutEnum.NONE in values
-        assert HandleTimeoutEnum.REPLACE in values
-        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleTimeoutEnum()
+        enum.setValue(HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE)
+        assert enum.getValue() == "replaceByTimeoutSubstitutionValue"
 
 
 class TestQueuedReceiverComSpec:
