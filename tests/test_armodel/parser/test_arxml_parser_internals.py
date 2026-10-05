@@ -795,7 +795,7 @@ class TestSwDataDefPropsHandlers:
 
     def test_getSwCalprmAxis_access_and_display_format(self, parser):
         element = _snip(
-            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>" "<CATEGORY>STD_AXIS</CATEGORY>" "<SW-CALIBRATION-ACCESS>readOnly</SW-CALIBRATION-ACCESS>" "<DISPLAY-FORMAT>%.2f</DISPLAY-FORMAT>",
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>" "<CATEGORY>STD_AXIS</CATEGORY>" "<SW-CALIBRATION-ACCESS>READ-ONLY</SW-CALIBRATION-ACCESS>" "<DISPLAY-FORMAT>%.2f</DISPLAY-FORMAT>",
             root_tag="SW-CALPRM-AXIS",
         )
         axis = parser.getSwCalprmAxis(element)

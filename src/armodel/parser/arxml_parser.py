@@ -7241,7 +7241,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
         axis = SwCalprmAxis()
-        axis.setSwAxisIndex(cast(Optional[AxisIndexType], self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")))
+        sw_axis_index = self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX")
+        if sw_axis_index is not None:
+            axis.setSwAxisIndex(AxisIndexType().setValue(sw_axis_index.getValue()))
         axis.setCategory(cast(Optional[CalprmAxisCategoryEnum], self.getChildElementOptionalLiteral(element, "CATEGORY")))
         child_element = self.find(element, "SW-AXIS-INDIVIDUAL")
         if child_element is not None:
@@ -7250,7 +7252,9 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             axis.setSwCalprmAxisTypeProps(self.getSwAxisGrouped(child_element))
         axis.setSwCalibrationAccess(self._readEnumToken(element, "SW-CALIBRATION-ACCESS", SwCalibrationAccessEnum, SW_CALIBRATION_ACCESS_XML_MAP))
-        axis.setDisplayFormat(cast(Optional[DisplayFormatString], self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT")))
+        display_format = self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT")
+        if display_format is not None:
+            axis.setDisplayFormat(DisplayFormatString().setValue(display_format.getValue()))
 
         return axis
 

@@ -2,6 +2,11 @@
 This module contains tests for the CalibrationParameter module in MSR.DataDictionary.
 """
 
+import ast
+import os
+import typing
+from inspect import cleandoc
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -104,6 +109,93 @@ class TestSwCalprmAxisTypeProps:
 
 class TestSwCalprmAxis:
     """Test class for SwCalprmAxis class."""
+
+    SPEC_MEMBER_ORDER = ["category", "displayFormat", "swAxisIndex", "swCalibrationAccess", "swCalprmAxisTypeProps"]
+
+    SPEC_NOTES = {
+        "category": "This property specifies the category of a particular axis.",
+        "displayFormat": "This property specifies how the axis values shall be displayed e.g. in documents or in measurement and calibration tools.",
+        "swAxisIndex": 'This attribute specifies which axis is specified by the containing SwCalprmAxis. For example in a curve this is usually "1". In a map this is "1" or "2".',
+        "swCalibrationAccess": "Describes the applicability of parameters and variables.",
+        "swCalprmAxisTypeProps": "specific properties depending on the type of the axis.",
+    }
+
+    def _init_field_order(self) -> list:
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "CalibrationParameter.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwCalprmAxis")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_calprm_axis_class_note_verbatim(self):
+        """The class docstring carries the Table 5.47 Note verbatim."""
+        assert cleandoc(SwCalprmAxis.__doc__) == "This element specifies an individual input parameter axis (abscissa)."
+
+    def test_sw_calprm_axis_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.47 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_calprm_axis_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getCategory",
+            "setCategory",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getSwAxisIndex",
+            "setSwAxisIndex",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisTypeProps",
+            "setSwCalprmAxisTypeProps",
+        ]
+        for name in expected:
+            assert hasattr(SwCalprmAxis, name), f"missing accessor {name}"
+
+    def test_sw_calprm_axis_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in (
+            "getCategory",
+            "setCategory",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getSwAxisIndex",
+            "setSwAxisIndex",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisTypeProps",
+            "setSwCalprmAxisTypeProps",
+        ):
+            hints = typing.get_type_hints(getattr(SwCalprmAxis, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+        assert typing.get_type_hints(SwCalprmAxis.setSwAxisIndex)["value"] == typing.Optional[AxisIndexType]
+        assert typing.get_type_hints(SwCalprmAxis.setSwCalibrationAccess)["value"] == typing.Optional[SwCalibrationAccessEnum]
+        assert typing.get_type_hints(SwCalprmAxis.setCategory)["value"] == typing.Optional[CalprmAxisCategoryEnum]
+        assert typing.get_type_hints(SwCalprmAxis.getSwCalprmAxisTypeProps)["return"] == typing.Optional[SwCalprmAxisTypeProps]
+
+    def test_sw_calprm_axis_accessor_docstrings_verbatim(self):
+        """Getter docstrings carry the Table 5.47 Notes verbatim; setters append the None-no-op sentence."""
+        for attr, note in self.SPEC_NOTES.items():
+            getter = "get" + attr[0].upper() + attr[1:]
+            setter = "set" + attr[0].upper() + attr[1:]
+            assert cleandoc(getattr(SwCalprmAxis, getter).__doc__) == note
+            assert cleandoc(getattr(SwCalprmAxis, setter).__doc__) == (note + " A None value is a no-op and does not overwrite an existing %s." % attr)
 
     def test_sw_calprm_axis_initialization(self):
         """Test that a SwCalprmAxis object can be initialized with default values."""

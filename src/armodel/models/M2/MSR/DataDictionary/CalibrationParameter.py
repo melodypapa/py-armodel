@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, DisplayFormatString, MonotonyEnum
-
-if TYPE_CHECKING:
-    from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
-    from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class CalprmAxisCategoryEnum(AREnum):
@@ -102,20 +99,21 @@ class SwCalprmAxis(ARObject):
 
     # SwCalprmAxis method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.47, p.352
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # XML: element group SW-CALPRM-AXIS; BASE-TYPE-REF (baseType) has atp.Status="removed" — not mapped
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCategory              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=CATEGORY, xml.sequenceOffset=30)
-    # [x] setCategory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDisplayFormat         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=DISPLAY-FORMAT, xml.sequenceOffset=100)
-    # [x] setDisplayFormat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAxisIndex           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-AXIS-INDEX, xml.sequenceOffset=20)
-    # [x] setSwAxisIndex           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-CALIBRATION-ACCESS, xml.sequenceOffset=90)
-    # [x] setSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalprmAxisTypeProps  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL, xml.sequenceOffset=40)
-    # [x] setSwCalprmAxisTypeProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # XML: element group SW-CALPRM-AXIS (AUTOSAR_00052.xsd L114749); reader/writer order
+    # SW-AXIS-INDEX(20), CATEGORY(30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL(40), SW-CALIBRATION-ACCESS(90),
+    # DISPLAY-FORMAT(100); BASE-TYPE-REF (baseType, 110) has atp.Status="removed" — not modeled (Rule 0001.3)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=CATEGORY, xml.sequenceOffset=30)
+    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisplayFormat            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=DISPLAY-FORMAT, xml.sequenceOffset=100)
+    # [x] setDisplayFormat            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisIndex              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-AXIS-INDEX, xml.sequenceOffset=20)
+    # [x] setSwAxisIndex              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalibrationAccess      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-CALIBRATION-ACCESS, xml.sequenceOffset=90; UPPERCASE wire token via SW_CALIBRATION_ACCESS_XML_MAP)
+    # [x] setSwCalibrationAccess      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalprmAxisTypeProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL, xml.sequenceOffset=40; polymorphic choice)
+    # [x] setSwCalprmAxisTypeProps    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -237,3 +235,10 @@ class SwCalprmAxisSet(ARObject):
         One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swCalprmAxis
+
+
+# Cycle-breaker import: DataDefProperties imports SwCalprmAxisSet from this module at its own
+# bottom-of-module imports, so a top-level import here would be circular; it is placed at the
+# bottom so this module is fully defined first and get_type_hints can resolve the name at
+# runtime on Python 3.8 (bpo-39291).
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum  # noqa: E402

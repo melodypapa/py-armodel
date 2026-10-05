@@ -536,15 +536,78 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwCalprmAxis` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.47, p.352
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (reader/writer columns but no per-row release column; reader [x]
+    also misplaces on getter rows) — stale `# Spec verified: R23-11` marker removed at session start,
+    full re-sync, stamp WITHHELD this batch. Concrete Class; Base most-derived = ARObject (XSD
+    complexType L114802 refs AR-OBJECT group only → `__init__(self)`); page-split table (body renders
+    before the caption). 5 attrs, all 0..1 (category/displayFormat/swAxisIndex/swCalibrationAccess/
+    swCalprmAxisTypeProps aggr polymorphic choice) in markdown order = current member order; XSD group
+    L114749 XML order = SW-AXIS-INDEX(20), CATEGORY(30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL(40),
+    SW-CALIBRATION-ACCESS(90), DISPLAY-FORMAT(100) = current reader/writer order (token map for
+    swCalibrationAccess already applied by the SwCalibrationAccessEnum pass). BASE-TYPE-REF(110)
+    atp.Status="removed" → not modeled (accepted deviation; tracker has 2 stale rows to clean:
+    swAxisIndex "missing" — actually implemented; baseTypeRef "missing" — actually spec-removed).
+    No VARIATION-POINT → not VP-capable. TYPE_CHECKING-only AxisIndexType/SwCalibrationAccessEnum
+    imports → get_type_hints NameError (Rule 0001.8) → genuine model Red planned.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — genuine Red: test_sw_calprm_axis_type_hints_resolve
+    NameError 'AxisIndexType' (TYPE_CHECKING-only, Rule 0001.8); behavioral + docstring/order pins passed
+    (vacuous behavioral Red portion — impl already conforms; noted)
+  - [x] Step 3 — Implement model class (Green) — structural change only: AxisIndexType moved to a
+    top-level import (RecordLayout has no back-import) and SwCalibrationAccessEnum to a
+    bottom-of-module cycle-breaker import (DataDefProperties imports SwCalprmAxisSet back);
+    CommonStructure/Constants moved its CalprmAxisCategoryEnum/AxisIndexType imports below the
+    ValueSpecification definition into the existing bottom cycle-breaker section (Rule 0005;
+    ValueList precedent from the SwDataDefProps commit) — the new CalibrationParameter→DataDefProperties
+    edge closed Constants→CalibrationParameter→DataDefProperties→Constants mid-initialization;
+    field-to-spec cross-check both directions clean (5 attrs ↔ 5 Optional[T] PEP 526 members,
+    no fabricated fields); 21 passed test_CalibrationParameter.py + 201 DataDictionary dir +
+    1904 CommonStructure dir + import-order probes all-OK
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwCalprmAxis block's 16 doc-bearing surfaces
+    (class docstring + 5 inline __init__ comments + 5 getter docstrings + 5 setter docstrings)
+    diffed character-for-character against the markdown Notes — already verbatim, rewrite is
+    content-identical (no stale wording found); guarded setters carry the None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_SwCalprmAxis.py (3 reader tests: full field values incl. typed AxisIndexType/
+    SwCalibrationAccessEnum/DisplayFormatString + one-level-down grouped/individual choice +
+    empty-element case) and tests/test_armodel/writer/test_writer_SwCalprmAxis.py (XSD-order +
+    unset-omits + empty-set wrapper omission + 2 full save→reload round-trips through the
+    ARPackage dispatch). First run: 2 reader failures — one was a test-authoring bug (inner
+    content double-wrapped in SW-CALPRM-AXIS; fixed), the remaining failure is the genuine Red
+    `isinstance(getSwAxisIndex(), AxisIndexType)` (reader's cast materializes plain ARLiteral,
+    Rule 0001.3); writer tests passed (vacuous Red — writer already conforms; noted). Pre-existing
+    test_arxml_parser_internals.py::test_getSwCalprmAxis_access_and_display_format also failing
+    (feeds the non-XSD camelCase SW-CALIBRATION-ACCESS form the SwCalibrationAccessEnum pass
+    converted away from — its sibling test files were aligned, this file was missed)
+  - [x] Step 6 — Update parser & writer (Green) — parser getSwCalprmAxis only: swAxisIndex/displayFormat
+    upgraded from cast-ARLiteral to typed materialization (AxisIndexType()/DisplayFormatString() +
+    setValue, Rule 0001.3, ApplicationArrayElement precedent); writer unchanged (already conforms —
+    XSD order + SW_CALIBRATION_ACCESS_XML_MAP from the SwCalibrationAccessEnum pass); 2 missed consumer
+    tests from that pass aligned to the XSD wire form (both failing at committed HEAD):
+    test_arxml_parser_internals.py camelCase SW-CALIBRATION-ACCESS input, test_arxml_writer.py
+    camelCase emission assertion; 117 passed new + neighbor files
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; reader [x] moved to
+    the mutator rows and writer [x] onto the getter rows (legacy block had both misplaced on getters);
+    XSD order + BASE-TYPE-REF removed-status note updated; stale legacy `# Spec verified:` removed at
+    session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — tracker entry rewritten (docs/examples/method_deviation_by_class.md):
+    2 stale rows removed (swAxisIndex "missing" — implemented with full reader/writer coverage;
+    baseTypeRef "missing" — actually spec-removed: XSD BASE-TYPE-REF seq 110 atp.Status="removed",
+    replaced by the accepted `deprecated (atp.Status="removed"), not implemented` row for baseType);
+    batch Note carries the out-of-scope 9b observations (getSwAxisGrouped L7239 / getRuleBasedAxisCont
+    L8862 AxisIndexType cast — SwAxisCont/RuleBasedAxisCont are queued Group28 rows)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (189 passed / 0 failed
+    tests/test_armodel/models/M2/MSR/DataDictionary/test_CalibrationParameter.py,
+    tests/test_armodel/parser/test_SwCalprmAxis.py, tests/test_armodel/writer/test_writer_SwCalprmAxis.py,
+    tests/test_armodel/parser/test_arxml_parser_internals.py, tests/test_armodel/writer/test_arxml_writer.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 2270 passed DataDictionary +
+    CommonStructure model dirs, 100 passed parser/writer -k SwCalprmAxis/SwAxis/SwTextProps/SwDataDefProps
+    selection; no integration fixture carries SW-CALPRM-AXIS — document-level save→reload round-trips
+    covered by the new writer tests; black/ruff clean on all 8 changed py files (flake8 not installed in
+    .venv — ruff E/F covers the E9/F63/F7/F82 syntax gate), mypy 1 pre-existing error only (writer L7545,
+    EndToEndProtection commit); checklist==methods==source-order via set-based script; Rule 0008 spacing +
+    PEP 526 form + no `# type:` via AST audit; docstrings re-diffed verbatim post-format); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `CalprmAxisCategoryEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.48, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py

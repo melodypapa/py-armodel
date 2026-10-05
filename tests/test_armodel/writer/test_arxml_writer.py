@@ -1217,7 +1217,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         assert axis_el is not None
         access_el = axis_el.find("SW-CALIBRATION-ACCESS")
         assert access_el is not None
-        assert access_el.text == "readOnly"
+        assert access_el.text == "READ-ONLY"
         display_el = axis_el.find("DISPLAY-FORMAT")
         assert display_el is not None
         assert display_el.text == "%.3f"

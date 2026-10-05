@@ -21,8 +21,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     VerbatimString,
 )
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class ValueSpecification(ARObject, VariationPointCapable, ABC):
@@ -1405,7 +1403,10 @@ class RuleBasedValueSpecification(ARObject):
         return self
 
 
-# Cycle-breaker import: DataDefProperties needs ValueSpecification (defined above) at runtime for
-# its annotations, so this module's own ValueList import must run after that definition; placed at
-# the bottom so both sides of the cycle are fully initialized (Rule 0005).
+# Cycle-breaker imports: DataDefProperties needs ValueSpecification (defined above) at runtime for
+# its annotations, and the DataDictionary imports below are annotation targets consumed through the
+# CalibrationParameter/DataDefProperties import chains, so they must run after this module's class
+# definitions; placed at the bottom so both sides of each cycle are fully initialized (Rule 0005).
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum  # noqa: E402
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType  # noqa: E402
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList  # noqa: E402
