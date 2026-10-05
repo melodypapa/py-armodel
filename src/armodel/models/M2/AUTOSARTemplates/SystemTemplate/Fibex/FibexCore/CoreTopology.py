@@ -1673,7 +1673,77 @@ class ClientIdRange(ARObject):
 
 
 class TtcanCluster(AbstractCanCluster):
-    pass
+    """
+    TTCAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
+    """
+
+    # TtcanCluster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.24, p.76
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBasicCycleLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBasicCycleLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNtu              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNtu              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationMode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationMode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Length of a basic-cycle. Unit: NTUs
+        self.basicCycleLength: Optional[Integer] = None
+
+        # Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        self.ntu: Optional[TimeValue] = None
+
+        # Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        self.operationMode: Optional[Boolean] = None
+
+    def getBasicCycleLength(self) -> Optional[Integer]:
+        """
+        Length of a basic-cycle. Unit: NTUs
+        """
+        return self.basicCycleLength
+
+    def setBasicCycleLength(self, value: Optional[Integer]) -> TtcanCluster:
+        """
+        Length of a basic-cycle. Unit: NTUs
+        A None value is a no-op and does not overwrite an existing basicCycleLength.
+        """
+        if value is not None:
+            self.basicCycleLength = value
+        return self
+
+    def getNtu(self) -> Optional[TimeValue]:
+        """
+        Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        """
+        return self.ntu
+
+    def setNtu(self, value: Optional[TimeValue]) -> TtcanCluster:
+        """
+        Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        A None value is a no-op and does not overwrite an existing ntu.
+        """
+        if value is not None:
+            self.ntu = value
+        return self
+
+    def getOperationMode(self) -> Optional[Boolean]:
+        """
+        Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        """
+        return self.operationMode
+
+    def setOperationMode(self, value: Optional[Boolean]) -> TtcanCluster:
+        """
+        Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        A None value is a no-op and does not overwrite an existing operationMode.
+        """
+        if value is not None:
+            self.operationMode = value
+        return self
 
 
 class UserDefinedCluster(CommunicationCluster):

@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FlexrayChannelName,
     PhysicalChannel,
     PncGatewayTypeEnum,
+    TtcanCluster,
 )
 
 
@@ -1226,6 +1227,126 @@ class TestCanCluster:
         assert cluster.getCanXlBaudrate().getValue() == 10000000
         assert cluster == cluster.setCanXlBaudrate(None)  # None no-op
         assert cluster.getCanXlBaudrate() is xl_baudrate  # unchanged
+
+
+TTCAN_CLUSTER_CLASS_NOTE = "TTCAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"
+
+TTCAN_CLUSTER_ATTRIBUTE_NOTES = {
+    "basicCycleLength": "Length of a basic-cycle. Unit: NTUs",
+    "ntu": "Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.",
+    "operationMode": "Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered",
+}
+
+
+class TestTtcanCluster:
+    """Test cases for TtcanCluster (Table 3.24, p.76)."""
+
+    MEMBERS = [
+        "basicCycleLength",
+        "ntu",
+        "operationMode",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(TtcanCluster, AbstractCanCluster)
+        assert issubclass(TtcanCluster, CommunicationCluster)
+        assert issubclass(TtcanCluster, FibexElement)
+        assert issubclass(TtcanCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = TtcanCluster(MockParent(), "cluster")  # Table 3.24 carries no abstract stereotype
+
+        assert isinstance(cluster, AbstractCanCluster)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(TtcanCluster.__doc__) == TTCAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert TtcanCluster.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+
+        assert cluster.getBasicCycleLength() is None
+        assert cluster.getNtu() is None
+        assert cluster.getOperationMode() is None
+
+    def test_member_order(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_basic_cycle_length(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        length = Integer()
+        length.setValue(19)
+
+        assert cluster == cluster.setBasicCycleLength(length)
+        assert cluster.getBasicCycleLength() is length
+        assert cluster.getBasicCycleLength().getValue() == 19
+
+        assert cluster == cluster.setBasicCycleLength(None)  # None no-op
+        assert cluster.getBasicCycleLength() is length  # unchanged
+
+    def test_get_set_ntu(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        ntu = TimeValue()
+        ntu.setValue("0.0001")
+
+        assert cluster == cluster.setNtu(ntu)
+        assert cluster.getNtu() is ntu
+        assert cluster.getNtu().getValue() == 0.0001
+
+        assert cluster == cluster.setNtu(None)  # None no-op
+        assert cluster.getNtu() is ntu  # unchanged
+
+    def test_get_set_operation_mode(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        mode = Boolean()
+        mode.setValue(True)
+
+        assert cluster == cluster.setOperationMode(mode)
+        assert cluster.getOperationMode() is mode
+        assert cluster.getOperationMode().getValue() is True
+
+        assert cluster == cluster.setOperationMode(None)  # None no-op
+        assert cluster.getOperationMode() is mode  # unchanged
+
+    def test_inherited_accessors_round_trip(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+        recovery.setBorTimeL1(TimeValue().setValue("0.1"))
+        fd_baudrate = PositiveUnlimitedInteger().setValue("2000000")
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+        assert cluster == cluster.setCanFdBaudrate(fd_baudrate)
+        assert cluster.getCanFdBaudrate() is fd_baudrate
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is fd_baudrate  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in TTCAN_CLUSTER_ATTRIBUTE_NOTES.items():
+            getter = getattr(TtcanCluster, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCluster, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        for getter, setter, member_type in [
+            ("getBasicCycleLength", "setBasicCycleLength", Integer),
+            ("getNtu", "setNtu", TimeValue),
+            ("getOperationMode", "setOperationMode", Boolean),
+        ]:
+            hints = typing.get_type_hints(getattr(TtcanCluster, getter))
+            assert hints["return"] == typing.Optional[member_type], getter
+            hints = typing.get_type_hints(getattr(TtcanCluster, setter))
+            assert hints["value"] == typing.Optional[member_type], setter
+            _assert_return_is(hints, TtcanCluster)
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."
