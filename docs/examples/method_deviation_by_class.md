@@ -2506,7 +2506,9 @@ No deviations — both Table 5.58 attributes are modeled 1:1 in displayed order 
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `defaultPattern` | `PositiveInteger` | — | missing |
+| — | — | — | — | — | No deviations — Table 5.116's single attribute `defaultPattern` (PositiveInteger, 0..1) is modeled as `defaultPattern: Optional[PositiveInteger]` with full reader (`getNotAvailableValueSpecification` → `setDefaultPattern`, DEFAULT-PATTERN via `getChildElementOptionalPositiveInteger`) and writer (`writeNotAvailableValueSpecification` → `getDefaultPattern`) coverage, dispatched in both `getValueSpecification` and `setChildValueSpecification`/`writeArrayValueSpecification`. |
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — reader/writer columns but no per-row release column, stale `# Spec verified: R23-11` marker removed at session start; the checklist is rewritten in the 6-column release form and the stamp stays WITHHELD pending the 9b batch confirmation, user instruction). The former `defaultPattern missing` tracker row above was stale — the member has existed with full reader/writer coverage. Model Red vacuous (field/multiplicity/guard pre-existed; noted); fabricated `Returns:`/`Args:` docstring blocks wiped and rewritten verbatim from the Table 5.116 Note (Rule 0012.2.3). Reader/writer coverage pre-existed on both dispatch sides (vacuous Red, noted) — new parser tests pin DEFAULT-PATTERN value/absence and a full-document XSD-validated round-trip via `ConstantSpecification.valueSpec` was added to the writer test module.
 
 ## `ConstantSpecificationMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 443

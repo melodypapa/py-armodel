@@ -694,11 +694,10 @@ class NotAvailableValueSpecification(ValueSpecification):
 
     # NotAvailableValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.116, p.440
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultPattern  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPattern  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -709,9 +708,6 @@ class NotAvailableValueSpecification(ValueSpecification):
     def getDefaultPattern(self) -> Optional[PositiveInteger]:
         """
         The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
-
-        Returns:
-            Optional[PositiveInteger]: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used., or None if not set
         """
         return self.defaultPattern
 
@@ -719,12 +715,6 @@ class NotAvailableValueSpecification(ValueSpecification):
         """
         The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
         A None value is a no-op and does not overwrite an existing defaultPattern.
-
-        Args:
-            value: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. to set
-
-        Returns:
-            NotAvailableValueSpecification: self for method chaining
         """
         if value is not None:
             self.defaultPattern = value
