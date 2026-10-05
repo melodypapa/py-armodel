@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from lxml import etree
 
 from armodel.validation.validator import (
     ARXMLValidator,
@@ -62,3 +63,13 @@ class TestARXMLValidator:
         first = get_schema(TINY_XSD)
         second = get_schema(TINY_XSD)
         assert first is second
+
+    def test_syntax_error_returns_domain_syntax(self):
+        errors = ARXMLValidator(TINY_XSD).validate_bytes(b"<NOT-XML>")
+        assert len(errors) == 1
+        assert errors[0].domain == "syntax"
+
+    def test_resolver_resolves_sibling_import(self):
+        importing_xsd = os.path.join(DATA_DIR, "importing_autosar.xsd")
+        schema = get_schema(importing_xsd)
+        assert schema.validate(etree.fromstring(VALID_DOC.encode("utf-8")))

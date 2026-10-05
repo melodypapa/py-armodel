@@ -71,6 +71,9 @@ class ValidationError(object):
             return NotImplemented
         return (self.line, self.column, self.message, self.domain) == (other.line, other.column, other.message, other.domain)
 
+    def __hash__(self) -> int:
+        return hash((self.line, self.column, self.message, self.domain))
+
     def __repr__(self) -> str:
         return "ValidationError(line=%s, column=%s, message=%r, domain=%r)" % (self.line, self.column, self.message, self.domain)
 
