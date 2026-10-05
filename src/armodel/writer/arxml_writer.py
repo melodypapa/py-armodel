@@ -12661,6 +12661,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIndexedArrayElement(self, element: ET.Element, key: str, indexed: IndexedArrayElement):
         if indexed is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, indexed)
             self.setChildElementOptionalRefType(child_element, "APPLICATION-ARRAY-ELEMENT-REF", indexed.getApplicationArrayElementRef())
             self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-ARRAY-ELEMENT-REF", indexed.getImplementationArrayElementRef())
             self.setChildElementOptionalIntegerValue(child_element, "INDEX", indexed.getIndex())
