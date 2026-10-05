@@ -171,6 +171,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
 
     # CanControllerFdConfigurationRequirements method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.17, pp.66-67
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaxNumberOfTimeQuantaPerBit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -865,6 +866,7 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
 
     # CanControllerConfigurationRequirements method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.15, p.65
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMaxNumberOfTimeQuantaPerBit  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1078,6 +1080,7 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
 
     # CanCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.23, p.74
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPncWakeupCanId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1190,6 +1193,7 @@ class CanControllerConfiguration(AbstractCanCommunicationControllerAttributes):
 
     # CanControllerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.14, p.64
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getPropSeg        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1423,6 +1427,7 @@ class CanClusterBusOffRecovery(ARObject):
 
     # CanClusterBusOffRecovery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.10, p.63
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBorCounterL1ToL2            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

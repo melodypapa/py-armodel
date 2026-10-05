@@ -2,7 +2,8 @@
 
 Serialized through the TP-ADDRESSS wrapper when aggregated by a TpConfig
 (XSD group TP-ADDRESS, AUTOSAR_00052.xsd l.125063: TP-ADDRESS INTEGER,
-then VARIATION-POINT — emitted by writeIdentifiable when set).
+then VARIATION-POINT last — writeIdentifiable is called with
+write_variation_point=False and writeVariationPointCapable emits it last).
 """
 
 import xml.etree.ElementTree as ET
@@ -12,6 +13,7 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConfig, TpAddress
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -69,6 +71,29 @@ class TestWriteTpAddress:
         assert node is not None
         assert node.find("SHORT-NAME").text == "Addr"
         assert node.find("TP-ADDRESS").text == "2047"
+
+    def test_full_with_variation_point_written_last(self):
+        address = TpAddress(MockParent(), "Addr")
+        address.setTpAddress(_int(2047))
+        address.setVariationPoint(VariationPoint())
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTpAddress(parent, address)
+
+        node = parent.find("TP-ADDRESS")
+        assert node is not None
+        assert [child.tag for child in node] == ["SHORT-NAME", "TP-ADDRESS", "VARIATION-POINT"]
+
+    def test_variation_point_round_trip(self):
+        address = TpAddress(MockParent(), "Addr")
+        address.setTpAddress(_int(2047))
+        address.setVariationPoint(VariationPoint())
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTpAddress(parent, address)
+
+        reloaded = TpAddress(MockParent(), "Addr")
+        ARXMLParser().readTpAddress(_with_ns(parent)[0], reloaded)
+        assert reloaded.getTpAddress().getValue() == 2047
+        assert reloaded.getVariationPoint() is not None
 
     def test_round_trip(self):
         address = TpAddress(MockParent(), "Addr")

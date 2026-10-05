@@ -127,6 +127,39 @@ writer = ARXMLWriter()
 writer.save("output.arxml", document)
 ```
 
+### XSD Validation
+
+ARXML files are validated against the bundled AUTOSAR XSD schemas (R23-11, R4.4.0, R4.3.1, R3.2.3)
+before parsing and before saving. The schema is selected from the document's `xsi:schemaLocation`;
+documents whose schema is not bundled (or whose namespace does not match the bundled schema) are
+processed without validation (a warning is logged). Validation failures are reported one error line
+per violation; in strict mode the load/save then aborts with a `ValueError`.
+
+```python
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
+
+parser = ARXMLParser()                              # invalid file -> ValueError with per-error log lines
+parser = ARXMLParser(options={"warning": True})     # log schema errors as warnings, parse anyway
+parser = ARXMLParser(options={"validate": False})   # disable validation entirely
+
+writer = ARXMLWriter(options={"validate": False})   # same option on save()
+```
+
+To validate against a schema that is not bundled, register it before loading:
+
+```python
+from armodel.validation import ARXMLValidator
+
+ARXMLValidator.register_schema_file("AUTOSAR_00050.xsd", "/path/to/AUTOSAR_00050.xsd")
+```
+
+**Known limitations:** on schema-gated releases (R23-11, R4.4.0, R4.3.1, R3.2.3) `save()` now raises
+`ValueError` when the generated document is schema-invalid — a small set of known writer defects
+(inventory and burn-down: `docs/plan/xsd-validation-known-writer-defects.md`) can surface this way;
+pass `options={"validate": False}` if you need to save anyway. Saving documents whose schema is not
+bundled logs a "No XSD schema found ... validation skipped" warning on every save.
+
 ### Best Practices
 
 1. **Always set AUTOSAR version** before parsing or writing:

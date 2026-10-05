@@ -20,6 +20,7 @@ class FrameMapping(ARObject, VariationPointCapable):
 
     # FrameMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.2, p.838
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIntroduction      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -98,6 +99,7 @@ class ISignalMapping(ARObject, VariationPointCapable):
 
     # ISignalMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.7, p.846
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIntroduction       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -172,6 +174,7 @@ class DefaultValueElement(ARObject):
 
     # DefaultValueElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.6, p.841
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getElementByteValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -261,6 +264,7 @@ class TargetIPduRef(ARObject):
 
     # TargetIPduRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.4, p.841
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -428,6 +432,7 @@ class Gateway(FibexElement):
 
     # Gateway method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 8.1, p.837
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEcuRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

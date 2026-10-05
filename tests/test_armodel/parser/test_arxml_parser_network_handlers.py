@@ -31,8 +31,8 @@ def warning_parser():
     return ARXMLParser(options={"warning": True})
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", attrs: str = "") -> ET.Element:
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}'{attrs}>{inner}</{root_tag}>")
 
 
 def _autosar_root():
@@ -779,7 +779,7 @@ class TestEthernetClusterHandlers:
             "</NETWORK-ENDPOINT>"
             "</NETWORK-ENDPOINTS>"
             "<SO-AD-CONFIG/>"
-            "<VLAN>"
+            '<VLAN S="1234" T="2024-01-01T00:00:00Z">'
             "<SHORT-NAME>vlan1</SHORT-NAME>"
             "<VLAN-IDENTIFIER>100</VLAN-IDENTIFIER>"
             "</VLAN>",
@@ -793,6 +793,8 @@ class TestEthernetClusterHandlers:
         assert isinstance(channel.getSoAdConfig(), SoAdConfig)
         assert channel.getVlan().getShortName() == "vlan1"
         assert channel.getVlan().getVlanIdentifier().getValue() == 100
+        assert channel.getVlan().getChecksum().getValue() == "1234"
+        assert channel.getVlan().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readCommunicationClusterPhysicalChannels_ethernet_dispatch_reads_content(self, parser):
         from armodel.models import EthernetCluster
@@ -855,7 +857,7 @@ class TestEthernetClusterHandlers:
 
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
-            "<INFRASTRUCTURE-SERVICES>" "<DO-IP-ENTITY>" "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
+            "<INFRASTRUCTURE-SERVICES>" '<DO-IP-ENTITY S="1234" T="2024-01-01T00:00:00Z">' "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",
             root_tag="ROOT",
         )
         services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
@@ -863,6 +865,8 @@ class TestEthernetClusterHandlers:
         assert services.getDoIpEntity() is not None
         assert services.getDoIpEntity().getDoIpEntityRole() is not None
         assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "server"
+        assert services.getDoIpEntity().getChecksum().getValue() == "1234"
+        assert services.getDoIpEntity().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readEthernetPhysicalChannel_sets_soAdConfig(self, parser):
         from armodel.models import EthernetCluster, EthernetPhysicalChannel
@@ -1254,25 +1258,29 @@ class TestSoAdAndSocketHandlers:
 
     def test_getRequestResponseDelay_sets_maxValue(self, parser):
         element = _snip(
-            "<REQUEST-RESPONSE-DELAY>" "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
+            '<REQUEST-RESPONSE-DELAY S="1234" T="2024-01-01T00:00:00Z">' "<MAX-VALUE>0.1</MAX-VALUE>" "<MIN-VALUE>0.01</MIN-VALUE>" "</REQUEST-RESPONSE-DELAY>",
             root_tag="ROOT",
         )
         delay = parser.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY")
         assert delay is not None
         assert delay.getMaxValue() is not None
         assert delay.getMaxValue().getValue() == 0.1
+        assert delay.getChecksum().getValue() == "1234"
+        assert delay.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestTransportProtocolHandlers:
     def test_getTpPort_sets_portNumber(self, parser):
         element = _snip(
-            "<TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
+            '<TP-PORT S="1234" T="2024-01-01T00:00:00Z">' "<PORT-NUMBER>5000</PORT-NUMBER>" "<DYNAMICALLY-ASSIGNED>true</DYNAMICALLY-ASSIGNED>" "</TP-PORT>",
             root_tag="ROOT",
         )
         port = parser.getTpPort(element, "TP-PORT")
         assert port is not None
         assert port.getPortNumber() is not None
         assert port.getPortNumber().getValue() == 5000
+        assert port.getChecksum().getValue() == "1234"
+        assert port.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readUdpTp_sets_udpTpPort(self, parser):
         from armodel.models import UdpTp
@@ -1281,11 +1289,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<UDP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</UDP-TP-PORT>",
             root_tag="UDP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readUdpTp(element, tp)
         assert tp.getUdpTpPort() is not None
         assert tp.getUdpTpPort().getPortNumber() is not None
         assert tp.getUdpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_tcpTpPort(self, parser):
         from armodel.models import TcpTp
@@ -1294,11 +1305,14 @@ class TestTransportProtocolHandlers:
         element = _snip(
             "<TCP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</TCP-TP-PORT>" "<KEEP-ALIVES>true</KEEP-ALIVES>" "<NAGLES-ALGORITHM>enabled</NAGLES-ALGORITHM>",
             root_tag="TCP-TP",
+            attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
         parser.readTcpTp(element, tp)
         assert tp.getTcpTpPort() is not None
         assert tp.getTcpTpPort().getPortNumber() is not None
         assert tp.getTcpTpPort().getPortNumber().getValue() == 5000
+        assert tp.getChecksum().getValue() == "1234"
+        assert tp.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readTcpTp_sets_keepAlives(self, parser):
         from armodel.models import TcpTp
@@ -1866,29 +1880,43 @@ class TestISignalAndGroupHandlers:
 
     def test_getTransmissionModeTiming_sets_cyclicTiming(self, parser):
         element = _snip(
-            "<TRANSMISSION-MODE-TIMING>" "<CYCLIC-TIMING>" "<TIME-PERIOD>" "<VALUE>" "<VALUE>0.1</VALUE>" "</VALUE>" "</TIME-PERIOD>" "</CYCLIC-TIMING>" "</TRANSMISSION-MODE-TIMING>",
+            '<TRANSMISSION-MODE-TIMING S="1234" T="2024-01-01T00:00:00Z">'
+            "<CYCLIC-TIMING>"
+            "<TIME-PERIOD>"
+            "<VALUE>"
+            "<VALUE>0.1</VALUE>"
+            "</VALUE>"
+            "</TIME-PERIOD>"
+            "</CYCLIC-TIMING>"
+            "</TRANSMISSION-MODE-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getTransmissionModeTiming(element, "TRANSMISSION-MODE-TIMING")
         assert timing is not None
         assert timing.getCyclicTiming() is not None
+        assert timing.getChecksum().getValue() == "1234"
+        assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_getCyclicTiming_sets_timePeriod(self, parser):
         element = _snip(
-            "<CYCLIC-TIMING>" "<TIME-PERIOD>" "<VALUE>" "<VALUE>0.1</VALUE>" "</VALUE>" "</TIME-PERIOD>" "</CYCLIC-TIMING>",
+            '<CYCLIC-TIMING S="1234" T="2024-01-01T00:00:00Z">' "<TIME-PERIOD>" "<VALUE>" "<VALUE>0.1</VALUE>" "</VALUE>" "</TIME-PERIOD>" "</CYCLIC-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getCyclicTiming(element, "CYCLIC-TIMING")
         assert timing is not None
+        assert timing.getChecksum().getValue() == "1234"
+        assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_getEventControlledTiming_sets_numberOfRepetitions(self, parser):
         element = _snip(
-            "<EVENT-CONTROLLED-TIMING>" "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>" "</EVENT-CONTROLLED-TIMING>",
+            '<EVENT-CONTROLLED-TIMING S="1234" T="2024-01-01T00:00:00Z">' "<NUMBER-OF-REPETITIONS>5</NUMBER-OF-REPETITIONS>" "</EVENT-CONTROLLED-TIMING>",
             root_tag="ROOT",
         )
         timing = parser.getEventControlledTiming(element, "EVENT-CONTROLLED-TIMING")
         assert timing is not None
         assert timing.getNumberOfRepetitions().getValue() == 5
+        assert timing.getChecksum().getValue() == "1234"
+        assert timing.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readISignalIPdu_sets_length(self, parser):
         from armodel.models import ISignalIPdu
@@ -1927,6 +1955,42 @@ class TestISignalAndGroupHandlers:
         )
         parser.readISignalIPdu(element, ipdu)
         assert ipdu.getUnusedBitPattern().getValue() == 0
+
+    def test_getTimeRangeType_reads_checksum_and_timestamp(self, parser):
+        """TimeRangeType and its TimeRangeTypeTolerance subclasses carry AR:AR-OBJECT (Rule 0025)."""
+        element = _snip(
+            '<TIME-OFFSET S="1234" T="2024-01-01T00:00:00Z">'
+            "<TOLERANCE>"
+            '<ABSOLUTE-TOLERANCE S="5678" T="2024-02-02T00:00:00Z">'
+            "<ABSOLUTE>0.05</ABSOLUTE>"
+            "</ABSOLUTE-TOLERANCE>"
+            "</TOLERANCE>"
+            "<VALUE>0.1</VALUE>"
+            "</TIME-OFFSET>",
+            root_tag="ROOT",
+        )
+        time_range = parser.getTimeRangeType(element, "TIME-OFFSET")
+        assert time_range is not None
+        assert time_range.getChecksum().getValue() == "1234"
+        assert time_range.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        tolerance = time_range.getTolerance()
+        assert tolerance is not None
+        assert tolerance.getChecksum().getValue() == "5678"
+        assert tolerance.getTimestamp().getValue() == "2024-02-02T00:00:00Z"
+
+    def test_getTransmissionModeConditions_reads_checksum_and_timestamp(self, parser):
+        element = _snip(
+            "<TRANSMISSION-MODE-CONDITIONS>"
+            '<TRANSMISSION-MODE-CONDITION S="1234" T="2024-01-01T00:00:00Z">'
+            "<I-SIGNAL-IN-I-PDU-REF DEST='I-SIGNAL-I-PDU'>/Pkg/pdu</I-SIGNAL-IN-I-PDU-REF>"
+            "</TRANSMISSION-MODE-CONDITION>"
+            "</TRANSMISSION-MODE-CONDITIONS>",
+            root_tag="ROOT",
+        )
+        conditions = parser.getTransmissionModeConditions(element, "TRANSMISSION-MODE-CONDITIONS/TRANSMISSION-MODE-CONDITION")
+        assert len(conditions) == 1
+        assert conditions[0].getChecksum().getValue() == "1234"
+        assert conditions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestISignalIPduIPduTimingSpecification:
@@ -1989,7 +2053,7 @@ class TestModeDrivenTransmissionModeCondition:
 
     def test_getTransmissionModeDeclaration_reads_modeDrivenConditions(self, parser):
         element = _snip(
-            "<TRANSMISSION-MODE-DECLARATION>"
+            '<TRANSMISSION-MODE-DECLARATION S="1234" T="2024-01-01T00:00:00Z">'
             "<MODE-DRIVEN-FALSE-CONDITIONS>"
             "<MODE-DRIVEN-TRANSMISSION-MODE-CONDITION>"
             "<MODE-DECLARATION-REFS>"
@@ -2010,6 +2074,8 @@ class TestModeDrivenTransmissionModeCondition:
         )
         decl = parser.getTransmissionModeDeclaration(element, "TRANSMISSION-MODE-DECLARATION")
         assert decl is not None
+        assert decl.getChecksum().getValue() == "1234"
+        assert decl.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
         false_conditions = decl.getModeDrivenFalseConditions()
         assert len(false_conditions) == 1
         false_refs = false_conditions[0].getModeDeclarationRefs()
@@ -2369,7 +2435,7 @@ class TestNmConfigHandlers:
         assert node.getNmCoordCluster().getValue() == 2
         assert node.getNmCoordinatorRole().getValue() == "active"
 
-    def test_getCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
+    def test_readCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
             "<COUPLED-CLUSTER-REF DEST='NM-CLUSTER'>/cluster</COUPLED-CLUSTER-REF>"
@@ -2377,10 +2443,13 @@ class TestNmConfigHandlers:
             "<NM-BUSLOAD-REDUCTION-ENABLED>true</NM-BUSLOAD-REDUCTION-ENABLED>",
             root_tag="CAN-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.getCanNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmClusterCoupling
+
+        coupling = CanNmClusterCoupling()
+        parser.readCanNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
-    def test_getUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
+    def test_readUdpNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
             "<COUPLED-CLUSTER-REF DEST='NM-CLUSTER'>/cluster</COUPLED-CLUSTER-REF>"
@@ -2388,7 +2457,10 @@ class TestNmConfigHandlers:
             "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>",
             root_tag="UDP-NM-CLUSTER-COUPLING",
         )
-        coupling = parser.getUdpNmClusterCoupling(element)
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import UdpNmClusterCoupling
+
+        coupling = UdpNmClusterCoupling()
+        parser.readUdpNmClusterCoupling(element, coupling)
         assert len(coupling.getCoupledClusterRefs()) == 1
 
     def test_readNmConfigNmClusterCouplings_can(self, parser):

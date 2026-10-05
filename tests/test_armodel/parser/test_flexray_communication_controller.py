@@ -1,8 +1,9 @@
 """Parser tests for FlexrayCommunicationController (Table 3.30, p.86).
 
 XML element order per XSD group FLEXRAY-COMMUNICATION-CONTROLLER-CONTENT; the
-WAKE-UP-BY-CONTROLLER-SUPPORTED base element (COMMUNICATION-CONTROLLER group) sits
-before the FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS wrapper. Coverage runs through
+WAKE-UP-BY-CONTROLLER-SUPPORTED base element (COMMUNICATION-CONTROLLER-CONTENT) sits
+inside the FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL, before the
+FLEXRAY-COMMUNICATION-CONTROLLER-CONTENT leaves. Coverage runs through
 the COMM-CONTROLLERS dispatch on readEcuInstanceCommControllers.
 """
 
@@ -17,6 +18,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 NS = "http://autosar.org/schema/r4.0"
 
 CONDITIONAL_CONTENT = (
+    "<WAKE-UP-BY-CONTROLLER-SUPPORTED>true</WAKE-UP-BY-CONTROLLER-SUPPORTED>"
     "<ACCEPTED-STARTUP-RANGE>4</ACCEPTED-STARTUP-RANGE>"
     "<ALLOW-HALT-DUE-TO-CLOCK>true</ALLOW-HALT-DUE-TO-CLOCK>"
     "<ALLOW-PASSIVE-TO-ACTIVE>3</ALLOW-PASSIVE-TO-ACTIVE>"
@@ -61,7 +63,6 @@ FULL_CONTROLLER = (
     "<COMM-CONTROLLERS>"
     "<FLEXRAY-COMMUNICATION-CONTROLLER>"
     "<SHORT-NAME>ctrl</SHORT-NAME>"
-    "<WAKE-UP-BY-CONTROLLER-SUPPORTED>true</WAKE-UP-BY-CONTROLLER-SUPPORTED>"
     "<FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
     "<FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>" + CONDITIONAL_CONTENT + "</FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
     "</FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
@@ -69,14 +70,7 @@ FULL_CONTROLLER = (
     "</COMM-CONTROLLERS>"
 )
 
-BARE_CONTROLLER = (
-    "<COMM-CONTROLLERS>"
-    "<FLEXRAY-COMMUNICATION-CONTROLLER>"
-    "<SHORT-NAME>ctrl</SHORT-NAME>"
-    "<WAKE-UP-BY-CONTROLLER-SUPPORTED>true</WAKE-UP-BY-CONTROLLER-SUPPORTED>"
-    "</FLEXRAY-COMMUNICATION-CONTROLLER>"
-    "</COMM-CONTROLLERS>"
-)
+BARE_CONTROLLER = "<COMM-CONTROLLERS>" "<FLEXRAY-COMMUNICATION-CONTROLLER>" "<SHORT-NAME>ctrl</SHORT-NAME>" "</FLEXRAY-COMMUNICATION-CONTROLLER>" "</COMM-CONTROLLERS>"
 
 
 def _read_into_instance(inner):
@@ -97,7 +91,7 @@ class TestReadFlexrayCommunicationController:
         assert controller.getShortName() == "ctrl"
 
     def test_reads_base_wake_up_by_controller_supported(self, parser):
-        instance = _read_into_instance(BARE_CONTROLLER)
+        instance = _read_into_instance(FULL_CONTROLLER)
         controller = instance.getCommControllers()[0]
         flag = controller.getWakeUpByControllerSupported()
         assert isinstance(flag, Boolean)
@@ -163,6 +157,7 @@ class TestReadFlexrayCommunicationController:
     def test_reads_controller_without_flexray_elements_to_none_fields(self, parser):
         instance = _read_into_instance(BARE_CONTROLLER)
         controller = instance.getCommControllers()[0]
+        assert controller.getWakeUpByControllerSupported() is None
         assert controller.getAcceptedStartupRange() is None
         assert controller.getFlexrayFifos() == []
         assert controller.getKeySlotID() is None

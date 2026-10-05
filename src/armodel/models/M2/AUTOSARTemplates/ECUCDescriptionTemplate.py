@@ -1,6 +1,5 @@
 from __future__ import annotations
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -80,11 +79,15 @@ class EcucIndexableValue(ARObject, ABC):
 
     # EcucIndexableValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.46, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Abstract XML-bearing base (XSD group ECUC-INDEXABLE-VALUE): owns the reusable
+    # readEcucIndexableValue / writeEcucIndexableValue helpers (Rule 0001.7);
+    # called by readEcucParameterValue, readEcucAbstractReferenceValue,
+    # readEcucContainerValue / writeEcucParameterValue,
+    # writeEcucAbstractReferenceValue, writeEcucContainValue.
 
     def __init__(self):
         if type(self) is EcucIndexableValue:
@@ -96,14 +99,11 @@ class EcucIndexableValue(ARObject, ABC):
         self.index: Optional[PositiveInteger] = None
 
     def getIndex(self) -> Optional[PositiveInteger]:
-        """
-        Used to support the specification of ordering of parameter values.
-        """
+        """Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5"""
         return self.index
 
     def setIndex(self, value: Optional[PositiveInteger]) -> EcucIndexableValue:
-        """
-        Used to support the specification of ordering of parameter values.
+        """Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5
 
         A None value is a no-op and does not overwrite an existing index.
         """
@@ -112,22 +112,21 @@ class EcucIndexableValue(ARObject, ABC):
         return self
 
 
-class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
+class EcucParameterValue(EcucIndexableValue, ABC):
     """
     Common class to all types of configuration values.
     """
 
     # EcucParameterValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.49, p.125
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is EcucParameterValue:
@@ -159,7 +158,10 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         return self.definitionRef
 
     def setDefinitionRef(self, value: Optional[RefType]) -> EcucParameterValue:
-        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
@@ -169,7 +171,10 @@ class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
         return self.isAutoValue
 
     def setIsAutoValue(self, value: Optional[Boolean]) -> EcucParameterValue:
-        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing flag."""
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing flag.
+        """
         if value is not None:
             self.isAutoValue = value
         return self
@@ -182,11 +187,10 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # EcucAddInfoParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.52, p.129
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -199,7 +203,10 @@ class EcucAddInfoParamValue(EcucParameterValue):
         return self.value
 
     def setValue(self, value: Optional[DocumentationBlock]) -> EcucAddInfoParamValue:
-        """Holds the content of the formated text. A None value is a no-op and does not overwrite an existing value."""
+        """Holds the content of the formated text.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
         if value is not None:
             self.value = value
         return self
@@ -212,11 +219,10 @@ class EcucTextualParamValue(EcucParameterValue):
 
     # EcucTextualParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.50, p.127
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -229,7 +235,10 @@ class EcucTextualParamValue(EcucParameterValue):
         return self.value
 
     def setValue(self, value: Optional[VerbatimString]) -> EcucTextualParamValue:
-        """Value of the parameter, not subject to variant handling. A None value is a no-op and does not overwrite an existing value."""
+        """Value of the parameter, not subject to variant handling.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
         if value is not None:
             self.value = value
         return self
@@ -242,11 +251,10 @@ class EcucNumericalParamValue(EcucParameterValue):
 
     # EcucNumericalParamValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.51, p.128
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -259,28 +267,34 @@ class EcucNumericalParamValue(EcucParameterValue):
         return self.value
 
     def setValue(self, value: Optional[Numerical]) -> EcucNumericalParamValue:
-        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing value."""
+        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
         if value is not None:
             self.value = value
         return self
 
 
-class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC):
+class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     """
     Abstract class to be used as common parent for all reference values in the ECU Configuration Description.
     """
 
     # EcucAbstractReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsAutoValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsAutoValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsAutoValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsAutoValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Abstract XML-bearing base (XSD group ECUC-ABSTRACT-REFERENCE-VALUE): owns the reusable
+    # readEcucAbstractReferenceValue / writeEcucAbstractReferenceValue helpers (Rule 0001.7);
+    # called by readEcucReferenceValue, readEcucInstanceReferenceValue / writeEcucReferenceValue,
+    # writeEcucInstanceReferenceValue.
 
     def __init__(self):
         if type(self) is EcucAbstractReferenceValue:
@@ -312,7 +326,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
         return self.definitionRef
 
     def setDefinitionRef(self, value: Optional[RefType]) -> EcucAbstractReferenceValue:
-        """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
@@ -322,7 +339,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC)
         return self.isAutoValue
 
     def setIsAutoValue(self, value: Optional[Boolean]) -> EcucAbstractReferenceValue:
-        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". A None value is a no-op and does not overwrite an existing flag."""
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false".
+
+        A None value is a no-op and does not overwrite an existing flag.
+        """
         if value is not None:
             self.isAutoValue = value
         return self
@@ -335,11 +355,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # EcucInstanceReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -352,7 +371,10 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
         return self.valueIRef
 
     def setValueIRef(self, value: Optional[AnyInstanceRef]) -> EcucInstanceReferenceValue:
-        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef A None value is a no-op and does not overwrite an existing reference."""
+        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef
+
+        A None value is a no-op and does not overwrite an existing instance reference.
+        """
         if value is not None:
             self.valueIRef = value
         return self
@@ -365,11 +387,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
     # EcucReferenceValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -382,30 +403,32 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         return self.valueRef
 
     def setValueRef(self, value: Optional[RefType]) -> EcucReferenceValue:
-        """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
+        """Specifies the destination of the reference.
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.valueRef = value
         return self
 
 
-class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable):
+class EcucContainerValue(Identifiable, EcucIndexableValue):
     """
     Represents a Container definition in the ECU Configuration Description.
     """
 
     # EcucContainerValue method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.48, p.119
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefinitionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addParameterValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferenceValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReferenceValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSubContainer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         EcucIndexableValue.__init__(self)
@@ -414,49 +437,60 @@ class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable
         # Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
         self.definitionRef: Optional[RefType] = None
 
-        # Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.parameterValues: List[EcucParameterValue] = []
 
-        # Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.referenceValues: List[EcucAbstractReferenceValue] = []
 
-        # Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.subContainers: List[EcucContainerValue] = []
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> EcucContainerValue:
-        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucContainerValue:
+        """Reference to the definition of this Container in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
 
     def getParameterValues(self) -> List[EcucParameterValue]:
-        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.parameterValues
 
-    def addParameterValue(self, value: EcucParameterValue) -> EcucContainerValue:
-        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        self.parameterValues.append(value)
+    def addParameterValue(self, value: Optional[EcucParameterValue]) -> EcucContainerValue:
+        """Aggregates all ECU Configuration Values within this Container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=parameterValue, parameterValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to the existing parameter values.
+        """
+        if value is not None:
+            self.parameterValues.append(value)
         return self
 
     def getReferenceValues(self) -> List[EcucAbstractReferenceValue]:
-        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.referenceValues
 
-    def addReferenceValue(self, value: EcucAbstractReferenceValue) -> EcucContainerValue:
-        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        self.referenceValues.append(value)
+    def addReferenceValue(self, value: Optional[EcucAbstractReferenceValue]) -> EcucContainerValue:
+        """Aggregates all References with this container. atpVariation: [RS_ECUC_00079] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=referenceValue, referenceValue.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not append to the existing reference values.
+        """
+        if value is not None:
+            self.referenceValues.append(value)
         return self
 
     def getSubContainers(self) -> List[EcucContainerValue]:
-        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.subContainers
 
     def createSubContainer(self, short_name: str) -> EcucContainerValue:
-        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, subContainer.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, EcucContainerValue):
             container_value = EcucContainerValue(self, short_name)
             self.addReferrableElement(container_value)
@@ -471,21 +505,22 @@ class EcucModuleConfigurationValues(ARElement):
 
     # EcucModuleConfigurationValues method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.47, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucDefEdition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucDefEdition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDefinitionRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefinitionRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucDefEdition               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucDefEdition               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationConfigVariant  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationConfigVariant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModuleDescriptionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantUsed         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPostBuildVariantUsed         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # ARPackage.element dispatch: reader readEcucModuleConfigurationValues branch +
+    # writer writeARPackageElement branch both present (Aggregated by row).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -518,14 +553,17 @@ class EcucModuleConfigurationValues(ARElement):
 
     def getContainers(self) -> List[EcucContainerValue]:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
-        return list(self.containers)
+        return self.containers
 
     def getDefinitionRef(self) -> Optional[RefType]:
         """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType) -> EcucModuleConfigurationValues:
-        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+    def setDefinitionRef(self, value: Optional[RefType]) -> EcucModuleConfigurationValues:
+        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.definitionRef = value
         return self
@@ -534,8 +572,11 @@ class EcucModuleConfigurationValues(ARElement):
         """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor."""
         return self.ecucDefEdition
 
-    def setEcucDefEdition(self, value: RevisionLabelString) -> EcucModuleConfigurationValues:
-        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor. A None value is a no-op and does not overwrite an existing version info."""
+    def setEcucDefEdition(self, value: Optional[RevisionLabelString]) -> EcucModuleConfigurationValues:
+        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor.
+
+        A None value is a no-op and does not overwrite an existing version info.
+        """
         if value is not None:
             self.ecucDefEdition = value
         return self
@@ -544,8 +585,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild."""
         return self.implementationConfigVariant
 
-    def setImplementationConfigVariant(self, value: EcucConfigurationVariantEnum) -> EcucModuleConfigurationValues:
-        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild. A None value is a no-op and does not overwrite an existing configuration variant."""
+    def setImplementationConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]) -> EcucModuleConfigurationValues:
+        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.
+
+        A None value is a no-op and does not overwrite an existing configuration variant.
+        """
         if value is not None:
             self.implementationConfigVariant = value
         return self
@@ -554,8 +598,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information."""
         return self.moduleDescriptionRef
 
-    def setModuleDescriptionRef(self, value: RefType) -> EcucModuleConfigurationValues:
-        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information. A None value is a no-op and does not overwrite an existing reference."""
+    def setModuleDescriptionRef(self, value: Optional[RefType]) -> EcucModuleConfigurationValues:
+        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.
+
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.moduleDescriptionRef = value
         return self
@@ -564,8 +611,11 @@ class EcucModuleConfigurationValues(ARElement):
         """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed."""
         return self.postBuildVariantUsed
 
-    def setPostBuildVariantUsed(self, value: Boolean) -> EcucModuleConfigurationValues:
-        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed. A None value is a no-op and does not overwrite an existing flag."""
+    def setPostBuildVariantUsed(self, value: Optional[Boolean]) -> EcucModuleConfigurationValues:
+        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing flag.
+        """
         if value is not None:
             self.postBuildVariantUsed = value
         return self

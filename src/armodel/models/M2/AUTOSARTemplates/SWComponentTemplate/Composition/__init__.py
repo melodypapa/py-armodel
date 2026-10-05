@@ -60,18 +60,17 @@ class SwComponentPrototype(AtpPrototype, VariationPointCapable):
         return self
 
 
-class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
+class SwConnector(AtpStructureElement, ABC):
     """
     The base class for connectors between ports. Connectors have to be identifiable to allow references from the system constraint template.
     """
 
     # SwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.12, p.80
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappingRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
@@ -83,23 +82,14 @@ class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
 
     def getMappingRef(self) -> Optional[RefType]:
         """
-        Gets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
-
-        Returns:
-            RefType referencing the PortInterfaceMapping, or None if not set
+        Reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
         """
         return self.mappingRef
 
     def setMappingRef(self, value: Optional[RefType]) -> "SwConnector":
         """
-        Sets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
+        Reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The PortInterfaceMapping reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.mappingRef = value
@@ -241,13 +231,12 @@ class PassThroughSwConnector(SwConnector):
 
     # PassThroughSwConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.15, p.83
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedOuterPortRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedOuterPortRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredOuterPortRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredOuterPortRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -260,23 +249,14 @@ class PassThroughSwConnector(SwConnector):
 
     def getProvidedOuterPortRef(self) -> Optional[RefType]:
         """
-        Gets the provided outer delegation Port Prototype of the PassThroughSwConnector.
-
-        Returns:
-            RefType referencing the provided outer delegation Port Prototype, or None if not set
+        This represents the provided outer delegation Port Prototype of the PassThroughSwConnector.
         """
         return self.providedOuterPortRef
 
     def setProvidedOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
         """
-        Sets the provided outer delegation Port Prototype of the PassThroughSwConnector.
+        This represents the provided outer delegation Port Prototype of the PassThroughSwConnector.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The provided outer delegation Port Prototype reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.providedOuterPortRef = value
@@ -284,43 +264,33 @@ class PassThroughSwConnector(SwConnector):
 
     def getRequiredOuterPortRef(self) -> Optional[RefType]:
         """
-        Gets the required outer delegation Port Prototype of the PassThroughSwConnector.
-
-        Returns:
-            RefType referencing the required outer delegation Port Prototype, or None if not set
+        This represents the required outer delegation Port Prototype of the PassThroughSwConnector.
         """
         return self.requiredOuterPortRef
 
     def setRequiredOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
         """
-        Sets the required outer delegation Port Prototype of the PassThroughSwConnector.
+        This represents the required outer delegation Port Prototype of the PassThroughSwConnector.
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The required outer delegation Port Prototype reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.requiredOuterPortRef = value
         return self
 
 
-class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
+class InstantiationRTEEventProps(ARObject, ABC):
     """
     This meta-class represents the ability to refine the properties of RTEEvents for particular instances of a software component.
     """
 
     # InstantiationRTEEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.17, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRefinedEventIRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRefinedEventIRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRefinedEventIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefinedEventIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is InstantiationRTEEventProps:
@@ -336,23 +306,14 @@ class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
 
     def getRefinedEventIRef(self) -> Optional[InstanceEventInCompositionInstanceRef]:
         """
-        Gets the instance reference denoting the Timing Event for which the period shall be refined on an instance level.
-
-        Returns:
-            InstanceEventInCompositionInstanceRef, or None if not set
+        This instance ref denotes the Timing Event for which the period shall be refined on an instance level. InstanceRef implemented by: InstanceEventInCompositionInstanceRef
         """
         return self.refinedEventIRef
 
     def setRefinedEventIRef(self, value: Optional[InstanceEventInCompositionInstanceRef]) -> "InstantiationRTEEventProps":
         """
-        Sets the instance reference denoting the Timing Event for which the period shall be refined on an instance level.
+        This instance ref denotes the Timing Event for which the period shall be refined on an instance level. InstanceRef implemented by: InstanceEventInCompositionInstanceRef
         A None value is a no-op and does not overwrite an existing reference.
-
-        Args:
-            value: The InstanceEventInCompositionInstanceRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.refinedEventIRef = value
@@ -360,23 +321,14 @@ class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
 
     def getShortLabel(self) -> Optional[Identifier]:
         """
-        Gets the short label that contributes to the splitkey of aggregations that are <<atpSplitable>>.
-
-        Returns:
-            Identifier representing the short label, or None if not set
+        The main purpose of the shortLabel is to contribute to the splitkey of aggregations that are <<atpSplitable>>.
         """
         return self.shortLabel
 
     def setShortLabel(self, value: Optional[Identifier]) -> "InstantiationRTEEventProps":
         """
-        Sets the short label that contributes to the splitkey of aggregations that are <<atpSplitable>>.
+        The main purpose of the shortLabel is to contribute to the splitkey of aggregations that are <<atpSplitable>>.
         A None value is a no-op and does not overwrite an existing short label.
-
-        Args:
-            value: The short label identifier to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.shortLabel = value
@@ -390,11 +342,10 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # InstantiationTimingEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.16, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -404,23 +355,14 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the value of the refined activation period.
-
-        Returns:
-            TimeValue representing the period, or None if not set
+        This attribute represents the value of the refined activation period.
         """
         return self.period
 
     def setPeriod(self, value: Optional[TimeValue]) -> "InstantiationTimingEventProps":
         """
-        Sets the value of the refined activation period.
+        This attribute represents the value of the refined activation period.
         A None value is a no-op and does not overwrite an existing period.
-
-        Args:
-            value: The period TimeValue to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.period = value

@@ -91,7 +91,7 @@ class TestSoAdRoutingGroupRoundTrip:
     def test_full_document_round_trip_via_ar_package(self, writer, parser, tmp_path):
         document = AUTOSAR.getInstance()
         pkg = document.createARPackage("Ether")
-        pkg.createSoAdRoutingGroup("RG1").setEventGroupControlType(EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST))
+        pkg.createSoAdRoutingGroup("RG1").setEventGroupControlType(EventGroupControlTypeEnum().setValue("ACTIVATION-AND-TRIGGER-UNICAST"))
         pkg.createSoAdRoutingGroup("RG2")
 
         path = tmp_path / "soad_routing_group.arxml"
@@ -106,7 +106,7 @@ class TestSoAdRoutingGroupRoundTrip:
         assert parsed is not None
         control_type = parsed.getEventGroupControlType()
         assert isinstance(control_type, EventGroupControlTypeEnum)
-        assert control_type.getValue() == "activationAndTriggerUnicast"
+        assert control_type.getValue() == "ACTIVATION-AND-TRIGGER-UNICAST"
 
         empty = loaded_pkg.getReferrableElement("RG2", SoAdRoutingGroup)
         assert empty is not None

@@ -7,7 +7,11 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    DateTime,
+    String,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, TransportProtocolConfiguration
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -32,6 +36,8 @@ def _new_tp():
     tp = GenericTp()
     tp.setTpAddress(_literal("30490"))
     tp.setTpTechnology(_literal("UDP"))
+    tp.setChecksum(String().setValue("1234"))
+    tp.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
     return tp
 
 
@@ -59,3 +65,5 @@ class TestWriteTransportProtocolConfiguration:
         assert isinstance(reloaded, TransportProtocolConfiguration)
         assert reloaded.getTpAddress().getValue() == "30490"
         assert reloaded.getTpTechnology().getValue() == "UDP"
+        assert reloaded.getChecksum().getValue() == "1234"
+        assert reloaded.getTimestamp().getValue() == "2024-01-01T00:00:00Z"

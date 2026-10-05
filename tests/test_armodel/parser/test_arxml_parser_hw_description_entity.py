@@ -69,14 +69,24 @@ class TestReadHwDescriptionEntity:
               <SHORT-NAME>TestElement</SHORT-NAME>
               <HW-ELEMENT-CONNECTIONS>
                 <HW-ELEMENT-CONNECTOR>
-                  <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
-                  <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
-                  <HW-PIN-CONNECTION>
-                    <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
-                  </HW-PIN-CONNECTION>
-                  <HW-PIN-GROUP-CONNECTION>
-                    <HW-PIN-GROUP-REF DEST="HW-PIN-GROUP">/Elements/ElemA/Group1</HW-PIN-GROUP-REF>
-                  </HW-PIN-GROUP-CONNECTION>
+                  <HW-ELEMENT-REFS>
+                    <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
+                    <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
+                  </HW-ELEMENT-REFS>
+                  <HW-PIN-CONNECTIONS>
+                    <HW-PIN-CONNECTOR>
+                      <HW-PIN-REFS>
+                        <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                      </HW-PIN-REFS>
+                    </HW-PIN-CONNECTOR>
+                  </HW-PIN-CONNECTIONS>
+                  <HW-PIN-GROUP-CONNECTIONS>
+                    <HW-PIN-GROUP-CONNECTOR>
+                      <HW-PIN-GROUP-REFS>
+                        <HW-PIN-GROUP-REF DEST="HW-PIN-GROUP">/Elements/ElemA/Group1</HW-PIN-GROUP-REF>
+                      </HW-PIN-GROUP-REFS>
+                    </HW-PIN-GROUP-CONNECTOR>
+                  </HW-PIN-GROUP-CONNECTIONS>
                 </HW-ELEMENT-CONNECTOR>
               </HW-ELEMENT-CONNECTIONS>
               <NESTED-ELEMENTS>
@@ -119,11 +129,17 @@ class TestReadHwDescriptionEntity:
     def test_read_hw_element_connector_refs(self):
         xml_content = """
             <HW-ELEMENT-CONNECTOR>
-              <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
-              <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
-              <HW-PIN-CONNECTION>
-                <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
-              </HW-PIN-CONNECTION>
+              <HW-ELEMENT-REFS>
+                <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
+                <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
+              </HW-ELEMENT-REFS>
+              <HW-PIN-CONNECTIONS>
+                <HW-PIN-CONNECTOR>
+                  <HW-PIN-REFS>
+                    <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                  </HW-PIN-REFS>
+                </HW-PIN-CONNECTOR>
+              </HW-PIN-CONNECTIONS>
             </HW-ELEMENT-CONNECTOR>
         """
         element = ET.fromstring(xml_content)

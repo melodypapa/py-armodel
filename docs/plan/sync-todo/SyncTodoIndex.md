@@ -722,72 +722,72 @@ Status: **24/24** completed
 
 ## Group16
 
-Status: **15/29** completed
+Status: **29/29** completed
 
-| Class Name                              | Status       | Commit ID  |
-| --------------------------------------- | ------------ | ---------- |
-| `RuntimeAddressConfigurationEnum`       | [ ] Pending* | c5bb322323 |
-| `IpAddressKeepEnum`                     | [ ] Pending* | c5bb322323 |
-| `Ipv6AddressSourceEnum`                 | [ ] Pending* | c5bb322323 |
-| `Ipv4AddressSourceEnum`                 | [ ] Pending* | 6c97ddc108 |
-| `DoIpEntity`                            | [ ] Pending* | b1e4750b14 |
-| `TpPort`                                | [ ] Pending* | b1e4750b14 |
-| `InitialSdDelayConfig`                  | [x] Done     | 84dc59b646 |
-| `EthernetPriorityRegeneration`          | [x] Done     | a513bd3ec3 |
-| `TimeSyncServerConfiguration`           | [x] Done     | 155cc2f7f9 |
-| `CouplingPortAbstractShaper`            | [x] Done     | f02e111f65 |
-| `CouplingPortAsynchronousTrafficShaper` | [x] Done     | 929cee7081 |
-| `CouplingPortCreditBasedShaper`         | [x] Done     | 929cee7081 |
-| `MacMulticastGroup`                     | [ ] Pending* | b1e4750b14 |
-| `IPSecConfig`                           | [x] Done     | d75eb10bff |
-| `NetworkEndpoint`                       | [x] Done     | 84587c11f6 |
-| `VlanConfig`                            | [ ] Pending* | b1e4750b14 |
-| `Ipv4Configuration`                     | [x] Done     | dcebacccb1 |
-| `GenericTp`                             | [ ] Pending* | N/A        |
-| `TcpTp`                                 | [ ] Pending* | N/A        |
-| `UdpTp`                                 | [ ] Pending* | N/A        |
-| `PduCollectionSemanticsEnum`            | [ ] Pending* | 4b7c8dc79c |
-| `SocketConnectionIpduIdentifier`        | [x] Done     | c02cad3bb9 |
-| `SocketConnectionBundle`                | [x] Done     | 01f37f105c |
-| `RequestResponseDelay`                  | [ ] Pending* | d7240be740 |
-| `SdServerConfig`                        | [x] Done     | f509df9d94 |
-| `TcpOptionFilterList`                   | [x] Done     | fd11862858 |
-| `TcpOptionFilterSet`                    | [ ] Pending* | 2d5b3256b4 |
-| `IPv6ExtHeaderFilterList`               | [x] Done     | d8127416ac |
-| `TimeSynchronization`                   | [x] Done     | f4a1df5bcb |
+| Class Name                              | Status   | Commit ID  |
+| --------------------------------------- | -------- | ---------- |
+| `RuntimeAddressConfigurationEnum`       | [x] Done | f24d8b53ba |
+| `IpAddressKeepEnum`                     | [x] Done | 161a1b8215 |
+| `Ipv6AddressSourceEnum`                 | [x] Done | a8fad12113 |
+| `Ipv4AddressSourceEnum`                 | [x] Done | 8c0771cafd |
+| `DoIpEntity`                            | [x] Done | a20bd931eb |
+| `TpPort`                                | [x] Done | 0f6b1c9bfd |
+| `InitialSdDelayConfig`                  | [x] Done | 84dc59b646 |
+| `EthernetPriorityRegeneration`          | [x] Done | a513bd3ec3 |
+| `TimeSyncServerConfiguration`           | [x] Done | 155cc2f7f9 |
+| `CouplingPortAbstractShaper`            | [x] Done | f02e111f65 |
+| `CouplingPortAsynchronousTrafficShaper` | [x] Done | 929cee7081 |
+| `CouplingPortCreditBasedShaper`         | [x] Done | 929cee7081 |
+| `MacMulticastGroup`                     | [x] Done | 9ee3f1b66a |
+| `IPSecConfig`                           | [x] Done | d75eb10bff |
+| `NetworkEndpoint`                       | [x] Done | 84587c11f6 |
+| `VlanConfig`                            | [x] Done | eb32bcdeea |
+| `Ipv4Configuration`                     | [x] Done | dcebacccb1 |
+| `GenericTp`                             | [x] Done | 627b5c3a94 |
+| `TcpTp`                                 | [x] Done | c59e3404da |
+| `UdpTp`                                 | [x] Done | 5336dd0eae |
+| `PduCollectionSemanticsEnum`            | [x] Done | 5d4adec228 |
+| `SocketConnectionIpduIdentifier`        | [x] Done | c02cad3bb9 |
+| `SocketConnectionBundle`                | [x] Done | 01f37f105c |
+| `RequestResponseDelay`                  | [x] Done | 1c556f35b4 |
+| `SdServerConfig`                        | [x] Done | f509df9d94 |
+| `TcpOptionFilterList`                   | [x] Done | fd11862858 |
+| `TcpOptionFilterSet`                    | [x] Done | 4b1494b6d2 |
+| `IPv6ExtHeaderFilterList`               | [x] Done | d8127416ac |
+| `TimeSynchronization`                   | [x] Done | f4a1df5bcb |
 
 ## Group17
 
-Status: **0/26** completed
+Status: **26/26** completed
 
-| Class Name                                 | Status       | Commit ID |
-| ------------------------------------------ | ------------ | --------- |
-| `CanClusterBusOffRecovery`                 | [ ] Pending* | N/A       |
-| `CanCommunicationConnector`                | [ ] Pending* | N/A       |
-| `CanControllerConfiguration`               | [ ] Pending* | N/A       |
-| `CanControllerConfigurationRequirements`   | [ ] Pending* | N/A       |
-| `CanControllerFdConfigurationRequirements` | [ ] Pending* | N/A       |
-| `ResumePosition`                           | [ ] Pending* | N/A       |
-| `ApplicationEntry`                         | [ ] Pending* | N/A       |
-| `LinScheduleTable`                         | [ ] Pending* | N/A       |
-| `RunMode`                                  | [ ] Pending* | N/A       |
-| `LinCommunicationConnector`                | [ ] Pending* | N/A       |
-| `FlexrayFrameTriggering`                   | [ ] Pending* | N/A       |
-| `FlexrayAbsolutelyScheduledTiming`         | [ ] Pending* | N/A       |
-| `FlexrayCommunicationConnector`            | [ ] Pending* | N/A       |
-| `FlexrayCommunicationController`           | [ ] Pending* | N/A       |
-| `FlexrayPhysicalChannel`                   | [ ] Pending* | N/A       |
-| `DataMapping`                              | [ ] Pending* | N/A       |
-| `IndexedArrayElement`                      | [ ] Pending* | N/A       |
-| `SenderRecRecordElementMapping`            | [ ] Pending* | N/A       |
-| `SenderRecRecordTypeMapping`               | [ ] Pending* | N/A       |
-| `SenderReceiverToSignalMapping`            | [ ] Pending* | N/A       |
-| `SenderReceiverToSignalGroupMapping`       | [ ] Pending* | N/A       |
-| `DefaultValueElement`                      | [ ] Pending* | N/A       |
-| `FrameMapping`                             | [ ] Pending* | N/A       |
-| `ISignalMapping`                           | [ ] Pending* | N/A       |
-| `TargetIPduRef`                            | [ ] Pending* | N/A       |
-| `Gateway`                                  | [ ] Pending* | N/A       |
+| Class Name                                 | Status   | Commit ID |
+| ------------------------------------------ | -------- | --------- |
+| `CanClusterBusOffRecovery`                 | [x] Done  | 9c4a146ff0 |
+| `CanCommunicationConnector`                | [x] Done  | 6e9794500d |
+| `CanControllerConfiguration`               | [x] Done  | 5de9869ed6 |
+| `CanControllerConfigurationRequirements`   | [x] Done  | cd843bee26 |
+| `CanControllerFdConfigurationRequirements` | [x] Done  | a115435650 |
+| `ResumePosition`                           | [x] Done  | 40c0abb9b1 |
+| `ApplicationEntry`                         | [x] Done  | 8a6c27cb1c |
+| `LinScheduleTable`                         | [x] Done  | 0215ceb16a |
+| `RunMode`                                  | [x] Done  | 0215ceb16a |
+| `LinCommunicationConnector`                | [x] Done  | da0534323b |
+| `FlexrayFrameTriggering`                   | [x] Done  | 3ab64d2b03 |
+| `FlexrayAbsolutelyScheduledTiming`         | [x] Done  | 3ab64d2b03 |
+| `FlexrayCommunicationConnector`            | [x] Done  | 73bba1d58a |
+| `FlexrayCommunicationController`           | [x] Done  | 0c1ff9a927 |
+| `FlexrayPhysicalChannel`                   | [x] Done  | 7774a8ec9b |
+| `DataMapping`                              | [x] Done  | dc0553786f |
+| `IndexedArrayElement`                      | [x] Done  | 9eb93f743f |
+| `SenderRecRecordElementMapping`            | [x] Done  | dc019f9575 |
+| `SenderRecRecordTypeMapping`               | [x] Done  | abbfc40109 |
+| `SenderReceiverToSignalMapping`            | [x] Done  | 44442b8b6a |
+| `SenderReceiverToSignalGroupMapping`       | [x] Done  | f921dd6fb4 |
+| `DefaultValueElement`                      | [x] Done  | 721cca6400 |
+| `FrameMapping`                             | [x] Done  | a5f62ee06d |
+| `ISignalMapping`                           | [x] Done  | ba0f1a12a8 |
+| `TargetIPduRef`                            | [x] Done  | 4d2c155383 |
+| `Gateway`                                  | [x] Done  | a00d99f993 |
 
 ## Group18
 
@@ -817,24 +817,24 @@ Status: **0/17** completed
 
 Status: **6/16** completed
 
-| Class Name                       | Status          | Commit ID  |
-| -------------------------------- | --------------- | ---------- |
-| `ConfigReferenceValue`           | [ ] Pending*    | N/A        |
-| `EcucValueCollection`            | [ ] Pending*    | N/A        |
-| `ModuleConfiguration`            | [ ] Pending*    | N/A        |
-| `EcucConfigurationClassEnum`     | [ ] Pending*    | N/A        |
-| `EcucScopeEnum`                  | [ ] Pending*    | N/A        |
-| `EcucDestinationUriDefRefType`   | [ ] Implemented | N/A        |
-| `EcucBooleanParamDef`            | [ ] Pending*    | N/A        |
-| `EcucFloatParamDef`              | [ ] Pending*    | N/A        |
-| `EcucForeignReferenceDef`        | [ ] Pending*    | N/A        |
-| `EcucLinkerSymbolDef`            | [ ] Pending*    | N/A        |
-| `EcucReferenceDef`               | [x] Done        | 0d45067479 |
-| `EcucSymbolicNameReferenceDef`   | [x] Done        | 0d45067479 |
-| `EcucUriReferenceDef`            | [x] Done        | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done        | N/A        |
-| `EcucParameterDerivationFormula` | [x] Done        | N/A        |
-| `EcucQueryExpression`            | [x] Done        | N/A        |
+| Class Name                       | Status       | Commit ID  |
+| -------------------------------- | ------------ | ---------- |
+| `ConfigReferenceValue`           | [ ] Pending* | N/A        |
+| `EcucValueCollection`            | [ ] Pending* | N/A        |
+| `ModuleConfiguration`            | [ ] Pending* | N/A        |
+| `EcucConfigurationClassEnum`     | [ ] Pending* | N/A        |
+| `EcucScopeEnum`                  | [ ] Pending* | N/A        |
+| `EcucDestinationUriDefRefType`   | [ ] Pending* | N/A        |
+| `EcucBooleanParamDef`            | [ ] Pending* | N/A        |
+| `EcucFloatParamDef`              | [ ] Pending* | N/A        |
+| `EcucForeignReferenceDef`        | [ ] Pending* | N/A        |
+| `EcucLinkerSymbolDef`            | [ ] Pending* | N/A        |
+| `EcucReferenceDef`               | [x] Done     | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done     | N/A        |
+| `EcucParameterDerivationFormula` | [x] Done     | N/A        |
+| `EcucQueryExpression`            | [x] Done     | N/A        |
 
 ## Group20
 
@@ -1204,63 +1204,63 @@ Status: **0/75** completed
 | `DiagnosticRequestVehicleInfo`                            | [ ] Pending* | a1dca9869b |
 | `DiagnosticRequestVehicleInfoClass`                       | [ ] Pending* | 4a2725a98e |
 | `DiagnosticInfoType`                                      | [ ] Pending* | 87a45b092d |
-| `DiagnosticRequestEmissionRelatedDTCPermanentStatus`      | [ ] Created  | N/A        |
-| `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` | [ ] Created  | N/A        |
-| `DiagnosticEvent`                                         | [ ] Created  | N/A        |
-| `DiagnosticClearEventAllowedBehaviorEnum`                 | [ ] Created  | N/A        |
-| `DiagnosticConnectedIndicator`                            | [ ] Created  | N/A        |
-| `DiagnosticEventClearAllowedEnum`                         | [ ] Created  | N/A        |
-| `DiagnosticEventKindEnum`                                 | [ ] Created  | N/A        |
-| `DiagnosticConnectedIndicatorBehaviorEnum`                | [ ] Created  | N/A        |
-| `DiagnosticTroubleCodeUds`                                | [ ] Created  | N/A        |
-| `DiagnosticTroubleCodeObd`                                | [ ] Created  | N/A        |
-| `EventObdReadinessGroup`                                  | [ ] Created  | N/A        |
-| `DiagnosticTroubleCode`                                   | [ ] Created  | N/A        |
-| `DiagnosticTroubleCodeGroup`                              | [ ] Created  | N/A        |
-| `DiagnosticMemoryDestination`                             | [ ] Created  | N/A        |
-| `DiagnosticMemoryEntryStorageTriggerEnum`                 | [ ] Created  | N/A        |
-| `DiagnosticClearDtcLimitationEnum`                        | [ ] Created  | N/A        |
-| `DiagnosticEventDisplacementStrategyEnum`                 | [ ] Created  | N/A        |
-| `DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum` | [ ] Created  | N/A        |
-| `DiagnosticTypeOfFreezeFrameRecordNumerationEnum`         | [ ] Created  | N/A        |
-| `DiagnosticMemoryDestinationPrimary`                      | [ ] Created  | N/A        |
-| `DiagnosticMemoryDestinationUserDefined`                  | [ ] Created  | N/A        |
-| `DiagnosticTroubleCodeProps`                              | [ ] Created  | N/A        |
-| `DiagnosticSignificanceEnum`                              | [ ] Created  | N/A        |
-| `DiagnosticUdsSeverityEnum`                               | [ ] Created  | N/A        |
-| `DiagnosticDataIdentifierSet`                             | [ ] Created  | N/A        |
-| `DiagnosticWwhObdDtcClassEnum`                            | [ ] Created  | N/A        |
-| `DiagnosticTroubleCodeUdsToTroubleCodeObdMapping`         | [ ] Created  | N/A        |
-| `DiagnosticExtendedDataRecord`                            | [ ] Created  | N/A        |
-| `DiagnosticRecordTriggerEnum`                             | [ ] Created  | N/A        |
-| `DiagnosticFreezeFrame`                                   | [ ] Created  | N/A        |
-| `DiagnosticCondition`                                     | [ ] Created  | N/A        |
-| `DiagnosticEnableCondition`                               | [ ] Created  | N/A        |
-| `DiagnosticStorageCondition`                              | [ ] Created  | N/A        |
-| `DiagnosticDebounceAlgorithmProps`                        | [ ] Created  | N/A        |
-| `DiagnosticDebounceBehaviorEnum`                          | [ ] Created  | N/A        |
-| `DiagnosticConditionGroup`                                | [ ] Created  | N/A        |
-| `DiagnosticEnableConditionGroup`                          | [ ] Created  | N/A        |
-| `DiagnosticStorageConditionGroup`                         | [ ] Created  | N/A        |
-| `DiagnosticOperationCycle`                                | [ ] Created  | N/A        |
-| `DiagnosticOperationCycleTypeEnum`                        | [ ] Created  | N/A        |
-| `DiagnosticAging`                                         | [ ] Created  | N/A        |
-| `DiagnosticIndicator`                                     | [ ] Created  | N/A        |
-| `DiagnosticTestResultUpdateEnum`                          | [ ] Created  | N/A        |
-| `DiagnosticTestIdentifier`                                | [ ] Created  | N/A        |
-| `DiagnosticMeasurementIdentifier`                         | [ ] Created  | N/A        |
-| `DiagnosticEcuInstanceProps`                              | [ ] Created  | N/A        |
-| `DiagnosticObdSupportEnum`                                | [ ] Created  | N/A        |
-| `DiagnosticIumpr`                                         | [ ] Created  | N/A        |
-| `DiagnosticIumprKindEnum`                                 | [ ] Created  | N/A        |
-| `DiagnosticIumprGroup`                                    | [ ] Created  | N/A        |
-| `DiagnosticIumprGroupIdentifier`                          | [ ] Created  | N/A        |
-| `DiagnosticIumprDenominatorGroup`                         | [ ] Created  | N/A        |
-| `DiagnosticFimAliasEvent`                                 | [ ] Created  | N/A        |
-| `DiagnosticAbstractAliasEvent`                            | [ ] Created  | N/A        |
-| `DiagnosticFunctionIdentifier`                            | [ ] Created  | N/A        |
-| `DiagnosticFunctionIdentifierInhibit`                     | [ ] Created  | N/A        |
-| `DiagnosticFunctionInhibitSource`                         | [ ] Created  | N/A        |
+| `DiagnosticRequestEmissionRelatedDTCPermanentStatus`      | [ ] Pending* | c50712427c |
+| `DiagnosticRequestEmissionRelatedDTCPermanentStatusClass` | [ ] Pending* | bc59ec221e |
+| `DiagnosticEvent`                                         | [ ] Pending* | b1378989c8 |
+| `DiagnosticClearEventAllowedBehaviorEnum`                 | [ ] Pending* | 3ad75e1261 |
+| `DiagnosticConnectedIndicator`                            | [ ] Pending* | b2e6b63410 |
+| `DiagnosticEventClearAllowedEnum`                         | [ ] Pending* | 2bae144488 |
+| `DiagnosticEventKindEnum`                                 | [ ] Pending* | aa744716cf |
+| `DiagnosticConnectedIndicatorBehaviorEnum`                | [ ] Pending* | faf9703711 |
+| `DiagnosticTroubleCodeUds`                                | [ ] Pending* | fbead45f73 |
+| `DiagnosticTroubleCodeObd`                                | [ ] Pending* | 5c4cbcc4b5 |
+| `EventObdReadinessGroup`                                  | [ ] Pending* | 51dbeac91d |
+| `DiagnosticTroubleCode`                                   | [ ] Pending* | 086b29c68d |
+| `DiagnosticTroubleCodeGroup`                              | [ ] Pending* | 6e16251e8a |
+| `DiagnosticMemoryDestination`                             | [ ] Pending* | be5b392c44 |
+| `DiagnosticMemoryEntryStorageTriggerEnum`                 | [ ] Pending* | e550cdfbd3 |
+| `DiagnosticClearDtcLimitationEnum`                        | [ ] Pending* | 6b187ebfae |
+| `DiagnosticEventDisplacementStrategyEnum`                 | [ ] Pending* | 4a5813b099 |
+| `DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum` | [ ] Pending* | c97cedd4d1 |
+| `DiagnosticTypeOfFreezeFrameRecordNumerationEnum`         | [ ] Pending* | 4e24dc1bed |
+| `DiagnosticMemoryDestinationPrimary`                      | [ ] Pending* | 9d32504d97 |
+| `DiagnosticMemoryDestinationUserDefined`                  | [ ] Pending* | 570c9983ad |
+| `DiagnosticTroubleCodeProps`                              | [ ] Pending* | 39f801ec7e |
+| `DiagnosticSignificanceEnum`                              | [ ] Pending* | 9d20f1f7ce |
+| `DiagnosticUdsSeverityEnum`                               | [ ] Pending* | 056b7c5e0c |
+| `DiagnosticDataIdentifierSet`                             | [ ] Pending* | 303f7cf31d |
+| `DiagnosticWwhObdDtcClassEnum`                            | [ ] Pending* | 5663344175 |
+| `DiagnosticTroubleCodeUdsToTroubleCodeObdMapping`         | [ ] Pending* | 1f194826e7 |
+| `DiagnosticExtendedDataRecord`                            | [ ] Pending* | a200a96695 |
+| `DiagnosticRecordTriggerEnum`                             | [ ] Pending* | 38bfd94d4b |
+| `DiagnosticFreezeFrame`                                   | [ ] Pending* | 6c6c31d224 |
+| `DiagnosticCondition`                                     | [ ] Pending* | 48dbae418f |
+| `DiagnosticEnableCondition`                               | [ ] Pending* | 3acb287717 |
+| `DiagnosticStorageCondition`                              | [ ] Pending* | bd5949a41b |
+| `DiagnosticDebounceAlgorithmProps`                        | [ ] Pending* | 4a6604c7b5 |
+| `DiagnosticDebounceBehaviorEnum`                          | [ ] Pending* | 165e554f17 |
+| `DiagnosticConditionGroup`                                | [ ] Pending* | c04fdb8f07 |
+| `DiagnosticEnableConditionGroup`                          | [ ] Pending* | ceea3ebd37 |
+| `DiagnosticStorageConditionGroup`                         | [ ] Pending* | 7b05bc91b8 |
+| `DiagnosticOperationCycle`                                | [ ] Pending* | b5e7e1ec12 |
+| `DiagnosticOperationCycleTypeEnum`                        | [ ] Pending* | 03a924f74f |
+| `DiagnosticAging`                                         | [ ] Pending* | c4704e8f01 |
+| `DiagnosticIndicator`                                     | [ ] Pending* | e603f3f050 |
+| `DiagnosticTestResultUpdateEnum`                          | [ ] Pending* | af61dd3966 |
+| `DiagnosticTestIdentifier`                                | [ ] Pending* | f7cd643add |
+| `DiagnosticMeasurementIdentifier`                         | [ ] Pending* | 5d908b94d8 |
+| `DiagnosticEcuInstanceProps`                              | [ ] Pending* | 84408cb8c9 |
+| `DiagnosticObdSupportEnum`                                | [ ] Pending* | bfaab4368c |
+| `DiagnosticIumpr`                                         | [ ] Pending* | 3dce1b74b0 |
+| `DiagnosticIumprKindEnum`                                 | [ ] Pending* | 015af36ca8 |
+| `DiagnosticIumprGroup`                                    | [ ] Pending* | 02133e7e76 |
+| `DiagnosticIumprGroupIdentifier`                          | [ ] Pending* | 0b26bf6ac0 |
+| `DiagnosticIumprDenominatorGroup`                         | [ ] Pending* | e1a516d394 |
+| `DiagnosticFimAliasEvent`                                 | [ ] Pending* | ea393b05d8 |
+| `DiagnosticAbstractAliasEvent`                            | [ ] Pending* | 5ff78dec55 |
+| `DiagnosticFunctionIdentifier`                            | [ ] Pending* | dc026145a3 |
+| `DiagnosticFunctionIdentifierInhibit`                     | [ ] Pending* | 27e01b0795 |
+| `DiagnosticFunctionInhibitSource`                         | [ ] Pending* | fd3444a79c |
 
 ## Group26
 
@@ -1348,83 +1348,83 @@ Status: **1/75** completed
 
 Status: **0/75** completed
 
-| Class Name                                  | Status          | Commit ID |
-| ------------------------------------------- | --------------- | --------- |
-| `EcucConditionSpecification`                | [ ] Implemented | N/A       |
-| `EcucValidationCondition`                   | [ ] Implemented | N/A       |
-| `EcucIndexableValue`                        | [ ] Implemented | N/A       |
-| `EcucModuleConfigurationValues`             | [ ] Implemented | N/A       |
-| `EcucContainerValue`                        | [ ] Implemented | N/A       |
-| `EcucParameterValue`                        | [ ] Implemented | N/A       |
-| `EcucTextualParamValue`                     | [ ] Implemented | N/A       |
-| `EcucNumericalParamValue`                   | [ ] Implemented | N/A       |
-| `EcucAddInfoParamValue`                     | [ ] Implemented | N/A       |
-| `EcucAbstractReferenceValue`                | [ ] Implemented | N/A       |
-| `EcucReferenceValue`                        | [ ] Implemented | N/A       |
-| `EcucInstanceReferenceValue`                | [ ] Implemented | N/A       |
-| `HwDescriptionEntity`                       | [ ] Implemented | N/A       |
-| `HwPinGroupContent`                         | [ ] Implemented | N/A       |
-| `HwElementConnector`                        | [ ] Implemented | N/A       |
-| `HwPinGroupConnector`                       | [ ] Implemented | N/A       |
-| `HwPinConnector`                            | [ ] Implemented | N/A       |
-| `CommunicationController`                   | [ ] Implemented | N/A       |
-| `ParameterSwComponentType`                  | [ ] Created     | N/A       |
-| `SwComponentType`                           | [ ] Implemented | N/A       |
-| `AtomicSwComponentType`                     | [ ] Implemented | N/A       |
-| `ApplicationSwComponentType`                | [ ] Implemented | N/A       |
-| `SwConnector`                               | [ ] Implemented | N/A       |
-| `PassThroughSwConnector`                    | [ ] Implemented | N/A       |
-| `InstantiationTimingEventProps`             | [ ] Implemented | N/A       |
-| `InstantiationRTEEventProps`                | [ ] Implemented | N/A       |
-| `PortInterface`                             | [ ] Implemented | N/A       |
-| `ServiceProviderEnum`                       | [ ] Implemented | N/A       |
-| `ClientServerInterface`                     | [ ] Implemented | N/A       |
-| `ClientServerOperation`                     | [ ] Implemented | N/A       |
-| `ArgumentDataPrototype`                     | [ ] Implemented | N/A       |
-| `ServerArgumentImplPolicyEnum`              | [ ] Implemented | N/A       |
-| `ApplicationError`                          | [ ] Implemented | N/A       |
-| `ModeSwitchInterface`                       | [ ] Implemented | N/A       |
-| `DataPrototypeMapping`                      | [ ] Implemented | N/A       |
-| `ModeDeclarationMapping`                    | [ ] Implemented | N/A       |
-| `ImplementationDataTypeSubElementRef`       | [ ] Created     | N/A       |
-| `ApplicationCompositeDataTypeSubElementRef` | [ ] Implemented | N/A       |
-| `MappingDirectionEnum`                      | [ ] Implemented | N/A       |
-| `TextTableValuePair`                        | [ ] Implemented | N/A       |
-| `DataTransformation`                        | [ ] Implemented | N/A       |
-| `DataTransformationKindEnum`                | [ ] Implemented | N/A       |
-| `SenderReceiverAnnotation`                  | [ ] Implemented | N/A       |
-| `SenderAnnotation`                          | [ ] Created     | N/A       |
-| `ReceiverAnnotation`                        | [ ] Created     | N/A       |
-| `ProcessingKindEnum`                        | [ ] Implemented | N/A       |
-| `DataLimitKindEnum`                         | [ ] Implemented | N/A       |
-| `ClientServerAnnotation`                    | [ ] Implemented | N/A       |
-| `IoHwAbstractionServerAnnotation`           | [ ] Implemented | N/A       |
-| `FilterDebouncingEnum`                      | [ ] Implemented | N/A       |
-| `PulseTestEnum`                             | [ ] Implemented | N/A       |
-| `ParameterPortAnnotation`                   | [ ] Implemented | N/A       |
-| `ModePortAnnotation`                        | [ ] Implemented | N/A       |
-| `TriggerPortAnnotation`                     | [ ] Implemented | N/A       |
-| `NvDataPortAnnotation`                      | [ ] Implemented | N/A       |
-| `DelegatedPortAnnotation`                   | [ ] Implemented | N/A       |
-| `SignalFanEnum`                             | [ ] Implemented | N/A       |
-| `PPortComSpec`                              | [ ] Implemented | N/A       |
-| `RPortComSpec`                              | [ ] Implemented | N/A       |
-| `ReceiverComSpec`                           | [ ] Implemented | N/A       |
-| `HandleOutOfRangeStatusEnum`                | [ ] Implemented | N/A       |
-| `NonqueuedReceiverComSpec`                  | [ ] Implemented | N/A       |
-| `HandleTimeoutEnum`                         | [ ] Implemented | N/A       |
-| `TimeValue`                                 | [ ] Implemented | N/A       |
-| `SenderComSpec`                             | [ ] Implemented | N/A       |
-| `NonqueuedSenderComSpec`                    | [ ] Implemented | N/A       |
-| `TransmissionComSpecProps`                  | [ ] Implemented | N/A       |
-| `TransmissionAcknowledgementRequest`        | [ ] Implemented | N/A       |
-| `HandleOutOfRangeEnum`                      | [ ] Implemented | N/A       |
-| `TransmissionModeDefinitionEnum`            | [ ] Implemented | N/A       |
-| `ClientComSpec`                             | [ ] Implemented | N/A       |
-| `ServerComSpec`                             | [ ] Implemented | N/A       |
-| `ParameterProvideComSpec`                   | [ ] Implemented | N/A       |
-| `TransformationComSpecProps`                | [ ] Implemented | N/A       |
-| `TransformationTechnology`                  | [ ] Implemented | N/A       |
+| Class Name                                  | Status          | Commit ID  |
+| ------------------------------------------- | --------------- | ---------- |
+| `EcucConditionSpecification`                | [ ] Implemented | 901e5bb4c3 |
+| `EcucValidationCondition`                   | [ ] Pending*    | 401e19fd2d |
+| `EcucIndexableValue`                        | [ ] Pending*    | 7fa66d34f9 |
+| `EcucModuleConfigurationValues`             | [ ] Pending*    | 963ae8fcfc |
+| `EcucContainerValue`                        | [ ] Pending*    | 319fcf7080 |
+| `EcucParameterValue`                        | [ ] Pending*    | de8db969b1 |
+| `EcucTextualParamValue`                     | [ ] Pending*    | b4a24a5d87 |
+| `EcucNumericalParamValue`                   | [ ] Pending*    | c2eb1c04d2 |
+| `EcucAddInfoParamValue`                     | [ ] Pending*    | 0c30fe6b6b |
+| `EcucAbstractReferenceValue`                | [ ] Pending*    | b5f9232413 |
+| `EcucReferenceValue`                        | [ ] Pending*    | 5986011aa6 |
+| `EcucInstanceReferenceValue`                | [ ] Pending*    | 9d34a15176 |
+| `HwDescriptionEntity`                       | [ ] Pending*    | 8a55380861 |
+| `HwPinGroupContent`                         | [ ] Pending*    | cb322b20cb |
+| `HwElementConnector`                        | [ ] Pending*    | f48bef4731 |
+| `HwPinGroupConnector`                       | [ ] Pending*    | acdd47866a |
+| `HwPinConnector`                            | [ ] Pending*    | 2bf0929ad2 |
+| `CommunicationController`                   | [ ] Pending*    | f3e797c458 |
+| `ParameterSwComponentType`                  | [ ] Pending*    | e82f0ed83e |
+| `SwComponentType`                           | [ ] Pending*    | 9e3500a78f |
+| `AtomicSwComponentType`                     | [ ] Pending*    | 184f2d7e82 |
+| `ApplicationSwComponentType`                | [ ] Pending*    | 31ce617eb9 |
+| `SwConnector`                               | [ ] Pending*    | 9c9cfd33ef |
+| `PassThroughSwConnector`                    | [ ] Pending*    | 1c0ee7d639 |
+| `InstantiationTimingEventProps`             | [ ] Pending*    | 38df536d98 |
+| `InstantiationRTEEventProps`                | [ ] Pending*    | aaffe85cbf |
+| `PortInterface`                             | [ ] Pending*    | ea81891ead |
+| `ServiceProviderEnum`                       | [ ] Pending*    | 5935adb517 |
+| `ClientServerInterface`                     | [ ] Pending*    | d1b24784a9 |
+| `ClientServerOperation`                     | [ ] Pending*    | 15345a61f7 |
+| `ArgumentDataPrototype`                     | [ ] Pending*    | 6f30a16016 |
+| `ServerArgumentImplPolicyEnum`              | [ ] Pending*    | f045532a3c |
+| `ApplicationError`                          | [ ] Pending*    | 10a69b5248 |
+| `ModeSwitchInterface`                       | [ ] Pending*    | a16d0c351f |
+| `DataPrototypeMapping`                      | [ ] Pending*    | 2b08d90f5a |
+| `ModeDeclarationMapping`                    | [ ] Pending*    | 9df12a627d |
+| `ImplementationDataTypeSubElementRef`       | [ ] Pending*    | 048dfdbb1f |
+| `ApplicationCompositeDataTypeSubElementRef` | [ ] Pending*    | 46a5c6be3e |
+| `MappingDirectionEnum`                      | [ ] Pending*    | 9ed89eb9e6 |
+| `TextTableValuePair`                        | [ ] Pending*    | ee2a8edc68 |
+| `DataTransformation`                        | [ ] Pending*    | e34755cfd8 |
+| `DataTransformationKindEnum`                | [ ] Pending*    | 19d7d01e4d |
+| `SenderReceiverAnnotation`                  | [ ] Pending*    | 21808a1f74 |
+| `SenderAnnotation`                          | [ ] Pending*    | f0a69daa65 |
+| `ReceiverAnnotation`                        | [ ] Pending*    | f2020f54b4 |
+| `ProcessingKindEnum`                        | [ ] Pending*    | 97030aba64 |
+| `DataLimitKindEnum`                         | [ ] Pending*    | 87507e7bed |
+| `ClientServerAnnotation`                    | [ ] Pending*    | a5e2f7c628 |
+| `IoHwAbstractionServerAnnotation`           | [ ] Pending*    | 315b01de98 |
+| `FilterDebouncingEnum`                      | [ ] Pending*    | c23b544607 |
+| `PulseTestEnum`                             | [ ] Pending*    | b532d9a217 |
+| `ParameterPortAnnotation`                   | [ ] Pending*    | 9d56752e39 |
+| `ModePortAnnotation`                        | [ ] Pending*    | 2849ecb9cd |
+| `TriggerPortAnnotation`                     | [ ] Pending*    | f2d78fca39 |
+| `NvDataPortAnnotation`                      | [ ] Pending*    | b0ec28fdd3 |
+| `DelegatedPortAnnotation`                   | [ ] Pending*    | 1461e45c24 |
+| `SignalFanEnum`                             | [ ] Pending*    | 332ce34385 |
+| `PPortComSpec`                              | [ ] Implemented | N/A        |
+| `RPortComSpec`                              | [ ] Pending*    | N/A        |
+| `ReceiverComSpec`                           | [ ] Pending*    | N/A        |
+| `HandleOutOfRangeStatusEnum`                | [ ] Pending*    | N/A        |
+| `NonqueuedReceiverComSpec`                  | [ ] Implemented | N/A        |
+| `HandleTimeoutEnum`                         | [ ] Implemented | N/A        |
+| `TimeValue`                                 | [ ] Implemented | N/A        |
+| `SenderComSpec`                             | [ ] Implemented | N/A        |
+| `NonqueuedSenderComSpec`                    | [ ] Implemented | N/A        |
+| `TransmissionComSpecProps`                  | [ ] Implemented | N/A        |
+| `TransmissionAcknowledgementRequest`        | [ ] Implemented | N/A        |
+| `HandleOutOfRangeEnum`                      | [ ] Implemented | N/A        |
+| `TransmissionModeDefinitionEnum`            | [ ] Implemented | N/A        |
+| `ClientComSpec`                             | [ ] Implemented | N/A        |
+| `ServerComSpec`                             | [ ] Implemented | N/A        |
+| `ParameterProvideComSpec`                   | [ ] Implemented | N/A        |
+| `TransformationComSpecProps`                | [ ] Implemented | N/A        |
+| `TransformationTechnology`                  | [ ] Pending*    | fecff00ac5 |
 
 ## Group28
 
@@ -1454,7 +1454,7 @@ Status: **0/75** completed
 | `ByteOrderEnum`                              | [ ] Implemented | N/A       |
 | `AutosarDataPrototype`                       | [ ] Implemented | N/A       |
 | `ParameterInAtomicSWCTypeInstanceRef`        | [ ] Implemented | N/A       |
-| `ArParameterInImplementationDataInstanceRef` | [ ] Created     | N/A       |
+| `ArParameterInImplementationDataInstanceRef` | [ ] Implemented | N/A       |
 | `SwDataDefProps`                             | [ ] Implemented | N/A       |
 | `SwBitRepresentation`                        | [ ] Implemented | N/A       |
 | `SwCalibrationAccessEnum`                    | [ ] Implemented | N/A       |

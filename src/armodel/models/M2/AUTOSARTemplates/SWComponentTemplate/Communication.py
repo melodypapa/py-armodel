@@ -53,10 +53,9 @@ class PPortComSpec(ARObject, ABC):
     """
 
     # PPortComSpec method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.58, p.166
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.58, p.166 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is PPortComSpec:
@@ -70,10 +69,9 @@ class RPortComSpec(ARObject, ABC):
     """
 
     # RPortComSpec method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.59, p.167
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.59, p.167 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is RPortComSpec:
@@ -816,34 +814,33 @@ class ReceiverComSpec(RPortComSpec, ABC):
     """
 
     # ReceiverComSpec method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.60, p.172
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDataElementRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRange          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReceptionProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReceptionProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReplaceWith               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReplaceWith               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.60, p.172 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElementRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRangeStatus    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounterInit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceptionProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceptionProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReplaceWith               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReplaceWith               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesEndToEndProtection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is ReceiverComSpec:
@@ -888,8 +885,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation) -> ReceiverComSpec:
         """
-        This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify the network representation of leaf elements of Application CompositeDataTypes. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
-        A None value is a no-op and does not append anything.
+        This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify the network representation of leaf elements of Application CompositeDataTypes. A None value is a no-op and does not append anything.
         """
         if representation is not None:
             self.compositeNetworkRepresentations.append(representation)
@@ -897,7 +893,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:
         """
-        This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify the network representation of leaf elements of Application CompositeDataTypes. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
+        This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify the network representation of leaf elements of Application CompositeDataTypes.
         """
         return self.compositeNetworkRepresentations
 
@@ -909,8 +905,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setDataElementRef(self, value: Optional[RefType]) -> ReceiverComSpec:
         """
-        Data element these attributes belong to.
-        A None value is a no-op and does not overwrite an existing dataElementRef.
+        Data element these attributes belong to. A None value is a no-op and does not overwrite an existing dataElementRef.
         """
         if value is not None:
             self.dataElementRef = value
@@ -924,8 +919,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> ReceiverComSpec:
         """
-        This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum.
-        A None value is a no-op and does not overwrite an existing handleOutOfRange.
+        This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum. A None value is a no-op and does not overwrite an existing handleOutOfRange.
         """
         if value is not None:
             self.handleOutOfRange = value
@@ -939,8 +933,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setHandleOutOfRangeStatus(self, value: Optional[HandleOutOfRangeStatusEnum]) -> ReceiverComSpec:
         """
-        Control the way how return values are created in case of an out-of-range situation.
-        A None value is a no-op and does not overwrite an existing handleOutOfRangeStatus.
+        Control the way how return values are created in case of an out-of-range situation. A None value is a no-op and does not overwrite an existing handleOutOfRangeStatus.
         """
         if value is not None:
             self.handleOutOfRangeStatus = value
@@ -948,14 +941,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def getMaxDeltaCounterInit(self) -> Optional[PositiveInteger]:
         """
-        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation
+        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         """
         return self.maxDeltaCounterInit
 
     def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
-        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation
-        A None value is a no-op and does not overwrite an existing maxDeltaCounterInit.
+        Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. A None value is a no-op and does not overwrite an existing maxDeltaCounterInit.
         """
         if value is not None:
             self.maxDeltaCounterInit = value
@@ -969,8 +961,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
-        The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
-        A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
+        The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
         """
         if value is not None:
             self.maxNoNewOrRepeatedData = value
@@ -978,14 +969,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def getNetworkRepresentation(self) -> Optional[SwDataDefProps]:
         """
-        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus.
         """
         return self.networkRepresentation
 
     def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> ReceiverComSpec:
         """
-        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
-        A None value is a no-op and does not overwrite an existing networkRepresentation.
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus. A None value is a no-op and does not overwrite an existing networkRepresentation.
         """
         if value is not None:
             self.networkRepresentation = value
@@ -999,8 +989,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setReceptionProps(self, value: Optional[ReceptionComSpecProps]) -> ReceiverComSpec:
         """
-        This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec.
-        A None value is a no-op and does not overwrite an existing receptionProps.
+        This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec. A None value is a no-op and does not overwrite an existing receptionProps.
         """
         if value is not None:
             self.receptionProps = value
@@ -1014,8 +1003,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setReplaceWith(self, value: Optional[VariableAccess]) -> ReceiverComSpec:
         """
-        This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling.
-        A None value is a no-op and does not overwrite an existing replaceWith.
+        This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling. A None value is a no-op and does not overwrite an existing replaceWith.
         """
         if value is not None:
             self.replaceWith = value
@@ -1029,8 +1017,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> ReceiverComSpec:
         """
-        Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
-        A None value is a no-op and does not overwrite an existing syncCounterInit.
+        Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. A None value is a no-op and does not overwrite an existing syncCounterInit.
         """
         if value is not None:
             self.syncCounterInit = value
@@ -1038,8 +1025,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ReceiverComSpec:
         """
-        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
-        A None value is a no-op and does not append anything.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation. A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.transformationComSpecProps.append(value)
@@ -1053,14 +1039,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
 
     def getUsesEndToEndProtection(self) -> Optional[Boolean]:
         """
-        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         """
         return self.usesEndToEndProtection
 
     def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> ReceiverComSpec:
         """
-        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
-        A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
         """
         if value is not None:
             self.usesEndToEndProtection = value
@@ -1489,8 +1474,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setAliveTimeout(self, value: Optional[TimeValue]) -> NonqueuedReceiverComSpec:
         """
-        Specify the amount of time (in seconds) after which the software component (via the RTE) needs to be notified if the corresponding data item have not been received according to the specified timing description. If the aliveTimeout attribute is 0 no timeout monitoring shall be performed.
-        A None value is a no-op and does not overwrite an existing aliveTimeout.
+        Specify the amount of time (in seconds) after which the software component (via the RTE) needs to be notified if the corresponding data item have not been received according to the specified timing description. If the aliveTimeout attribute is 0 no timeout monitoring shall be performed. A None value is a no-op and does not overwrite an existing aliveTimeout.
         """
         if value is not None:
             self.aliveTimeout = value
@@ -1504,8 +1488,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setEnableUpdate(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
-        This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated.
-        A None value is a no-op and does not overwrite an existing enableUpdate.
+        This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated. A None value is a no-op and does not overwrite an existing enableUpdate.
         """
         if value is not None:
             self.enableUpdate = value
@@ -1519,8 +1502,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setFilter(self, value: Optional[DataFilter]) -> NonqueuedReceiverComSpec:
         """
-        The applicable filter algorithm for filtering the value of the corresponding dataElement.
-        A None value is a no-op and does not overwrite an existing filter.
+        The applicable filter algorithm for filtering the value of the corresponding dataElement. A None value is a no-op and does not overwrite an existing filter.
         """
         if value is not None:
             self.filter = value
@@ -1534,8 +1516,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setHandleDataStatus(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
-        If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions.
-        A None value is a no-op and does not overwrite an existing handleDataStatus.
+        If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions. A None value is a no-op and does not overwrite an existing handleDataStatus.
         """
         if value is not None:
             self.handleDataStatus = value
@@ -1549,8 +1530,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setHandleNeverReceived(self, value: Optional[Boolean]) -> NonqueuedReceiverComSpec:
         """
-        This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.
-        A None value is a no-op and does not overwrite an existing handleNeverReceived.
+        This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype. A None value is a no-op and does not overwrite an existing handleNeverReceived.
         """
         if value is not None:
             self.handleNeverReceived = value
@@ -1564,8 +1544,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setHandleTimeoutType(self, value: Optional[HandleTimeoutEnum]) -> NonqueuedReceiverComSpec:
         """
-        This attribute controls the behavior with respect to the handling of timeouts.
-        A None value is a no-op and does not overwrite an existing handleTimeoutType.
+        This attribute controls the behavior with respect to the handling of timeouts. A None value is a no-op and does not overwrite an existing handleTimeoutType.
         """
         if value is not None:
             self.handleTimeoutType = value
@@ -1579,8 +1558,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> NonqueuedReceiverComSpec:
         """
-        Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used.
-        A None value is a no-op and does not overwrite an existing initValue.
+        Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used. A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value
@@ -1594,8 +1572,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> NonqueuedReceiverComSpec:
         """
-        This attribute represents the substitution value applicable in the case of a timeout.
-        A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue.
+        This attribute represents the substitution value applicable in the case of a timeout. A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue.
         """
         if value is not None:
             self.timeoutSubstitutionValue = value
@@ -1683,11 +1660,10 @@ class HandleOutOfRangeStatusEnum(AREnum):
     """
 
     # HandleOutOfRangeStatusEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.61, p.172
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.61, p.172 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ReceiverComSpec.handleOutOfRangeStatus
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE sets the return status to RTE_E_OUT_OF_RANGE if the received value is out of range and the attribute handleOutOfRange is not set to "none" or "invalid". Tags: atp.EnumerationLiteralIndex=0
     INDICATE = "indicate"

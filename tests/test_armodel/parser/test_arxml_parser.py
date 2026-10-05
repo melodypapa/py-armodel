@@ -22,9 +22,9 @@ class TestARXMLParser:
         parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
         xml_content = """
             <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
-                <AR-PACKAGES T="2023-03-08T00:27:29+08:00" UUID="cb03ce49-8b4b-4565-abce-0a7a054d24af">
+                <AR-PACKAGES>
                     <AR-PACKAGE>
-                        <SHORT-NAME>ApplicationTypes</SHORT-NAME>s
+                        <SHORT-NAME>ApplicationTypes</SHORT-NAME>
                         <ELEMENTS>
                             <IMPLEMENTATION-DATA-TYPE>
                                 <SHORT-NAME>MyDataType</SHORT-NAME>

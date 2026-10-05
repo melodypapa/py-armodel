@@ -120,12 +120,14 @@ class TestVariationPointCapableARObjectReaders:
         _assert_variation_point(point)
 
     def test_instantiation_rte_event_props(self, parser):
+        """Table 3.17 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip(VP_SNIPPET, root_tag="INSTANTIATION-TIMING-EVENT-PROPS")
 
         props = InstantiationTimingEventProps()
         parser.readInstantiationRTEEventProps(element, props)
 
-        _assert_variation_point(props)
+        assert props.getShortLabel() is None
+        assert props.getRefinedEventIRef() is None
 
     def test_instantiation_data_def_props(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -191,20 +193,24 @@ class TestVariationPointCapableARObjectReaders:
         _assert_variation_point(tp_ecu)
 
     def test_ecuc_textual_param_value(self, parser):
+        """Table 2.49 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip("<DEFINITION-REF DEST='ECUC-STRING-PARAM-DEF'>/Def</DEFINITION-REF>" + VP_SNIPPET, root_tag="ECUC-TEXTUAL-PARAM-VALUE")
 
         param_value = EcucTextualParamValue()
         parser.readEcucTextualParamValue(element, param_value)
 
-        _assert_variation_point(param_value)
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/Def"
 
     def test_ecuc_reference_value(self, parser):
+        """Table 2.53 has no variationPoint row (Rule 0015), so an incoming VARIATION-POINT element is ignored, not read."""
         element = _snip("<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/Def</DEFINITION-REF>" + VP_SNIPPET, root_tag="ECUC-REFERENCE-VALUE")
 
         value = EcucReferenceValue()
         parser.readEcucReferenceValue(element, value)
 
-        _assert_variation_point(value)
+        assert value.getDefinitionRef() is not None
+        assert value.getDefinitionRef().getValue() == "/Def"
 
     def test_absent_variation_point_leaves_field_unset(self, parser):
         element = _snip("<ROLE>WriteBlock</ROLE>", root_tag="MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY")

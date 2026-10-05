@@ -46,3 +46,36 @@ class TestParseUdpNmClusterCoupling:
         assert [ref.getValue() for ref in refs] == ["/Clusters/Eth1"]
         assert refs[0].getDest() == "ETHERNET-CLUSTER"
         assert coupling.getNmImmediateRestartEnabled().getValue() is True
+
+    def test_parse_udp_nm_cluster_coupling_reads_checksum_and_timestamp(self):
+        xml = (
+            "<NmConfig xmlns='%s'>"
+            "<NM-CLUSTER-COUPLINGS>"
+            "<UDP-NM-CLUSTER-COUPLING S='5678' T='2024-01-01T00:00:00Z'>"
+            "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>"
+            "</UDP-NM-CLUSTER-COUPLING>"
+            "</NM-CLUSTER-COUPLINGS>"
+            "</NmConfig>" % NS
+        )
+        config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(ET.fromstring(xml), config)
+        coupling = config.getNmClusterCouplings()[0]
+        assert coupling.getChecksum().getValue() == "5678"
+        assert coupling.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+    def test_parse_udp_nm_cluster_coupling_reads_variation_point(self):
+        xml = (
+            "<NmConfig xmlns='%s'>"
+            "<NM-CLUSTER-COUPLINGS>"
+            "<UDP-NM-CLUSTER-COUPLING>"
+            "<NM-IMMEDIATE-RESTART-ENABLED>true</NM-IMMEDIATE-RESTART-ENABLED>"
+            "<VARIATION-POINT><SHORT-LABEL>VP2</SHORT-LABEL></VARIATION-POINT>"
+            "</UDP-NM-CLUSTER-COUPLING>"
+            "</NM-CLUSTER-COUPLINGS>"
+            "</NmConfig>" % NS
+        )
+        config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(ET.fromstring(xml), config)
+        coupling = config.getNmClusterCouplings()[0]
+        assert coupling.getVariationPoint() is not None
+        assert coupling.getVariationPoint().getShortLabel().getValue() == "VP2"

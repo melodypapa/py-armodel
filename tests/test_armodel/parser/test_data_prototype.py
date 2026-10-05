@@ -28,7 +28,7 @@ class TestDataPrototypeReader:
                                     <SW-DATA-DEF-PROPS>
                                         <SW-DATA-DEF-PROPS-VARIANTS>
                                             <SW-DATA-DEF-PROPS-CONDITIONAL>
-                                                <SW-ADDR-METHOD-REF DEST="AUTOSAR/SwAddrMethods/ram"></SW-ADDR-METHOD-REF>
+                                                <SW-ADDR-METHOD-REF DEST="SW-ADDR-METHOD">/AUTOSAR/SwAddrMethods/ram</SW-ADDR-METHOD-REF>
                                             </SW-DATA-DEF-PROPS-CONDITIONAL>
                                         </SW-DATA-DEF-PROPS-VARIANTS>
                                     </SW-DATA-DEF-PROPS>
@@ -47,4 +47,4 @@ class TestDataPrototypeReader:
         prototype = sr_if.getDataElements()[0]
         props = prototype.getSwDataDefProps()
         assert props is not None
-        assert props.getSwAddrMethodRef().getDest() == "AUTOSAR/SwAddrMethods/ram"
+        assert props.getSwAddrMethodRef().getDest() == "SW-ADDR-METHOD"

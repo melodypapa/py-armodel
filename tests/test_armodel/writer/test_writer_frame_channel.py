@@ -9,11 +9,13 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
+    DateTime,
     Float,
     Identifier,
     Integer,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
@@ -768,6 +770,8 @@ class TestWritePduTriggering:
         condition = TriggerIPduSendCondition()
         condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md1"))
         condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md2"))
+        condition.setChecksum(String().setValue("1234"))
+        condition.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
         pt.addTriggerIPduSendCondition(condition)
 
         parent = _parent()
@@ -791,6 +795,9 @@ class TestWritePduTriggering:
         assert len(md_refs) == 2
         assert md_refs[0].getValue() == "/md1"
         assert md_refs[1].getValue() == "/md2"
+        # AR:AR-OBJECT S/T round-trip on the condition (Rule 0025)
+        assert conditions[0].getChecksum().getValue() == "1234"
+        assert conditions[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
 
 class TestWritePhysicalChannelHelpers:
@@ -1902,6 +1909,8 @@ class TestWriteEthernetPhysicalChannel:
         ch.setSoAdConfig(SoAdConfig())
         vlan = ch.createVlanConfig("Vlan")
         vlan.setVlanIdentifier(PositiveInteger().setValue("100"))
+        vlan.setChecksum(String().setValue("1234"))
+        vlan.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
 
         parent = _parent()
         writer.writeEthernetPhysicalChannel(parent, ch)
@@ -1917,6 +1926,8 @@ class TestWriteEthernetPhysicalChannel:
         assert isinstance(reparsed.getSoAdConfig(), SoAdConfig)
         assert reparsed.getVlan().getShortName() == "Vlan"
         assert reparsed.getVlan().getVlanIdentifier().getValue() == 100
+        assert reparsed.getVlan().getChecksum().getValue() == "1234"
+        assert reparsed.getVlan().getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_write_ethernet_physical_channel_empty_aggrs_roundtrip(self, writer):
         from armodel.parser.arxml_parser import ARXMLParser

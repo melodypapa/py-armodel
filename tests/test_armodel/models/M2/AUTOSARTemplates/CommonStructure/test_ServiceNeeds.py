@@ -320,7 +320,12 @@ class TestServiceProviderEnum:
             "v2xFacilities",
             "v2xManagement",
             "vendorSpecific",
+            "watchDogManager",
         )
+
+    def test_spec_note(self):
+        """Test the Table 3.20 class note (verbatim from the markdown)"""
+        assert ServiceProviderEnum.__doc__.strip() == "This represents a list of possible service providers"
 
     def test_values(self):
         """Test enum member values match the spec literals"""

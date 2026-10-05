@@ -104,13 +104,13 @@ def test_hw_pin_group_content_init():
 
 def test_hw_pin_group_content_getters_and_setters():
     """
-    Test all getter and setter methods of HwPinGroupContent class.
+    Test all getter and factory methods of HwPinGroupContent class.
 
     Test Steps:
     1. Create a HwPinGroupContent instance
     2. Test createHwPin method
-    3. Test setHwPinGroup and getHwPinGroup methods
-    4. Verify method chaining (return self)
+    3. Test createHwPinGroup and getHwPinGroup methods
+    4. Verify duplicate short names return the existing child
     """
     from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroup
 
@@ -125,16 +125,15 @@ def test_hw_pin_group_content_getters_and_setters():
     # Test getHwPin
     assert hw_pin_group_content.getHwPin() == new_pin
 
-    # Test setHwPinGroup and getHwPinGroup
-    hw_pin_group = HwPinGroup(None, "test_pin_group")
-    return_value = hw_pin_group_content.setHwPinGroup(hw_pin_group)
-    assert return_value == hw_pin_group_content  # Verify method chaining
+    # Test createHwPinGroup and getHwPinGroup
+    hw_pin_group = hw_pin_group_content.createHwPinGroup("test_pin_group")
+    assert isinstance(hw_pin_group, HwPinGroup)
+    assert hw_pin_group.short_name == "test_pin_group"
     assert hw_pin_group_content.getHwPinGroup() == hw_pin_group
 
-    # Test with None values (should not set)
-    original_pin_group = hw_pin_group_content.getHwPinGroup()
-    hw_pin_group_content.setHwPinGroup(None)
-    assert hw_pin_group_content.getHwPinGroup() == original_pin_group  # Should remain unchanged
+    # Duplicate short name returns the existing child
+    assert hw_pin_group_content.createHwPinGroup("test_pin_group") is hw_pin_group
+    assert hw_pin_group_content.createHwPin("new_pin") is new_pin
 
 
 def test_hw_pin_group_init():

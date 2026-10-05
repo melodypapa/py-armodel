@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
     UriString,
+    VerbatimString,
 )
 
 
@@ -50,6 +51,7 @@ class AbstractARXMLWriter(ABC):
         self.options["warning"] = False
         self.options["version"] = "4.2.2"
         self.options["unescape_entities"] = False
+        self.options["validate"] = True
         self.logger = logging.getLogger()
 
         self._processOptions(options=options)
@@ -64,6 +66,8 @@ class AbstractARXMLWriter(ABC):
                 self.options["warning"] = options["warning"]
             if "unescape_entities" in options:
                 self.options["unescape_entities"] = options["unescape_entities"]
+            if "validate" in options:
+                self.options["validate"] = options["validate"]
 
     def _raiseError(self, error_msg):
         if self.options["warning"] is True:
@@ -155,6 +159,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, value)
 
     def setChildElementOptionalDateTime(self, element: ET.Element, key: str, literal: Optional[DateTime]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalVerbatimString(self, element: ET.Element, key: str, literal: Optional[VerbatimString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: Optional[RefType]):

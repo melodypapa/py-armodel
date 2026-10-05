@@ -122,6 +122,7 @@ class ResumePosition(AREnum):
 
     # ResumePosition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.95, p.432
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on LinScheduleTable.resumePosition
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -143,6 +144,7 @@ class RunMode(AREnum):
 
     # RunMode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.94, p.432
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on LinScheduleTable.runMode
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -233,6 +235,7 @@ class ApplicationEntry(ScheduleTableEntry):
 
     # ApplicationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.97, p.433
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -767,6 +770,7 @@ class LinScheduleTable(Identifiable, VariationPointCapable):
 
     # LinScheduleTable method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.93, p.432
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getResumePosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -53,7 +53,7 @@ class TestReadLifeCycleStateDefinitionGroup:
                 <SHORT-NAME>MyLifeCycleStateDefinitionGroup</SHORT-NAME>
                 <LC-STATES>
                     <LIFE-CYCLE-STATE>
-                        <SHORT-NAME>STATE-1</SHORT-NAME>
+                        <SHORT-NAME>STATE1</SHORT-NAME>
                         <CATEGORY>STATE</CATEGORY>
                     </LIFE-CYCLE-STATE>
                     <LIFE-CYCLE-STATE>
@@ -67,7 +67,7 @@ class TestReadLifeCycleStateDefinitionGroup:
 
         lc_states = group.getLcStates()
         assert len(lc_states) == 2
-        assert lc_states[0].getShortName() == "STATE-1"
+        assert lc_states[0].getShortName() == "STATE1"
         assert lc_states[0].getCategory().getValue() == "STATE"
         assert lc_states[1].getShortName() == "STATE-2"
 
@@ -97,7 +97,7 @@ class TestReadLifeCycleStateDefinitionGroup:
                     <SHORT-NAME>MyLifeCycleStateDefinitionGroup</SHORT-NAME>
                     <LC-STATES>
                         <LIFE-CYCLE-STATE>
-                            <SHORT-NAME>STATE-1</SHORT-NAME>
+                            <SHORT-NAME>STATE1</SHORT-NAME>
                         </LIFE-CYCLE-STATE>
                     </LC-STATES>
                 </LIFE-CYCLE-STATE-DEFINITION-GROUP>
@@ -117,6 +117,6 @@ class TestReadLifeCycleStateDefinitionGroup:
             groups = document.getARPackages()[0].getLifeCycleStateDefinitionGroups()
             assert len(groups) == 1
             assert groups[0].getShortName() == "MyLifeCycleStateDefinitionGroup"
-            assert groups[0].getLcStates()[0].getShortName() == "STATE-1"
+            assert groups[0].getLcStates()[0].getShortName() == "STATE1"
         finally:
             os.remove(file_path)

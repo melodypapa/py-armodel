@@ -4,6 +4,7 @@ Tests cover all classes and methods in the Communication.py file to achieve 100%
 """
 
 import inspect
+from typing import List, Optional
 
 import pytest
 
@@ -69,21 +70,47 @@ class TestHandleInvalidEnum:
 
 
 class TestPPortComSpec:
-    """Test class for PPortComSpec abstract class."""
+    """Test class for PPortComSpec abstract class (Table 4.58)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.58 Note copied verbatim."""
+        assert (
+            PPortComSpec.__doc__.strip()
+            == "Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for all kinds of provide ports, independent of client-server or sender-receiver communication patterns."
+        )
 
     def test_pport_com_spec_abstract(self):
         """Test that PPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
         with pytest.raises(TypeError):
             PPortComSpec()
 
+    def test_concrete_subclass_is_instantiable(self):
+        """A concrete subclass (Base = ARObject, no own attributes) instantiates cleanly."""
+        com_spec = ServerComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
+
 
 class TestRPortComSpec:
-    """Test class for RPortComSpec abstract class."""
+    """Test class for RPortComSpec abstract class (Table 4.59)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.59 Note copied verbatim."""
+        assert (
+            RPortComSpec.__doc__.strip()
+            == "Communication attributes of a required PortPrototype. This class will contain attributes that are valid for all kinds of require-ports, independent of client-server or sender-receiver communication patterns."
+        )
 
     def test_rport_com_spec_abstract(self):
         """Test that RPortComSpec is an abstract class that raises NotImplementedError when instantiated."""
         with pytest.raises(TypeError):
             RPortComSpec()
+
+    def test_concrete_subclass_is_instantiable(self):
+        """A concrete subclass (Base = ARObject, no own attributes) instantiates cleanly."""
+        com_spec = ClientComSpec()
+        assert isinstance(com_spec, RPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
 
 class TestCompositeNetworkRepresentation:
@@ -524,7 +551,93 @@ class TestParameterRequireComSpec:
 
 
 class TestReceiverComSpec:
-    """Test class for ReceiverComSpec class."""
+    """Test class for ReceiverComSpec class (Table 4.60)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings must be the Table 4.60 Notes copied verbatim (Stereotypes/Tags tails dropped)."""
+        assert ReceiverComSpec.__doc__.strip() == "Receiver-specific communication attributes (RPortPrototype typed by SenderReceiverInterface)."
+        composite_network_representation_note = (
+            "This represents a CompositeNetworkRepresentation defined in the context of a ReceiverComSpec. The purpose of this aggregation is to be able to specify "
+            "the network representation of leaf elements of Application CompositeDataTypes."
+        )
+        assert ReceiverComSpec.addCompositeNetworkRepresentation.__doc__.strip() == composite_network_representation_note + " A None value is a no-op and does not append anything."
+        assert ReceiverComSpec.getCompositeNetworkRepresentations.__doc__.strip() == composite_network_representation_note
+        data_element_note = "Data element these attributes belong to."
+        assert ReceiverComSpec.getDataElementRef.__doc__.strip() == data_element_note
+        assert ReceiverComSpec.setDataElementRef.__doc__.strip() == data_element_note + " A None value is a no-op and does not overwrite an existing dataElementRef."
+        handle_out_of_range_note = "This attribute controls how values that are out of the specified range are handled according to the values of HandleOutOfRangeEnum."
+        assert ReceiverComSpec.getHandleOutOfRange.__doc__.strip() == handle_out_of_range_note
+        assert ReceiverComSpec.setHandleOutOfRange.__doc__.strip() == handle_out_of_range_note + " A None value is a no-op and does not overwrite an existing handleOutOfRange."
+        handle_out_of_range_status_note = "Control the way how return values are created in case of an out-of-range situation."
+        assert ReceiverComSpec.getHandleOutOfRangeStatus.__doc__.strip() == handle_out_of_range_status_note
+        assert ReceiverComSpec.setHandleOutOfRangeStatus.__doc__.strip() == handle_out_of_range_status_note + " A None value is a no-op and does not overwrite an existing handleOutOfRangeStatus."
+        max_delta_counter_init_note = (
+            "Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. "
+            "For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with "
+            "values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. "
+            "Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer "
+            "approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully "
+            "standardized E2E transformer approach."
+        )
+        assert ReceiverComSpec.getMaxDeltaCounterInit.__doc__.strip() == max_delta_counter_init_note
+        assert ReceiverComSpec.setMaxDeltaCounterInit.__doc__.strip() == max_delta_counter_init_note + " A None value is a no-op and does not overwrite an existing maxDeltaCounterInit."
+        max_no_new_or_repeated_data_note = (
+            "The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. "
+            "Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer "
+            "approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully "
+            "standardized E2E transformer approach."
+        )
+        assert ReceiverComSpec.getMaxNoNewOrRepeatedData.__doc__.strip() == max_no_new_or_repeated_data_note
+        assert ReceiverComSpec.setMaxNoNewOrRepeatedData.__doc__.strip() == max_no_new_or_repeated_data_note + " A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData."
+        network_representation_note = "A networkRepresentation is used to define how the data Element is mapped to a communication bus."
+        assert ReceiverComSpec.getNetworkRepresentation.__doc__.strip() == network_representation_note
+        assert ReceiverComSpec.setNetworkRepresentation.__doc__.strip() == network_representation_note + " A None value is a no-op and does not overwrite an existing networkRepresentation."
+        reception_props_note = "This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec."
+        assert ReceiverComSpec.getReceptionProps.__doc__.strip() == reception_props_note
+        assert ReceiverComSpec.setReceptionProps.__doc__.strip() == reception_props_note + " A None value is a no-op and does not overwrite an existing receptionProps."
+        replace_with_note = "This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling."
+        assert ReceiverComSpec.getReplaceWith.__doc__.strip() == replace_with_note
+        assert ReceiverComSpec.setReplaceWith.__doc__.strip() == replace_with_note + " A None value is a no-op and does not overwrite an existing replaceWith."
+        sync_counter_init_note = (
+            "Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed "
+            "lock-in range) after the detection of an unexpected behavior of a received counter. "
+            "Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer "
+            "approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully "
+            "standardized E2E transformer approach."
+        )
+        assert ReceiverComSpec.getSyncCounterInit.__doc__.strip() == sync_counter_init_note
+        assert ReceiverComSpec.setSyncCounterInit.__doc__.strip() == sync_counter_init_note + " A None value is a no-op and does not overwrite an existing syncCounterInit."
+        transformation_com_spec_props_note = "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        assert ReceiverComSpec.addTransformationComSpecProps.__doc__.strip() == transformation_com_spec_props_note + " A None value is a no-op and does not append anything."
+        assert ReceiverComSpec.getTransformationComSpecProps.__doc__.strip() == transformation_com_spec_props_note
+        uses_end_to_end_protection_note = (
+            "This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. "
+            "Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer "
+            "approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully "
+            "standardized E2E transformer approach."
+        )
+        assert ReceiverComSpec.getUsesEndToEndProtection.__doc__.strip() == uses_end_to_end_protection_note
+        assert ReceiverComSpec.setUsesEndToEndProtection.__doc__.strip() == uses_end_to_end_protection_note + " A None value is a no-op and does not overwrite an existing usesEndToEndProtection."
+
+    def test_type_hints_resolve(self):
+        """get_type_hints resolves every accessor annotation to real classes (PEP 563 bare names, Rule 0003)."""
+        import typing
+
+        hints = typing.get_type_hints(ReceiverComSpec.setDataElementRef)
+        assert hints["value"] == Optional[RefType]
+        assert hints["return"] == ReceiverComSpec
+        hints = typing.get_type_hints(ReceiverComSpec.getDataElementRef)
+        assert hints["return"] == Optional[RefType]
+        hints = typing.get_type_hints(ReceiverComSpec.addCompositeNetworkRepresentation)
+        assert hints["representation"] == CompositeNetworkRepresentation
+        hints = typing.get_type_hints(ReceiverComSpec.getCompositeNetworkRepresentations)
+        assert hints["return"] == List[CompositeNetworkRepresentation]
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec — Python base is RPortComSpec (most-derived, Table 4.59); setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(ReceiverComSpec, RPortComSpec)
+        assert issubclass(ReceiverComSpec, ARObject)
+        assert ReceiverComSpec.__dict__["setDataElementRef"].__annotations__["return"] == "ReceiverComSpec"
 
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that ReceiverComSpec abstract class cannot be instantiated directly."""
@@ -1176,16 +1289,25 @@ class TestNonqueuedReceiverComSpec:
 
 
 class TestHandleOutOfRangeStatusEnum:
-    """Test cases for HandleOutOfRangeStatusEnum class."""
+    """Test cases for HandleOutOfRangeStatusEnum class (Table 4.61)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.61 Note copied verbatim."""
+        assert HandleOutOfRangeStatusEnum.__doc__.strip() == "This enumeration defines how the RTE handles values that are out of range."
 
     def test_members(self):
-        """Test HandleOutOfRangeStatusEnum member values."""
+        """Test HandleOutOfRangeStatusEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleOutOfRangeStatusEnum()
         values = enum.getEnumValues()
+        assert list(values) == [HandleOutOfRangeStatusEnum.INDICATE, HandleOutOfRangeStatusEnum.SILENT]
         assert HandleOutOfRangeStatusEnum.INDICATE == "indicate"
         assert HandleOutOfRangeStatusEnum.SILENT == "silent"
-        assert HandleOutOfRangeStatusEnum.INDICATE in values
-        assert HandleOutOfRangeStatusEnum.SILENT in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleOutOfRangeStatusEnum()
+        enum.setValue(HandleOutOfRangeStatusEnum.SILENT)
+        assert enum.getValue() == "silent"
 
 
 class TestHandleTimeoutEnum:

@@ -125,7 +125,7 @@ class TestWriteDiagnosticEnvBswModeElement:
         env_condition.setFormula(formula)
         mode_element = DiagnosticEnvBswModeElement(env_condition, "BswMode1")
         iref = ModeInBswModuleDescriptionInstanceRef()
-        iref.setContextModeDeclarationGroupRef(_ref("BSW-MODE-DECLARATION-GROUP-PROTOTYPE", "/AUTOSAR/BswM/MDGP"))
+        iref.setContextModeDeclarationGroupRef(_ref("MODE-DECLARATION-GROUP-PROTOTYPE", "/AUTOSAR/BswM/MDGP"))
         iref.setTargetModeRef(_ref("MODE-DECLARATION", "/AUTOSAR/BswM/MDGP/Normal"))
         mode_element.setModeIRef(iref)
         env_condition.addModeElement(mode_element)

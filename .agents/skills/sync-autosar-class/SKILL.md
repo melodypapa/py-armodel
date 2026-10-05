@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0023*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0026*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -207,6 +207,7 @@ round-trip) certifies a class as reviewed.
 | page-number script | `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>` — **the only way to get `p.NN`**. Scans every `autosar/R*/pdf/*.pdf` (R23-11, R4.3.1, R4.4.0, …) and prints one line per match: `<release>/<pdf> | Table N.M: <ClassName> | p.<page>`. `--pdf PATH` searches one PDF (any path); `--table <N.M>` searches by table id; the per-PDF index is cached (`.pdf_table_cache.json` at the repo root, keyed by the PDF's mtime) and `--refresh` rebuilds it after corpus updates. Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | per synced release: `autosar/R23-11/xsd/AUTOSAR_00052.xsd` · `autosar/R4.3.1/xsd/AUTOSAR_00044.xsd` |
+| **pre-stamp audit script** | `python .agents/skills/sync-autosar-class/audit_class.py <ClassName> [<ClassName> ...]` — **the mechanical gate for the checks a 9b reviewer cannot eyeball reliably**: `BLOCK` (checklist is one contiguous run above `__init__`, no rows scattered in the class body), `ROWS` (block rows == methods, source order, AST), `BASE` (the reader/writer entry point calls a base helper, so `S`/`T`/UUID/`SHORT-NAME-FRAGMENTS` round-trip), `DOC` (no `Tags:`/`Stereotypes:` tail in class/member/accessor docstrings), `SPECLINE` (`# Spec:` in Rule-0002 form), `STAMP` (marker present iff all rows `[x]`). `--all` sweeps the tree, `--file` narrows the search, `--json` is machine-readable. Exits 1 on any `FAIL`; `WARN`/`INFO` never fail the run. **Run it at Step 7 and again at 9a** (*Rules 0024–0026*) |
 
 ### The 9-step workflow (TDD, per class)
 
@@ -221,12 +222,12 @@ as each step finishes (*Rule 0018*).
 | 1 | Sync members & description from the PDF by class name | 0001 (§§1.1–1.5, 1.11), 0007, 0015 | — |
 | **2** | **Write the model class unit test** | 0006 | **Red** |
 | **3** | **Implement the model class** | 0001 (§§1.6, 1.8, 1.10), 0003, 0004, 0005, 0008, 0009, 0010, 0011, 0022 | **Green** |
-| 4 | Sync description — **wipe all old docstrings**, rewrite from markdown | 0012 (§§2–4) | — |
-| **5** | **Write the reader/writer round-trip test** | 0006 | **Red** |
-| **6** | **Update the parser (reader) & writer** | 0001 (§1.7), 0013 | **Green** |
-| 7 | Update checklist comment (`# Spec:` + rows; **marker deferred to 9b**) | 0002 | — |
+| 4 | Sync description — **wipe all old docstrings**, rewrite from markdown | 0012 (§§2–4; 2.5.3 keeps the `Tags:` tail verbatim) | — |
+| **5** | **Write the reader/writer round-trip test** | 0006, 0025 | **Red** |
+| **6** | **Update the parser (reader) & writer** | 0001 (§1.7), 0013, 0025 | **Green** |
+| 7 | Update checklist comment (`# Spec:` + rows; **marker deferred to 9b**) | 0002, 0024 | — |
 | 8 | Deviations ⇒ no `# Spec verified:` stamp | 0001 (§1.9), 0012 (§1), 0014 | — |
-| 9 | Verify (9a) + confirm (9b) ⇒ **write `# Spec verified:`** | 0006, 0006.1, 0022 | — |
+| 9 | Verify (9a) + confirm (9b) ⇒ **write `# Spec verified:`** | 0006, 0006.1, 0022, 0026 (batch 9b) | — |
 
 **Essence per step** (full detail in `rules.md`):
 
@@ -235,18 +236,19 @@ as each step finishes (*Rule 0018*).
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors. Every `self.<member>` creation in `__init__`/`clear` is a PEP 526 annotated assignment carrying the quota shape — plain `T` / `Optional[T]` / `List[T]` — matching the getter return type (*0022*; exemptions: property/setter bodies, mixin class-level defaults per *0020/0021*).
 - **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (page number via `pdf_page.py`, above); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
-- **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**. All types form matched name pairs across layers — model `setX`/`getX`, structure `readX`/`writeX`, element `getX`/`setX`, leaf `getChildElementOptional<T>`/`setChildElementOptional<T>` (*Rule 0013.2*); a cross pair (`setX1` ↔ `getX2`) is incorrect.
-- **7** — One row per method, source order, all `[x]`, 6-column format below (the last column is the per-row `release`). Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
+- **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**. All types form matched name pairs across layers — model `setX`/`getX`, structure `readX`/`writeX`, element `getX`/`setX`, leaf `getChildElementOptional<T>`/`setChildElementOptional<T>` (*Rule 0013.2*); a cross pair (`setX1` ↔ `getX2`) is incorrect. The entry point that builds the class must also call **one base reader/writer helper** for an ancestor, or the inherited level is silently dropped — `readARObject`/`writeARObject` for `ARObject`, `readReferrable`/`writeReferrable`, `readIdentifiable`/`writeIdentifiable` (*Rule 0025*). Rule 0013.1 forbids calling it **twice**; this is the other direction — **zero** calls is just as wrong, and it is the one that passes every test while losing `S`/`T`.
+- **7** — One row per method, source order, all `[x]`, 6-column format below (the last column is the per-row `release`). The rows live in **one contiguous block above `__init__`** — never as comments inside the constructor, where a `[x]`-everywhere file still reads as complete while proving nothing (*Rule 0024*). Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here. Finish by running `python .agents/skills/sync-autosar-class/audit_class.py <ClassName>`; `BLOCK`/`ROWS` must be clean.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the member-annotation gate test (`uv run pytest tests/test_armodel/models/test_member_annotations.py`, *0022*) + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.**
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the member-annotation gate test (`uv run pytest tests/test_armodel/models/test_member_annotations.py`, *0022*) + the set-based script + `audit_class.py <ClassName>` (*0024–0026*) + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.**
   **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to:
   - element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*)
   - **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*)
   - **member order** — class member/accessor/checklist order matches the markdown/PDF displayed row order, and reader/writer XML element order matches XSD `sequenceOffset`, checked independently (*0001.11*)
-  - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence)
+  - docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence; the `Tags:`/`Stereotypes:` tail is part of the verbatim `Note` and stays, at every level, *0012.2.5.3*)
   - **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit)
   - **quota shape vs spec multiplicity** — every member's `Optional`/`List`/plain annotation matches the table's multiplicity column (0..1 → `Optional[T]`, 0..* → `List[T]`, 1 → plain `T`), checked by eye since the *0022* gate test verifies form only (*0022*)
   - deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
+  - **Confirming a batch/deferred 9b?** Audit **every** row in the batch against source *before* confirming any of them, and send each `FAIL`ing row back through the steps it implicates rather than straight to the stamp (*Rule 0026*). A row's "steps 1-8 done" prose is a claim about a past session, not evidence about the file in front of you.
 
 **Workflow adaptations** (which steps still apply):
 
@@ -387,6 +389,19 @@ detail: *Rule 0002*.
 - **Double `readReferrable`** — `readImplementationProps` called both, or a subclass
   re-reading `readReferrable` on top of its base helper → duplicate UUIDMgr registry
   entries (*Rule 0013.1*).
+- **Never calling the base reader/writer helper at all** — the mirror of the above, and
+  the quieter one: the class parses, the tests pass, and the round-trip simply loses
+  `S`/`T` (plus `SHORT-NAME-FRAGMENTS` at `Referrable`, `UUID`/`ADMIN-DATA`/`CATEGORY` at
+  `Identifiable`). A writer that calls `writeIdentifiable` does **not** prove the reader
+  does — check both sides separately (*Rule 0025*; `audit_class.py BASE`).
+- **Checklist accessor rows typed inside `__init__`** instead of in the block above it —
+  every row still reads `[x]`, the block still shows a complete `__init__` row, and the
+  whole suite passes while the checklist certifies nothing. Group16 lost 6 classes to
+  this shape in one pass (*Rule 0024*; `audit_class.py BLOCK`/`ROWS`).
+- **Trusting a todo row's "steps 1-8 done" prose** — it describes a past session's
+  intent, not the file in front of you. Before confirming a batch/deferred 9b, audit
+  every row against source; in Group16 13 of 14 such rows had drifted, and the summaries
+  concealed all of it (*Rule 0026*).
 - **Recording a `naming`/`missing`/`type` deviation and leaving it** — to-fix: rename/
   retype/cover and **remove** the row (*Rule 0014*).
 - **`T | None` / `list[…]` hints** — Python ≥ 3.8: `Optional[T]` / `List[T]` (*Rule 0003*).
@@ -488,6 +503,9 @@ detail: *Rule 0002*.
 | "The markdown table looks alphabetical, so `sequenceOffset` must be the real order — I'll reorder the class members to match" | Class member order follows the markdown/PDF displayed order exactly as rendered, alphabetical-looking or not; `sequenceOffset` only governs reader/writer XML order, never Python member order (*Rule 0001.11*). |
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
+| "The row says steps 1-8 are done, so the batch 9b is just paperwork" | The row is a claim about a past session, not evidence about the file. 13 of Group16's 14 "done" rows had drifted. Audit every row against source first (*Rule 0026*). |
+| "The checklist block looks complete, so the class is covered" | Count the rows, not the block. Accessor rows typed inside `__init__` leave a complete-looking block covering one method (*Rule 0024*; `audit_class.py BLOCK`). |
+| "The writer covers it, so the reader does too" | They are separate call sites and they drift apart — Group16's `VlanConfig` wrote `writeIdentifiable` and never read `readIdentifiable`, losing `S`/`T` on every round-trip (*Rule 0025*; `audit_class.py BASE`). |
 | "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |
 | "I'll keep the queue in the conversation — writing a file is overhead" | The conversation dies with the session; the queue, order, roles, and Skip/XSD decisions are lost. The todo file is the queue (*Rule 0016.6*). |
 | "Session died — I'll rebuild the queue by grepping the stamps" | Stamps carry no order/roles/Skip-XSD decisions; read `docs/plan/sync-todo/<ClassName>.md` instead (*Rule 0017.4*). |
@@ -500,7 +518,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0023*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0026*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.

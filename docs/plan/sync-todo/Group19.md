@@ -13,6 +13,45 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 > for the deviation only, and record it in Step 8 (Rule 0012.3: an existing marker is not
 > proof).
 
+## Batch 9b audit findings (2026-10-05)
+
+Mechanical gate `audit_class.py` run over all 16 Group19 rows on branch
+`feature/g19-9b-fixes`. Two groups of findings, both fixed in this batch (Rule 0026: the
+row is a claim, the source is the evidence).
+
+**A. Four defects in the 10 pending rows — all confirmed against the XSD.** Each was a
+silent `AR:AR-OBJECT` `S`/`T` drop (Rule 0025) or a checklist shape defect; fixed with
+base-helper calls + S/T round-trip tests.
+
+1. `ConfigReferenceValue` — `readConfigReferenceValue` / `writeConfigReferenceValue`
+   dropped `S`/`T`: the R3.2.3 `REFERENCE-VALUE` complexType carries the AR-OBJECT
+   attributeGroup (AUTOSAR.xsd l.20729-20739). Fix: `readARObject` / `writeARObject`
+   added on the reader/writer entry points.
+2. `EcucConfigurationClassEnum` — checklist lacked the `# Columns:` line and the
+   `__init__` row though the class defines `__init__`. Fix: 6-column AREnum shape
+   (mirrors the passing sibling `EcucConfigurationVariantEnum`).
+3. `EcucScopeEnum` — same ROWS defect as (2); same fix.
+4. `EcucDestinationUriDefRefType` — `getEcucDestinationUriRefs` /
+   `setEcucDestinationUriRefs` dropped `S`/`T`: `<DESTINATION-URI-REF>` is a simpleContent
+   extension of `AR:REF` (AUTOSAR_00052.xsd l.51614-51621) and `AR:REF` carries the
+   AR-OBJECT attributeGroup (l.96344-96363). Fix: `readARObject` / `writeARObject` +
+   round-trip test.
+
+**B. Three rows marked `[x]` by the 2026-09-30 short-circuit that FAIL the current bar.**
+Each is an `<<atpMixedString>>` pure-text formula carrying a legacy 5-column checklist
+(rows end at `writer`, no `# Columns:` line, no per-row release token) plus a
+`# Spec verified: R23-11` marker, and its reader/writer drops `S`/`T` (both complexTypes
+carry the AR-OBJECT attributeGroup, AUTOSAR_00052.xsd):
+
+- `EcucConditionFormula` (`ECUC-CONDITION-FORMULA`, l.51486-51498)
+- `EcucParameterDerivationFormula` (`ECUC-PARAMETER-DERIVATION-FORMULA`, l.53258-53270)
+- `EcucQueryExpression` (`ECUC-QUERY-EXPRESSION`, l.53401-53412)
+
+Reopened and re-synced in this batch: stale marker removed at session start (Rule 0023
+staleness), checklist converted to the 6-column format (Step 7), `readARObject` /
+`writeARObject` added on the reader/writer entry points + S/T round-trip tests
+(Steps 5/6), re-stamped only after a fresh 9b confirmation.
+
 ## Queue (dependency-first)
 
 - [ ] `ConfigReferenceValue` (input · R3.2.3 markdown · Table 3.40)
@@ -1097,9 +1136,191 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 - [x] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.33 (CP_TPS_ECUConfiguration), p.81 — commits 0d4506747 + d495d9ebf (rw completion; stamped 2026-10-02, # Spec verified: R23-11)
 
-- [x] `EcucConditionFormula` — pure-text formula class — already verified (short-circuit 2026-09-30; row collapsed 2026-10-02) — **`# Spec verified: R23-11` marker present in src (ECUCParameterDefTemplate.py, Table 2.43, p.100)**
-  - note: quick deviation check clean (Group19 header rule): Base FormulaExpression (spec most-derived), members ecucQueryRef/ecucQueryStringRef Optional[RefType] PEP 526 under verbatim Notes, reader/writer coverage [x], drift-fix note (2026-09-25 re-parent) recorded in the checklist. 9 steps not re-run (Rule 0012.3); stamp already present.
-- [x] `EcucParameterDerivationFormula` — pure-text formula class — already verified (short-circuit 2026-09-30; row collapsed 2026-10-02) — **`# Spec verified: R23-11` marker present in src (ECUCParameterDefTemplate.py, Table 2.39, p.88)**
-  - note: quick check found ONE Rule 0003 drift: the two members were bare `RefType = None` assignments — FIXED that pass (Optional[RefType] PEP 526, Rule 0012.3 drift fix, marker retained; accessor pins already passed). Rest clean: Base FormulaExpression, members ecucQueryRef/ecucQueryStringRef with verbatim Notes, reader/writer [x]. 9 steps not re-run.
-- [x] `EcucQueryExpression` — pure-text formula class — already verified (short-circuit 2026-09-30; row collapsed 2026-10-02) — **`# Spec verified: R23-11` marker present in src (ECUCParameterDefTemplate.py, Table 2.41, p.90)**
-  - note: quick deviation check clean: Base ARObject (XSD ECUC-QUERY-EXPRESSION complexType embeds AR-OBJECT only), members configElementDefGlobalRef/configElementDefLocalRef Optional[RefType] PEP 526 under verbatim Notes (the markdown render shows only the local row — a render artifact; the XSD group carries both CONFIG-ELEMENT-DEF-GLOBAL-REF and -LOCAL-REF and the class Note references the global search), reader/writer [x]. 9 steps not re-run.
+- [ ] `EcucConditionFormula` (input · R23-11 PDF · Table 2.43) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - note (Step 1): Table 2.43 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.100. Class
+    `<<atpMixedString>>` pure-text formula; Package
+    M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note "This formula shall
+    yield a boolean expression depending on ecuc queries. Note that the
+    EcucCondition Formula is a mixed string. Therefore, the properties have the
+    upper multiplicity 1." (class docstring already verbatim); Base
+    FormulaExpression (spec most-derived; re-parented 2026-09-25 per
+    docs/plan/atp_mixed_string_hierarchy.md, tree unchanged — the drift-fix
+    comment was retired into this row). 2 attrs in displayed order:
+    ecucQueryRef (EcucQuery, 0..1, ref) → Optional[RefType]; ecucQueryStringRef
+    (EcucQuery, 0..1, ref) → Optional[RefType] (Rule 0001.5 Ref suffix, module
+    convention). XSD complexType ECUC-CONDITION-FORMULA (AUTOSAR_00052.xsd
+    l.51486) declares `AR:AR-OBJECT` group + attributeGroup → S/T must
+    round-trip. Drift found on reopen: legacy 5-column checklist (rows ended at
+    `writer`, no `# Columns:` line / release token) + `readARObject` /
+    `writeARObject` absent from the reader/writer entry points (Rule 0025 S/T
+    drop) + stale `# Spec verified: R23-11` marker. Not VP-capable (Rule 0020 —
+    no VARIATION-POINT in the XSD complexType). No Rule 0001.10 missing types.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): mirror TestEcucConditionFormula already present in both
+      test_ECUCParameterDefTemplate.py copies (init defaults / set-get chaining
+      on both refs); added the S/T reader + writer coverage in Steps 5/6 (the
+      Red is the missing base-helper call, observed by audit_class.py BASE).
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is —
+      Base FormulaExpression (most-derived, re-parented 2026-09-25), 2 attrs
+      1:1 with Table 2.43 in displayed order, members Optional[RefType] PEP 526
+      under verbatim Notes, None-guarded setters returning self; no fabricated /
+      flattened fields (the `<<atpMixedString>>` content markings — atpMixedString,
+      Stereotypes, Tags — are the class-level stereotype, not attributes). Net
+      code change: none.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring + both member Notes + accessor docstrings
+      diffed against Table 2.43 — all verbatim (member Notes "The EcucQuery
+      serves as a argument for the formula." / "This indicates that the
+      referenced query shall return a string.", spec grammar quirk "a argument"
+      preserved); setters carry the None-no-op sentence; `__init__` has no
+      docstring. Wipe+rewrite would be byte-identical.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): ADDED parser test_arxml_parser_ecuc_handlers.py
+      TestEcucConditionSpecification.test_read_condition_formula_checksum_and_timestamp
+      (CONDITION-FORMULA with S/T attribs → getChecksum()/getTimestamp()) and
+      writer test_writer_ecuc_def.py TestWriterEcucConditionFormula
+      .test_writes_checksum_and_timestamp (model S/T → CONDITION-FORMULA S/T
+      attribs). Red observable: audit_class.py BASE flagged no base helper call
+      (S/T silently dropped) before the fix.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): added `self.readARObject(element, formula)` to
+      readEcucConditionFormula (parser l.13588) and
+      `self.writeARObject(formula_element, formula)` to writeEcucConditionFormula
+      (writer l.11340) — Rule 0025 base-helper symmetry, single call (Rule 0013.1),
+      literal accessors dropped; matched Rule 0013.2 name pair, no receiver chains.
+      Green: touched suites 420 passed.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): legacy 5-column block converted to the 6-column format in
+      source order (getter-first scalar pairs, reader [x] on setter rows / writer
+      [x] on getter rows) — `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf,
+      Table 2.43, p.100` + `# Columns:` header + per-row `R23-11` release; stale
+      `# Spec verified: R23-11` marker STRIPPED (Rule 0023 staleness; batch mode
+      — re-stamp deferred to batch confirmation).
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — the legacy checklist shape + missing
+      base-helper call were Rule 0023/0025 to-fix drift completed in this pass
+      (not deviation rows). The 2026-09-25 re-parent to FormulaExpression is a
+      recorded drift fix (docs/plan/atp_mixed_string_hierarchy.md), not a
+      deviation. No Rule 0001.10 missing referenced classes (RefType is the
+      stamped base; EcucQuery is the destination-side class).
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+
+- [ ] `EcucParameterDerivationFormula` (input · R23-11 PDF · Table 2.39) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - note (Step 1): Table 2.39 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.88. Class
+    `<<atpMixedString>>` pure-text formula; Package
+    M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note "This formula is
+    intended to specify how an ecu parameter can be derived from other
+    information in the Autosar Templates." (class docstring already verbatim);
+    Base FormulaExpression (spec most-derived; re-parented 2026-09-25, tree
+    unchanged). 2 attrs in displayed order: ecucQueryRef (EcucQuery, 0..1, ref)
+    → Optional[RefType]; ecucQueryStringRef (EcucQuery, 0..1, ref) →
+    Optional[RefType]. XSD complexType ECUC-PARAMETER-DERIVATION-FORMULA
+    (AUTOSAR_00052.xsd l.53258) declares `AR:AR-OBJECT` group + attributeGroup →
+    S/T must round-trip. Drift found on reopen: legacy 5-column checklist +
+    `readARObject` / `writeARObject` absent from the reader/writer entry points
+    (Rule 0025 S/T drop) + stale marker. Not VP-capable (Rule 0020). No Rule
+    0001.10 missing types.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): mirror TestEcucParameterDerivationFormula already present
+      in both test_ECUCParameterDefTemplate.py copies; added the S/T reader +
+      writer coverage in Steps 5/6. Red = audit BASE failure before the fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is —
+      Base FormulaExpression, 2 attrs 1:1 with Table 2.39 in displayed order,
+      members Optional[RefType] PEP 526 under verbatim Notes, None-guarded
+      setters returning self; no fabricated/flattened fields. Net code change:
+      none.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring + both member Notes ("This is one
+      particular EcucQuery used in the calculation formula." / "This indicates
+      that the referenced query shall return a string.") + accessor docstrings
+      verbatim; setters carry the None-no-op sentence; `__init__` has no
+      docstring. Wipe+rewrite would be byte-identical.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): ADDED parser
+      TestEcucDerivationSpecification.test_read_calculation_formula_checksum_and_timestamp
+      (CALCULATION-FORMULA with S/T attribs) and writer
+      TestWriterEcucDerivationSpecification
+      .test_writes_calculation_formula_checksum_and_timestamp (model S/T →
+      CALCULATION-FORMULA S/T attribs). Red observable: audit_class.py BASE
+      failure before the fix.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): added `self.readARObject(element, formula)` to
+      readEcucParameterDerivationFormula (parser l.13581) and
+      `self.writeARObject(formula_element, formula)` to
+      writeEcucParameterDerivationFormula (writer l.11332) — Rule 0025 symmetry,
+      single call, matched Rule 0013.2 pair. Green: touched suites 420 passed.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): legacy 5-column block converted to the 6-column format in
+      source order — `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39,
+      p.88` + `# Columns:` header + per-row `R23-11` release; stale marker
+      STRIPPED (Rule 0023 staleness; batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — legacy checklist shape + missing
+      base-helper call were Rule 0023/0025 to-fix drift. No Rule 0001.10
+      missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+
+- [ ] `EcucQueryExpression` (input · R23-11 PDF · Table 2.41) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+  - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+  - note (Step 1): Table 2.41 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.90. Class
+    `<<atpMixedString>>` pure-text formula; Package
+    M2::AUTOSARTemplates::ECUCParameterDefTemplate; Note "Defines a query
+    expression to the ECUC Description and output the result as an numerical
+    value. Due to the \"mixedString\" nature of the formula there can be several
+    EcuQueryExpressions used." (class docstring already verbatim); Base ARObject
+    (XSD complexType ECUC-QUERY-EXPRESSION carries AR-OBJECT only). 2 attrs in
+    displayed order: configElementDefGlobalRef (EcucDefinitionElement, 0..1,
+    ref) → Optional[RefType]; configElementDefLocalRef (EcucDefinitionElement,
+    0..1, ref) → Optional[RefType] (the markdown render shows only the local
+    row — a render artifact; the XSD group carries both CONFIG-ELEMENT-DEF-GLOBAL-REF
+    and -LOCAL-REF). XSD complexType ECUC-QUERY-EXPRESSION (AUTOSAR_00052.xsd
+    l.53401) declares `AR:AR-OBJECT` group + attributeGroup → S/T must
+    round-trip. Drift found on reopen: legacy 5-column checklist +
+    `readARObject` / `writeARObject` absent from the inline
+    construction sites (Rule 0025 S/T drop) + stale marker. Not VP-capable
+    (Rule 0020). No Rule 0001.10 missing types.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    - note (Step 2): mirror TestEcucQueryExpression already present in both
+      test_ECUCParameterDefTemplate.py copies; added the S/T reader + writer
+      coverage in Steps 5/6. Red = audit BASE failure before the fix.
+  - [x] Step 3 — Implement model class (Green)
+    - note (Step 3): field-to-spec cross-check both directions PASSES as-is —
+      Base ARObject, 2 attrs 1:1 with Table 2.41 in displayed order, members
+      Optional[RefType] PEP 526 under verbatim Notes, None-guarded setters
+      returning self; no fabricated/flattened fields. Net code change: none.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    - note (Step 4): class docstring + both member Notes (the long
+      "The EcucQueryExpression points to an EcucDefinition Element …" global /
+      local wording) + accessor docstrings verbatim; setters carry the None-no-op
+      sentence; `__init__` has no docstring. Wipe+rewrite would be byte-identical.
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    - note (Step 5): ADDED parser
+      TestEcucConditionSpecification.test_read_query_expression_checksum_and_timestamp
+      (ECUC-QUERY-EXPRESSION with S/T attribs → getChecksum()/getTimestamp()) and
+      writer TestWriterEcucQuery
+      .test_writes_query_expression_checksum_and_timestamp (model S/T →
+      ECUC-QUERY-EXPRESSION S/T attribs). Red observable: audit_class.py BASE
+      failure before the fix.
+  - [x] Step 6 — Update parser & writer (Green)
+    - note (Steps 5/6): the class is built inline in the EcucQuery reader/writer,
+      so added `self.readARObject(expr_element, expr)` in readEcucQuery (parser
+      l.13630) and `self.writeARObject(expr_element, expr)` in writeEcucQuery
+      (writer l.11385) — Rule 0025 symmetry, single call. Green: touched suites
+      420 passed.
+  - [x] Step 7 — Update checklist comment
+    - note (Step 7): legacy 5-column block converted to the 6-column format in
+      source order — `# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41,
+      p.90` + `# Columns:` header + per-row `R23-11` release; stale marker
+      STRIPPED (Rule 0023 staleness; batch mode).
+  - [x] Step 8 — Deviations
+    - note (Step 8): No deviations — legacy checklist shape + missing
+      base-helper call were Rule 0023/0025 to-fix drift. No Rule 0001.10
+      missing referenced classes.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)

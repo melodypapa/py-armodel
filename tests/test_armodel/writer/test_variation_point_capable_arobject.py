@@ -179,18 +179,18 @@ class TestWriteVariationPointCapableARObjectWriters:
         assert [elem.tag for elem in element] == ["VARIATION-POINT"]
 
     def test_write_ecuc_textual_param_value_vp_after_dispatcher_content(self, writer):
+        """Table 2.49 has no variationPoint row (Rule 0015), so writeEcucTextualParamValue emits no VARIATION-POINT element."""
         param_value = EcucTextualParamValue()
         definition_ref = RefType()
         definition_ref.setValue("/Def")
         definition_ref.setDest("ECUC-STRING-PARAM-DEF")
         param_value.setDefinitionRef(definition_ref)
-        param_value.setVariationPoint(_variation_point())
 
         parent = ET.Element("PARENT")
         writer.writeEcucTextualParamValue(parent, param_value)
 
         element = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
-        assert [elem.tag for elem in element] == ["DEFINITION-REF", "VARIATION-POINT"]
+        assert [elem.tag for elem in element] == ["DEFINITION-REF"]
 
     def test_write_role_based_data_assignment_vp_last(self, writer):
         assignment = RoleBasedDataAssignment()

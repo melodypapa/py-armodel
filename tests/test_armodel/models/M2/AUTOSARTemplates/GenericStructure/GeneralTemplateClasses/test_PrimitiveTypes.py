@@ -24,18 +24,36 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagnosticClearDtcLimitationEnum,
+    DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticConnectedIndicatorBehaviorEnum,
+    DiagnosticDebounceBehaviorEnum,
     DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum,
+    DiagnosticEventClearAllowedEnum,
     DiagnosticEventCombinationBehaviorEnum,
     DiagnosticEventCombinationReportingBehaviorEnum,
+    DiagnosticEventDisplacementStrategyEnum,
+    DiagnosticEventKindEnum,
     DiagnosticEventWindowTimeEnum,
     DiagnosticHandleDDDIConfigurationEnum,
     DiagnosticInhibitionMaskEnum,
+    DiagnosticIumprKindEnum,
+    DiagnosticMemoryEntryStorageTriggerEnum,
+    DiagnosticObdSupportEnum,
     DiagnosticOccurrenceCounterProcessingEnum,
+    DiagnosticOperationCycleTypeEnum,
     DiagnosticPeriodicRateCategoryEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
+    DiagnosticSignificanceEnum,
+    DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
+    DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
+    DiagnosticUdsSeverityEnum,
+    DiagnosticWwhObdDtcClassEnum,
     DiagRequirementIdString,
     DisplayFormatString,
     Float,
@@ -1829,6 +1847,49 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         assert enum.getValue() == "iso14229_1"
 
 
+class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
+    """
+    Test class for DiagnosticTypeOfFreezeFrameRecordNumerationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.172, p.184
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "calculated",
+            "configured",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum member values.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED == "calculated"
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED == "configured"
+
+        assert enum.validateEnumValue("calculated") is True
+        assert enum.validateEnumValue("configured") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTypeOfFreezeFrameRecordNumerationEnum instantiability and getValue.
+        """
+        enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
+        enum.setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED)
+
+        assert enum.getValue() == "calculated"
+
+
 class TestDiagnosticEventCombinationBehaviorEnum:
     """
     Test class for DiagnosticEventCombinationBehaviorEnum functionality.
@@ -2198,6 +2259,64 @@ class TestDiagnosticEventWindowTimeEnum:
         assert enum.getValue() == "powerWindowTime"
 
 
+class TestDiagnosticRecordTriggerEnum:
+    """
+    Test class for DiagnosticRecordTriggerEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.182, p.191
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticRecordTriggerEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "confirmed",
+            "custom",
+            "fdcThreshold",
+            "pending",
+            "testFailed",
+            "testFailedThisOperationCycle",
+            "testPassed",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticRecordTriggerEnum member values.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+
+        assert DiagnosticRecordTriggerEnum.CONFIRMED == "confirmed"
+        assert DiagnosticRecordTriggerEnum.CUSTOM == "custom"
+        assert DiagnosticRecordTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
+        assert DiagnosticRecordTriggerEnum.PENDING == "pending"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED == "testFailed"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE == "testFailedThisOperationCycle"
+        assert DiagnosticRecordTriggerEnum.TEST_PASSED == "testPassed"
+
+        assert enum.validateEnumValue("confirmed") is True
+        assert enum.validateEnumValue("custom") is True
+        assert enum.validateEnumValue("fdcThreshold") is True
+        assert enum.validateEnumValue("pending") is True
+        assert enum.validateEnumValue("testFailed") is True
+        assert enum.validateEnumValue("testFailedThisOperationCycle") is True
+        assert enum.validateEnumValue("testPassed") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticRecordTriggerEnum instantiability and getValue.
+        """
+        enum = DiagnosticRecordTriggerEnum()
+        enum.setValue(DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE)
+
+        assert enum.getValue() == "testFailedThisOperationCycle"
+
+
 class TestDiagnosticResponseOnEventActionEnum:
     """
     Test class for DiagnosticResponseOnEventActionEnum functionality.
@@ -2260,3 +2379,727 @@ class TestDiagnosticResponseOnEventActionEnum:
         enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
 
         assert enum.getValue() == "onChangeOfDataIdentifier"
+
+
+class TestDiagnosticClearDtcLimitationEnum:
+    """
+    Test class for DiagnosticClearDtcLimitationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.169, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["allSupportedDtcs", "clearAllDtcs"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum member values.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+
+        assert DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS == "allSupportedDtcs"
+        assert DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS == "clearAllDtcs"
+
+        assert enum.validateEnumValue("allSupportedDtcs") is True
+        assert enum.validateEnumValue("clearAllDtcs") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticClearDtcLimitationEnum instantiability and getValue.
+        """
+        enum = DiagnosticClearDtcLimitationEnum()
+        enum.setValue(DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS)
+
+        assert enum.getValue() == "clearAllDtcs"
+
+
+class TestDiagnosticClearEventAllowedBehaviorEnum:
+    """
+    Test class for DiagnosticClearEventAllowedBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.150, p.166
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["noStatusByteChange", "onlyThisCycleAndReadiness"]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum member values.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+
+        assert DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE == "noStatusByteChange"
+        assert DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS == "onlyThisCycleAndReadiness"
+
+        assert enum.validateEnumValue("noStatusByteChange") is True
+        assert enum.validateEnumValue("onlyThisCycleAndReadiness") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticClearEventAllowedBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticClearEventAllowedBehaviorEnum()
+        enum.setValue(DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS)
+
+        assert enum.getValue() == "onlyThisCycleAndReadiness"
+
+
+class TestDiagnosticConnectedIndicatorBehaviorEnum:
+    """
+    Test class for DiagnosticConnectedIndicatorBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.155, p.168
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "blinkMode",
+            "blinkOrContinuousOnMode",
+            "continuousOnMode",
+            "fastFlashingMode",
+            "slowFlashingMode",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum member values.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE == "blinkMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE == "blinkOrContinuousOnMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE == "continuousOnMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE == "fastFlashingMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE == "slowFlashingMode"
+
+        assert enum.validateEnumValue("blinkMode") is True
+        assert enum.validateEnumValue("blinkOrContinuousOnMode") is True
+        assert enum.validateEnumValue("continuousOnMode") is True
+        assert enum.validateEnumValue("fastFlashingMode") is True
+        assert enum.validateEnumValue("slowFlashingMode") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticConnectedIndicatorBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticConnectedIndicatorBehaviorEnum()
+        enum.setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE)
+
+        assert enum.getValue() == "blinkOrContinuousOnMode"
+
+
+class TestDiagnosticDebounceBehaviorEnum:
+    """
+    Test class for DiagnosticDebounceBehaviorEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.192, p.199
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "freeze",
+            "reset",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum member values.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+
+        assert DiagnosticDebounceBehaviorEnum.FREEZE == "freeze"
+        assert DiagnosticDebounceBehaviorEnum.RESET == "reset"
+
+        assert enum.validateEnumValue("freeze") is True
+        assert enum.validateEnumValue("reset") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticDebounceBehaviorEnum instantiability and getValue.
+        """
+        enum = DiagnosticDebounceBehaviorEnum()
+        enum.setValue(DiagnosticDebounceBehaviorEnum.RESET)
+
+        assert enum.getValue() == "reset"
+
+
+class TestDiagnosticEventClearAllowedEnum:
+    """
+    Test class for DiagnosticEventClearAllowedEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.153, p.167
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventClearAllowedEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "always",
+            "requiresCallbackExecution",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventClearAllowedEnum member values.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+
+        assert DiagnosticEventClearAllowedEnum.ALWAYS == "always"
+        assert DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION == "requiresCallbackExecution"
+
+        assert enum.validateEnumValue("always") is True
+        assert enum.validateEnumValue("requiresCallbackExecution") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventClearAllowedEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventClearAllowedEnum()
+        enum.setValue(DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION)
+
+        assert enum.getValue() == "requiresCallbackExecution"
+
+
+class TestDiagnosticEventDisplacementStrategyEnum:
+    """
+    Test class for DiagnosticEventDisplacementStrategyEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.170, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "full",
+            "none",
+            "prioOcc",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum member values.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+
+        assert DiagnosticEventDisplacementStrategyEnum.FULL == "full"
+        assert DiagnosticEventDisplacementStrategyEnum.NONE == "none"
+        assert DiagnosticEventDisplacementStrategyEnum.PRIO_OCC == "prioOcc"
+
+        assert enum.validateEnumValue("full") is True
+        assert enum.validateEnumValue("none") is True
+        assert enum.validateEnumValue("prioOcc") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventDisplacementStrategyEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventDisplacementStrategyEnum()
+        enum.setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
+
+        assert enum.getValue() == "prioOcc"
+
+
+class TestDiagnosticEventKindEnum:
+    """
+    Test class for DiagnosticEventKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.154, p.167
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticEventKindEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticEventKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "bsw",
+            "swc",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticEventKindEnum member values.
+        """
+        enum = DiagnosticEventKindEnum()
+
+        assert DiagnosticEventKindEnum.BSW == "bsw"
+        assert DiagnosticEventKindEnum.SWC == "swc"
+
+        assert enum.validateEnumValue("bsw") is True
+        assert enum.validateEnumValue("swc") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticEventKindEnum instantiability and getValue.
+        """
+        enum = DiagnosticEventKindEnum()
+        enum.setValue(DiagnosticEventKindEnum.SWC)
+
+        assert enum.getValue() == "swc"
+
+
+class TestDiagnosticIumprKindEnum:
+    """
+    Test class for DiagnosticIumprKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.208, p.210
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticIumprKindEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticIumprKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "apiBased",
+            "observerBased",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticIumprKindEnum member values.
+        """
+        enum = DiagnosticIumprKindEnum()
+
+        assert DiagnosticIumprKindEnum.API_BASED == "apiBased"
+        assert DiagnosticIumprKindEnum.OBSERVER_BASED == "observerBased"
+
+        assert enum.validateEnumValue("apiBased") is True
+        assert enum.validateEnumValue("observerBased") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticIumprKindEnum instantiability and getValue.
+        """
+        enum = DiagnosticIumprKindEnum()
+        enum.setValue(DiagnosticIumprKindEnum.OBSERVER_BASED)
+
+        assert enum.getValue() == "observerBased"
+
+
+class TestDiagnosticMemoryEntryStorageTriggerEnum:
+    """
+    Test class for DiagnosticMemoryEntryStorageTriggerEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.168, p.183
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "confirmed",
+            "fdcThreshold",
+            "testFailed",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum member values.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+
+        assert DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED == "confirmed"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED == "testFailed"
+
+        assert enum.validateEnumValue("confirmed") is True
+        assert enum.validateEnumValue("fdcThreshold") is True
+        assert enum.validateEnumValue("testFailed") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticMemoryEntryStorageTriggerEnum instantiability and getValue.
+        """
+        enum = DiagnosticMemoryEntryStorageTriggerEnum()
+        enum.setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD)
+
+        assert enum.getValue() == "fdcThreshold"
+
+
+class TestDiagnosticObdSupportEnum:
+    """
+    Test class for DiagnosticObdSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.206, p.207
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticObdSupportEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticObdSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "masterEcu",
+            "noObdSupport",
+            "primaryEcu",
+            "secondaryEcu",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticObdSupportEnum member values.
+        """
+        enum = DiagnosticObdSupportEnum()
+
+        assert DiagnosticObdSupportEnum.MASTER_ECU == "masterEcu"
+        assert DiagnosticObdSupportEnum.NO_OBD_SUPPORT == "noObdSupport"
+        assert DiagnosticObdSupportEnum.PRIMARY_ECU == "primaryEcu"
+        assert DiagnosticObdSupportEnum.SECONDARY_ECU == "secondaryEcu"
+
+        assert enum.validateEnumValue("masterEcu") is True
+        assert enum.validateEnumValue("noObdSupport") is True
+        assert enum.validateEnumValue("primaryEcu") is True
+        assert enum.validateEnumValue("secondaryEcu") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticObdSupportEnum instantiability and getValue.
+        """
+        enum = DiagnosticObdSupportEnum()
+        enum.setValue(DiagnosticObdSupportEnum.PRIMARY_ECU)
+
+        assert enum.getValue() == "primaryEcu"
+
+
+class TestDiagnosticOperationCycleTypeEnum:
+    """
+    Test class for DiagnosticOperationCycleTypeEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.197, p.201
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "ignition",
+            "obdDrivingCycle",
+            "other",
+            "warmup",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum member values.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+
+        assert DiagnosticOperationCycleTypeEnum.IGNITION == "ignition"
+        assert DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE == "obdDrivingCycle"
+        assert DiagnosticOperationCycleTypeEnum.OTHER == "other"
+        assert DiagnosticOperationCycleTypeEnum.WARMUP == "warmup"
+
+        assert enum.validateEnumValue("ignition") is True
+        assert enum.validateEnumValue("obdDrivingCycle") is True
+        assert enum.validateEnumValue("other") is True
+        assert enum.validateEnumValue("warmup") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticOperationCycleTypeEnum instantiability and getValue.
+        """
+        enum = DiagnosticOperationCycleTypeEnum()
+        enum.setValue(DiagnosticOperationCycleTypeEnum.WARMUP)
+
+        assert enum.getValue() == "warmup"
+
+
+class TestDiagnosticSignificanceEnum:
+    """
+    Test class for DiagnosticSignificanceEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.176, p.187
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticSignificanceEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticSignificanceEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "fault",
+            "occurence",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticSignificanceEnum member values.
+        """
+        enum = DiagnosticSignificanceEnum()
+
+        assert DiagnosticSignificanceEnum.FAULT == "fault"
+        assert DiagnosticSignificanceEnum.OCCURENCE == "occurence"
+
+        assert enum.validateEnumValue("fault") is True
+        assert enum.validateEnumValue("occurence") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticSignificanceEnum instantiability and getValue.
+        """
+        enum = DiagnosticSignificanceEnum()
+        enum.setValue(DiagnosticSignificanceEnum.OCCURENCE)
+
+        assert enum.getValue() == "occurence"
+
+
+class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
+    """
+    Test class for DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.171, p.184
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "statusBitAgingAndDisplacement",
+            "statusBitNormal",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum member values.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT == "statusBitAgingAndDisplacement"
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL == "statusBitNormal"
+
+        assert enum.validateEnumValue("statusBitAgingAndDisplacement") is True
+        assert enum.validateEnumValue("statusBitNormal") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum instantiability and getValue.
+        """
+        enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
+        enum.setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT)
+
+        assert enum.getValue() == "statusBitAgingAndDisplacement"
+
+
+class TestDiagnosticTestResultUpdateEnum:
+    """
+    Test class for DiagnosticTestResultUpdateEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.202, p.205
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticTestResultUpdateEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "always",
+            "steady",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticTestResultUpdateEnum member values.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+
+        assert DiagnosticTestResultUpdateEnum.ALWAYS == "always"
+        assert DiagnosticTestResultUpdateEnum.STEADY == "steady"
+
+        assert enum.validateEnumValue("always") is True
+        assert enum.validateEnumValue("steady") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticTestResultUpdateEnum instantiability and getValue.
+        """
+        enum = DiagnosticTestResultUpdateEnum()
+        enum.setValue(DiagnosticTestResultUpdateEnum.STEADY)
+
+        assert enum.getValue() == "steady"
+
+
+class TestDiagnosticUdsSeverityEnum:
+    """
+    Test class for DiagnosticUdsSeverityEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.177, p.187
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticUdsSeverityEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "checkAtNextHalt",
+            "immediately",
+            "maintenanceOnly",
+            "noSeverity",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticUdsSeverityEnum member values.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+
+        assert DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT == "checkAtNextHalt"
+        assert DiagnosticUdsSeverityEnum.IMMEDIATELY == "immediately"
+        assert DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY == "maintenanceOnly"
+        assert DiagnosticUdsSeverityEnum.NO_SEVERITY == "noSeverity"
+
+        assert enum.validateEnumValue("checkAtNextHalt") is True
+        assert enum.validateEnumValue("immediately") is True
+        assert enum.validateEnumValue("maintenanceOnly") is True
+        assert enum.validateEnumValue("noSeverity") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticUdsSeverityEnum instantiability and getValue.
+        """
+        enum = DiagnosticUdsSeverityEnum()
+        enum.setValue(DiagnosticUdsSeverityEnum.NO_SEVERITY)
+
+        assert enum.getValue() == "noSeverity"
+
+
+class TestDiagnosticWwhObdDtcClassEnum:
+    """
+    Test class for DiagnosticWwhObdDtcClassEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.179, p.188
+    """
+
+    def test_initialization(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum initialization with the spec literals in displayed order.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            "demDtcWwhObdClassA",
+            "demDtcWwhObdClassB1",
+            "demDtcWwhObdClassB2",
+            "demDtcWwhObdClassC",
+            "demDtcWwhObdClassNoInformation",
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum member values.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A == "demDtcWwhObdClassA"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1 == "demDtcWwhObdClassB1"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2 == "demDtcWwhObdClassB2"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C == "demDtcWwhObdClassC"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION == "demDtcWwhObdClassNoInformation"
+
+        assert enum.validateEnumValue("demDtcWwhObdClassA") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassB1") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassB2") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassC") is True
+        assert enum.validateEnumValue("demDtcWwhObdClassNoInformation") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DiagnosticWwhObdDtcClassEnum instantiability and getValue.
+        """
+        enum = DiagnosticWwhObdDtcClassEnum()
+        enum.setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION)
+
+        assert enum.getValue() == "demDtcWwhObdClassNoInformation"

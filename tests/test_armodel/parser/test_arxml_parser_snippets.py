@@ -615,9 +615,11 @@ class TestSwSystemconstParser:
                             <SHORT-NAME>ConfigValue</SHORT-NAME>
                             <CATEGORY>CONSTANT</CATEGORY>
                             <ADMIN-DATA>
-                                <DOCUMENTATION>
-                                    <DOCUMENTATION-CLASS>SPECIFICATION</DOCUMENTATION-CLASS>
-                                </DOCUMENTATION>
+                                <SDGS>
+                                    <SDG>
+                                        <SD GID="DOCUMENTATION-CLASS">SPECIFICATION</SD>
+                                    </SDG>
+                                </SDGS>
                             </ADMIN-DATA>
                         </SW-SYSTEMCONST>
                     </ELEMENTS>
@@ -758,13 +760,13 @@ class TestSwSystemconstantValueSetParser:
                             <SHORT-NAME>AnnotatedValueSet</SHORT-NAME>
                             <SW-SYSTEMCONSTANT-VALUES>
                                 <SW-SYSTEMCONST-VALUE>
+                                    <SW-SYSTEMCONST-REF DEST="SW-SYSTEMCONST">/Constants/Cfg</SW-SYSTEMCONST-REF>
+                                    <VALUE>7</VALUE>
                                     <ANNOTATIONS>
                                         <ANNOTATION>
                                             <ANNOTATION-ORIGIN>TEST</ANNOTATION-ORIGIN>
                                         </ANNOTATION>
                                     </ANNOTATIONS>
-                                    <SW-SYSTEMCONST-REF DEST="SW-SYSTEMCONST">/Constants/Cfg</SW-SYSTEMCONST-REF>
-                                    <VALUE>7</VALUE>
                                 </SW-SYSTEMCONST-VALUE>
                             </SW-SYSTEMCONSTANT-VALUES>
                         </SW-SYSTEMCONSTANT-VALUE-SET>

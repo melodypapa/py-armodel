@@ -1013,6 +1013,100 @@ class UdpNmEcu(BusspecificNmEcu):
         return self
 
 
+class NmCoordinator(ARObject):
+    """
+    A NM coordinator is an ECU, which is connected to at least two busses, and where the requirement exists that shutdown of NM of at least two of these busses (also referred to as coordinated busses) has to be performed synchronously.
+    """
+
+    # NmCoordinator method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.302, p.675
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndex                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmCoordSyncSupport       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordSyncSupport       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmGlobalCoordinatorTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addNmNode                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNmNodes                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Identification of the NMCoordinator.
+        self.index: Optional[Integer] = None
+
+        # Switch for enabling NmCoordinatorSync (coordination of nested busses) support.
+        self.nmCoordSyncSupport: Optional[Boolean] = None
+
+        # This attribute defines the maximum shutdown time (in seconds) of a connected and coordinated NM-Cluster.
+        self.nmGlobalCoordinatorTime: Optional[TimeValue] = None
+
+        # reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
+        self.nmNodes: List[RefType] = []
+
+    def getIndex(self) -> Optional[Integer]:
+        """
+        Identification of the NMCoordinator.
+        """
+        return self.index
+
+    def setIndex(self, value: Optional[Integer]) -> NmCoordinator:
+        """
+        Identification of the NMCoordinator.
+        A None value is a no-op and does not overwrite an existing index.
+        """
+        if value is not None:
+            self.index = value
+        return self
+
+    def getNmCoordSyncSupport(self) -> Optional[Boolean]:
+        """
+        Switch for enabling NmCoordinatorSync (coordination of nested busses) support.
+        """
+        return self.nmCoordSyncSupport
+
+    def setNmCoordSyncSupport(self, value: Optional[Boolean]) -> NmCoordinator:
+        """
+        Switch for enabling NmCoordinatorSync (coordination of nested busses) support.
+        A None value is a no-op and does not overwrite an existing nmCoordSyncSupport.
+        """
+        if value is not None:
+            self.nmCoordSyncSupport = value
+        return self
+
+    def getNmGlobalCoordinatorTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the maximum shutdown time (in seconds) of a connected and coordinated NM-Cluster.
+        """
+        return self.nmGlobalCoordinatorTime
+
+    def setNmGlobalCoordinatorTime(self, value: Optional[TimeValue]) -> NmCoordinator:
+        """
+        This attribute defines the maximum shutdown time (in seconds) of a connected and coordinated NM-Cluster.
+        A None value is a no-op and does not overwrite an existing nmGlobalCoordinatorTime.
+        """
+        if value is not None:
+            self.nmGlobalCoordinatorTime = value
+        return self
+
+    def addNmNode(self, value: Optional[RefType]) -> NmCoordinator:
+        """
+        reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
+        A None value is a no-op and does not extend the nmNodes list.
+        """
+        if value is not None:
+            self.nmNodes.append(value)
+        return self
+
+    def getNmNodes(self) -> List[RefType]:
+        """
+        reference to busses (via NmNodes) that are coordinated by the NmCoordinator.
+        """
+        return self.nmNodes
+
+
 class NmEcu(Identifiable, VariationPointCapable):
     """
     ECU on which NM is running.
@@ -1030,8 +1124,8 @@ class NmEcu(Identifiable, VariationPointCapable):
     # [x] setNmBusSynchronizationEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNmComControlEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNmComControlEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getNmCoordinator               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] setNmCoordinator               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNmCoordinator               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNmCoordinator               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNmCycletimeMainFunction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNmCycletimeMainFunction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getNmPduRxIndicationEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1059,7 +1153,7 @@ class NmEcu(Identifiable, VariationPointCapable):
         self.nmComControlEnabled: Optional[Boolean] = None
 
         # Nm ECU may coordinate different clusters.
-        self.nmCoordinator: Optional[ARObject] = None
+        self.nmCoordinator: Optional[NmCoordinator] = None
 
         # The period between successive calls to the Main Function of the NM Interface in seconds.
         self.nmCycletimeMainFunction: Optional[TimeValue] = None
@@ -1136,13 +1230,13 @@ class NmEcu(Identifiable, VariationPointCapable):
             self.nmComControlEnabled = value
         return self
 
-    def getNmCoordinator(self) -> Optional[ARObject]:
+    def getNmCoordinator(self) -> Optional[NmCoordinator]:
         """
         Nm ECU may coordinate different clusters.
         """
         return self.nmCoordinator
 
-    def setNmCoordinator(self, value: Optional[ARObject]) -> NmEcu:
+    def setNmCoordinator(self, value: Optional[NmCoordinator]) -> NmEcu:
         """
         Nm ECU may coordinate different clusters.
         A None value is a no-op and does not overwrite an existing nmCoordinator.

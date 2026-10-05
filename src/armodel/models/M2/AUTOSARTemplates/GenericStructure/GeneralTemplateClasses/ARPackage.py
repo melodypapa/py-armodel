@@ -26,8 +26,11 @@ if TYPE_CHECKING:
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     DiagnosticCommonProps,
+    DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
     DiagnosticEventWindow,
+    DiagnosticIumprGroupIdentifier,
+    DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
 )
@@ -414,8 +417,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
+    DiagnosticClearEventAllowedBehaviorEnum,
+    DiagnosticEventClearAllowedEnum,
+    DiagnosticEventKindEnum,
+    DiagnosticIumprKindEnum,
+    DiagnosticObdSupportEnum,
+    DiagnosticOperationCycleTypeEnum,
+    DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
+    DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
     NameToken,
     PositiveInteger,
@@ -918,6 +929,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(io_control)
         return cast(DiagnosticIOControl, self.getReferrableElement(short_name, DiagnosticIOControl))
 
+    def createDiagnosticIndicator(self, short_name: str) -> DiagnosticIndicator:
+        """
+        Creates a new DiagnosticIndicator with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIndicator: Definition of an indicator.
+
+        Args:
+            short_name: The short name for the new DiagnosticIndicator
+
+        Returns:
+            The newly created or existing DiagnosticIndicator instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIndicator):
+            element = DiagnosticIndicator(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIndicator, self.getReferrableElement(short_name, DiagnosticIndicator))
+
     def createDiagnosticIoControlClass(self, short_name: str) -> DiagnosticIoControlClass:
         """
         Creates a new DiagnosticIoControlClass with the given short name,
@@ -1271,6 +1300,43 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_emission_related_dtc_class = DiagnosticRequestEmissionRelatedDTCClass(self, short_name)
             self.addReferrableElement(request_emission_related_dtc_class)
         return cast(DiagnosticRequestEmissionRelatedDTCClass, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCClass))
+
+    def createDiagnosticRequestEmissionRelatedDTCPermanentStatus(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCPermanentStatus with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCPermanentStatus represents an instance of the OBD mode 0x0A service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCPermanentStatus
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCPermanentStatus instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatus):
+            request_emission_related_dtc_permanent_status = DiagnosticRequestEmissionRelatedDTCPermanentStatus(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_permanent_status)
+        return cast(DiagnosticRequestEmissionRelatedDTCPermanentStatus, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatus))
+
+    def createDiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self, short_name: str) -> DiagnosticRequestEmissionRelatedDTCPermanentStatusClass:
+        """
+        Creates a new DiagnosticRequestEmissionRelatedDTCPermanentStatusClass with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticRequestEmissionRelatedDTCPermanentStatusClass defines common properties for all
+        instances of the "Request Emission Related DTC Permanent Status" OBD diagnostic service.
+
+        Args:
+            short_name: The short name for the new DiagnosticRequestEmissionRelatedDTCPermanentStatusClass
+
+        Returns:
+            The newly created or existing DiagnosticRequestEmissionRelatedDTCPermanentStatusClass instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatusClass):
+            request_emission_related_dtc_permanent_status_class = DiagnosticRequestEmissionRelatedDTCPermanentStatusClass(self, short_name)
+            self.addReferrableElement(request_emission_related_dtc_permanent_status_class)
+        return cast(DiagnosticRequestEmissionRelatedDTCPermanentStatusClass, self.getReferrableElement(short_name, DiagnosticRequestEmissionRelatedDTCPermanentStatusClass))
 
     def createDiagnosticRequestUpload(self, short_name: str) -> DiagnosticRequestUpload:
         """
@@ -1705,6 +1771,12 @@ class ARPackage(CollectableElement, VariationPointCapable):
             sw_component = EcuAbstractionSwComponentType(self, short_name)
             self.addReferrableElement(sw_component)
         return cast(EcuAbstractionSwComponentType, self.getReferrableElement(short_name, EcuAbstractionSwComponentType))
+
+    def createParameterSwComponentType(self, short_name: str) -> ParameterSwComponentType:
+        if not self.IsReferrableElementExists(short_name, ParameterSwComponentType):
+            sw_component = ParameterSwComponentType(self, short_name)
+            self.addReferrableElement(sw_component)
+        return cast(ParameterSwComponentType, self.getReferrableElement(short_name, ParameterSwComponentType))
 
     def createApplicationSwComponentType(self, short_name: str) -> ApplicationSwComponentType:
         """
@@ -2618,6 +2690,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
+    def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
+        """
+        Creates a new DiagnosticAging with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticAging defines the aging algorithm.
+
+        Args:
+            short_name: The short name for the new DiagnosticAging
+
+        Returns:
+            The newly created or existing DiagnosticAging instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticAging):
+            aging = DiagnosticAging(self, short_name)
+            self.addReferrableElement(aging)
+        return cast(DiagnosticAging, self.getReferrableElement(short_name, DiagnosticAging))
+
     def createDiagnosticAuthRole(self, short_name: str) -> DiagnosticAuthRole:
         """
         Creates a new DiagnosticAuthRole with the given short name,
@@ -3024,6 +3114,25 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(did)
         return cast(DiagnosticDataIdentifier, self.getReferrableElement(short_name, DiagnosticDataIdentifier))
 
+    def createDiagnosticDataIdentifierSet(self, short_name: str) -> DiagnosticDataIdentifierSet:
+        """
+        Creates a new DiagnosticDataIdentifierSet with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticDataIdentifierSet represents the ability to define a list
+        of DiagnosticDataIdentifiers that can be reused in different contexts.
+
+        Args:
+            short_name: The short name for the new DiagnosticDataIdentifierSet
+
+        Returns:
+            The newly created or existing DiagnosticDataIdentifierSet instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticDataIdentifierSet):
+            data_identifier_set = DiagnosticDataIdentifierSet(self, short_name)
+            self.addReferrableElement(data_identifier_set)
+        return cast(DiagnosticDataIdentifierSet, self.getReferrableElement(short_name, DiagnosticDataIdentifierSet))
+
     def createDiagnosticDynamicDataIdentifier(self, short_name: str) -> DiagnosticDynamicDataIdentifier:
         """
         Creates a new DiagnosticDynamicDataIdentifier with the given short name,
@@ -3042,6 +3151,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             did = DiagnosticDynamicDataIdentifier(self, short_name)
             self.addReferrableElement(did)
         return cast(DiagnosticDynamicDataIdentifier, self.getReferrableElement(short_name, DiagnosticDynamicDataIdentifier))
+
+    def createDiagnosticEcuInstanceProps(self, short_name: str) -> DiagnosticEcuInstanceProps:
+        """
+        Creates a new DiagnosticEcuInstanceProps with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEcuInstanceProps: This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information.
+
+        Args:
+            short_name: The short name for the new DiagnosticEcuInstanceProps
+
+        Returns:
+            The newly created or existing DiagnosticEcuInstanceProps instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEcuInstanceProps):
+            element = DiagnosticEcuInstanceProps(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEcuInstanceProps, self.getReferrableElement(short_name, DiagnosticEcuInstanceProps))
 
     def createDiagnosticEcuReset(self, short_name: str) -> DiagnosticEcuReset:
         """
@@ -3119,6 +3246,42 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(fim_event_group)
         return cast(DiagnosticFimEventGroup, self.getReferrableElement(short_name, DiagnosticFimEventGroup))
 
+    def createDiagnosticFreezeFrame(self, short_name: str) -> DiagnosticFreezeFrame:
+        """
+        Creates a new DiagnosticFreezeFrame with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFreezeFrame: This element describes combinations of DIDs for a non OBD relevant freeze frame.
+
+        Args:
+            short_name: The short name for the new DiagnosticFreezeFrame
+
+        Returns:
+            The newly created or existing DiagnosticFreezeFrame instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFreezeFrame):
+            element = DiagnosticFreezeFrame(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFreezeFrame, self.getReferrableElement(short_name, DiagnosticFreezeFrame))
+
+    def createDiagnosticFunctionIdentifier(self, short_name: str) -> DiagnosticFunctionIdentifier:
+        """
+        Creates a new DiagnosticFunctionIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFunctionIdentifier: This meta-class represents a diagnostic function identifier (a.k.a. FID). Tags: atp.recommendedPackage=DiagnosticFunctionIdentifiers.
+
+        Args:
+            short_name: The short name for the new DiagnosticFunctionIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticFunctionIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFunctionIdentifier):
+            element = DiagnosticFunctionIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFunctionIdentifier, self.getReferrableElement(short_name, DiagnosticFunctionIdentifier))
+
     def createDiagnosticJ1939Spn(self, short_name: str) -> DiagnosticJ1939Spn:
         """
         Creates a new DiagnosticJ1939Spn with the given short name,
@@ -3175,6 +3338,42 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(freeze_frame)
         return cast(DiagnosticJ1939FreezeFrame, self.getReferrableElement(short_name, DiagnosticJ1939FreezeFrame))
 
+    def createDiagnosticTroubleCode(self, short_name: str) -> DiagnosticTroubleCode:
+        """
+        Creates a new DiagnosticTroubleCode with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCode: A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCode
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCode instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCode):
+            trouble_code = DiagnosticTroubleCode(self, short_name)
+            self.addReferrableElement(trouble_code)
+        return cast(DiagnosticTroubleCode, self.getReferrableElement(short_name, DiagnosticTroubleCode))
+
+    def createDiagnosticTroubleCodeGroup(self, short_name: str) -> DiagnosticTroubleCodeGroup:
+        """
+        Creates a new DiagnosticTroubleCodeGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeGroup: The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeGroup
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCodeGroup):
+            element = DiagnosticTroubleCodeGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticTroubleCodeGroup, self.getReferrableElement(short_name, DiagnosticTroubleCodeGroup))
+
     def createDiagnosticTroubleCodeJ1939(self, short_name: str) -> DiagnosticTroubleCodeJ1939:
         """
         Creates a new DiagnosticTroubleCodeJ1939 with the given short name,
@@ -3193,6 +3392,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             trouble_code = DiagnosticTroubleCodeJ1939(self, short_name)
             self.addReferrableElement(trouble_code)
         return cast(DiagnosticTroubleCodeJ1939, self.getReferrableElement(short_name, DiagnosticTroubleCodeJ1939))
+
+    def createDiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, short_name: str) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        Creates a new DiagnosticTroubleCodeUdsToTroubleCodeObdMapping with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticTroubleCodeUdsToTroubleCodeObdMapping: This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code.
+
+        Args:
+            short_name: The short name for the new DiagnosticTroubleCodeUdsToTroubleCodeObdMapping
+
+        Returns:
+            The newly created or existing DiagnosticTroubleCodeUdsToTroubleCodeObdMapping instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping):
+            element = DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticTroubleCodeUdsToTroubleCodeObdMapping, self.getReferrableElement(short_name, DiagnosticTroubleCodeUdsToTroubleCodeObdMapping))
 
     def createDiagnosticServiceDataMapping(self, short_name: str) -> DiagnosticServiceDataMapping:
         """
@@ -3339,6 +3556,60 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticJ1939SpnMapping, self.getReferrableElement(short_name, DiagnosticJ1939SpnMapping))
 
+    def createDiagnosticIumpr(self, short_name: str) -> DiagnosticIumpr:
+        """
+        Creates a new DiagnosticIumpr with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumpr: This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs
+
+        Args:
+            short_name: The short name for the new DiagnosticIumpr
+
+        Returns:
+            The newly created or existing DiagnosticIumpr instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumpr):
+            element = DiagnosticIumpr(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumpr, self.getReferrableElement(short_name, DiagnosticIumpr))
+
+    def createDiagnosticIumprDenominatorGroup(self, short_name: str) -> DiagnosticIumprDenominatorGroup:
+        """
+        Creates a new DiagnosticIumprDenominatorGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprDenominatorGroup: This meta-class represents the ability to model a IUMPR denominator groups. Tags: atp.recommendedPackage=DiagnosticIumprDenominatorGroup
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprDenominatorGroup
+
+        Returns:
+            The newly created or existing DiagnosticIumprDenominatorGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumprDenominatorGroup):
+            element = DiagnosticIumprDenominatorGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumprDenominatorGroup, self.getReferrableElement(short_name, DiagnosticIumprDenominatorGroup))
+
+    def createDiagnosticIumprGroup(self, short_name: str) -> DiagnosticIumprGroup:
+        """
+        Creates a new DiagnosticIumprGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticIumprGroup: This meta-class represents the ability to model a IUMPR groups. Tags: atp.recommendedPackage=DiagnosticIumprGroups
+
+        Args:
+            short_name: The short name for the new DiagnosticIumprGroup
+
+        Returns:
+            The newly created or existing DiagnosticIumprGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticIumprGroup):
+            element = DiagnosticIumprGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticIumprGroup, self.getReferrableElement(short_name, DiagnosticIumprGroup))
+
     def createDiagnosticIumprToFunctionIdentifierMapping(self, short_name: str) -> DiagnosticIumprToFunctionIdentifierMapping:
         """
         Creates a new DiagnosticIumprToFunctionIdentifierMapping with the given short name,
@@ -3465,6 +3736,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(CpSwClusterToDiagEventMapping, self.getReferrableElement(short_name, CpSwClusterToDiagEventMapping))
 
+    def createDiagnosticFimAliasEvent(self, short_name: str) -> DiagnosticFimAliasEvent:
+        """
+        Creates a new DiagnosticFimAliasEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticFimAliasEvent: This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created..
+
+        Args:
+            short_name: The short name for the new DiagnosticFimAliasEvent
+
+        Returns:
+            The newly created or existing DiagnosticFimAliasEvent instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticFimAliasEvent):
+            element = DiagnosticFimAliasEvent(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticFimAliasEvent, self.getReferrableElement(short_name, DiagnosticFimAliasEvent))
+
     def createDiagnosticFimAliasEventGroup(self, short_name: str) -> DiagnosticFimAliasEventGroup:
         """
         Creates a new DiagnosticFimAliasEventGroup with the given short name,
@@ -3536,6 +3825,42 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticMasterToSlaveEventMapping(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticMasterToSlaveEventMapping, self.getReferrableElement(short_name, DiagnosticMasterToSlaveEventMapping))
+
+    def createDiagnosticMeasurementIdentifier(self, short_name: str) -> DiagnosticMeasurementIdentifier:
+        """
+        Creates a new DiagnosticMeasurementIdentifier with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMeasurementIdentifier: This meta-class represents the ability to describe a measurement identifier.
+
+        Args:
+            short_name: The short name for the new DiagnosticMeasurementIdentifier
+
+        Returns:
+            The newly created or existing DiagnosticMeasurementIdentifier instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMeasurementIdentifier):
+            element = DiagnosticMeasurementIdentifier(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticMeasurementIdentifier, self.getReferrableElement(short_name, DiagnosticMeasurementIdentifier))
+
+    def createDiagnosticMemoryDestinationPrimary(self, short_name: str) -> DiagnosticMemoryDestinationPrimary:
+        """
+        Creates a new DiagnosticMemoryDestinationPrimary with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticMemoryDestinationPrimary: This represents a primary memory for a diagnostic event.
+
+        Args:
+            short_name: The short name for the new DiagnosticMemoryDestinationPrimary
+
+        Returns:
+            The newly created or existing DiagnosticMemoryDestinationPrimary instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticMemoryDestinationPrimary):
+            element = DiagnosticMemoryDestinationPrimary(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticMemoryDestinationPrimary, self.getReferrableElement(short_name, DiagnosticMemoryDestinationPrimary))
 
     def createDiagnosticMemoryIdentifier(self, short_name: str) -> DiagnosticMemoryIdentifier:
         """
@@ -3609,6 +3934,78 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticAuthTransmitCertificateMapping, self.getReferrableElement(short_name, DiagnosticAuthTransmitCertificateMapping))
 
+    def createDiagnosticEnableCondition(self, short_name: str) -> DiagnosticEnableCondition:
+        """
+        Creates a new DiagnosticEnableCondition with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableCondition: Specification of an enable condition..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableCondition
+
+        Returns:
+            The newly created or existing DiagnosticEnableCondition instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEnableCondition):
+            element = DiagnosticEnableCondition(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEnableCondition, self.getReferrableElement(short_name, DiagnosticEnableCondition))
+
+    def createDiagnosticStorageCondition(self, short_name: str) -> DiagnosticStorageCondition:
+        """
+        Creates a new DiagnosticStorageCondition with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageCondition: Specification of a storage condition..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageCondition
+
+        Returns:
+            The newly created or existing DiagnosticStorageCondition instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticStorageCondition):
+            element = DiagnosticStorageCondition(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticStorageCondition, self.getReferrableElement(short_name, DiagnosticStorageCondition))
+
+    def createDiagnosticStorageConditionGroup(self, short_name: str) -> DiagnosticStorageConditionGroup:
+        """
+        Creates a new DiagnosticStorageConditionGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticStorageConditionGroup: Storage condition group which includes one or several storage conditions..
+
+        Args:
+            short_name: The short name for the new DiagnosticStorageConditionGroup
+
+        Returns:
+            The newly created or existing DiagnosticStorageConditionGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticStorageConditionGroup):
+            element = DiagnosticStorageConditionGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticStorageConditionGroup, self.getReferrableElement(short_name, DiagnosticStorageConditionGroup))
+
+    def createDiagnosticEnableConditionGroup(self, short_name: str) -> DiagnosticEnableConditionGroup:
+        """
+        Creates a new DiagnosticEnableConditionGroup with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEnableConditionGroup: Enable condition group which includes one or several enable conditions..
+
+        Args:
+            short_name: The short name for the new DiagnosticEnableConditionGroup
+
+        Returns:
+            The newly created or existing DiagnosticEnableConditionGroup instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEnableConditionGroup):
+            element = DiagnosticEnableConditionGroup(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEnableConditionGroup, self.getReferrableElement(short_name, DiagnosticEnableConditionGroup))
+
     def createDiagnosticEnableConditionPortMapping(self, short_name: str) -> DiagnosticEnableConditionPortMapping:
         """
         Creates a new DiagnosticEnableConditionPortMapping with the given short name,
@@ -3626,6 +4023,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticEnableConditionPortMapping(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticEnableConditionPortMapping, self.getReferrableElement(short_name, DiagnosticEnableConditionPortMapping))
+
+    def createDiagnosticOperationCycle(self, short_name: str) -> DiagnosticOperationCycle:
+        """
+        Creates a new DiagnosticOperationCycle with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticOperationCycle: Definition of an operation cycle that is the base of the event qualifying and for Dem scheduling.
+
+        Args:
+            short_name: The short name for the new DiagnosticOperationCycle
+
+        Returns:
+            The newly created or existing DiagnosticOperationCycle instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticOperationCycle):
+            element = DiagnosticOperationCycle(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticOperationCycle, self.getReferrableElement(short_name, DiagnosticOperationCycle))
 
     def createDiagnosticOperationCyclePortMapping(self, short_name: str) -> DiagnosticOperationCyclePortMapping:
         """
@@ -3645,6 +4060,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(DiagnosticOperationCyclePortMapping, self.getReferrableElement(short_name, DiagnosticOperationCyclePortMapping))
 
+    def createDiagnosticEvent(self, short_name: str) -> DiagnosticEvent:
+        """
+        Creates a new DiagnosticEvent with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticEvent: This element is used to configure DiagnosticEvents..
+
+        Args:
+            short_name: The short name for the new DiagnosticEvent
+
+        Returns:
+            The newly created or existing DiagnosticEvent instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticEvent):
+            element = DiagnosticEvent(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticEvent, self.getReferrableElement(short_name, DiagnosticEvent))
+
     def createDiagnosticEventPortMapping(self, short_name: str) -> DiagnosticEventPortMapping:
         """
         Creates a new DiagnosticEventPortMapping with the given short name,
@@ -3662,6 +4095,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = DiagnosticEventPortMapping(self, short_name)
             self.addReferrableElement(element)
         return cast(DiagnosticEventPortMapping, self.getReferrableElement(short_name, DiagnosticEventPortMapping))
+
+    def createDiagnosticExtendedDataRecord(self, short_name: str) -> DiagnosticExtendedDataRecord:
+        """
+        Creates a new DiagnosticExtendedDataRecord with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        DiagnosticExtendedDataRecord: Description of an extended data record.
+
+        Args:
+            short_name: The short name for the new DiagnosticExtendedDataRecord
+
+        Returns:
+            The newly created or existing DiagnosticExtendedDataRecord instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticExtendedDataRecord):
+            element = DiagnosticExtendedDataRecord(self, short_name)
+            self.addReferrableElement(element)
+        return cast(DiagnosticExtendedDataRecord, self.getReferrableElement(short_name, DiagnosticExtendedDataRecord))
 
     def createDiagnosticEventToTroubleCodeUdsMapping(self, short_name: str) -> DiagnosticEventToTroubleCodeUdsMapping:
         """
@@ -4386,6 +4837,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationPropsSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
@@ -4429,6 +4881,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ( 
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    ParameterSwComponentType,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
     ServiceSwComponentType,
@@ -4577,6 +5030,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import D
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestCurrentPowertrainDataClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestDownloadClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCClass  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestEmissionRelatedDTCPermanentStatusClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestFileTransferClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestOnBoardMonitoringTestResultsClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticRequestPowertrainFreezeFrameDataClass  # noqa: E402
@@ -4869,7 +5323,18 @@ class DataExchangePoint(ARElement):
 
 
 class DiagnosticAbstractAliasEvent(ARElement, ABC):
-    pass
+    """This meta-class represents an abstract base class for all diagnostic alias events."""
+
+    # DiagnosticAbstractAliasEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.213, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticAbstractAliasEvent:
+            raise TypeError("DiagnosticAbstractAliasEvent is an abstract class.")
+
+        super().__init__(parent, short_name)
 
 
 class DiagnosticAbstractDataIdentifier(ARElement, ABC):
@@ -4912,7 +5377,62 @@ class DiagnosticAbstractDataIdentifier(ARElement, ABC):
 
 
 class DiagnosticAging(ARElement):
-    pass
+    """
+    Defines the aging algorithm. Tags: atp.recommendedPackage=DiagnosticAgings
+
+    [constr_1848] Existence of attribute DiagnosticAging.agingCycle: For each DiagnosticAging, attribute agingCycle shall exist at the time when the DEXT is complete.
+    [constr_1849] Existence of attribute DiagnosticAging.threshold: For each DiagnosticAging, attribute threshold shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticAging method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.198, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAgingCycleRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAgingCycleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThreshold      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThreshold      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the applicable aging cycle.
+        self.agingCycleRef: Optional[RefType] = None
+
+        # Number of aging cycles needed to unlearn/delete the event.
+        self.threshold: Optional[PositiveInteger] = None
+
+    def getAgingCycleRef(self) -> Optional[RefType]:
+        """
+        This represents the applicable aging cycle.
+        """
+        return self.agingCycleRef
+
+    def setAgingCycleRef(self, value: Optional[RefType]) -> DiagnosticAging:
+        """
+        This represents the applicable aging cycle.
+
+        A None value is a no-op and does not overwrite an existing agingCycleRef.
+        """
+        if value is not None:
+            self.agingCycleRef = value
+        return self
+
+    def getThreshold(self) -> Optional[PositiveInteger]:
+        """
+        Number of aging cycles needed to unlearn/delete the event.
+        """
+        return self.threshold
+
+    def setThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticAging:
+        """
+        Number of aging cycles needed to unlearn/delete the event.
+
+        A None value is a no-op and does not overwrite an existing threshold.
+        """
+        if value is not None:
+            self.threshold = value
+        return self
 
 
 class DiagnosticAuthRole(ARElement):
@@ -5189,12 +5709,53 @@ class DiagnosticComControl(ARElement):
         return self
 
 
-class DiagnosticCondition(ARElement, ABC):
-    pass
+class DiagnosticCondition(DiagnosticCommonElement, ABC):
+    """Abstract element for StorageConditions and EnableConditions."""
+
+    # DiagnosticCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.184, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticCondition:
+            raise TypeError("DiagnosticCondition is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+        self.initValue: Optional[Boolean] = None
+
+    def getInitValue(self) -> Optional[Boolean]:
+        """
+        Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+        """
+        return self.initValue
+
+    def setInitValue(self, value: Optional[Boolean]) -> DiagnosticCondition:
+        """
+        Defines the initial status for enable or disable of acceptance/storage of event reports of a diagnostic event. The value is the initialization after power up (before this condition is reported the first time). true: acceptance/storage of a diagnostic event enabled false: acceptance/storage of a diagnostic event disabled
+
+        A None value is a no-op and does not overwrite an existing initValue.
+        """
+        if value is not None:
+            self.initValue = value
+        return self
 
 
-class DiagnosticConditionGroup(ARElement, ABC):
-    pass
+class DiagnosticConditionGroup(DiagnosticCommonElement, ABC):
+    """Abstract element for StorageConditionGroups and EnableConditionGroups."""
+
+    # DiagnosticConditionGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.193, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DiagnosticConditionGroup:
+            raise TypeError("DiagnosticConditionGroup is an abstract class.")
+        super().__init__(parent, short_name)
 
 
 class DiagnosticControlDTCSetting(ARElement):
@@ -5596,8 +6157,39 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         return self
 
 
-class DiagnosticDataIdentifierSet(ARElement):
-    pass
+class DiagnosticDataIdentifierSet(DiagnosticCommonElement):
+    """
+    This represents the ability to define a list of DiagnosticDataIdentifiers that can be reused in different contexts. Tags: atp.recommendedPackage=DiagnosticDataIdentifierSets
+    """
+
+    # DiagnosticDataIdentifierSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.178, p.187
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataIdentifierRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdentifierRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to an ordered list of Data Identifiers.
+        self.dataIdentifierRefs: List[RefType] = []
+
+    def addDataIdentifierRef(self, ref: Optional[RefType]) -> DiagnosticDataIdentifierSet:
+        """
+        Reference to an ordered list of Data Identifiers.
+
+        A None value is a no-op and does not extend the dataIdentifierRefs list.
+        """
+        if ref is not None:
+            self.dataIdentifierRefs.append(ref)
+        return self
+
+    def getDataIdentifierRefs(self) -> List[RefType]:
+        """
+        Reference to an ordered list of Data Identifiers.
+        """
+        return self.dataIdentifierRefs
 
 
 class DiagnosticMemoryByAddress(ARElement, ABC):
@@ -5803,7 +6395,59 @@ class DiagnosticDynamicallyDefineDataIdentifier(ARElement):
 
 
 class DiagnosticEcuInstanceProps(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model properties that are specific for a given EcuInstance but on the other hand represent purely diagnostic-related information. In the spirit of decentralized configuration it is therefore possible to specify the diagnostic-related information related to a given EcuInstance even if the EcuInstance does not yet exist. Tags: atp.recommendedPackage=DiagnosticEcuInstancePropss
+    """
+
+    # DiagnosticEcuInstanceProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.205, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEcuInstanceRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getObdSupport          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdSupport          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+        self.ecuInstanceRefs: List[RefType] = []
+
+        # This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+        self.obdSupport: Optional[DiagnosticObdSupportEnum] = None
+
+    def addEcuInstanceRef(self, ref: Optional[RefType]) -> DiagnosticEcuInstanceProps:
+        """
+        This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+
+        A None value is a no-op and does not extend the ecuInstanceRefs list.
+        """
+        if ref is not None:
+            self.ecuInstanceRefs.append(ref)
+        return self
+
+    def getEcuInstanceRefs(self) -> List[RefType]:
+        """
+        This represents the actual EcuInstance to which the information contained in the DiagnosticEcuInstance contribute. Stereotypes: atpSplitable Tags: atp.Splitkey=ecuInstance
+        """
+        return self.ecuInstanceRefs
+
+    def getObdSupport(self) -> Optional[DiagnosticObdSupportEnum]:
+        """
+        This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+        """
+        return self.obdSupport
+
+    def setObdSupport(self, value: Optional[DiagnosticObdSupportEnum]) -> DiagnosticEcuInstanceProps:
+        """
+        This attribute is used to specify the role (if applicable) in which the DiagnosticEcuInstance supports OBD.
+
+        A None value is a no-op and does not overwrite an existing obdSupport.
+        """
+        if value is not None:
+            self.obdSupport = value
+        return self
 
 
 class DiagnosticEcuReset(ARElement):
@@ -5861,15 +6505,255 @@ class DiagnosticEcuReset(ARElement):
 
 
 class DiagnosticEnableCondition(DiagnosticCondition):
-    pass
+    """Specification of an enable condition. Tags: atp.recommendedPackage=DiagnosticConditions"""
+
+    # DiagnosticEnableCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.185, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticEnableConditionGroup(DiagnosticConditionGroup):
-    pass
+    """
+    Enable condition group which includes one or several enable conditions. Tags: atp.recommendedPackage=DiagnosticConditions
+
+    [constr_1841] Existence of attribute DiagnosticEnableConditionGroup.enableCondition: For each DiagnosticEnableConditionGroup, attribute enableCondition shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticEnableConditionGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.194, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEnableConditionRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableConditionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to enableConditions that are part of the Enable ConditionGroup.
+        self.enableConditionRefs: List[RefType] = []
+
+    def addEnableConditionRef(self, ref: Optional[RefType]) -> DiagnosticEnableConditionGroup:
+        """
+        Reference to enableConditions that are part of the Enable ConditionGroup.
+
+        A None value is a no-op and does not extend the enableConditionRefs list.
+        """
+        if ref is not None:
+            self.enableConditionRefs.append(ref)
+        return self
+
+    def getEnableConditionRefs(self) -> List[RefType]:
+        """
+        Reference to enableConditions that are part of the Enable ConditionGroup.
+        """
+        return self.enableConditionRefs
 
 
 class DiagnosticEvent(ARElement):
-    pass
+    """
+    This element is used to configure DiagnosticEvents.
+    """
+
+    # DiagnosticEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.149, p.165
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssociatedEventIdentification   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssociatedEventIdentification   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClearEventAllowedBehavior       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearEventAllowedBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfirmationThreshold           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfirmationThreshold           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addConnectedIndicator              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnectedIndicators             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEventClearAllowed               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventClearAllowed               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventKind                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventKind                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrestorageFreezeFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrestorageFreezeFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecoverableInSameOperationCycle [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecoverableInSameOperationCycle [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+        self.associatedEventIdentification: Optional[PositiveInteger] = None
+
+        # This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+        self.clearEventAllowedBehavior: Optional[DiagnosticClearEventAllowedBehaviorEnum] = None
+
+        # This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.confirmationThreshold: Optional[PositiveInteger] = None
+
+        # Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.connectedIndicators: List[DiagnosticConnectedIndicator] = []
+
+        # This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+        self.eventClearAllowed: Optional[DiagnosticEventClearAllowedEnum] = None
+
+        # This attribute is used to distinguish between SWC and BSW events.
+        self.eventKind: Optional[DiagnosticEventKindEnum] = None
+
+        # This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+        self.prestorageFreezeFrame: Optional[Boolean] = None
+
+        # If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+        self.prestoredFreezeframeStoredInNvm: Optional[Boolean] = None
+
+        # If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+        self.recoverableInSameOperationCycle: Optional[Boolean] = None
+
+    def getAssociatedEventIdentification(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+        """
+        return self.associatedEventIdentification
+
+    def setAssociatedEventIdentification(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
+        """
+        This attribute represents the identification number that is associated with the enclosing DiagnosticEvent and allows to identify it when placed into a snapshot record or extended data record storage. This value can be reported as internal data element in snapshot records or extended data records.
+
+        A None value is a no-op and does not overwrite an existing associatedEventIdentification.
+        """
+        if value is not None:
+            self.associatedEventIdentification = value
+        return self
+
+    def getClearEventAllowedBehavior(self) -> Optional[DiagnosticClearEventAllowedBehaviorEnum]:
+        """
+        This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+        """
+        return self.clearEventAllowedBehavior
+
+    def setClearEventAllowedBehavior(self, value: Optional[DiagnosticClearEventAllowedBehaviorEnum]) -> DiagnosticEvent:
+        """
+        This attribute defines the resulting UDS status byte for the related event, which shall not be cleared according to the ClearEventAllowed callback
+
+        A None value is a no-op and does not overwrite an existing clearEventAllowedBehavior.
+        """
+        if value is not None:
+            self.clearEventAllowedBehavior = value
+        return self
+
+    def getConfirmationThreshold(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.confirmationThreshold
+
+    def setConfirmationThreshold(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
+        """
+        This attribute defines the number of operation cycles with a failed result before a confirmed DTC is set to 1. The semantic of this attribute is a by "1" increased value compared to the confirmation threshold of the "trip counter" mentioned in ISO 14229-1 in figure D.4. A value of "1" defines the immediate confirmation of the DTC along with the first reported failed. This is also sometimes called "zero trip DTC". A value of "2" defines a DTC confirmation in the operation cycle after the first occurred failed. A value of "2" is typically used in the US for OBD DTC confirmation. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing confirmationThreshold.
+        """
+        if value is not None:
+            self.confirmationThreshold = value
+        return self
+
+    def addConnectedIndicator(self, indicator: Optional[DiagnosticConnectedIndicator]) -> DiagnosticEvent:
+        """
+        Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not extend the connectedIndicators list.
+        """
+        if indicator is not None:
+            self.connectedIndicators.append(indicator)
+        return self
+
+    def getConnectedIndicators(self) -> List[DiagnosticConnectedIndicator]:
+        """
+        Event specific description of Indicators. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=connectedIndicator.shortName, connectedIndicator.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.connectedIndicators
+
+    def getEventClearAllowed(self) -> Optional[DiagnosticEventClearAllowedEnum]:
+        """
+        This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+        """
+        return self.eventClearAllowed
+
+    def setEventClearAllowed(self, value: Optional[DiagnosticEventClearAllowedEnum]) -> DiagnosticEvent:
+        """
+        This attribute defines whether the Dem has access to a "ClearEventAllowed" callback.
+
+        A None value is a no-op and does not overwrite an existing eventClearAllowed.
+        """
+        if value is not None:
+            self.eventClearAllowed = value
+        return self
+
+    def getEventKind(self) -> Optional[DiagnosticEventKindEnum]:
+        """
+        This attribute is used to distinguish between SWC and BSW events.
+        """
+        return self.eventKind
+
+    def setEventKind(self, value: Optional[DiagnosticEventKindEnum]) -> DiagnosticEvent:
+        """
+        This attribute is used to distinguish between SWC and BSW events.
+
+        A None value is a no-op and does not overwrite an existing eventKind.
+        """
+        if value is not None:
+            self.eventKind = value
+        return self
+
+    def getPrestorageFreezeFrame(self) -> Optional[Boolean]:
+        """
+        This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+        """
+        return self.prestorageFreezeFrame
+
+    def setPrestorageFreezeFrame(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        This attribute describes whether the Prestorage of FreezeFrames is supported by the assigned event or not. true: Prestorage of FreezeFrames is supported fFalse: Prestorage of FreezeFrames is not supported
+
+        A None value is a no-op and does not overwrite an existing prestorageFreezeFrame.
+        """
+        if value is not None:
+            self.prestorageFreezeFrame = value
+        return self
+
+    def getPrestoredFreezeframeStoredInNvm(self) -> Optional[Boolean]:
+        """
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+        """
+        return self.prestoredFreezeframeStoredInNvm
+
+    def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm)
+
+        A None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm.
+        """
+        if value is not None:
+            self.prestoredFreezeframeStoredInNvm = value
+        return self
+
+    def getRecoverableInSameOperationCycle(self) -> Optional[Boolean]:
+        """
+        If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+        """
+        return self.recoverableInSameOperationCycle
+
+    def setRecoverableInSameOperationCycle(self, value: Optional[Boolean]) -> DiagnosticEvent:
+        """
+        If the attribute is set to true then reporting PASSED will reset the indication of a failed test in the current operation cycle. If the attribute is set to false then reporting PASSED will be ignored and not lead to a reset of the indication of a failed test.
+
+        A None value is a no-op and does not overwrite an existing recoverableInSameOperationCycle.
+        """
+        if value is not None:
+            self.recoverableInSameOperationCycle = value
+        return self
 
 
 class DiagnosticSwMapping(DiagnosticMapping, ABC):
@@ -6416,11 +7300,134 @@ class DiagnosticEventToTroubleCodeUdsMapping(DiagnosticMapping):
 
 
 class DiagnosticExtendedDataRecord(ARElement):
-    pass
+    """
+    Description of an extended data record. Tags: atp.recommendedPackage=DiagnosticExtendedDataRecords
+    """
+
+    # DiagnosticExtendedDataRecord method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.181, p.190
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomTrigger    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomTrigger    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRecordElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecordElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRecordNumber     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecordNumber     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdate           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdate           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute shall be taken to verbally describe the nature of the custom trigger.
+        self.customTrigger: Optional[String] = None
+
+        # Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+        self.recordElements: List[DiagnosticParameter] = []
+
+        # This attribute specifies an unique identifier for an extended data record.
+        self.recordNumber: Optional[PositiveInteger] = None
+
+        # This attribute specifies the primary trigger to allocate an event memory entry.
+        self.trigger: Optional[DiagnosticRecordTriggerEnum] = None
+
+        # This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+        self.update: Optional[Boolean] = None
+
+    def getCustomTrigger(self) -> Optional[String]:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+        """
+        return self.customTrigger
+
+    def setCustomTrigger(self, value: Optional[String]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+
+        A None value is a no-op and does not overwrite an existing customTrigger.
+        """
+        if value is not None:
+            self.customTrigger = value
+        return self
+
+    def addRecordElement(self, record_element: Optional[DiagnosticParameter]) -> DiagnosticExtendedDataRecord:
+        """
+        Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+
+        A None value is a no-op and does not extend the recordElements list.
+        """
+        if record_element is not None:
+            self.recordElements.append(record_element)
+        return self
+
+    def getRecordElements(self) -> List[DiagnosticParameter]:
+        """
+        Defined DataElements in the extended record element. Stereotypes: atpSplitable Tags: atp.Splitkey=recordElement.bitOffset, recordElement.ident.shortName
+        """
+        return self.recordElements
+
+    def getRecordNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute specifies an unique identifier for an extended data record.
+        """
+        return self.recordNumber
+
+    def setRecordNumber(self, value: Optional[PositiveInteger]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute specifies an unique identifier for an extended data record.
+
+        A None value is a no-op and does not overwrite an existing recordNumber.
+        """
+        if value is not None:
+            self.recordNumber = value
+        return self
+
+    def getTrigger(self) -> Optional[DiagnosticRecordTriggerEnum]:
+        """
+        This attribute specifies the primary trigger to allocate an event memory entry.
+        """
+        return self.trigger
+
+    def setTrigger(self, value: Optional[DiagnosticRecordTriggerEnum]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute specifies the primary trigger to allocate an event memory entry.
+
+        A None value is a no-op and does not overwrite an existing trigger.
+        """
+        if value is not None:
+            self.trigger = value
+        return self
+
+    def getUpdate(self) -> Optional[Boolean]:
+        """
+        This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+        """
+        return self.update
+
+    def setUpdate(self, value: Optional[Boolean]) -> DiagnosticExtendedDataRecord:
+        """
+        This attribute defines when an extended data record is captured. true: This extended data record is captured every time. false: This extended data record is only captured for new event memory entries.
+
+        A None value is a no-op and does not overwrite an existing update.
+        """
+        if value is not None:
+            self.update = value
+        return self
 
 
 class DiagnosticFimAliasEvent(DiagnosticAbstractAliasEvent):
-    pass
+    """This meta-class is used to represent a given event semantics. However, the name of the actual events used in a specific project is sometimes not defined yet, not known or not in the responsibility of the author. Therefore, the DiagnosticFimAliasEvent has a reference to the actual DiagnosticEvent and by this the final connection is created. Tags: atp.recommendedPackage=DiagnosticFimAliasEvents"""
+
+    # DiagnosticFimAliasEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.212, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticFimAliasEventGroup(DiagnosticAbstractAliasEvent):
@@ -6664,11 +7671,113 @@ class DiagnosticFimEventGroup(DiagnosticCommonElement):
 
 
 class DiagnosticFreezeFrame(ARElement):
-    pass
+    """
+    This element describes combinations of DIDs for a non OBD relevant freeze frame. Tags: atp.recommendedPackage=DiagnosticFreezeFrames
+    """
+
+    # DiagnosticFreezeFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.183, p.192
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCustomTrigger    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCustomTrigger    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRecordNumber     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRecordNumber     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdate           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdate           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute shall be taken to verbally describe the nature of the custom trigger.
+        self.customTrigger: Optional[String] = None
+
+        # This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.recordNumber: Optional[PositiveInteger] = None
+
+        # This attribute defines the primary trigger to allocate an event memory entry.
+        self.trigger: Optional[DiagnosticRecordTriggerEnum] = None
+
+        # This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+        self.update: Optional[Boolean] = None
+
+    def getCustomTrigger(self) -> Optional[String]:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+        """
+        return self.customTrigger
+
+    def setCustomTrigger(self, value: Optional[String]) -> DiagnosticFreezeFrame:
+        """
+        This attribute shall be taken to verbally describe the nature of the custom trigger.
+
+        A None value is a no-op and does not overwrite an existing customTrigger.
+        """
+        if value is not None:
+            self.customTrigger = value
+        return self
+
+    def getRecordNumber(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.recordNumber
+
+    def setRecordNumber(self, value: Optional[PositiveInteger]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines a record number for a freeze frame record. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing recordNumber.
+        """
+        if value is not None:
+            self.recordNumber = value
+        return self
+
+    def getTrigger(self) -> Optional[DiagnosticRecordTriggerEnum]:
+        """
+        This attribute defines the primary trigger to allocate an event memory entry.
+        """
+        return self.trigger
+
+    def setTrigger(self, value: Optional[DiagnosticRecordTriggerEnum]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines the primary trigger to allocate an event memory entry.
+
+        A None value is a no-op and does not overwrite an existing trigger.
+        """
+        if value is not None:
+            self.trigger = value
+        return self
+
+    def getUpdate(self) -> Optional[Boolean]:
+        """
+        This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+        """
+        return self.update
+
+    def setUpdate(self, value: Optional[Boolean]) -> DiagnosticFreezeFrame:
+        """
+        This attribute defines the approach when the freeze frame record is stored/updated. true: FreezeFrame record is captured every time. false: FreezeFrame record is only captured for new event memory entries.
+
+        A None value is a no-op and does not overwrite an existing update.
+        """
+        if value is not None:
+            self.update = value
+        return self
 
 
 class DiagnosticFunctionIdentifier(ARElement):
-    pass
+    """This meta-class represents a diagnostic function identifier (a.k.a. FID). Tags: atp.recommendedPackage=DiagnosticFunctionIdentifiers"""
+
+    # DiagnosticFunctionIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.214, p.215
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticIOControl(ARElement):
@@ -6810,7 +7919,38 @@ class DiagnosticIOControl(ARElement):
 
 
 class DiagnosticIndicator(ARElement):
-    pass
+    """
+    Definition of an indicator. Tags: atp.recommendedPackage=DiagnosticIndicators
+    """
+
+    # DiagnosticIndicator method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.199, p.203
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.type: Optional[DiagnosticIndicatorTypeEnum] = None
+
+    def getType(self) -> Optional[DiagnosticIndicatorTypeEnum]:
+        """
+        Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.type
+
+    def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> DiagnosticIndicator:
+        """
+        Defines the type of the indicator. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class DiagnosticInfoType(ARElement):
@@ -6868,15 +8008,150 @@ class DiagnosticInfoType(ARElement):
 
 
 class DiagnosticIumpr(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model the in-use monitor performance ratio. The latter computes to the number of times a fault could have been found divided by the number of times the vehicle conditions have been properly fulfilled. Tags: atp.recommendedPackage=DiagnosticIumprs
+    """
+
+    # DiagnosticIumpr method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.207, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRatioKind   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRatioKind   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+        self.eventRef: Optional[RefType] = None
+
+        # This attribute controls the behavior of how the ratio is calculated.
+        self.ratioKind: Optional[DiagnosticIumprKindEnum] = None
+
+    def getEventRef(self) -> Optional[RefType]:
+        """
+        This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+        """
+        return self.eventRef
+
+    def setEventRef(self, value: Optional[RefType]) -> DiagnosticIumpr:
+        """
+        This reference represents the DiagnosticEvent that corresponds to the IUMPR computation.
+
+        A None value is a no-op and does not overwrite an existing eventRef.
+        """
+        if value is not None:
+            self.eventRef = value
+        return self
+
+    def getRatioKind(self) -> Optional[DiagnosticIumprKindEnum]:
+        """
+        This attribute controls the behavior of how the ratio is calculated.
+        """
+        return self.ratioKind
+
+    def setRatioKind(self, value: Optional[DiagnosticIumprKindEnum]) -> DiagnosticIumpr:
+        """
+        This attribute controls the behavior of how the ratio is calculated.
+
+        A None value is a no-op and does not overwrite an existing ratioKind.
+        """
+        if value is not None:
+            self.ratioKind = value
+        return self
 
 
 class DiagnosticIumprDenominatorGroup(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model a IUMPR denominator groups. Tags: atp.recommendedPackage=DiagnosticIumprDenominatorGroup
+    """
+
+    # DiagnosticIumprDenominatorGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.211, p.211
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addIumprRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        self.iumprRefs: List[RefType] = []
+
+    def addIumprRef(self, ref: Optional[RefType]) -> DiagnosticIumprDenominatorGroup:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+
+        A None value is a no-op and does not extend the iumprRefs list.
+        """
+        if ref is not None:
+            self.iumprRefs.append(ref)
+        return self
+
+    def getIumprRefs(self) -> List[RefType]:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprDenominatorGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        """
+        return self.iumprRefs
 
 
 class DiagnosticIumprGroup(ARElement):
-    pass
+    """
+    This meta-class represents the ability to model a IUMPR groups. Tags: atp.recommendedPackage=DiagnosticIumprGroups
+    """
+
+    # DiagnosticIumprGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.209, p.210
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addIumprRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIumprRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getIumprGroupIdentifier  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIumprGroupIdentifier  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        self.iumprRefs: List[RefType] = []
+
+        # This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iumprGroupIdentifier: Optional[DiagnosticIumprGroupIdentifier] = None
+
+    def addIumprRef(self, ref: Optional[RefType]) -> DiagnosticIumprGroup:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+
+        A None value is a no-op and does not extend the iumprRefs list.
+        """
+        if ref is not None:
+            self.iumprRefs.append(ref)
+        return self
+
+    def getIumprRefs(self) -> List[RefType]:
+        """
+        This reference collects DiagnosticIumpr to a Diagnostic IumprGroup. Stereotypes: atpSplitable Tags: atp.Splitkey=iumpr
+        """
+        return self.iumprRefs
+
+    def getIumprGroupIdentifier(self) -> Optional[DiagnosticIumprGroupIdentifier]:
+        """
+        This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.iumprGroupIdentifier
+
+    def setIumprGroupIdentifier(self, value: Optional[DiagnosticIumprGroupIdentifier]) -> DiagnosticIumprGroup:
+        """
+        This aggregation allows for the variant modeling of the groupIdentifier. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iumprGroupIdentifier.groupId, iumprGroup Identifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing iumprGroupIdentifier.
+        """
+        if value is not None:
+            self.iumprGroupIdentifier = value
+        return self
 
 
 class DiagnosticIumprToFunctionIdentifierMapping(DiagnosticMapping):
@@ -7368,7 +8643,40 @@ class DiagnosticMasterToSlaveEventMapping(DiagnosticMapping):
 
 
 class DiagnosticMeasurementIdentifier(ARElement):
-    pass
+    """
+    This meta-class represents the ability to describe a measurement identifier.
+
+    [constr_10414] Existence of attribute DiagnosticMeasurementIdentifier.obdMid: For each DiagnosticMeasurementIdentifier, attribute obdMid shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticMeasurementIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.204, p.206
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdMid  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setObdMid  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.obdMid: Optional[PositiveInteger] = None
+
+    def getObdMid(self) -> Optional[PositiveInteger]:
+        """
+        This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.obdMid
+
+    def setObdMid(self, value: Optional[PositiveInteger]) -> DiagnosticMeasurementIdentifier:
+        """
+        This represents the numerical measurement Id Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing obdMid.
+        """
+        if value is not None:
+            self.obdMid = value
+        return self
 
 
 class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
@@ -7407,8 +8715,38 @@ class DiagnosticMemoryAddressableRangeAccess(DiagnosticMemoryByAddress, ABC):
         return self.memoryRanges
 
 
-class DiagnosticMemoryDestinationPrimary(ARElement):
-    pass
+class DiagnosticMemoryDestinationPrimary(ARElement, DiagnosticMemoryDestination):
+    """This represents a primary memory for a diagnostic event. Tags: atp.recommendedPackage=DiagnosticMemoryDestinations"""
+
+    # DiagnosticMemoryDestinationPrimary method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.173, p.184
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeOfDtcSupported          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeOfDtcSupported          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        DiagnosticMemoryDestination.__init__(self)
+        super().__init__(parent, short_name)
+
+        # This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+        self.typeOfDtcSupported: Optional[DiagnosticTypeOfDtcSupportedEnum] = None
+
+    def getTypeOfDtcSupported(self) -> Optional[DiagnosticTypeOfDtcSupportedEnum]:
+        """
+        This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+        """
+        return self.typeOfDtcSupported
+
+    def setTypeOfDtcSupported(self, value: Optional[DiagnosticTypeOfDtcSupportedEnum]) -> DiagnosticMemoryDestinationPrimary:
+        """
+        This attribute defines the format returned by Dem_Dcm GetTranslationType and does not relate to/influence the supported Dem functionality.
+
+        A None value is a no-op and does not overwrite an existing typeOfDtcSupported.
+        """
+        if value is not None:
+            self.typeOfDtcSupported = value
+        return self
 
 
 class DiagnosticMemoryIdentifier(ARElement):
@@ -7550,7 +8888,36 @@ class DiagnosticMemoryIdentifier(ARElement):
 
 
 class DiagnosticOperationCycle(ARElement):
-    pass
+    """Definition of an operation cycle that is the base of the event qualifying and for Dem scheduling. Tags: atp.recommendedPackage=DiagnosticOperationCycles"""
+
+    # DiagnosticOperationCycle method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.196, p.201
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Operation cycles types for the Dem.
+        self.type: Optional[DiagnosticOperationCycleTypeEnum] = None
+
+    def getType(self) -> Optional[DiagnosticOperationCycleTypeEnum]:
+        """
+        Operation cycles types for the Dem.
+        """
+        return self.type
+
+    def setType(self, value: Optional[DiagnosticOperationCycleTypeEnum]) -> DiagnosticOperationCycle:
+        """
+        Operation cycles types for the Dem.
+
+        A None value is a no-op and does not overwrite an existing type.
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class DiagnosticOperationCyclePortMapping(DiagnosticSwMapping):
@@ -8102,8 +9469,37 @@ class DiagnosticRequestDownload(DiagnosticMemoryAddressableRangeAccess):
         return self
 
 
-class DiagnosticRequestEmissionRelatedDTCPermanentStatus(ARElement):
-    pass
+class DiagnosticRequestEmissionRelatedDTCPermanentStatus(DiagnosticServiceInstance):
+    """This meta-class represents the ability to model an instance of the OBD mode 0x0A service. Tags: atp.recommendedPackage=DiagnosticRequestEmissionRelatedDTCPermanentStatuss"""
+
+    # DiagnosticRequestEmissionRelatedDTCPermanentStatus method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.147, p.161
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestEmissionRelatedDtcClassPermanentStatusRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestEmissionRelatedDtcClassPermanentStatusRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+        self.requestEmissionRelatedDtcClassPermanentStatusRef: Optional[RefType] = None
+
+    def getRequestEmissionRelatedDtcClassPermanentStatusRef(self) -> Optional[RefType]:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+        """
+        return self.requestEmissionRelatedDtcClassPermanentStatusRef
+
+    def setRequestEmissionRelatedDtcClassPermanentStatusRef(self, value: Optional[RefType]) -> DiagnosticRequestEmissionRelatedDTCPermanentStatus:
+        """
+        This reference substantiates that abstract reference in the role serviceClass for this specific concrete class. Thereby, the reference represents the ability to access shared attributes among all DiagnosticRequestEmissionRelatedDTCPermanentStatus in the given context.
+
+        A None value is a no-op and does not overwrite an existing requestEmissionRelatedDtcClassPermanentStatusRef.
+        """
+        if value is not None:
+            self.requestEmissionRelatedDtcClassPermanentStatusRef = value
+        return self
 
 
 class DiagnosticRequestFileTransfer(ARElement):
@@ -9114,11 +10510,52 @@ class DiagnosticSessionControl(ARElement):
 
 
 class DiagnosticStorageCondition(DiagnosticCondition):
-    pass
+    """Specification of a storage condition. Tags: atp.recommendedPackage=DiagnosticConditions"""
+
+    # DiagnosticStorageCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.186, p.194
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticStorageConditionGroup(DiagnosticConditionGroup):
-    pass
+    """
+    Storage condition group which includes one or several storage conditions. Tags: atp.recommendedPackage=DiagnosticConditions
+
+    [constr_1842] Existence of DiagnosticStorageConditionGroup.storageCondition: For each DiagnosticStorageConditionGroup, attribute storageCondition shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticStorageConditionGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.195, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addStorageConditionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStorageConditionRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to storageConditions that are part of the StorageConditionGroup.
+        self.storageConditionRefs: List[RefType] = []
+
+    def addStorageConditionRef(self, ref: Optional[RefType]) -> DiagnosticStorageConditionGroup:
+        """
+        Reference to storageConditions that are part of the StorageConditionGroup.
+
+        A None value is a no-op and does not extend the storageConditionRefs list.
+        """
+        if ref is not None:
+            self.storageConditionRefs.append(ref)
+        return self
+
+    def getStorageConditionRefs(self) -> List[RefType]:
+        """
+        Reference to storageConditions that are part of the StorageConditionGroup.
+        """
+        return self.storageConditionRefs
 
 
 class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
@@ -9306,11 +10743,73 @@ class DiagnosticTransferExit(DiagnosticMemoryByAddress):
 
 
 class DiagnosticTroubleCode(ARElement, ABC):
-    pass
+    """A diagnostic trouble code defines a unique identifier that is shown to the diagnostic tester."""
+
+    # DiagnosticTroubleCode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.161, p.176
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class DiagnosticTroubleCodeGroup(ARElement):
-    pass
+    """
+    The diagnostic trouble code group defines the DTCs belonging together and thereby forming a group. Tags: atp.recommendedPackage=DiagnosticTroubleCodes
+
+    [constr_1830] Existence of DiagnosticTroubleCodeGroup.groupNumber: For each DiagnosticTroubleCodeGroup, attribute groupNumber shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticTroubleCodeGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.162, p.177
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDtcRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDtcRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGroupNumber      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGroupNumber      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dtc.diagnosticTroubleCode, dtc.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.dtcRefs: List[RefType] = []
+
+        # This represents the base number of the DTC group. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.groupNumber: Optional[PositiveInteger] = None
+
+    def addDtcRef(self, ref: Optional[RefType]) -> DiagnosticTroubleCodeGroup:
+        """
+        This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup.
+
+        A None value is a no-op and does not extend the dtcRefs list.
+        """
+        if ref is not None:
+            self.dtcRefs.append(ref)
+        return self
+
+    def getDtcRefs(self) -> List[RefType]:
+        """
+        This represents the collection of DiagnosticTroubleCodes defined by this DiagnosticTroubleCodeGroup.
+        """
+        return self.dtcRefs
+
+    def getGroupNumber(self) -> Optional[PositiveInteger]:
+        """
+        This represents the base number of the DTC group.
+        """
+        return self.groupNumber
+
+    def setGroupNumber(self, value: Optional[PositiveInteger]) -> DiagnosticTroubleCodeGroup:
+        """
+        This represents the base number of the DTC group.
+
+        A None value is a no-op and does not overwrite an existing groupNumber.
+        """
+        if value is not None:
+            self.groupNumber = value
+        return self
 
 
 class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
@@ -9426,7 +10925,55 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
 
 
 class DiagnosticTroubleCodeUdsToTroubleCodeObdMapping(DiagnosticMapping):
-    pass
+    """This meta-class represents the ability to associate a UDS trouble code to an OBD trouble code. Tags: atp.recommendedPackage=DiagnosticMappings"""
+
+    # DiagnosticTroubleCodeUdsToTroubleCodeObdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.180, p.188
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTroubleCodeObdRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeObdRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTroubleCodeUdsRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTroubleCodeUdsRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        self.troubleCodeObdRef: Optional[RefType] = None
+
+        # This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        self.troubleCodeUdsRef: Optional[RefType] = None
+
+    def getTroubleCodeObdRef(self) -> Optional[RefType]:
+        """
+        This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        """
+        return self.troubleCodeObdRef
+
+    def setTroubleCodeObdRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        This represents the OBD DTC referenced in the mapping between UDS and OBD DTCs.
+        A None value is a no-op and does not overwrite an existing troubleCodeObdRef.
+        """
+        if value is not None:
+            self.troubleCodeObdRef = value
+        return self
+
+    def getTroubleCodeUdsRef(self) -> Optional[RefType]:
+        """
+        This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        """
+        return self.troubleCodeUdsRef
+
+    def setTroubleCodeUdsRef(self, value: Optional[RefType]) -> DiagnosticTroubleCodeUdsToTroubleCodeObdMapping:
+        """
+        This represents the UDS DTC referenced in the mapping between UDS and OBD DTCs.
+        A None value is a no-op and does not overwrite an existing troubleCodeUdsRef.
+        """
+        if value is not None:
+            self.troubleCodeUdsRef = value
+        return self
 
 
 class DiagnosticVerifyCertificateBidirectional(DiagnosticAuthentication):
