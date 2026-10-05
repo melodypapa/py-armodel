@@ -7607,7 +7607,9 @@ class ARXMLParser(AbstractARXMLParser):
             props.setSwHostVariable(self.readSwVariableRefProxy(host_variable_element))
 
     def readSwVariableRefProxy(self, element: ET.Element) -> SwVariableRefProxy:
+        """Read the SW-VARIABLE-REF-PROXY complexType element form (e.g. SW-HOST-VARIABLE): ARObject attributes plus the group members."""
         proxy = SwVariableRefProxy()
+        self.readARObject(element, proxy)
         proxy.setAutosarVariable(self.getAutosarVariableRef(element, "AUTOSAR-VARIABLE"))
         proxy.setMcDataInstanceVarRef(self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-VAR-REF"))
         return proxy

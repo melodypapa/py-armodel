@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     Boolean,
     ByteOrderEnum,
+    DateTime,
     Float,
     Identifier,
     Integer,
@@ -31,9 +32,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     RefType,
+    String,
     VerbatimString,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
@@ -183,6 +185,35 @@ class TestSwAxisIndividualWriter:
         assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
         assert child.find("UNIT-REF").text == "/units/u"
 
+    def test_set_sw_axis_individual_writes_variable_refs_full_content(self, writer):
+        """Each SW-VARIABLE-REF-PROXY group instance is written inline in XSD group order (AUTOSAR-VARIABLE then MC-DATA-INSTANCE-VAR-REF) — no wrapper element named after the group."""
+        props = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        first.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/temp")))
+        first.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v1"))
+        second = SwVariableRefProxy()
+        second.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/pressure")))
+        second.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v2"))
+        props.addSwVariableRef(first).addSwVariableRef(second)
+
+        parent = _parent()
+        writer.setSwAxisIndividual(parent, props)
+
+        child = parent[0]
+        variables_element = child.find("SW-VARIABLE-REFS")
+        assert variables_element is not None
+        assert variables_element.find("SW-VARIABLE-REF-PROXY") is None
+        assert [element.tag for element in variables_element] == [
+            "AUTOSAR-VARIABLE",
+            "MC-DATA-INSTANCE-VAR-REF",
+            "AUTOSAR-VARIABLE",
+            "MC-DATA-INSTANCE-VAR-REF",
+        ]
+        local_refs = variables_element.findall("AUTOSAR-VARIABLE/LOCAL-VARIABLE-REF")
+        assert [ref.text for ref in local_refs] == ["/variables/temp", "/variables/pressure"]
+        assert local_refs[0].attrib.get("DEST") == "VARIABLE-DATA-PROTOTYPE"
+        assert [ref.text for ref in variables_element.findall("MC-DATA-INSTANCE-VAR-REF")] == ["/mc/instances/v1", "/mc/instances/v2"]
+
 
 class TestSwAxisGroupedWriter:
     def test_set_sw_axis_grouped(self, writer):
@@ -287,6 +318,106 @@ class TestSwCalprmRefProxyRoundTrip:
             assert local_ref_2.getDest() == "PARAMETER-DATA-PROTOTYPE"
             assert proxy_2.getMcDataInstanceRef().getValue() == "/mc/instances/axis1"
             assert proxy_2.getMcDataInstanceRef().getDest() == "MC-DATA-INSTANCE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwVariableRefProxyRoundTrip:
+    def test_round_trip_variable_refs_via_sw_axis_individual(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("AxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        first.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/temp")))
+        first.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v1"))
+        second = SwVariableRefProxy()
+        second.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/pressure")))
+        second.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v2"))
+        props.addSwVariableRef(first).addSwVariableRef(second)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisIndividual)
+            refs_2 = props_2.getSwVariableRefs()
+            assert len(refs_2) == 2
+            assert refs_2[0].getAutosarVariable().getLocalVariableRef().getValue() == "/variables/temp"
+            assert refs_2[0].getMcDataInstanceVarRef().getValue() == "/mc/instances/v1"
+            assert refs_2[1].getAutosarVariable().getLocalVariableRef().getValue() == "/variables/pressure"
+            assert refs_2[1].getMcDataInstanceVarRef().getValue() == "/mc/instances/v2"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_sw_host_variable_with_ar_object_attributes(self):
+        """SW-HOST-VARIABLE is typed by the SW-VARIABLE-REF-PROXY complexType — the proxy's S/T (writeARObject on the element) survive a save/load round-trip."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("HostVarParam")
+        checksum = String()
+        checksum.setValue("4321")
+        timestamp = DateTime()
+        timestamp.setValue("2024-06-01T12:00:00Z")
+        host_variable = SwVariableRefProxy()
+        host_variable.setChecksum(checksum)
+        host_variable.setTimestamp(timestamp)
+        host_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/host")))
+        host_variable.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/host"))
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwHostVariable(host_variable)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            xml = open(file_path, encoding="utf-8").read()
+            assert 'SW-HOST-VARIABLE S="4321"' in xml
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            host_variable_2 = data_type_2.getSwDataDefProps().getSwHostVariable()
+            assert host_variable_2 is not None
+            assert host_variable_2.getChecksum() is not None
+            assert host_variable_2.getChecksum().getValue() == "4321"
+            assert host_variable_2.getTimestamp() is not None
+            assert host_variable_2.getTimestamp().getValue() == "2024-06-01T12:00:00Z"
+            assert host_variable_2.getAutosarVariable().getLocalVariableRef().getValue() == "/variables/host"
+            assert host_variable_2.getMcDataInstanceVarRef().getValue() == "/mc/instances/host"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
