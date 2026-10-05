@@ -234,6 +234,7 @@ class ApplicationEntry(ScheduleTableEntry):
 
     # ApplicationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.97, p.433
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFrameTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
