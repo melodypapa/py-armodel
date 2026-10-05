@@ -862,11 +862,10 @@ class ReferenceValueSpecification(ValueSpecification):
 
     # ReferenceValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.115, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReferenceValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReferenceValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferenceValueRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferenceValueRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -877,9 +876,6 @@ class ReferenceValueSpecification(ValueSpecification):
     def getReferenceValueRef(self) -> Optional[RefType]:
         """
         The referenced data prototype.
-
-        Returns:
-            Optional[RefType]: The referenced data prototype, or None if not set
         """
         return self.referenceValueRef
 
@@ -887,12 +883,6 @@ class ReferenceValueSpecification(ValueSpecification):
         """
         The referenced data prototype.
         A None value is a no-op and does not overwrite an existing referenceValueRef.
-
-        Args:
-            value: The referenced data prototype to set
-
-        Returns:
-            ReferenceValueSpecification: self for method chaining
         """
         if value is not None:
             self.referenceValueRef = value

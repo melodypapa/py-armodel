@@ -2489,13 +2489,15 @@ No deviations — both Table 5.58 attributes are modeled 1:1 in displayed order 
 | — *(missing)* | `—` | `category` | `AsamRecordLayoutSemantics` | — | missing |
 
 ## `ReferenceValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 436
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 437
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `referenceValueRef` | `Ref (DataPrototype)` | Ref | missing |
+| — | — | — | — | — | No deviations — Table 5.115's single attribute `referenceValue` (DataPrototype, 0..1, ref) is modeled as `referenceValueRef: Optional[RefType]` with full reader (`getReferenceValueSpecification` → `setReferenceValueRef`, REFERENCE-VALUE-REF DEST=DATA-PROTOTYPE) and writer (`writeReferenceValueSpecification` → `getReferenceValueRef`) coverage, dispatched in both `getValueSpecification` and `setChildValueSpecification`/`writeArrayValueSpecification`. |
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — reader/writer columns but no per-row release column, stale `# Spec verified: R23-11` marker removed at session start; the checklist is rewritten in the 6-column release form and the stamp stays WITHHELD pending the 9b batch confirmation, user instruction). The former `referenceValueRef missing` tracker row above was stale — the member has existed with full reader/writer coverage since the R3.2.3-era ReferenceValue rework. Model Red vacuous (field/multiplicity/guard pre-existed; noted); fabricated `Returns:`/`Args:` docstring blocks wiped and rewritten verbatim from the Table 5.115 Note (Rule 0012.2.3). Reader/writer coverage pre-existed on both dispatch sides (vacuous Red, noted) — new parser/writer tests pin REFERENCE-VALUE-REF DEST + value and the XSD-validated full-document round-trip via `ConstantSpecification.valueSpec`. Page FIXED 436→437 (Table 5.115 caption page; 436 was the stale row's page).
 
 ## `NotAvailableValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 440
