@@ -6494,19 +6494,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRunnableEntityDataReadAccesses(element, entity)
         self.readRunnableEntityDataReceivePointByArguments(element, entity)
         self.readRunnableEntityDataReceivePointByValues(element, entity)
-        self.readRunnableEntityDataWriteAccesses(element, entity)
         self.readRunnableEntityDataSendPoints(element, entity)
-        self.readRunnableEntityInternalBehaviorServerCallPoint(element, entity)
-        self.readRunnableEntityInternalTriggeringPoints(element, entity)
+        self.readRunnableEntityDataWriteAccesses(element, entity)
         self.readRunnableEntityExternalTriggeringPoints(element, entity)
+        self.readRunnableEntityInternalTriggeringPoints(element, entity)
         self.readRunnableEntityModeAccessPoints(element, entity)
         self.readRunnableEntityModeSwitchPoints(element, entity)
         self.readRunnableEntityParameterAccesses(element, entity)
         self.readRunnableEntityReadLocalVariables(element, entity)
+        self.readRunnableEntityInternalBehaviorServerCallPoint(element, entity)
+        entity.setSymbol(self.getChildElementOptionalCIdentifier(element, "SYMBOL"))
         self.readRunnableEntityWaitPoints(element, entity)
         self.readRunnableEntityWrittenLocalVariables(element, entity)
-
-        entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
 
     def readSwcInternalBehaviorRunnables(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "RUNNABLES/*"):
