@@ -14,11 +14,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     AREnum as AREnum,
     Identifier,
     Integer,
     PositiveInteger,
+    String,
     VerbatimString,
 )
 
@@ -723,78 +723,54 @@ class NotAvailableValueSpecification(ValueSpecification):
 
 class NumericalOrText(ARObject, VariationPointCapable):
     """
-    This meta-class represents the ability to yield either a numerical or a string. A typical use case is that
-    two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield
-    strings while other instances yield numerical depending on the resolution of the binding expression.
-    Within the context of one NumericalOrText, either the attribute vf or the attribute vt shall be defined.
-    The existence of both attributes at the same time is not permitted. [constr_1243]
+    This meta-class represents the ability to yield either a numerical or a string. A typical use case is that two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield strings while other instances yield numerical depending on the resolution of the binding expression.
+
+    [constr_1243] NumericalOrText shall either define vf or vt: Within the context of one NumericalOrText, either the attribute vf or the attribute vt shall be defined. The existence of both attributes at the same time is not permitted.
     """
 
     # NumericalOrText method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.42, p.323
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.123, p.456
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVf      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute represents the ability to provide a numerical value.
-        # The latest binding time of the VariationPoint shall be preCompileTime.
+        # This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         self.vf: Optional[Numerical] = None
 
-        # This attribute represents the ability to provide a textual value.
-        self.vt: Optional[ARLiteral] = None
+        # This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
+        self.vt: Optional[String] = None
 
     def getVf(self) -> Optional[Numerical]:
         """
-        This attribute represents the ability to provide a numerical value.
-        The latest binding time of the VariationPoint shall be preCompileTime.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
+        This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         """
         return self.vf
 
     def setVf(self, value: Optional[Numerical]) -> NumericalOrText:
         """
-        This attribute represents the ability to provide a numerical value.
-        The latest binding time of the VariationPoint shall be preCompileTime.
+        This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing vf.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            NumericalOrText: self for method chaining
         """
         if value is not None:
             self.vf = value
         return self
 
-    def getVt(self) -> Optional[ARLiteral]:
+    def getVt(self) -> Optional[String]:
         """
-        This attribute represents the ability to provide a textual value.
-
-        Returns:
-            Optional[ARLiteral]: The textual value, or None if not set
+        This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
         """
         return self.vt
 
-    def setVt(self, value: Optional[ARLiteral]) -> NumericalOrText:
+    def setVt(self, value: Optional[String]) -> NumericalOrText:
         """
-        This attribute represents the ability to provide a textual value.
+        This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing vt.
-
-        Args:
-            value: The textual value to set
-
-        Returns:
-            NumericalOrText: self for method chaining
         """
         if value is not None:
             self.vt = value

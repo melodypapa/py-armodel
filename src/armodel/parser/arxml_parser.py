@@ -9136,7 +9136,7 @@ class ARXMLParser(AbstractARXMLParser):
         not_text = NumericalOrText()
         self.readARObject(element, not_text)
         not_text.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
-        not_text.setVt(self.getChildElementOptionalLiteral(element, "VT"))
+        not_text.setVt(self.getChildElementOptionalString(element, "VT"))
         self.readVariationPointCapable(element, not_text)
         return not_text
 

@@ -1384,14 +1384,13 @@ No deviations — all 5 `Attribute` rows modeled 1:1 in displayed order: `dynami
 Class not in markdown/PDF — skipped per user (primitive `Integer` has no dedicated spec table in any rendered PDF; XSD-only, `xml.xsd.customType="INTEGER"`). Left as-is; not part of this sync pass.
 
 ## `NumericalOrText`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 323
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 456  | **table:** Table 5.123
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `vf` | `ARNumerical` | `vf` | `Numerical` | attr | implemented |
-| `vt` | `ARLiteral` | `vt` | `String` | attr | implemented |
+No deviations — both Table 5.123 attributes are modeled with spec shapes: `vf` (Numerical, `0..1`, attr), `vt` (String, `0..1`, attr). Base `ARObject`; VP-capable kept — the XSD group NUMERICAL-OR-TEXT (AUTOSAR_00052.xsd L85626) anchors VARIATION-POINT ("Applicable for: RuleArguments.vtf / SwValues.vtf"), the Rule 0020 XSD verification; the vf row's atpVariation is Kind=attr (attribute-value variation only) but the group anchor grants the class capability. `vf`'s XSD element type NUMERICAL-VALUE-VARIATION-POINT is the atpVariation attribute-value serialization form; the PDF type Numerical wins per Rule 0001.3/0015 (same pattern as ApplicationArrayElement.maxNumberOfElements). Stale rows removed this pass: the prior entry cited BSWModuleDescriptionTemplate Table D.42 (a reproduction) and typed `vt` as `ARLiteral` — retyped to the spec `String` with the matched leaf pair.
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — 5-column, no release column, stale `# Spec verified: R23-11` removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction). Citation FIXED to defining SWCT Table 5.123, p.456. Docstrings wiped and rewritten verbatim from the markdown Notes — the `Stereotypes: atpVariation Tags: ...` tails on vf/vt are kept per 0012.2.5.3 (the old inline comments dropped them); class docstring = Note verbatim + [constr_1243] appended in compact form. One Rule 0001.3 to-fix fixed in this pass (no deviation row remains): reader `getNumericalOrText` read VT via the generic `getChildElementOptionalLiteral` (materializing plain `ARLiteral`) — upgraded to `getChildElementOptionalString`, writer to `setChildElementOptionalString` (matched leaf pair). Element order VF, VT, VARIATION-POINT matches the XSD group offsets (10/20/10000); round-trip tests added on both sides.
 
 ## `ObdInfoServiceNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 324

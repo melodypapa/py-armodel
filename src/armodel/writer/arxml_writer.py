@@ -4378,7 +4378,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, not_text)
             self.setChildElementOptionalNumericalValue(child_element, "VF", not_text.getVf())
-            self.setChildElementOptionalLiteral(child_element, "VT", not_text.getVt())
+            self.setChildElementOptionalString(child_element, "VT", not_text.getVt())
             self.writeVariationPointCapable(child_element, not_text)
 
     def writeRuleArguments(self, element: ET.Element, arguments: RuleArguments):
