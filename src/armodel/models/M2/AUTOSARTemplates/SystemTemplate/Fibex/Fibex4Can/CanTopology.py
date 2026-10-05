@@ -971,11 +971,10 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
 
     # AbstractCanCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.12, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
@@ -987,16 +986,12 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
         self.canControllerAttributes: Optional[AbstractCanCommunicationControllerAttributes] = None
 
     def getCanControllerAttributes(self) -> Optional[AbstractCanCommunicationControllerAttributes]:
-        """
-        CAN Bit Timing configuration
-        """
+        """CAN Bit Timing configuration"""
         return self.canControllerAttributes
 
     def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> AbstractCanCommunicationController:
-        """
-        CAN Bit Timing configuration
-        A None value is a no-op and does not overwrite an existing canControllerAttributes.
-        """
+        """CAN Bit Timing configuration
+        A None value is a no-op and does not overwrite an existing canControllerAttributes."""
         if value is not None:
             self.canControllerAttributes = value
         return self

@@ -4,6 +4,7 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationConnector,
@@ -1026,3 +1027,77 @@ class TestCanControllerConfiguration:
         """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
         self._assert_docstring(CanControllerConfiguration.getTimeSeg2, TIME_SEG_2_NOTE)
         self._assert_docstring(CanControllerConfiguration.setTimeSeg2, TIME_SEG_2_NOTE, "timeSeg2")
+
+
+ABSTRACT_CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN Controller attributes."
+CAN_CONTROLLER_ATTRIBUTES_NOTE = "CAN Bit Timing configuration"
+
+
+class ConcreteAbstractCanCommunicationController(AbstractCanCommunicationController):
+    pass
+
+
+class TestAbstractCanCommunicationController:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.12: ARObject, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(AbstractCanCommunicationController, CommunicationController)
+        assert issubclass(AbstractCanCommunicationController, Identifiable)
+        assert issubclass(AbstractCanCommunicationController, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.12)"""
+        with pytest.raises(TypeError, match="AbstractCanCommunicationController is an abstract class"):
+            AbstractCanCommunicationController(MockParent(), "test_abstract_controller")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.12)"""
+        assert inspect.cleandoc(AbstractCanCommunicationController.__doc__).strip() == ABSTRACT_CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanCommunicationController.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        """Test that all __init__ fields default to None, incl. inherited base fields"""
+        controller = ConcreteAbstractCanCommunicationController(MockParent(), "ctrl")
+
+        assert isinstance(controller, AbstractCanCommunicationController)
+        assert isinstance(controller, CommunicationController)
+        assert controller.getCanControllerAttributes() is None
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.12)"""
+        source = inspect.getsource(AbstractCanCommunicationController.__init__)
+        assert source.index("self.canControllerAttributes") >= 0
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_can_controller_attributes(self):
+        """Test canControllerAttributes default, guarded set chaining, None no-op and typing"""
+        controller = ConcreteAbstractCanCommunicationController(MockParent(), "ctrl")
+
+        assert controller.getCanControllerAttributes() is None
+
+        attrs = CanControllerConfiguration()
+        assert controller == controller.setCanControllerAttributes(attrs)
+        assert controller.getCanControllerAttributes() is attrs
+
+        assert controller == controller.setCanControllerAttributes(None)
+        assert controller.getCanControllerAttributes() is attrs
+
+        getter_hints = typing.get_type_hints(AbstractCanCommunicationController.getCanControllerAttributes)
+        assert getter_hints.get("return") == typing.Optional[AbstractCanCommunicationControllerAttributes]
+
+        setter_hints = typing.get_type_hints(AbstractCanCommunicationController.setCanControllerAttributes)
+        assert setter_hints.get("value") == typing.Optional[AbstractCanCommunicationControllerAttributes]
+        assert setter_hints.get("return") is AbstractCanCommunicationController
+
+    def test_can_controller_attributes_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.12)"""
+        self._assert_docstring(AbstractCanCommunicationController.getCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE)
+        self._assert_docstring(AbstractCanCommunicationController.setCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE, "canControllerAttributes")
