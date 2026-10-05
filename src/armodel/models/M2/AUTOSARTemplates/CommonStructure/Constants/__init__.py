@@ -1217,42 +1217,39 @@ class RuleBasedValueCont(ARObject):
 class RuleBasedValueSpecification(ARObject):
     """
     This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ApplicationArrayDataType and ImplementationDataType of category ARRAY) or a compound Application PrimitiveDataType (which also boils down to an array-nature).
+
+    [constr_1926] Existence of RuleBasedValueSpecification.rule: For each RuleBasedValueSpecification, attribute rule shall exist at the time when the contract phase generation is executed.
+
+    [constr_1927] Existence of RuleBasedValueSpecification.arguments: For each RuleBasedValueSpecification, the aggregation of RuleArguments in the role arguments shall exist at the time when the contract phase generation is executed.
     """
 
     # RuleBasedValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.59, p.331
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addArgument                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxSizeToFill             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSizeToFill             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRule                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRule                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.133, p.469
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArgument       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxSizeToFill  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSizeToFill  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRule           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the arguments for the RuleBasedValue Specification.
+        # This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         self.arguments: List[RuleArguments] = []
 
-        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         self.maxSizeToFill: Optional[Integer] = None
 
-        # This denotes the name of the rule of the RuleBasedValue Specification.
-        # The rule determines the calculation specification according which the arguments are used to calculated the values.
+        # This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         self.rule: Optional[Identifier] = None
 
     def addArgument(self, argument: RuleArguments) -> RuleBasedValueSpecification:
         """
-        This represents the arguments for the RuleBasedValue Specification.
-
-        Args:
-            argument: The argument to add
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
+        This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
+        A None value is a no-op and does not append to arguments.
         """
         if argument is not None:
             self.arguments.append(argument)
@@ -1260,32 +1257,20 @@ class RuleBasedValueSpecification(ARObject):
 
     def getArguments(self) -> List[RuleArguments]:
         """
-        This represents the arguments for the RuleBasedValue Specification.
-
-        Returns:
-            List[RuleArguments]: The list of arguments
+        This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         """
         return self.arguments
 
     def getMaxSizeToFill(self) -> Optional[Integer]:
         """
-        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
-
-        Returns:
-            Optional[Integer]: The max size to fill, or None if not set
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         """
         return self.maxSizeToFill
 
     def setMaxSizeToFill(self, value: Optional[Integer]) -> RuleBasedValueSpecification:
         """
-        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing maxSizeToFill.
-
-        Args:
-            value: The max size to fill
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.maxSizeToFill = value
@@ -1293,25 +1278,14 @@ class RuleBasedValueSpecification(ARObject):
 
     def getRule(self) -> Optional[Identifier]:
         """
-        This denotes the name of the rule of the RuleBasedValue Specification.
-        The rule determines the calculation specification according which the arguments are used to calculated the values.
-
-        Returns:
-            Optional[Identifier]: The rule name, or None if not set
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         """
         return self.rule
 
     def setRule(self, value: Optional[Identifier]) -> RuleBasedValueSpecification:
         """
-        This denotes the name of the rule of the RuleBasedValue Specification.
-        The rule determines the calculation specification according which the arguments are used to calculated the values.
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing rule.
-
-        Args:
-            value: The rule name
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.rule = value

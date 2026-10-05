@@ -9174,7 +9174,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
             value_spec.addArgument(self.getRuleArguments(child_element))
-        value_spec.setMaxSizeToFill(cast(Optional[Integer], self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL")))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
