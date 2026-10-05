@@ -1614,7 +1614,7 @@ class TestRteEventHandlers:
         event = behavior.createSwcModeSwitchEvent("mse")
         element = _snip(
             "<SHORT-NAME>mse</SHORT-NAME>"
-            "<ACTIVATION>onEntry</ACTIVATION>"
+            "<ACTIVATION>ON-ENTRY</ACTIVATION>"
             "<MODE-IREFS>"
             "<MODE-IREF>"
             "<CONTEXT-PORT-REF DEST='R-PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
@@ -1635,7 +1635,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createSwcModeSwitchEvent("mse")
         element = _snip(
-            "<SHORT-NAME>mse</SHORT-NAME>" "<ACTIVATION>onExit</ACTIVATION>",
+            "<SHORT-NAME>mse</SHORT-NAME>" "<ACTIVATION>ON-EXIT</ACTIVATION>",
             root_tag="SWC-MODE-SWITCH-EVENT",
         )
         parser.readSwcModeSwitchEvent(element, event)

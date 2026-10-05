@@ -8,6 +8,61 @@ from armodel.parser.arxml_parser import ARXMLParser
 
 class TestRteEVent:
 
+    def test_swc_mode_switch_events(self):
+        xml_content = """
+            <APPLICATION-SW-COMPONENT-TYPE>
+              <SHORT-NAME>MyComponents</SHORT-NAME>
+              <INTERNAL-BEHAVIORS>
+                <SWC-INTERNAL-BEHAVIOR T="2024-11-01T09:39:52+02:00" UUID="0c573b8e-57a1-4bc5-b815-07b6e0094060">
+                  <SHORT-NAME>MyInternalBehavior</SHORT-NAME>
+                  <EVENTS>
+                    <SWC-MODE-SWITCH-EVENT>
+                      <SHORT-NAME>mse_event1</SHORT-NAME>
+                      <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/MyComponents/MySwc_IB/re_mse_1</START-ON-EVENT-REF>
+                      <ACTIVATION>ON-ENTRY</ACTIVATION>
+                      <MODE-IREFS>
+                        <MODE-IREF>
+                          <CONTEXT-PORT-REF DEST="R-PORT-PROTOTYPE">/MyComponents/rp_mode</CONTEXT-PORT-REF>
+                          <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/MyComponents/ModeDclGroup/On</TARGET-MODE-DECLARATION-REF>
+                        </MODE-IREF>
+                        <MODE-IREF>
+                          <CONTEXT-PORT-REF DEST="R-PORT-PROTOTYPE">/MyComponents/rp_mode</CONTEXT-PORT-REF>
+                          <TARGET-MODE-DECLARATION-REF DEST="MODE-DECLARATION">/MyComponents/ModeDclGroup/Off</TARGET-MODE-DECLARATION-REF>
+                        </MODE-IREF>
+                      </MODE-IREFS>
+                    </SWC-MODE-SWITCH-EVENT>
+                  </EVENTS>
+                </SWC-INTERNAL-BEHAVIOR>
+              </INTERNAL-BEHAVIORS>
+            </APPLICATION-SW-COMPONENT-TYPE>
+        """  # noqa E501
+
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": ""}
+
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
+        parser.readAtomicSwComponentType(element, sw_component)
+
+        internal_behavior = sw_component.getInternalBehavior()
+        assert internal_behavior is not None
+        events = internal_behavior.getSwcModeSwitchEvents()
+        assert len(events) == 1
+
+        event = events[0]
+        assert event.getShortName() == "mse_event1"
+        assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_mse_1"
+        assert event.getActivation() is not None
+        assert event.getActivation().getValue() == "onEntry"
+        irefs = event.getModeIRefs()
+        assert len(irefs) == 2
+        assert irefs[0].getContextPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert irefs[0].getContextPortRef().getValue() == "/MyComponents/rp_mode"
+        assert irefs[0].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/On"
+        assert irefs[1].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/Off"
+
     def test_data_send_completed_events(self):
         xml_content = """
             <APPLICATION-SW-COMPONENT-TYPE>

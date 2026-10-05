@@ -196,7 +196,7 @@ class TestWriterRteEvents:
         writer.writeSwcModeSwitchEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "SWC-MODE-SWITCH-EVENT"
-        assert evt.find("ACTIVATION").text == "onEntry"
+        assert evt.find("ACTIVATION").text == "ON-ENTRY"
         mode_irefs_tag = evt.find("MODE-IREFS")
         assert mode_irefs_tag is not None
         mode_iref_tag = mode_irefs_tag.find("MODE-IREF")
@@ -213,7 +213,7 @@ class TestWriterRteEvents:
         writer.writeSwcModeSwitchEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "SWC-MODE-SWITCH-EVENT"
-        assert evt.find("ACTIVATION").text == "onExit"
+        assert evt.find("ACTIVATION").text == "ON-EXIT"
         assert evt.find("MODE-IREFS") is None
 
     def test_writeSwcModeSwitchEvent_none(self, writer):
@@ -461,8 +461,10 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         dref = RVariableInAtomicSwcInstanceRef()
         dref.setContextRPortRef(_ref("/rp"))
         e2.setDataIRef(dref)
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+
         e3 = behavior.createSwcModeSwitchEvent("mse")
-        e3.setActivation(_literal("enable"))
+        e3.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY))
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         tags = {c.tag for c in parent.find("EVENTS")}
@@ -3058,6 +3060,93 @@ class TestDataWriteCompletedEventRoundTrip:
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
             assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwcModeSwitchEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SwcModeSwitchEvent with activation + mode IRefs (Table 7.17)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createSwcModeSwitchEvent("mse1")
+        event.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_TRANSITION))
+        mode_iref = RModeInAtomicSwcInstanceRef()
+        mode_iref.setContextPortRef(_ref("/Pkg/App/rp", "R-PORT-PROTOTYPE"))
+        mode_iref.setTargetModeDeclarationRef(_ref("/Pkg/ModeDcl/On", "MODE-DECLARATION"))
+        event.addModeIRef(mode_iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mse1")
+            assert isinstance(event_2, SwcModeSwitchEvent)
+            assert event_2.getActivation() is not None
+            assert event_2.getActivation().getValue() == "onTransition"
+            irefs = event_2.getModeIRefs()
+            assert len(irefs) == 1
+            ctx = irefs[0].getContextPortRef()
+            assert ctx.getValue() == "/Pkg/App/rp"
+            assert ctx.getDest() == "R-PORT-PROTOTYPE"
+            tgt = irefs[0].getTargetModeDeclarationRef()
+            assert tgt.getValue() == "/Pkg/ModeDcl/On"
+            assert tgt.getDest() == "MODE-DECLARATION"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SwcModeSwitchEvent without activation/mode IRefs round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createSwcModeSwitchEvent("mse1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("SWC-MODE-SWITCH-EVENT"))
+            assert all(not c.tag.endswith("ACTIVATION") for c in evt)
+            assert all(not c.tag.endswith("MODE-IREFS") for c in evt)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mse1")
+            assert event_2.getActivation() is None
+            assert event_2.getModeIRefs() == []
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

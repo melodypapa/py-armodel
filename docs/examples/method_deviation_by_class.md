@@ -2659,9 +2659,7 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `modeIRef` | `—` | `mode` | `RModeInAtomicSwcInstanceRef` | — | type (spec one vs py list) |
+No deviations (2026-10-05 re-sync, Table 7.17, p.544): Rule 0023 legacy 5-column checklist replaced with the 6-column format and the stale `# Spec verified: R23-11` marker removed (stays withheld pending the batch 9b confirmation, user instruction); class docstring Note + [constr_1946]/[constr_1947] and member docstrings rewritten verbatim, wrap-space in "RModeInAtomicSwc InstanceRef" joined to the class name; fields/accessors already matched the table (activation 0..1 attr, mode 0..2 iref → `modeIRefs` typed list). Stale deviation row removed: `type (spec one vs py list)` for `mode` — the field has been the typed list `modeIRefs` since the list shape landed. Reader/writer ACTIVATION serialization fixed to the XSD token form (`MODE_ACTIVATION_KIND_XML_MAP`: ON-ENTRY/ON-EXIT/ON-TRANSITION) via `_readEnumToken`/`_writeEnumToken`; schema-validated save→reload round-trip added both sides.
 
 ## `IncludedDataTypeSet`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 600

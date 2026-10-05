@@ -1570,6 +1570,14 @@ BINDING_TIME_XML_MAP = {
     "systemDesignTime": "SYSTEM-DESIGN-TIME",
 }
 
+#: Mapping between ModeActivationKind literal values and their XML element text
+#: (AR:MODE-ACTIVATION-KIND--SIMPLE).
+MODE_ACTIVATION_KIND_XML_MAP = {
+    "onEntry": "ON-ENTRY",
+    "onExit": "ON-EXIT",
+    "onTransition": "ON-TRANSITION",
+}
+
 #: Mapping between AutoCollectEnum literal values and their XML element text
 #: (AR:AUTO-COLLECT-ENUM--SIMPLE).
 AUTO_COLLECT_XML_MAP = {
@@ -6665,9 +6673,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         # self.logger.debug("Read SwcModeSwitchEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
-        activation = self.getChildElementOptionalLiteral(element, "ACTIVATION")
-        if activation is not None:
-            event.setActivation(ModeActivationKind().setValue(activation.getValue()))
+        event.setActivation(self._readEnumToken(element, "ACTIVATION", ModeActivationKind, MODE_ACTIVATION_KIND_XML_MAP))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
     def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):

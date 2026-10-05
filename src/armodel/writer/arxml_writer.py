@@ -1299,6 +1299,14 @@ BINDING_TIME_XML_MAP = {
     "systemDesignTime": "SYSTEM-DESIGN-TIME",
 }
 
+#: Mapping between ModeActivationKind literal values and their XML element text
+#: (AR:MODE-ACTIVATION-KIND--SIMPLE).
+MODE_ACTIVATION_KIND_XML_MAP = {
+    "onEntry": "ON-ENTRY",
+    "onExit": "ON-EXIT",
+    "onTransition": "ON-TRANSITION",
+}
+
 #: Mapping between IntervalTypeEnum values and their XML attribute tokens
 #: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
 INTERVAL_TYPE_XML_MAP = {
@@ -4698,7 +4706,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "SWC-MODE-SWITCH-EVENT")
             self.writeRTEEvent(child_element, event)
-            self.setChildElementOptionalLiteral(child_element, "ACTIVATION", event.getActivation())
+            self._writeEnumToken(child_element, "ACTIVATION", event.getActivation(), MODE_ACTIVATION_KIND_XML_MAP)
             irefs = event.getModeIRefs()
             if len(irefs) > 0:
                 mode_irefs_tag = ET.SubElement(child_element, "MODE-IREFS")

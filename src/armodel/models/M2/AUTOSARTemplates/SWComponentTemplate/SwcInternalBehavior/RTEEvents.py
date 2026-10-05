@@ -222,17 +222,19 @@ class DataReceivedEvent(RTEEvent):
 class SwcModeSwitchEvent(RTEEvent):
     """
     This event is raised when the specified mode change occurs.
+
+    [constr_1946] Existence of attribute SwcModeSwitchEvent.activation: For each SwcModeSwitchEvent, attribute activation shall exist at the time when the RTE is generated.
+    [constr_1947] Existence of reference SwcModeSwitchEvent.mode: For each SwcModeSwitchEvent, the reference to ModeDeclaration in the role mode shall exist at the time when the RTE is generated.
     """
 
     # SwcModeSwitchEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.17, p.544
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getActivation    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setActivation    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addModeIRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeIRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActivation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActivation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addModeIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -240,7 +242,7 @@ class SwcModeSwitchEvent(RTEEvent):
         # Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
         self.activation: Optional[ModeActivationKind] = None
 
-        # The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        # The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
         self.modeIRefs: List[RModeInAtomicSwcInstanceRef] = []
 
     def getActivation(self) -> Optional[ModeActivationKind]:
@@ -252,6 +254,7 @@ class SwcModeSwitchEvent(RTEEvent):
     def setActivation(self, value: Optional[ModeActivationKind]) -> SwcModeSwitchEvent:
         """
         Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
+
         A None value is a no-op and does not overwrite an existing activation.
         """
         if value is not None:
@@ -260,7 +263,8 @@ class SwcModeSwitchEvent(RTEEvent):
 
     def addModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> SwcModeSwitchEvent:
         """
-        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
+
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -269,7 +273,7 @@ class SwcModeSwitchEvent(RTEEvent):
 
     def getModeIRefs(self) -> List[RModeInAtomicSwcInstanceRef]:
         """
-        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
         """
         return self.modeIRefs
 

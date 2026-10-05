@@ -276,21 +276,47 @@ class TestDataReceivedEvent:
 
 
 class TestSwcModeSwitchEvent:
-    """Test class for SwcModeSwitchEvent class."""
+    """Test class for SwcModeSwitchEvent class (Table 7.17)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.17 Note + constr_1946/constr_1947 verbatim."""
+        assert inspect.getdoc(SwcModeSwitchEvent) == (
+            "This event is raised when the specified mode change occurs."
+            "\n\n"
+            "[constr_1946] Existence of attribute SwcModeSwitchEvent.activation: For each SwcModeSwitchEvent, attribute activation shall exist at the time when the RTE is generated.\n"  # NOQA E501
+            "[constr_1947] Existence of reference SwcModeSwitchEvent.mode: For each SwcModeSwitchEvent, the reference to ModeDeclaration in the role mode shall exist at the time when the RTE is generated."  # NOQA E501
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
+
+        activation_note = "Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes."
+        mode_note = "The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef"
+
+        assert inspect.getdoc(event.getActivation) == activation_note
+        assert inspect.getdoc(event.setActivation) == activation_note + "\n\nA None value is a no-op and does not overwrite an existing activation."
+        assert inspect.getdoc(event.getModeIRefs) == mode_note
+        assert inspect.getdoc(event.addModeIRef) == mode_note + "\n\nA None value is a no-op and does not append anything."
 
     def test_initialization(self):
-        """Test SwcModeSwitchEvent initialization defaults."""
+        """Test SwcModeSwitchEvent initialization defaults (own + inherited)."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
 
         assert event.parent == ar_root
         assert event.short_name == "TestSwcModeSwitchEvent"
+        assert event.disabledModeIRefs == []
+        assert event.startOnEventRef is None
         assert event.activation is None
         assert event.modeIRefs == []
+        assert isinstance(event, RTEEvent)
 
     def test_get_set_activation(self):
-        """Test getActivation/setActivation round-trip and None no-op."""
+        """setActivation returns self, the value round-trips, None is a no-op."""
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
         document = AUTOSAR.getInstance()
@@ -300,12 +326,13 @@ class TestSwcModeSwitchEvent:
         activation = ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY)
         assert event.setActivation(activation) is event
         assert event.getActivation() == activation
+        assert event.getActivation().getValue() == "onEntry"
 
         event.setActivation(None)
         assert event.getActivation() == activation
 
     def test_add_get_mode_irefs(self):
-        """Test addModeIRef/getModeIRefs append, return value and None no-op."""
+        """addModeIRef appends in order, returns self, None is a no-op."""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
 
         document = AUTOSAR.getInstance()
@@ -313,12 +340,30 @@ class TestSwcModeSwitchEvent:
         event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
 
         assert event.getModeIRefs() == []
-        iref = RModeInAtomicSwcInstanceRef()
-        assert event.addModeIRef(iref) is event
-        assert event.getModeIRefs() == [iref]
+        iref1 = RModeInAtomicSwcInstanceRef()
+        iref2 = RModeInAtomicSwcInstanceRef()
+        assert event.addModeIRef(iref1) is event
+        assert event.addModeIRef(iref2) is event
+        assert event.getModeIRefs() == [iref1, iref2]
 
         event.addModeIRef(None)
-        assert event.getModeIRefs() == [iref]
+        assert event.getModeIRefs() == [iref1, iref2]
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed annotations (Optional[ModeActivationKind], list of instance refs)."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
+
+        assert typing.get_type_hints(event.getActivation).get("return") == typing.Optional[ModeActivationKind]
+        assert typing.get_type_hints(event.setActivation).get("value") == typing.Optional[ModeActivationKind]
+        assert typing.get_type_hints(event.setActivation).get("return") is SwcModeSwitchEvent
+        assert typing.get_type_hints(event.getModeIRefs).get("return") == typing.List[RModeInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.addModeIRef).get("value") == typing.Optional[RModeInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.addModeIRef).get("return") is SwcModeSwitchEvent
 
 
 class TestDataReceiveErrorEvent:
