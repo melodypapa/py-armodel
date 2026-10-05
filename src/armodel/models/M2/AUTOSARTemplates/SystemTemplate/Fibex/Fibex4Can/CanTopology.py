@@ -343,29 +343,28 @@ class CanControllerXlConfiguration(ARObject):
 
     # CanControllerXlConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.18, p.71
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmL                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmL                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmO                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmO                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmS                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmS                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorSignalingEnabled  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorSignalingEnabled  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPropSeg                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPropSeg                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmL                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmL                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmO                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmO                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmS                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmS                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSspOffset              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSspOffset              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncJumpWidth          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncJumpWidth          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg1               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg1               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg2               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg2               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrcvPwmModeEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrcvPwmModeEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

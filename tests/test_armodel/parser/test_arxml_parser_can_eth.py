@@ -125,8 +125,8 @@ class TestCanControllerXlConfiguration:
             "<PWM-S>7</PWM-S>"
             "<SSP-OFFSET>8</SSP-OFFSET>"
             "<SYNC-JUMP-WIDTH>1</SYNC-JUMP-WIDTH>"
-            "<TIME-SEG1>13</TIME-SEG1>"
-            "<TIME-SEG2>2</TIME-SEG2>"
+            "<TIME-SEG-1>13</TIME-SEG-1>"
+            "<TIME-SEG-2>2</TIME-SEG-2>"
             "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
             "</CAN-CONTROLLER-XL-CONFIGURATION>"
         )

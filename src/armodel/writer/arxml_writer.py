@@ -11911,15 +11911,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCanControllerXlConfiguration(self, element: ET.Element, key: str, configuration: Optional[CanControllerXlConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, configuration)
             self.setChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED", configuration.getErrorSignalingEnabled())
-            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", cast(Integer, configuration.getPropSeg()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-L", cast(Integer, configuration.getPwmL()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-O", cast(Integer, configuration.getPwmO()))
-            self.setChildElementOptionalIntegerValue(child_element, "PWM-S", cast(Integer, configuration.getPwmS()))
-            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", cast(Integer, configuration.getSspOffset()))
-            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", cast(Integer, configuration.getSyncJumpWidth()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", cast(Integer, configuration.getTimeSeg1()))
-            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", cast(Integer, configuration.getTimeSeg2()))
+            self.setChildElementOptionalPositiveInteger(child_element, "PROP-SEG", configuration.getPropSeg())
+            self.setChildElementOptionalPositiveInteger(child_element, "PWM-L", configuration.getPwmL())
+            self.setChildElementOptionalPositiveInteger(child_element, "PWM-O", configuration.getPwmO())
+            self.setChildElementOptionalPositiveInteger(child_element, "PWM-S", configuration.getPwmS())
+            self.setChildElementOptionalPositiveInteger(child_element, "SSP-OFFSET", configuration.getSspOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+            self.setChildElementOptionalPositiveInteger(child_element, "TIME-SEG-1", configuration.getTimeSeg1())
+            self.setChildElementOptionalPositiveInteger(child_element, "TIME-SEG-2", configuration.getTimeSeg2())
             self.setChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED", configuration.getTrcvPwmModeEnabled())
 
     def setCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str, requirements: Optional[CanControllerXlConfigurationRequirements]):

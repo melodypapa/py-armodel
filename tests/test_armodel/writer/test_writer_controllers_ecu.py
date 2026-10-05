@@ -358,8 +358,8 @@ class TestWriterSetCanControllerXlConfiguration:
         assert parent[0].find("PWM-S") is not None
         assert parent[0].find("SSP-OFFSET") is not None
         assert parent[0].find("SYNC-JUMP-WIDTH") is not None
-        assert parent[0].find("TIME-SEG1") is not None
-        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TIME-SEG-1") is not None
+        assert parent[0].find("TIME-SEG-2") is not None
         assert parent[0].find("TRCV-PWM-MODE-ENABLED") is not None
 
     def test_none(self, writer):
@@ -453,8 +453,8 @@ class TestWriterAbstractCanCommunicationControllerAttributes:
         assert xl_el.find("ERROR-SIGNALING-ENABLED").text == "true"
         assert xl_el.find("PROP-SEG").text == "4"
         assert xl_el.find("SYNC-JUMP-WIDTH").text == "1"
-        assert xl_el.find("TIME-SEG1").text == "13"
-        assert xl_el.find("TIME-SEG2").text == "2"
+        assert xl_el.find("TIME-SEG-1").text == "13"
+        assert xl_el.find("TIME-SEG-2").text == "2"
         assert xl_el.find("TRCV-PWM-MODE-ENABLED").text == "true"
         req_el = parent.find("CAN-CONTROLLER-XL-REQUIREMENTS")
         assert req_el is not None
