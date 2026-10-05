@@ -4,7 +4,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import FlexrayNmClusterCoupling, FlexrayNmScheduleVariant, NmConfig
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -35,6 +36,12 @@ def _schedule_variant(member):
     variant = FlexrayNmScheduleVariant()
     variant.setValue(member)
     return variant
+
+
+def _vp(label):
+    vp = VariationPoint()
+    vp.setShortLabel(Identifier().setValue(label))
+    return vp
 
 
 def _new_config():
@@ -71,3 +78,38 @@ class TestWriteFlexrayNmClusterCoupling:
         assert [ref.getValue() for ref in refs] == ["/Clusters/Fr1"]
         assert refs[0].getDest() == "FLEXRAY-CLUSTER"
         assert coupling.getNmScheduleVariant().getValue() == "scheduleVariant2"
+
+    def test_write_flexray_nm_cluster_coupling_writes_checksum_and_timestamp(self):
+        config = _new_config()
+        coupling = config.getNmClusterCouplings()[0]
+        coupling.setChecksum(String().setValue("9012"))
+        coupling.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeNmConfigNmClusterCouplings(parent, config)
+        coupling_element = parent.find("NM-CLUSTER-COUPLINGS").find("FLEXRAY-NM-CLUSTER-COUPLING")
+        assert coupling_element.attrib["S"] == "9012"
+        assert coupling_element.attrib["T"] == "2024-01-01T00:00:00Z"
+
+    def test_write_flexray_nm_cluster_coupling_writes_variation_point_last(self):
+        config = _new_config()
+        coupling = config.getNmClusterCouplings()[0]
+        coupling.setVariationPoint(_vp("VP3"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeNmConfigNmClusterCouplings(parent, config)
+        coupling_element = parent.find("NM-CLUSTER-COUPLINGS").find("FLEXRAY-NM-CLUSTER-COUPLING")
+        assert [child.tag for child in coupling_element] == ["COUPLED-CLUSTER-REFS", "NM-SCHEDULE-VARIANT", "VARIATION-POINT"]
+        assert coupling_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP3"
+
+    def test_write_flexray_nm_cluster_coupling_round_trips_variation_point(self):
+        config = _new_config()
+        coupling = config.getNmClusterCouplings()[0]
+        coupling.setVariationPoint(_vp("VP3"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeNmConfigNmClusterCouplings(parent, config)
+        parent.set("xmlns", NS)
+        root = ET.fromstring(ET.tostring(parent, encoding="unicode"))
+        parsed_config = NmConfig(MockParent(), "NmConfig")
+        ARXMLParser().readNmConfigNmClusterCouplings(root, parsed_config)
+        parsed = parsed_config.getNmClusterCouplings()[0]
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "VP3"

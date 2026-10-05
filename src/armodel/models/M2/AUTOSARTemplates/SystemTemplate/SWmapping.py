@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class SwcToImplMapping(Identifiable, VariationPointCapable):
@@ -61,6 +62,110 @@ class SwcToImplMapping(Identifiable, VariationPointCapable):
         """
         if value is not None:
             self.componentImplementationRef = value
+        return self
+
+
+class SwcToEcuMapping(Identifiable, VariationPointCapable):
+    """
+    This meta-class is used: • to map SwComponentPrototypes to a specific ECU Instance unit, • optionally to map SwComponentPrototypes to a HwElement with category ProcessingUnit, • optionally to map SwComponentPrototypes typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator. For each combination of ECUInstance and the optional ProcessingUnit and the optional SensorActuator only one SwcToEcuMapping shall be used.
+
+    [constr_3263] Restriction of usage of SwcToEcuMapping in a System: For all SwcToEcuMappings in a System the following restriction applies: No two SwcToEcuMappings shall have the exact same reference to SwComponentPrototype, EcuInstance, processingUnit, controlledHwElement.
+
+    [constr_3021] Mapping of SensorActuatorSwComponents to SensorActuator HwElements: Only SwComponentPrototypes that are typed by SensorActuatorSwComponentType shall be mapped to a HwElement with category SensorActuator via the controlledHwElement relation.
+
+    [constr_3249] Category of HwElement for SwcToEcuMapping: The HwElement which is referenced from SwcToEcuMapping in the role processingUnit shall be of category "ProcessingUnit".
+    """
+
+    # SwcToEcuMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.2, p.197
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addComponentIRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getComponentIRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getControlledHwElementRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setControlledHwElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProcessingUnitRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProcessingUnitRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.componentIRefs: List[ComponentInSystemInstanceRef] = []
+
+        # Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+        self.controlledHwElementRef: Optional[RefType] = None
+
+        # Reference to a specific ECU Instance description.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+        self.processingUnitRef: Optional[RefType] = None
+
+    def addComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "SwcToEcuMapping":
+        """
+        References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to componentIRefs.
+        """
+        if value is not None:
+            self.componentIRefs.append(value)
+        return self
+
+    def getComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        References to the software component instances that are mapped to the referenced ECUInstance. If the component prototype referenced is a composition, this indicates that all atomic software components within the composition are mapped to the ECU. If there is aditionally a mapping of some SwComponent Prototype INSIDE the Composition to another ECU Instance the inner mapping overrides the outer mapping. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.componentIRefs
+
+    def getControlledHwElementRef(self) -> Optional[RefType]:
+        """
+        Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+        """
+        return self.controlledHwElementRef
+
+    def setControlledHwElementRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Optional mapping of SwComponentPrototypes that are typed by SensorActuatorSwComponentType to a Hw Element with category SensorActuator.
+
+        A None value is a no-op and does not overwrite an existing controlledHwElementRef.
+        """
+        if value is not None:
+            self.controlledHwElementRef = value
+        return self
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Reference to a specific ECU Instance description.
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Reference to a specific ECU Instance description.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def getProcessingUnitRef(self) -> Optional[RefType]:
+        """
+        Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+        """
+        return self.processingUnitRef
+
+    def setProcessingUnitRef(self, value: Optional[RefType]) -> "SwcToEcuMapping":
+        """
+        Optional mapping of software components to individual microcontroller cores residing in one ECU. A microcontroller core is described in the ECU Resource Template by the HwElement of HwCategory Processing Unit.
+
+        A None value is a no-op and does not overwrite an existing processingUnitRef.
+        """
+        if value is not None:
+            self.processingUnitRef = value
         return self
 
 

@@ -2468,10 +2468,6 @@ class NetworkSegmentIdentification(ARObject):
     pass
 
 
-class NmCoordinator(ARObject):
-    pass
-
-
 class PermissibleSignalPath(ARObject):
     pass
 

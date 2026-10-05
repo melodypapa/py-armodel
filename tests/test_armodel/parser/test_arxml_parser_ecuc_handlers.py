@@ -1952,6 +1952,19 @@ class TestEcucDerivationSpecification:
         assert calc.getEcucQueryStringRef() is not None
         assert calc.getEcucQueryStringRef().getValue() == "/Ref/Query2"
 
+    def test_read_calculation_formula_checksum_and_timestamp(self, parser):
+        derivation = self._load_derivation(
+            parser,
+            """
+            <CALCULATION-FORMULA S="ABCD1234" T="2024-01-01T00:00:00Z">
+                <ECUC-QUERY-REF DEST="ECUC-QUERY">/Ref/Query1</ECUC-QUERY-REF>
+            </CALCULATION-FORMULA>
+            """,
+        )
+        calc = derivation.getCalculationFormula()
+        assert calc.getChecksum().getValue() == "ABCD1234"
+        assert calc.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
     def test_read_ecuc_queries(self, parser):
         derivation = self._load_derivation(
             parser,
@@ -2029,6 +2042,19 @@ class TestEcucConditionSpecification:
         assert formula.getEcucQueryStringRef() is not None
         assert formula.getEcucQueryStringRef().getValue() == "/Ref/Query2"
 
+    def test_read_condition_formula_checksum_and_timestamp(self, parser):
+        cond = self._load_cond(
+            parser,
+            """
+            <CONDITION-FORMULA S="ABCD1234" T="2024-01-01T00:00:00Z">
+                <ECUC-QUERY-REF DEST="ECUC-QUERY">/Ref/Query1</ECUC-QUERY-REF>
+            </CONDITION-FORMULA>
+            """,
+        )
+        formula = cond.getConditionFormula()
+        assert formula.getChecksum().getValue() == "ABCD1234"
+        assert formula.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
     def test_read_ecuc_queries(self, parser):
         cond = self._load_cond(
             parser,
@@ -2048,6 +2074,24 @@ class TestEcucConditionSpecification:
         assert len(queries) == 1
         assert queries[0].getShortName() == "Q1"
         assert queries[0].getEcucQueryExpression().getConfigElementDefGlobalRef().getValue() == "/Def/Global"
+
+    def test_read_query_expression_checksum_and_timestamp(self, parser):
+        cond = self._load_cond(
+            parser,
+            """
+            <ECUC-QUERYS>
+                <ECUC-QUERY>
+                    <SHORT-NAME>Q1</SHORT-NAME>
+                    <ECUC-QUERY-EXPRESSION S="ABCD1234" T="2024-01-01T00:00:00Z">
+                        <CONFIG-ELEMENT-DEF-GLOBAL-REF DEST="ECUC-DEFINITION-ELEMENT">/Def/Global</CONFIG-ELEMENT-DEF-GLOBAL-REF>
+                    </ECUC-QUERY-EXPRESSION>
+                </ECUC-QUERY>
+            </ECUC-QUERYS>
+            """,
+        )
+        expr = cond.getEcucQueries()[0].getEcucQueryExpression()
+        assert expr.getChecksum().getValue() == "ABCD1234"
+        assert expr.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_read_informal_formula(self, parser):
         cond = self._load_cond(parser, "<INFORMAL-FORMULA><FORDOC>Fx</FORDOC></INFORMAL-FORMULA>")
@@ -2600,6 +2644,15 @@ class TestConfigReferenceValue:
         parser.readConfigReferenceValue(element, obj)
         assert obj.getDefinitionRef() is None
 
+    def test_read_checksum_and_timestamp(self, parser):
+        obj = _R3ConfigReferenceValueStub()
+        element = _snip("<DEFINITION-REF>/Defs/Task</DEFINITION-REF>")
+        element.attrib["S"] = "ABCD"
+        element.attrib["T"] = "2026-10-05T00:00:00Z"
+        parser.readConfigReferenceValue(element, obj)
+        assert obj.getChecksum().getValue() == "ABCD"
+        assert obj.getTimestamp().getValue() == "2026-10-05T00:00:00Z"
+
 
 class TestReferenceValue:
     """Tests for readReferenceValue handler (R3.2.3 ReferenceValue).
@@ -2991,3 +3044,22 @@ class TestEcucContainerDefDestinationUriRefs:
         element = _snip("", root_tag="ECUC-PARAM-CONF-CONTAINER-DEF")
         parser.readEcucContainerDef(element, container)
         assert container.getDestinationUriRefs() == []
+
+    def test_read_destination_uri_ref_checksum_and_timestamp(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <DESTINATION-URI-REFS>
+                <DESTINATION-URI-REF DEST="ECUC-DESTINATION-URI-DEF" S="ABCD" T="2026-10-05T00:00:00Z">/Mod/UriDef1</DESTINATION-URI-REF>
+            </DESTINATION-URI-REFS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDef(element, container)
+        refs = container.getDestinationUriRefs()
+        assert len(refs) == 1
+        assert refs[0].getChecksum().getValue() == "ABCD"
+        assert refs[0].getTimestamp().getValue() == "2026-10-05T00:00:00Z"

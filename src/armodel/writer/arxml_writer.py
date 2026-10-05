@@ -1158,6 +1158,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     J1939NodeName,
     NmCluster,
     NmConfig,
+    NmCoordinator,
     NmEcu,
     NmNode,
     UdpNmCluster,
@@ -9425,6 +9426,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCanNmClusterCoupling(self, element: ET.Element, coupling: CanNmClusterCoupling):
         child_element = ET.SubElement(element, "CAN-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
@@ -9432,24 +9434,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUSLOAD-REDUCTION-ENABLED", coupling.getNmBusloadReductionEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeUdpNmClusterCoupling(self, element: ET.Element, coupling: UdpNmClusterCoupling):
         child_element = ET.SubElement(element, "UDP-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalBooleanValue(child_element, "NM-IMMEDIATE-RESTART-ENABLED", coupling.getNmImmediateRestartEnabled())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeFlexrayNmClusterCoupling(self, element: ET.Element, coupling: FlexrayNmClusterCoupling):
         child_element = ET.SubElement(element, "FLEXRAY-NM-CLUSTER-COUPLING")
+        self.writeARObject(child_element, coupling)
         refs = coupling.getCoupledClusterRefs()
         if len(refs) > 0:
             refs_tag = ET.SubElement(child_element, "COUPLED-CLUSTER-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "COUPLED-CLUSTER-REF", ref)
         self.setChildElementOptionalLiteral(child_element, "NM-SCHEDULE-VARIANT", coupling.getNmScheduleVariant())
+        self.writeVariationPointCapable(child_element, coupling)
 
     def writeNmConfigNmClusterCouplings(self, element: ET.Element, config: NmConfig):
         self.logger.debug("Write NmConfigNmClusterCouplings <%s>" % config.getShortName())
@@ -9588,6 +9595,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 
+    def writeNmCoordinator(self, element: ET.Element, coordinator: NmCoordinator):
+        child_element = ET.SubElement(element, "NM-COORDINATOR")
+        self.writeARObject(child_element, coordinator)
+        self.setChildElementOptionalIntegerValue(child_element, "INDEX", coordinator.getIndex())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-COORD-SYNC-SUPPORT", coordinator.getNmCoordSyncSupport())
+        self.setChildElementOptionalTimeValue(child_element, "NM-GLOBAL-COORDINATOR-TIME", coordinator.getNmGlobalCoordinatorTime())
+        refs = coordinator.getNmNodes()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "NM-NODE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "NM-NODE-REF", ref)
+
     def writeNmEcu(self, element: ET.Element, nm_ecu: NmEcu):
         child_element = ET.SubElement(element, "NM-ECU")
         self.writeIdentifiable(child_element, nm_ecu)
@@ -9595,6 +9614,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", nm_ecu.getEcuInstanceRef())
         self.setChildElementOptionalBooleanValue(child_element, "NM-BUS-SYNCHRONIZATION-ENABLED", nm_ecu.getNmBusSynchronizationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-COM-CONTROL-ENABLED", nm_ecu.getNmComControlEnabled())
+        coordinator = nm_ecu.getNmCoordinator()
+        if coordinator is not None:
+            self.writeNmCoordinator(child_element, coordinator)
         self.setChildElementOptionalTimeValue(child_element, "NM-CYCLETIME-MAIN-FUNCTION", nm_ecu.getNmCycletimeMainFunction())
         self.setChildElementOptionalBooleanValue(child_element, "NM-PDU-RX-INDICATION-ENABLED", nm_ecu.getNmPduRxIndicationEnabled())
         self.setChildElementOptionalBooleanValue(child_element, "NM-REMOTE-SLEEP-IND-ENABLED", nm_ecu.getNmRemoteSleepIndEnabled())
@@ -9824,8 +9846,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTpAddress(self, element: ET.Element, address: TpAddress):
         if address is not None:
             child_element = ET.SubElement(element, "TP-ADDRESS")
-            self.writeIdentifiable(child_element, address)
+            self.writeIdentifiable(child_element, address, write_variation_point=False)
             self.setChildElementOptionalIntegerValue(child_element, "TP-ADDRESS", address.getTpAddress())
+            self.writeVariationPointCapable(child_element, address)
 
     def writeLinTpConfigTpAddresses(self, element: ET.Element, config: LinTpConfig):
         addresses = config.getTpAddresses()
@@ -11310,6 +11333,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if formula is None:
             return
         formula_element = ET.SubElement(element, "CALCULATION-FORMULA")
+        self.writeARObject(formula_element, formula)
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
 
@@ -11317,6 +11341,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if formula is None:
             return
         formula_element = ET.SubElement(element, key)
+        self.writeARObject(formula_element, formula)
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
 
@@ -11357,6 +11382,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         expr = query.getEcucQueryExpression()
         if expr is not None:
             expr_element = ET.SubElement(element, "ECUC-QUERY-EXPRESSION")
+            self.writeARObject(expr_element, expr)
             self.setChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-GLOBAL-REF", expr.getConfigElementDefGlobalRef())
             self.setChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF", expr.getConfigElementDefLocalRef())
 
@@ -11485,6 +11511,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for uri_ref in uri_refs:
                 if isinstance(uri_ref, EcucDestinationUriDefRefType):
                     ref_element = ET.SubElement(child_element, "DESTINATION-URI-REF")
+                    self.writeARObject(ref_element, uri_ref)
                     base = uri_ref.getBase()
                     if base is not None:
                         ref_element.attrib["BASE"] = base
@@ -13728,7 +13755,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalString(child_element, "VALUE", enumeration_value.getValue())
 
     def writeConfigReferenceValue(self, element: ET.Element, config_reference_value: ConfigReferenceValue):
-        """Write the R3.2.3 abstract ConfigReferenceValue members (DEFINITION-REF without a forced DEST attribute)."""
+        """Write the R3.2.3 abstract ConfigReferenceValue members (S/T, DEFINITION-REF without a forced DEST attribute)."""
+        self.writeARObject(element, config_reference_value)
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", config_reference_value.getDefinitionRef())
 
     def writeReferenceValue(self, element: ET.Element, reference_value: ReferenceValue):

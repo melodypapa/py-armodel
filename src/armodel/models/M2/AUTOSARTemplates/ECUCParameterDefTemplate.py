@@ -150,7 +150,9 @@ class EcucScopeEnum(AREnum):
 
     # EcucScopeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.7, p.46
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # An element may be shared with other modules. Tags: atp.EnumerationLiteralIndex=0
     ECU = "ECU"
@@ -341,7 +343,9 @@ class EcucConfigurationClassEnum(AREnum):
 
     # EcucConfigurationClassEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.12, p.52
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0
     LINK = "Link"
@@ -1933,13 +1937,12 @@ class EcucConditionFormula(FormulaExpression):
 
     # EcucConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
-    # Spec verified: R23-11
-    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2410,12 +2413,12 @@ class EcucParameterDerivationFormula(FormulaExpression):
 
     # EcucParameterDerivationFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39, p.88
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -2496,12 +2499,12 @@ class EcucQueryExpression(ARObject):
 
     # EcucQueryExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
-    # Spec verified: R23-11
-    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
