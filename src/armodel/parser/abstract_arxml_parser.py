@@ -326,6 +326,7 @@ class AbstractARXMLParser(ABC):
         time_value = None
         if (child_element is not None) and (child_element.text is not None):
             time_value = TimeValue()
+            self.readARType(child_element, time_value)
             time_value.setValue(child_element.text)
         return time_value
 

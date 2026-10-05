@@ -291,6 +291,42 @@ class TestTimeValue:
         assert time_val._text is None
         assert time_val._value is None
 
+    def test_value_semantics_double(self):
+        """
+        Test TimeValue value semantics (Table 4.66: numerical value interpreted in the physical unit second, xml.xsd.type=double).
+        """
+        time_val = TimeValue()
+
+        time_val.setValue("2.5")
+        assert time_val.getValue() == 2.5
+        assert str(time_val) == "2.5"
+
+        time_val.setValue(0.02)
+        assert time_val.getValue() == 0.02
+
+        time_val.setValue("1.23e-5")
+        assert time_val.getValue() == 1.23e-5
+        assert str(time_val) == "1.23e-5"
+
+    def test_set_value_none_noop(self):
+        """
+        Test that setValue(None) is a no-op on a TimeValue.
+        """
+        time_val = TimeValue()
+        time_val.setValue("2.5")
+
+        time_val.setValue(None)
+        assert time_val.getValue() == 2.5
+
+    def test_is_a_arliteral(self):
+        """
+        Test that TimeValue derives from the ARLiteral hierarchy (Primitive table, no own attributes).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
+        time_val = TimeValue()
+        assert isinstance(time_val, ARLiteral)
+
 
 class TestARLiteral:
     """

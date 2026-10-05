@@ -250,17 +250,18 @@ class Float(Numerical):
 
 class TimeValue(Float):
     """
-    This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
-    in the physical unit second.
+    This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted in the physical unit second.
 
     Tags:
-
-    * xml.xsd.customType=TIME-VALUE
-    * xml.xsd.type=double
+        * xml.xsd.customType=TIME-VALUE
+        * xml.xsd.type=double
     """
 
     # TimeValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.66, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no own XML element) — value form serialized on consuming elements via the shared leaf helpers setChildElementOptionalTimeValue/getChildElementOptionalTimeValue (ExecutableEntity.minimumStartInterval, BswTimingEvent.period, ReceptionComSpecProps.timeout, NvBlockNeeds.cyclicWritingPeriod); round-trip: tests/test_armodel/writer/test_reception_com_spec_props.py::TestReceptionPropsRoundTrip (R23-11)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
