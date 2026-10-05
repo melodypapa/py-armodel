@@ -42,6 +42,12 @@
    every round-tripped file whose schema location maps to a bundled XSD is validated on parse AND on save, and a
    schema-invalid input/output fails the round-trip. No code change needed in `test_roundtrip.py` — Task 5 adds
    a verification run plus the standalone audit test for explicit, per-file assertions.
+10. **Test-data fragments are verified too (Task 5)**: an AST-based audit test validates every full-document
+   `<AUTOSAR>` fragment constant used as unit-test input (15 constants in 6 files found during planning) against
+   the bundled XSD, so malformed test fixtures fail CI instead of producing false-passing tests. Partial
+   fragments are out of scope (not root-validatable); deliberately malformed fixtures opt out via a
+   `# xsd-skip: <reason>` marker. The existing test helper `tests/test_armodel/xsd_validation.py` delegates to
+   `armodel.validation` so both share one implementation and one schema cache.
 
 ---
 
@@ -751,7 +757,157 @@ git commit -m "feat(writer): validate generated ARXML against bundled XSD before
 
 ---
 
-### Task 5: Validation in the parser/writer test suites (round-trip + corpus audit) + full battery + lint/type/format
+### Task 5: Verify test-data fragments against the XSD
+
+Unit tests parse inline XML fragments ("test data"); a malformed fixture can make a wrong parser look
+correct. This task makes the suite itself enforce that every **full-document** fragment constant used as
+test data validates against the bundled XSD. Scope (measured by AST scan during planning): 15 full-document
+`<AUTOSAR>...</AUTOSAR>` string constants in 6 files. **Partial fragments** (bare element trees fed directly
+to `read*` methods) cannot be validated against a root schema and are out of scope. Deliberately malformed
+fixtures (error-path tests) opt out with a `# xsd-skip: <reason>` marker line on the assignment.
+
+**Files:**
+- Modify: `tests/test_armodel/xsd_validation.py` (delegate to `armodel.validation` — one implementation, one schema cache)
+- Create: `tests/test_armodel/validation/test_test_data_fragments.py`
+
+- [ ] **Step 1: Write the failing audit test**
+
+Create `tests/test_armodel/validation/test_test_data_fragments.py`:
+
+```python
+"""Validates that every full-document AUTOSAR fragment constant used as test data
+is schema-valid. Deliberately malformed fixtures opt out with a `# xsd-skip: <reason>`
+marker on (or directly above) the assignment."""
+
+import ast
+import glob
+import os
+import re
+
+import pytest
+
+from armodel.validation.validator import ARXMLValidator, SCHEMA_DIR, detect_schema_path
+
+TESTS_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+DEFAULT_XSD = os.path.join(SCHEMA_DIR, "R4.4.0", "AUTOSAR_00046.xsd")
+DOC_PATTERN = re.compile(r"^\s*(<\?xml[^>]*?>)?\s*<AUTOSAR[\s>]", re.S)
+SKIP_MARKER = "xsd-skip"
+
+
+def collect_fragments():
+    found = []
+    pattern = os.path.join(TESTS_DIR, "**", "test_*.py")
+    for path in sorted(glob.glob(pattern, recursive=True)):
+        with open(path, encoding="utf-8") as f:
+            source = f.read()
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            continue
+        lines = source.splitlines()
+        for node in ast.walk(tree):
+            if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+                continue
+            value = node.value
+            if not (isinstance(value, ast.Constant) and isinstance(value.value, str)):
+                continue
+            if not DOC_PATTERN.match(value.value):
+                continue
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            name = targets[0].id if targets and isinstance(targets[0], ast.Name) else "constant@%d" % node.lineno
+            skipped = SKIP_MARKER in "\n".join(lines[max(0, node.lineno - 3) : node.lineno])
+            found.append((path, name, value.value, skipped))
+    return found
+
+
+ALL_FRAGMENTS = collect_fragments()
+CHECKED = [(path, name, xml) for path, name, xml, skipped in ALL_FRAGMENTS if not skipped]
+
+
+@pytest.mark.parametrize(
+    "path,name,xml",
+    CHECKED,
+    ids=["%s:%s" % (os.path.relpath(p, TESTS_DIR), n) for p, n, _ in CHECKED],
+)
+def test_test_data_fragment_validates(path, name, xml):
+    data = xml.encode("utf-8")
+    xsd_path = detect_schema_path(data)
+    if xsd_path is None:
+        xsd_path = DEFAULT_XSD
+    errors = ARXMLValidator(xsd_path).validate_bytes(data)
+    assert errors == [], "%s:%s is schema-invalid (fix the test data or add a xsd-skip marker if deliberately malformed):\n%s" % (
+        os.path.relpath(path, TESTS_DIR),
+        name,
+        "\n".join("  line %s: %s" % (error.line, error.message) for error in errors),
+    )
+
+
+def test_fragment_scan_found_targets():
+    assert len(ALL_FRAGMENTS) >= 10, "fragment scanner found nothing — its AST patterns are broken"
+```
+
+- [ ] **Step 2: Run the audit and triage the results**
+
+Run: `uv run pytest tests/test_armodel/validation/test_test_data_fragments.py -v --no-coverage`
+Expected first run: the scanner finds ~15 fragments; some may fail. Triage every failure:
+- **Deliberately malformed** (error-path/warning-branch tests) → add `# xsd-skip: <reason>` on the assignment line.
+- **Accidentally invalid test data** → fix the fragment; this is exactly the class of bug this audit exists to catch.
+Do not loosen the audit to make it pass.
+
+- [ ] **Step 3: Delegate the legacy test helper to `armodel.validation`**
+
+Replace the body of `tests/test_armodel/xsd_validation.py` (keep the module docstring updated):
+
+```python
+"""Shared helper to validate ARXML fragments against the AUTOSAR XSD schema.
+
+Delegates to :mod:`armodel.validation.validator` so the test-suite helper and the
+runtime validator share one implementation and one schema cache. Defaults to the
+bundled R4.4.0 schema (AUTOSAR_00046.xsd), matching the original behavior of this
+helper.
+"""
+
+import os
+
+from armodel.validation.validator import ARXMLValidator, SCHEMA_DIR, get_schema
+
+XSD_DIR = os.path.join(SCHEMA_DIR, "R4.4.0")
+XSD_PATH = os.path.join(XSD_DIR, "AUTOSAR_00046.xsd")
+
+
+def is_valid(xml):
+    """Return True when the given XML byte/string is valid per the AUTOSAR XSD."""
+    data = xml.encode("utf-8") if isinstance(xml, str) else xml
+    return ARXMLValidator(XSD_PATH).validate_bytes(data) == []
+
+
+def assert_valid(xml):
+    """Assert that the given XML byte/string is valid per the AUTOSAR XSD."""
+    data = xml.encode("utf-8") if isinstance(xml, str) else xml
+    errors = ARXMLValidator(XSD_PATH).validate_bytes(data)
+    assert errors == [], "XML does not validate against AUTOSAR_00046.xsd:\n%s" % "\n".join(
+        "line %s: %s" % (error.line, error.message) for error in errors
+    )
+```
+
+(`get_schema` is re-exported unchanged so existing imports keep working; the old local resolver class and
+`etree` import are removed — compilation now flows through the shared, process-wide cache.)
+
+- [ ] **Step 4: Run the audit, the helper's consumers, and the validation package**
+
+Run: `uv run pytest tests/test_armodel/validation/ tests/test_armodel/parser/test_arxml_parser_implementation.py tests/test_armodel/writer/test_writer_implementation.py tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_PrimitiveTypes.py -v --no-coverage`
+Expected: all passed.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add tests/test_armodel/validation/test_test_data_fragments.py tests/test_armodel/xsd_validation.py
+git commit -m "test(validation): enforce XSD validity of full-document test-data fragments"
+```
+
+---
+
+### Task 6: Validation in the parser/writer test suites (round-trip + corpus audit) + full battery + lint/type/format
 
 **Files:**
 - Test: `tests/integration_tests/test_xsd_corpus_audit.py`
@@ -827,7 +983,7 @@ git commit -m "test(integration): audit corpus files that map to bundled XSD sch
 
 ---
 
-### Task 6: Spec amendment + user-visible docs
+### Task 7: Spec amendment + user-visible docs
 
 **Files:**
 - Modify: `docs/superpowers/specs/2026-10-05-xsd-validation-design.md`
