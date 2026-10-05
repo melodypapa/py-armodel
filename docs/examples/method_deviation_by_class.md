@@ -1202,6 +1202,17 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 | — *(missing)* | `—` | `fileInfoComment` | `FileInfoComment` | — | missing |
 | — *(missing)* | `—` | `introduction` | `DocumentationBlock` | — | missing |
 
+## `AbstractRuleBasedValueSpecification`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 462  | **table:** Table 5.128
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations — abstract class (table has no `Attribute` rows), Base chain `ARObject, ValueSpecification` → most-derived `ValueSpecification` kept; subclasses Application/Composite/NumericalRuleBasedValueSpecification per the `Subclasses` row. XSD group ABSTRACT-RULE-BASED-VALUE-SPECIFICATION (AUTOSAR_00052.xsd L640) is an empty sequence — no own XML-bearing attributes, so the class owns no reader/writer helpers (Steps 5/6 N/A; the concrete subclasses call `readValueSpecification`/`writeValueSpecification`, which covers the chain). |
+
+**Note:** Batch re-sync 2026-10-05 (Group28 row; Rule 0023 legacy checklist — 5-column, no release column, stale `# Spec verified: R23-11` removed at session start and stays WITHHELD pending the 9b batch confirmation, user instruction; the `# Spec:` citation was already the defining SWCT Table 5.128, p.462). Model Red genuine on the Rule 0007 export chain: `AbstractRuleBasedValueSpecification` was defined in the non-leaf `Constants/__init__.py` but missing from the `CommonStructure/__init__.py` re-export list, so `armodel.AbstractRuleBasedValueSpecification` did not resolve (the test_model_imports discovery skips `__init__.py` files, so nothing caught it) — added to the import list + `__all__`. Class docstring = Note verbatim + [constr_1779] appended in compact form; checklist rebuilt 6-column (`__init__` only). No reader/writer changes (N/A).
+
 ## `ApplicationRuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 302
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
