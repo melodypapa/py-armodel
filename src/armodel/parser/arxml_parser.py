@@ -1095,7 +1095,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArgumentsDirectionEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
@@ -16163,6 +16164,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, signal)
         for child_element in self.findall(element, "DATA-ELEMENT-IREFS/DATA-ELEMENT-IREF"):
             signal.addDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(child_element))
+
+    def readSwcToSwcOperationArguments(self, element: ET.Element, arguments: SwcToSwcOperationArguments):
+        self.readARObject(element, arguments)
+        arguments.setDirection(cast(Optional[SwcToSwcOperationArgumentsDirectionEnum], self.getChildElementOptionalLiteral(element, "DIRECTION")))
+        for child_element in self.findall(element, "OPERATION-IREFS/OPERATION-IREF"):
+            arguments.addOperationIRef(self.getOperationInSystemInstanceRef(child_element))
 
     def readSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.readARObject(element, mapping)

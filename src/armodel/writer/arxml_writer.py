@@ -907,7 +907,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
@@ -12981,6 +12981,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             irefs_tag = ET.SubElement(child_element, "DATA-ELEMENT-IREFS")
             for iref in irefs:
                 self.setVariableDataPrototypeInSystemInstanceRef(irefs_tag, "DATA-ELEMENT-IREF", iref)
+
+    def writeSwcToSwcOperationArguments(self, element: ET.Element, arguments: SwcToSwcOperationArguments):
+        child_element = ET.SubElement(element, "SWC-TO-SWC-OPERATION-ARGUMENTS")
+        self.writeARObject(child_element, arguments)
+        self.setChildElementOptionalLiteral(child_element, "DIRECTION", arguments.getDirection())
+        irefs = arguments.getOperationIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "OPERATION-IREFS")
+            for iref in irefs:
+                self.setOperationInSystemInstanceRef(irefs_tag, "OPERATION-IREF", iref)
 
     def writeSenderRecCompositeTypeMapping(self, element: ET.Element, mapping: SenderRecCompositeTypeMapping):
         self.writeARObject(element, mapping)

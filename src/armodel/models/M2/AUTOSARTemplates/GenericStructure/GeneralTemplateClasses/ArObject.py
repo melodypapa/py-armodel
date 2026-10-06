@@ -2602,10 +2602,6 @@ class StreamFilterRuleIpTp(ARObject):
     pass
 
 
-class SwcToSwcOperationArguments(ARObject):
-    pass
-
-
 class SystemTiming(ARObject):
     pass
 
