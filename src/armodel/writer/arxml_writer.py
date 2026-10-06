@@ -984,6 +984,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
     SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
@@ -12064,6 +12065,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(element, traffic_shaper_group)
             self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME", traffic_shaper_group.getMaximumResidenceTime())
 
+    def writeSwitchFlowMeteringEntry(self, element: ET.Element, flow_metering: Optional[SwitchFlowMeteringEntry]):
+        if flow_metering is not None:
+            self.writeIdentifiable(element, flow_metering)
+            self.setChildElementOptionalLiteral(element, "COLOR-MODE", flow_metering.getColorMode())
+            self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", flow_metering.getCommittedBurstSize())
+            self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", flow_metering.getCommittedInformationRate())
+            self.setChildElementOptionalBooleanValue(element, "COUPLING-FLAG", flow_metering.getCouplingFlag())
+            self.setChildElementOptionalPositiveInteger(element, "EXCESS-BURST-SIZE", flow_metering.getExcessBurstSize())
+            self.setChildElementOptionalPositiveInteger(element, "EXCESS-INFORMATION-RATE", flow_metering.getExcessInformationRate())
+
     def writeSwitchStreamGateEntry(self, element: ET.Element, stream_gate: Optional[SwitchStreamGateEntry]):
         if stream_gate is not None:
             self.writeIdentifiable(element, stream_gate)
@@ -12168,7 +12179,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             flow_meterings_element = ET.SubElement(element, "FLOW-METERINGS")
             for flow_metering in flow_meterings:
                 flow_metering_element = ET.SubElement(flow_meterings_element, "SWITCH-FLOW-METERING-ENTRY")
-                self.writeIdentifiable(flow_metering_element, flow_metering)
+                self.writeSwitchFlowMeteringEntry(flow_metering_element, flow_metering)
         stream_filters = details.getStreamFilters()
         if len(stream_filters) > 0:
             stream_filters_element = ET.SubElement(element, "STREAM-FILTERS")

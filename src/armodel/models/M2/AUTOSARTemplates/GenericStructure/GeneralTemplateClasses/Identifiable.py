@@ -1563,10 +1563,6 @@ class SwcToApplicationPartitionMapping(Identifiable):
     pass
 
 
-class SwitchFlowMeteringEntry(Identifiable):
-    pass
-
-
 class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     pass
 

@@ -778,6 +778,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DisplayFormatString,
+    FlowMeteringColorModeEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -1180,6 +1181,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
     SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterActionPortModificationEnum,
     SwitchStreamFilterEntry,
@@ -11203,6 +11205,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, traffic_shaper_group)
         traffic_shaper_group.setMaximumResidenceTime(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME"))
 
+    def readSwitchFlowMeteringEntry(self, element: ET.Element, flow_metering: SwitchFlowMeteringEntry):
+        self.readIdentifiable(element, flow_metering)
+        flow_metering.setColorMode(cast(Optional[FlowMeteringColorModeEnum], self.getChildElementOptionalLiteral(element, "COLOR-MODE")))
+        flow_metering.setCommittedBurstSize(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE"))
+        flow_metering.setCommittedInformationRate(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE"))
+        flow_metering.setCouplingFlag(self.getChildElementOptionalBooleanValue(element, "COUPLING-FLAG"))
+        flow_metering.setExcessBurstSize(self.getChildElementOptionalPositiveInteger(element, "EXCESS-BURST-SIZE"))
+        flow_metering.setExcessInformationRate(self.getChildElementOptionalPositiveInteger(element, "EXCESS-INFORMATION-RATE"))
+
     def readSwitchStreamGateEntry(self, element: ET.Element, stream_gate: SwitchStreamGateEntry):
         self.readIdentifiable(element, stream_gate)
         stream_gate.setInternalPriorityValue(self.getChildElementOptionalPositiveInteger(element, "INTERNAL-PRIORITY-VALUE"))
@@ -11330,7 +11341,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWITCH-FLOW-METERING-ENTRY":
                 flow_metering = details.createFlowMetering(self.getShortName(child_element))
-                self.readIdentifiable(child_element, flow_metering)
+                self.readSwitchFlowMeteringEntry(child_element, flow_metering)
             else:
                 self.notImplemented("Unsupported SwitchFlowMeteringEntry <%s>" % tag_name)
         for child_element in self.findall(element, "STREAM-FILTERS/*"):

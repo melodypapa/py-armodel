@@ -11,9 +11,6 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    SwitchFlowMeteringEntry,
-)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -21,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementSwitchDetails,
     CouplingPort,
     SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
@@ -714,3 +712,86 @@ class TestReadSwitchStreamGateEntry:
         stream_gate = coupling_element.getCouplingElementDetails().getStreamGates()[0]
         assert stream_gate.getShortName() == "Gate1"
         assert stream_gate.getInternalPriorityValue() is None
+
+
+class TestReadSwitchFlowMeteringEntry:
+    """Test readSwitchFlowMeteringEntry (SwitchFlowMeteringEntry, Table 3.98, p.143):
+    the six XSD group children of SWITCH-FLOW-METERING-ENTRY after the identifiable levels —
+    COLOR-MODE, COMMITTED-BURST-SIZE, COMMITTED-INFORMATION-RATE, COUPLING-FLAG,
+    EXCESS-BURST-SIZE, EXCESS-INFORMATION-RATE (XSD group SWITCH-FLOW-METERING-ENTRY). The reader dispatch of
+    readCouplingElementSwitchDetails for the SWITCH-FLOW-METERING-ENTRY item calls this level."""
+
+    def test_read_all_members(self, parser):
+        """Every XSD group child populates its model field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <FLOW-METERINGS>
+                            <SWITCH-FLOW-METERING-ENTRY>
+                                <SHORT-NAME>Metering1</SHORT-NAME>
+                                <COLOR-MODE>COLOR-AWARE</COLOR-MODE>
+                                <COMMITTED-BURST-SIZE>1000</COMMITTED-BURST-SIZE>
+                                <COMMITTED-INFORMATION-RATE>2000</COMMITTED-INFORMATION-RATE>
+                                <COUPLING-FLAG>true</COUPLING-FLAG>
+                                <EXCESS-BURST-SIZE>3000</EXCESS-BURST-SIZE>
+                                <EXCESS-INFORMATION-RATE>4000</EXCESS-INFORMATION-RATE>
+                            </SWITCH-FLOW-METERING-ENTRY>
+                        </FLOW-METERINGS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        flow_meterings = coupling_element.getCouplingElementDetails().getFlowMeterings()
+        assert len(flow_meterings) == 1
+        flow_metering = flow_meterings[0]
+        assert isinstance(flow_metering, SwitchFlowMeteringEntry)
+        assert flow_metering.getShortName() == "Metering1"
+        assert flow_metering.getColorMode() is not None
+        assert flow_metering.getColorMode().getValue() == "COLOR-AWARE"
+        assert flow_metering.getCommittedBurstSize() is not None
+        assert flow_metering.getCommittedBurstSize().getValue() == 1000
+        assert flow_metering.getCommittedInformationRate() is not None
+        assert flow_metering.getCommittedInformationRate().getValue() == 2000
+        assert flow_metering.getCouplingFlag() is not None
+        assert flow_metering.getCouplingFlag().getValue() is True
+        assert flow_metering.getExcessBurstSize() is not None
+        assert flow_metering.getExcessBurstSize().getValue() == 3000
+        assert flow_metering.getExcessInformationRate() is not None
+        assert flow_metering.getExcessInformationRate().getValue() == 4000
+
+    def test_read_absent_optional_members(self, parser):
+        """A bare SWITCH-FLOW-METERING-ENTRY item leaves all fields unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <FLOW-METERINGS>
+                            <SWITCH-FLOW-METERING-ENTRY>
+                                <SHORT-NAME>Metering1</SHORT-NAME>
+                            </SWITCH-FLOW-METERING-ENTRY>
+                        </FLOW-METERINGS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        flow_metering = coupling_element.getCouplingElementDetails().getFlowMeterings()[0]
+        assert flow_metering.getShortName() == "Metering1"
+        assert flow_metering.getColorMode() is None
+        assert flow_metering.getCommittedBurstSize() is None
+        assert flow_metering.getCommittedInformationRate() is None
+        assert flow_metering.getCouplingFlag() is None
+        assert flow_metering.getExcessBurstSize() is None
+        assert flow_metering.getExcessInformationRate() is None

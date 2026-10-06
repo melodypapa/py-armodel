@@ -8,13 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Describable,
     Identifiable,
     Referrable,
-    SwitchFlowMeteringEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    FlowMeteringColorModeEnum,
     Integer,
     Ip4AddressString,
     Ip6AddressString,
@@ -530,6 +530,146 @@ class SwitchStreamGateEntry(Identifiable):
         """
         if value is not None:
             self.internalPriorityValue = value
+        return self
+
+
+class SwitchFlowMeteringEntry(Identifiable):
+    """
+    Defines a Flow Metering Entry for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchFlowMeteringEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.98, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getColorMode                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColorMode                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedBurstSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommittedInformationRate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedInformationRate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingFlag              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingFlag              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExcessBurstSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExcessBurstSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExcessInformationRate     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExcessInformationRate     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+        self.colorMode: Optional[FlowMeteringColorModeEnum] = None
+
+        # Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+        self.committedBurstSize: Optional[PositiveInteger] = None
+
+        # Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+        self.committedInformationRate: Optional[PositiveInteger] = None
+
+        # Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+        self.couplingFlag: Optional[Boolean] = None
+
+        # Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+        self.excessBurstSize: Optional[PositiveInteger] = None
+
+        # Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+        self.excessInformationRate: Optional[PositiveInteger] = None
+
+    def getColorMode(self) -> Optional[FlowMeteringColorModeEnum]:
+        """
+        Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+        """
+        return self.colorMode
+
+    def setColorMode(self, value: Optional[FlowMeteringColorModeEnum]) -> SwitchFlowMeteringEntry:
+        """
+        Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing colorMode.
+        """
+        if value is not None:
+            self.colorMode = value
+        return self
+
+    def getCommittedBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+        """
+        return self.committedBurstSize
+
+    def setCommittedBurstSize(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing committedBurstSize.
+        """
+        if value is not None:
+            self.committedBurstSize = value
+        return self
+
+    def getCommittedInformationRate(self) -> Optional[PositiveInteger]:
+        """
+        Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+        """
+        return self.committedInformationRate
+
+    def setCommittedInformationRate(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing committedInformationRate.
+        """
+        if value is not None:
+            self.committedInformationRate = value
+        return self
+
+    def getCouplingFlag(self) -> Optional[Boolean]:
+        """
+        Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+        """
+        return self.couplingFlag
+
+    def setCouplingFlag(self, value: Optional[Boolean]) -> SwitchFlowMeteringEntry:
+        """
+        Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing couplingFlag.
+        """
+        if value is not None:
+            self.couplingFlag = value
+        return self
+
+    def getExcessBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+        """
+        return self.excessBurstSize
+
+    def setExcessBurstSize(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing excessBurstSize.
+        """
+        if value is not None:
+            self.excessBurstSize = value
+        return self
+
+    def getExcessInformationRate(self) -> Optional[PositiveInteger]:
+        """
+        Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+        """
+        return self.excessInformationRate
+
+    def setExcessInformationRate(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing excessInformationRate.
+        """
+        if value is not None:
+            self.excessInformationRate = value
         return self
 
 

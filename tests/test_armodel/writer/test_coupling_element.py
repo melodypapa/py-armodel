@@ -13,7 +13,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, FlowMeteringColorModeEnum, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
@@ -753,3 +753,108 @@ class TestSwitchStreamGateEntryRoundTrip:
         reloaded_gate = reloaded.getCouplingElementDetails().getStreamGates()[0]
         assert reloaded_gate.getShortName() == "Gate1"
         assert reloaded_gate.getInternalPriorityValue() is None
+
+
+class _ColorModeTestDouble(FlowMeteringColorModeEnum):
+    def __init__(self):
+        super().__init__(["COLOR-AWARE", "COLOR-BLIND"])
+
+
+class TestSwitchFlowMeteringEntryRoundTrip:
+    """SwitchFlowMeteringEntry (Table 3.98, p.143) — the SWITCH-FLOW-METERING-ENTRY
+    item of COUPLING-ELEMENT-SWITCH-DETAILS round-trips its six XSD group children after the identifiable levels
+    (XSD group SWITCH-FLOW-METERING-ENTRY). XML child order per XSD sequence: SHORT-NAME
+    (identifiable levels), then COLOR-MODE, COMMITTED-BURST-SIZE, COMMITTED-INFORMATION-RATE,
+    COUPLING-FLAG, EXCESS-BURST-SIZE, EXCESS-INFORMATION-RATE."""
+
+    GROUP_XSD_ORDER = [
+        "COLOR-MODE",
+        "COMMITTED-BURST-SIZE",
+        "COMMITTED-INFORMATION-RATE",
+        "COUPLING-FLAG",
+        "EXCESS-BURST-SIZE",
+        "EXCESS-INFORMATION-RATE",
+    ]
+
+    def _coupling_element_with_full_flow_metering(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        flow_metering = details.createFlowMetering("Metering1")
+        flow_metering.setColorMode(_ColorModeTestDouble().setValue("COLOR-AWARE"))
+        flow_metering.setCommittedBurstSize(PositiveInteger().setValue("1000"))
+        flow_metering.setCommittedInformationRate(PositiveInteger().setValue("2000"))
+        flow_metering.setCouplingFlag(Boolean().setValue(True))
+        flow_metering.setExcessBurstSize(PositiveInteger().setValue("3000"))
+        flow_metering.setExcessInformationRate(PositiveInteger().setValue("4000"))
+        return coupling_element, details, flow_metering
+
+    def _switch_details_element(self, coupling_element):
+        parent = _write_coupling_element(coupling_element)
+        return parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+    def test_writes_children_in_xsd_order(self):
+        coupling_element, _, _ = self._coupling_element_with_full_flow_metering()
+
+        flow_metering_element = self._switch_details_element(coupling_element).find("FLOW-METERINGS/SWITCH-FLOW-METERING-ENTRY")
+
+        children = [child.tag for child in flow_metering_element]
+        assert children == ["SHORT-NAME"] + self.GROUP_XSD_ORDER
+
+    def test_writes_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_flow_metering()
+
+        flow_metering_element = self._switch_details_element(coupling_element).find("FLOW-METERINGS/SWITCH-FLOW-METERING-ENTRY")
+
+        assert flow_metering_element.find("SHORT-NAME").text == "Metering1"
+        assert flow_metering_element.find("COLOR-MODE").text == "COLOR-AWARE"
+        assert flow_metering_element.find("COMMITTED-BURST-SIZE").text == "1000"
+        assert flow_metering_element.find("COMMITTED-INFORMATION-RATE").text == "2000"
+        assert flow_metering_element.find("COUPLING-FLAG").text == "true"
+        assert flow_metering_element.find("EXCESS-BURST-SIZE").text == "3000"
+        assert flow_metering_element.find("EXCESS-INFORMATION-RATE").text == "4000"
+
+    def test_bare_flow_metering_emits_no_children(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createFlowMetering("Metering1")
+
+        flow_metering_element = self._switch_details_element(coupling_element).find("FLOW-METERINGS/SWITCH-FLOW-METERING-ENTRY")
+
+        assert flow_metering_element.find("SHORT-NAME").text == "Metering1"
+        for tag in self.GROUP_XSD_ORDER:
+            assert flow_metering_element.find(tag) is None, tag
+
+    def test_round_trip_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_flow_metering()
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_metering = reloaded.getCouplingElementDetails().getFlowMeterings()[0]
+        assert reloaded_metering.getShortName() == "Metering1"
+        assert reloaded_metering.getColorMode() is not None
+        assert reloaded_metering.getColorMode().getValue() == "COLOR-AWARE"
+        assert reloaded_metering.getCommittedBurstSize().getValue() == 1000
+        assert reloaded_metering.getCommittedInformationRate().getValue() == 2000
+        assert reloaded_metering.getCouplingFlag().getValue() is True
+        assert reloaded_metering.getExcessBurstSize().getValue() == 3000
+        assert reloaded_metering.getExcessInformationRate().getValue() == 4000
+
+    def test_round_trip_bare_flow_metering(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createFlowMetering("Metering1")
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_metering = reloaded.getCouplingElementDetails().getFlowMeterings()[0]
+        assert reloaded_metering.getShortName() == "Metering1"
+        assert reloaded_metering.getColorMode() is None
+        assert reloaded_metering.getCommittedBurstSize() is None
+        assert reloaded_metering.getCommittedInformationRate() is None
+        assert reloaded_metering.getCouplingFlag() is None
+        assert reloaded_metering.getExcessBurstSize() is None
+        assert reloaded_metering.getExcessInformationRate() is None
