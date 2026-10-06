@@ -915,6 +915,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     OsTaskProxy,
     RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemSeparation,
     RteEventInSystemToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -13134,6 +13135,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
         self.setRteEventInSystemInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
 
+    def writeRteEventInSystemSeparation(self, element: ET.Element, separation: RteEventInSystemSeparation):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-SYSTEM-SEPARATION")
+        self.writeIdentifiable(child_element, separation)
+        irefs = separation.getRteEventIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "RTE-EVENT-IREFS")
+            for iref in irefs:
+                self.setRteEventInSystemInstanceRef(irefs_tag, "RTE-EVENT-IREF", iref)
+
+    def writeSystemMappingRteEventSeparations(self, element: ET.Element, mapping: SystemMapping):
+        separations = mapping.getRteEventSeparations()
+        if len(separations) > 0:
+            separations_tag = ET.SubElement(element, "RTE-EVENT-SEPARATIONS")
+            for separation in separations:
+                self.writeRteEventInSystemSeparation(separations_tag, separation)
+
     def writeSystemMappingRteEventToOsTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         rte_event_mappings = mapping.getRteEventToOsTaskProxyMappings()
         if len(rte_event_mappings) > 0:
@@ -13477,6 +13494,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)

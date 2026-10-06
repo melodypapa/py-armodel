@@ -277,6 +277,41 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
         return self
 
 
+class RteEventInSystemSeparation(Identifiable):
+    """
+    This meta-class is used to define a separation constraint in the context of the System. The referenced RteEvents are not allowed to be mapped into the same OsTask.
+    """
+
+    # RteEventInSystemSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.21, p.214
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRteEventIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+        self.rteEventIRefs: List[RteEventInSystemInstanceRef] = []
+
+    def addRteEventIRef(self, value: Optional[RteEventInSystemInstanceRef]) -> "RteEventInSystemSeparation":
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.rteEventIRefs.append(value)
+        return self
+
+    def getRteEventIRefs(self) -> List[RteEventInSystemInstanceRef]:
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInSystem InstanceRef
+        """
+        return self.rteEventIRefs
+
+
 class OsTaskPreemptabilityEnum(AREnum):
     """
     Enumeration that defines the possible preemptability values for OsTask.
