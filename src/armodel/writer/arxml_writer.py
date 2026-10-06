@@ -976,6 +976,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIpv4Address,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
@@ -12052,7 +12053,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             destination_ipv4_address = rule.getDestinationIpv4Address()
             if destination_ipv4_address is not None:
                 destination_ipv4_address_element = ET.SubElement(element, "DESTINATION-IPV-4-ADDRESS")
-                self.writeARObject(destination_ipv4_address_element, destination_ipv4_address)
+                self.writeStreamFilterIpv4Address(destination_ipv4_address_element, destination_ipv4_address)
             destination_ipv6_address = rule.getDestinationIpv6Address()
             if destination_ipv6_address is not None:
                 destination_ipv6_address_element = ET.SubElement(element, "DESTINATION-IPV-6-ADDRESS")
@@ -12066,7 +12067,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             source_ipv4_address = rule.getSourceIpv4Address()
             if source_ipv4_address is not None:
                 source_ipv4_address_element = ET.SubElement(element, "SOURCE-IPV-4-ADDRESS")
-                self.writeARObject(source_ipv4_address_element, source_ipv4_address)
+                self.writeStreamFilterIpv4Address(source_ipv4_address_element, source_ipv4_address)
             source_ipv6_address = rule.getSourceIpv6Address()
             if source_ipv6_address is not None:
                 source_ipv6_address_element = ET.SubElement(element, "SOURCE-IPV-6-ADDRESS")
@@ -12077,6 +12078,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for port_range in source_ports:
                     port_range_element = ET.SubElement(source_ports_element, "STREAM-FILTER-PORT-RANGE")
                     self.writeARObject(port_range_element, port_range)
+
+    def writeStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: Optional[StreamFilterIpv4Address]):
+        if ipv4_address is not None:
+            self.writeARObject(element, ipv4_address)
+            self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS", ipv4_address.getIpv4Address())
+            self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK", ipv4_address.getIpv4AddressMask())
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)

@@ -18,7 +18,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
-    StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
@@ -944,6 +943,62 @@ class StreamFilterRuleIpTp(ARObject):
         Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
         """
         return self.sourcePorts
+
+
+class StreamFilterIpv4Address(ARObject):
+    """
+    IPv4 address range definition. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIpv4Address method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.89, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv4Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4AddressMask   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4AddressMask   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+        self.ipv4Address: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+        self.ipv4AddressMask: Optional[Ip4AddressString] = None
+
+    def getIpv4Address(self) -> Optional[Ip4AddressString]:
+        """
+        Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+        """
+        return self.ipv4Address
+
+    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> StreamFilterIpv4Address:
+        """
+        Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv4Address.
+        """
+        if value is not None:
+            self.ipv4Address = value
+        return self
+
+    def getIpv4AddressMask(self) -> Optional[Ip4AddressString]:
+        """
+        Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.ipv4AddressMask
+
+    def setIpv4AddressMask(self, value: Optional[Ip4AddressString]) -> StreamFilterIpv4Address:
+        """
+        Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv4AddressMask.
+        """
+        if value is not None:
+            self.ipv4AddressMask = value
+        return self
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

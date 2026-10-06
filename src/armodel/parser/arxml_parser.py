@@ -578,7 +578,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     PhysicalDimensionMapping,
-    StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
@@ -1175,6 +1174,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     PlcaProps,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIpv4Address,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
@@ -11205,7 +11205,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "DESTINATION-IPV-4-ADDRESS")
         if child_element is not None:
             ipv4_address = StreamFilterIpv4Address()
-            self.readARObject(child_element, ipv4_address)
+            self.readStreamFilterIpv4Address(child_element, ipv4_address)
             rule.setDestinationIpv4Address(ipv4_address)
         child_element = self.find(element, "DESTINATION-IPV-6-ADDRESS")
         if child_element is not None:
@@ -11221,7 +11221,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "SOURCE-IPV-4-ADDRESS")
         if child_element is not None:
             ipv4_address = StreamFilterIpv4Address()
-            self.readARObject(child_element, ipv4_address)
+            self.readStreamFilterIpv4Address(child_element, ipv4_address)
             rule.setSourceIpv4Address(ipv4_address)
         child_element = self.find(element, "SOURCE-IPV-6-ADDRESS")
         if child_element is not None:
@@ -11234,6 +11234,19 @@ class ARXMLParser(AbstractARXMLParser):
                 port_range = StreamFilterPortRange()
                 self.readARObject(child_element, port_range)
                 rule.addSourcePort(port_range)
+
+    def readStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: StreamFilterIpv4Address):
+        self.readARObject(element, ipv4_address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
+        if child_element is not None:
+            address = Ip4AddressString()
+            address.setValue(child_element.getValue())
+            ipv4_address.setIpv4Address(address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK")
+        if child_element is not None:
+            address = Ip4AddressString()
+            address.setValue(child_element.getValue())
+            ipv4_address.setIpv4AddressMask(address)
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)

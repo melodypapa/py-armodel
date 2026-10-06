@@ -13,11 +13,13 @@ import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
-    StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import StreamFilterRuleIpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    StreamFilterIpv4Address,
+    StreamFilterRuleIpTp,
+)
 
 CLASS_NOTE = "Configuration of filter rules for IP and TP. Tags: atp.Status=candidate"
 
