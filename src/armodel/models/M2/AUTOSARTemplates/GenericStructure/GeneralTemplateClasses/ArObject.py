@@ -2538,10 +2538,6 @@ class PncMapping(ARObject):
     pass
 
 
-class RteEventInCompositionToOsTaskProxyMapping(ARObject):
-    pass
-
-
 class RteEventInSystemToOsTaskProxyMapping(ARObject):
     pass
 

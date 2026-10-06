@@ -1098,7 +1098,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskPreemptabilityEnum,
+    OsTaskProxy,
+    RteEventInCompositionToOsTaskProxyMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -1388,6 +1393,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
+    RteEventInCompositionInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
@@ -2649,6 +2655,17 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
                 instance_ref.addContextComponentRef(ref)
             instance_ref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
+        return instance_ref
+
+    def getRteEventInCompositionInstanceRef(self, element: ET.Element) -> Optional[RteEventInCompositionInstanceRef]:
+        instance_ref = None
+        if element is not None:
+            instance_ref = RteEventInCompositionInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-REF"):
+                instance_ref.addContextSwComponentRef(ref)
+            instance_ref.setTargetRteEventRef(self.getChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF"))
         return instance_ref
 
     def getOperationInSystemInstanceRef(self, element: ET.Element) -> OperationInSystemInstanceRef:
@@ -16267,6 +16284,14 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setAppTaskProxyRef(self.getChildElementOptionalRefType(element, "APP-TASK-PROXY-REF"))
         mapping.setEcuTaskProxyRef(self.getChildElementOptionalRefType(element, "ECU-TASK-PROXY-REF"))
         mapping.setOffset(self.getChildElementOptionalIntegerValue(element, "OFFSET"))
+
+    def readRteEventInCompositionToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInCompositionToOsTaskProxyMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
+        mapping.setOsTaskProxyRef(self.getChildElementOptionalRefType(element, "OS-TASK-PROXY-REF"))
+        child_element = self.find(element, "RTE-EVENT-IREF")
+        if child_element is not None:
+            mapping.setRteEventIRef(self.getRteEventInCompositionInstanceRef(child_element))
 
     def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):

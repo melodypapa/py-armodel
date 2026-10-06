@@ -2922,10 +2922,10 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping",
         "RteEventInCompositionToOsTaskProxyMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping",
+        "Identifiable",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",

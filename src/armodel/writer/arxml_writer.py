@@ -910,7 +910,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy, RteEventInCompositionToOsTaskProxyMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -1150,6 +1150,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
+    RteEventInCompositionInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
@@ -5044,6 +5045,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             for component_ref in ref.getContextComponentRefs():
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-COMPONENT-REF", ref.getTargetComponentRef())
+
+    def setRteEventInCompositionInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[RteEventInCompositionInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            for component_ref in ref.getContextSwComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RTE-EVENT-REF", ref.getTargetRteEventRef())
 
     def setOperationInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[OperationInSystemInstanceRef]):
         if ref is not None:
@@ -13083,6 +13093,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "APP-TASK-PROXY-REF", mapping.getAppTaskProxyRef())
         self.setChildElementOptionalRefType(child_element, "ECU-TASK-PROXY-REF", mapping.getEcuTaskProxyRef())
         self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+
+    def writeRteEventInCompositionToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInCompositionToOsTaskProxyMapping):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-COMPOSITION-TO-OS-TASK-PROXY-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", mapping.getOffset())
+        self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
+        self.setRteEventInCompositionInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
 
     def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()

@@ -5,7 +5,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskPreemptabilityEnum, OsTaskProxy
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskPreemptabilityEnum,
+    OsTaskProxy,
+    RteEventInCompositionToOsTaskProxyMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
@@ -922,6 +927,7 @@ __all__ = [
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
+    "RteEventInCompositionToOsTaskProxyMapping",
     "ARObject",
     "AtpPrototype",
     "AtpStructureElement",
