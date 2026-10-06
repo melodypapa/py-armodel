@@ -152,25 +152,25 @@ class TestWriteDiagnosticMemoryDestinationPrimary:
             assert primary_2 is not None
             assert primary_2.getShortName() == "MemoryDestinationPrimary1"
             assert primary_2.getTypeOfDtcSupported() is not None
-            assert primary_2.getTypeOfDtcSupported().getValue() == "iso14229_1"
+            assert primary_2.getTypeOfDtcSupported().getValue() == DiagnosticTypeOfDtcSupportedEnum.ISO14229_1
             assert primary_2.getAgingRequiresTestedCycle() is not None
             assert primary_2.getAgingRequiresTestedCycle().value is True
             assert primary_2.getClearDtcLimitation() is not None
-            assert primary_2.getClearDtcLimitation().getValue() == "clearAllDtcs"
+            assert primary_2.getClearDtcLimitation().getValue() == DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS
             assert primary_2.getDtcStatusAvailabilityMask() is not None
             assert primary_2.getDtcStatusAvailabilityMask().getValue() == 255
             assert primary_2.getEventDisplacementStrategy() is not None
-            assert primary_2.getEventDisplacementStrategy().getValue() == "full"
+            assert primary_2.getEventDisplacementStrategy().getValue() == "FULL"
             assert primary_2.getMaxNumberOfEventEntries() is not None
             assert primary_2.getMaxNumberOfEventEntries().getValue() == 10
             assert primary_2.getMemoryEntryStorageTrigger() is not None
-            assert primary_2.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+            assert primary_2.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
             assert primary_2.getStatusBitHandlingTestFailedSinceLastClear() is not None
-            assert primary_2.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+            assert primary_2.getStatusBitHandlingTestFailedSinceLastClear().getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL
             assert primary_2.getStatusBitStorageTestFailed() is not None
             assert primary_2.getStatusBitStorageTestFailed().value is False
             assert primary_2.getTypeOfFreezeFrameRecordNumeration() is not None
-            assert primary_2.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
+            assert primary_2.getTypeOfFreezeFrameRecordNumeration().getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

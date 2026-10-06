@@ -334,7 +334,7 @@ class TestSwcModeSwitchEvent:
         activation = ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY)
         assert event.setActivation(activation) is event
         assert event.getActivation() == activation
-        assert event.getActivation().getValue() == "onEntry"
+        assert event.getActivation().getValue() == ModeActivationKind.ON_ENTRY
 
         event.setActivation(None)
         assert event.getActivation() == activation

@@ -43,7 +43,7 @@ class TestReadEcucDefinitionElement:
             "<LOWER-MULTIPLICITY>1</LOWER-MULTIPLICITY>"
             "<UPPER-MULTIPLICITY>4</UPPER-MULTIPLICITY>"
             "<UPPER-MULTIPLICITY-INFINITE>true</UPPER-MULTIPLICITY-INFINITE>"
-            "<SCOPE>local</SCOPE>"
+            "<SCOPE>LOCAL</SCOPE>"
         )
         parser.readEcucDefinitionElement(element, holder)
         assert holder.getShortName() == "Holder"
@@ -54,7 +54,7 @@ class TestReadEcucDefinitionElement:
         assert holder.getUpperMultiplicity().getValue() == 4
         assert holder.getUpperMultiplicityInfinite().getValue() is True
         assert holder.getScope() is not None
-        assert holder.getScope().getValue() == "local"
+        assert holder.getScope().getValue() == "LOCAL"
 
     def test_read_empty(self, parser):
         holder = _Concrete(AUTOSAR.getInstance(), "Holder")

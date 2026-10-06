@@ -33,15 +33,15 @@ class TestFlexrayNmClusterCoupling:
 
 class TestFlexrayNmScheduleVariant:
     def test_members_and_values(self):
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_1 == "scheduleVariant1"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_2 == "scheduleVariant2"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_3 == "scheduleVariant3"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_4 == "scheduleVariant4"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_5 == "scheduleVariant5"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_6 == "scheduleVariant6"
-        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_7 == "scheduleVariant7"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_1 == "SCHEDULE-VARIANT-1"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_2 == "SCHEDULE-VARIANT-2"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_3 == "SCHEDULE-VARIANT-3"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_4 == "SCHEDULE-VARIANT-4"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_5 == "SCHEDULE-VARIANT-5"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_6 == "SCHEDULE-VARIANT-6"
+        assert FlexrayNmScheduleVariant.SCHEDULE_VARIANT_7 == "SCHEDULE-VARIANT-7"
 
     def test_instantiable(self):
         enum = FlexrayNmScheduleVariant()
         enum.setValue(FlexrayNmScheduleVariant.SCHEDULE_VARIANT_7)
-        assert enum.getValue() == "scheduleVariant7"
+        assert enum.getValue() == FlexrayNmScheduleVariant.SCHEDULE_VARIANT_7

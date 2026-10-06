@@ -74,7 +74,7 @@ class TestSenderReceiverAnnotation:
 
         assert annotation == annotation.setLimitKind(value)
         assert annotation.getLimitKind() is value
-        assert annotation.getLimitKind().getValue() == "max"
+        assert annotation.getLimitKind().getValue() == DataLimitKindEnum.MAX
 
         annotation.setLimitKind(None)
         assert annotation.getLimitKind() is value
@@ -88,7 +88,7 @@ class TestSenderReceiverAnnotation:
 
         assert annotation == annotation.setProcessingKind(value)
         assert annotation.getProcessingKind() is value
-        assert annotation.getProcessingKind().getValue() == "filtered"
+        assert annotation.getProcessingKind().getValue() == ProcessingKindEnum.FILTERED
 
         annotation.setProcessingKind(None)
         assert annotation.getProcessingKind() is value

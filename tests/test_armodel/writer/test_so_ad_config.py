@@ -53,7 +53,7 @@ def parser():
 
 def _connection():
     connection = SocketConnection()
-    connection.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue("sd"))
+    connection.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue(RuntimeAddressConfigurationEnum.SD))
     connection.setShortLabel(Identifier().setValue("label"))
     return connection
 
@@ -108,7 +108,7 @@ class TestSoAdConfigRoundTrip:
         assert len(connections) == 1
         connection = connections[0]
         assert isinstance(connection, SocketConnection)
-        assert connection.getRuntimePortConfiguration().getValue() == "sd"
+        assert connection.getRuntimePortConfiguration().getValue() == RuntimeAddressConfigurationEnum.SD
         assert connection.getShortLabel().getValue() == "label"
 
     def test_write_all_fields(self, writer):
@@ -121,7 +121,7 @@ class TestSoAdConfigRoundTrip:
 
         node = parent.find("SO-AD-CONFIG")
         assert node.find("CONNECTIONS/SOCKET-CONNECTION") is not None
-        assert node.find("CONNECTIONS/SOCKET-CONNECTION/RUNTIME-PORT-CONFIGURATION").text == "sd"
+        assert node.find("CONNECTIONS/SOCKET-CONNECTION/RUNTIME-PORT-CONFIGURATION").text == "SD"
         assert node.find("CONNECTIONS/SOCKET-CONNECTION/SHORT-LABEL").text == "label"
         assert node.find("CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE/SHORT-NAME").text == "Bundle1"
         assert node.find("SOCKET-ADDRESSS/SOCKET-ADDRESS/SHORT-NAME").text == "SA1"
@@ -139,8 +139,8 @@ class TestSoAdConfigRoundTrip:
         timeout = TimeValue()
         timeout.setValue(0.5)
         connection.setPduCollectionTimeout(timeout)
-        connection.setRuntimeIpAddressConfiguration(RuntimeAddressConfigurationEnum().setValue("none"))
-        connection.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue("sd"))
+        connection.setRuntimeIpAddressConfiguration(RuntimeAddressConfigurationEnum().setValue("NONE"))
+        connection.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue(RuntimeAddressConfigurationEnum.SD))
         connection.setShortLabel(Identifier().setValue("Conn1"))
         config.addConnection(connection)
 
@@ -160,8 +160,8 @@ class TestSoAdConfigRoundTrip:
         assert int(pdus[0].getHeaderId().getValue()) == 4660
         assert int(re_connection.getPduCollectionMaxBufferSize().getValue()) == 1024
         assert float(re_connection.getPduCollectionTimeout().getValue()) == 0.5
-        assert re_connection.getRuntimeIpAddressConfiguration().getValue() == "none"
-        assert re_connection.getRuntimePortConfiguration().getValue() == "sd"
+        assert re_connection.getRuntimeIpAddressConfiguration().getValue() == "NONE"
+        assert re_connection.getRuntimePortConfiguration().getValue() == RuntimeAddressConfigurationEnum.SD
         assert re_connection.getShortLabel().getValue() == "Conn1"
 
     def test_round_trip_bundle_and_pdus(self, writer, parser):
@@ -178,8 +178,8 @@ class TestSoAdConfigRoundTrip:
         timeout = TimeValue()
         timeout.setValue(10.0)
         identifier.setPduCollectionPduTimeout(timeout)
-        identifier.setPduCollectionSemantics(_literal("queued"))
-        identifier.setPduCollectionTrigger(_literal("always"))
+        identifier.setPduCollectionSemantics(_literal("QUEUED"))
+        identifier.setPduCollectionTrigger(_literal("ALWAYS"))
         identifier.setPduTriggeringRef(_ref("/IT/FrTrigger"))
         identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup1"))
         identifier.addRoutingGroupRef(_ref("/Pkg/SoAdRoutingGroup2"))
@@ -201,7 +201,7 @@ class TestSoAdConfigRoundTrip:
         assert len(bundled) == 1
         re_connection = bundled[0]
         assert isinstance(re_connection, SocketConnection)
-        assert re_connection.getRuntimePortConfiguration().getValue() == "sd"
+        assert re_connection.getRuntimePortConfiguration().getValue() == RuntimeAddressConfigurationEnum.SD
         assert re_connection.getShortLabel().getValue() == "label"
 
         pdus = re_bundle.getPdus()
@@ -210,8 +210,8 @@ class TestSoAdConfigRoundTrip:
         assert isinstance(re_identifier, SocketConnectionIpduIdentifier)
         assert int(re_identifier.getHeaderId().getValue()) == 4660
         assert float(re_identifier.getPduCollectionPduTimeout().getValue()) == 10.0
-        assert re_identifier.getPduCollectionSemantics().getValue() == "queued"
-        assert re_identifier.getPduCollectionTrigger().getValue() == "always"
+        assert re_identifier.getPduCollectionSemantics().getValue() == "QUEUED"
+        assert re_identifier.getPduCollectionTrigger().getValue() == "ALWAYS"
         assert re_identifier.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
         refs = re_identifier.getRoutingGroupRefs()
         assert [ref.getValue() for ref in refs] == ["/Pkg/SoAdRoutingGroup1", "/Pkg/SoAdRoutingGroup2"]

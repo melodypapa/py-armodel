@@ -41,7 +41,7 @@ class TestReadEcucContainerDef:
             "</DESTINATION-URI-REFS>"
             "<MULTIPLICITY-CONFIG-CLASSES>"
             "<ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
-            "<CONFIG-CLASS>PostBuild</CONFIG-CLASS>"
+            "<CONFIG-CLASS>POST-BUILD</CONFIG-CLASS>"
             "<CONFIG-VARIANT>VARIANT-POST-BUILD</CONFIG-VARIANT>"
             "</ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
             "</MULTIPLICITY-CONFIG-CLASSES>"
@@ -56,7 +56,7 @@ class TestReadEcucContainerDef:
         assert uri_refs[0].getDest() == "ECUC-DESTINATION-URI-DEF"
         cfg_classes = holder.getMultiplicityConfigClasses()
         assert len(cfg_classes) == 1
-        assert cfg_classes[0].getConfigClass().getValue() == "PostBuild"
+        assert cfg_classes[0].getConfigClass().getValue() == "POST-BUILD"
         assert cfg_classes[0].getConfigVariant().getValue() == "VARIANT-POST-BUILD"
         assert holder.getOrigin().getValue() == "VENDOR"
         assert holder.getPostBuildVariantMultiplicity().getValue() is True

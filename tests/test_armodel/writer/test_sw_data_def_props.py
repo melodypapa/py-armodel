@@ -104,7 +104,7 @@ def _ref(dest, value):
 
 def _build_props():
     props = SwDataDefProps()
-    props.setAdditionalNativeTypeQualifier(NativeDeclarationString().setValue("volatile"))
+    props.setAdditionalNativeTypeQualifier(NativeDeclarationString().setValue("VOLATILE"))
     annotation = Annotation()
     annotation.setAnnotationOrigin(String().setValue("sync-test"))
     props.addAnnotation(annotation)
@@ -222,13 +222,13 @@ class TestWriteSwDataDefProps:
         data_type = AUTOSAR.getInstance().getARPackages()[0].getImplementationDataTypes()[0]
         props = data_type.getSwDataDefProps()
         assert props is not None
-        assert props.getAdditionalNativeTypeQualifier().getValue() == "volatile"
+        assert props.getAdditionalNativeTypeQualifier().getValue() == "VOLATILE"
         assert props.getDisplayFormat().getValue() == "%5.2f"
-        assert props.getDisplayPresentation().getValue() == "presentationContinuous"
+        assert props.getDisplayPresentation().getValue() == DisplayPresentationEnum.PRESENTATION_CONTINUOUS
         assert props.getStepSize().getValue() == 0.5
         assert props.getSwAlignment().getValue() == "8"
-        assert props.getSwCalibrationAccess().getValue() == "readWrite"
-        assert props.getSwImplPolicy().getValue() == "standard"
+        assert props.getSwCalibrationAccess().getValue() == "READ-WRITE"
+        assert props.getSwImplPolicy().getValue() == "STANDARD"
         assert props.getSwInterpolationMethod().getValue() == "linear"
         assert props.getSwIsVirtual().getValue() is True
         assert props.getSwIntendedResolution().getValue() == 0.01

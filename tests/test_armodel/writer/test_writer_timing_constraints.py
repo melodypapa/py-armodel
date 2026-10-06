@@ -160,13 +160,13 @@ class TestWriteLatencyTimingConstraint:
         max_idx = list(element).index(element.find("MAXIMUM"))
         nom_idx = list(element).index(element.find("NOMINAL"))
         assert type_idx < scope_idx < min_idx < max_idx < nom_idx
-        assert element.find("LATENCY-CONSTRAINT-TYPE").text == "reaction"
+        assert element.find("LATENCY-CONSTRAINT-TYPE").text == "REACTION"
 
         reloaded = LatencyTimingConstraint(parent, "Latency1")
         ARXMLParser().readLatencyTimingConstraint(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Latency1"
         assert reloaded.getLatencyConstraintType() is not None
-        assert reloaded.getLatencyConstraintType().getValue() == "reaction"
+        assert reloaded.getLatencyConstraintType().getValue() == LatencyConstraintTypeEnum.REACTION
         assert reloaded.getMinimum().getCseCodeFactor().getValue() == 10
         assert reloaded.getMaximum().getCseCodeFactor().getValue() == 20
         assert reloaded.getNominal().getCseCodeFactor().getValue() == 15
@@ -313,8 +313,8 @@ class TestWriteSynchronizationTimingConstraint:
         sync_type_idx = list(element).index(element.find("SYNCHRONIZATION-CONSTRAINT-TYPE"))
         tolerance_idx = list(element).index(element.find("TOLERANCE"))
         assert kind_idx < scope_events_idx < scopes_idx < sync_type_idx < tolerance_idx
-        assert element.find("EVENT-OCCURRENCE-KIND").text == "singleOccurrence"
-        assert element.find("SYNCHRONIZATION-CONSTRAINT-TYPE").text == "responseSynchronization"
+        assert element.find("EVENT-OCCURRENCE-KIND").text == "SINGLE-OCCURRENCE"
+        assert element.find("SYNCHRONIZATION-CONSTRAINT-TYPE").text == "RESPONSE-SYNCHRONIZATION"
         scope_event_refs = element.findall("SCOPE-EVENT-REFS/SCOPE-EVENT-REF")
         assert len(scope_event_refs) == 3
         assert scope_event_refs[0].text == "/AUTOSAR/Evt1"
@@ -328,9 +328,9 @@ class TestWriteSynchronizationTimingConstraint:
         ARXMLParser().readSynchronizationTimingConstraint(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Sync1"
         assert reloaded.getEventOccurrenceKind() is not None
-        assert reloaded.getEventOccurrenceKind().getValue() == "singleOccurrence"
+        assert reloaded.getEventOccurrenceKind().getValue() == EventOccurrenceKindEnum.SINGLE_OCCURRENCE
         assert reloaded.getSynchronizationConstraintType() is not None
-        assert reloaded.getSynchronizationConstraintType().getValue() == "responseSynchronization"
+        assert reloaded.getSynchronizationConstraintType().getValue() == SynchronizationTypeEnum.RESPONSE_SYNCHRONIZATION
         events = reloaded.getScopeEvents()
         assert len(events) == 3
         assert events[0].getValue() == "/AUTOSAR/Evt1"
@@ -395,8 +395,8 @@ class TestWriteSynchronizationTimingConstraint:
         reloaded_guarantee = reloaded_guarantees[0]
         assert isinstance(reloaded_guarantee, SynchronizationTimingConstraint)
         assert reloaded_guarantee.getShortName() == "SyncGuarantee"
-        assert reloaded_guarantee.getEventOccurrenceKind().getValue() == "multipleOccurrences"
-        assert reloaded_guarantee.getSynchronizationConstraintType().getValue() == "stimulusSynchronization"
+        assert reloaded_guarantee.getEventOccurrenceKind().getValue() == EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES
+        assert reloaded_guarantee.getSynchronizationConstraintType().getValue() == SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION
         assert reloaded_guarantee.getScopeEvents()[0].getValue() == "/AUTOSAR/Evt1"
         assert reloaded_guarantee.getScopeEvents()[0].getDest() == "TIMING-DESCRIPTION-EVENT"
         assert reloaded_guarantee.getScopes()[0].getValue() == "/AUTOSAR/Chain1"
@@ -756,7 +756,7 @@ class TestWriteExecutionOrderConstraint:
         permit_idx = list(element).index(element.find("PERMIT-MULTIPLE-REFERENCES-TO-EE"))
         assert base_idx < type_idx < ignore_idx < is_event_idx < ordered_idx < permit_idx
         assert element.find("BASE-COMPOSITION-REF").text == "/AUTOSAR/Composition"
-        assert element.find("EXECUTION-ORDER-CONSTRAINT-TYPE").text == "hierarchicalEOC"
+        assert element.find("EXECUTION-ORDER-CONSTRAINT-TYPE").text == "HIERARCHICAL-EOC"
         assert element.find("IGNORE-ORDER-ALLOWED").text == "false"
         assert element.find("IS-EVENT").text == "true"
         ordered_children = list(element.find("ORDERED-ELEMENTS"))
@@ -768,7 +768,7 @@ class TestWriteExecutionOrderConstraint:
         assert reloaded.getShortName() == "Eoc1"
         assert reloaded.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
         assert reloaded.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
-        assert reloaded.getExecutionOrderConstraintType().getValue() == "hierarchicalEOC"
+        assert reloaded.getExecutionOrderConstraintType().getValue() == ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC
         assert reloaded.getIgnoreOrderAllowed().getText() == "false"
         assert reloaded.getIsEvent().getText() == "true"
         elements = reloaded.getOrderedElements()
@@ -802,7 +802,7 @@ class TestWriteExecutionOrderConstraint:
         assert reloaded.getShortName() == "Eoc1"
         assert reloaded.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
         assert reloaded.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
-        assert reloaded.getExecutionOrderConstraintType().getValue() == "repetitiveEOC"
+        assert reloaded.getExecutionOrderConstraintType().getValue() == ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC
         assert reloaded.getIgnoreOrderAllowed().getText() == "false"
         assert reloaded.getIsEvent().getText() == "false"
         assert reloaded.getPermitMultipleReferencesToEE().getText() == "true"
@@ -861,7 +861,7 @@ class TestWriteExecutionTimeConstraint:
         assert element.find("COMPONENT-IREF/CONTEXT-COMPONENT-REF").text == "/AUTOSAR/Comp/Ctx"
         assert element.find("COMPONENT-IREF/TARGET-COMPONENT-REF").text == "/AUTOSAR/Comp/SwComp"
         assert element.find("COMPONENT-IREF/TARGET-COMPONENT-REF").attrib["DEST"] == "SW-COMPONENT-PROTOTYPE"
-        assert element.find("EXECUTION-TIME-TYPE").text == "net"
+        assert element.find("EXECUTION-TIME-TYPE").text == "NET"
 
         reloaded = ExecutionTimeConstraint(parent, "ExecTime1")
         ARXMLParser().readExecutionTimeConstraint(_round_trip(element), reloaded)
@@ -872,7 +872,7 @@ class TestWriteExecutionTimeConstraint:
         assert reloaded.getExecutableRef().getValue() == "/AUTOSAR/Runnable1"
         assert reloaded.getExecutableRef().getDest() == "RUNNABLE-ENTITY"
         assert reloaded.getExecutionTimeType() is not None
-        assert reloaded.getExecutionTimeType().getValue() == "net"
+        assert reloaded.getExecutionTimeType().getValue() == ExecutionTimeTypeEnum.NET
         assert reloaded.getMaximum().getCseCodeFactor().getValue() == 100
         assert reloaded.getMinimum().getCseCodeFactor().getValue() == 20
 
@@ -1039,7 +1039,7 @@ class TestWriteSwcTiming:
         reloaded_requirements = reloaded.getTimingRequirements()
         assert len(reloaded_requirements) == 1
         assert isinstance(reloaded_requirements[0], ExecutionOrderConstraint)
-        assert reloaded_requirements[0].getExecutionOrderConstraintType().getValue() == "repetitiveEOC"
+        assert reloaded_requirements[0].getExecutionOrderConstraintType().getValue() == ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC
         reloaded_resource = reloaded.getTimingResource()
         assert reloaded_resource is not None
         assert len(reloaded_resource.getTimingModes()) == 1

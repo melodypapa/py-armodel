@@ -88,7 +88,7 @@ class Test_Fibex4EthernetCommunication:
 
         # Test runtime enum setters/getters
         ip_enum = RuntimeAddressConfigurationEnum()
-        ip_enum.setValue("sd")
+        ip_enum.setValue(RuntimeAddressConfigurationEnum.SD)
         result = connection.setRuntimeIpAddressConfiguration(ip_enum)
         assert connection.getRuntimeIpAddressConfiguration() is ip_enum
         assert result == connection
@@ -104,7 +104,7 @@ class Test_Fibex4EthernetCommunication:
 
         # Test runtimePortConfiguration setter/getter with enum value
         enum_value = RuntimeAddressConfigurationEnum()
-        enum_value.setValue("sd")
+        enum_value.setValue(RuntimeAddressConfigurationEnum.SD)
         result = connection.setRuntimePortConfiguration(enum_value)
         assert connection.getRuntimePortConfiguration() is enum_value
         assert result == connection
@@ -112,8 +112,8 @@ class Test_Fibex4EthernetCommunication:
         assert connection.getRuntimePortConfiguration() is enum_value  # None no-op
 
         # Test enum literal values from R4.3.1 Table 6.121
-        assert RuntimeAddressConfigurationEnum.NONE == "none"
-        assert RuntimeAddressConfigurationEnum.SD == "sd"
+        assert RuntimeAddressConfigurationEnum.NONE == "NONE"
+        assert RuntimeAddressConfigurationEnum.SD == "SD"
 
     def test_SocketConnectionIpduIdentifier(self):
         """Test SocketConnectionIpduIdentifier class functionality."""

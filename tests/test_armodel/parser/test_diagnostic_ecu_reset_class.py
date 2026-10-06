@@ -49,7 +49,7 @@ class TestReadDiagnosticEcuResetClass:
         respond_to_reset = ecu_reset_class.getRespondToReset()
         assert respond_to_reset is not None
         assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
-        assert respond_to_reset.getValue() == "respondAfterReset"
+        assert respond_to_reset.getValue() == DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET
 
     def test_read_respond_to_reset_before(self, parser):
         """Test that RESPOND-BEFORE-RESET is read as the respondBeforeReset literal."""
@@ -59,4 +59,4 @@ class TestReadDiagnosticEcuResetClass:
         respond_to_reset = ecu_reset_class.getRespondToReset()
         assert respond_to_reset is not None
         assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
-        assert respond_to_reset.getValue() == "respondBeforeReset"
+        assert respond_to_reset.getValue() == DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET

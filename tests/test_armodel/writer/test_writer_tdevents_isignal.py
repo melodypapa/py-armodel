@@ -39,7 +39,7 @@ class TestWriteTDEventISignal:
         assert "I-SIGNAL-REF" in out
         assert "PHYSICAL-CHANNEL-REF" in out
         assert "TD-EVENT-TYPE" in out
-        assert "iSignalAvailableForRte" in out
+        assert "I-SIGNAL-AVAILABLE-FOR-RTE" in out
 
     def test_round_trip(self):
         event = _build_event()
@@ -50,7 +50,7 @@ class TestWriteTDEventISignal:
         ARXMLParser().readTDEventISignal(reparsed, read_back)
         assert read_back.getISignalRef().getValue() == "/AUTOSAR/ISig"
         assert read_back.getPhysicalChannelRef().getValue() == "/AUTOSAR/Channel"
-        assert read_back.getTdEventType().value == "iSignalAvailableForRte"
+        assert read_back.getTdEventType().value == "I-SIGNAL-AVAILABLE-FOR-RTE"
         assert read_back.getEcuInstanceRef().getValue() == "/AUTOSAR/Ecu1"
 
     def test_write_minimal(self):

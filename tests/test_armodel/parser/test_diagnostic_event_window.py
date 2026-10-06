@@ -13,6 +13,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_event_w
 """
 
 from tests.test_armodel.parser._helpers import _snip
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticEventWindowTimeEnum
 
 
 class TestReadDiagnosticEventWindow:
@@ -30,13 +31,13 @@ class TestReadDiagnosticEventWindow:
         """Test that the EVENT-WINDOW-TIME enum token is read into eventWindowTime."""
         event_window = self._read(parser, "<EVENT-WINDOW-TIME>INFINITE-TIME-TO-RESPONSE</EVENT-WINDOW-TIME>")
         assert event_window.getEventWindowTime() is not None
-        assert event_window.getEventWindowTime().getValue() == "infiniteTimeToResponse"
+        assert event_window.getEventWindowTime().getValue() == DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE
 
     def test_read_power_window_time_token(self, parser):
         """Test that the POWER-WINDOW-TIME enum token is read into eventWindowTime."""
         event_window = self._read(parser, "<EVENT-WINDOW-TIME>POWER-WINDOW-TIME</EVENT-WINDOW-TIME>")
         assert event_window.getEventWindowTime() is not None
-        assert event_window.getEventWindowTime().getValue() == "powerWindowTime"
+        assert event_window.getEventWindowTime().getValue() == DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME
 
     def test_read_empty_wrapper(self, parser):
         """Test that an empty wrapper (no children) parses leaving all fields unset."""

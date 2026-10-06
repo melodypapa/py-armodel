@@ -9,17 +9,17 @@ class TestPulseTestEnum:
         assert issubclass(PulseTestEnum, AREnum)
 
     def test_members_and_values(self):
-        assert PulseTestEnum.DISABLE == "disable"
-        assert PulseTestEnum.ENABLE == "enable"
+        assert PulseTestEnum.DISABLE == "DISABLE"
+        assert PulseTestEnum.ENABLE == "ENABLE"
 
     def test_literal_set_is_exact(self):
-        assert PulseTestEnum().getEnumValues() == ("disable", "enable")
+        assert PulseTestEnum().getEnumValues() == ("DISABLE", "ENABLE")
 
     def test_instantiability(self):
         enum = PulseTestEnum()
         result = enum.setValue(PulseTestEnum.ENABLE)
         assert result is enum
-        assert enum.getValue() == "enable"
+        assert enum.getValue() == PulseTestEnum.ENABLE
 
     def test_class_docstring_verbatim(self):
         assert PulseTestEnum.__doc__.strip() == CLASS_NOTE

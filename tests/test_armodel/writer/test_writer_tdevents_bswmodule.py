@@ -44,7 +44,7 @@ class TestWriteTDEventBswModule:
         ARXMLWriter().writeTDEventBswModule(element, event)
         type_el = element.find("TD-EVENT-BSW-MODULE-TYPE")
         assert type_el is not None
-        assert type_el.text == "bswMEntryCallReturned"
+        assert type_el.text == "BSW-M-ENTRY-CALL-RETURNED"
 
     def test_write_empty(self):
         parent = self._parent()
@@ -68,4 +68,4 @@ class TestWriteTDEventBswModule:
         ARXMLParser().readTDEventBswModule(reparsed_el, reparsed)
         assert reparsed.getBswModuleEntryRef().getValue() == "/AUTOSAR/BswModuleEntry1"
         assert reparsed.getBswModuleEntryRef().getDest() == "BSW-MODULE-ENTRY"
-        assert reparsed.getTdEventBswModuleType().getValue() == "bswMEntryCalled"
+        assert reparsed.getTdEventBswModuleType().getValue() == TDEventBswModuleTypeEnum.BSW_M_ENTRY_CALLED

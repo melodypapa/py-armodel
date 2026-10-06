@@ -63,7 +63,7 @@ class TestReadDiagnosticExtendedDataRecord:
         record = self._read(parser, "<TRIGGER>CONFIRMED</TRIGGER>")
         assert record.getTrigger() is not None
         assert isinstance(record.getTrigger(), DiagnosticRecordTriggerEnum)
-        assert record.getTrigger().getValue() == "confirmed"
+        assert record.getTrigger().getValue() == "CONFIRMED"
 
     def test_read_sets_update(self, parser):
         """Test that UPDATE is read into update."""

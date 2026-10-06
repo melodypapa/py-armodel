@@ -32,8 +32,8 @@ class TestDltDefaultTraceStateEnum:
     def test_members(self):
         enum = DltDefaultTraceStateEnum()
         values = enum.getEnumValues()
-        assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_DISABLED == "DefaultTraceStateDisabled"
-        assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED == "DefaultTraceStateEnabled"
+        assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_DISABLED == "DEFAULT-TRACE-STATE-DISABLED"
+        assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED == "DEFAULT-TRACE-STATE-ENABLED"
         assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_DISABLED in values
         assert DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED in values
         assert len(values) == 2
@@ -51,7 +51,7 @@ class TestDltDefaultTraceStateEnum:
     def test_set_value_round_trip(self):
         enum = DltDefaultTraceStateEnum()
         assert enum == enum.setValue(DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED)
-        assert enum.getValue() == "DefaultTraceStateEnabled"
+        assert enum.getValue() == DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED
 
 
 class TestLogTraceDefaultLogLevelEnum:
@@ -65,13 +65,13 @@ class TestLogTraceDefaultLogLevelEnum:
     def test_members(self):
         enum = LogTraceDefaultLogLevelEnum()
         values = enum.getEnumValues()
-        assert LogTraceDefaultLogLevelEnum.DEBUG == "debug"
-        assert LogTraceDefaultLogLevelEnum.ERROR == "error"
-        assert LogTraceDefaultLogLevelEnum.FATAL == "fatal"
-        assert LogTraceDefaultLogLevelEnum.INFO == "info"
-        assert LogTraceDefaultLogLevelEnum.OFF == "off"
-        assert LogTraceDefaultLogLevelEnum.VERBOSE == "verbose"
-        assert LogTraceDefaultLogLevelEnum.WARN == "warn"
+        assert LogTraceDefaultLogLevelEnum.DEBUG == "DEBUG"
+        assert LogTraceDefaultLogLevelEnum.ERROR == "ERROR"
+        assert LogTraceDefaultLogLevelEnum.FATAL == "FATAL"
+        assert LogTraceDefaultLogLevelEnum.INFO == "INFO"
+        assert LogTraceDefaultLogLevelEnum.OFF == "OFF"
+        assert LogTraceDefaultLogLevelEnum.VERBOSE == "VERBOSE"
+        assert LogTraceDefaultLogLevelEnum.WARN == "WARN"
         for member in (
             LogTraceDefaultLogLevelEnum.DEBUG,
             LogTraceDefaultLogLevelEnum.ERROR,
@@ -102,7 +102,7 @@ class TestLogTraceDefaultLogLevelEnum:
     def test_set_value_round_trip(self):
         enum = LogTraceDefaultLogLevelEnum()
         assert enum == enum.setValue(LogTraceDefaultLogLevelEnum.VERBOSE)
-        assert enum.getValue() == "verbose"
+        assert enum.getValue() == LogTraceDefaultLogLevelEnum.VERBOSE
 
 
 class TestDltLogChannel:
@@ -206,7 +206,7 @@ class TestDltLogChannel:
         value.setValue(DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED)
         assert channel == channel.setDefaultTraceState(value)
         assert channel.getDefaultTraceState() is value
-        assert channel.getDefaultTraceState().getValue() == "DefaultTraceStateEnabled"
+        assert channel.getDefaultTraceState().getValue() == DltDefaultTraceStateEnum.DEFAULT_TRACE_STATE_ENABLED
         assert channel.setDefaultTraceState(None) is channel
         assert channel.getDefaultTraceState() is value
 
@@ -226,7 +226,7 @@ class TestDltLogChannel:
         value.setValue(LogTraceDefaultLogLevelEnum.WARN)
         assert channel == channel.setLogTraceDefaultLogThreshold(value)
         assert channel.getLogTraceDefaultLogThreshold() is value
-        assert channel.getLogTraceDefaultLogThreshold().getValue() == "warn"
+        assert channel.getLogTraceDefaultLogThreshold().getValue() == LogTraceDefaultLogLevelEnum.WARN
         assert channel.setLogTraceDefaultLogThreshold(None) is channel
         assert channel.getLogTraceDefaultLogThreshold() is value
 

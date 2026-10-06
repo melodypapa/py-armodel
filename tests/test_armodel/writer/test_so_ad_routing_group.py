@@ -57,7 +57,7 @@ class TestWriteSoAdRoutingGroup:
         node = parent.find("SO-AD-ROUTING-GROUP")
         assert node is not None
         assert node.find("SHORT-NAME").text == "RG1"
-        assert node.find("EVENT-GROUP-CONTROL-TYPE").text == "activationMulticast"
+        assert node.find("EVENT-GROUP-CONTROL-TYPE").text == "ACTIVATION-MULTICAST"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         parent = ET.Element("PARENT")
@@ -79,7 +79,7 @@ class TestSoAdRoutingGroupRoundTrip:
         assert parsed.getShortName() == "RG1"
         control_type = parsed.getEventGroupControlType()
         assert isinstance(control_type, EventGroupControlTypeEnum)
-        assert control_type.getValue() == "activationMulticast"
+        assert control_type.getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<SO-AD-ROUTING-GROUP xmlns='%s'><SHORT-NAME>Empty</SHORT-NAME></SO-AD-ROUTING-GROUP>" % NS)

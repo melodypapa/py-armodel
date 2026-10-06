@@ -28,8 +28,8 @@ class TestSupportBufferLockingEnum:
         enum = SupportBufferLockingEnum()
 
         assert enum.setValue(SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING) is enum
-        assert enum.getValue() == "supportsBufferLocking"
-        assert enum.validateEnumValue("doesNotSupportBufferLocking") is True
+        assert enum.getValue() == SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING
+        assert enum.validateEnumValue("DOES-NOT-SUPPORT-BUFFER-LOCKING") is True
         assert enum.validateEnumValue("invalid") is False
 
 

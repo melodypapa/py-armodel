@@ -125,8 +125,8 @@ class TestImplementationDataTypeParser:
         assert str(sub_element.getCategory()) == "VALUE"
         assert sub_element.getCategory().getValue() == "VALUE"
         assert sub_element.getArraySize().getValue() == 8
-        assert str(sub_element.getArraySizeSemantics()) == "fixedSize"
-        assert sub_element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert str(sub_element.getArraySizeSemantics()) == "FIXED-SIZE"
+        assert sub_element.getArraySizeSemantics().getValue() == "FIXED-SIZE"
         assert sub_element.getSwDataDefProps() is not None
         assert sub_element.getSwDataDefProps().getBaseTypeRef() is not None
         assert sub_element.getSwDataDefProps().getBaseTypeRef().getDest() == "SW-BASE-TYPE"

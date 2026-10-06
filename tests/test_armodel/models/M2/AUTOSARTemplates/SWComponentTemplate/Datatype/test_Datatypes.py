@@ -402,11 +402,11 @@ class TestArraySizeHandlingEnum:
 
     def test_literal_values(self):
         """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.11"""
-        assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "allIndicesDifferentArraySize"
-        assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "allIndicesSameArraySize"
-        assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "inheritedFromArrayElementTypeSize"
+        assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "ALL-INDICES-DIFFERENT-ARRAY-SIZE"
+        assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE"
         enum = ArraySizeHandlingEnum()
-        assert list(enum.getEnumValues()) == ["allIndicesDifferentArraySize", "allIndicesSameArraySize", "inheritedFromArrayElementTypeSize"]
+        assert list(enum.getEnumValues()) == ["ALL-INDICES-DIFFERENT-ARRAY-SIZE", "ALL-INDICES-SAME-ARRAY-SIZE", "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE"]
 
     def test_set_value_round_trip(self):
         """Test instantiability and setValue/getValue round-trip per Rule 0011"""
@@ -414,11 +414,11 @@ class TestArraySizeHandlingEnum:
         assert enum == enum.setValue(None)
         assert enum.getValue() == ""
         assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
-        assert enum.getValue() == "allIndicesDifferentArraySize"
+        assert enum.getValue() == ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE
         assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE)
-        assert enum.getValue() == "allIndicesSameArraySize"
+        assert enum.getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
         assert enum == enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
-        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+        assert enum.getValue() == ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -427,14 +427,14 @@ class TestArraySizeHandlingEnum:
         assert enum.getValue() == ""
         enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
         enum.setValue(None)
-        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+        assert enum.getValue() == ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ArraySizeHandlingEnum()
-        assert enum.validateEnumValue("allIndicesDifferentArraySize") is True
-        assert enum.validateEnumValue("allIndicesSameArraySize") is True
-        assert enum.validateEnumValue("inheritedFromArrayElementTypeSize") is True
+        assert enum.validateEnumValue("ALL-INDICES-DIFFERENT-ARRAY-SIZE") is True
+        assert enum.validateEnumValue("ALL-INDICES-SAME-ARRAY-SIZE") is True
+        assert enum.validateEnumValue("INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):

@@ -33,7 +33,7 @@ class TestReadDiagnosticEnvModeCondition:
         inner = "<COMPARE-TYPE>IS-EQUAL</COMPARE-TYPE>" '<MODE-ELEMENT-REF DEST="DIAGNOSTIC-ENV-BSW-MODE-ELEMENT">/AUTOSAR/DiagEnvConditions/Env1/ModeElements/BswMode1</MODE-ELEMENT-REF>'
         condition = self._read(parser, inner)
         assert condition.getCompareType() is not None
-        assert condition.getCompareType().getValue() == "isEqual"
+        assert condition.getCompareType().getValue() == "IS-EQUAL"
         mode_element_ref = condition.getModeElementRef()
         assert mode_element_ref is not None
         assert mode_element_ref.getDest() == "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT"
@@ -66,5 +66,5 @@ class TestReadDiagnosticEnvModeCondition:
         assert len(parts) == 1
         part = parts[0]
         assert type(part).__name__ == "DiagnosticEnvModeCondition"
-        assert part.getCompareType().getValue() == "isNotEqual"
+        assert part.getCompareType().getValue() == "IS-NOT-EQUAL"
         assert part.getModeElementRef().getValue() == "/AUTOSAR/DiagEnvConditions/Env1/ModeElements/SwcMode1"

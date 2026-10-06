@@ -52,7 +52,7 @@ class TestReadDiagnosticFreezeFrame:
         freeze_frame = self._read(parser, "<TRIGGER>CONFIRMED</TRIGGER>")
         assert freeze_frame.getTrigger() is not None
         assert isinstance(freeze_frame.getTrigger(), DiagnosticRecordTriggerEnum)
-        assert freeze_frame.getTrigger().getValue() == "confirmed"
+        assert freeze_frame.getTrigger().getValue() == "CONFIRMED"
 
     def test_read_sets_update(self, parser):
         """Test that UPDATE is read into update."""

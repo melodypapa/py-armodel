@@ -28,7 +28,7 @@ class TestDelegatedPortAnnotation:
 
         assert annotation == annotation.setSignalFan(value)
         assert annotation.getSignalFan() is value
-        assert annotation.getSignalFan().getValue() == "nfold"
+        assert annotation.getSignalFan().getValue() == SignalFanEnum.NFOLD
 
         annotation.setSignalFan(None)
         assert annotation.getSignalFan() is value

@@ -119,7 +119,7 @@ class TestWriteIPSecConfigProps:
         ARXMLParser().readIPSecConfigProps(node, reparsed)
 
         assert [v.getValue() for v in reparsed.getAhCipherSuiteNames()] == ["HMAC/SHA2-256", "HMAC/SHA2-384"]
-        assert reparsed.getDpdAction().getValue() == "clear"
+        assert reparsed.getDpdAction().getValue() == "CLEAR"
         assert float(reparsed.getDpdDelay().getValue()) == 300.0
         assert [v.getValue() for v in reparsed.getEspCipherSuiteNames()] == ["AES-128+SHA2-256", "AES-256+SHA2-384"]
         assert reparsed.getIkeCipherSuiteName().getValue() == "AES-128+SHA2-256"

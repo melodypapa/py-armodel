@@ -23,7 +23,7 @@ class TestReadTDEventBswModeDeclaration:
             "<ENTRY-MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/AUTOSAR/EntryMode</ENTRY-MODE-DECLARATION-REF>"
             "<EXIT-MODE-DECLARATION-REF DEST='MODE-DECLARATION'>/AUTOSAR/ExitMode</EXIT-MODE-DECLARATION-REF>"
             "<MODE-DECLARATION-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/AUTOSAR/ModeGroup</MODE-DECLARATION-REF>"
-            "<TD-EVENT-BSW-MODE-DECLARATION-TYPE>modeDeclarationRequested</TD-EVENT-BSW-MODE-DECLARATION-TYPE>"
+            "<TD-EVENT-BSW-MODE-DECLARATION-TYPE>MODE-DECLARATION-REQUESTED</TD-EVENT-BSW-MODE-DECLARATION-TYPE>"
             "</TD-EVENT-BSW-MODE-DECLARATION>"
         )
         ARXMLParser().readTDEventBswModeDeclaration(element, event)
@@ -32,7 +32,7 @@ class TestReadTDEventBswModeDeclaration:
         assert event.getExitModeDeclarationRef().getValue() == "/AUTOSAR/ExitMode"
         assert event.getModeDeclarationRef().getValue() == "/AUTOSAR/ModeGroup"
         assert event.getModeDeclarationRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
-        assert event.getTdEventBswModeDeclarationType().getValue() == "modeDeclarationRequested"
+        assert event.getTdEventBswModeDeclarationType().getValue() == "MODE-DECLARATION-REQUESTED"
 
     def test_read_minimal(self):
         AUTOSAR.getInstance().new()

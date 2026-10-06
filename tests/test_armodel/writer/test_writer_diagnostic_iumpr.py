@@ -113,7 +113,7 @@ class TestWriteDiagnosticIumpr:
             assert iumpr_2.getEventRef().getDest() == "DIAGNOSTIC-EVENT"
             assert iumpr_2.getRatioKind() is not None
             assert isinstance(iumpr_2.getRatioKind(), DiagnosticIumprKindEnum)
-            assert iumpr_2.getRatioKind().getValue() == "observerBased"
+            assert iumpr_2.getRatioKind().getValue() == DiagnosticIumprKindEnum.OBSERVER_BASED
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

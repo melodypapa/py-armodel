@@ -116,7 +116,7 @@ class TestWriteDiagnosticOperationCycle:
             assert cycle_2.getShortName() == "OperationCycle1"
             assert cycle_2.getType() is not None
             assert isinstance(cycle_2.getType(), DiagnosticOperationCycleTypeEnum)
-            assert cycle_2.getType().getValue() == "ignition"
+            assert cycle_2.getType().getValue() == "IGNITION"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

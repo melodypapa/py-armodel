@@ -48,7 +48,7 @@ class TestImplementationDataTypeReader:
         assert sub_elements[0].short_name == "Size"
         assert sub_elements[0].parent is data_type
         assert sub_elements[0].getArraySize().getValue() == 8
-        assert sub_elements[0].getArraySizeSemantics().getValue() == "fixedSize"
+        assert sub_elements[0].getArraySizeSemantics().getValue() == "FIXED-SIZE"
         assert sub_elements[1].short_name == "Payload"
         assert sub_elements[1].getIsOptional().getValue() is True
 

@@ -45,7 +45,7 @@ class TestWriteAclPermission:
         element = ET.Element("AR-PACKAGE")
 
         acl_permission = AclPermission(None, "MyAclPermission")
-        acl_permission.addAclContext(NameToken().setValue("PreCompile"))
+        acl_permission.addAclContext(NameToken().setValue("PRE-COMPILE"))
         acl_permission.addAclObjectRef(_ref("ACL-OBJECT-SET", "/AUTOSAR/MyObjectSet"))
         acl_permission.addAclOperationRef(_ref("ACL-OPERATION", "/AUTOSAR/MyOperation"))
         acl_permission.addAclRoleRef(_ref("ACL-ROLE", "/AUTOSAR/MyRole"))
@@ -57,7 +57,7 @@ class TestWriteAclPermission:
         assert acl_permission_tag is not None
         own_tags = [child.tag for child in acl_permission_tag if child.tag in ("ACL-CONTEXTS", "ACL-OBJECT-REFS", "ACL-OPERATION-REFS", "ACL-ROLE-REFS", "ACL-SCOPE")]
         assert own_tags == ["ACL-CONTEXTS", "ACL-OBJECT-REFS", "ACL-OPERATION-REFS", "ACL-ROLE-REFS", "ACL-SCOPE"]
-        assert acl_permission_tag.find("ACL-CONTEXTS/ACL-CONTEXT").text == "PreCompile"
+        assert acl_permission_tag.find("ACL-CONTEXTS/ACL-CONTEXT").text == "PRE-COMPILE"
         object_ref_tag = acl_permission_tag.find("ACL-OBJECT-REFS/ACL-OBJECT-REF")
         assert object_ref_tag.attrib["DEST"] == "ACL-OBJECT-SET"
         assert object_ref_tag.text == "/AUTOSAR/MyObjectSet"
@@ -93,7 +93,7 @@ class TestWriteAclPermission:
         ar_root = document.createARPackage("AUTOSAR")
         acl_permission = ar_root.createAclPermission("MyAclPermission")
 
-        acl_permission.addAclContext(NameToken().setValue("PreCompile"))
+        acl_permission.addAclContext(NameToken().setValue("PRE-COMPILE"))
         acl_permission.addAclObjectRef(_ref("ACL-OBJECT-SET", "/AUTOSAR/MyObjectSet"))
         acl_permission.addAclOperationRef(_ref("ACL-OPERATION", "/AUTOSAR/MyOperation"))
         acl_permission.addAclRoleRef(_ref("ACL-ROLE", "/AUTOSAR/MyRole"))
@@ -111,7 +111,7 @@ class TestWriteAclPermission:
 
             acl_permission_2 = document_2.getARPackages()[0].getAclPermissions()[0]
             assert acl_permission_2.getShortName() == "MyAclPermission"
-            assert acl_permission_2.getAclContexts()[0].getValue() == "PreCompile"
+            assert acl_permission_2.getAclContexts()[0].getValue() == "PRE-COMPILE"
             assert acl_permission_2.getAclObjectRefs()[0].getDest() == "ACL-OBJECT-SET"
             assert acl_permission_2.getAclObjectRefs()[0].getValue() == "/AUTOSAR/MyObjectSet"
             assert acl_permission_2.getAclOperationRefs()[0].getDest() == "ACL-OPERATION"

@@ -68,7 +68,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<EVENTS>" "<TIMING-EVENT><SHORT-NAME>te</SHORT-NAME><PERIOD>0.1</PERIOD></TIMING-EVENT>" "</EVENTS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<EVENTS>" "<TIMING-EVENT><SHORT-NAME>te</SHORT-NAME><PERIOD>0.1</PERIOD></TIMING-EVENT>" "</EVENTS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -80,7 +80,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<RUNNABLES>" "<RUNNABLE-ENTITY><SHORT-NAME>run1</SHORT-NAME><SYMBOL>Run1</SYMBOL></RUNNABLE-ENTITY>" "</RUNNABLES>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<RUNNABLES>" "<RUNNABLE-ENTITY><SHORT-NAME>run1</SHORT-NAME><SYMBOL>Run1</SYMBOL></RUNNABLE-ENTITY>" "</RUNNABLES>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -92,7 +92,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<PER-INSTANCE-MEMORYS>"
             "<PER-INSTANCE-MEMORY><SHORT-NAME>mem1</SHORT-NAME><INIT-VALUE>0</INIT-VALUE>"
             "<SW-DATA-DEF-PROPS/><TYPE>uint8</TYPE><TYPE-DEFINITION>typedef uint8_t uint8;</TYPE-DEFINITION>"
@@ -118,7 +118,7 @@ class TestSwcInternalBehaviorOrchestrator:
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
-        parser.readSwcInternalBehavior(_snip("<SHORT-NAME>bh</SHORT-NAME><PER-INSTANCE-MEMORYS/>", root_tag="SWC-INTERNAL-BEHAVIOR"), behavior)
+        parser.readSwcInternalBehavior(_snip("<SHORT-NAME>BH</SHORT-NAME><PER-INSTANCE-MEMORYS/>", root_tag="SWC-INTERNAL-BEHAVIOR"), behavior)
         assert behavior.getPerInstanceMemories() == []
 
     def test_readSwcInternalBehavior_with_port_api_options(self, parser):
@@ -127,7 +127,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<PORT-API-OPTIONS>"
             "<PORT-API-OPTION>"
             "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
@@ -150,20 +150,20 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<PORT-API-OPTIONS>"
             "<PORT-API-OPTION>"
             "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
-            "<ERROR-HANDLING>transformerErrorHandling</ERROR-HANDLING>"
+            "<ERROR-HANDLING>TRANSFORMER-ERROR-HANDLING</ERROR-HANDLING>"
             "<INDIRECT-API>false</INDIRECT-API>"
             "<PORT-REF DEST='P-PORT-PROTOTYPE'>/port</PORT-REF>"
             "<SUPPORTED-FEATURES>"
             "<COMMUNICATION-BUFFER-LOCKING>"
             "<SHORT-NAME>cbl</SHORT-NAME>"
-            "<SUPPORT-BUFFER-LOCKING>supportsBufferLocking</SUPPORT-BUFFER-LOCKING>"
+            "<SUPPORT-BUFFER-LOCKING>SUPPORTS-BUFFER-LOCKING</SUPPORT-BUFFER-LOCKING>"
             "</COMMUNICATION-BUFFER-LOCKING>"
             "</SUPPORTED-FEATURES>"
-            "<TRANSFORMER-STATUS-FORWARDING>transformerStatusForwarding</TRANSFORMER-STATUS-FORWARDING>"
+            "<TRANSFORMER-STATUS-FORWARDING>TRANSFORMER-STATUS-FORWARDING</TRANSFORMER-STATUS-FORWARDING>"
             "</PORT-API-OPTION>"
             "</PORT-API-OPTIONS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
@@ -175,17 +175,17 @@ class TestSwcInternalBehaviorOrchestrator:
         assert opt.getEnableTakeAddress().getValue() is True
         eh = opt.getErrorHandling()
         assert isinstance(eh, DataTransformationErrorHandlingEnum)
-        assert eh.getValue() == "transformerErrorHandling"
+        assert eh.getValue() == DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING
         assert opt.getIndirectAPI().getValue() is False
         assert opt.getPortRef().getValue() == "/port"
         assert opt.getPortArgValues() == []
         features = opt.getSupportedFeatures()
         assert len(features) == 1
         assert isinstance(features[0], CommunicationBufferLocking)
-        assert features[0].getSupportBufferLocking().getValue() == "supportsBufferLocking"
+        assert features[0].getSupportBufferLocking().getValue() == "SUPPORTS-BUFFER-LOCKING"
         tsf = opt.getTransformerStatusForwarding()
         assert isinstance(tsf, DataTransformationStatusForwardingEnum)
-        assert tsf.getValue() == "transformerStatusForwarding"
+        assert tsf.getValue() == DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
 
     def test_readSwcInternalBehavior_with_port_api_options_empty_features(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -193,7 +193,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<PORT-API-OPTIONS>" "<PORT-API-OPTION>" "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "</PORT-API-OPTION>" "</PORT-API-OPTIONS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<PORT-API-OPTIONS>" "<PORT-API-OPTION>" "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "</PORT-API-OPTION>" "</PORT-API-OPTIONS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -208,7 +208,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<IMPLICIT-INTER-RUNNABLE-VARIABLES>"
             "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>irv</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
             "</IMPLICIT-INTER-RUNNABLE-VARIABLES>",
@@ -225,7 +225,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<INSTANTIATION-DATA-DEF-PROPSS>"
             "<INSTANTIATION-DATA-DEF-PROPS>"
             "<VARIABLE-INSTANCE>"
@@ -256,7 +256,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<EXPLICIT-INTER-RUNNABLE-VARIABLES>"
             "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>var1</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
             "</EXPLICIT-INTER-RUNNABLE-VARIABLES>",
@@ -271,7 +271,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<SERVICE-DEPENDENCYS>" "<SWC-SERVICE-DEPENDENCY><SHORT-NAME>dep1</SHORT-NAME></SWC-SERVICE-DEPENDENCY>" "</SERVICE-DEPENDENCYS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<SERVICE-DEPENDENCYS>" "<SWC-SERVICE-DEPENDENCY><SHORT-NAME>dep1</SHORT-NAME></SWC-SERVICE-DEPENDENCY>" "</SERVICE-DEPENDENCYS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -283,7 +283,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<SHARED-PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param1</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</SHARED-PARAMETERS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<SHARED-PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param1</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</SHARED-PARAMETERS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -296,7 +296,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<INCLUDED-MODE-DECLARATION-GROUP-SETS>"
             "<INCLUDED-MODE-DECLARATION-GROUP-SET>"
             "<PREFIX>prefix</PREFIX>"
@@ -319,7 +319,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<INCLUDED-MODE-DECLARATION-GROUP-SETS><INCLUDED-MODE-DECLARATION-GROUP-SET/></INCLUDED-MODE-DECLARATION-GROUP-SETS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<INCLUDED-MODE-DECLARATION-GROUP-SETS><INCLUDED-MODE-DECLARATION-GROUP-SET/></INCLUDED-MODE-DECLARATION-GROUP-SETS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -345,7 +345,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<HANDLE-TERMINATION-AND-RESTART>support</HANDLE-TERMINATION-AND-RESTART>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<HANDLE-TERMINATION-AND-RESTART>support</HANDLE-TERMINATION-AND-RESTART>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -357,7 +357,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -369,7 +369,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<EVENTS>"
             "<TIMING-EVENT><SHORT-NAME>te</SHORT-NAME><PERIOD>0.1</PERIOD></TIMING-EVENT>"
             "</EVENTS>"
@@ -424,7 +424,7 @@ class TestServiceNeedsHandlers:
         )
         needs = dependency.createDiagnosticCommunicationManagerNeeds("diagNeeds")
         parser.readDiagnosticCommunicationManagerNeeds(element, needs)
-        assert needs.getServiceRequestCallbackType().getValue() == "requestCallbackTypeManufacturer"
+        assert needs.getServiceRequestCallbackType().getValue() == "REQUEST-CALLBACK-TYPE-MANUFACTURER"
 
     def test_readDiagnosticRoutineNeeds_sets_ridNumber(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -491,7 +491,7 @@ class TestServiceNeedsHandlers:
         )
         needs = dependency.createDiagnosticEventInfoNeeds("eventInfoNeeds")
         parser.readDiagnosticEventInfoNeeds(element, needs)
-        assert needs.getDtcKind().getValue() == "emissionRelatedDtc"
+        assert needs.getDtcKind().getValue() == "EMISSION-RELATED-DTC"
 
     def test_readDiagnosticIoControlNeeds_sets_currentValueRef(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -547,7 +547,7 @@ class TestServiceNeedsHandlers:
         )
         needs = dependency.createDtcStatusChangeNotificationNeeds("dtcNeeds")
         parser.readDtcStatusChangeNotificationNeeds(element, needs)
-        assert needs.getDtcFormatType().getValue() == "obd"
+        assert needs.getDtcFormatType().getValue() == "OBD"
 
     def test_readDiagnosticComponentNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1140,7 +1140,7 @@ class TestRunnableEntityOrchestrator:
         assert len(points) == 1
         policy = points[0].getSwImplPolicy()
         assert isinstance(policy, SwImplPolicyEnum)
-        assert policy.getValue() == "queued"
+        assert policy.getValue() == "QUEUED"
 
     def test_readRunnableEntity_with_modeAccessPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1442,7 +1442,7 @@ class TestRunnableEntityOrchestrator:
         assert access.getAccessedParameter().getLocalParameterRef().getValue() == "/Prm"
         assert access.getAccessedParameter().getLocalParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
         assert access.getSwDataDefProps() is not None
-        assert access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+        assert access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "NOT-ACCESSIBLE"
 
     def test_readRunnableEntity_with_dataReadAccess_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1475,7 +1475,7 @@ class TestRunnableEntityOrchestrator:
         assert iref.getPortPrototypeRef().getValue() == "/pp"
         assert iref.getTargetDataPrototypeRef().getValue() == "/Var"
         assert access.getScope() is not None
-        assert access.getScope().getValue() == "communicationIntraPartition"
+        assert access.getScope().getValue() == "COMMUNICATION-INTRA-PARTITION"
 
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1623,7 +1623,7 @@ class TestRteEventHandlers:
             root_tag="SWC-MODE-SWITCH-EVENT",
         )
         parser.readSwcModeSwitchEvent(element, event)
-        assert event.getActivation().getValue() == "onEntry"
+        assert event.getActivation().getValue() == "ON-ENTRY"
         assert len(event.getModeIRefs()) == 1
         mode_iref = event.getModeIRefs()[0]
         assert mode_iref.getContextPortRef().getValue() == "/port"
@@ -1639,7 +1639,7 @@ class TestRteEventHandlers:
             root_tag="SWC-MODE-SWITCH-EVENT",
         )
         parser.readSwcModeSwitchEvent(element, event)
-        assert event.getActivation().getValue() == "onExit"
+        assert event.getActivation().getValue() == "ON-EXIT"
         assert event.getModeIRefs() == []
 
     def test_readInternalTriggerOccurredEvent_full(self, parser):
@@ -1698,7 +1698,7 @@ class TestRteEventHandlers:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createBackgroundEvent("be")
-        element = _snip("<SHORT-NAME>be</SHORT-NAME>", root_tag="BACKGROUND-EVENT")
+        element = _snip("<SHORT-NAME>BE</SHORT-NAME>", root_tag="BACKGROUND-EVENT")
         parser.readBackgroundEvent(element, event)
         assert event.getShortName() == "be"
         assert event.getDisabledModeIRefs() == []
@@ -1711,7 +1711,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createBackgroundEvent("be")
         element = _snip(
-            "<SHORT-NAME>be</SHORT-NAME><START-ON-EVENT-REF DEST='RUNNABLE-ENTITY'>/runnable</START-ON-EVENT-REF>",
+            "<SHORT-NAME>BE</SHORT-NAME><START-ON-EVENT-REF DEST='RUNNABLE-ENTITY'>/runnable</START-ON-EVENT-REF>",
             root_tag="BACKGROUND-EVENT",
         )
         parser.readBackgroundEvent(element, event)
@@ -2004,7 +2004,7 @@ class TestPortInterfaceHandlers:
         assert mode_group is not None
         assert mode_group.getShortName() == "mg"
         assert mode_group.getTypeTRef().getValue() == "/mg"
-        assert mode_group.getSwCalibrationAccess().getValue() == "readOnly"
+        assert mode_group.getSwCalibrationAccess().getValue() == "READ-ONLY"
 
     def test_readClientServerOperation_with_arguments(self, parser):
         from armodel.models import ClientServerInterface
@@ -2117,7 +2117,7 @@ class TestDataTypeAndCompuHandlers:
         assert internal.getUpperLimit().value == "100"
         assert internal.getMaxGradient().getValue() == 1.5
         assert internal.getMaxDiff().getValue() == 0.5
-        assert internal.getMonotony().value == "increasing"
+        assert internal.getMonotony().value == "INCREASING"
         assert len(internal.getScaleConstrs()) == 1
         scale = internal.getScaleConstrs()[0]
         assert scale.getShortLabel().value == "s1"
@@ -2161,7 +2161,7 @@ class TestDataTypeAndCompuHandlers:
         assert phys.getUpperLimit().value == "150.0"
         assert phys.getMaxDiff().getValue() == 0.5
         assert phys.getMaxGradient().getValue() == 1.0
-        assert phys.getMonotony().value == "increasing"
+        assert phys.getMonotony().value == "INCREASING"
         assert len(phys.getScaleConstrs()) == 1
         scale = phys.getScaleConstrs()[0]
         assert scale.getShortLabel().value == "s1"
@@ -2541,7 +2541,7 @@ class TestSystemAndMappingHandlers:
             "<SHORT-NAME>sm</SHORT-NAME>"
             "<DATA-MAPPINGS>"
             "<SENDER-RECEIVER-TO-SIGNAL-MAPPING>"
-            "<COMMUNICATION-DIRECTION>in</COMMUNICATION-DIRECTION>"
+            "<COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>"
             "<SYSTEM-SIGNAL-REF DEST='SYSTEM-SIGNAL'>/sig</SYSTEM-SIGNAL-REF>"
             "</SENDER-RECEIVER-TO-SIGNAL-MAPPING>"
             "</DATA-MAPPINGS>"
@@ -2890,7 +2890,7 @@ class TestImplementationsHandlers:
         element = _snip(
             "<CODE-DESCRIPTORS>"
             "<CODE>"
-            "<SHORT-NAME>code</SHORT-NAME>"
+            "<SHORT-NAME>CODE</SHORT-NAME>"
             "<ARTIFACT-DESCRIPTORS>"
             "<AUTOSAR-ENGINEERING-OBJECT>"
             "<SHORT-LABEL>obj</SHORT-LABEL>"
@@ -2928,7 +2928,7 @@ class TestImplementationsHandlers:
             "<SHORT-NAME>bswImpl</SHORT-NAME>"
             "<BEHAVIOR-REF DEST='BSW-INTERNAL-BEHAVIOR'>/bh</BEHAVIOR-REF>"
             "<AR-RELEASE-VERSION>4.0</AR-RELEASE-VERSION>"
-            "<VENDOR-API-INFIX>api</VENDOR-API-INFIX>"
+            "<VENDOR-API-INFIX>API</VENDOR-API-INFIX>"
             "<VENDOR-SPECIFIC-MODULE-DEF-REFS>"
             "<VENDOR-SPECIFIC-MODULE-DEF-REF DEST='BSW-MODULE-DESCRIPTION'>/mod</VENDOR-SPECIFIC-MODULE-DEF-REF>"
             "</VENDOR-SPECIFIC-MODULE-DEF-REFS>",
@@ -3458,7 +3458,7 @@ class TestSwcServiceDependencyServiceNeeds:
             <SERVICE-NEEDS>
                 <DIAGNOSTIC-ENABLE-CONDITION-NEEDS>
                     <SHORT-NAME>Need</SHORT-NAME>
-                    <INITIAL-STATUS>eventAcceptanceEnabled</INITIAL-STATUS>
+                    <INITIAL-STATUS>EVENT-ACCEPTANCE-ENABLED</INITIAL-STATUS>
                 </DIAGNOSTIC-ENABLE-CONDITION-NEEDS>
             </SERVICE-NEEDS>
             """,
@@ -3467,7 +3467,7 @@ class TestSwcServiceDependencyServiceNeeds:
         needs = dep.getServiceNeeds()
         assert len(needs) == 1
         assert needs[0].getShortName() == "Need"
-        assert needs[0].getInitialStatus().getValue() == "eventAcceptanceEnabled"
+        assert needs[0].getInitialStatus().getValue() == "EVENT-ACCEPTANCE-ENABLED"
 
     def test_diagnostic_operation_cycle_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3477,7 +3477,7 @@ class TestSwcServiceDependencyServiceNeeds:
             <SERVICE-NEEDS>
                 <DIAGNOSTIC-OPERATION-CYCLE-NEEDS>
                     <SHORT-NAME>Need</SHORT-NAME>
-                    <OPERATION-CYCLE>power</OPERATION-CYCLE>
+                    <OPERATION-CYCLE>POWER</OPERATION-CYCLE>
                 </DIAGNOSTIC-OPERATION-CYCLE-NEEDS>
             </SERVICE-NEEDS>
             """,
@@ -3486,7 +3486,7 @@ class TestSwcServiceDependencyServiceNeeds:
         needs = dep.getServiceNeeds()
         assert len(needs) == 1
         assert needs[0].getShortName() == "Need"
-        assert needs[0].getOperationCycle().getValue() == "power"
+        assert needs[0].getOperationCycle().getValue() == "POWER"
 
     def test_diagnostic_storage_condition_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3496,7 +3496,7 @@ class TestSwcServiceDependencyServiceNeeds:
             <SERVICE-NEEDS>
                 <DIAGNOSTIC-STORAGE-CONDITION-NEEDS>
                     <SHORT-NAME>Need</SHORT-NAME>
-                    <INITIAL-STATUS>eventStorageDisabled</INITIAL-STATUS>
+                    <INITIAL-STATUS>EVENT-STORAGE-DISABLED</INITIAL-STATUS>
                 </DIAGNOSTIC-STORAGE-CONDITION-NEEDS>
             </SERVICE-NEEDS>
             """,
@@ -3505,7 +3505,7 @@ class TestSwcServiceDependencyServiceNeeds:
         needs = dep.getServiceNeeds()
         assert len(needs) == 1
         assert needs[0].getShortName() == "Need"
-        assert needs[0].getInitialStatus().getValue() == "eventStorageDisabled"
+        assert needs[0].getInitialStatus().getValue() == "EVENT-STORAGE-DISABLED"
 
     def test_indicator_status_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3515,7 +3515,7 @@ class TestSwcServiceDependencyServiceNeeds:
             <SERVICE-NEEDS>
                 <INDICATOR-STATUS-NEEDS>
                     <SHORT-NAME>Need</SHORT-NAME>
-                    <TYPE>amberWarning</TYPE>
+                    <TYPE>AMBER-WARNING</TYPE>
                 </INDICATOR-STATUS-NEEDS>
             </SERVICE-NEEDS>
             """,
@@ -3524,7 +3524,7 @@ class TestSwcServiceDependencyServiceNeeds:
         needs = dep.getServiceNeeds()
         assert len(needs) == 1
         assert needs[0].getShortName() == "Need"
-        assert needs[0].getType().getValue() == "amberWarning"
+        assert needs[0].getType().getValue() == "AMBER-WARNING"
 
     def test_function_inhibition_availability_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -4220,12 +4220,12 @@ class TestRoleBasedDataTypeAssignment:
 
         dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
         element = _snip(
-            "<DIAGNOSTIC-RELEVANCE>isRelevant</DIAGNOSTIC-RELEVANCE>",
+            "<DIAGNOSTIC-RELEVANCE>IS-RELEVANT</DIAGNOSTIC-RELEVANCE>",
             root_tag="SERVICE-DEPENDENCY",
         )
         parser.readServiceDependency(element, dep)
         assert dep.getDiagnosticRelevance() is not None
-        assert dep.getDiagnosticRelevance().getValue() == "isRelevant"
+        assert dep.getDiagnosticRelevance().getValue() == "IS-RELEVANT"
 
     def test_readServiceDependency_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency

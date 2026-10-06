@@ -32,14 +32,14 @@ class TestBswEntryKindEnum:
         BswEntryKindEnum()
         assert hasattr(BswEntryKindEnum, "ABSTRACT")
         assert hasattr(BswEntryKindEnum, "CONCRETE")
-        assert BswEntryKindEnum.ABSTRACT == "abstract"
-        assert BswEntryKindEnum.CONCRETE == "concrete"
+        assert BswEntryKindEnum.ABSTRACT == "ABSTRACT"
+        assert BswEntryKindEnum.CONCRETE == "CONCRETE"
 
     def test_bsw_entry_kind_enum_set_value(self):
         """Test setting an enum value via the AREnum pattern."""
         enum = BswEntryKindEnum()
         enum.setValue(BswEntryKindEnum.ABSTRACT)
-        assert enum.getValue() == "abstract"
+        assert enum.getValue() == BswEntryKindEnum.ABSTRACT
 
 
 class TestBswCallType:
@@ -53,17 +53,17 @@ class TestBswCallType:
         assert hasattr(BswCallType, "INTERRUPT")
         assert hasattr(BswCallType, "REGULAR")
         assert hasattr(BswCallType, "SCHEDULED")
-        assert BswCallType.CALLBACK == "callback"
-        assert BswCallType.CALLOUT == "callout"
-        assert BswCallType.INTERRUPT == "interrupt"
-        assert BswCallType.REGULAR == "regular"
-        assert BswCallType.SCHEDULED == "scheduled"
+        assert BswCallType.CALLBACK == "CALLBACK"
+        assert BswCallType.CALLOUT == "CALLOUT"
+        assert BswCallType.INTERRUPT == "INTERRUPT"
+        assert BswCallType.REGULAR == "REGULAR"
+        assert BswCallType.SCHEDULED == "SCHEDULED"
 
     def test_bsw_call_type_enum_set_value(self):
         """Test setting an enum value via the AREnum pattern."""
         enum = BswCallType()
         enum.setValue(BswCallType.REGULAR)
-        assert enum.getValue() == "regular"
+        assert enum.getValue() == BswCallType.REGULAR
 
 
 class TestBswExecutionContext:
@@ -77,17 +77,17 @@ class TestBswExecutionContext:
         assert hasattr(BswExecutionContext, "INTERRUPT_CAT_2")
         assert hasattr(BswExecutionContext, "TASK")
         assert hasattr(BswExecutionContext, "UNSPECIFIED")
-        assert BswExecutionContext.HOOK == "hook"
-        assert BswExecutionContext.INTERRUPT_CAT_1 == "interruptCat1"
-        assert BswExecutionContext.INTERRUPT_CAT_2 == "interruptCat2"
-        assert BswExecutionContext.TASK == "task"
-        assert BswExecutionContext.UNSPECIFIED == "unspecified"
+        assert BswExecutionContext.HOOK == "HOOK"
+        assert BswExecutionContext.INTERRUPT_CAT_1 == "INTERRUPT-CAT-1"
+        assert BswExecutionContext.INTERRUPT_CAT_2 == "INTERRUPT-CAT-2"
+        assert BswExecutionContext.TASK == "TASK"
+        assert BswExecutionContext.UNSPECIFIED == "UNSPECIFIED"
 
     def test_bsw_execution_context_enum_set_value(self):
         """Test setting an enum value via the AREnum pattern."""
         enum = BswExecutionContext()
         enum.setValue(BswExecutionContext.TASK)
-        assert enum.getValue() == "task"
+        assert enum.getValue() == BswExecutionContext.TASK
 
 
 class TestSwServiceImplPolicyEnum:
@@ -100,16 +100,16 @@ class TestSwServiceImplPolicyEnum:
         assert hasattr(SwServiceImplPolicyEnum, "INLINE_CONDITIONAL")
         assert hasattr(SwServiceImplPolicyEnum, "MACRO")
         assert hasattr(SwServiceImplPolicyEnum, "STANDARD")
-        assert SwServiceImplPolicyEnum.INLINE == "inline"
-        assert SwServiceImplPolicyEnum.INLINE_CONDITIONAL == "inlineConditional"
-        assert SwServiceImplPolicyEnum.MACRO == "macro"
-        assert SwServiceImplPolicyEnum.STANDARD == "standard"
+        assert SwServiceImplPolicyEnum.INLINE == "INLINE"
+        assert SwServiceImplPolicyEnum.INLINE_CONDITIONAL == "INLINE-CONDITIONAL"
+        assert SwServiceImplPolicyEnum.MACRO == "MACRO"
+        assert SwServiceImplPolicyEnum.STANDARD == "STANDARD"
 
     def test_sw_service_impl_policy_enum_set_value(self):
         """Test setting an enum value via the AREnum pattern."""
         enum = SwServiceImplPolicyEnum()
         enum.setValue(SwServiceImplPolicyEnum.STANDARD)
-        assert enum.getValue() == "standard"
+        assert enum.getValue() == "STANDARD"
 
 
 class TestBswModuleDependency:
@@ -517,13 +517,13 @@ class TestBswEntryRelationshipEnum:
         assert isinstance(enum, BswEntryRelationshipEnum)
 
     def test_member_values(self):
-        assert BswEntryRelationshipEnum.DERIVED_FROM == "derivedFrom"
+        assert BswEntryRelationshipEnum.DERIVED_FROM == "DERIVED-FROM"
         assert BswEntryRelationshipEnum().getEnumValues() == [BswEntryRelationshipEnum.DERIVED_FROM]
 
     def test_set_value(self):
         enum = BswEntryRelationshipEnum()
         enum.setValue(BswEntryRelationshipEnum.DERIVED_FROM)
-        assert enum.getValue() == "derivedFrom"
+        assert enum.getValue() == BswEntryRelationshipEnum.DERIVED_FROM
 
 
 class TestBswEntryRelationshipInitialization:

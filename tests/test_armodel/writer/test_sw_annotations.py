@@ -65,8 +65,8 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert "<SENDER-ANNOTATION>" in xml
         assert "<COMPUTED>true</COMPUTED>" in xml
         assert 'DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE"' in xml
-        assert "<LIMIT-KIND>max</LIMIT-KIND>" in xml
-        assert "<PROCESSING-KIND>filtered</PROCESSING-KIND>" in xml
+        assert "<LIMIT-KIND>MAX</LIMIT-KIND>" in xml
+        assert "<PROCESSING-KIND>FILTERED</PROCESSING-KIND>" in xml
         assert "SENDER-RECEIVER-ANNOTATION>" not in xml.replace("SENDER-RECEIVER-ANNOTATIONS", "")
 
         parsed = _parse(xml)
@@ -76,8 +76,8 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert annotations[0].getComputed().getValue() is True
         assert annotations[0].getDataElementRef().getValue() == "/AUTOSAR/DataElement1"
         assert annotations[0].getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert annotations[0].getLimitKind().getValue() == "max"
-        assert annotations[0].getProcessingKind().getValue() == "filtered"
+        assert annotations[0].getLimitKind().getValue() == DataLimitKindEnum.MAX
+        assert annotations[0].getProcessingKind().getValue() == ProcessingKindEnum.FILTERED
 
     def test_receiver_annotation_round_trip(self):
         prototype = PPortPrototype(None, "Port1")
@@ -136,7 +136,7 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert "<AGE" in xml
         assert 'ARGUMENT-REF DEST="ARGUMENT-DATA-PROTOTYPE"' in xml
         assert "<BSW-RESOLUTION>1.5</BSW-RESOLUTION>" in xml
-        assert "<FILTERING-DEBOUNCING>debounceData</FILTERING-DEBOUNCING>" in xml
+        assert "<FILTERING-DEBOUNCING>DEBOUNCE-DATA</FILTERING-DEBOUNCING>" in xml
 
         parsed = _parse(xml)
         annotations = parsed.getIoHwAbstractionServerAnnotations()
@@ -146,7 +146,7 @@ class TestSenderReceiverAnnotationRoundTrip:
         assert annotations[0].getArgumentRef().getValue() == "/AUTOSAR/Arg"
         assert annotations[0].getBswResolution().getValue() == 1.5
         assert annotations[0].getFailureMonitoringRef().getValue() == "/AUTOSAR/Port2"
-        assert annotations[0].getFilteringDebouncing().getValue() == "debounceData"
+        assert annotations[0].getFilteringDebouncing().getValue() == FilterDebouncingEnum.DEBOUNCE_DATA
 
     def test_empty_wrapper_absent(self):
         prototype = PPortPrototype(None, "Port1")

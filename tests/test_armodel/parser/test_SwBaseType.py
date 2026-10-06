@@ -37,7 +37,7 @@ class TestBaseTypeReader:
         assert definition.getBaseTypeSize().getValue() == 8
         assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
         assert definition.getMemAlignment().getValue() == 8
-        assert definition.getByteOrder().getValue() == "mostSignificantByteFirst"
+        assert definition.getByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
         assert definition.getNativeDeclaration().getValue() == "unsigned char"
 
     def test_read_empty_base_type_yields_unset_definition(self, parser):
@@ -97,7 +97,7 @@ class TestBaseTypeDirectDefinitionReader:
         """The XSD serializes BYTE-ORDER in the UPPERCASE literal form; the reader maps it to the ByteOrderEnum member via BYTE_ORDER_XML_MAP."""
         definition = self._read_definition(parser, "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</BYTE-ORDER>")
         assert isinstance(definition.getByteOrder(), ByteOrderEnum)
-        assert definition.getByteOrder().getValue() == "mostSignificantByteLast"
+        assert definition.getByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
         assert definition.getBaseTypeSize() is None
         assert definition.getBaseTypeEncoding() is None
         assert definition.getMemAlignment() is None

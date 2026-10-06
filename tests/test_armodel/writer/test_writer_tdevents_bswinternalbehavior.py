@@ -44,7 +44,7 @@ class TestWriteTDEventBswInternalBehavior:
         ARXMLWriter().writeTDEventBswInternalBehavior(element, event)
         type_el = element.find("TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE")
         assert type_el is not None
-        assert type_el.text == "bswModuleEntityTerminated"
+        assert type_el.text == "BSW-MODULE-ENTITY-TERMINATED"
 
     def test_write_roundtrip(self):
         parent = self._parent()
@@ -60,7 +60,7 @@ class TestWriteTDEventBswInternalBehavior:
         ARXMLParser().readTDEventBswInternalBehavior(reparsed_el, reparsed)
         assert reparsed.getBswModuleEntityRef().getValue() == "/AUTOSAR/BswModuleEntity1"
         assert reparsed.getBswModuleEntityRef().getDest() == "BSW-MODULE-ENTITY"
-        assert reparsed.getTdEventBswInternalBehaviorType().getValue() == "bswModuleEntityStarted"
+        assert reparsed.getTdEventBswInternalBehaviorType().getValue() == TDEventBswInternalBehaviorTypeEnum.BSW_MODULE_ENTITY_STARTED
 
     def test_write_empty(self):
         parent = self._parent()

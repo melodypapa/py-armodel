@@ -153,7 +153,7 @@ class TestDelegatedPortAnnotationRoundTrip:
         delegated_2 = port_2.getDelegatedPortAnnotation()
         assert delegated_2 is not None
         assert isinstance(delegated_2.getSignalFan(), SignalFanEnum)
-        assert delegated_2.getSignalFan().getValue() == "single"
+        assert delegated_2.getSignalFan().getValue() == SignalFanEnum.SINGLE
 
     def test_absence(self):
         _, port = _new_document_with_port()

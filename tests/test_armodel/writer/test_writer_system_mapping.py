@@ -693,7 +693,7 @@ class TestSystemFullRoundTrip:
         assert [c.getShortName() for c in chapters] == ["Doc1"]
         assert chapters[0].getHelpEntry().getValue() == "help-topic-1"
         assert system_2.getClientIdDefinitionSetRefs()[0].getValue() == "/Systems/ClientIds"
-        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "mostSignificantByteFirst"
+        assert system_2.getContainerIPduHeaderByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
         assert system_2.getEcuExtractVersion().getValue() == "1.0.0"
         assert system_2.getFibexElementRefs()[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork"
         assert system_2.getInterpolationRoutineMappingSetRefs()[0].getValue() == "/Systems/InterpMapping"

@@ -833,7 +833,7 @@ class TestParameterAccessRoundTrip:
             assert iref_2.getTargetDataPrototypeRef().getValue() == "/Prm"
             assert pa_2.getAccessedParameter().getLocalParameterRef() is None
             assert pa_2.getSwDataDefProps() is not None
-            assert pa_2.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+            assert pa_2.getSwDataDefProps().getSwCalibrationAccess().getValue() == SwCalibrationAccessEnum.NOT_ACCESSIBLE
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -907,7 +907,7 @@ class TestVariableAccessRoundTrip:
             assert iref_2.getTargetDataPrototypeRef().getValue() == "/Var"
             assert va_2.getAccessedVariable().getLocalVariableRef() is None
             assert va_2.getScope() is not None
-            assert va_2.getScope().getValue() == "communicationIntraPartition"
+            assert va_2.getScope().getValue() == VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -1025,7 +1025,7 @@ class TestInternalTriggeringPointRoundTrip:
             assert itp_2.getShortName() == "itp1"
             policy = itp_2.getSwImplPolicy()
             assert isinstance(policy, SwImplPolicyEnum)
-            assert policy.getValue() == "queued"
+            assert policy.getValue() == "QUEUED"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -1666,7 +1666,7 @@ class TestWriterParameterAndPortApi:
         assert opts is not None
         opt_elem = opts[0]
         assert opt_elem.find("ENABLE-TAKE-ADDRESS").text == "true"
-        assert opt_elem.find("ERROR-HANDLING").text == "transformerErrorHandling"
+        assert opt_elem.find("ERROR-HANDLING").text == "TRANSFORMER-ERROR-HANDLING"
         assert opt_elem.find("INDIRECT-API").text == "false"
         assert opt_elem.find("PORT-REF") is not None
         assert opt_elem.find("PORT-ARG-VALUES") is not None
@@ -1674,8 +1674,8 @@ class TestWriterParameterAndPortApi:
         assert supported is not None
         cbl = supported.find("COMMUNICATION-BUFFER-LOCKING")
         assert cbl is not None
-        assert cbl.find("SUPPORT-BUFFER-LOCKING").text == "supportsBufferLocking"
-        assert opt_elem.find("TRANSFORMER-STATUS-FORWARDING").text == "transformerStatusForwarding"
+        assert cbl.find("SUPPORT-BUFFER-LOCKING").text == "SUPPORTS-BUFFER-LOCKING"
+        assert opt_elem.find("TRANSFORMER-STATUS-FORWARDING").text == "TRANSFORMER-STATUS-FORWARDING"
 
     def test_writeSwcInternalBehaviorPortAPIOptions_empty(self, writer):
         behavior = _make_behavior()
@@ -1727,12 +1727,12 @@ class TestWriterServiceDependency:
         a = RoleBasedDataTypeAssignment()
         a.setRole(_literal("r1"))
         dep.setAssignedDataType(a)
-        dep.setDiagnosticRelevance(_literal("isRelevant"))
+        dep.setDiagnosticRelevance(_literal("IS-RELEVANT"))
         parent = _parent()
         writer.writeServiceDependency(parent, dep)
         assert parent.find("SHORT-NAME").text == "dep1"
         assert parent.find("ASSIGNED-DATA-TYPES") is not None
-        assert parent.find("DIAGNOSTIC-RELEVANCE").text == "isRelevant"
+        assert parent.find("DIAGNOSTIC-RELEVANCE").text == "IS-RELEVANT"
         assert parent.find("SYMBOLIC-NAME-PROPS") is None
 
     def test_writeServiceDependency_no_diagnostic_relevance(self, writer):
@@ -1847,7 +1847,7 @@ class TestWriterServiceNeeds:
         needs.setCheckStaticBlockId(_bool(False))
         needs.setNDataSets(_posint(2))
         needs.setNRomBlocks(_posint(3))
-        needs.setRamBlockStatusControl(_literal("api"))
+        needs.setRamBlockStatusControl(_literal("API"))
         needs.setReadonly(_bool(False))
         needs.setReliability(_literal("critical"))
         needs.setResistantToChangedSw(_bool(True))
@@ -1861,7 +1861,7 @@ class TestWriterServiceNeeds:
         needs.setWriteOnlyOnce(_bool(True))
         needs.setWriteVerification(_bool(False))
         needs.setWritingFrequency(_posint(10))
-        needs.setWritingPriority(_literal("high"))
+        needs.setWritingPriority(_literal("HIGH"))
         parent = _parent()
         writer.writeNvBlockNeeds(parent, needs)
         elem = parent.find("NV-BLOCK-NEEDS")
@@ -1870,17 +1870,17 @@ class TestWriterServiceNeeds:
         assert elem.find("CHECK-STATIC-BLOCK-ID").text == "false"
         assert elem.find("N-DATA-SETS").text == "2"
         assert elem.find("N-ROM-BLOCKS").text == "3"
-        assert elem.find("RAM-BLOCK-STATUS-CONTROL").text == "api"
+        assert elem.find("RAM-BLOCK-STATUS-CONTROL").text == "API"
         assert elem.find("READONLY").text == "false"
         assert elem.find("RELIABILITY").text == "critical"
         assert elem.find("WRITING-FREQUENCY").text == "10"
-        assert elem.find("WRITING-PRIORITY").text == "high"
+        assert elem.find("WRITING-PRIORITY").text == "HIGH"
 
     def test_writeDiagnosticCommunicationManagerNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         needs = dep.createDiagnosticCommunicationManagerNeeds("dcm1")
-        needs.setServiceRequestCallbackType(_literal("requestCallbackTypeManufacturer"))
+        needs.setServiceRequestCallbackType(_literal("REQUEST-CALLBACK-TYPE-MANUFACTURER"))
         parent = _parent()
         writer.writeDiagnosticCommunicationManagerNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS")
@@ -1891,7 +1891,7 @@ class TestWriterServiceNeeds:
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         needs = dep.createDiagnosticRoutineNeeds("drn1")
-        needs.setDiagRoutineType(_literal("asynchronous"))
+        needs.setDiagRoutineType(_literal("ASYNCHRONOUS"))
         needs.setRidNumber(_int("16"))
         parent = _parent()
         writer.writeDiagnosticRoutineNeeds(parent, needs)
@@ -1907,12 +1907,12 @@ class TestWriterServiceNeeds:
         needs.setDataLength(_posint(8))
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticValueAccessEnum
 
-        needs.setDiagnosticValueAccess(DiagnosticValueAccessEnum().setValue("readWrite"))
+        needs.setDiagnosticValueAccess(DiagnosticValueAccessEnum().setValue("READ-WRITE"))
         needs.setDidNumber(_int("32"))
         needs.setFixedLength(_bool(True))
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticProcessingStyleEnum
 
-        needs.setProcessingStyle(DiagnosticProcessingStyleEnum().setValue("processingStyleSynchronous"))
+        needs.setProcessingStyle(DiagnosticProcessingStyleEnum().setValue(DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS))
         parent = _parent()
         writer.writeDiagnosticValueNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-VALUE-NEEDS")
@@ -2022,7 +2022,7 @@ class TestWriterServiceNeeds:
         needs = dep.createDiagnosticEventInfoNeeds("dei1")
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcKindEnum
 
-        needs.setDtcKind(DtcKindEnum().setValue("emissionRelatedDtc"))
+        needs.setDtcKind(DtcKindEnum().setValue(DtcKindEnum.EMISSION_RELATED_DTC))
         needs.setUdsDtcNumber(_posint("64"))
         parent = _parent()
         writer.writeDiagnosticEventInfoNeeds(parent, needs)
@@ -2074,7 +2074,7 @@ class TestWriterServiceNeeds:
         needs = dep.createDtcStatusChangeNotificationNeeds("dsc1")
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcFormatTypeEnum
 
-        needs.setDtcFormatType(DtcFormatTypeEnum().setValue("obd"))
+        needs.setDtcFormatType(DtcFormatTypeEnum().setValue("OBD"))
         parent = _parent()
         writer.writeDtcStatusChangeNotificationNeeds(parent, needs)
         elem = parent.find("DTC-STATUS-CHANGE-NOTIFICATION-NEEDS")
@@ -2159,7 +2159,7 @@ class TestWriterServiceNeeds:
         writer.writeComMgrUserNeeds(parent, needs)
         elem = parent.find("COM-MGR-USER-NEEDS")
         assert elem is not None
-        assert elem.find("MAX-COMM-MODE").text == "full"
+        assert elem.find("MAX-COMM-MODE").text == "FULL"
 
     def test_writeSupervisedEntityCheckpointNeeds(self, writer):
         behavior = _make_behavior()
@@ -2555,7 +2555,7 @@ class TestWriterSwcInternalBehaviorHub:
         policies = elem.find("EXCLUSIVE-AREA-POLICYS")
         assert policies is not None
         assert policies[0].tag == "SWC-EXCLUSIVE-AREA-POLICY"
-        assert policies[0].find("API-PRINCIPLE").text == "perExecutable"
+        assert policies[0].find("API-PRINCIPLE").text == "PER-EXECUTABLE"
         assert policies[0].find("EXCLUSIVE-AREA-REF").text == "/ea1"
 
     def test_writeAtomicSwComponentTypeInternalBehaviors_swc(self, writer):
@@ -3108,7 +3108,7 @@ class TestSwcModeSwitchEventRoundTrip:
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mse1")
             assert isinstance(event_2, SwcModeSwitchEvent)
             assert event_2.getActivation() is not None
-            assert event_2.getActivation().getValue() == "onTransition"
+            assert event_2.getActivation().getValue() == ModeActivationKind.ON_TRANSITION
             irefs = event_2.getModeIRefs()
             assert len(irefs) == 1
             ctx = irefs[0].getContextPortRef()

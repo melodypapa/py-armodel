@@ -55,7 +55,7 @@ class TestRteEVent:
         assert event.getShortName() == "mse_event1"
         assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_mse_1"
         assert event.getActivation() is not None
-        assert event.getActivation().getValue() == "onEntry"
+        assert event.getActivation().getValue() == "ON-ENTRY"
         irefs = event.getModeIRefs()
         assert len(irefs) == 2
         assert irefs[0].getContextPortRef().getDest() == "R-PORT-PROTOTYPE"

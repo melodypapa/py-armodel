@@ -52,14 +52,14 @@ class TestReadDiagnosticResponseOnEvent:
         response_on_event = self._read(parser, inner)
         event_windows = response_on_event.getEventWindows()
         assert len(event_windows) == 2
-        assert event_windows[0].getEventWindowTime().getValue() == "infiniteTimeToResponse"
-        assert event_windows[1].getEventWindowTime().getValue() == "powerWindowTime"
+        assert event_windows[0].getEventWindowTime().getValue() == "INFINITE-TIME-TO-RESPONSE"
+        assert event_windows[1].getEventWindowTime().getValue() == "POWER-WINDOW-TIME"
 
     def test_read_response_on_event_action(self, parser):
         """Test that the RESPONSE-ON-EVENT-ACTION enum token is read."""
         response_on_event = self._read(parser, "<RESPONSE-ON-EVENT-ACTION>ON-CHANGE-OF-DATA-IDENTIFIER</RESPONSE-ON-EVENT-ACTION>")
         assert response_on_event.getResponseOnEventAction() is not None
-        assert response_on_event.getResponseOnEventAction().getValue() == "onChangeOfDataIdentifier"
+        assert response_on_event.getResponseOnEventAction().getValue() == "ON-CHANGE-OF-DATA-IDENTIFIER"
 
     def test_read_response_on_event_class_ref(self, parser):
         """Test that the RESPONSE-ON-EVENT-CLASS-REF is read with its DEST attribute."""

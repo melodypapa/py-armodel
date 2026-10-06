@@ -119,7 +119,7 @@ def test_rule_based_axis_cont_round_trip(writer, parser):
 
     assert isinstance(reloaded, RuleBasedAxisCont)
     assert isinstance(reloaded.getCategory(), CalprmAxisCategoryEnum)
-    assert reloaded.getCategory().getValue() == "stdAxis"
+    assert reloaded.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
     assert reloaded.getRuleBasedValues() is not None
     assert reloaded.getRuleBasedValues().getRule().getValue() == "myRule"
     assert reloaded.getSwArraysize() is not None
@@ -162,7 +162,7 @@ class TestDocumentRoundTrip:
             assert len(axis_conts) == 1
             cont = axis_conts[0]
             assert isinstance(cont, RuleBasedAxisCont)
-            assert cont.getCategory().getValue() == "stdAxis"
+            assert cont.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
             assert cont.getSwAxisIndex().getValue() == "1"
             assert float(cont.getSwArraysize().getV().getValue()) == 4.0
             assert cont.getUnitRef().getValue() == "/Unit/SomeUnit"

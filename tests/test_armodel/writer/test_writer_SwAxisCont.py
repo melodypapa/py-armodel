@@ -115,7 +115,7 @@ class TestSwAxisContRoundTrip:
             axis_conts = spec2.getSwAxisConts()
             assert len(axis_conts) == 1
             axis_cont = axis_conts[0]
-            assert axis_cont.getCategory().getValue() == "stdAxis"
+            assert axis_cont.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
             assert axis_cont.getUnitRef().getValue() == "/Units/Nm"
             assert axis_cont.getUnitRef().getDest() == "UNIT"
             assert axis_cont.getUnitDisplayName().getMixedString() == "Nm"

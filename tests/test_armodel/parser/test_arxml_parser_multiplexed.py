@@ -18,6 +18,7 @@ from unittest.mock import MagicMock
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecuredPduHeaderEnum
 
 
 class TestMultiplexedPartHandlers:
@@ -40,7 +41,7 @@ class TestMultiplexedPartHandlers:
         positions = part.getSegmentPositions()
         assert len(positions) == 1
         assert isinstance(positions[0].getSegmentByteOrder(), ByteOrderEnum)
-        assert positions[0].getSegmentByteOrder().getValue() == "mostSignificantByteLast"
+        assert positions[0].getSegmentByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
         assert positions[0].getSegmentLength().getValue() == 8
         assert positions[0].getSegmentPosition().getValue() == 0
         # AR:AR-OBJECT S/T must round-trip (Rule 0025)
@@ -273,7 +274,7 @@ class TestMultiplexedIPduHandlers:
         assert ipdu.getShortName() == "muxIPdu"
         assert ipdu.getDynamicPart() is not None
         assert ipdu.getStaticPart() is not None
-        assert ipdu.getSelectorFieldByteOrder().getValue() == "mostSignificantByteLast"
+        assert ipdu.getSelectorFieldByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
         assert ipdu.getSelectorFieldLength().getValue() == 4
         assert ipdu.getSelectorFieldStartPosition().getValue() == 0
         assert ipdu.getTriggerMode().getValue() == "ONE-SHOT"
@@ -533,13 +534,13 @@ class TestSoAdRoutingGroupHandler:
 
         group = SoAdRoutingGroup(parent=_autosar_root(), short_name="routeGroup")
         element = _snip(
-            "<SHORT-NAME>routeGroup</SHORT-NAME>" "<EVENT-GROUP-CONTROL-TYPE>activationMulticast</EVENT-GROUP-CONTROL-TYPE>",
+            "<SHORT-NAME>routeGroup</SHORT-NAME>" "<EVENT-GROUP-CONTROL-TYPE>ACTIVATION-MULTICAST</EVENT-GROUP-CONTROL-TYPE>",
             root_tag="SO-AD-ROUTING-GROUP",
         )
         parser.readSoAdRoutingGroup(element, group)
         control_type = group.getEventGroupControlType()
         assert isinstance(control_type, EventGroupControlTypeEnum)
-        assert control_type.getValue() == "activationMulticast"
+        assert control_type.getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
 
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
@@ -565,7 +566,7 @@ class TestPduAndSecureCommunication:
         assert mapping.getISignalGroupRef().getValue() == "/isg"
         assert mapping.getPackingByteOrder() is not None
         assert isinstance(mapping.getPackingByteOrder(), ByteOrderEnum)
-        assert mapping.getPackingByteOrder().getValue() == "mostSignificantByteLast"
+        assert mapping.getPackingByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
         assert mapping.getStartPosition() is not None
         assert mapping.getStartPosition().getValue() == 0
         assert mapping.getTransferProperty() is not None
@@ -646,10 +647,10 @@ class TestSecuredIPduNewFields:
         from armodel.models import SecuredIPdu
 
         ipdu = SecuredIPdu(MagicMock(), "Sipdu")
-        element = _snip("<DYNAMIC-RUNTIME-LENGTH-HANDLING>true</DYNAMIC-RUNTIME-LENGTH-HANDLING>" "<USE-SECURED-PDU-HEADER>securedPduHeader16Bit</USE-SECURED-PDU-HEADER>")
+        element = _snip("<DYNAMIC-RUNTIME-LENGTH-HANDLING>true</DYNAMIC-RUNTIME-LENGTH-HANDLING>" "<USE-SECURED-PDU-HEADER>SECURED-PDU-HEADER-16-BIT</USE-SECURED-PDU-HEADER>")
         parser.readSecuredIPdu(element, ipdu)
         assert ipdu.getDynamicRuntimeLengthHandling().getValue() is True
-        assert ipdu.getUseSecuredPduHeader().getValue() == "securedPduHeader16Bit"
+        assert ipdu.getUseSecuredPduHeader().getValue() == SecuredPduHeaderEnum.SECURED_PDU_HEADER16_BIT
 
     def test_writeSecuredIPdu_new_fields(self):
         import xml.etree.ElementTree as ET
@@ -672,7 +673,7 @@ class TestSecuredIPduNewFields:
         writer.writeSecuredIPdu(parent, ipdu)
         elem = parent.find("SECURED-I-PDU")
         assert elem.find("DYNAMIC-RUNTIME-LENGTH-HANDLING").text == "true"
-        assert elem.find("USE-SECURED-PDU-HEADER").text == "securedPduHeader16Bit"
+        assert elem.find("USE-SECURED-PDU-HEADER").text == "SECURED-PDU-HEADER-16-BIT"
         children = [
             child.tag
             for child in elem

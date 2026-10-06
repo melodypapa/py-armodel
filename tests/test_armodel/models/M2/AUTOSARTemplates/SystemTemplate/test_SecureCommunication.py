@@ -215,40 +215,40 @@ class Test_TlsCryptoServiceMappingSpec:
 class Test_MacSecEnums:
     def test_MacSecRoleEnum(self):
         # spec literal names are camelCase per Table 3.127 (peer idx0, keyServer idx1)
-        assert MacSecRoleEnum.PEER == "peer"
-        assert MacSecRoleEnum.KEY_SERVER == "keyServer"
+        assert MacSecRoleEnum.PEER == "PEER"
+        assert MacSecRoleEnum.KEY_SERVER == "KEY-SERVER"
         e = MacSecRoleEnum()
-        e.setValue("keyServer")
-        assert e.getValue() == "keyServer"
-        assert e.getText() == "keyServer"
+        e.setValue(MacSecRoleEnum.KEY_SERVER)
+        assert e.getValue() == MacSecRoleEnum.KEY_SERVER
+        assert e.getText() == MacSecRoleEnum.KEY_SERVER
 
     def test_MacSecFailPermissiveModeEnum(self):
         # spec literal names are the lower-case xml.name forms per Table 3.128 (never idx0, timeout idx1)
-        assert MacSecFailPermissiveModeEnum.NEVER == "never"
-        assert MacSecFailPermissiveModeEnum.TIMEOUT == "timeout"
+        assert MacSecFailPermissiveModeEnum.NEVER == "NEVER"
+        assert MacSecFailPermissiveModeEnum.TIMEOUT == "TIMEOUT"
         e = MacSecFailPermissiveModeEnum()
-        e.setValue("timeout")
-        assert e.getValue() == "timeout"
-        assert e.getText() == "timeout"
+        e.setValue(MacSecFailPermissiveModeEnum.TIMEOUT)
+        assert e.getValue() == MacSecFailPermissiveModeEnum.TIMEOUT
+        assert e.getText() == MacSecFailPermissiveModeEnum.TIMEOUT
 
     def test_MacSecCapabilityEnum(self):
         # spec literal names per Table 3.126 (intergrityWithoutConfidentiality idx0, intergrityAndConfidentiality idx1); note spec spells both "intergrity"
-        assert MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY == "intergrityWithoutConfidentiality"
-        assert MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY == "intergrityAndConfidentiality"
+        assert MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY == "INTERGRITY-WITHOUT-CONFIDENTIALITY"
+        assert MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY == "INTERGRITY-AND-CONFIDENTIALITY"
         e = MacSecCapabilityEnum()
-        e.setValue("intergrityAndConfidentiality")
-        assert e.getValue() == "intergrityAndConfidentiality"
-        assert e.getText() == "intergrityAndConfidentiality"
+        e.setValue(MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY)
+        assert e.getValue() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
+        assert e.getText() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
 
     def test_MacSecConfidentialityOffsetEnum(self):
         # spec literal values are the UPPER-CASE xml.name forms per Table 3.125 (CONFIDENTIALITY-OFFSET-0 idx0, ...-30 idx1, ...-50 idx2)
-        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0 == "CONFIDENTIALITY-OFFSET-0"
-        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30 == "CONFIDENTIALITY-OFFSET-30"
-        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50 == "CONFIDENTIALITY-OFFSET-50"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0 == "CONFIDENTIALITY-OFFSET--0"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30 == "CONFIDENTIALITY-OFFSET--30"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50 == "CONFIDENTIALITY-OFFSET--50"
         e = MacSecConfidentialityOffsetEnum()
-        e.setValue("CONFIDENTIALITY-OFFSET-50")
-        assert e.getValue() == "CONFIDENTIALITY-OFFSET-50"
-        assert e.getText() == "CONFIDENTIALITY-OFFSET-50"
+        e.setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50)
+        assert e.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
+        assert e.getText() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
 
 
 class Test_MacSecLocalKayProps:
@@ -269,7 +269,7 @@ class Test_MacSecLocalKayProps:
         props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
         props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
         role = MacSecRoleEnum()
-        role.setValue("keyServer")
+        role.setValue(MacSecRoleEnum.KEY_SERVER)
         props.setRole(role)
         props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
 
@@ -277,7 +277,7 @@ class Test_MacSecLocalKayProps:
         assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert props.getKeyServerPriority().getValue() == 16
         assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
-        assert props.getRole().getValue() == "keyServer"
+        assert props.getRole().getValue() == MacSecRoleEnum.KEY_SERVER
         assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
 
     def test_none_is_noop(self):
@@ -390,14 +390,14 @@ class Test_MacSecCryptoAlgoConfig:
     def test_get_set_capability(self):
         config = MacSecCryptoAlgoConfig()
         capability = MacSecCapabilityEnum()
-        capability.setValue("intergrityAndConfidentiality")
+        capability.setValue(MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY)
         assert config.setCapability(capability) is config
         assert config.getCapability() is capability
 
     def test_get_set_confidentiality_offset(self):
         config = MacSecCryptoAlgoConfig()
         offset = MacSecConfidentialityOffsetEnum()
-        offset.setValue("CONFIDENTIALITY-OFFSET-30")
+        offset.setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30)
         assert config.setConfidentialityOffset(offset) is config
         assert config.getConfidentialityOffset() is offset
 

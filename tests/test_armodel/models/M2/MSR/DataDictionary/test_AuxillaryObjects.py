@@ -16,18 +16,18 @@ class TestMemoryAllocationKeywordPolicyType:
 
         assert enum is not None
         assert enum.getEnumValues() == (
-            "addrMethodShortName",
-            "addrMethodShortNameAndAlignment",
+            MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME,
+            MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT,
         )
 
     def test_enum_values(self):
         enum = MemoryAllocationKeywordPolicyType()
 
-        assert MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME == "addrMethodShortName"
-        assert MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT == "addrMethodShortNameAndAlignment"
+        assert MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME == "ADDR-METHOD-SHORT-NAME"
+        assert MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT == "ADDR-METHOD-SHORT-NAME-AND-ALIGNMENT"
 
-        assert enum.validateEnumValue("addrMethodShortName") is True
-        assert enum.validateEnumValue("addrMethodShortNameAndAlignment") is True
+        assert enum.validateEnumValue("ADDR-METHOD-SHORT-NAME") is True
+        assert enum.validateEnumValue("ADDR-METHOD-SHORT-NAME-AND-ALIGNMENT") is True
         assert enum.validateEnumValue("invalid") is False
 
 
@@ -41,28 +41,28 @@ class TestMemorySectionType:
 
         assert enum is not None
         assert enum.getEnumValues() == (
-            "calibrationVariables",
-            "calprm",
-            "code",
-            "configData",
-            "const",
-            "excludeFromFlash",
-            "var",
+            MemorySectionType.CALIBRATION_VARIABLES,
+            MemorySectionType.CALPRM,
+            MemorySectionType.CODE,
+            MemorySectionType.CONFIG_DATA,
+            "CONST",
+            MemorySectionType.EXCLUDE_FROM_FLASH,
+            MemorySectionType.VAR,
         )
 
     def test_enum_values(self):
         enum = MemorySectionType()
 
-        assert MemorySectionType.CALIBRATION_VARIABLES == "calibrationVariables"
-        assert MemorySectionType.CALPRM == "calprm"
-        assert MemorySectionType.CODE == "code"
-        assert MemorySectionType.CONFIG_DATA == "configData"
-        assert MemorySectionType.CONST == "const"
-        assert MemorySectionType.EXCLUDE_FROM_FLASH == "excludeFromFlash"
-        assert MemorySectionType.VAR == "var"
+        assert MemorySectionType.CALIBRATION_VARIABLES == "CALIBRATION-VARIABLES"
+        assert MemorySectionType.CALPRM == "CALPRM"
+        assert MemorySectionType.CODE == "CODE"
+        assert MemorySectionType.CONFIG_DATA == "CONFIG-DATA"
+        assert MemorySectionType.CONST == "CONST"
+        assert MemorySectionType.EXCLUDE_FROM_FLASH == "EXCLUDE-FROM-FLASH"
+        assert MemorySectionType.VAR == "VAR"
 
-        assert enum.validateEnumValue("code") is True
-        assert enum.validateEnumValue("const") is True
+        assert enum.validateEnumValue("CODE") is True
+        assert enum.validateEnumValue("CONST") is True
         assert enum.validateEnumValue("invalid") is False
 
 

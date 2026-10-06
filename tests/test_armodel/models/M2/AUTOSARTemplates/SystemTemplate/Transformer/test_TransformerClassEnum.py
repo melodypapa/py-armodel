@@ -14,11 +14,11 @@ class TestTransformerClassEnum:
 
     def test_literal_values(self):
         enum = TransformerClassEnum()
-        assert TransformerClassEnum.CUSTOM == "custom"
-        assert TransformerClassEnum.SAFETY == "safety"
-        assert TransformerClassEnum.SECURITY == "security"
-        assert TransformerClassEnum.SERIALIZER == "serializer"
-        assert list(enum.getEnumValues()) == ["custom", "safety", "security", "serializer"]
+        assert TransformerClassEnum.CUSTOM == "CUSTOM"
+        assert TransformerClassEnum.SAFETY == "SAFETY"
+        assert TransformerClassEnum.SECURITY == "SECURITY"
+        assert TransformerClassEnum.SERIALIZER == "SERIALIZER"
+        assert list(enum.getEnumValues()) == ["CUSTOM", "SAFETY", "SECURITY", "SERIALIZER"]
 
     def test_set_value_round_trip(self):
         enum = TransformerClassEnum()
@@ -31,8 +31,8 @@ class TestTransformerClassEnum:
 
     def test_validate_enum_value(self):
         enum = TransformerClassEnum()
-        assert enum.validateEnumValue("custom") is True
-        assert enum.validateEnumValue("safety") is True
-        assert enum.validateEnumValue("security") is True
-        assert enum.validateEnumValue("serializer") is True
+        assert enum.validateEnumValue("CUSTOM") is True
+        assert enum.validateEnumValue("SAFETY") is True
+        assert enum.validateEnumValue("SECURITY") is True
+        assert enum.validateEnumValue("SERIALIZER") is True
         assert enum.validateEnumValue("notATransformerClass") is False

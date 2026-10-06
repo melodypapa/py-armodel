@@ -49,14 +49,14 @@ class TestReadDataMapping:
         assert block.getPs()[0].getL1s()[0].getValue() == "Mapping intro"
 
     def test_read_communication_direction(self):
-        element = _snip("<COMMUNICATION-DIRECTION>in</COMMUNICATION-DIRECTION>")
+        element = _snip("<COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>")
         mapping = _ConcreteDataMapping()
 
         ARXMLParser().readDataMapping(element, mapping)
 
         direction = mapping.getCommunicationDirection()
         assert direction is not None
-        assert direction.getValue() == "in"
+        assert direction.getValue() == "IN"
 
     def test_read_ref_lists(self):
         element = _snip(

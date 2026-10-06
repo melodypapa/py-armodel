@@ -131,22 +131,22 @@ class Test_OsTaskPreemptabilityEnum:
 
     def test_enum_members(self):
         """Spec literal values per Table 5.16 (full idx1, none idx0; displayed order full, none)."""
-        assert OsTaskPreemptabilityEnum.FULL == "full"
-        assert OsTaskPreemptabilityEnum.NONE == "none"
+        assert OsTaskPreemptabilityEnum.FULL == "FULL"
+        assert OsTaskPreemptabilityEnum.NONE == "NONE"
 
     def test_instantiability(self):
         e = OsTaskPreemptabilityEnum()
         e.setValue(OsTaskPreemptabilityEnum.FULL)
-        assert e.getValue() == "full"
-        assert e.getText() == "full"
+        assert e.getValue() == "FULL"
+        assert e.getText() == "FULL"
         e2 = OsTaskPreemptabilityEnum()
         e2.setValue(OsTaskPreemptabilityEnum.NONE)
-        assert e2.getValue() == "none"
-        assert e2.getText() == "none"
+        assert e2.getValue() == "NONE"
+        assert e2.getText() == "NONE"
 
     def test_enum_values(self):
         e = OsTaskPreemptabilityEnum()
-        assert list(e.getEnumValues()) == ["full", "none"]
+        assert list(e.getEnumValues()) == ["FULL", "NONE"]
 
 
 class Test_OsTaskProxy:
@@ -198,7 +198,7 @@ class Test_OsTaskProxy:
         result = obj.setPreemptability(value)
         assert result is obj
         assert obj.getPreemptability() is value
-        assert obj.getPreemptability().getValue() == "full"
+        assert obj.getPreemptability().getValue() == "FULL"
         obj.setPreemptability(None)
         assert obj.getPreemptability() is value
 

@@ -77,12 +77,12 @@ class TestParameterAccess:
 
         props = SwDataDefProps()
         access_literal = ARLiteral()
-        access_literal.setValue("notAccessible")
+        access_literal.setValue("NOT-ACCESSIBLE")
         props.setSwCalibrationAccess(access_literal)
 
         assert param_access.setSwDataDefProps(props) is param_access
         assert param_access.getSwDataDefProps() is props
-        assert param_access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "notAccessible"
+        assert param_access.getSwDataDefProps().getSwCalibrationAccess().getValue() == "NOT-ACCESSIBLE"
 
         assert param_access.setSwDataDefProps(None) is param_access
         assert param_access.getSwDataDefProps() is props
@@ -146,7 +146,7 @@ class TestVariableAccess:
 
         assert var_access.setScope(scope) is var_access
         assert var_access.getScope() is scope
-        assert var_access.getScope().getValue() == "communicationIntraPartition"
+        assert var_access.getScope().getValue() == VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION
 
         assert var_access.setScope(None) is var_access
         assert var_access.getScope() is scope
@@ -164,9 +164,9 @@ class TestVariableAccessScopeEnum:
         """Test VariableAccessScopeEnum instantiation and literal values."""
         enum = VariableAccessScopeEnum()
 
-        assert VariableAccessScopeEnum.COMMUNICATION_INTER_ECU == "communicationInterEcu"
-        assert VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION == "communicationIntraPartition"
-        assert VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU == "interPartitionIntraEcu"
+        assert VariableAccessScopeEnum.COMMUNICATION_INTER_ECU == "COMMUNICATION-INTER-ECU"
+        assert VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION == "COMMUNICATION-INTRA-PARTITION"
+        assert VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU == "INTER-PARTITION-INTRA-ECU"
         assert enum.getEnumValues() == [
             VariableAccessScopeEnum.COMMUNICATION_INTER_ECU,
             VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION,
@@ -181,7 +181,7 @@ class TestVariableAccessScopeEnum:
 
         enum = VariableAccessScopeEnum()
         enum.setValue(VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION)
-        assert enum.getValue() == "communicationIntraPartition"
+        assert enum.getValue() == VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION
 
     def test_has_spec_note(self):
         """The class docstring carries the Table 7.34 Note verbatim."""

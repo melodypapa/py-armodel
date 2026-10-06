@@ -110,20 +110,20 @@ def test_binding_time_enum_initialization():
     enum = BindingTimeEnum()
 
     assert enum.getEnumValues() == [
-        "codeGenerationTime",
-        "linkTime",
-        "preCompileTime",
-        "systemDesignTime",
+        "CODE-GENERATION-TIME",
+        "LINK-TIME",
+        "PRE-COMPILE-TIME",
+        "SYSTEM-DESIGN-TIME",
     ]
 
 
 def test_binding_time_enum_validate_enum_value():
     enum = BindingTimeEnum()
 
-    assert enum.validateEnumValue("preCompileTime") is True
-    assert enum.validateEnumValue("codeGenerationTime") is True
-    assert enum.validateEnumValue("linkTime") is True
-    assert enum.validateEnumValue("systemDesignTime") is True
+    assert enum.validateEnumValue("PRE-COMPILE-TIME") is True
+    assert enum.validateEnumValue("CODE-GENERATION-TIME") is True
+    assert enum.validateEnumValue("LINK-TIME") is True
+    assert enum.validateEnumValue("SYSTEM-DESIGN-TIME") is True
     assert enum.validateEnumValue("systemDescriptionTime") is False
     assert enum.validateEnumValue("invalidValue") is False
 
@@ -172,7 +172,7 @@ def test_post_build_variant_condition_none_values():
 
 def test_condition_by_formula_getters_and_setters():
     binding_time = BindingTimeEnum()
-    binding_time.setValue("preCompileTime")
+    binding_time.setValue("PRE-COMPILE-TIME")
 
     condition = ConditionByFormula()
     condition.setBindingTime(binding_time)
@@ -182,7 +182,7 @@ def test_condition_by_formula_getters_and_setters():
 
 def test_condition_by_formula_method_chaining():
     binding_time = BindingTimeEnum()
-    binding_time.setValue("codeGenerationTime")
+    binding_time.setValue("CODE-GENERATION-TIME")
 
     condition = ConditionByFormula()
     result = condition.setBindingTime(binding_time)
@@ -244,7 +244,7 @@ def test_variation_point_method_chaining():
 
     variation_point = VariationPoint()
     binding_time = BindingTimeEnum()
-    binding_time.setValue("preCompileTime")
+    binding_time.setValue("PRE-COMPILE-TIME")
     sys_condition = ConditionByFormula()
     sys_condition.setBindingTime(binding_time)
 
@@ -275,7 +275,7 @@ def test_variation_point_all_new_attributes():
 
     variation_point.setShortLabel("VP_Complete")
     binding_time = BindingTimeEnum()
-    binding_time.setValue("codeGenerationTime")
+    binding_time.setValue("CODE-GENERATION-TIME")
     sys_cond = ConditionByFormula()
     sys_cond.setBindingTime(binding_time)
     variation_point.setSwSyscond(sys_cond)

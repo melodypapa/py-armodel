@@ -21,14 +21,14 @@ class TestReadTDEventBswModule:
             f"<TD-EVENT-BSW-MODULE xmlns='{NS}'>"
             "<SHORT-NAME>BswModule1</SHORT-NAME>"
             "<BSW-MODULE-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/AUTOSAR/BswModuleEntry1</BSW-MODULE-ENTRY-REF>"
-            "<TD-EVENT-BSW-MODULE-TYPE>bswMEntryCalled</TD-EVENT-BSW-MODULE-TYPE>"
+            "<TD-EVENT-BSW-MODULE-TYPE>BSW-M-ENTRY-CALLED</TD-EVENT-BSW-MODULE-TYPE>"
             "</TD-EVENT-BSW-MODULE>"
         )
         ARXMLParser().readTDEventBswModule(element, event)
         assert event.getShortName() == "BswModule1"
         assert event.getBswModuleEntryRef().getValue() == "/AUTOSAR/BswModuleEntry1"
         assert event.getBswModuleEntryRef().getDest() == "BSW-MODULE-ENTRY"
-        assert event.getTdEventBswModuleType().getValue() == "bswMEntryCalled"
+        assert event.getTdEventBswModuleType().getValue() == "BSW-M-ENTRY-CALLED"
 
     def test_read_minimal(self):
         AUTOSAR.getInstance().new()

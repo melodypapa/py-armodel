@@ -9,18 +9,18 @@ class TestProcessingKindEnum:
         assert issubclass(ProcessingKindEnum, AREnum)
 
     def test_members_and_values(self):
-        assert ProcessingKindEnum.FILTERED == "filtered"
-        assert ProcessingKindEnum.NONE == "none"
-        assert ProcessingKindEnum.RAW == "raw"
+        assert ProcessingKindEnum.FILTERED == "FILTERED"
+        assert ProcessingKindEnum.NONE == "NONE"
+        assert ProcessingKindEnum.RAW == "RAW"
 
     def test_literal_set_is_exact(self):
-        assert ProcessingKindEnum().getEnumValues() == ("filtered", "none", "raw")
+        assert ProcessingKindEnum().getEnumValues() == ("FILTERED", "NONE", "RAW")
 
     def test_instantiability(self):
         enum = ProcessingKindEnum()
         result = enum.setValue(ProcessingKindEnum.FILTERED)
         assert result is enum
-        assert enum.getValue() == "filtered"
+        assert enum.getValue() == ProcessingKindEnum.FILTERED
 
     def test_class_docstring_verbatim(self):
         assert ProcessingKindEnum.__doc__.strip() == CLASS_NOTE

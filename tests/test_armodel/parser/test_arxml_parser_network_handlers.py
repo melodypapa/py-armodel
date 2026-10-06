@@ -8,6 +8,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -56,7 +57,7 @@ class TestCanClusterHandlers:
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<SHORT-NAME>c</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<BAUDRATE>500000</BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
+            "<SHORT-NAME>C</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<BAUDRATE>500000</BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
             root_tag="CAN-CLUSTER",
         )
         parser.readCanCluster(element, cluster)
@@ -67,7 +68,7 @@ class TestCanClusterHandlers:
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<SHORT-NAME>c</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<CAN-XL-BAUDRATE>10000000</CAN-XL-BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
+            "<SHORT-NAME>C</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<CAN-XL-BAUDRATE>10000000</CAN-XL-BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
             root_tag="CAN-CLUSTER",
         )
         parser.readCanCluster(element, cluster)
@@ -79,7 +80,7 @@ class TestCanClusterHandlers:
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<SHORT-NAME>c</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<CAN-FD-BAUDRATE>2000000</CAN-FD-BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
+            "<SHORT-NAME>C</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<CAN-FD-BAUDRATE>2000000</CAN-FD-BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
             root_tag="CAN-CLUSTER",
         )
         parser.readCanCluster(element, cluster)
@@ -235,12 +236,12 @@ class TestLinClusterHandlers:
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
         table = LinScheduleTable(parent=channel, short_name="tbl")
         element = _snip(
-            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>enabled</RESUME-POSITION>" "<RUN-MODE>continuous</RUN-MODE>",
+            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>ENABLED</RESUME-POSITION>" "<RUN-MODE>continuous</RUN-MODE>",
             root_tag="LIN-SCHEDULE-TABLE",
         )
         parser.readLinScheduleTable(element, table)
         assert table.getResumePosition() is not None
-        assert table.getResumePosition().getValue() == "enabled"
+        assert table.getResumePosition().getValue() == "ENABLED"
         assert table.getRunMode() is not None
         assert table.getRunMode().getValue() == "continuous"
 
@@ -252,14 +253,14 @@ class TestLinClusterHandlers:
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
         table = LinScheduleTable(parent=channel, short_name="tbl")
         element = _snip(
-            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>continueAtItPosition</RESUME-POSITION>" "<RUN-MODE>runOnce</RUN-MODE>",
+            "<SHORT-NAME>tbl</SHORT-NAME>" "<RESUME-POSITION>CONTINUE-AT-IT-POSITION</RESUME-POSITION>" "<RUN-MODE>RUN-ONCE</RUN-MODE>",
             root_tag="LIN-SCHEDULE-TABLE",
         )
         parser.readLinScheduleTable(element, table)
         assert isinstance(table.getResumePosition(), ResumePosition)
-        assert table.getResumePosition().getValue() == "continueAtItPosition"
+        assert table.getResumePosition().getValue() == ResumePosition.CONTINUE_AT_IT_POSITION
         assert isinstance(table.getRunMode(), RunMode)
-        assert table.getRunMode().getValue() == "runOnce"
+        assert table.getRunMode().getValue() == RunMode.RUN_ONCE
 
     def test_readLinScheduleTable_absent_elements(self, parser):
         from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
@@ -642,7 +643,7 @@ class TestFlexrayClusterHandlers:
             "<COMMUNICATION-CYCLE>"
             "<CYCLE-REPETITION>"
             "<BASE-CYCLE>1</BASE-CYCLE>"
-            "<CYCLE-REPETITION>cyclic</CYCLE-REPETITION>"
+            "<CYCLE-REPETITION>CYCLIC</CYCLE-REPETITION>"
             "</CYCLE-REPETITION>"
             "</COMMUNICATION-CYCLE>"
             "<TIME-MARK>16</TIME-MARK>"
@@ -652,7 +653,7 @@ class TestFlexrayClusterHandlers:
         parser.readTtcanAbsolutelyScheduledTiming(element, timing)
         assert timing.getCommunicationCycle() is not None
         assert timing.getCommunicationCycle().getBaseCycle().getValue() == 1
-        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "cyclic"
+        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "CYCLIC"
         assert timing.getTimeMark().getValue() == 16
         assert timing.getTrigger().getValue() == "RX-TRIGGER"
 
@@ -1121,7 +1122,7 @@ class TestSoAdAndSocketHandlers:
             "<SOCKET-CONNECTION-IPDU-IDENTIFIER><HEADER-ID>42</HEADER-ID></SOCKET-CONNECTION-IPDU-IDENTIFIER>"
             "</PDUS>"
             "<SERVER-PORT-REF DEST='SOCKET-ADDRESS'>/Sock/SA1</SERVER-PORT-REF>"
-            "<UDP-CHECKSUM-HANDLING>udpChecksumEnabled</UDP-CHECKSUM-HANDLING>",
+            "<UDP-CHECKSUM-HANDLING>UDP-CHECKSUM-ENABLED</UDP-CHECKSUM-HANDLING>",
             root_tag="SOCKET-CONNECTION-BUNDLE",
         )
         element.set("S", "CHK123")
@@ -1133,7 +1134,7 @@ class TestSoAdAndSocketHandlers:
         assert int(bundle.getFlowLabel().getValue()) == 100
         assert bundle.getPathMtuDiscoveryEnabled().getValue() is True
         assert bundle.getServerPortRef().getValue() == "/Sock/SA1"
-        assert bundle.getUdpChecksumHandling().getValue() == "udpChecksumEnabled"
+        assert bundle.getUdpChecksumHandling().getValue() == "UDP-CHECKSUM-ENABLED"
         assert len(bundle.getBundledConnections()) == 1
         assert bundle.getBundledConnections()[0].getShortLabel().getValue() == "conn1"
         assert len(bundle.getPdus()) == 1
@@ -1194,8 +1195,8 @@ class TestSoAdAndSocketHandlers:
         element = _snip(
             "<HEADER-ID>42</HEADER-ID>"
             "<PDU-COLLECTION-PDU-TIMEOUT>10.0</PDU-COLLECTION-PDU-TIMEOUT>"
-            "<PDU-COLLECTION-SEMANTICS>queued</PDU-COLLECTION-SEMANTICS>"
-            "<PDU-COLLECTION-TRIGGER>always</PDU-COLLECTION-TRIGGER>"
+            "<PDU-COLLECTION-SEMANTICS>QUEUED</PDU-COLLECTION-SEMANTICS>"
+            "<PDU-COLLECTION-TRIGGER>ALWAYS</PDU-COLLECTION-TRIGGER>"
             "<PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/IT/FrTrigger</PDU-TRIGGERING-REF>"
             "<ROUTING-GROUP-REFS>"
             "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/Pkg/Rg1</ROUTING-GROUP-REF>"
@@ -1207,8 +1208,8 @@ class TestSoAdAndSocketHandlers:
         assert ident is not None
         assert int(ident.getHeaderId().getValue()) == 42
         assert float(ident.getPduCollectionPduTimeout().getValue()) == 10.0
-        assert ident.getPduCollectionSemantics().getValue() == "queued"
-        assert ident.getPduCollectionTrigger().getValue() == "always"
+        assert ident.getPduCollectionSemantics().getValue() == "QUEUED"
+        assert ident.getPduCollectionTrigger().getValue() == "ALWAYS"
         assert ident.getPduTriggeringRef().getValue() == "/IT/FrTrigger"
         refs = ident.getRoutingGroupRefs()
         assert [ref.getValue() for ref in refs] == ["/Pkg/Rg1", "/Pkg/Rg2"]
@@ -1303,7 +1304,7 @@ class TestTransportProtocolHandlers:
 
         tp = TcpTp()
         element = _snip(
-            "<TCP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</TCP-TP-PORT>" "<KEEP-ALIVES>true</KEEP-ALIVES>" "<NAGLES-ALGORITHM>enabled</NAGLES-ALGORITHM>",
+            "<TCP-TP-PORT>" "<PORT-NUMBER>5000</PORT-NUMBER>" "</TCP-TP-PORT>" "<KEEP-ALIVES>true</KEEP-ALIVES>" "<NAGLES-ALGORITHM>ENABLED</NAGLES-ALGORITHM>",
             root_tag="TCP-TP",
             attrs=' S="1234" T="2024-01-01T00:00:00Z"',
         )
@@ -1453,12 +1454,12 @@ class TestFrameAndPduHandlers:
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
         triggering = CanFrameTriggering(parent=channel, short_name="ft")
         element = _snip(
-            "<SHORT-NAME>ft</SHORT-NAME>" "<CAN-ADDRESSING-MODE>standard</CAN-ADDRESSING-MODE>" "<IDENTIFIER><VALUE>100</VALUE></IDENTIFIER>",
+            "<SHORT-NAME>ft</SHORT-NAME>" "<CAN-ADDRESSING-MODE>STANDARD</CAN-ADDRESSING-MODE>" "<IDENTIFIER><VALUE>100</VALUE></IDENTIFIER>",
             root_tag="CAN-FRAME-TRIGGERING",
         )
         parser.readCanFrameTriggering(element, triggering)
         assert triggering.getCanAddressingMode() is not None
-        assert triggering.getCanAddressingMode().getValue() == "standard"
+        assert triggering.getCanAddressingMode().getValue() == "STANDARD"
 
     def test_readCanFrameTriggering_sets_masks_and_j1939(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
@@ -1673,7 +1674,7 @@ class TestFrameAndPduHandlers:
         element = _snip(
             "<SHORT-NAME>ipdu</SHORT-NAME>"
             "<CONTAINED-I-PDU-PROPS>"
-            "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>"
+            "<COLLECTION-SEMANTICS>LAST-IS-BEST</COLLECTION-SEMANTICS>"
             "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
             "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
             "<OFFSET>4</OFFSET>"
@@ -1686,7 +1687,7 @@ class TestFrameAndPduHandlers:
         parser.readIPdu(element, ipdu)
         props = ipdu.getContainedIPduProps()
         assert props is not None
-        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getCollectionSemantics().getValue() == "LAST-IS-BEST"
         assert props.getHeaderIdLongHeader().getValue() == 100
         assert props.getHeaderIdShortHeader().getValue() == 50
         assert props.getOffset().getValue() == 4
@@ -1713,14 +1714,14 @@ class TestFrameAndPduHandlers:
         element = _snip(
             "<SHORT-NAME>ipdu</SHORT-NAME>"
             "<CONTAINED-I-PDU-PROPS>"
-            "<COLLECTION-SEMANTICS>queued</COLLECTION-SEMANTICS>"
+            "<COLLECTION-SEMANTICS>QUEUED</COLLECTION-SEMANTICS>"
             "<CONTAINED-PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/PduTriggering/pt1</CONTAINED-PDU-TRIGGERING-REF>"
             "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
             "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
             "<OFFSET>4</OFFSET>"
             "<PRIORITY>6</PRIORITY>"
             "<TIMEOUT>0.01</TIMEOUT>"
-            "<TRIGGER>always</TRIGGER>"
+            "<TRIGGER>ALWAYS</TRIGGER>"
             "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
             "</CONTAINED-I-PDU-PROPS>",
             root_tag="GENERAL-PURPOSE-I-PDU",
@@ -1731,12 +1732,12 @@ class TestFrameAndPduHandlers:
         assert props.getPriority().getValue() == 6
         assert props.getContainedPduTriggeringRef().getValue() == "/PduTriggering/pt1"
         assert props.getContainedPduTriggeringRef().getDest() == "PDU-TRIGGERING"
-        assert props.getCollectionSemantics().getValue() == "queued"
+        assert props.getCollectionSemantics().getValue() == "QUEUED"
         assert props.getHeaderIdLongHeader().getValue() == 100
         assert props.getHeaderIdShortHeader().getValue() == 50
         assert props.getOffset().getValue() == 4
         assert props.getTimeout().getValue() == 0.01
-        assert props.getTrigger().getValue() == "always"
+        assert props.getTrigger().getValue() == "ALWAYS"
         assert props.getUpdateIndicationBitPosition().getValue() == 7
         assert isinstance(props.getOffset(), PositiveInteger)
         assert isinstance(props.getUpdateIndicationBitPosition(), PositiveInteger)
@@ -1747,13 +1748,13 @@ class TestFrameAndPduHandlers:
 
         ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
         element = _snip(
-            "<SHORT-NAME>ipdu</SHORT-NAME>" "<CONTAINED-I-PDU-PROPS>" "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>" "<PRIORITY>3</PRIORITY>" "</CONTAINED-I-PDU-PROPS>",
+            "<SHORT-NAME>ipdu</SHORT-NAME>" "<CONTAINED-I-PDU-PROPS>" "<COLLECTION-SEMANTICS>LAST-IS-BEST</COLLECTION-SEMANTICS>" "<PRIORITY>3</PRIORITY>" "</CONTAINED-I-PDU-PROPS>",
             root_tag="GENERAL-PURPOSE-I-PDU",
         )
         parser.readIPdu(element, ipdu)
         props = ipdu.getContainedIPduProps()
         assert props is not None
-        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getCollectionSemantics().getValue() == "LAST-IS-BEST"
         assert props.getPriority().getValue() == 3
         assert props.getContainedPduTriggeringRef() is None
         assert props.getHeaderIdLongHeader() is None
@@ -1834,7 +1835,7 @@ class TestISignalAndGroupHandlers:
         parser.readISignal(element, signal)
         props = signal.getISignalProps()
         assert props is not None
-        assert props.getHandleOutOfRange().getValue() == "default"
+        assert props.getHandleOutOfRange().getValue() == HandleOutOfRangeEnum.DEFAULT
 
     def test_readISignal_does_not_set_iSignalProps_when_absent(self, parser):
         from armodel.models import ISignal
@@ -2296,7 +2297,7 @@ class TestNmConfigHandlers:
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
         element = _snip(
-            "<NM-NODES>" "<CAN-NM-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "</CAN-NM-NODE>" "</NM-NODES>",
+            "<NM-NODES>" "<CAN-NM-NODE>" "<SHORT-NAME>NODE</SHORT-NAME>" "</CAN-NM-NODE>" "</NM-NODES>",
             root_tag="CAN-NM-CLUSTER",
         )
         parser.readNmClusterNmNodes(element, cluster)
@@ -2308,7 +2309,7 @@ class TestNmConfigHandlers:
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = UdpNmCluster(parent=config, short_name="unm")
         element = _snip(
-            "<NM-NODES>" "<UDP-NM-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "</UDP-NM-NODE>" "</NM-NODES>",
+            "<NM-NODES>" "<UDP-NM-NODE>" "<SHORT-NAME>NODE</SHORT-NAME>" "</UDP-NM-NODE>" "</NM-NODES>",
             root_tag="UDP-NM-CLUSTER",
         )
         parser.readNmClusterNmNodes(element, cluster)
@@ -2333,12 +2334,12 @@ class TestNmConfigHandlers:
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = J1939NmCluster(parent=config, short_name="jnm")
         element = _snip(
-            "<NM-NODES>" "<J-1939-NM-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "</J-1939-NM-NODE>" "</NM-NODES>",
+            "<NM-NODES>" "<J-1939-NM-NODE>" "<SHORT-NAME>NODE</SHORT-NAME>" "</J-1939-NM-NODE>" "</NM-NODES>",
             root_tag="J-1939-NM-CLUSTER",
         )
         parser.readNmClusterNmNodes(element, cluster)
         assert len(cluster.getNmNodes()) == 1
-        assert cluster.getNmNodes()[0].getShortName() == "node"
+        assert cluster.getNmNodes()[0].getShortName() == "NODE"
 
     def test_readJ1939NmNode_sets_addressConfigurationCapability(self, parser):
         from armodel.models import J1939NmCluster, J1939NmNode, NmConfig
@@ -2347,11 +2348,11 @@ class TestNmConfigHandlers:
         cluster = J1939NmCluster(parent=config, short_name="jnm")
         node = J1939NmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<ADDRESS-CONFIGURATION-CAPABILITY>J-1939-NM-SCA</ADDRESS-CONFIGURATION-CAPABILITY>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<ADDRESS-CONFIGURATION-CAPABILITY>J-1939-NM--SCA</ADDRESS-CONFIGURATION-CAPABILITY>",
             root_tag="J-1939-NM-NODE",
         )
         parser.readJ1939NmNode(element, node)
-        assert node.getAddressConfigurationCapability().getValue() == "J-1939-NM-SCA"
+        assert node.getAddressConfigurationCapability().getValue() == "J-1939-NM--SCA"
 
     def test_readJ1939NmNode_sets_nodeName(self, parser):
         from armodel.models import J1939NmCluster, J1939NmNode, NmConfig
@@ -2360,7 +2361,7 @@ class TestNmConfigHandlers:
         cluster = J1939NmCluster(parent=config, short_name="jnm")
         node = J1939NmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<NODE-NAME>" "<ARBITRARY-ADDRESS-CAPABLE>true</ARBITRARY-ADDRESS-CAPABLE>" "<MANUFACTURER-CODE>305</MANUFACTURER-CODE>" "</NODE-NAME>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<NODE-NAME>" "<ARBITRARY-ADDRESS-CAPABLE>true</ARBITRARY-ADDRESS-CAPABLE>" "<MANUFACTURER-CODE>305</MANUFACTURER-CODE>" "</NODE-NAME>",
             root_tag="J-1939-NM-NODE",
         )
         parser.readJ1939NmNode(element, node)
@@ -2376,7 +2377,7 @@ class TestNmConfigHandlers:
         cluster = CanNmCluster(parent=config, short_name="cnm")
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<NM-NODE-ID>1</NM-NODE-ID>" "<NM-PASSIVE-MODE-ENABLED>false</NM-PASSIVE-MODE-ENABLED>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<NM-NODE-ID>1</NM-NODE-ID>" "<NM-PASSIVE-MODE-ENABLED>false</NM-PASSIVE-MODE-ENABLED>",
             root_tag="CAN-NM-NODE",
         )
         parser.readCanNmNode(element, node)
@@ -2389,7 +2390,7 @@ class TestNmConfigHandlers:
         cluster = CanNmCluster(parent=config, short_name="cnm")
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<CONTROLLER-REF DEST='COMMUNICATION-CONTROLLER'>/ctrl</CONTROLLER-REF>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<CONTROLLER-REF DEST='COMMUNICATION-CONTROLLER'>/ctrl</CONTROLLER-REF>",
             root_tag="CAN-NM-NODE",
         )
         parser.readNmNode(element, node)
@@ -2402,7 +2403,7 @@ class TestNmConfigHandlers:
         cluster = CanNmCluster(parent=config, short_name="cnm")
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<RX-NM-PDU-REFS>" "<RX-NM-PDU-REF DEST='NM-PDU'>/rx</RX-NM-PDU-REF>" "</RX-NM-PDU-REFS>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<RX-NM-PDU-REFS>" "<RX-NM-PDU-REF DEST='NM-PDU'>/rx</RX-NM-PDU-REF>" "</RX-NM-PDU-REFS>",
             root_tag="CAN-NM-NODE",
         )
         parser.readNmNode(element, node)
@@ -2415,7 +2416,7 @@ class TestNmConfigHandlers:
         cluster = CanNmCluster(parent=config, short_name="cnm")
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<TX-NM-PDU-REFS>" "<TX-NM-PDU-REF DEST='NM-PDU'>/tx</TX-NM-PDU-REF>" "</TX-NM-PDU-REFS>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<TX-NM-PDU-REFS>" "<TX-NM-PDU-REF DEST='NM-PDU'>/tx</TX-NM-PDU-REF>" "</TX-NM-PDU-REFS>",
             root_tag="CAN-NM-NODE",
         )
         parser.readNmNode(element, node)
@@ -2428,12 +2429,12 @@ class TestNmConfigHandlers:
         cluster = CanNmCluster(parent=config, short_name="cnm")
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<NM-COORD-CLUSTER>2</NM-COORD-CLUSTER>" "<NM-COORDINATOR-ROLE>active</NM-COORDINATOR-ROLE>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<NM-COORD-CLUSTER>2</NM-COORD-CLUSTER>" "<NM-COORDINATOR-ROLE>ACTIVE</NM-COORDINATOR-ROLE>",
             root_tag="CAN-NM-NODE",
         )
         parser.readNmNode(element, node)
         assert node.getNmCoordCluster().getValue() == 2
-        assert node.getNmCoordinatorRole().getValue() == "active"
+        assert node.getNmCoordinatorRole().getValue() == "ACTIVE"
 
     def test_readCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
@@ -2546,7 +2547,7 @@ class TestCanTpAndLinTpHandlers:
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         element = _snip(
-            "<TP-CHANNELS>" "<CAN-TP-CHANNEL>" "<SHORT-NAME>ch</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "<CHANNEL-MODE>full</CHANNEL-MODE>" "</CAN-TP-CHANNEL>" "</TP-CHANNELS>",
+            "<TP-CHANNELS>" "<CAN-TP-CHANNEL>" "<SHORT-NAME>ch</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "<CHANNEL-MODE>FULL</CHANNEL-MODE>" "</CAN-TP-CHANNEL>" "</TP-CHANNELS>",
             root_tag="CAN-TP-CONFIG",
         )
         parser.readCanTpConfigTpChannels(element, config)
@@ -2558,7 +2559,7 @@ class TestCanTpAndLinTpHandlers:
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         channel = CanTpChannel(parent=config, short_name="ch")
         element = _snip(
-            "<SHORT-NAME>ch</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "<CHANNEL-MODE>full</CHANNEL-MODE>",
+            "<SHORT-NAME>ch</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "<CHANNEL-MODE>FULL</CHANNEL-MODE>",
             root_tag="CAN-TP-CHANNEL",
         )
         parser.readCanTpChannel(element, channel)
@@ -2569,7 +2570,7 @@ class TestCanTpAndLinTpHandlers:
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         element = _snip(
-            "<TP-NODES>" "<CAN-TP-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "<MAX-FC-WAIT>10</MAX-FC-WAIT>" "</CAN-TP-NODE>" "</TP-NODES>",
+            "<TP-NODES>" "<CAN-TP-NODE>" "<SHORT-NAME>NODE</SHORT-NAME>" "<MAX-FC-WAIT>10</MAX-FC-WAIT>" "</CAN-TP-NODE>" "</TP-NODES>",
             root_tag="CAN-TP-CONFIG",
         )
         parser.readCanTpConfigTpNodes(element, config)
@@ -2581,7 +2582,7 @@ class TestCanTpAndLinTpHandlers:
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         node = CanTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<MAX-FC-WAIT>10</MAX-FC-WAIT>" "<ST-MIN>0.01</ST-MIN>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<MAX-FC-WAIT>10</MAX-FC-WAIT>" "<ST-MIN>0.01</ST-MIN>",
             root_tag="CAN-TP-NODE",
         )
         parser.readCanTpNode(element, node)
@@ -2592,7 +2593,7 @@ class TestCanTpAndLinTpHandlers:
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         element = _snip(
-            "<TP-CONNECTIONS>" "<CAN-TP-CONNECTION>" "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>" "<ADDRESSING-FORMAT>standard</ADDRESSING-FORMAT>" "</CAN-TP-CONNECTION>" "</TP-CONNECTIONS>",
+            "<TP-CONNECTIONS>" "<CAN-TP-CONNECTION>" "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>" "<ADDRESSING-FORMAT>STANDARD</ADDRESSING-FORMAT>" "</CAN-TP-CONNECTION>" "</TP-CONNECTIONS>",
             root_tag="CAN-TP-CONFIG",
         )
         parser.readCanTpConfigTpConnections(element, config)
@@ -2603,11 +2604,11 @@ class TestCanTpAndLinTpHandlers:
 
         conn = CanTpConnection()
         element = _snip(
-            "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>" "<ADDRESSING-FORMAT>standard</ADDRESSING-FORMAT>" "<MAX-BLOCK-SIZE>8</MAX-BLOCK-SIZE>",
+            "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>" "<ADDRESSING-FORMAT>STANDARD</ADDRESSING-FORMAT>" "<MAX-BLOCK-SIZE>8</MAX-BLOCK-SIZE>",
             root_tag="CAN-TP-CONNECTION",
         )
         parser.readCanTpConnection(element, conn)
-        assert conn.getAddressingFormat().getValue() == "standard"
+        assert conn.getAddressingFormat().getValue() == "STANDARD"
 
     def test_readCanTpConfigTpEcus_creates_ecu(self, parser):
         from armodel.models import CanTpConfig
@@ -2667,7 +2668,7 @@ class TestCanTpAndLinTpHandlers:
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
-            "<TP-NODES>" "<LIN-TP-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>" "</LIN-TP-NODE>" "</TP-NODES>",
+            "<TP-NODES>" "<LIN-TP-NODE>" "<SHORT-NAME>NODE</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>" "</LIN-TP-NODE>" "</TP-NODES>",
             root_tag="LIN-TP-CONFIG",
         )
         parser.readLinTpConfigTpNodes(element, config)
@@ -2679,7 +2680,7 @@ class TestCanTpAndLinTpHandlers:
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>" "<P-2-TIMING>0.01</P-2-TIMING>",
+            "<SHORT-NAME>NODE</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>" "<P-2-TIMING>0.01</P-2-TIMING>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -3064,7 +3065,7 @@ class TestEcuInstanceHandlers:
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
         element = _snip(
-            "<SHORT-NAME>conn</SHORT-NAME>" "<COMM-CONTROLLER-REF DEST='COMMUNICATION-CONTROLLER'>/ctrl</COMM-CONTROLLER-REF>" "<PNC-GATEWAY-TYPE>active</PNC-GATEWAY-TYPE>",
+            "<SHORT-NAME>conn</SHORT-NAME>" "<COMM-CONTROLLER-REF DEST='COMMUNICATION-CONTROLLER'>/ctrl</COMM-CONTROLLER-REF>" "<PNC-GATEWAY-TYPE>ACTIVE</PNC-GATEWAY-TYPE>",
             root_tag="CAN-COMMUNICATION-CONNECTOR",
         )
         parser.readCommunicationConnector(element, conn)
@@ -3100,7 +3101,7 @@ class TestEcuInstanceHandlers:
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
         element = _snip(
-            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>in</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
+            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
             root_tag="CAN-COMMUNICATION-CONNECTOR",
         )
         parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
@@ -3112,7 +3113,7 @@ class TestEcuInstanceHandlers:
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
         element = _snip(
-            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>out</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
+            "<ECU-COMM-PORT-INSTANCES>" "<FRAME-PORT>" "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>OUT</COMMUNICATION-DIRECTION>" "</FRAME-PORT>" "</ECU-COMM-PORT-INSTANCES>",
             root_tag="CAN-COMMUNICATION-CONNECTOR",
         )
         parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
@@ -3120,7 +3121,7 @@ class TestEcuInstanceHandlers:
         assert len(ports) == 1
         assert isinstance(ports[0], FramePort)
         assert ports[0].getShortName() == "fp"
-        assert ports[0].getCommunicationDirection().getValue() == "out"
+        assert ports[0].getCommunicationDirection().getValue() == "OUT"
 
     def test_readCommunicationConnectorEcuCommPortInstances_ipduPort(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector
@@ -3171,14 +3172,14 @@ class TestEcuInstanceHandlers:
             "<PNC-FILTER-ARRAY-MASK>255</PNC-FILTER-ARRAY-MASK>"
             "<PNC-FILTER-ARRAY-MASK>1</PNC-FILTER-ARRAY-MASK>"
             "</PNC-FILTER-ARRAY-MASKS>"
-            "<PNC-GATEWAY-TYPE>active</PNC-GATEWAY-TYPE>",
+            "<PNC-GATEWAY-TYPE>ACTIVE</PNC-GATEWAY-TYPE>",
             root_tag="CAN-COMMUNICATION-CONNECTOR",
         )
         parser.readCommunicationConnector(element, conn)
         assert conn.getCreateEcuWakeupSource().getValue() is True
         assert conn.getDynamicPncToChannelMappingEnabled().getValue() is False
         assert [mask.getValue() for mask in conn.getPncFilterArrayMasks()] == [255, 1]
-        assert conn.getPncGatewayType().getValue() == "active"
+        assert conn.getPncGatewayType().getValue() == "ACTIVE"
 
     def test_readFramePort_sets_communicationDirection(self, parser):
         from armodel.models import CanCommunicationConnector, EcuInstance, FramePort
@@ -3187,11 +3188,11 @@ class TestEcuInstanceHandlers:
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
         port = FramePort(parent=conn, short_name="fp")
         element = _snip(
-            "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>in</COMMUNICATION-DIRECTION>",
+            "<SHORT-NAME>fp</SHORT-NAME>" "<COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>",
             root_tag="FRAME-PORT",
         )
         parser.readFramePort(element, port)
-        assert port.getCommunicationDirection().getValue() == "in"
+        assert port.getCommunicationDirection().getValue() == "IN"
 
     def test_readIPduPort_sets_timestampRxAcceptanceWindow(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector, IPduPort
@@ -3817,10 +3818,10 @@ class TestSocketConnection:
         assert any("Unsupported Pdu" in r.getMessage() for r in caplog.records)
 
     def test_getSocketConnection_parses_r43_members(self, parser):
-        element = _snip("<RUNTIME-PORT-CONFIGURATION>sd</RUNTIME-PORT-CONFIGURATION>" "<SHORT-LABEL>conn</SHORT-LABEL>")
+        element = _snip("<RUNTIME-PORT-CONFIGURATION>SD</RUNTIME-PORT-CONFIGURATION>" "<SHORT-LABEL>conn</SHORT-LABEL>")
         result = parser.getSocketConnection(element)
         assert result is not None
-        assert result.getRuntimePortConfiguration().getValue() == "sd"
+        assert result.getRuntimePortConfiguration().getValue() == "SD"
         assert result.getShortLabel().getValue() == "conn"
 
     def test_readSocketConnectionBundleConnections_unsupported_warns(self, warning_parser, caplog):
@@ -3934,7 +3935,7 @@ class TestISignalPortHandlers:
             "<DATA-FILTER><DATA-FILTER-TYPE>ALWAYS</DATA-FILTER-TYPE></DATA-FILTER>"
             '<DDS-QOS-PROFILE-REF DEST="DDS-CP-QOS-PROFILE">/profiles/p1</DDS-QOS-PROFILE-REF>'
             "<FIRST-TIMEOUT>5.0</FIRST-TIMEOUT>"
-            "<HANDLE-INVALID>keep</HANDLE-INVALID>"
+            "<HANDLE-INVALID>KEEP</HANDLE-INVALID>"
             "<TIMEOUT>1.0</TIMEOUT>"
         )
         parser.readISignalPort(element, port)
@@ -3942,7 +3943,7 @@ class TestISignalPortHandlers:
         assert port.getDataFilter().getDataFilterType().getValue() == "ALWAYS"
         assert port.getDdsQosProfileRef().getValue() == "/profiles/p1"
         assert port.getFirstTimeout().getValue() == 5.0
-        assert port.getHandleInvalid().getValue() == "keep"
+        assert port.getHandleInvalid().getValue() == "KEEP"
         assert port.getTimeout().getValue() == 1.0
 
     def test_readISignalPort_empty(self, parser):

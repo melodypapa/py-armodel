@@ -124,9 +124,9 @@ class TestWriteNvBlockNeeds:
         assert elem.find("CYCLIC-WRITING-PERIOD").text == "0.005"
         assert elem.find("N-DATA-SETS").text == "4"
         assert elem.find("N-ROM-BLOCKS").text == "3"
-        assert elem.find("RAM-BLOCK-STATUS-CONTROL").text == "api"
+        assert elem.find("RAM-BLOCK-STATUS-CONTROL").text == "API"
         assert elem.find("READONLY").text == "true"
-        assert elem.find("RELIABILITY").text == "errorCorrection"
+        assert elem.find("RELIABILITY").text == "ERROR-CORRECTION"
         assert elem.find("RESISTANT-TO-CHANGED-SW").text == "true"
         assert elem.find("RESTORE-AT-START").text == "false"
         assert elem.find("SELECT-BLOCK-FOR-FIRST-INIT-ALL").text == "true"
@@ -140,7 +140,7 @@ class TestWriteNvBlockNeeds:
         assert elem.find("WRITE-ONLY-ONCE").text == "true"
         assert elem.find("WRITE-VERIFICATION").text == "false"
         assert elem.find("WRITING-FREQUENCY").text == "10"
-        assert elem.find("WRITING-PRIORITY").text == "high"
+        assert elem.find("WRITING-PRIORITY").text == "HIGH"
 
     def test_xsd_element_order(self, writer):
         """Test that the emitted element order follows the XSD group sequence."""
@@ -169,7 +169,7 @@ class TestNvBlockDescriptorDispatch:
 
         needs_element = parent.find("NV-BLOCK-DESCRIPTOR/NV-BLOCK-NEEDS")
         assert needs_element is not None
-        assert needs_element.find("RAM-BLOCK-STATUS-CONTROL").text == "api"
+        assert needs_element.find("RAM-BLOCK-STATUS-CONTROL").text == "API"
         assert needs_element.find("STORE-ON-CHANGE").text == "true"
 
 
@@ -192,9 +192,9 @@ class TestWriteReadRoundTrip:
         assert reloaded.getCyclicWritingPeriod().getValue() == 0.005
         assert reloaded.getNDataSets().getValue() == 4
         assert reloaded.getNRomBlocks().getValue() == 3
-        assert reloaded.getRamBlockStatusControl().getValue() == "api"
+        assert reloaded.getRamBlockStatusControl().getValue() == RamBlockStatusControlEnum.API
         assert reloaded.getReadonly().getValue() is True
-        assert reloaded.getReliability().getValue() == "errorCorrection"
+        assert reloaded.getReliability().getValue() == NvBlockNeedsReliabilityEnum.ERROR_CORRECTION
         assert reloaded.getResistantToChangedSw().getValue() is True
         assert reloaded.getRestoreAtStart().getValue() is False
         assert reloaded.getSelectBlockForFirstInitAll().getValue() is True
@@ -208,7 +208,7 @@ class TestWriteReadRoundTrip:
         assert reloaded.getWriteOnlyOnce().getValue() is True
         assert reloaded.getWriteVerification().getValue() is False
         assert reloaded.getWritingFrequency().getValue() == 10
-        assert reloaded.getWritingPriority().getValue() == "high"
+        assert reloaded.getWritingPriority().getValue() == NvBlockNeedsWritingPriorityEnum.HIGH
 
     def test_round_trip_absent_elements(self, writer):
         """Test that a needs with no set fields round-trips to all-None."""
@@ -244,7 +244,7 @@ class TestWriteReadRoundTrip:
         needs = reloaded_descriptor.getNvBlockNeeds()
         assert needs is not None
         assert needs.getShortName() == "nv"
-        assert needs.getRamBlockStatusControl().getValue() == "api"
+        assert needs.getRamBlockStatusControl().getValue() == RamBlockStatusControlEnum.API
         assert needs.getNDataSets().getValue() == 4
         assert needs.getStoreOnChange().getValue() is True
-        assert needs.getWritingPriority().getValue() == "high"
+        assert needs.getWritingPriority().getValue() == NvBlockNeedsWritingPriorityEnum.HIGH

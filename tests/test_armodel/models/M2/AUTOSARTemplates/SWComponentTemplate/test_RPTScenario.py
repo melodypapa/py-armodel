@@ -182,8 +182,8 @@ class TestRptExecutableEntityProperties:
 class TestRptServicePointEnum:
     def test_members(self):
         """Test RptServicePointEnum members match the spec literals"""
-        assert RptServicePointEnum.ENABLED == "enabled"
-        assert RptServicePointEnum.NONE == "none"
+        assert RptServicePointEnum.ENABLED == "ENABLED"
+        assert RptServicePointEnum.NONE == "NONE"
 
 
 class TestDiagnosticParameterIdent:

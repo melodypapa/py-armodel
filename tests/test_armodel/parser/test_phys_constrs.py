@@ -44,17 +44,17 @@ class TestPhysConstrsReader:
         assert isinstance(lower, Limit)
         assert lower.getValue() == "0"
         assert isinstance(lower.getIntervalType(), IntervalTypeEnum)
-        assert lower.getIntervalType().getValue() == "closed"
+        assert lower.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
         upper = constrs.getUpperLimit()
         assert isinstance(upper, Limit)
         assert upper.getValue() == "65535"
-        assert upper.getIntervalType().getValue() == "open"
+        assert upper.getIntervalType().getValue() == IntervalTypeEnum.OPEN
         assert isinstance(constrs.getMaxGradient(), Numerical)
         assert constrs.getMaxGradient().getValue() == 1.5
         assert isinstance(constrs.getMaxDiff(), Numerical)
         assert constrs.getMaxDiff().getValue() == 0.5
         assert isinstance(constrs.getMonotony(), MonotonyEnum)
-        assert constrs.getMonotony().getValue() == "increasing"
+        assert constrs.getMonotony().getValue() == MonotonyEnum.INCREASING
         scales = constrs.getScaleConstrs()
         assert len(scales) == 1
         assert scales[0].getShortLabel().getValue() == "s1"

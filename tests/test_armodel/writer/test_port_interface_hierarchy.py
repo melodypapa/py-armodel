@@ -70,12 +70,12 @@ class TestPortInterfaceRoundTrip:
         element = root.find("{%s}AR-PACKAGE/{%s}ELEMENTS/{%s}TRIGGER-INTERFACE" % tuple([NS] * 3))
         assert [child.tag.split("}")[-1] for child in element] == ["SHORT-NAME", "IS-SERVICE", "SERVICE-KIND"]
         assert element.find("{%s}IS-SERVICE" % NS).text == "true"
-        assert element.find("{%s}SERVICE-KIND" % NS).text == "comManager"
+        assert element.find("{%s}SERVICE-KIND" % NS).text == "COM-MANAGER"
 
         parsed = _reparse(root)
         parsed_interface = parsed.getTriggerInterfaces()[0]
         assert parsed_interface.getIsService().getValue() is True
-        assert parsed_interface.getServiceKind().getValue() == "comManager"
+        assert parsed_interface.getServiceKind().getValue() == ServiceProviderEnum.COM_MANAGER
 
     def test_absent_elements_round_trip_to_none(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")
@@ -143,8 +143,8 @@ class TestClientServerInterfaceRoundTrip:
             "DIRECTION",
             "SERVER-ARGUMENT-IMPL-POLICY",
         ]
-        assert argument_element.find("{%s}DIRECTION" % NS).text == "in"
-        assert argument_element.find("{%s}SERVER-ARGUMENT-IMPL-POLICY" % NS).text == "useVoid"
+        assert argument_element.find("{%s}DIRECTION" % NS).text == "IN"
+        assert argument_element.find("{%s}SERVER-ARGUMENT-IMPL-POLICY" % NS).text == "USE-VOID"
         assert operation_element.find("{%s}DIAG-ARG-INTEGRITY" % NS).text == "true"
         assert operation_element.find("{%s}POSSIBLE-ERROR-REFS/{%s}POSSIBLE-ERROR-REF" % (NS, NS)).text == "/Pkg/CSI/E1"
         error_element = element.find("{%s}POSSIBLE-ERRORS/{%s}APPLICATION-ERROR" % (NS, NS))
@@ -157,8 +157,8 @@ class TestClientServerInterfaceRoundTrip:
         assert parsed_operation.getDiagArgIntegrity().getValue() is True
         assert parsed_operation.getPossibleErrorRefs()[0].getValue() == "/Pkg/CSI/E1"
         parsed_argument = parsed_operation.getArguments()[0]
-        assert parsed_argument.getDirection().getValue() == "in"
-        assert parsed_argument.getServerArgumentImplPolicy().getValue() == "useVoid"
+        assert parsed_argument.getDirection().getValue() == "IN"
+        assert parsed_argument.getServerArgumentImplPolicy().getValue() == ServerArgumentImplPolicyEnum.USE_VOID
         parsed_error = parsed_cs.getPossibleErrors()[0]
         assert isinstance(parsed_error, ApplicationError)
         assert parsed_error.getErrorCode().getValue() == 42
@@ -207,7 +207,7 @@ class TestModeSwitchInterfaceRoundTrip:
         assert isinstance(parsed_mode_group, ModeDeclarationGroupPrototype)
         assert parsed_mode_group.getShortName() == "ModeGrp"
         assert parsed_mode_group.getTypeTRef().getValue() == "/Pkg/ModeDclGrp"
-        assert parsed_mode_group.getSwCalibrationAccess().getValue() == "readOnly"
+        assert parsed_mode_group.getSwCalibrationAccess().getValue() == "READ-ONLY"
 
     def test_absent_mode_group_round_trips_to_none(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")

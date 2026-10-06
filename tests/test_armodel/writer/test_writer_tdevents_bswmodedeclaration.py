@@ -47,7 +47,7 @@ class TestWriteTDEventBswModeDeclaration:
         ARXMLWriter().writeTDEventBswModeDeclaration(element, event)
         type_el = element.find("TD-EVENT-BSW-MODE-DECLARATION-TYPE")
         assert type_el is not None
-        assert type_el.text == "modeDeclarationSwitchInitiated"
+        assert type_el.text == "MODE-DECLARATION-SWITCH-INITIATED"
 
     def test_write_empty(self):
         parent = self._parent()
@@ -74,4 +74,4 @@ class TestWriteTDEventBswModeDeclaration:
         ARXMLParser().readTDEventBswModeDeclaration(reparsed_el, reparsed)
         assert reparsed.getEntryModeDeclarationRef().getValue() == "/AUTOSAR/EntryMode"
         assert reparsed.getModeDeclarationRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
-        assert reparsed.getTdEventBswModeDeclarationType().getValue() == "modeDeclarationRequested"
+        assert reparsed.getTdEventBswModeDeclarationType().getValue() == TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_REQUESTED

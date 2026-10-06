@@ -43,7 +43,7 @@ class TestARListParser:
         ar_list = parser.getListElements(element, "LIST")[0]
 
         assert isinstance(ar_list.getType(), ListEnum)
-        assert ar_list.getType().getValue() == "unnumber"
+        assert ar_list.getType().getValue() == ListEnum.UNNUMBER
 
     def test_read_list_without_type(self):
         """type is 0..1: a LIST without the TYPE attribute reads as None."""
@@ -88,7 +88,7 @@ class TestARListParser:
         assert isinstance(item, Item)
         nested = item.getItemContents().getLists()[0]
         assert isinstance(nested, ARList)
-        assert nested.getType().getValue() == "unnumber"
+        assert nested.getType().getValue() == ListEnum.UNNUMBER
         assert nested.getItems()[0].getItemContents().getPs()[0].getL1s()[0].getValue() == "inner"
 
     def test_read_empty_list(self):

@@ -153,8 +153,8 @@ class TestWriteDiagnosticResponseOnEvent:
             assert response_on_event_2.getShortName() == "ResponseOnEvent1"
             event_windows_2 = response_on_event_2.getEventWindows()
             assert len(event_windows_2) == 1
-            assert event_windows_2[0].getEventWindowTime().getValue() == "powerWindowTime"
-            assert response_on_event_2.getResponseOnEventAction().getValue() == "onDTCStatusChange"
+            assert event_windows_2[0].getEventWindowTime().getValue() == DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME
+            assert response_on_event_2.getResponseOnEventAction().getValue() == DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE
             response_on_event_class = response_on_event_2.getResponseOnEventClass()
             assert response_on_event_class is not None
             assert response_on_event_class.getValue() == "/AUTOSAR/DiagnosticResponseOnEventClasses/ResponseOnEventClass"

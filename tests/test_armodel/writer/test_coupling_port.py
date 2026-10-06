@@ -76,7 +76,7 @@ def _literal(value):
 
 def _new_port():
     port = CouplingPort(MockParent(), "CP1")
-    port.setConnectionNegotiationBehavior(_literal("auto"))
+    port.setConnectionNegotiationBehavior(_literal("AUTO"))
     port.setCouplingPortDetails(CouplingPortDetails())
     port.setCouplingPortRole(_literal("edge"))
     port.setDefaultVlanRef(_ref("/Ether/PhysicalChannel/Vlan1"))
@@ -143,7 +143,7 @@ class TestWriteCouplingPort:
 
         node = parent.find("COUPLING-PORT")
         assert node is not None
-        assert node.find("CONNECTION-NEGOTIATION-BEHAVIOR").text == "auto"
+        assert node.find("CONNECTION-NEGOTIATION-BEHAVIOR").text == "AUTO"
         assert node.find("COUPLING-PORT-DETAILS") is not None
         assert node.find("COUPLING-PORT-ROLE").text == "edge"
         assert node.find("DEFAULT-VLAN-REF").text == "/Ether/PhysicalChannel/Vlan1"
@@ -224,7 +224,7 @@ class TestCouplingPortRoundTrip:
         recovered = CouplingPort(MockParent(), "CP1")
         parser.readCouplingPort(tree.getroot()[0][0], recovered)
 
-        assert recovered.getConnectionNegotiationBehavior().getValue() == "auto"
+        assert recovered.getConnectionNegotiationBehavior().getValue() == "AUTO"
         assert isinstance(recovered.getCouplingPortDetails(), CouplingPortDetails)
         assert recovered.getCouplingPortRole().getValue() == "edge"
         assert recovered.getDefaultVlanRef().getValue() == "/Ether/PhysicalChannel/Vlan1"

@@ -128,7 +128,7 @@ class TestARListWriter:
         lists = ARXMLParser().getListElements(parsed, "LIST")
         assert len(lists) == 1
         round_tripped = lists[0]
-        assert round_tripped.getType().getValue() == "unnumber"
+        assert round_tripped.getType().getValue() == ListEnum.UNNUMBER
         items = round_tripped.getItems()
         assert len(items) == 1
         assert isinstance(items[0], Item)

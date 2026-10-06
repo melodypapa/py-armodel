@@ -791,7 +791,7 @@ class TestSwDataDefPropsHandlers:
         assert props.getMaxGradient() is not None
         assert props.getMaxGradient().getValue() == 2.5
         assert props.getMonotony() is not None
-        assert props.getMonotony().getValue() == "strictlyIncreasing"
+        assert props.getMonotony().getValue() == "STRICTLY-INCREASING"
 
     def test_getSwCalprmAxis_access_and_display_format(self, parser):
         element = _snip(
@@ -800,7 +800,7 @@ class TestSwDataDefPropsHandlers:
         )
         axis = parser.getSwCalprmAxis(element)
         assert axis.getSwCalibrationAccess() is not None
-        assert axis.getSwCalibrationAccess().getValue() == "readOnly"
+        assert axis.getSwCalibrationAccess().getValue() == "READ-ONLY"
         assert axis.getDisplayFormat() is not None
         assert axis.getDisplayFormat().getValue() == "%.2f"
 
@@ -819,7 +819,7 @@ class TestSwDataDefPropsHandlers:
         props = axis.getSwCalprmAxisTypeProps()
         assert props is not None
         assert props.getMaxGradient().getValue() == 0.75
-        assert props.getMonotony().getValue() == "monotonous"
+        assert props.getMonotony().getValue() == "MONOTONOUS"
 
     def test_getSwCalprmAxisSet(self, parser):
         element = _snip(
@@ -838,7 +838,7 @@ class TestSwDataDefPropsHandlers:
         assert set_obj is not None
         assert len(set_obj.getSwCalprmAxises()) == 2
         assert set_obj.getSwCalprmAxises()[0].getSwAxisIndex().getValue() == "0"
-        assert set_obj.getSwCalprmAxises()[1].getCategory().getValue() == "fixAXIS"
+        assert set_obj.getSwCalprmAxises()[1].getCategory().getValue() == "FIX-AXIS"
 
     def test_getSwCalprmAxisSet_empty(self, parser):
         element = _snip("<SW-CALPRM-AXIS-SET/>")
@@ -927,7 +927,7 @@ class TestSdgDeepHandlers:
 class TestDescribableHandlers:
     def test_readDescribable(self, parser):
         element = _snip(
-            "<DESC><L-2 L='en'>Desc</L-2></DESC>" "<CATEGORY>MyCategory</CATEGORY>" "<INTRODUCTION><P><L-1 L='en'>Intro</L-1></P></INTRODUCTION>" "<ADMIN-DATA><LANGUAGE>en</LANGUAGE></ADMIN-DATA>",
+            "<DESC><L-2 L='en'>Desc</L-2></DESC>" "<CATEGORY>MyCategory</CATEGORY>" "<INTRODUCTION><P><L-1 L='en'>Intro</L-1></P></INTRODUCTION>" "<ADMIN-DATA><LANGUAGE>EN</LANGUAGE></ADMIN-DATA>",
             root_tag="DESC",
         )
         desc = EndToEndTransformationDescription()
@@ -939,7 +939,7 @@ class TestDescribableHandlers:
         assert desc.getIntroduction() is not None
         assert desc.getIntroduction().getPs()[0].getL1s()[0].getValue() == "Intro"
         assert desc.getAdminData() is not None
-        assert desc.getAdminData().getLanguage().getValue() == "en"
+        assert desc.getAdminData().getLanguage().getValue() == "EN"
 
     def test_readTransformationDescription(self, parser):
         element = _snip("", root_tag="TRANS-DESC")
@@ -948,7 +948,7 @@ class TestDescribableHandlers:
 
     def test_readEndToEndTransformationDescription(self, parser):
         element = _snip(
-            "<DATA-ID-MODE>all16Bit</DATA-ID-MODE>" "<MAX-DELTA-COUNTER>15</MAX-DELTA-COUNTER>" "<MAX-ERROR-STATE-INIT>5</MAX-ERROR-STATE-INIT>" "<PROFILE-NAME>Profile1</PROFILE-NAME>",
+            "<DATA-ID-MODE>ALL-16-BIT</DATA-ID-MODE>" "<MAX-DELTA-COUNTER>15</MAX-DELTA-COUNTER>" "<MAX-ERROR-STATE-INIT>5</MAX-ERROR-STATE-INIT>" "<PROFILE-NAME>Profile1</PROFILE-NAME>",
             root_tag="E2E-DESC",
         )
         desc = EndToEndTransformationDescription()

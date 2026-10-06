@@ -77,7 +77,7 @@ class TestWriteFlexrayNmClusterCoupling:
         refs = coupling.getCoupledClusterRefs()
         assert [ref.getValue() for ref in refs] == ["/Clusters/Fr1"]
         assert refs[0].getDest() == "FLEXRAY-CLUSTER"
-        assert coupling.getNmScheduleVariant().getValue() == "scheduleVariant2"
+        assert coupling.getNmScheduleVariant().getValue() == FlexrayNmScheduleVariant.SCHEDULE_VARIANT_2
 
     def test_write_flexray_nm_cluster_coupling_writes_checksum_and_timestamp(self):
         config = _new_config()

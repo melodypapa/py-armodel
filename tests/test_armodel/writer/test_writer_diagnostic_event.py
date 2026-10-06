@@ -58,7 +58,7 @@ class TestWriteDiagnosticEvent:
 
     def _populate(self, event: DiagnosticEvent) -> DiagnosticEvent:
         event.setAssociatedEventIdentification(PositiveInteger().setValue(3))
-        event.setClearEventAllowedBehavior(DiagnosticClearEventAllowedBehaviorEnum().setValue("noStatusByteChange"))
+        event.setClearEventAllowedBehavior(DiagnosticClearEventAllowedBehaviorEnum().setValue(DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE))
         event.setConfirmationThreshold(PositiveInteger().setValue(2))
         indicator = DiagnosticConnectedIndicator()
         indicator.setIndicatorRef(RefType().setValue("/DiagnosticExtract/Indicator1"))
@@ -150,17 +150,17 @@ class TestWriteDiagnosticEvent:
             assert event_2 is not None
             assert event_2.getShortName() == "Event1"
             assert event_2.getAssociatedEventIdentification().value == 3
-            assert event_2.getClearEventAllowedBehavior().getValue() == "noStatusByteChange"
+            assert event_2.getClearEventAllowedBehavior().getValue() == DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE
             assert event_2.getConfirmationThreshold().value == 2
             indicators = event_2.getConnectedIndicators()
             assert len(indicators) == 1
             assert indicators[0].getIndicatorRef().getValue() == "/DiagnosticExtract/Indicator1"
             assert event_2.getEventClearAllowed() is not None
             assert isinstance(event_2.getEventClearAllowed(), DiagnosticEventClearAllowedEnum)
-            assert event_2.getEventClearAllowed().getValue() == "always"
+            assert event_2.getEventClearAllowed().getValue() == "ALWAYS"
             assert event_2.getEventKind() is not None
             assert isinstance(event_2.getEventKind(), DiagnosticEventKindEnum)
-            assert event_2.getEventKind().getValue() == "bsw"
+            assert event_2.getEventKind().getValue() == DiagnosticEventKindEnum.BSW
             assert event_2.getPrestorageFreezeFrame().value is True
             assert event_2.getPrestoredFreezeframeStoredInNvm().value is False
             assert event_2.getRecoverableInSameOperationCycle().value is True

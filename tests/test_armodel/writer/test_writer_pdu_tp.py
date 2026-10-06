@@ -342,7 +342,7 @@ class TestWriteContainedIPduProps:
 
         reparsed = ARXMLParser().readContainedIPduProps(namespaced)
         assert reparsed is not None
-        assert reparsed.getCollectionSemantics().getValue() == "lastIsBest"
+        assert reparsed.getCollectionSemantics().getValue() == "LAST-IS-BEST"
         assert reparsed.getContainedPduTriggeringRef().getValue() == "/PduTriggering/pt1"
         assert reparsed.getContainedPduTriggeringRef().getDest() == "PDU-TRIGGERING"
         assert reparsed.getHeaderIdLongHeader().getValue() == 100
@@ -350,7 +350,7 @@ class TestWriteContainedIPduProps:
         assert reparsed.getOffset().getValue() == 4
         assert reparsed.getPriority().getValue() == 6
         assert reparsed.getTimeout().getValue() == 0.01
-        assert reparsed.getTrigger().getValue() == "never"
+        assert reparsed.getTrigger().getValue() == "NEVER"
         assert reparsed.getUpdateIndicationBitPosition().getValue() == 7
 
 

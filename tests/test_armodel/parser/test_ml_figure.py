@@ -11,7 +11,7 @@ class TestMlFigureParser:
         element = ET.fromstring(
             '<PARENT xmlns="http://autosar.org/schema/r4.0">'
             '<FIGURE S="checksum" T="timestamp" SI="si-tokens" VIEW="view-tokens" BREAK="BREAK"'
-            ' KEEP-WITH-PREVIOUS="KEEP" FRAME="ALL" HELP-ENTRY="help-topic" PGWIDE="pgwide">'
+            ' KEEP-WITH-PREVIOUS="KEEP" FRAME="ALL" HELP-ENTRY="help-topic" PGWIDE="PGWIDE">'
             "<FIGURE-CAPTION><SHORT-NAME>cap</SHORT-NAME></FIGURE-CAPTION>"
             '<L-GRAPHIC L="en"><GRAPHIC FILENAME="image.png"/></L-GRAPHIC>'
             '<VERBATIM ALLOWBREAK="1"><L-5 L="en">keep  spacing</L-5></VERBATIM>'
@@ -30,7 +30,7 @@ class TestMlFigureParser:
         assert figure.getKeepWithPrevious().getValue() == "KEEP"
         assert figure.getFrame().getValue() == "ALL"
         assert figure.getHelpEntry().getValue() == "help-topic"
-        assert figure.getPgwide().getValue() == "pgwide"
+        assert figure.getPgwide().getValue() == "PGWIDE"
         caption = figure.getFigureCaption()
         assert caption is not None
         assert caption.getShortName() == "cap"

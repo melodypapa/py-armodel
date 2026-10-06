@@ -71,10 +71,10 @@ class TestWriteIpv6Configuration:
         assert dns_addresses[0].text == "2001:db8::53"
         assert node.find("ENABLE-ANYCAST").text == "true"
         assert node.find("HOP-COUNT").text == "64"
-        assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "storePersistently"
+        assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "STORE-PERSISTENTLY"
         assert node.find("IP-ADDRESS-PREFIX-LENGTH").text == "48"
         assert node.find("IPV-6-ADDRESS").text == "2001:db8::1"
-        assert node.find("IPV-6-ADDRESS-SOURCE").text == "dhcpv6"
+        assert node.find("IPV-6-ADDRESS-SOURCE").text == "DHCPV-6"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         parent = ET.Element("PARENT")
@@ -99,11 +99,11 @@ class TestIpv6ConfigurationRoundTrip:
         assert dns_addresses[0].getValue() == "2001:db8::53"
         assert parsed.getEnableAnycast().getValue() is True
         assert parsed.getHopCount().getValue() == 64
-        assert parsed.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert parsed.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
         assert isinstance(parsed.getIpAddressKeepBehavior(), IpAddressKeepEnum)
         assert parsed.getIpAddressPrefixLength().getValue() == 48
         assert parsed.getIpv6Address().getValue() == "2001:db8::1"
-        assert parsed.getIpv6AddressSource().getValue() == "dhcpv6"
+        assert parsed.getIpv6AddressSource().getValue() == Ipv6AddressSourceEnum.DHCPV6
         assert isinstance(parsed.getIpv6AddressSource(), Ipv6AddressSourceEnum)
 
     def test_reader_empty_fields(self, parser):

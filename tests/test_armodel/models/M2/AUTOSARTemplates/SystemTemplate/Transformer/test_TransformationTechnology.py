@@ -83,7 +83,7 @@ class TestTransformationTechnology:
 
         transformer_class = TransformerClassEnum().setValue(TransformerClassEnum.SERIALIZER)
         assert tech == tech.setTransformerClass(transformer_class)
-        assert tech.getTransformerClass().getValue() == "serializer"
+        assert tech.getTransformerClass().getValue() == TransformerClassEnum.SERIALIZER
 
         version = String().setValue("1.0")
         assert tech == tech.setVersion(version)

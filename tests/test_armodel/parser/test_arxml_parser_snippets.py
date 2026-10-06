@@ -412,7 +412,7 @@ class TestLimits:
         limit = parser.getChildLimitElement(element, "LOWER-LIMIT")
         assert limit is not None
         assert limit.getValue() == "-32768"
-        assert limit.getIntervalType().getValue() == "closed"
+        assert limit.getIntervalType().getValue() == "CLOSED"
 
     def test_getLimit_with_interval_type_open(self, parser):
         """Test getChildLimitElement with INTERVAL-TYPE=OPEN."""
@@ -424,7 +424,7 @@ class TestLimits:
         limit = parser.getChildLimitElement(element, "LOWER-LIMIT")
         assert limit is not None
         assert limit.getValue() == "0"
-        assert limit.getIntervalType().getValue() == "open"
+        assert limit.getIntervalType().getValue() == "OPEN"
 
     def test_getLimit_without_interval_type(self, parser):
         """Test getChildLimitElement without INTERVAL-TYPE."""

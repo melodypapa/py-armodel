@@ -42,9 +42,9 @@ def test_read_ipv4_configuration_address(parser):
         "<DNS-SERVER-ADDRESS>8.8.8.8</DNS-SERVER-ADDRESS>"
         "<DNS-SERVER-ADDRESS>8.8.4.4</DNS-SERVER-ADDRESS>"
         "</DNS-SERVER-ADDRESSES>"
-        "<IP-ADDRESS-KEEP-BEHAVIOR>storePersistently</IP-ADDRESS-KEEP-BEHAVIOR>"
+        "<IP-ADDRESS-KEEP-BEHAVIOR>STORE-PERSISTENTLY</IP-ADDRESS-KEEP-BEHAVIOR>"
         "<IPV-4-ADDRESS>192.168.0.10</IPV-4-ADDRESS>"
-        "<IPV-4-ADDRESS-SOURCE>fixed</IPV-4-ADDRESS-SOURCE>"
+        "<IPV-4-ADDRESS-SOURCE>FIXED</IPV-4-ADDRESS-SOURCE>"
         "<NETWORK-MASK>255.255.255.0</NETWORK-MASK>"
         "<TTL>64</TTL>"
         "</IPV-4-CONFIGURATION>"
@@ -72,9 +72,9 @@ def test_read_ipv4_configuration_address(parser):
     assert dns[1].getValue() == "8.8.4.4"
     assert isinstance(dns[0], Ip4AddressString)
     assert isinstance(dns[1], Ip4AddressString)
-    assert address.getIpAddressKeepBehavior().getValue() == "storePersistently"
+    assert address.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
     assert isinstance(address.getIpAddressKeepBehavior(), IpAddressKeepEnum)
-    assert address.getIpv4AddressSource().getValue() == "fixed"
+    assert address.getIpv4AddressSource().getValue() == "FIXED"
     assert isinstance(address.getIpv4AddressSource(), Ipv4AddressSourceEnum)
 
 

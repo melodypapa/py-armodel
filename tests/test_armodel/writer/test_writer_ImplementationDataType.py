@@ -112,7 +112,7 @@ class TestImplementationDataTypeRoundTrip:
             assert len(sub_elements) == 2
             assert sub_elements[0].short_name == "Size"
             assert sub_elements[0].getArraySize().getValue() == 8
-            assert sub_elements[0].getArraySizeSemantics().getValue() == "fixedSize"
+            assert sub_elements[0].getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
             assert sub_elements[1].short_name == "Payload"
 
             symbol_props = data_type_2.getSymbolProps()

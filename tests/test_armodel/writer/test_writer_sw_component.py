@@ -516,7 +516,7 @@ class TestWritePPortComSpec:
         ARXMLParser().readSenderComSpec(reloaded_element, reloaded)
         assert reloaded.getDataElementRef().getValue() == "/vdp/QueuedElem"
         assert reloaded.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert reloaded.getHandleOutOfRange().getValue() == "saturate"
+        assert reloaded.getHandleOutOfRange().getValue() == HandleOutOfRangeEnum.SATURATE
         assert reloaded.getUsesEndToEndProtection().getValue() is True
 
     def test_dispatches_mode_switch_sender(self, writer):

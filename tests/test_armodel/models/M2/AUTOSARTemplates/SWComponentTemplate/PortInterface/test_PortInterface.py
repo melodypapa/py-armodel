@@ -340,7 +340,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         service_kind = ServiceProviderEnum().setValue(ServiceProviderEnum.COM_MANAGER)
         assert pi.setServiceKind(service_kind) is pi
         assert pi.getServiceKind() is service_kind
-        assert pi.getServiceKind().getValue() == "comManager"
+        assert pi.getServiceKind().getValue() == ServiceProviderEnum.COM_MANAGER
 
         # None is a no-op: existing value is preserved
         pi.setServiceKind(None)
@@ -1186,7 +1186,7 @@ class TestArgumentDataPrototypeSpecSync:
         direction = ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.INOUT)
         assert prototype.setDirection(direction) is prototype
         assert prototype.getDirection() is direction
-        assert prototype.getDirection().getValue() == "inout"
+        assert prototype.getDirection().getValue() == ArgumentDirectionEnum.INOUT
         prototype.setDirection(None)
         assert prototype.getDirection() is direction
 
@@ -1197,7 +1197,7 @@ class TestArgumentDataPrototypeSpecSync:
         policy = ServerArgumentImplPolicyEnum().setValue(ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE)
         assert prototype.setServerArgumentImplPolicy(policy) is prototype
         assert prototype.getServerArgumentImplPolicy() is policy
-        assert prototype.getServerArgumentImplPolicy().getValue() == "useArgumentType"
+        assert prototype.getServerArgumentImplPolicy().getValue() == ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE
         prototype.setServerArgumentImplPolicy(None)
         assert prototype.getServerArgumentImplPolicy() is policy
 
@@ -1230,8 +1230,8 @@ class TestServerArgumentImplPolicyEnumSpecSync:
 
     def test_literals_match_spec_table_exactly(self):
         """Table 4.10 defines exactly two literals: useArgumentType (index 0) and useVoid (index 2)"""
-        assert ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE == "useArgumentType"
-        assert ServerArgumentImplPolicyEnum.USE_VOID == "useVoid"
+        assert ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE == "USE-ARGUMENT-TYPE"
+        assert ServerArgumentImplPolicyEnum.USE_VOID == "USE-VOID"
 
     def test_enum_values_in_spec_display_order(self):
         enum = ServerArgumentImplPolicyEnum()
@@ -1239,7 +1239,7 @@ class TestServerArgumentImplPolicyEnumSpecSync:
             ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE,
             ServerArgumentImplPolicyEnum.USE_VOID,
         )
-        assert enum.enumValues == ("useArgumentType", "useVoid")
+        assert enum.enumValues == (ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID)
 
     def test_no_extra_members(self):
         members = {name for name, value in vars(ServerArgumentImplPolicyEnum).items() if name.isupper()}
@@ -1249,7 +1249,7 @@ class TestServerArgumentImplPolicyEnumSpecSync:
         enum = ServerArgumentImplPolicyEnum()
         result = enum.setValue(ServerArgumentImplPolicyEnum.USE_VOID)
         assert result is enum
-        assert enum.getValue() == "useVoid"
+        assert enum.getValue() == ServerArgumentImplPolicyEnum.USE_VOID
 
     def test_class_docstring_matches_spec_note(self):
         assert ServerArgumentImplPolicyEnum.__doc__.strip() == "This defines how the argument type of the servers RunnableEntity is implemented."

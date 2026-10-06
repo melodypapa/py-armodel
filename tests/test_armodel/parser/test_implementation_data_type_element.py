@@ -58,14 +58,14 @@ class TestReadImplementationDataTypeElement:
         element = ET.fromstring(
             f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
-                <ARRAY-IMPL-POLICY>payloadAsPointerToArray</ARRAY-IMPL-POLICY>
+                <ARRAY-IMPL-POLICY>PAYLOAD-AS-POINTER-TO-ARRAY</ARRAY-IMPL-POLICY>
             </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
         )
 
         parser.readImplementationDataTypeElement(element, impl_element)
 
         assert impl_element.getArrayImplPolicy() is not None
-        assert impl_element.getArrayImplPolicy().getValue() == "payloadAsPointerToArray"
+        assert impl_element.getArrayImplPolicy().getValue() == "PAYLOAD-AS-POINTER-TO-ARRAY"
 
     def test_read_is_optional_field_value(self, parser):
         """
@@ -104,9 +104,9 @@ class TestReadImplementationDataTypeElement:
         assert isinstance(impl_element.getArraySize(), PositiveInteger)
         assert impl_element.getArraySize().getValue() == 8
         assert impl_element.getArraySizeHandling() is not None
-        assert impl_element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+        assert impl_element.getArraySizeHandling().getValue() == "ALL-INDICES-SAME-ARRAY-SIZE"
         assert impl_element.getArraySizeSemantics() is not None
-        assert impl_element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert impl_element.getArraySizeSemantics().getValue() == "FIXED-SIZE"
 
     def test_read_nested_sub_element_field_values(self, parser):
         """
@@ -119,7 +119,7 @@ class TestReadImplementationDataTypeElement:
                 <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT>
                         <SHORT-NAME>Sub</SHORT-NAME>
-                        <ARRAY-IMPL-POLICY>payloadAsArray</ARRAY-IMPL-POLICY>
+                        <ARRAY-IMPL-POLICY>PAYLOAD-AS-ARRAY</ARRAY-IMPL-POLICY>
                     </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
@@ -131,7 +131,7 @@ class TestReadImplementationDataTypeElement:
         assert len(subs) == 1
         assert subs[0].getShortName() == "Sub"
         assert subs[0].getArrayImplPolicy() is not None
-        assert subs[0].getArrayImplPolicy().getValue() == "payloadAsArray"
+        assert subs[0].getArrayImplPolicy().getValue() == "PAYLOAD-AS-ARRAY"
 
     def test_read_without_optional_elements_leaves_fields_none(self, parser):
         """

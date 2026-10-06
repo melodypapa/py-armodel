@@ -60,7 +60,7 @@ class TestDocumentationBlockRoundTrip:
         structured_req = StructuredReq(None, "StructuredReq")
         structured_req.setDate(DateTime().setValue("2023-11-01"))
         structured_req.addAppliesTo(StandardNameEnum().setValue("AP"))
-        structured_req.setImportance(String().setValue("high"))
+        structured_req.setImportance(String().setValue("HIGH"))
         structured_req.setIssuedBy(String().setValue("AUTOSAR"))
         structured_req.setType(String().setValue("enhancement"))
         structured_req.setConflicts(DocumentationBlock())
@@ -130,7 +130,7 @@ class TestDocumentationBlockRoundTrip:
 
             note = intro.getNote()
             assert note is not None
-            assert note.getNoteType().getValue() == "hint"
+            assert note.getNoteType().getValue() == NoteTypeEnum.HINT
             assert note.getNoteText().getPs()[0].getL1s()[0].getValue() == "note paragraph"
 
             trace = intro.getTrace()
@@ -139,7 +139,7 @@ class TestDocumentationBlockRoundTrip:
 
             structured_req = intro.getStructuredReq()
             assert structured_req is not None
-            assert structured_req.getImportance().getValue() == "high"
+            assert structured_req.getImportance().getValue() == "HIGH"
             assert structured_req.getIssuedBy().getValue() == "AUTOSAR"
             assert structured_req.getDate().getValue() == "2023-11-01"
             assert structured_req.getAppliesTos()[0].getValue() == "AP"
@@ -159,8 +159,8 @@ class TestDocumentationBlockRoundTrip:
             verbatim = intro.getVerbatim()
             assert verbatim is not None
             assert verbatim.getL5s()[0].getValue() == "verbatim text"
-            assert verbatim.getFloat().getValue() == "noFloat"
-            assert verbatim.getPgwide().getValue() == "pgwide"
+            assert verbatim.getFloat().getValue() == FloatEnum.NO_FLOAT
+            assert verbatim.getPgwide().getValue() == PgwideEnum.PGWIDE
 
             msr_query_p2 = intro.getMsrQueryP2()
             assert msr_query_p2 is not None

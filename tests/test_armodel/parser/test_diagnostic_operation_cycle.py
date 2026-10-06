@@ -37,7 +37,7 @@ class TestReadDiagnosticOperationCycle:
         cycle = self._read(parser, "<TYPE>IGNITION</TYPE>")
         assert cycle.getType() is not None
         assert isinstance(cycle.getType(), DiagnosticOperationCycleTypeEnum)
-        assert cycle.getType().getValue() == "ignition"
+        assert cycle.getType().getValue() == "IGNITION"
 
     def test_read_empty_leaves_fields_none(self, parser):
         """Test that an element without own children leaves every field None (empty wrapper case)."""

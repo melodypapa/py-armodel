@@ -160,9 +160,9 @@ class TestWriteDiagnosticReadDataByPeriodicIDClass:
             rates = cls_2.getPeriodicRates()
             assert len(rates) == 2
             assert rates[0].getPeriod().getValue() == 0.5
-            assert rates[0].getPeriodicRateCategory().getValue() == "periodicRateFast"
+            assert rates[0].getPeriodicRateCategory().getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST
             assert rates[1].getPeriod() is None
-            assert rates[1].getPeriodicRateCategory().getValue() == "periodicRateSlow"
+            assert rates[1].getPeriodicRateCategory().getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW
             assert cls_2.getSchedulerMaxNumber() is not None
             assert cls_2.getSchedulerMaxNumber().getValue() == 3
         finally:

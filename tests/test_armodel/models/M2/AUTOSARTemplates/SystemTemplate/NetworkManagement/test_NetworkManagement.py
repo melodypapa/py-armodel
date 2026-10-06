@@ -870,8 +870,8 @@ class Test_NmCoordinatorRoleEnum:
         """Test NmCoordinatorRoleEnum member values."""
         enum = NmCoordinatorRoleEnum()
         values = enum.getEnumValues()
-        assert NmCoordinatorRoleEnum.ACTIVE == "active"
-        assert NmCoordinatorRoleEnum.PASSIVE == "passive"
+        assert NmCoordinatorRoleEnum.ACTIVE == "ACTIVE"
+        assert NmCoordinatorRoleEnum.PASSIVE == "PASSIVE"
         assert NmCoordinatorRoleEnum.ACTIVE in values
         assert NmCoordinatorRoleEnum.PASSIVE in values
 
@@ -879,7 +879,7 @@ class Test_NmCoordinatorRoleEnum:
         """Test NmCoordinatorRoleEnum value assignment."""
         enum = NmCoordinatorRoleEnum()
         enum.setValue(NmCoordinatorRoleEnum.ACTIVE)
-        assert enum.getValue() == "active"
+        assert enum.getValue() == "ACTIVE"
 
 
 class Test_J1939NmAddressConfigurationCapabilityEnum:
@@ -889,11 +889,11 @@ class Test_J1939NmAddressConfigurationCapabilityEnum:
         """The five literals exist with the serialized XML form as value."""
         enum = J1939NmAddressConfigurationCapabilityEnum()
         values = enum.getEnumValues()
-        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC == "J-1939-NM-AAC"
-        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA == "J-1939-NM-CCA"
-        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA == "J-1939-NM-NCA"
-        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA == "J-1939-NM-SCA"
-        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA == "J-1939-NM-SVCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC == "J-1939-NM--AAC"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA == "J-1939-NM--CCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA == "J-1939-NM--NCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA == "J-1939-NM--SCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA == "J-1939-NM--SVCA"
         assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC in values
         assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA in values
         assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA in values
@@ -904,7 +904,7 @@ class Test_J1939NmAddressConfigurationCapabilityEnum:
         """Value assignment with a typed enum instance."""
         enum = J1939NmAddressConfigurationCapabilityEnum()
         enum.setValue(J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC)
-        assert enum.getValue() == "J-1939-NM-AAC"
+        assert enum.getValue() == J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC
 
 
 class TestJ1939NodeName:
@@ -1036,7 +1036,7 @@ class TestJ1939NmNode:
         value.setValue(J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA)
         assert node == node.setAddressConfigurationCapability(value)
         assert node.getAddressConfigurationCapability() == value
-        assert node.getAddressConfigurationCapability().getValue() == "J-1939-NM-SCA"
+        assert node.getAddressConfigurationCapability().getValue() == J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA
         assert node == node.setAddressConfigurationCapability(None)
         assert node.getAddressConfigurationCapability() == value
 

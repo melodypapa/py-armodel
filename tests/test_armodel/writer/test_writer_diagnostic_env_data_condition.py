@@ -147,7 +147,7 @@ class TestWriteDiagnosticEnvDataCondition:
             assert len(parts) == 1
             part = parts[0]
             assert type(part).__name__ == "DiagnosticEnvDataCondition"
-            assert part.getCompareType().getValue() == "isLessOrEqual"
+            assert part.getCompareType().getValue() == DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL
             assert part.getCompareValue() is not None
             assert part.getCompareValue().getValue().getValue() == "42"
             assert part.getDataElementRef() is not None

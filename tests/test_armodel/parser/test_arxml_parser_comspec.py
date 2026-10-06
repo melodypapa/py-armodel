@@ -128,7 +128,7 @@ class TestGetNonqueuedSenderComSpec:
         assert props is not None
         assert props.getDataUpdatePeriod().getValue() == 0.01
         assert props.getMinimumSendInterval().getValue() == 0.1
-        assert props.getTransmissionMode().getValue() == "triggered"
+        assert props.getTransmissionMode().getValue() == "TRIGGERED"
         assert result.getTransmissionAcknowledge() is not None
         assert result.getTransmissionAcknowledge().getTimeout().getValue() == 0.5
 
@@ -139,7 +139,7 @@ class TestGetNonqueuedSenderComSpec:
             root_tag="NONQUEUED-SENDER-COM-SPEC",
         )
         result = parser.getNonqueuedSenderComSpec(element)
-        assert result.getTransmissionProps().getTransmissionMode().getValue() == "cyclicAndOnChange"
+        assert result.getTransmissionProps().getTransmissionMode().getValue() == "CYCLIC-AND-ON-CHANGE"
 
     def test_without_transmission_props(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -324,7 +324,7 @@ class TestGetNonqueuedReceiverComSpec:
         assert result.getHandleNeverReceived() is not None
         assert result.getHandleNeverReceived().getValue() is False
         assert result.getHandleTimeoutType() is not None
-        assert result.getHandleTimeoutType().getValue() == "replace"
+        assert result.getHandleTimeoutType().getValue() == "REPLACE"
 
     def test_handle_timeout_type_token_mapped_to_camel_literal(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -333,7 +333,7 @@ class TestGetNonqueuedReceiverComSpec:
             root_tag="NONQUEUED-RECEIVER-COM-SPEC",
         )
         result = parser.getNonqueuedReceiverComSpec(element)
-        assert result.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+        assert result.getHandleTimeoutType().getValue() == "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE"
 
     def test_handle_out_of_range_token_mapped_to_camel_literal(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -342,7 +342,7 @@ class TestGetNonqueuedReceiverComSpec:
             root_tag="NONQUEUED-RECEIVER-COM-SPEC",
         )
         result = parser.getNonqueuedReceiverComSpec(element)
-        assert result.getHandleOutOfRange().getValue() == "externalReplacement"
+        assert result.getHandleOutOfRange().getValue() == "EXTERNAL-REPLACEMENT"
 
     def test_with_own_aggregates(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -625,7 +625,7 @@ class TestReadProvidedComSpec:
         assert isinstance(specs[0], QueuedSenderComSpec)
         assert specs[0].getDataElementRef().getValue() == "/vdp/QueuedElem"
         assert specs[0].getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert specs[0].getHandleOutOfRange().getValue() == "saturate"
+        assert specs[0].getHandleOutOfRange().getValue() == "SATURATE"
         assert specs[0].getUsesEndToEndProtection().getValue() is True
 
     def test_nv_provide_branch_with_mock_parent(self, parser):

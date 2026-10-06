@@ -35,7 +35,7 @@ def _client_root(client_inner: str):
 class TestReadTimeSyncServerConfiguration:
     def test_read_all_attribute_values(self):
         root = _root(
-            "<PRIORITY>7</PRIORITY>" "<SYNC-INTERVAL>1.0</SYNC-INTERVAL>" "<TIME-SYNC-SERVER-IDENTIFIER>srv-1</TIME-SYNC-SERVER-IDENTIFIER>" "<TIME-SYNC-TECHNOLOGY>NTP-RFC-958</TIME-SYNC-TECHNOLOGY>"
+            "<PRIORITY>7</PRIORITY>" "<SYNC-INTERVAL>1.0</SYNC-INTERVAL>" "<TIME-SYNC-SERVER-IDENTIFIER>srv-1</TIME-SYNC-SERVER-IDENTIFIER>" "<TIME-SYNC-TECHNOLOGY>NTP--RFC-958</TIME-SYNC-TECHNOLOGY>"
         )
         sync = ARXMLParser().getTimeSynchronization(root, "TIME-SYNCHRONIZATION")
         assert sync is not None
@@ -45,7 +45,7 @@ class TestReadTimeSyncServerConfiguration:
         assert server.getPriority().getValue() == 7
         assert server.getSyncInterval().getValue() == 1.0
         assert server.getTimeSyncServerIdentifier().getValue() == "srv-1"
-        assert server.getTimeSyncTechnology().getValue() == "NTP-RFC-958"
+        assert server.getTimeSyncTechnology().getValue() == "NTP--RFC-958"
 
     def test_read_empty_server_yields_none_attributes(self):
         root = _root("")
@@ -63,13 +63,13 @@ class TestReadTimeSyncServerConfiguration:
 class TestReadTimeSynchronization:
     def test_read_time_sync_client_values(self):
         root = _client_root(
-            "<ORDERED-MASTER-LIST><ORDERED-MASTER><INDEX>1</INDEX><TIME-SYNC-SERVER-REF>/Pkg/Srv</TIME-SYNC-SERVER-REF></ORDERED-MASTER></ORDERED-MASTER-LIST><TIME-SYNC-TECHNOLOGY>NTP-RFC-958</TIME-SYNC-TECHNOLOGY>"
+            "<ORDERED-MASTER-LIST><ORDERED-MASTER><INDEX>1</INDEX><TIME-SYNC-SERVER-REF>/Pkg/Srv</TIME-SYNC-SERVER-REF></ORDERED-MASTER></ORDERED-MASTER-LIST><TIME-SYNC-TECHNOLOGY>NTP--RFC-958</TIME-SYNC-TECHNOLOGY>"
         )
         sync = ARXMLParser().getTimeSynchronization(root, "TIME-SYNCHRONIZATION")
         assert sync is not None
         client = sync.getTimeSyncClient()
         assert client is not None
-        assert client.getTimeSyncTechnology().getValue() == "NTP-RFC-958"
+        assert client.getTimeSyncTechnology().getValue() == "NTP--RFC-958"
         masters = client.getOrderedMasters()
         assert len(masters) == 1
         assert masters[0].getIndex().getValue() == 1

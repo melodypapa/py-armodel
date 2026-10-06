@@ -11,15 +11,15 @@ class TestPncGatewayTypeEnum:
     """Test cases for PncGatewayTypeEnum (Table 3.5, p.55)."""
 
     def test_member_presence_and_values(self):
-        assert PncGatewayTypeEnum.ACTIVE == "active"
-        assert PncGatewayTypeEnum.NONE == "none"
-        assert PncGatewayTypeEnum.PASSIVE == "passive"
-        assert list(PncGatewayTypeEnum().getEnumValues()) == ["active", "none", "passive"]
+        assert PncGatewayTypeEnum.ACTIVE == "ACTIVE"
+        assert PncGatewayTypeEnum.NONE == "NONE"
+        assert PncGatewayTypeEnum.PASSIVE == "PASSIVE"
+        assert list(PncGatewayTypeEnum().getEnumValues()) == ["ACTIVE", "NONE", "PASSIVE"]
 
     def test_instantiability(self):
         enum = PncGatewayTypeEnum()
         assert enum == enum.setValue(PncGatewayTypeEnum.PASSIVE)
-        assert enum.getValue() == "passive"
+        assert enum.getValue() == "PASSIVE"
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(PncGatewayTypeEnum.__doc__) == CLASS_NOTE

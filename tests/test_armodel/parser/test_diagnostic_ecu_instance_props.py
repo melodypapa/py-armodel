@@ -60,7 +60,7 @@ class TestReadDiagnosticEcuInstanceProps:
         obd_support = props.getObdSupport()
         assert obd_support is not None
         assert isinstance(obd_support, DiagnosticObdSupportEnum)
-        assert obd_support.getValue() == "primaryEcu"
+        assert obd_support.getValue() == DiagnosticObdSupportEnum.PRIMARY_ECU
 
     def test_read_without_own_fields_leaves_defaults(self, parser):
         """Test that an element without own fields leaves ecuInstanceRefs empty and obdSupport None."""
@@ -80,4 +80,4 @@ class TestReadDiagnosticEcuInstanceProps:
         )
         assert len(props.getEcuInstanceRefs()) == 1
         assert isinstance(props.getObdSupport(), DiagnosticObdSupportEnum)
-        assert props.getObdSupport().getValue() == "masterEcu"
+        assert props.getObdSupport().getValue() == DiagnosticObdSupportEnum.MASTER_ECU

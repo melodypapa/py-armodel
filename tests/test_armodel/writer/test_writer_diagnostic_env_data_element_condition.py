@@ -161,7 +161,7 @@ class TestWriteDiagnosticEnvDataElementCondition:
             assert len(parts) == 1
             part = parts[0]
             assert type(part).__name__ == "DiagnosticEnvDataElementCondition"
-            assert part.getCompareType().getValue() == "isEqual"
+            assert part.getCompareType().getValue() == DiagnosticCompareTypeEnum.IS_EQUAL
             assert part.getCompareValue() is not None
             assert part.getCompareValue().getValue().getValue() == "42"
             assert part.getSwDataDefProps() is not None

@@ -16,6 +16,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_dynamic
 from unittest.mock import MagicMock
 
 from tests.test_armodel.parser._helpers import _snip
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticHandleDDDIConfigurationEnum
 
 
 class TestReadDiagnosticDynamicallyDefineDataIdentifierClass:
@@ -44,14 +45,14 @@ class TestReadDiagnosticDynamicallyDefineDataIdentifierClass:
         """Test that the CONFIGURATION-HANDLING enum token is read into configurationHandling."""
         dddi_class = self._read(parser, "<CONFIGURATION-HANDLING>NON-VOLATILE</CONFIGURATION-HANDLING>")
         assert dddi_class.getConfigurationHandling() is not None
-        assert dddi_class.getConfigurationHandling().getValue() == "nonVolatile"
+        assert dddi_class.getConfigurationHandling().getValue() == DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE
 
     def test_read_subfunctions(self, parser):
         """Test that the SUBFUNCTIONS wrapper enum tokens are read in document order."""
         inner = "<SUBFUNCTIONS><SUBFUNCTION>DEFINE-BY-IDENTIFIER</SUBFUNCTION><SUBFUNCTION>CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER</SUBFUNCTION><SUBFUNCTION>DEFINE-BY-MEMORY-ADDRESS</SUBFUNCTION></SUBFUNCTIONS>"
         dddi_class = self._read(parser, inner)
         values = [subfunction.getValue() for subfunction in dddi_class.getSubfunctions()]
-        assert values == ["defineByIdentifier", "clearDynamicallyDefineDataIdentifier", "defineByMemoryAddress"]
+        assert values == ["DEFINE-BY-IDENTIFIER", "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER", "DEFINE-BY-MEMORY-ADDRESS"]
 
     def test_read_empty_wrapper(self, parser):
         """Test that an empty wrapper (no children) parses leaving all fields unset."""

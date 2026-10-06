@@ -162,7 +162,7 @@ class TestWriteCollection:
 
             collection_2 = document_2.getARPackages()[0].getCollections()[0]
             assert collection_2.getShortName() == "MyCollection"
-            assert collection_2.getAutoCollect().getValue() == "refNone"
+            assert collection_2.getAutoCollect().getValue() == AutoCollectEnum.REF_NONE
             assert collection_2.getElementRole().getValue() == "PART_OF_SUBSET"
         finally:
             os.remove(file_path)

@@ -51,7 +51,7 @@ class TestLatencyTimingConstraint:
         latency_type = LatencyConstraintTypeEnum().setValue(LatencyConstraintTypeEnum.REACTION)
         assert constraint.setLatencyConstraintType(latency_type) is constraint
         assert constraint.getLatencyConstraintType() is latency_type
-        assert constraint.getLatencyConstraintType().getValue() == "reaction"
+        assert constraint.getLatencyConstraintType().getValue() == LatencyConstraintTypeEnum.REACTION
 
     def test_set_latency_constraint_type_none_is_no_op(self):
         constraint = LatencyTimingConstraint(self._parent(), "Latency1")
@@ -121,12 +121,12 @@ class TestLatencyConstraintTypeEnum:
         """Test LatencyConstraintTypeEnum initialization"""
         enum = LatencyConstraintTypeEnum()
         assert isinstance(enum, LatencyConstraintTypeEnum)
-        assert list(enum.getEnumValues()) == ["age", "reaction"]
+        assert list(enum.getEnumValues()) == ["AGE", "REACTION"]
 
     def test_enum_values(self):
         """Test LatencyConstraintTypeEnum literal values (Table 3.58)"""
-        assert LatencyConstraintTypeEnum.AGE == "age"
-        assert LatencyConstraintTypeEnum.REACTION == "reaction"
+        assert LatencyConstraintTypeEnum.AGE == "AGE"
+        assert LatencyConstraintTypeEnum.REACTION == "REACTION"
 
     def test_valid_values(self):
         """Test LatencyConstraintTypeEnum setValue round-trip for all literals"""

@@ -92,7 +92,7 @@ class TestBswModuleDescriptionHandlers:
         )
         parser.readModeDeclarationGroupPrototype(element, proto)
         assert proto.getTypeTRef().getValue() == "/tg"
-        assert proto.getSwCalibrationAccess().getValue() == "readOnly"
+        assert proto.getSwCalibrationAccess().getValue() == "READ-ONLY"
 
     def test_readBswModuleDescriptionProvidedModeGroups_creates_group(self, parser):
         from armodel.models import BswModuleDescription
@@ -329,7 +329,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<INTERNAL-BEHAVIORS>" "<BSW-INTERNAL-BEHAVIOR>" "<SHORT-NAME>bh</SHORT-NAME>" "</BSW-INTERNAL-BEHAVIOR>" "</INTERNAL-BEHAVIORS>",
+            "<INTERNAL-BEHAVIORS>" "<BSW-INTERNAL-BEHAVIOR>" "<SHORT-NAME>BH</SHORT-NAME>" "</BSW-INTERNAL-BEHAVIOR>" "</INTERNAL-BEHAVIORS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionBswInternalBehaviors(element, desc)
@@ -501,12 +501,12 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         entity = BswCalledEntity(parent=_autosar_root(), short_name="e")
         element = _snip(
-            "<REENTRANCY-LEVEL>multicoreReentrant</REENTRANCY-LEVEL>",
+            "<REENTRANCY-LEVEL>MULTICORE-REENTRANT</REENTRANCY-LEVEL>",
             root_tag="ENTITY",
         )
         parser.readExecutableEntity(element, entity)
         assert entity.getReentrancyLevel() is not None
-        assert entity.getReentrancyLevel().getValue() == "multicoreReentrant"
+        assert entity.getReentrancyLevel().getValue() == "MULTICORE-REENTRANT"
 
     def test_readDataTypeMappingRefs_adds_refs(self, parser):
         from armodel.models import BswInternalBehavior
@@ -578,7 +578,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<EXCLUSIVE-AREAS>"
             "<EXCLUSIVE-AREA><SHORT-NAME>ea1</SHORT-NAME></EXCLUSIVE-AREA>"
             "</EXCLUSIVE-AREAS>"
@@ -608,7 +608,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<EXCLUSIVE-AREAS>" "</EXCLUSIVE-AREAS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<EXCLUSIVE-AREAS>" "</EXCLUSIVE-AREAS>",
             root_tag="BH",
         )
         parser.readInternalBehavior(element, behavior)
@@ -619,7 +619,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<CONSTANT-VALUE-MAPPING-REFS>" "</CONSTANT-VALUE-MAPPING-REFS>",
+            "<SHORT-NAME>BH</SHORT-NAME>" "<CONSTANT-VALUE-MAPPING-REFS>" "</CONSTANT-VALUE-MAPPING-REFS>",
             root_tag="BH",
         )
         parser.readInternalBehavior(element, behavior)
@@ -1028,7 +1028,7 @@ class TestBswInternalTriggeringPointHandlers:
         )
         parser.readBswInternalTriggeringPoint(element, point)
         assert point.getSwImplPolicy() is not None
-        assert point.getSwImplPolicy().getValue() == "queued"
+        assert point.getSwImplPolicy().getValue() == "QUEUED"
 
     def test_readBswInternalTriggeringPoint_reads_variation_point(self, parser):
         from armodel.models import BswInternalTriggeringPoint
@@ -1102,7 +1102,7 @@ class TestBswEntityDispatch:
         )
         parser.readBswInterruptEntity(element, entity)
         assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
-        assert entity.getInterruptCategory().getValue() == "cat1"
+        assert entity.getInterruptCategory().getValue() == BswInterruptCategory.CAT1
         assert isinstance(entity.getInterruptSource(), String)
         assert entity.getInterruptSource().getValue() == "EXT"
 
@@ -1119,7 +1119,7 @@ class TestBswEntityDispatch:
         )
         parser.readBswInterruptEntity(element, entity)
         assert isinstance(entity.getInterruptCategory(), BswInterruptCategory)
-        assert entity.getInterruptCategory().getValue() == "cat2"
+        assert entity.getInterruptCategory().getValue() == BswInterruptCategory.CAT2
 
     def test_readBswInterruptEntity_empty(self, parser):
         from armodel.models import BswModuleDescription
@@ -1220,7 +1220,7 @@ class TestBswEntityDispatch:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
             "<DISTINGUISHED-PARTITIONS>"
-            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>master</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
+            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>MASTER</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
             "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>satellite</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
             "</DISTINGUISHED-PARTITIONS>",
             root_tag="BH",
@@ -1228,7 +1228,7 @@ class TestBswEntityDispatch:
         parser.readBswInternalBehavior(element, behavior)
         partitions = behavior.getDistinguishedPartitions()
         assert len(partitions) == 2
-        assert partitions[0].getShortName() == "master"
+        assert partitions[0].getShortName() == "MASTER"
         assert partitions[1].getShortName() == "satellite"
         assert partitions[0].getParent() is behavior
 
@@ -1317,7 +1317,7 @@ class TestBswInternalBehaviorEventsDetailed:
         event = BswModeSwitchEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
             "<SHORT-NAME>ev</SHORT-NAME>"
-            "<ACTIVATION>onTransition</ACTIVATION>"
+            "<ACTIVATION>ON-TRANSITION</ACTIVATION>"
             "<MODE-IREFS>"
             "<MODE-IREF>"
             "<CONTEXT-MODE-DECLARATION-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/a</CONTEXT-MODE-DECLARATION-GROUP-REF>"
@@ -1327,7 +1327,7 @@ class TestBswInternalBehaviorEventsDetailed:
             root_tag="BSW-MODE-SWITCH-EVENT",
         )
         parser.readBswModeSwitchEvent(element, event)
-        assert event.getActivation().getText() == "onTransition"
+        assert event.getActivation().getText() == "ON-TRANSITION"
         assert len(event.getModeIRefs()) == 1
         assert event.getModeIRefs()[0].getTargetModeRef().getValue() == "/b"
 
@@ -1773,7 +1773,7 @@ class TestBswEntryRelationshipHandlers:
         assert relationship.getFromRef().getValue() == "/mod/abstract"
         assert relationship.getToRef().getValue() == "/mod/concrete"
         assert relationship.getBswEntryRelationshipType() is not None
-        assert relationship.getBswEntryRelationshipType().getValue() == "derivedFrom"
+        assert relationship.getBswEntryRelationshipType().getValue() == "DERIVED-FROM"
 
     def test_readBswEntryRelationship_absent_leaves_none(self, parser):
         from armodel.models import BswEntryRelationship
@@ -1839,7 +1839,7 @@ class TestBswEntryRelationshipSetHandlers:
         assert len(relationships) == 1
         assert relationships[0].getFromRef().getValue() == "/mod/abstract"
         assert relationships[0].getToRef().getValue() == "/mod/concrete"
-        assert relationships[0].getBswEntryRelationshipType().getValue() == "derivedFrom"
+        assert relationships[0].getBswEntryRelationshipType().getValue() == "DERIVED-FROM"
 
     def test_readBswEntryRelationshipSet_absent_wrapper_leaves_empty(self, parser):
         from armodel.models import BswEntryRelationshipSet
@@ -2403,7 +2403,7 @@ class TestBswInternalBehaviorOrchestrator:
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         behavior = desc.createBswInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<SHORT-NAME>BH</SHORT-NAME>"
             "<ENTITYS>"
             "<BSW-SCHEDULABLE-ENTITY><SHORT-NAME>se</SHORT-NAME>"
             "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/e</IMPLEMENTED-ENTRY-REF>"
@@ -2505,7 +2505,7 @@ class TestBswServiceDependencyHandlers:
         dependency = BswServiceDependency()
         element = _snip(
             "<SERVICE-NEEDS>"
-            "<DIAGNOSTIC-ENABLE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>eventAcceptanceEnabled</INITIAL-STATUS></DIAGNOSTIC-ENABLE-CONDITION-NEEDS>"
+            "<DIAGNOSTIC-ENABLE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>EVENT-ACCEPTANCE-ENABLED</INITIAL-STATUS></DIAGNOSTIC-ENABLE-CONDITION-NEEDS>"
             "</SERVICE-NEEDS>",
             root_tag="BSW-SERVICE-DEPENDENCY",
         )
@@ -2513,21 +2513,21 @@ class TestBswServiceDependencyHandlers:
 
         needs = dependency.getServiceNeeds()
         assert needs.getShortName() == "needs"
-        assert needs.getInitialStatus().getValue() == "eventAcceptanceEnabled"
+        assert needs.getInitialStatus().getValue() == "EVENT-ACCEPTANCE-ENABLED"
 
     def test_readBswServiceDependency_diagnostic_operation_cycle_needs(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
 
         dependency = BswServiceDependency()
         element = _snip(
-            "<SERVICE-NEEDS>" "<DIAGNOSTIC-OPERATION-CYCLE-NEEDS><SHORT-NAME>needs</SHORT-NAME><OPERATION-CYCLE>power</OPERATION-CYCLE></DIAGNOSTIC-OPERATION-CYCLE-NEEDS>" "</SERVICE-NEEDS>",
+            "<SERVICE-NEEDS>" "<DIAGNOSTIC-OPERATION-CYCLE-NEEDS><SHORT-NAME>needs</SHORT-NAME><OPERATION-CYCLE>POWER</OPERATION-CYCLE></DIAGNOSTIC-OPERATION-CYCLE-NEEDS>" "</SERVICE-NEEDS>",
             root_tag="BSW-SERVICE-DEPENDENCY",
         )
         parser.readBswServiceDependency(element, dependency)
 
         needs = dependency.getServiceNeeds()
         assert needs.getShortName() == "needs"
-        assert needs.getOperationCycle().getValue() == "power"
+        assert needs.getOperationCycle().getValue() == "POWER"
 
     def test_readBswServiceDependency_diagnostic_storage_condition_needs(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
@@ -2535,7 +2535,7 @@ class TestBswServiceDependencyHandlers:
         dependency = BswServiceDependency()
         element = _snip(
             "<SERVICE-NEEDS>"
-            "<DIAGNOSTIC-STORAGE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>eventStorageDisabled</INITIAL-STATUS></DIAGNOSTIC-STORAGE-CONDITION-NEEDS>"
+            "<DIAGNOSTIC-STORAGE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>EVENT-STORAGE-DISABLED</INITIAL-STATUS></DIAGNOSTIC-STORAGE-CONDITION-NEEDS>"
             "</SERVICE-NEEDS>",
             root_tag="BSW-SERVICE-DEPENDENCY",
         )
@@ -2543,21 +2543,21 @@ class TestBswServiceDependencyHandlers:
 
         needs = dependency.getServiceNeeds()
         assert needs.getShortName() == "needs"
-        assert needs.getInitialStatus().getValue() == "eventStorageDisabled"
+        assert needs.getInitialStatus().getValue() == "EVENT-STORAGE-DISABLED"
 
     def test_readBswServiceDependency_indicator_status_needs(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
 
         dependency = BswServiceDependency()
         element = _snip(
-            "<SERVICE-NEEDS>" "<INDICATOR-STATUS-NEEDS><SHORT-NAME>needs</SHORT-NAME><TYPE>amberWarning</TYPE></INDICATOR-STATUS-NEEDS>" "</SERVICE-NEEDS>",
+            "<SERVICE-NEEDS>" "<INDICATOR-STATUS-NEEDS><SHORT-NAME>needs</SHORT-NAME><TYPE>AMBER-WARNING</TYPE></INDICATOR-STATUS-NEEDS>" "</SERVICE-NEEDS>",
             root_tag="BSW-SERVICE-DEPENDENCY",
         )
         parser.readBswServiceDependency(element, dependency)
 
         needs = dependency.getServiceNeeds()
         assert needs.getShortName() == "needs"
-        assert needs.getType().getValue() == "amberWarning"
+        assert needs.getType().getValue() == "AMBER-WARNING"
 
     def test_readBswServiceDependency_function_inhibition_availability_needs(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency

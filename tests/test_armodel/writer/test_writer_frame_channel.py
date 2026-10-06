@@ -685,7 +685,7 @@ class TestWritePduToFrameMapping:
         mappings = reparsed.getPduToFrameMappings()
         assert len(mappings) == 1
         rt = mappings[0]
-        assert rt.getPackingByteOrder().getValue() == "mostSignificantByteLast"
+        assert rt.getPackingByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
         assert rt.getPduRef().getValue() == "/Ipdu"
         assert rt.getStartPosition().getValue() == 0
         assert rt.getUpdateIndicationBitPosition().getValue() == 7
@@ -713,7 +713,7 @@ class TestWritePduToFrameMapping:
         mappings = reparsed.getPduToFrameMappings()
         assert len(mappings) == 1
         assert mappings[0].getShortName() == "M"
-        assert mappings[0].getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+        assert mappings[0].getPackingByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
 
 
 class TestWritePduTriggering:
@@ -1029,13 +1029,13 @@ class TestWriteLinScheduleTable:
     def test_write_lin_schedule_table_empty_entries(self, writer):
         pkg = _pkg()
         table = LinScheduleTable(pkg, "Table")
-        table.setResumePosition(_literal("startFromBeginning"))
+        table.setResumePosition(_literal("START-FROM-BEGINNING"))
         table.setRunMode(_literal("RUN"))
         parent = _parent()
         writer.writeLinScheduleTable(parent, table)
         lst = parent.find("LIN-SCHEDULE-TABLE")
         assert lst is not None
-        assert lst.find("RESUME-POSITION").text == "startFromBeginning"
+        assert lst.find("RESUME-POSITION").text == "START-FROM-BEGINNING"
         assert lst.find("RUN-MODE").text == "RUN"
 
     def test_write_lin_schedule_table_table_entries_warns(self):
@@ -1117,7 +1117,7 @@ class TestWriteNetworkEndPoint:
         assert tag.find("HOP-COUNT").text == "64"
         assert tag.find("IP-ADDRESS-PREFIX-LENGTH").text == "48"
         assert tag.find("IPV-6-ADDRESS").text == "::1"
-        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "fixed"
+        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "FIXED"
 
     def test_write_network_end_point_addresses_empty(self, writer):
         parent = _parent()
@@ -1265,13 +1265,13 @@ class TestWriteSocketConnection:
 
     def test_set_socket_connection_full(self, writer):
         conn = SocketConnection()
-        conn.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue("sd"))
+        conn.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue(RuntimeAddressConfigurationEnum.SD))
         conn.setShortLabel(Identifier().setValue("lbl"))
         parent = _parent()
         writer.setSocketConnection(parent, conn)
         sc = parent.find("SOCKET-CONNECTION")
         assert sc is not None
-        assert sc.find("RUNTIME-PORT-CONFIGURATION").text == "sd"
+        assert sc.find("RUNTIME-PORT-CONFIGURATION").text == "SD"
         assert sc.find("SHORT-LABEL").text == "lbl"
 
 
@@ -1958,12 +1958,12 @@ class TestWriteFlexrayPhysicalChannel:
     def test_write_flexray_physical_channel(self, writer):
         pkg = _pkg()
         ch = FlexrayPhysicalChannel(pkg, "FlCh")
-        ch.setChannelName(_literal("channelA"))
+        ch.setChannelName(_literal("CHANNEL-A"))
         parent = _parent()
         writer.writeFlexrayPhysicalChannel(parent, ch)
         fpc = parent.find("FLEXRAY-PHYSICAL-CHANNEL")
         assert fpc is not None
-        assert fpc.find("CHANNEL-NAME").text == "channelA"
+        assert fpc.find("CHANNEL-NAME").text == "CHANNEL-A"
 
 
 class TestWriteCommunicationCluster:

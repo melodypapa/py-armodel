@@ -58,7 +58,7 @@ class TestReadDiagnosticMemoryDestination:
         """Test that CLEAR-DTC-LIMITATION is read through the synced enum token map."""
         destination = self._read(parser, "<CLEAR-DTC-LIMITATION>ALL-SUPPORTED-DTCS</CLEAR-DTC-LIMITATION>")
         assert destination.getClearDtcLimitation() is not None
-        assert destination.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+        assert destination.getClearDtcLimitation().getValue() == "ALL-SUPPORTED-DTCS"
 
     def test_read_sets_dtc_status_availability_mask(self, parser):
         """Test that DTC-STATUS-AVAILABILITY-MASK is read into dtcStatusAvailabilityMask."""
@@ -70,7 +70,7 @@ class TestReadDiagnosticMemoryDestination:
         """Test that EVENT-DISPLACEMENT-STRATEGY is read through the synced enum token map."""
         destination = self._read(parser, "<EVENT-DISPLACEMENT-STRATEGY>PRIO-OCC</EVENT-DISPLACEMENT-STRATEGY>")
         assert destination.getEventDisplacementStrategy() is not None
-        assert destination.getEventDisplacementStrategy().getValue() == "prioOcc"
+        assert destination.getEventDisplacementStrategy().getValue() == "PRIO-OCC"
 
     def test_read_sets_max_number_of_event_entries(self, parser):
         """Test that MAX-NUMBER-OF-EVENT-ENTRIES is read into maxNumberOfEventEntries."""
@@ -83,14 +83,14 @@ class TestReadDiagnosticMemoryDestination:
         destination = self._read(parser, "<MEMORY-ENTRY-STORAGE-TRIGGER>CONFIRMED</MEMORY-ENTRY-STORAGE-TRIGGER>")
         assert destination.getMemoryEntryStorageTrigger() is not None
         assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
-        assert destination.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+        assert destination.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
 
     def test_read_sets_status_bit_handling_test_failed_since_last_clear(self, parser):
         """Test that the STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR token is read as the typed enum literal."""
         destination = self._read(parser, "<STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR>STATUS-BIT-NORMAL</STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR>")
         assert destination.getStatusBitHandlingTestFailedSinceLastClear() is not None
         assert isinstance(destination.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
-        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL
 
     def test_read_sets_status_bit_storage_test_failed(self, parser):
         """Test that STATUS-BIT-STORAGE-TEST-FAILED false is read into statusBitStorageTestFailed."""
@@ -103,7 +103,7 @@ class TestReadDiagnosticMemoryDestination:
         destination = self._read(parser, "<TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION>CONFIGURED</TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION>")
         assert destination.getTypeOfFreezeFrameRecordNumeration() is not None
         assert isinstance(destination.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
-        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "configured"
+        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED
 
     def test_read_empty_leaves_all_fields_none(self, parser):
         """Test that an element without group children leaves every field None."""
@@ -133,17 +133,17 @@ class TestReadDiagnosticMemoryDestination:
         )
         destination = self._read(parser, inner)
         assert destination.getAgingRequiresTestedCycle().value is True
-        assert destination.getClearDtcLimitation().getValue() == "clearAllDtcs"
+        assert destination.getClearDtcLimitation().getValue() == "CLEAR-ALL-DTCS"
         assert destination.getDtcStatusAvailabilityMask().getValue() == 255
-        assert destination.getEventDisplacementStrategy().getValue() == "full"
+        assert destination.getEventDisplacementStrategy().getValue() == "FULL"
         assert destination.getMaxNumberOfEventEntries().getValue() == 10
         assert destination.getMemoryEntryStorageTrigger() is not None
         assert isinstance(destination.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
-        assert destination.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
+        assert destination.getMemoryEntryStorageTrigger().getValue() == "FDC-THRESHOLD"
         assert destination.getStatusBitHandlingTestFailedSinceLastClear() is not None
         assert isinstance(destination.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
-        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
+        assert destination.getStatusBitHandlingTestFailedSinceLastClear().getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT
         assert destination.getStatusBitStorageTestFailed().value is True
         assert destination.getTypeOfFreezeFrameRecordNumeration() is not None
         assert isinstance(destination.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
-        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
+        assert destination.getTypeOfFreezeFrameRecordNumeration().getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED

@@ -69,7 +69,7 @@ def _new_kay_participant():
     participant.setCknRef(_ref("/Sec/CryptoKeyCkn"))
     config = MacSecCryptoAlgoConfig()
     capability = MacSecCapabilityEnum()
-    capability.setValue("intergrityAndConfidentiality")
+    capability.setValue(MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY)
     config.setCapability(capability)
     participant.setCryptoAlgoConfig(config)
     participant.setSakRef(_ref("/Sec/CryptoKeySak"))
@@ -88,7 +88,7 @@ class TestWriteMacSecKayParticipant:
         assert node.find("CKN-REF").text == "/Sec/CryptoKeyCkn"
         algo = node.find("CRYPTO-ALGO-CONFIG")
         assert algo is not None
-        assert algo.find("CAPABILITY").text == "intergrityAndConfidentiality"
+        assert algo.find("CAPABILITY").text == "INTERGRITY-AND-CONFIDENTIALITY"
         assert node.find("SAK-REF").text == "/Sec/CryptoKeySak"
 
     def test_write_empty_omits_fields(self, writer):
@@ -121,7 +121,7 @@ class TestMacSecKayParticipantRoundTrip:
         assert recovered.getCknRef().getValue() == "/Sec/CryptoKeyCkn"
         algo = recovered.getCryptoAlgoConfig()
         assert algo is not None
-        assert algo.getCapability().getValue() == "intergrityAndConfidentiality"
+        assert algo.getCapability().getValue() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
         assert recovered.getSakRef().getValue() == "/Sec/CryptoKeySak"
 
     def test_reader_empty_fields(self, parser):

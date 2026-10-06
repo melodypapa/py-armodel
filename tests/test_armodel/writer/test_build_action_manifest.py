@@ -228,7 +228,7 @@ class TestWriteBuildEngineeringObject:
         writer = ARXMLWriter()
         obj = BuildEngineeringObject()
         file_type = NameToken()
-        file_type.setValue("c")
+        file_type.setValue("C")
         file_type_pattern = RegularExpression()
         file_type_pattern.setValue(".*")
         intended_filename = UriString()
@@ -249,7 +249,7 @@ class TestWriteBuildEngineeringObject:
         element = ET.Element("ENGINEERING-OBJECT")
         writer.writeBuildEngineeringObject(element, obj)
 
-        assert element.find("FILE-TYPE").text == "c"
+        assert element.find("FILE-TYPE").text == "C"
         assert element.find("FILE-TYPE-PATTERN").text == ".*"
         assert element.find("INTENDED-FILENAME").text == "output.c"
         assert element.find("PARENT-CATEGORY").text == "SOURCE"
@@ -276,7 +276,7 @@ class TestWriteBuildActionIoElement:
         ref.setValue("/Ecuc/Definition")
         engineering_object = BuildEngineeringObject()
         file_type = NameToken()
-        file_type.setValue("c")
+        file_type.setValue("C")
         engineering_object.setFileType(file_type)
         obj.setCategory(category).setRole(role).setEcucDefinitionRef(ref).setEngineeringObject(engineering_object)
         obj.addSdg(Sdg())
@@ -289,7 +289,7 @@ class TestWriteBuildActionIoElement:
         assert element.find("CATEGORY").text == "ARTIFACT"
         assert element.find("SDGS/SDG") is not None
         assert element.find("ECUC-DEFINITION-REF").text == "/Ecuc/Definition"
-        assert element.find("ENGINEERING-OBJECT/FILE-TYPE").text == "c"
+        assert element.find("ENGINEERING-OBJECT/FILE-TYPE").text == "C"
         assert element.find("ROLE").text == "input"
         assert element.find("FOREIGN-MODEL-REFERENCE") is None
 

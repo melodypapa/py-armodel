@@ -9,18 +9,18 @@ class TestDataLimitKindEnum:
         assert issubclass(DataLimitKindEnum, AREnum)
 
     def test_members_and_values(self):
-        assert DataLimitKindEnum.MAX == "max"
-        assert DataLimitKindEnum.MIN == "min"
-        assert DataLimitKindEnum.NONE == "none"
+        assert DataLimitKindEnum.MAX == "MAX"
+        assert DataLimitKindEnum.MIN == "MIN"
+        assert DataLimitKindEnum.NONE == "NONE"
 
     def test_literal_set_is_exact(self):
-        assert DataLimitKindEnum().getEnumValues() == ("max", "min", "none")
+        assert DataLimitKindEnum().getEnumValues() == ("MAX", "MIN", "NONE")
 
     def test_instantiability(self):
         enum = DataLimitKindEnum()
         result = enum.setValue(DataLimitKindEnum.MAX)
         assert result is enum
-        assert enum.getValue() == "max"
+        assert enum.getValue() == DataLimitKindEnum.MAX
 
     def test_class_docstring_verbatim(self):
         assert DataLimitKindEnum.__doc__.strip() == CLASS_NOTE

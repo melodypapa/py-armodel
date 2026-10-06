@@ -191,12 +191,12 @@ class Test_DataTypePolicyEnum:
         """Test DataTypePolicyEnum member values."""
         enum = DataTypePolicyEnum()
         values = enum.getEnumValues()
-        assert DataTypePolicyEnum.DDS_SERVICE == "ddsService"
-        assert DataTypePolicyEnum.DDS_SIGNAL == "ddsSignal"
-        assert DataTypePolicyEnum.LEGACY == "legacy"
-        assert DataTypePolicyEnum.NETWORK_REPRESENTATION_FROM_COM_SPEC == "networkRepresentationFromComSpec"
-        assert DataTypePolicyEnum.OVERRIDE == "override"
-        assert DataTypePolicyEnum.TRANSFORMING_I_SIGNAL == "transformingISignal"
+        assert DataTypePolicyEnum.DDS_SERVICE == "DDS-SERVICE"
+        assert DataTypePolicyEnum.DDS_SIGNAL == "DDS-SIGNAL"
+        assert DataTypePolicyEnum.LEGACY == "LEGACY"
+        assert DataTypePolicyEnum.NETWORK_REPRESENTATION_FROM_COM_SPEC == "NETWORK-REPRESENTATION-FROM-COM-SPEC"
+        assert DataTypePolicyEnum.OVERRIDE == "OVERRIDE"
+        assert DataTypePolicyEnum.TRANSFORMING_I_SIGNAL == "TRANSFORMING-I-SIGNAL"
         assert DataTypePolicyEnum.DDS_SERVICE in values
         assert DataTypePolicyEnum.DDS_SIGNAL in values
         assert DataTypePolicyEnum.LEGACY in values

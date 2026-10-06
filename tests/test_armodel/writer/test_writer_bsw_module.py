@@ -219,7 +219,7 @@ class TestWriterExecutableEntity:
         entity.setSwAddrMethodRef(_ref("/am", "SW-ADDR-METHOD"))
         entity.addExclusiveAreaNestingOrderRef(_ref("/o1", "EXCLUSIVE-AREA-NESTING-ORDER"))
         entity.addRunsInsideRef(_ref("/ea1", "EXCLUSIVE-AREA"))
-        entity.setReentrancyLevel(_literal("multicoreReentrant"))
+        entity.setReentrancyLevel(_literal("MULTICORE-REENTRANT"))
         parent = _parent()
         writer.writeExecutableEntity(parent, entity)
         assert parent.find("CAN-ENTER-EXCLUSIVE-AREA-REFS") is not None
@@ -228,7 +228,7 @@ class TestWriterExecutableEntity:
         assert parent.find("EXCLUSIVE-AREA-NESTING-ORDER-REFS") is not None
         assert parent.find("RUNS-INSIDE-EXCLUSIVE-AREA-REFS") is not None
         assert parent.find("REENTRANCY-LEVEL") is not None
-        assert parent.find("REENTRANCY-LEVEL").text == "multicoreReentrant"
+        assert parent.find("REENTRANCY-LEVEL").text == "MULTICORE-REENTRANT"
 
     def test_exclusive_area_nesting_order_refs_with_refs(self, writer):
         behavior = _make_behavior()
@@ -252,11 +252,11 @@ class TestWriterExecutableEntity:
     def test_reentrancy_level(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.setReentrancyLevel(_literal("multicoreReentrant"))
+        entity.setReentrancyLevel(_literal("MULTICORE-REENTRANT"))
         parent = _parent()
         writer.writeExecutableEntity(parent, entity)
         assert parent.find("REENTRANCY-LEVEL") is not None
-        assert parent.find("REENTRANCY-LEVEL").text == "multicoreReentrant"
+        assert parent.find("REENTRANCY-LEVEL").text == "MULTICORE-REENTRANT"
 
 
 class TestWriterBswModuleEntityFamily:
@@ -676,7 +676,7 @@ class TestWriterBswEntryRelationshipRoundTrip:
         relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationshipEnum
 
-        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue("derivedFrom"))
+        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue(BswEntryRelationshipEnum.DERIVED_FROM))
         parent = _parent()
         writer.writeBswEntryRelationship(parent, relationship)
         assert [child.tag for child in parent] == ["FROM-REF", "TO-REF", "BSW-ENTRY-RELATIONSHIP-TYPE"]
@@ -696,7 +696,7 @@ class TestWriterBswEntryRelationshipRoundTrip:
         relationship = BswEntryRelationship()
         relationship.setFromRef(_ref("/mod/abstract", "BSW-MODULE-ENTRY"))
         relationship.setToRef(_ref("/mod/concrete", "BSW-MODULE-ENTRY"))
-        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue("derivedFrom"))
+        relationship.setBswEntryRelationshipType(BswEntryRelationshipEnum().setValue(BswEntryRelationshipEnum.DERIVED_FROM))
         parent = _parent()
         writer.writeBswEntryRelationship(parent, relationship)
         xml_text = "".join(ET.tostring(child, encoding="unicode") for child in parent)
@@ -706,7 +706,7 @@ class TestWriterBswEntryRelationshipRoundTrip:
         assert parsed.getFromRef().getValue() == "/mod/abstract"
         assert parsed.getToRef().getValue() == "/mod/concrete"
         assert parsed.getBswEntryRelationshipType() is not None
-        assert parsed.getBswEntryRelationshipType().getValue() == "derivedFrom"
+        assert parsed.getBswEntryRelationshipType().getValue() == BswEntryRelationshipEnum.DERIVED_FROM
 
 
 class TestWriterBswEntryRelationshipSetRoundTrip:
@@ -1099,7 +1099,7 @@ class TestWriterBswInterruptEntityRoundTrip:
         assert entity_2.getShortName() == "ie"
         assert entity_2.getImplementedEntryRef().getValue() == "/mod/Entry"
         assert isinstance(entity_2.getInterruptCategory(), BswInterruptCategory)
-        assert entity_2.getInterruptCategory().getValue() == "cat2"
+        assert entity_2.getInterruptCategory().getValue() == BswInterruptCategory.CAT2
         assert isinstance(entity_2.getInterruptSource(), String)
         assert entity_2.getInterruptSource().getValue() == "CAN interrupt"
 
@@ -1525,12 +1525,12 @@ class TestWriterBswEvents:
         behavior = _make_behavior()
         event = behavior.createBswModeSwitchEvent("mse")
         activation = ARLiteral()
-        activation.setValue("onTransition")
+        activation.setValue("ON-TRANSITION")
         event.setActivation(activation)
         parent = _parent()
         writer.writeBswModeSwitchEvent(parent, event)
         assert parent[0].tag == "BSW-MODE-SWITCH-EVENT"
-        assert parent[0].find("ACTIVATION").text == "onTransition"
+        assert parent[0].find("ACTIVATION").text == "ON-TRANSITION"
 
     def test_mode_manager_error_event(self, writer):
         behavior = _make_behavior()
@@ -2243,7 +2243,7 @@ class TestWriterBswInternalTriggeringPointRoundTrip:
         point_2 = points[0]
         assert point_2.getShortName() == "tp"
         assert point_2.getSwImplPolicy() is not None
-        assert point_2.getSwImplPolicy().getValue() == "queued"
+        assert point_2.getSwImplPolicy().getValue() == "QUEUED"
         assert point_2.getVariationPoint() is not None
         assert point_2.getVariationPoint().getShortLabel().getValue() == "lbl"
 
@@ -2881,7 +2881,7 @@ class TestWriterBswServiceDependency:
         dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
         assert dep_element is not None
         assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/SHORT-NAME").text == "needs"
-        assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/MAX-COMM-MODE").text == "silent"
+        assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/MAX-COMM-MODE").text == "SILENT"
 
     def test_writeBswServiceDependency_io_control_needs(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
@@ -2913,7 +2913,7 @@ class TestWriterBswServiceDependency:
         dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
         assert dep_element is not None
         assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-ENABLE-CONDITION-NEEDS/SHORT-NAME").text == "needs"
-        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-ENABLE-CONDITION-NEEDS/INITIAL-STATUS").text == "eventAcceptanceDisabled"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-ENABLE-CONDITION-NEEDS/INITIAL-STATUS").text == "EVENT-ACCEPTANCE-DISABLED"
 
     def test_writeBswServiceDependency_diagnostic_operation_cycle_needs(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticOperationCycleNeeds, OperationCycleTypeEnum
@@ -2929,7 +2929,7 @@ class TestWriterBswServiceDependency:
         dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
         assert dep_element is not None
         assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-OPERATION-CYCLE-NEEDS/SHORT-NAME").text == "needs"
-        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-OPERATION-CYCLE-NEEDS/OPERATION-CYCLE").text == "warmup"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-OPERATION-CYCLE-NEEDS/OPERATION-CYCLE").text == "WARMUP"
 
     def test_writeBswServiceDependency_diagnostic_storage_condition_needs(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticStorageConditionNeeds, StorageConditionStatusEnum
@@ -2945,7 +2945,7 @@ class TestWriterBswServiceDependency:
         dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
         assert dep_element is not None
         assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-STORAGE-CONDITION-NEEDS/SHORT-NAME").text == "needs"
-        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-STORAGE-CONDITION-NEEDS/INITIAL-STATUS").text == "eventStorageEnabled"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-STORAGE-CONDITION-NEEDS/INITIAL-STATUS").text == "EVENT-STORAGE-ENABLED"
 
     def test_writeBswServiceDependency_indicator_status_needs(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum, IndicatorStatusNeeds
@@ -2961,7 +2961,7 @@ class TestWriterBswServiceDependency:
         dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
         assert dep_element is not None
         assert dep_element.find("SERVICE-NEEDS/INDICATOR-STATUS-NEEDS/SHORT-NAME").text == "needs"
-        assert dep_element.find("SERVICE-NEEDS/INDICATOR-STATUS-NEEDS/TYPE").text == "malfunction"
+        assert dep_element.find("SERVICE-NEEDS/INDICATOR-STATUS-NEEDS/TYPE").text == "MALFUNCTION"
 
     def test_writeBswServiceDependency_function_inhibition_availability_needs(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FunctionInhibitionAvailabilityNeeds
@@ -3380,7 +3380,7 @@ class TestWriterBswModuleEntry:
     def test_set_sw_service_arg(self, writer):
         entry = _make_entry()
         arg = entry.createArgument("arg")
-        arg.setDirection(_literal("in"))
+        arg.setDirection(_literal("IN"))
         parent = _parent()
         writer.setSwServiceArg(parent, "SW-SERVICE-ARG", arg)
         assert parent[0].tag == "SW-SERVICE-ARG"
@@ -3420,10 +3420,10 @@ class TestWriterBswModuleEntry:
         entry.setServiceId(_posint(42))
         entry.setIsReentrant(_bool(True))
         entry.setIsSynchronous(_bool(False))
-        entry.setCallType(_literal("scheduled"))
-        entry.setExecutionContext(_literal("task"))
-        entry.setSwServiceImplPolicy(_literal("inline"))
-        entry.setBswEntryKind(_literal("concrete"))
+        entry.setCallType(_literal("SCHEDULED"))
+        entry.setExecutionContext(_literal("TASK"))
+        entry.setSwServiceImplPolicy(_literal("INLINE"))
+        entry.setBswEntryKind(_literal("CONCRETE"))
         entry.setRole(_literal("theRole"))
         entry.setFunctionPrototypeEmitter(_literal("RTE"))
         entry.createReturnType("ret")
@@ -3544,13 +3544,13 @@ class TestSwServiceArgRoundTrip:
             assert len(arguments) == 1
             argument_2 = arguments[0]
             assert argument_2.getShortName() == "arg1"
-            assert argument_2.getDirection().getValue() == "in"
+            assert argument_2.getDirection().getValue() == "IN"
             assert argument_2.getSwArraysize().getV().getValue() == 4.0
-            assert argument_2.getSwDataDefProps().getSwImplPolicy().getValue() == "standard"
+            assert argument_2.getSwDataDefProps().getSwImplPolicy().getValue() == "STANDARD"
             return_type_2 = entry_2.getReturnType()
             assert return_type_2 is not None
             assert return_type_2.getShortName() == "ret1"
-            assert return_type_2.getDirection().getValue() == "out"
+            assert return_type_2.getDirection().getValue() == "OUT"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

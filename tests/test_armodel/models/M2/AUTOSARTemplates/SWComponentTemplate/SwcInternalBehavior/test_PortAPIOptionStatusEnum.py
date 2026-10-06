@@ -8,5 +8,5 @@ class TestDataTransformationStatusForwardingEnum:
             DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING,
             DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING,
         ]
-        assert DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING == "noTransformerStatusForwarding"
-        assert DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING == "transformerStatusForwarding"
+        assert DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING == "NO-TRANSFORMER-STATUS-FORWARDING"
+        assert DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING == "TRANSFORMER-STATUS-FORWARDING"

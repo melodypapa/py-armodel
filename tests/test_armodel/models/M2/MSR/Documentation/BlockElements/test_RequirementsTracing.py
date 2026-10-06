@@ -109,7 +109,7 @@ class TestStructuredReq:
     def test_structured_req_importance_methods(self):
         """Test the importance getter and setter."""
         structured_req = StructuredReq(None, "StructuredReq")
-        importance = String().setValue("high")
+        importance = String().setValue("HIGH")
 
         result = structured_req.setImportance(importance)
         assert structured_req.getImportance() == importance

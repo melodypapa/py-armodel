@@ -32,7 +32,7 @@ def _build_document():
     provided_ref = RefType()
     provided_ref.setValue("/pkg/EventHandler")
     props.addControlProvidedEventGroupRef(provided_ref)
-    props.setServiceControl(ARLiteral().setValue("translationStart"))
+    props.setServiceControl(ARLiteral().setValue("TRANSLATION-START"))
 
     event_props = props.createSignalServiceTranslationEventProps("eventProps")
     event_props.setSafeTranslation(Boolean().setValue("true"))
@@ -42,7 +42,7 @@ def _build_document():
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
     flt = DataFilter()
-    flt.setDataFilterType(ARLiteral().setValue("always"))
+    flt.setDataFilterType(ARLiteral().setValue("ALWAYS"))
     element_props.setFilter(flt)
     element_props.setTransmissionTrigger(Boolean().setValue("true"))
 
@@ -95,7 +95,7 @@ class TestSignalServiceTranslationWriter:
         assert props.getControlConsumedEventGroupRefs()[0].getValue() == "/pkg/ConsumedEventGroup"
         assert props.getControlPncRefs()[0].getValue() == "/pkg/PncMapping"
         assert props.getControlProvidedEventGroupRefs()[0].getValue() == "/pkg/EventHandler"
-        assert props.getServiceControl().getValue() == "translationStart"
+        assert props.getServiceControl().getValue() == "TRANSLATION-START"
 
         event_props = props.getSignalServiceTranslationEventProps()[0]
         assert event_props.getSafeTranslation().getValue() is True
@@ -105,7 +105,7 @@ class TestSignalServiceTranslationWriter:
         assert target.getTargetDataPrototypeRef().getValue() == "/pkg/TargetDataPrototype"
 
         element_props = event_props.getSignalServiceTranslationElementProps()[0]
-        assert element_props.getFilter().getDataFilterType().getValue() == "always"
+        assert element_props.getFilter().getDataFilterType().getValue() == "ALWAYS"
         assert element_props.getTransmissionTrigger().getValue() is True
 
     def test_round_trip_empty_lists(self, tmp_path):

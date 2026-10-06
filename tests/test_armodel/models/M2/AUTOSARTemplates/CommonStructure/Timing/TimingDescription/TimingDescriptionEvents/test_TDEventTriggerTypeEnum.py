@@ -5,13 +5,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 
 class TestTDEventTriggerTypeEnum:
     def test_members(self):
-        assert TDEventTriggerTypeEnum.TRIGGER_ACTIVATED == "triggerActivated"
-        assert TDEventTriggerTypeEnum.TRIGGER_RELEASED == "triggerReleased"
+        assert TDEventTriggerTypeEnum.TRIGGER_ACTIVATED == "TRIGGER-ACTIVATED"
+        assert TDEventTriggerTypeEnum.TRIGGER_RELEASED == "TRIGGER-RELEASED"
 
     def test_instantiation_and_set_value(self):
         enum = TDEventTriggerTypeEnum()
-        assert enum.setValue("triggerReleased") is enum
-        assert enum.getValue() == "triggerReleased"
+        assert enum.setValue(TDEventTriggerTypeEnum.TRIGGER_RELEASED) is enum
+        assert enum.getValue() == TDEventTriggerTypeEnum.TRIGGER_RELEASED
 
     def test_validate_enum_value(self):
         enum = TDEventTriggerTypeEnum()

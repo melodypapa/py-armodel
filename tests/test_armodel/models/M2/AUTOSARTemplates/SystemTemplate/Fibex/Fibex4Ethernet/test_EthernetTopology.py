@@ -1047,20 +1047,20 @@ class TestEthernetConnectionNegotiationEnum:
     """Test cases for EthernetConnectionNegotiationEnum (Table 3.55, p.110)."""
 
     def test_enum_values(self):
-        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["auto", "master", "slave"]
-        assert EthernetConnectionNegotiationEnum.AUTO == "auto"
-        assert EthernetConnectionNegotiationEnum.MASTER == "master"
-        assert EthernetConnectionNegotiationEnum.SLAVE == "slave"
+        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["AUTO", "MASTER", "SLAVE"]
+        assert EthernetConnectionNegotiationEnum.AUTO == "AUTO"
+        assert EthernetConnectionNegotiationEnum.MASTER == "MASTER"
+        assert EthernetConnectionNegotiationEnum.SLAVE == "SLAVE"
 
 
 class TestCouplingPortRoleEnum:
     """Test cases for CouplingPortRoleEnum (Table F.38)."""
 
     def test_enum_values(self):
-        assert list(CouplingPortRoleEnum().getEnumValues()) == ["hostPort", "standardPort", "upLinkPort"]
-        assert CouplingPortRoleEnum.HOST_PORT == "hostPort"
-        assert CouplingPortRoleEnum.UP_LINK_PORT == "upLinkPort"
-        assert CouplingPortRoleEnum.STANDARD_PORT == "standardPort"
+        assert list(CouplingPortRoleEnum().getEnumValues()) == ["HOST-PORT", "STANDARD-PORT", "UP-LINK-PORT"]
+        assert CouplingPortRoleEnum.HOST_PORT == "HOST-PORT"
+        assert CouplingPortRoleEnum.UP_LINK_PORT == "UP-LINK-PORT"
+        assert CouplingPortRoleEnum.STANDARD_PORT == "STANDARD-PORT"
 
 
 class TestEthernetMacLayerTypeEnum:
@@ -1120,8 +1120,8 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getDefaultGateway() == "192.168.1.254"
         assert result == config  # Test method chaining
 
-        result = config.setIpAddressKeepBehavior("keep")
-        assert config.getIpAddressKeepBehavior() == "keep"
+        result = config.setIpAddressKeepBehavior(IpAddressKeepEnum.STORE_PERSISTENTLY)
+        assert config.getIpAddressKeepBehavior() == IpAddressKeepEnum.STORE_PERSISTENTLY
         assert result == config  # Test method chaining
 
         result = config.setIpv4Address("192.168.1.1")
@@ -1186,13 +1186,13 @@ class Test_Fibex4EthernetNetworkEndpoint:
         keep = IpAddressKeepEnum().setValue(IpAddressKeepEnum.STORE_PERSISTENTLY)
         result = config.setIpAddressKeepBehavior(keep)
         assert config.getIpAddressKeepBehavior() is keep
-        assert config.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert config.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
         assert isinstance(config.getIpAddressKeepBehavior(), IpAddressKeepEnum)
         assert result == config  # Test method chaining
 
         # None no-op for ipAddressKeepBehavior
         result = config.setIpAddressKeepBehavior(None)
-        assert config.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert config.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
 
         result = config.setIpAddressPrefixLength(64)
         assert config.getIpAddressPrefixLength() == 64
@@ -1205,7 +1205,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         source = Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.LINK_LOCAL)
         result = config.setIpv6AddressSource(source)
         assert config.getIpv6AddressSource() is source
-        assert config.getIpv6AddressSource().getValue() == "linkLocal"
+        assert config.getIpv6AddressSource().getValue() == Ipv6AddressSourceEnum.LINK_LOCAL
         assert isinstance(config.getIpv6AddressSource(), Ipv6AddressSourceEnum)
         assert result == config  # Test method chaining
 
@@ -1419,11 +1419,11 @@ class TestEthernetSwitchVlanIngressTagEnum:
 
     def test_enum_values(self):
         assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
-            "forwardAsIs",
-            "dropUntagged",
+            EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
+            EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
         ]
-        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "forwardAsIs"
-        assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "dropUntagged"
+        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "FORWARD-AS-IS"
+        assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "DROP-UNTAGGED"
 
 
 class TestTimeSyncTechnologyEnum:
@@ -1431,15 +1431,15 @@ class TestTimeSyncTechnologyEnum:
 
     def test_enum_values(self):
         assert list(TimeSyncTechnologyEnum().getEnumValues()) == [
-            "AVB-IEEE-802-1-AS",
-            "NTP-RFC-958",
-            "PTP-IEEE-1588-2002",
-            "PTP-IEEE-1588-2008",
+            TimeSyncTechnologyEnum.AVB_IEEE802_1AS,
+            TimeSyncTechnologyEnum.NTP_RFC958,
+            TimeSyncTechnologyEnum.PTP_IEEE1588_2002,
+            TimeSyncTechnologyEnum.PTP_IEEE1588_2008,
         ]
-        assert TimeSyncTechnologyEnum.AVB_IEEE802_1AS == "AVB-IEEE-802-1-AS"
-        assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP-RFC-958"
-        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP-IEEE-1588-2002"
-        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP-IEEE-1588-2008"
+        assert TimeSyncTechnologyEnum.AVB_IEEE802_1AS == "AVB--IEEE-802--1-AS"
+        assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP--RFC-958"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP--IEEE-1588--2002"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP--IEEE-1588--2008"
 
 
 class TestDoIpEntityRoleEnum:
@@ -1447,13 +1447,13 @@ class TestDoIpEntityRoleEnum:
 
     def test_enum_values(self):
         assert list(DoIpEntityRoleEnum().getEnumValues()) == [
-            "edgeNode",
-            "gateway",
-            "node",
+            DoIpEntityRoleEnum.EDGE_NODE,
+            DoIpEntityRoleEnum.GATEWAY,
+            DoIpEntityRoleEnum.NODE,
         ]
-        assert DoIpEntityRoleEnum.EDGE_NODE == "edgeNode"
-        assert DoIpEntityRoleEnum.GATEWAY == "gateway"
-        assert DoIpEntityRoleEnum.NODE == "node"
+        assert DoIpEntityRoleEnum.EDGE_NODE == "EDGE-NODE"
+        assert DoIpEntityRoleEnum.GATEWAY == "GATEWAY"
+        assert DoIpEntityRoleEnum.NODE == "NODE"
 
 
 class TestCouplingPortRatePolicyActionEnum:
@@ -1461,16 +1461,16 @@ class TestCouplingPortRatePolicyActionEnum:
 
     def test_enum_values(self):
         assert list(CouplingPortRatePolicyActionEnum().getEnumValues()) == [
-            "dropFrame",
-            "blockSource",
+            CouplingPortRatePolicyActionEnum.DROP_FRAME,
+            CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
         ]
-        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "dropFrame"
-        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "blockSource"
+        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "DROP-FRAME"
+        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "BLOCK-SOURCE"
 
     def test_instantiation(self):
         enum = CouplingPortRatePolicyActionEnum()
         assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
-        assert enum.getValue() == "blockSource"
+        assert enum.getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
 
 
 class TestCouplingPortRatePolicy:

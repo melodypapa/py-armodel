@@ -157,7 +157,7 @@ class TestBswExclusiveAreaPolicy:
         policies = behavior_2.getExclusiveAreaPolicies()
         assert len(policies) == 1
         assert policies[0].getEnableTakeAddress().getValue() is True
-        assert policies[0].getApiPrinciple().getValue() == "common"
+        assert policies[0].getApiPrinciple().getValue() == ApiPrincipleEnum.COMMON
         assert policies[0].getExclusiveAreaRef().getValue() == "/Pkg/Ea"
         assert policies[0].getExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA"
         raw = out_file.read_text()

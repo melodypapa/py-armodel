@@ -35,7 +35,7 @@ class TestReadDiagnosticEnvDataCondition:
         )
         condition = self._read(parser, inner)
         assert condition.getCompareType() is not None
-        assert condition.getCompareType().getValue() == "isLessOrEqual"
+        assert condition.getCompareType().getValue() == "IS-LESS-OR-EQUAL"
         compare_value = condition.getCompareValue()
         assert compare_value is not None
         assert compare_value.getValue().getValue() == "42"
@@ -72,5 +72,5 @@ class TestReadDiagnosticEnvDataCondition:
         assert len(parts) == 1
         part = parts[0]
         assert type(part).__name__ == "DiagnosticEnvDataCondition"
-        assert part.getCompareType().getValue() == "isEqual"
+        assert part.getCompareType().getValue() == "IS-EQUAL"
         assert part.getDataElementRef().getValue() == "/AUTOSAR/DiagDataElements/Dde2"

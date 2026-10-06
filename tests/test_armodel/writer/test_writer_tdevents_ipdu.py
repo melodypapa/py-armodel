@@ -39,7 +39,7 @@ class TestWriteTDEventIPdu:
         assert "I-PDU-REF" in out
         assert "PHYSICAL-CHANNEL-REF" in out
         assert "TD-EVENT-TYPE" in out
-        assert "iPduReceivedByCom" in out
+        assert "I-PDU-RECEIVED-BY-COM" in out
 
     def test_round_trip(self):
         event = _build_event()
@@ -50,7 +50,7 @@ class TestWriteTDEventIPdu:
         ARXMLParser().readTDEventIPdu(reparsed, read_back)
         assert read_back.getIPduRef().getValue() == "/AUTOSAR/IPdu"
         assert read_back.getPhysicalChannelRef().getValue() == "/AUTOSAR/Channel"
-        assert read_back.getTdEventType().value == "iPduReceivedByCom"
+        assert read_back.getTdEventType().value == "I-PDU-RECEIVED-BY-COM"
         assert read_back.getEcuInstanceRef().getValue() == "/AUTOSAR/Ecu1"
 
     def test_write_minimal(self):

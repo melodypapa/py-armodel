@@ -34,7 +34,7 @@ class TestResolutionPolicyEnum:
 
         enum.setValue(ResolutionPolicyEnum.SLOPPY)
         assert enum.getValue() == "SLOPPY"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowContentEnum:
@@ -54,7 +54,7 @@ class TestShowContentEnum:
 
         assert enum.setValue(ShowContentEnum.SHOW_CONTENT) is enum
         assert enum.getValue() == "SHOW-CONTENT"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceAliasNameEnum:
@@ -77,7 +77,7 @@ class TestShowResourceAliasNameEnum:
 
         assert enum.setValue(ShowResourceAliasNameEnum.SHOW_ALIAS_NAME) is enum
         assert enum.getValue() == "SHOW-ALIAS-NAME"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceCategoryEnum:
@@ -97,7 +97,7 @@ class TestShowResourceCategoryEnum:
 
         assert enum.setValue(ShowResourceCategoryEnum.SHOW_CATEGORY) is enum
         assert enum.getValue() == "SHOW-CATEGORY"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceLongNameEnum:
@@ -117,7 +117,7 @@ class TestShowResourceLongNameEnum:
 
         assert enum.setValue(ShowResourceLongNameEnum.SHOW_LONG_NAME) is enum
         assert enum.getValue() == "SHOW-LONG-NAME"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceNumberEnum:
@@ -137,7 +137,7 @@ class TestShowResourceNumberEnum:
 
         assert enum.setValue(ShowResourceNumberEnum.SHOW_NUMBER) is enum
         assert enum.getValue() == "SHOW-NUMBER"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourcePageEnum:
@@ -157,7 +157,7 @@ class TestShowResourcePageEnum:
 
         assert enum.setValue(ShowResourcePageEnum.SHOW_PAGE) is enum
         assert enum.getValue() == "SHOW-PAGE"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceShortNameEnum:
@@ -180,7 +180,7 @@ class TestShowResourceShortNameEnum:
 
         assert enum.setValue(ShowResourceShortNameEnum.SHOW_SHORT_NAME) is enum
         assert enum.getValue() == "SHOW-SHORT-NAME"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowResourceTypeEnum:
@@ -200,7 +200,7 @@ class TestShowResourceTypeEnum:
 
         assert enum.setValue(ShowResourceTypeEnum.SHOW_TYPE) is enum
         assert enum.getValue() == "SHOW-TYPE"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestShowSeeEnum:
@@ -220,7 +220,7 @@ class TestShowSeeEnum:
 
         assert enum.setValue(ShowSeeEnum.SHOW_SEE) is enum
         assert enum.getValue() == "SHOW-SEE"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestEEnumFont:

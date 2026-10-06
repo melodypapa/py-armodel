@@ -747,14 +747,14 @@ class TestEcucConfigurationClassEnum:
         assert enum.validateEnumValue(EcucConfigurationClassEnum.POST_BUILD)
         assert enum.validateEnumValue(EcucConfigurationClassEnum.PRE_COMPILE)
         assert enum.validateEnumValue(EcucConfigurationClassEnum.PUBLISHED_INFORMATION)
-        assert EcucConfigurationClassEnum.LINK == "Link"
-        assert EcucConfigurationClassEnum.POST_BUILD == "PostBuild"
-        assert EcucConfigurationClassEnum.PRE_COMPILE == "PreCompile"
-        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PublishedInformation"
+        assert EcucConfigurationClassEnum.LINK == "LINK"
+        assert EcucConfigurationClassEnum.POST_BUILD == "POST-BUILD"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PRE-COMPILE"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PUBLISHED-INFORMATION"
 
         assert enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE) is enum
-        assert enum.getValue() == "PreCompile"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.getValue() == EcucConfigurationClassEnum.PRE_COMPILE
+        assert enum.validateEnumValue("invalid") is False
 
     def test_class_docstring_and_literal_comments_verbatim(self):
         source = inspect.getsource(EcucConfigurationClassEnum)
@@ -1125,11 +1125,11 @@ class TestEcucScopeEnum:
         assert enum.validateEnumValue(EcucScopeEnum.ECU)
         assert enum.validateEnumValue(EcucScopeEnum.LOCAL)
         assert EcucScopeEnum.ECU == "ECU"
-        assert EcucScopeEnum.LOCAL == "local"
+        assert EcucScopeEnum.LOCAL == "LOCAL"
 
         assert enum.setValue(EcucScopeEnum.LOCAL) is enum
-        assert enum.getValue() == "local"
-        assert enum.validateEnumValue("INVALID") is False
+        assert enum.getValue() == EcucScopeEnum.LOCAL
+        assert enum.validateEnumValue("invalid") is False
 
     def test_class_docstring_and_literal_comments_verbatim(self):
         source = inspect.getsource(EcucScopeEnum)

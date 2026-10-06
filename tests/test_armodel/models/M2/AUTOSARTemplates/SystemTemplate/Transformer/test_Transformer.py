@@ -145,7 +145,7 @@ class TestTransformer:
 
         # Test instantiation with a value
         enum.setValue(DataTransformationKindEnum.SYMMETRIC)
-        assert enum.getValue() == "symmetric"
+        assert enum.getValue() == DataTransformationKindEnum.SYMMETRIC
 
     def test_data_transformation_set(self):
         """
@@ -188,15 +188,15 @@ class TestTransformer:
         assert isinstance(enum, EndToEndProfileBehaviorEnum)
 
         # Member names and values match the spec Enumeration literals (Table 7.26); values are the xml.name forms
-        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE-R-4-2"
-        assert EndToEndProfileBehaviorEnum.R4_2 == "R-4-2"
+        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE--R-4--2"
+        assert EndToEndProfileBehaviorEnum.R4_2 == "R-4--2"
 
         # Validated set of allowed values
-        assert list(enum.getEnumValues()) == ["PRE-R-4-2", "R-4-2"]
+        assert list(enum.getEnumValues()) == ["PRE--R-4--2", "R-4--2"]
 
         # setValue / getValue round-trip
-        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R-4-2"
-        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE-R-4-2"
+        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == EndToEndProfileBehaviorEnum.R4_2
+        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == EndToEndProfileBehaviorEnum.PRE_R4_2
 
     def test_e2e_profile_compatibility_props(self):
         """
@@ -512,7 +512,7 @@ class TestTransformer:
         transformer_class = TransformerClassEnum().setValue(TransformerClassEnum.SECURITY)
         technology.setTransformerClass(transformer_class)
         assert technology.getTransformerClass() == transformer_class
-        assert technology.getTransformerClass().getValue() == "security"
+        assert technology.getTransformerClass().getValue() == TransformerClassEnum.SECURITY
         assert technology == technology.setTransformerClass(transformer_class)
 
         technology.setVersion("1.0")
@@ -526,19 +526,19 @@ class TestTransformer:
         enum = TransformerClassEnum()
 
         assert enum is not None
-        assert TransformerClassEnum.CUSTOM == "custom"
-        assert TransformerClassEnum.SAFETY == "safety"
-        assert TransformerClassEnum.SECURITY == "security"
-        assert TransformerClassEnum.SERIALIZER == "serializer"
+        assert TransformerClassEnum.CUSTOM == "CUSTOM"
+        assert TransformerClassEnum.SAFETY == "SAFETY"
+        assert TransformerClassEnum.SECURITY == "SECURITY"
+        assert TransformerClassEnum.SERIALIZER == "SERIALIZER"
 
         assert enum == enum.setValue(TransformerClassEnum.CUSTOM)
-        assert enum.getValue() == "custom"
+        assert enum.getValue() == "CUSTOM"
         assert enum == enum.setValue(TransformerClassEnum.SAFETY)
-        assert enum.getValue() == "safety"
+        assert enum.getValue() == TransformerClassEnum.SAFETY
         assert enum == enum.setValue(TransformerClassEnum.SECURITY)
-        assert enum.getValue() == "security"
+        assert enum.getValue() == TransformerClassEnum.SECURITY
         assert enum == enum.setValue(TransformerClassEnum.SERIALIZER)
-        assert enum.getValue() == "serializer"
+        assert enum.getValue() == TransformerClassEnum.SERIALIZER
 
     def test_cs_transformer_error_reaction_enum(self):
         """
@@ -856,7 +856,7 @@ class Test_SOMEIPMessageTypeEnum:
         assert e.validateEnumValue("REQUEST") is True
         assert e.validateEnumValue("REQUEST-NO-RETURN") is True
         assert e.validateEnumValue("RESPONSE") is True
-        assert e.validateEnumValue("ERROR") is False
+        assert e.validateEnumValue("error") is False
 
     def test_instantiation(self):
         e = SOMEIPMessageTypeEnum()

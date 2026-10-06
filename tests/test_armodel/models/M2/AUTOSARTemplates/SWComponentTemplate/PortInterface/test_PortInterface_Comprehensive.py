@@ -469,7 +469,7 @@ class TestMappingDirectionEnum:
     def test_mapping_direction_enum_initialization(self):
         """Test MappingDirectionEnum initialization and literal round-trips."""
         enum = MappingDirectionEnum()
-        assert enum.getEnumValues() == ("bidirectional", "firstToSecond", "secondToFirst")
+        assert enum.getEnumValues() == ("BIDIRECTIONAL", "FIRST-TO-SECOND", "SECOND-TO-FIRST")
 
         bidirectional = MappingDirectionEnum()
         bidirectional.setValue(MappingDirectionEnum.BIDIRECTIONAL)

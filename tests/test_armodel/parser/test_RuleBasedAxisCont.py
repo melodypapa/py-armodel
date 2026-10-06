@@ -44,7 +44,7 @@ def test_read_full(parser):
     cont = parser.getRuleBasedAxisCont(element)
     assert cont is not None
     assert isinstance(cont, RuleBasedAxisCont)
-    assert cont.getCategory().getValue() == "comAxis"
+    assert cont.getCategory().getValue() == "COM-AXIS"
     assert cont.getUnitRef().getValue() == "/Units/N"
     assert cont.getUnitRef().getDest() == "UNIT"
     assert float(cont.getSwArraysize().getV().getValue()) == 3.0

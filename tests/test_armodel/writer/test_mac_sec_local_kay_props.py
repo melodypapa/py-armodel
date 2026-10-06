@@ -81,7 +81,7 @@ def _new_mac_sec_local_kay_props():
     props.setKeyServerPriority(_pos_int("16"))
     props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
     props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
-    props.setRole(_role("keyServer"))
+    props.setRole(_role("KEY-SERVER"))
     props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
     return props
 
@@ -99,7 +99,7 @@ class TestWriteMacSecLocalKayProps:
         assert node.find("KEY-SERVER-PRIORITY").text == "16"
         mka_refs = node.findall("MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF")
         assert [r.text for r in mka_refs] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
-        assert node.find("ROLE").text == "keyServer"
+        assert node.find("ROLE").text == "KEY-SERVER"
         assert node.find("SOURCE-MAC-ADDRESS").text == "AA-BB-CC-DD-EE-FF"
 
     def test_write_empty_omits_fields(self, writer):
@@ -135,7 +135,7 @@ class TestMacSecLocalKayPropsRoundTrip:
         assert recovered.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert recovered.getKeyServerPriority().getValue() == 16
         assert [r.getValue() for r in recovered.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
-        assert recovered.getRole().getValue() == "keyServer"
+        assert recovered.getRole().getValue() == MacSecRoleEnum.KEY_SERVER
         assert recovered.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
 
     def test_reader_empty_fields(self, parser):

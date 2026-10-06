@@ -80,7 +80,7 @@ class TestSwTextPropsRoundTrip:
             data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
             props = data_type_2.getSwDataDefProps().getSwTextProps()
             assert props is not None
-            assert props.getArraySizeSemantics().getValue() == "fixedSize"
+            assert props.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
             assert props.getSwMaxTextSize().getValue() == 200
             assert props.getBaseTypeRef().getValue() == "/DataTypes/BaseTypes/uint8"
             assert props.getBaseTypeRef().getDest() == "SW-BASE-TYPE"

@@ -8,8 +8,8 @@ class TestTable:
     def test_read_table(self):
         element = ET.fromstring(
             '<TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" '
-            'COLSEP="1" FLOAT="float" FRAME="ALL" HELP-ENTRY="help" ORIENT="LAND" '
-            'PGWIDE="pgwide" ROWSEP="0" TABSTYLE="style">'
+            'COLSEP="1" FLOAT="FLOAT" FRAME="ALL" HELP-ENTRY="help" ORIENT="LAND" '
+            'PGWIDE="PGWIDE" ROWSEP="0" TABSTYLE="style">'
             "<TABLE-CAPTION><SHORT-NAME>cap</SHORT-NAME></TABLE-CAPTION>"
             '<TGROUP COLS="1"><TBODY><ROW /></TBODY></TGROUP>'
             "</TABLE>"
@@ -21,11 +21,11 @@ class TestTable:
         assert table.getChecksum().getValue() == "checksum"
         assert table.getTimestamp().getValue() == "timestamp"
         assert table.getColsep().getValue() == "1"
-        assert table.getFloat().getValue() == "float"
+        assert table.getFloat().getValue() == "FLOAT"
         assert table.getFrame().getValue() == "ALL"
         assert table.getHelpEntry().getValue() == "help"
         assert table.getOrient().getValue() == "LAND"
-        assert table.getPgwide().getValue() == "pgwide"
+        assert table.getPgwide().getValue() == "PGWIDE"
         assert table.getRowsep().getValue() == "0"
         assert table.getTabstyle().getValue() == "style"
         assert table.getTableCaption().getShortName() == "cap"

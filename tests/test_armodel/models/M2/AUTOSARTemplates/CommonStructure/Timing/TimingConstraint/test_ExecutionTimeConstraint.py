@@ -84,7 +84,7 @@ class TestExecutionTimeConstraint:
         exec_type = ExecutionTimeTypeEnum().setValue(ExecutionTimeTypeEnum.NET)
         assert constraint.setExecutionTimeType(exec_type) is constraint
         assert constraint.getExecutionTimeType() is exec_type
-        assert constraint.getExecutionTimeType().getValue() == "net"
+        assert constraint.getExecutionTimeType().getValue() == ExecutionTimeTypeEnum.NET
 
     def test_set_execution_time_type_none_is_no_op(self):
         constraint = ExecutionTimeConstraint(self._parent(), "ExecTime1")
@@ -126,12 +126,12 @@ class TestExecutionTimeTypeEnum:
         """Test ExecutionTimeTypeEnum initialization"""
         enum = ExecutionTimeTypeEnum()
         assert isinstance(enum, ExecutionTimeTypeEnum)
-        assert list(enum.getEnumValues()) == ["gross", "net"]
+        assert list(enum.getEnumValues()) == ["GROSS", "NET"]
 
     def test_enum_values(self):
         """Test ExecutionTimeTypeEnum literal values (Table 3.76)"""
-        assert ExecutionTimeTypeEnum.GROSS == "gross"
-        assert ExecutionTimeTypeEnum.NET == "net"
+        assert ExecutionTimeTypeEnum.GROSS == "GROSS"
+        assert ExecutionTimeTypeEnum.NET == "NET"
 
     def test_valid_values(self):
         """Test ExecutionTimeTypeEnum setValue round-trip for all literals"""

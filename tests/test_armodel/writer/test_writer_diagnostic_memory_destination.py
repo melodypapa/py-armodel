@@ -123,21 +123,21 @@ class TestWriteDiagnosticMemoryDestination:
         assert reloaded.getAgingRequiresTestedCycle() is not None
         assert reloaded.getAgingRequiresTestedCycle().value is True
         assert reloaded.getClearDtcLimitation() is not None
-        assert reloaded.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+        assert reloaded.getClearDtcLimitation().getValue() == DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS
         assert reloaded.getDtcStatusAvailabilityMask() is not None
         assert reloaded.getDtcStatusAvailabilityMask().getValue() == 255
         assert reloaded.getEventDisplacementStrategy() is not None
-        assert reloaded.getEventDisplacementStrategy().getValue() == "prioOcc"
+        assert reloaded.getEventDisplacementStrategy().getValue() == DiagnosticEventDisplacementStrategyEnum.PRIO_OCC
         assert reloaded.getMaxNumberOfEventEntries() is not None
         assert reloaded.getMaxNumberOfEventEntries().getValue() == 10
         assert reloaded.getMemoryEntryStorageTrigger() is not None
         assert isinstance(reloaded.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
-        assert reloaded.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
+        assert reloaded.getMemoryEntryStorageTrigger().getValue() == "FDC-THRESHOLD"
         assert reloaded.getStatusBitHandlingTestFailedSinceLastClear() is not None
         assert isinstance(reloaded.getStatusBitHandlingTestFailedSinceLastClear(), DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum)
-        assert reloaded.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+        assert reloaded.getStatusBitHandlingTestFailedSinceLastClear().getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL
         assert reloaded.getStatusBitStorageTestFailed() is not None
         assert reloaded.getStatusBitStorageTestFailed().value is False
         assert reloaded.getTypeOfFreezeFrameRecordNumeration() is not None
         assert isinstance(reloaded.getTypeOfFreezeFrameRecordNumeration(), DiagnosticTypeOfFreezeFrameRecordNumerationEnum)
-        assert reloaded.getTypeOfFreezeFrameRecordNumeration().getValue() == "configured"
+        assert reloaded.getTypeOfFreezeFrameRecordNumeration().getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED

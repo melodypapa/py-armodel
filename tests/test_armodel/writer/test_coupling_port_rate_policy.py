@@ -97,7 +97,7 @@ class TestWriteCouplingPortRatePolicy:
             "V-LAN-REFS",
         ]
         assert first.find("DATA-LENGTH").text == "1500"
-        assert first.find("POLICY-ACTION").text == "blockSource"
+        assert first.find("POLICY-ACTION").text == "BLOCK-SOURCE"
         assert first.find("PRIORITY").text == "5"
         assert first.find("TIME-INTERVAL").text == "0.01"
         vlan_refs = first.findall("V-LAN-REFS/V-LAN-REF")
@@ -107,7 +107,7 @@ class TestWriteCouplingPortRatePolicy:
         assert vlan_refs[1].text == "/Clusters/EthCluster/Vlan2"
 
         second = policies[1]
-        assert second.find("POLICY-ACTION").text == "dropFrame"
+        assert second.find("POLICY-ACTION").text == "DROP-FRAME"
         assert second.find("DATA-LENGTH") is None
 
     def test_write_empty_omits_wrapper(self, writer):
@@ -133,7 +133,7 @@ class TestCouplingPortRatePolicyRoundTrip:
         first = policies[0]
         assert isinstance(first, ARObject)
         assert first.getDataLength().getValue() == 1500
-        assert first.getPolicyAction().getValue() == "blockSource"
+        assert first.getPolicyAction().getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
         assert first.getPriority().getValue() == 5
         assert first.getTimeInterval().getValue() == 0.01
         vlan_refs = first.getVlanRefs()
@@ -143,7 +143,7 @@ class TestCouplingPortRatePolicyRoundTrip:
         assert vlan_refs[1].getValue() == "/Clusters/EthCluster/Vlan2"
 
         second = policies[1]
-        assert second.getPolicyAction().getValue() == "dropFrame"
+        assert second.getPolicyAction().getValue() == CouplingPortRatePolicyActionEnum.DROP_FRAME
         assert second.getDataLength() is None
         assert second.getVlanRefs() == []
 

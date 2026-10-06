@@ -184,7 +184,7 @@ class TestSystemTemplate:
         assert client_id_refs[0].getValue() == "/Systems/ClientIds"
         assert client_id_refs[0].getDest() == "CLIENT-ID-DEFINITION-SET"
 
-        assert system.getContainerIPduHeaderByteOrder().getValue() == "mostSignificantByteFirst"
+        assert system.getContainerIPduHeaderByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
 
         assert system.getEcuExtractVersion().getValue() == "1.0.0"
 
@@ -234,7 +234,7 @@ class TestSystemTemplate:
         assert len(system_2.getSystemDocumentations()) == 1
         assert system_2.getSystemDocumentations()[0].getShortName() == "Doc1"
         assert system_2.getClientIdDefinitionSetRefs()[0].getValue() == "/Systems/ClientIds"
-        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "mostSignificantByteFirst"
+        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
         assert system_2.getEcuExtractVersion().getValue() == "1.0.0"
         assert system_2.getFibexElementRefs()[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork"
         assert system_2.getInterpolationRoutineMappingSetRefs()[0].getValue() == "/Systems/InterpMapping"

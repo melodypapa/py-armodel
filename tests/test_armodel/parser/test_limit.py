@@ -21,7 +21,7 @@ class TestLimitReader:
         assert limit is not None
         assert isinstance(limit, Limit)
         assert isinstance(limit.getIntervalType(), IntervalTypeEnum)
-        assert limit.getIntervalType().getValue() == "closed"
+        assert limit.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
         assert limit.getValue() == "0"
 
     def test_read_open_token_maps_to_member_value(self, parser):
@@ -34,7 +34,7 @@ class TestLimitReader:
         limit = parser.getChildLimitElement(element, "UPPER-LIMIT")
         assert limit is not None
         assert isinstance(limit.getIntervalType(), IntervalTypeEnum)
-        assert limit.getIntervalType().getValue() == "open"
+        assert limit.getIntervalType().getValue() == IntervalTypeEnum.OPEN
         assert limit.getValue() == "65535"
 
     def test_read_without_interval_type_defaults_to_none(self, parser):

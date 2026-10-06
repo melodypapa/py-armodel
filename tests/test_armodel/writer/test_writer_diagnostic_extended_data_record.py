@@ -136,7 +136,7 @@ class TestWriteDiagnosticExtendedDataRecord:
             assert record_2.getRecordNumber().value == 40
             assert record_2.getTrigger() is not None
             assert isinstance(record_2.getTrigger(), DiagnosticRecordTriggerEnum)
-            assert record_2.getTrigger().getValue() == "confirmed"
+            assert record_2.getTrigger().getValue() == "CONFIRMED"
             assert record_2.getUpdate() is not None
             assert record_2.getUpdate().value is True
         finally:

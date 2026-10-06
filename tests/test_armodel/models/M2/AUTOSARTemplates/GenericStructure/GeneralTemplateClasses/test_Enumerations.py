@@ -21,34 +21,34 @@ class TestBindingTimeEnum:
 
     def test_enum_members(self):
         """Spec literals per Table E.8 (idx0-3); member values are the camelCase mmt.qualifiedName literals."""
-        assert BindingTimeEnum.CODE_GENERATION_TIME == "codeGenerationTime"
-        assert BindingTimeEnum.LINK_TIME == "linkTime"
-        assert BindingTimeEnum.PRE_COMPILE_TIME == "preCompileTime"
-        assert BindingTimeEnum.SYSTEM_DESIGN_TIME == "systemDesignTime"
+        assert BindingTimeEnum.CODE_GENERATION_TIME == "CODE-GENERATION-TIME"
+        assert BindingTimeEnum.LINK_TIME == "LINK-TIME"
+        assert BindingTimeEnum.PRE_COMPILE_TIME == "PRE-COMPILE-TIME"
+        assert BindingTimeEnum.SYSTEM_DESIGN_TIME == "SYSTEM-DESIGN-TIME"
 
     def test_enum_values_displayed_order(self):
         e = BindingTimeEnum()
         assert list(e.getEnumValues()) == [
-            "codeGenerationTime",
-            "linkTime",
-            "preCompileTime",
-            "systemDesignTime",
+            "CODE-GENERATION-TIME",
+            "LINK-TIME",
+            "PRE-COMPILE-TIME",
+            "SYSTEM-DESIGN-TIME",
         ]
 
     def test_instantiability(self):
         e = BindingTimeEnum()
         e.setValue(BindingTimeEnum.CODE_GENERATION_TIME)
-        assert e.getValue() == "codeGenerationTime"
-        assert e.getText() == "codeGenerationTime"
+        assert e.getValue() == "CODE-GENERATION-TIME"
+        assert e.getText() == "CODE-GENERATION-TIME"
         e2 = BindingTimeEnum().setValue(BindingTimeEnum.SYSTEM_DESIGN_TIME)
-        assert e2.getValue() == "systemDesignTime"
-        assert e2.getText() == "systemDesignTime"
+        assert e2.getValue() == "SYSTEM-DESIGN-TIME"
+        assert e2.getText() == "SYSTEM-DESIGN-TIME"
 
     def test_validate_enum_value(self):
         e = BindingTimeEnum()
-        assert e.validateEnumValue("codeGenerationTime") is True
-        assert e.validateEnumValue("systemDesignTime") is True
-        assert e.validateEnumValue("CODE-GENERATION-TIME") is False
+        assert e.validateEnumValue("CODE-GENERATION-TIME") is True
+        assert e.validateEnumValue("SYSTEM-DESIGN-TIME") is True
+        assert e.validateEnumValue("codeGenerationTime") is False
         assert e.validateEnumValue("bogus") is False
 
 

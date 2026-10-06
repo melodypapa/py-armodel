@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig
 from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPsecModeEnum
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -54,7 +55,7 @@ def _rule(config, name, mode=None):
 def test_write_ip_sec_config(writer):
     config = IPSecConfig()
     config.setIpSecConfigPropsRef(_ref("IP-SEC-CONFIG-PROPS", "/pkg/GlobalProps"))
-    _rule(config, "RuleA", mode="tunnel")
+    _rule(config, "RuleA", mode="TUNNEL")
     _rule(config, "RuleB")
 
     element = ET.Element("ROOT")
@@ -70,7 +71,7 @@ def test_write_ip_sec_config(writer):
     assert _tags(rules) == ["IP-SEC-RULE", "IP-SEC-RULE"]
     modes = rules.findall("IP-SEC-RULE/MODE")
     assert len(modes) == 1
-    assert modes[0].text == "tunnel"
+    assert modes[0].text == "TUNNEL"
 
 
 def test_write_ip_sec_config_without_rules_omits_wrapper(writer):
@@ -147,7 +148,7 @@ def test_ipsec_config_write_reparse_round_trip(writer):
     endpoint = NetworkEndpoint(parent=AUTOSAR.getInstance(), short_name="Ep1")
     config = IPSecConfig()
     config.setIpSecConfigPropsRef(_ref("IP-SEC-CONFIG-PROPS", "/pkg/Props"))
-    _rule(config, "RuleA", mode="transport")
+    _rule(config, "RuleA", mode="TRANSPORT")
     endpoint.setIpSecConfig(config)
 
     ne_element = ET.Element("ROOT")
@@ -165,4 +166,4 @@ def test_ipsec_config_write_reparse_round_trip(writer):
     rules = config2.getIPSecRules()
     assert len(rules) == 1
     assert rules[0].getShortName() == "RuleA"
-    assert rules[0].getMode().getValue() == "transport"
+    assert rules[0].getMode().getValue() == IPsecModeEnum.TRANSPORT

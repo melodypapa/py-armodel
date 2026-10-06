@@ -49,9 +49,9 @@ def _new_endpoint():
     config.setAssignmentPriority(priority)
     config.setDefaultGateway(_ipv4_address("192.168.0.1"))
     config.addDnsServerAddress(_ipv4_address("8.8.8.8"))
-    config.setIpAddressKeepBehavior(_keep_behavior("storePersistently"))
+    config.setIpAddressKeepBehavior(_keep_behavior("STORE-PERSISTENTLY"))
     config.setIpv4Address(_ipv4_address("192.168.0.10"))
-    config.setIpv4AddressSource(_ipv4_source("fixed"))
+    config.setIpv4AddressSource(_ipv4_source("FIXED"))
     config.setNetworkMask(_ipv4_address("255.255.255.0"))
     ttl = PositiveInteger()
     ttl.setValue(64)
@@ -74,9 +74,9 @@ class TestWriteNetworkEndpointAddress:
         dns = node.findall("DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS")
         assert len(dns) == 1
         assert dns[0].text == "8.8.8.8"
-        assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "storePersistently"
+        assert node.find("IP-ADDRESS-KEEP-BEHAVIOR").text == "STORE-PERSISTENTLY"
         assert node.find("IPV-4-ADDRESS").text == "192.168.0.10"
-        assert node.find("IPV-4-ADDRESS-SOURCE").text == "fixed"
+        assert node.find("IPV-4-ADDRESS-SOURCE").text == "FIXED"
         assert node.find("NETWORK-MASK").text == "255.255.255.0"
         assert node.find("TTL").text == "64"
         children = [child.tag for child in node]
@@ -118,7 +118,7 @@ class TestWriteNetworkEndpointAddress:
         assert address.getNetworkMask().getValue() == "255.255.255.0"
         assert address.getDefaultGateway().getValue() == "192.168.0.1"
         assert address.getDnsServerAddresses()[0].getValue() == "8.8.8.8"
-        assert address.getIpAddressKeepBehavior().getValue() == "storePersistently"
-        assert address.getIpv4AddressSource().getValue() == "fixed"
+        assert address.getIpAddressKeepBehavior().getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
+        assert address.getIpv4AddressSource().getValue() == "FIXED"
         assert address.getTtl().getValue() == 64
         assert isinstance(address.getIpv4AddressSource(), Ipv4AddressSourceEnum)

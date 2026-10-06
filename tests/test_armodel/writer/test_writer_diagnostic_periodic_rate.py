@@ -92,4 +92,4 @@ class TestWriteDiagnosticPeriodicRate:
         assert rate_2.getPeriod() is not None
         assert rate_2.getPeriod().getValue() == 0.5
         assert rate_2.getPeriodicRateCategory() is not None
-        assert rate_2.getPeriodicRateCategory().getValue() == "periodicRateMedium"
+        assert rate_2.getPeriodicRateCategory().getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM

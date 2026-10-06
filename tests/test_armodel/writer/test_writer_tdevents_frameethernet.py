@@ -47,7 +47,7 @@ class TestWriteTDEventFrameEthernet:
         assert "TD-HEADER-ID-FILTERS" in out
         assert "TD-HEADER-ID-RANGE" in out
         assert "TD-PDU-TRIGGERING-FILTER-REFS" in out
-        assert "frameEthernetQueuedForTransmission" in out
+        assert "FRAME-ETHERNET-QUEUED-FOR-TRANSMISSION" in out
 
     def test_round_trip(self):
         event = _build_event()
@@ -57,7 +57,7 @@ class TestWriteTDEventFrameEthernet:
         read_back = TDEventFrameEthernet(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "tmp")
         ARXMLParser().readTDEventFrameEthernet(reparsed, read_back)
         assert read_back.getStaticSocketConnectionRef().getValue() == "/AUTOSAR/Socket"
-        assert read_back.getTdEventType().value == "frameEthernetQueuedForTransmission"
+        assert read_back.getTdEventType().value == "FRAME-ETHERNET-QUEUED-FOR-TRANSMISSION"
         assert len(read_back.getTdHeaderIdFilter()) == 1
         assert read_back.getTdHeaderIdFilter()[0].getMinHeaderId().getValue() == 5
         assert read_back.getTdHeaderIdFilter()[0].getMaxHeaderId().getValue() == 10

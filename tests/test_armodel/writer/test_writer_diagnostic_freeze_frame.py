@@ -134,7 +134,7 @@ class TestWriteDiagnosticFreezeFrame:
             assert freeze_frame_2.getRecordNumber().value == 40
             assert freeze_frame_2.getTrigger() is not None
             assert isinstance(freeze_frame_2.getTrigger(), DiagnosticRecordTriggerEnum)
-            assert freeze_frame_2.getTrigger().getValue() == "confirmed"
+            assert freeze_frame_2.getTrigger().getValue() == "CONFIRMED"
             assert freeze_frame_2.getUpdate() is not None
             assert freeze_frame_2.getUpdate().value is True
         finally:

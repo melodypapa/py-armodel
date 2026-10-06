@@ -55,8 +55,8 @@ class TestReadAclPermission:
             f"""<ACL-PERMISSION xmlns='{NS}'>
                 <SHORT-NAME>MyAclPermission</SHORT-NAME>
                 <ACL-CONTEXTS>
-                    <ACL-CONTEXT>PreCompile</ACL-CONTEXT>
-                    <ACL-CONTEXT>PostBuild</ACL-CONTEXT>
+                    <ACL-CONTEXT>PRE-COMPILE</ACL-CONTEXT>
+                    <ACL-CONTEXT>POST-BUILD</ACL-CONTEXT>
                 </ACL-CONTEXTS>
             </ACL-PERMISSION>"""
         )
@@ -65,8 +65,8 @@ class TestReadAclPermission:
 
         contexts = acl_permission.getAclContexts()
         assert len(contexts) == 2
-        assert contexts[0].getValue() == "PreCompile"
-        assert contexts[1].getValue() == "PostBuild"
+        assert contexts[0].getValue() == "PRE-COMPILE"
+        assert contexts[1].getValue() == "POST-BUILD"
 
     def test_read_refs(self, parser):
         """Test that ACL-OBJECT-REFS, ACL-OPERATION-REFS and ACL-ROLE-REFS populate the model with DEST and value."""
@@ -147,7 +147,7 @@ class TestReadAclPermission:
                 <ACL-PERMISSION>
                     <SHORT-NAME>MyAclPermission</SHORT-NAME>
                     <ACL-CONTEXTS>
-                        <ACL-CONTEXT>PreCompile</ACL-CONTEXT>
+                        <ACL-CONTEXT>PRE-COMPILE</ACL-CONTEXT>
                     </ACL-CONTEXTS>
                     <ACL-OBJECT-REFS>
                         <ACL-OBJECT-REF DEST="ACL-OBJECT-SET">/AUTOSAR/MyObjectSet</ACL-OBJECT-REF>
@@ -176,7 +176,7 @@ class TestReadAclPermission:
             acl_permissions = document.getARPackages()[0].getAclPermissions()
             assert len(acl_permissions) == 1
             assert acl_permissions[0].getShortName() == "MyAclPermission"
-            assert acl_permissions[0].getAclContexts()[0].getValue() == "PreCompile"
+            assert acl_permissions[0].getAclContexts()[0].getValue() == "PRE-COMPILE"
             assert acl_permissions[0].getAclObjectRefs()[0].getValue() == "/AUTOSAR/MyObjectSet"
             assert acl_permissions[0].getAclOperationRefs()[0].getValue() == "/AUTOSAR/MyOperation"
             assert acl_permissions[0].getAclRoleRefs()[0].getValue() == "/AUTOSAR/MyRole"

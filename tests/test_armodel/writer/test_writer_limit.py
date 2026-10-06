@@ -82,7 +82,7 @@ class TestLimitRoundTrip:
             assert isinstance(lower_2, Limit)
             assert lower_2.getValue() == "0"
             assert isinstance(lower_2.getIntervalType(), IntervalTypeEnum)
-            assert lower_2.getIntervalType().getValue() == "closed"
+            assert lower_2.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
             upper_2 = phys_constrs_2.getUpperLimit()
             assert isinstance(upper_2, Limit)
             assert upper_2.getValue() == "INF"

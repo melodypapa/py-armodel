@@ -355,7 +355,7 @@ class TestDiagnosticCommonProps:
         result = obj.setDefaultEndianness(endianness)
         assert result is obj  # method chaining
         assert obj.getDefaultEndianness() is endianness
-        assert obj.getDefaultEndianness().getValue() == "opaque"
+        assert obj.getDefaultEndianness().getValue() == ByteOrderEnum.OPAQUE
 
         result = obj.setDefaultEndianness(None)
         assert result is obj  # method chaining with None
@@ -388,7 +388,7 @@ class TestDiagnosticCommonProps:
         result = obj.setOccurrenceCounterProcessing(processing)
         assert result is obj  # method chaining
         assert obj.getOccurrenceCounterProcessing() is processing
-        assert obj.getOccurrenceCounterProcessing().getValue() == "confirmedDtcBit"
+        assert obj.getOccurrenceCounterProcessing().getValue() == DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT
 
         result = obj.setOccurrenceCounterProcessing(None)
         assert result is obj  # method chaining with None
@@ -452,7 +452,7 @@ class TestDiagnosticCommonProps:
         result = obj.setEventCombinationReportingBehavior(behavior)
         assert result is obj  # method chaining
         assert obj.getEventCombinationReportingBehavior() is behavior
-        assert obj.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
+        assert obj.getEventCombinationReportingBehavior().getValue() == DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST
 
         result = obj.setEventCombinationReportingBehavior(None)
         assert result is obj  # method chaining with None
@@ -468,7 +468,7 @@ class TestDiagnosticCommonProps:
         result = obj.setTypeOfEventCombinationSupported(behavior)
         assert result is obj  # method chaining
         assert obj.getTypeOfEventCombinationSupported() is behavior
-        assert obj.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnStorage"
+        assert obj.getTypeOfEventCombinationSupported().getValue() == DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE
 
         result = obj.setTypeOfEventCombinationSupported(None)
         assert result is obj  # method chaining with None
@@ -844,7 +844,7 @@ class TestDiagnosticPeriodicRate:
         result = obj.setPeriodicRateCategory(value)
         assert result is obj  # method chaining
         assert obj.getPeriodicRateCategory() is value
-        assert obj.getPeriodicRateCategory().getValue() == "periodicRateMedium"
+        assert obj.getPeriodicRateCategory().getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM
 
         result = obj.setPeriodicRateCategory(None)
         assert result is obj  # method chaining with None
@@ -911,7 +911,7 @@ class TestDiagnosticEventWindow:
         result = obj.setEventWindowTime(value)
         assert result is obj  # method chaining
         assert obj.getEventWindowTime() is value
-        assert obj.getEventWindowTime().getValue() == "infiniteTimeToResponse"
+        assert obj.getEventWindowTime().getValue() == DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE
 
         result = obj.setEventWindowTime(None)
         assert result is obj  # method chaining with None
@@ -1137,7 +1137,7 @@ class TestDiagnosticConnectedIndicator:
         result = obj.setBehavior(value)
         assert result is obj  # method chaining
         assert obj.getBehavior() is value
-        assert obj.getBehavior().getValue() == "blinkMode"
+        assert obj.getBehavior().getValue() == DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE
 
         result = obj.setBehavior(None)
         assert result is obj  # method chaining with None
@@ -1301,7 +1301,7 @@ class TestDiagnosticFunctionIdentifierInhibit:
         result = obj.setInhibitionMask(value)
         assert result is obj  # method chaining
         assert obj.getInhibitionMask() is value
-        assert obj.getInhibitionMask().getValue() == "testedAndFailed"
+        assert obj.getInhibitionMask().getValue() == DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED
 
         result = obj.setInhibitionMask(None)
         assert result is obj  # method chaining with None
@@ -1510,7 +1510,7 @@ class TestDiagnosticMemoryDestination:
         result = obj.setClearDtcLimitation(value)
         assert result is obj  # method chaining
         assert obj.getClearDtcLimitation() is value
-        assert obj.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+        assert obj.getClearDtcLimitation().getValue() == DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS
 
         result = obj.setClearDtcLimitation(None)
         assert result is obj  # method chaining with None
@@ -1542,7 +1542,7 @@ class TestDiagnosticMemoryDestination:
         result = obj.setEventDisplacementStrategy(value)
         assert result is obj  # method chaining
         assert obj.getEventDisplacementStrategy() is value
-        assert obj.getEventDisplacementStrategy().getValue() == "prioOcc"
+        assert obj.getEventDisplacementStrategy().getValue() == DiagnosticEventDisplacementStrategyEnum.PRIO_OCC
 
         result = obj.setEventDisplacementStrategy(None)
         assert result is obj  # method chaining with None
@@ -1574,7 +1574,7 @@ class TestDiagnosticMemoryDestination:
         result = obj.setMemoryEntryStorageTrigger(value)
         assert result is obj  # method chaining
         assert obj.getMemoryEntryStorageTrigger() is value
-        assert obj.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+        assert obj.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
 
         result = obj.setMemoryEntryStorageTrigger(None)
         assert result is obj  # method chaining with None
@@ -1590,7 +1590,7 @@ class TestDiagnosticMemoryDestination:
         result = obj.setStatusBitHandlingTestFailedSinceLastClear(value)
         assert result is obj  # method chaining
         assert obj.getStatusBitHandlingTestFailedSinceLastClear() is value
-        assert obj.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitNormal"
+        assert obj.getStatusBitHandlingTestFailedSinceLastClear().getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL
 
         result = obj.setStatusBitHandlingTestFailedSinceLastClear(None)
         assert result is obj  # method chaining with None
@@ -1622,7 +1622,7 @@ class TestDiagnosticMemoryDestination:
         result = obj.setTypeOfFreezeFrameRecordNumeration(value)
         assert result is obj  # method chaining
         assert obj.getTypeOfFreezeFrameRecordNumeration() is value
-        assert obj.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
+        assert obj.getTypeOfFreezeFrameRecordNumeration().getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED
 
         result = obj.setTypeOfFreezeFrameRecordNumeration(None)
         assert result is obj  # method chaining with None
@@ -2252,7 +2252,7 @@ class TestDiagnosticTroubleCodeProps:
         result = obj.setSignificance(value)
         assert result is obj  # method chaining
         assert obj.getSignificance() is value
-        assert obj.getSignificance().getValue() == "fault"
+        assert obj.getSignificance().getValue() == DiagnosticSignificanceEnum.FAULT
 
         result = obj.setSignificance(None)
         assert result is obj  # method chaining with None
