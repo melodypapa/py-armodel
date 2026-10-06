@@ -51,9 +51,9 @@ class TestReadClientIdRange:
         id_range = _range()
         parser.readClientIdRange(element, id_range)
         assert id_range.getLowerLimit().getValue() == "0"
-        assert id_range.getLowerLimit().getIntervalType().getValue() == "closed"
+        assert id_range.getLowerLimit().getIntervalType().getValue() == "CLOSED"
         assert id_range.getUpperLimit().getValue() == "255"
-        assert id_range.getUpperLimit().getIntervalType().getValue() == "open"
+        assert id_range.getUpperLimit().getIntervalType().getValue() == "OPEN"
 
     def test_read_client_id_range_empty(self, parser):
         element = _snip(

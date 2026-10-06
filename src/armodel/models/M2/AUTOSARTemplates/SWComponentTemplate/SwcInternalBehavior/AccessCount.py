@@ -25,10 +25,10 @@ class RteApiReturnValueProvisionEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The RTE API shall not provide a return value. Tags: atp.EnumerationLiteralIndex=1
-    NO_RETURN_VALUE_PROVIDED = "noReturnValueProvided"
+    NO_RETURN_VALUE_PROVIDED = "NO-RETURN-VALUE-PROVIDED"
 
     # The RTE API shall provide a return value. Tags: atp.EnumerationLiteralIndex=0
-    RETURN_VALUE_PROVIDED = "returnValueProvided"
+    RETURN_VALUE_PROVIDED = "RETURN-VALUE-PROVIDED"
 
     def __init__(self):
         super().__init__(

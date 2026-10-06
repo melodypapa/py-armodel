@@ -604,15 +604,15 @@ class TestModeErrorReactionPolicyEnum:
     def test_initialization(self):
         """Test ModeErrorReactionPolicyEnum member values"""
         enum = ModeErrorReactionPolicyEnum()
-        assert enum.DEFAULT_MODE == "defaultMode"
-        assert enum.LAST_MODE == "lastMode"
-        assert "defaultMode" in enum.getEnumValues()
-        assert "lastMode" in enum.getEnumValues()
+        assert enum.DEFAULT_MODE == "DEFAULT-MODE"
+        assert enum.LAST_MODE == "LAST-MODE"
+        assert "DEFAULT-MODE" in enum.getEnumValues()
+        assert "LAST-MODE" in enum.getEnumValues()
 
     def test_enum_values(self):
         """Test ModeErrorReactionPolicyEnum literal values"""
-        assert ModeErrorReactionPolicyEnum.DEFAULT_MODE == "defaultMode"
-        assert ModeErrorReactionPolicyEnum.LAST_MODE == "lastMode"
+        assert ModeErrorReactionPolicyEnum.DEFAULT_MODE == "DEFAULT-MODE"
+        assert ModeErrorReactionPolicyEnum.LAST_MODE == "LAST-MODE"
 
     def test_valid_values(self):
         """Test ModeErrorReactionPolicyEnum valid values in __init__"""
@@ -662,7 +662,7 @@ class TestModeErrorBehavior:
         # Test value round-trips as a ModeErrorReactionPolicyEnum instance
         assert error_behavior.getErrorReactionPolicy() == test_policy
         assert isinstance(error_behavior.getErrorReactionPolicy(), ModeErrorReactionPolicyEnum)
-        assert error_behavior.getErrorReactionPolicy().getText() == "defaultMode"
+        assert error_behavior.getErrorReactionPolicy().getText() == ModeErrorReactionPolicyEnum.DEFAULT_MODE
 
         # Test None is no-op
         error_behavior.setErrorReactionPolicy(None)
@@ -684,9 +684,9 @@ class TestModeErrorBehavior:
 class TestModeActivationKind:
     def test_literals(self):
         """Test ModeActivationKind literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.34"""
-        assert ModeActivationKind.ON_ENTRY == "onEntry"
-        assert ModeActivationKind.ON_EXIT == "onExit"
-        assert ModeActivationKind.ON_TRANSITION == "onTransition"
+        assert ModeActivationKind.ON_ENTRY == "ON-ENTRY"
+        assert ModeActivationKind.ON_EXIT == "ON-EXIT"
+        assert ModeActivationKind.ON_TRANSITION == "ON-TRANSITION"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 5.34)"""
@@ -702,7 +702,7 @@ class TestModeActivationKind:
         enum = ModeActivationKind()
         result = enum.setValue(ModeActivationKind.ON_TRANSITION)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "onTransition"
+        assert enum.getValue() == ModeActivationKind.ON_TRANSITION
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -711,13 +711,13 @@ class TestModeActivationKind:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(ModeActivationKind.ON_ENTRY)
         enum.setValue(None)
-        assert enum.getValue() == "onEntry"
+        assert enum.getValue() == ModeActivationKind.ON_ENTRY
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ModeActivationKind()
-        assert enum.validateEnumValue("onEntry") is True
-        assert enum.validateEnumValue("onTransition") is True
+        assert enum.validateEnumValue("ON-ENTRY") is True
+        assert enum.validateEnumValue("ON-TRANSITION") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):

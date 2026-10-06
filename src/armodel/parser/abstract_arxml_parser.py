@@ -39,8 +39,8 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 #: Mapping between IntervalTypeEnum values and their XML attribute tokens
 #: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
 INTERVAL_TYPE_XML_MAP = {
-    "closed": "CLOSED",
-    "open": "OPEN",
+    "CLOSED": "CLOSED",
+    "OPEN": "OPEN",
 }
 
 

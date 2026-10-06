@@ -253,8 +253,8 @@ class TestServiceNeeds:
 class TestRamBlockStatusControlEnum:
     def test_literals(self):
         """Test RamBlockStatusControlEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 13.1"""
-        assert RamBlockStatusControlEnum.API == "api"
-        assert RamBlockStatusControlEnum.NV_RAM_MANAGER == "nvRamManager"
+        assert RamBlockStatusControlEnum.API == "API"
+        assert RamBlockStatusControlEnum.NV_RAM_MANAGER == "NV-RAM-MANAGER"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 13.1)"""
@@ -269,7 +269,7 @@ class TestRamBlockStatusControlEnum:
         enum = RamBlockStatusControlEnum()
         result = enum.setValue(RamBlockStatusControlEnum.NV_RAM_MANAGER)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "nvRamManager"
+        assert enum.getValue() == RamBlockStatusControlEnum.NV_RAM_MANAGER
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -278,13 +278,13 @@ class TestRamBlockStatusControlEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(RamBlockStatusControlEnum.API)
         enum.setValue(None)
-        assert enum.getValue() == "api"
+        assert enum.getValue() == RamBlockStatusControlEnum.API
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = RamBlockStatusControlEnum()
-        assert enum.validateEnumValue("api") is True
-        assert enum.validateEnumValue("nvRamManager") is True
+        assert enum.validateEnumValue("API") is True
+        assert enum.validateEnumValue("NV-RAM-MANAGER") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -297,30 +297,30 @@ class TestServiceProviderEnum:
         """Test ServiceProviderEnum initialization matches the spec Literal rows in order"""
         enum = ServiceProviderEnum()
         assert enum.enumValues == (
-            "anyStandardized",
-            "basicSoftwareModeManager",
-            "comManager",
-            "cryptoKeyManagement",
-            "cryptoServiceManager",
-            "defaultErrorTracer",
-            "diagnosticCommunicationManager",
-            "diagnosticEventManager",
-            "diagnosticLogAndTrace",
-            "ecuManager",
-            "errorTracer",
-            "functionInhibitionManager",
-            "hardwareTestManager",
-            "intrusionDetectionSecurityManagement",
-            "j1939Dcm",
-            "j1939RequestManager",
-            "nonVolatileRamManager",
-            "operatingSystem",
-            "secureOnBoardCommunication",
-            "syncBaseTimeManager",
-            "v2xFacilities",
-            "v2xManagement",
-            "vendorSpecific",
-            "watchDogManager",
+            ServiceProviderEnum.ANY_STANDARDIZED,
+            ServiceProviderEnum.BASIC_SOFTWARE_MODE_MANAGER,
+            ServiceProviderEnum.COM_MANAGER,
+            ServiceProviderEnum.CRYPTO_KEY_MANAGEMENT,
+            ServiceProviderEnum.CRYPTO_SERVICE_MANAGER,
+            ServiceProviderEnum.DEFAULT_ERROR_TRACER,
+            ServiceProviderEnum.DIAGNOSTIC_COMMUNICATION_MANAGER,
+            ServiceProviderEnum.DIAGNOSTIC_EVENT_MANAGER,
+            ServiceProviderEnum.DIAGNOSTIC_LOG_AND_TRACE,
+            ServiceProviderEnum.ECU_MANAGER,
+            ServiceProviderEnum.ERROR_TRACER,
+            ServiceProviderEnum.FUNCTION_INHIBITION_MANAGER,
+            ServiceProviderEnum.HARDWARE_TEST_MANAGER,
+            ServiceProviderEnum.INTRUSION_DETECTION_SECURITY_MANAGEMENT,
+            ServiceProviderEnum.J1939_DCM,
+            ServiceProviderEnum.J1939_REQUEST_MANAGER,
+            ServiceProviderEnum.NON_VOLATILE_RAM_MANAGER,
+            ServiceProviderEnum.OPERATING_SYSTEM,
+            ServiceProviderEnum.SECURE_ON_BOARD_COMMUNICATION,
+            ServiceProviderEnum.SYNC_BASE_TIME_MANAGER,
+            ServiceProviderEnum.V2X_FACILITIES,
+            ServiceProviderEnum.V2X_MANAGEMENT,
+            ServiceProviderEnum.VENDOR_SPECIFIC,
+            ServiceProviderEnum.WATCH_DOG_MANAGER,
         )
 
     def test_spec_note(self):
@@ -329,42 +329,42 @@ class TestServiceProviderEnum:
 
     def test_values(self):
         """Test enum member values match the spec literals"""
-        assert ServiceProviderEnum.ANY_STANDARDIZED == "anyStandardized"
-        assert ServiceProviderEnum.BASIC_SOFTWARE_MODE_MANAGER == "basicSoftwareModeManager"
-        assert ServiceProviderEnum.COM_MANAGER == "comManager"
-        assert ServiceProviderEnum.CRYPTO_KEY_MANAGEMENT == "cryptoKeyManagement"
-        assert ServiceProviderEnum.CRYPTO_SERVICE_MANAGER == "cryptoServiceManager"
-        assert ServiceProviderEnum.DEFAULT_ERROR_TRACER == "defaultErrorTracer"
-        assert ServiceProviderEnum.DIAGNOSTIC_COMMUNICATION_MANAGER == "diagnosticCommunicationManager"
-        assert ServiceProviderEnum.DIAGNOSTIC_EVENT_MANAGER == "diagnosticEventManager"
-        assert ServiceProviderEnum.DIAGNOSTIC_LOG_AND_TRACE == "diagnosticLogAndTrace"
-        assert ServiceProviderEnum.ECU_MANAGER == "ecuManager"
-        assert ServiceProviderEnum.ERROR_TRACER == "errorTracer"
-        assert ServiceProviderEnum.FUNCTION_INHIBITION_MANAGER == "functionInhibitionManager"
-        assert ServiceProviderEnum.HARDWARE_TEST_MANAGER == "hardwareTestManager"
-        assert ServiceProviderEnum.INTRUSION_DETECTION_SECURITY_MANAGEMENT == "intrusionDetectionSecurityManagement"
-        assert ServiceProviderEnum.J1939_DCM == "j1939Dcm"
-        assert ServiceProviderEnum.J1939_REQUEST_MANAGER == "j1939RequestManager"
-        assert ServiceProviderEnum.NON_VOLATILE_RAM_MANAGER == "nonVolatileRamManager"
-        assert ServiceProviderEnum.OPERATING_SYSTEM == "operatingSystem"
-        assert ServiceProviderEnum.SECURE_ON_BOARD_COMMUNICATION == "secureOnBoardCommunication"
-        assert ServiceProviderEnum.SYNC_BASE_TIME_MANAGER == "syncBaseTimeManager"
-        assert ServiceProviderEnum.V2X_FACILITIES == "v2xFacilities"
-        assert ServiceProviderEnum.V2X_MANAGEMENT == "v2xManagement"
-        assert ServiceProviderEnum.VENDOR_SPECIFIC == "vendorSpecific"
+        assert ServiceProviderEnum.ANY_STANDARDIZED == "ANY-STANDARDIZED"
+        assert ServiceProviderEnum.BASIC_SOFTWARE_MODE_MANAGER == "BASIC-SOFTWARE-MODE-MANAGER"
+        assert ServiceProviderEnum.COM_MANAGER == "COM-MANAGER"
+        assert ServiceProviderEnum.CRYPTO_KEY_MANAGEMENT == "CRYPTO-KEY-MANAGEMENT"
+        assert ServiceProviderEnum.CRYPTO_SERVICE_MANAGER == "CRYPTO-SERVICE-MANAGER"
+        assert ServiceProviderEnum.DEFAULT_ERROR_TRACER == "DEFAULT-ERROR-TRACER"
+        assert ServiceProviderEnum.DIAGNOSTIC_COMMUNICATION_MANAGER == "DIAGNOSTIC-COMMUNICATION-MANAGER"
+        assert ServiceProviderEnum.DIAGNOSTIC_EVENT_MANAGER == "DIAGNOSTIC-EVENT-MANAGER"
+        assert ServiceProviderEnum.DIAGNOSTIC_LOG_AND_TRACE == "DIAGNOSTIC-LOG-AND-TRACE"
+        assert ServiceProviderEnum.ECU_MANAGER == "ECU-MANAGER"
+        assert ServiceProviderEnum.ERROR_TRACER == "ERROR-TRACER"
+        assert ServiceProviderEnum.FUNCTION_INHIBITION_MANAGER == "FUNCTION-INHIBITION-MANAGER"
+        assert ServiceProviderEnum.HARDWARE_TEST_MANAGER == "HARDWARE-TEST-MANAGER"
+        assert ServiceProviderEnum.INTRUSION_DETECTION_SECURITY_MANAGEMENT == "INTRUSION-DETECTION-SECURITY-MANAGEMENT"
+        assert ServiceProviderEnum.J1939_DCM == "J-1939-DCM"
+        assert ServiceProviderEnum.J1939_REQUEST_MANAGER == "J-1939-REQUEST-MANAGER"
+        assert ServiceProviderEnum.NON_VOLATILE_RAM_MANAGER == "NON-VOLATILE-RAM-MANAGER"
+        assert ServiceProviderEnum.OPERATING_SYSTEM == "OPERATING-SYSTEM"
+        assert ServiceProviderEnum.SECURE_ON_BOARD_COMMUNICATION == "SECURE-ON-BOARD-COMMUNICATION"
+        assert ServiceProviderEnum.SYNC_BASE_TIME_MANAGER == "SYNC-BASE-TIME-MANAGER"
+        assert ServiceProviderEnum.V2X_FACILITIES == "V-2-X-FACILITIES"
+        assert ServiceProviderEnum.V2X_MANAGEMENT == "V-2-X-MANAGEMENT"
+        assert ServiceProviderEnum.VENDOR_SPECIFIC == "VENDOR-SPECIFIC"
 
     def test_instantiation(self):
         """Test ServiceProviderEnum is instantiable and settable"""
         enum = ServiceProviderEnum().setValue(ServiceProviderEnum.COM_MANAGER)
-        assert enum.getValue() == "comManager"
+        assert enum.getValue() == ServiceProviderEnum.COM_MANAGER
 
 
 class TestNvBlockNeedsReliabilityEnum:
     def test_literals(self):
         """Test NvBlockNeedsReliabilityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.10"""
-        assert NvBlockNeedsReliabilityEnum.ERROR_CORRECTION == "errorCorrection"
-        assert NvBlockNeedsReliabilityEnum.ERROR_DETECTION == "errorDetection"
-        assert NvBlockNeedsReliabilityEnum.NO_PROTECTION == "noProtection"
+        assert NvBlockNeedsReliabilityEnum.ERROR_CORRECTION == "ERROR-CORRECTION"
+        assert NvBlockNeedsReliabilityEnum.ERROR_DETECTION == "ERROR-DETECTION"
+        assert NvBlockNeedsReliabilityEnum.NO_PROTECTION == "NO-PROTECTION"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 11.10)"""
@@ -380,7 +380,7 @@ class TestNvBlockNeedsReliabilityEnum:
         enum = NvBlockNeedsReliabilityEnum()
         result = enum.setValue(NvBlockNeedsReliabilityEnum.ERROR_DETECTION)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "errorDetection"
+        assert enum.getValue() == NvBlockNeedsReliabilityEnum.ERROR_DETECTION
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -389,13 +389,13 @@ class TestNvBlockNeedsReliabilityEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(NvBlockNeedsReliabilityEnum.NO_PROTECTION)
         enum.setValue(None)
-        assert enum.getValue() == "noProtection"
+        assert enum.getValue() == NvBlockNeedsReliabilityEnum.NO_PROTECTION
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = NvBlockNeedsReliabilityEnum()
-        assert enum.validateEnumValue("errorCorrection") is True
-        assert enum.validateEnumValue("noProtection") is True
+        assert enum.validateEnumValue("ERROR-CORRECTION") is True
+        assert enum.validateEnumValue("NO-PROTECTION") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -410,9 +410,9 @@ class TestNvBlockNeedsReliabilityEnum:
 class TestNvBlockNeedsWritingPriorityEnum:
     def test_literals(self):
         """Test NvBlockNeedsWritingPriorityEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 11.9"""
-        assert NvBlockNeedsWritingPriorityEnum.HIGH == "high"
-        assert NvBlockNeedsWritingPriorityEnum.LOW == "low"
-        assert NvBlockNeedsWritingPriorityEnum.MEDIUM == "medium"
+        assert NvBlockNeedsWritingPriorityEnum.HIGH == "HIGH"
+        assert NvBlockNeedsWritingPriorityEnum.LOW == "LOW"
+        assert NvBlockNeedsWritingPriorityEnum.MEDIUM == "MEDIUM"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 11.9)"""
@@ -428,7 +428,7 @@ class TestNvBlockNeedsWritingPriorityEnum:
         enum = NvBlockNeedsWritingPriorityEnum()
         result = enum.setValue(NvBlockNeedsWritingPriorityEnum.LOW)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "low"
+        assert enum.getValue() == NvBlockNeedsWritingPriorityEnum.LOW
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -437,13 +437,13 @@ class TestNvBlockNeedsWritingPriorityEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(NvBlockNeedsWritingPriorityEnum.MEDIUM)
         enum.setValue(None)
-        assert enum.getValue() == "medium"
+        assert enum.getValue() == NvBlockNeedsWritingPriorityEnum.MEDIUM
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = NvBlockNeedsWritingPriorityEnum()
-        assert enum.validateEnumValue("high") is True
-        assert enum.validateEnumValue("medium") is True
+        assert enum.validateEnumValue("HIGH") is True
+        assert enum.validateEnumValue("MEDIUM") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -860,15 +860,15 @@ class TestServiceDiagnosticRelevanceEnum:
     def test_initialization(self):
         """Test ServiceDiagnosticRelevanceEnum initialization"""
         enum = ServiceDiagnosticRelevanceEnum()
-        assert enum.IS_NOT_RELEVANT == "isNotRelevant"
-        assert enum.IS_RELEVANT == "isRelevant"
-        assert "isNotRelevant" in enum.getEnumValues()
-        assert "isRelevant" in enum.getEnumValues()
+        assert enum.IS_NOT_RELEVANT == "IS-NOT-RELEVANT"
+        assert enum.IS_RELEVANT == "IS-RELEVANT"
+        assert "IS-NOT-RELEVANT" in enum.getEnumValues()
+        assert "IS-RELEVANT" in enum.getEnumValues()
 
     def test_enum_values(self):
         """Test ServiceDiagnosticRelevanceEnum literal values"""
-        assert ServiceDiagnosticRelevanceEnum.IS_NOT_RELEVANT == "isNotRelevant"
-        assert ServiceDiagnosticRelevanceEnum.IS_RELEVANT == "isRelevant"
+        assert ServiceDiagnosticRelevanceEnum.IS_NOT_RELEVANT == "IS-NOT-RELEVANT"
+        assert ServiceDiagnosticRelevanceEnum.IS_RELEVANT == "IS-RELEVANT"
 
 
 class TestServiceDependency:
@@ -965,15 +965,21 @@ class TestDiagnosticAudienceEnum:
         """Test DiagnosticAudienceEnum initialization"""
         enum = DiagnosticAudienceEnum()
 
-        assert enum.enumValues == ("aftermarket", "afterSales", "development", "manufacturing", "supplier")
+        assert enum.enumValues == (
+            DiagnosticAudienceEnum.AFTER_MARKET,
+            DiagnosticAudienceEnum.AFTER_SALES,
+            DiagnosticAudienceEnum.DEVELOPMENT,
+            DiagnosticAudienceEnum.MANUFACTURING,
+            DiagnosticAudienceEnum.SUPPLIER,
+        )
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticAudienceEnum.AFTER_MARKET == "aftermarket"
-        assert DiagnosticAudienceEnum.AFTER_SALES == "afterSales"
-        assert DiagnosticAudienceEnum.DEVELOPMENT == "development"
-        assert DiagnosticAudienceEnum.MANUFACTURING == "manufacturing"
-        assert DiagnosticAudienceEnum.SUPPLIER == "supplier"
+        assert DiagnosticAudienceEnum.AFTER_MARKET == "AFTERMARKET"
+        assert DiagnosticAudienceEnum.AFTER_SALES == "AFTER-SALES"
+        assert DiagnosticAudienceEnum.DEVELOPMENT == "DEVELOPMENT"
+        assert DiagnosticAudienceEnum.MANUFACTURING == "MANUFACTURING"
+        assert DiagnosticAudienceEnum.SUPPLIER == "SUPPLIER"
 
 
 class TestDiagnosticServiceRequestCallbackTypeEnum:
@@ -981,12 +987,12 @@ class TestDiagnosticServiceRequestCallbackTypeEnum:
         """Test DiagnosticServiceRequestCallbackTypeEnum initialization"""
         enum = DiagnosticServiceRequestCallbackTypeEnum()
 
-        assert enum.enumValues == ("requestCallbackTypeManufacturer", "requestCallbackTypeSupplier")
+        assert enum.enumValues == (DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER, DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER)
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER == "requestCallbackTypeManufacturer"
-        assert DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER == "requestCallbackTypeSupplier"
+        assert DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_MANUFACTURER == "REQUEST-CALLBACK-TYPE-MANUFACTURER"
+        assert DiagnosticServiceRequestCallbackTypeEnum.REQUEST_CALLBACK_TYPE_SUPPLIER == "REQUEST-CALLBACK-TYPE-SUPPLIER"
 
 
 class TestDiagnosticCapabilityElement:
@@ -1004,12 +1010,12 @@ class TestDiagnosticRoutineTypeEnum:
         """Test DiagnosticRoutineTypeEnum initialization"""
         enum = DiagnosticRoutineTypeEnum()
 
-        assert enum.enumValues == ("asynchronous", "synchronous")
+        assert enum.enumValues == (DiagnosticRoutineTypeEnum.ASYNCHRONOUS, DiagnosticRoutineTypeEnum.SYNCHRONOUS)
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticRoutineTypeEnum.ASYNCHRONOUS == "asynchronous"
-        assert DiagnosticRoutineTypeEnum.SYNCHRONOUS == "synchronous"
+        assert DiagnosticRoutineTypeEnum.ASYNCHRONOUS == "ASYNCHRONOUS"
+        assert DiagnosticRoutineTypeEnum.SYNCHRONOUS == "SYNCHRONOUS"
 
 
 class TestDiagnosticCommunicationManagerNeeds:
@@ -1164,13 +1170,13 @@ class TestDiagnosticValueAccessEnum:
         """Test DiagnosticValueAccessEnum initialization"""
         enum = DiagnosticValueAccessEnum()
 
-        assert enum.enumValues == ("readOnly", "readWrite", "writeOnly")
+        assert enum.enumValues == ("READ-ONLY", "READ-WRITE", DiagnosticValueAccessEnum.WRITE_ONLY)
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticValueAccessEnum.READ_ONLY == "readOnly"
-        assert DiagnosticValueAccessEnum.READ_WRITE == "readWrite"
-        assert DiagnosticValueAccessEnum.WRITE_ONLY == "writeOnly"
+        assert DiagnosticValueAccessEnum.READ_ONLY == "READ-ONLY"
+        assert DiagnosticValueAccessEnum.READ_WRITE == "READ-WRITE"
+        assert DiagnosticValueAccessEnum.WRITE_ONLY == "WRITE-ONLY"
 
 
 class TestDiagnosticProcessingStyleEnum:
@@ -1178,13 +1184,17 @@ class TestDiagnosticProcessingStyleEnum:
         """Test DiagnosticProcessingStyleEnum initialization"""
         enum = DiagnosticProcessingStyleEnum()
 
-        assert enum.enumValues == ("processingStyleAsynchronous", "processingStyleAsynchronousWithError", "processingStyleSynchronous")
+        assert enum.enumValues == (
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR,
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS,
+        )
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS == "processingStyleAsynchronous"
-        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR == "processingStyleAsynchronousWithError"
-        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS == "processingStyleSynchronous"
+        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS == "PROCESSING-STYLE-ASYNCHRONOUS"
+        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR == "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR"
+        assert DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS == "PROCESSING-STYLE-SYNCHRONOUS"
 
 
 class TestDiagnosticValueNeeds:
@@ -1631,11 +1641,11 @@ class TestDtcKindEnum:
         """Test DtcKindEnum initialization (R4.3.1 Table 13.16 literals)"""
         enum = DtcKindEnum()
 
-        assert enum.enumValues == ("emissionRelatedDtc", "nonEmmissionRelatedDtc")
+        assert enum.enumValues == (DtcKindEnum.EMISSION_RELATED_DTC, DtcKindEnum.NON_EMMISSION_RELATED_DTC)
 
     def test_member_values(self):
-        assert DtcKindEnum.EMISSION_RELATED_DTC == "emissionRelatedDtc"
-        assert DtcKindEnum.NON_EMMISSION_RELATED_DTC == "nonEmmissionRelatedDtc"
+        assert DtcKindEnum.EMISSION_RELATED_DTC == "EMISSION-RELATED-DTC"
+        assert DtcKindEnum.NON_EMMISSION_RELATED_DTC == "NON-EMMISSION-RELATED-DTC"
 
 
 class TestDiagnosticEventInfoNeeds:
@@ -1734,12 +1744,12 @@ class TestDiagnosticClearDtcNotificationEnum:
         """Test DiagnosticClearDtcNotificationEnum initialization (Table 13.33 literals)"""
         enum = DiagnosticClearDtcNotificationEnum()
 
-        assert enum.enumValues == ("finish", "start")
+        assert enum.enumValues == (DiagnosticClearDtcNotificationEnum.FINISH, "START")
 
     def test_values(self):
         """Test enum values (Table 13.33)"""
-        assert DiagnosticClearDtcNotificationEnum.FINISH == "finish"
-        assert DiagnosticClearDtcNotificationEnum.START == "start"
+        assert DiagnosticClearDtcNotificationEnum.FINISH == "FINISH"
+        assert DiagnosticClearDtcNotificationEnum.START == "START"
 
 
 class TestDtcFormatTypeEnum:
@@ -1747,13 +1757,13 @@ class TestDtcFormatTypeEnum:
         """Test DtcFormatTypeEnum initialization (R4.3.1 Table 13.30 literals)"""
         enum = DtcFormatTypeEnum()
 
-        assert enum.enumValues == ("j1939", "obd", "uds")
+        assert enum.enumValues == (DtcFormatTypeEnum.J1939, "OBD", DtcFormatTypeEnum.UDS)
 
     def test_values(self):
         """Test enum values"""
-        assert DtcFormatTypeEnum.J1939 == "j1939"
-        assert DtcFormatTypeEnum.OBD == "obd"
-        assert DtcFormatTypeEnum.UDS == "uds"
+        assert DtcFormatTypeEnum.J1939 == "J-1939"
+        assert DtcFormatTypeEnum.OBD == "OBD"
+        assert DtcFormatTypeEnum.UDS == "UDS"
 
 
 class TestDtcStatusChangeNotificationNeeds:
@@ -2377,88 +2387,94 @@ class TestMaxCommModeEnum:
         """Test MaxCommModeEnum initialization"""
         enum = MaxCommModeEnum()
 
-        assert enum.enumValues == ("full", "none", "silent")
+        assert enum.enumValues == ("FULL", "NONE", "SILENT")
 
     def test_values(self):
         """Test enum values"""
-        assert MaxCommModeEnum.FULL == "full"
-        assert MaxCommModeEnum.NONE == "none"
-        assert MaxCommModeEnum.SILENT == "silent"
+        assert MaxCommModeEnum.FULL == "FULL"
+        assert MaxCommModeEnum.NONE == "NONE"
+        assert MaxCommModeEnum.SILENT == "SILENT"
 
 
 class TestEventAcceptanceStatusEnum:
     def test_initialization(self):
         """Test EventAcceptanceStatusEnum initialization"""
         enum = EventAcceptanceStatusEnum()
-        assert enum.enumValues == ("eventAcceptanceDisabled", "eventAcceptanceEnabled")
+        assert enum.enumValues == (EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED, EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED)
 
     def test_values(self):
         """Test enum values"""
-        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED == "eventAcceptanceDisabled"
-        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED == "eventAcceptanceEnabled"
+        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED == "EVENT-ACCEPTANCE-DISABLED"
+        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED == "EVENT-ACCEPTANCE-ENABLED"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED)
-        assert enum.getValue() == "eventAcceptanceEnabled"
+        assert enum.getValue() == EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED
 
 
 class TestOperationCycleTypeEnum:
     def test_initialization(self):
         """Test OperationCycleTypeEnum initialization"""
         enum = OperationCycleTypeEnum()
-        assert enum.enumValues == ("ignition", "obdDcy", "other", "power", "time", "warmup")
+        assert enum.enumValues == ("IGNITION", OperationCycleTypeEnum.OBD_DCY, "OTHER", OperationCycleTypeEnum.POWER, OperationCycleTypeEnum.TIME, "WARMUP")
 
     def test_values(self):
         """Test enum values"""
-        assert OperationCycleTypeEnum.IGNITION == "ignition"
-        assert OperationCycleTypeEnum.OBD_DCY == "obdDcy"
-        assert OperationCycleTypeEnum.OTHER == "other"
-        assert OperationCycleTypeEnum.POWER == "power"
-        assert OperationCycleTypeEnum.TIME == "time"
-        assert OperationCycleTypeEnum.WARMUP == "warmup"
+        assert OperationCycleTypeEnum.IGNITION == "IGNITION"
+        assert OperationCycleTypeEnum.OBD_DCY == "OBD-DCY"
+        assert OperationCycleTypeEnum.OTHER == "OTHER"
+        assert OperationCycleTypeEnum.POWER == "POWER"
+        assert OperationCycleTypeEnum.TIME == "TIME"
+        assert OperationCycleTypeEnum.WARMUP == "WARMUP"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP)
-        assert enum.getValue() == "warmup"
+        assert enum.getValue() == "WARMUP"
 
 
 class TestStorageConditionStatusEnum:
     def test_initialization(self):
         """Test StorageConditionStatusEnum initialization"""
         enum = StorageConditionStatusEnum()
-        assert enum.enumValues == ("eventStorageDisabled", "eventStorageEnabled")
+        assert enum.enumValues == (StorageConditionStatusEnum.EVENT_STORAGE_DISABLE, StorageConditionStatusEnum.EVENT_STORAGE_ENABLE)
 
     def test_values(self):
         """Test enum values"""
-        assert StorageConditionStatusEnum.EVENT_STORAGE_DISABLE == "eventStorageDisabled"
-        assert StorageConditionStatusEnum.EVENT_STORAGE_ENABLE == "eventStorageEnabled"
+        assert StorageConditionStatusEnum.EVENT_STORAGE_DISABLE == "EVENT-STORAGE-DISABLED"
+        assert StorageConditionStatusEnum.EVENT_STORAGE_ENABLE == "EVENT-STORAGE-ENABLED"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE)
-        assert enum.getValue() == "eventStorageEnabled"
+        assert enum.getValue() == StorageConditionStatusEnum.EVENT_STORAGE_ENABLE
 
 
 class TestDiagnosticIndicatorTypeEnum:
     def test_initialization(self):
         """Test DiagnosticIndicatorTypeEnum initialization"""
         enum = DiagnosticIndicatorTypeEnum()
-        assert enum.enumValues == ("amberWarning", "malfunction", "protectLamp", "redStopLamp", "warning")
+        assert enum.enumValues == (
+            DiagnosticIndicatorTypeEnum.AMBER_WARNING,
+            DiagnosticIndicatorTypeEnum.MALFUNCTION,
+            DiagnosticIndicatorTypeEnum.PROTECT_LAMP,
+            DiagnosticIndicatorTypeEnum.RED_STOP_LAMP,
+            DiagnosticIndicatorTypeEnum.WARNING,
+        )
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticIndicatorTypeEnum.AMBER_WARNING == "amberWarning"
-        assert DiagnosticIndicatorTypeEnum.MALFUNCTION == "malfunction"
-        assert DiagnosticIndicatorTypeEnum.PROTECT_LAMP == "protectLamp"
-        assert DiagnosticIndicatorTypeEnum.RED_STOP_LAMP == "redStopLamp"
-        assert DiagnosticIndicatorTypeEnum.WARNING == "warning"
+        assert DiagnosticIndicatorTypeEnum.AMBER_WARNING == "AMBER-WARNING"
+        assert DiagnosticIndicatorTypeEnum.MALFUNCTION == "MALFUNCTION"
+        assert DiagnosticIndicatorTypeEnum.PROTECT_LAMP == "PROTECT-LAMP"
+        assert DiagnosticIndicatorTypeEnum.RED_STOP_LAMP == "RED-STOP-LAMP"
+        assert DiagnosticIndicatorTypeEnum.WARNING == "WARNING"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION)
-        assert enum.getValue() == "malfunction"
+        assert enum.getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
 
 
 class TestComMgrUserNeeds:
@@ -2511,7 +2527,7 @@ class TestComMgrUserNeedsRoundTrip:
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "ComNeeds"
-            assert needs_2.getMaxCommMode().getValue() == "full"
+            assert needs_2.getMaxCommMode().getValue() == "FULL"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2565,7 +2581,7 @@ class TestDiagnosticEnableConditionNeeds:
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "EnableNeeds"
-            assert needs_2.getInitialStatus().getValue() == "eventAcceptanceDisabled"
+            assert needs_2.getInitialStatus().getValue() == EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2619,7 +2635,7 @@ class TestDiagnosticOperationCycleNeeds:
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "CycleNeeds"
-            assert needs_2.getOperationCycle().getValue() == "power"
+            assert needs_2.getOperationCycle().getValue() == OperationCycleTypeEnum.POWER
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2673,7 +2689,7 @@ class TestDiagnosticStorageConditionNeeds:
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "StorageNeeds"
-            assert needs_2.getInitialStatus().getValue() == "eventStorageDisabled"
+            assert needs_2.getInitialStatus().getValue() == StorageConditionStatusEnum.EVENT_STORAGE_DISABLE
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2727,7 +2743,7 @@ class TestIndicatorStatusNeeds:
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "IndNeeds"
-            assert needs_2.getType().getValue() == "amberWarning"
+            assert needs_2.getType().getValue() == DiagnosticIndicatorTypeEnum.AMBER_WARNING
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -2911,24 +2927,24 @@ class TestSupervisedEntityNeeds:
 class TestDiagnosticMonitorUpdateKindEnum:
     def test_enum_values(self):
         """Test DiagnosticMonitorUpdateKindEnum literal values and indices."""
-        assert DiagnosticMonitorUpdateKindEnum.ALWAYS == "always"
-        assert DiagnosticMonitorUpdateKindEnum.STEADY == "steady"
+        assert DiagnosticMonitorUpdateKindEnum.ALWAYS == "ALWAYS"
+        assert DiagnosticMonitorUpdateKindEnum.STEADY == "STEADY"
         enum = DiagnosticMonitorUpdateKindEnum()
-        assert "always" in enum.getEnumValues()
-        assert "steady" in enum.getEnumValues()
+        assert "ALWAYS" in enum.getEnumValues()
+        assert "STEADY" in enum.getEnumValues()
 
     def test_set_value(self):
         """Test setValue/getValue round-trip for the enum."""
         enum = DiagnosticMonitorUpdateKindEnum()
         result = enum.setValue(DiagnosticMonitorUpdateKindEnum.STEADY)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "steady"
+        assert enum.getValue() == "STEADY"
 
         enum.setValue(DiagnosticMonitorUpdateKindEnum.ALWAYS)
-        assert enum.getValue() == "always"
+        assert enum.getValue() == "ALWAYS"
 
         enum.setValue(None)  # No-op
-        assert enum.getValue() == "always"
+        assert enum.getValue() == "ALWAYS"
 
 
 class TestObdInfoServiceNeeds:
@@ -3101,7 +3117,7 @@ class TestObdMonitorServiceNeedsRoundTrip:
             assert needs_2.getEventNeedsRef().getValue() == "/Events/Evt"
             assert needs_2.getEventNeedsRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS--SUBTYPES-ENUM"
             assert needs_2.getUnitAndScalingId().getValue() == 2
-            assert needs_2.getUpdateKind().getValue() == "steady"
+            assert needs_2.getUpdateKind().getValue() == "STEADY"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3128,7 +3144,7 @@ class TestObdMonitorServiceNeedsRoundTrip:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdMonitorServiceNeeds()[0]
             assert needs_2.getShortName() == "ObdMonitorNeeds"
             assert isinstance(needs_2, ObdMonitorServiceNeeds)
-            assert needs_2.getUpdateKind().getValue() == "always"
+            assert needs_2.getUpdateKind().getValue() == "ALWAYS"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3245,56 +3261,56 @@ class TestObdRatioConnectionKindEnum:
     def test_initialization(self):
         """Test ObdRatioConnectionKindEnum initialization"""
         enum = ObdRatioConnectionKindEnum()
-        assert tuple(enum.enumValues) == ("apiUse", "observer")
+        assert tuple(enum.enumValues) == ("API-USE", "OBSERVER")
 
     def test_values(self):
         """Test enum values"""
-        assert ObdRatioConnectionKindEnum.API_USE == "apiUse"
-        assert ObdRatioConnectionKindEnum.OBSERVER == "observer"
+        assert ObdRatioConnectionKindEnum.API_USE == "API-USE"
+        assert ObdRatioConnectionKindEnum.OBSERVER == "OBSERVER"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER)
-        assert enum.getValue() == "observer"
+        assert enum.getValue() == ObdRatioConnectionKindEnum.OBSERVER
 
 
 class TestDiagnosticDenominatorConditionEnum:
     def test_initialization(self):
         """Test DiagnosticDenominatorConditionEnum initialization"""
         enum = DiagnosticDenominatorConditionEnum()
-        assert tuple(enum.enumValues) == ("-500-MILES", "coldstart", "csers", "evap", "evappurgeflow", "individual", "obd")
+        assert tuple(enum.enumValues) == ("-500-MILES", "COLDSTART", "CSERS", "EVAP", "EVAPPURGEFLOW", "INDIVIDUAL", "OBD")
 
     def test_values(self):
         """Test enum values"""
         assert DiagnosticDenominatorConditionEnum._500MILES == "-500-MILES"
-        assert DiagnosticDenominatorConditionEnum.COLDSTART == "coldstart"
-        assert DiagnosticDenominatorConditionEnum.CSERS == "csers"
-        assert DiagnosticDenominatorConditionEnum.EVAP == "evap"
-        assert DiagnosticDenominatorConditionEnum.EVAPPURGEFLOW == "evappurgeflow"
-        assert DiagnosticDenominatorConditionEnum.INDIVIDUAL == "individual"
-        assert DiagnosticDenominatorConditionEnum.OBD == "obd"
+        assert DiagnosticDenominatorConditionEnum.COLDSTART == "COLDSTART"
+        assert DiagnosticDenominatorConditionEnum.CSERS == "CSERS"
+        assert DiagnosticDenominatorConditionEnum.EVAP == "EVAP"
+        assert DiagnosticDenominatorConditionEnum.EVAPPURGEFLOW == "EVAPPURGEFLOW"
+        assert DiagnosticDenominatorConditionEnum.INDIVIDUAL == "INDIVIDUAL"
+        assert DiagnosticDenominatorConditionEnum.OBD == "OBD"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.EVAP)
-        assert enum.getValue() == "evap"
+        assert enum.getValue() == DiagnosticDenominatorConditionEnum.EVAP
 
 
 class TestVerificationStatusIndicationModeEnum:
     def test_initialization(self):
         """Test VerificationStatusIndicationModeEnum initialization"""
         enum = VerificationStatusIndicationModeEnum()
-        assert tuple(enum.enumValues) == ("failureAndSuccess", "failureOnly")
+        assert tuple(enum.enumValues) == ("FAILURE-AND-SUCCESS", "FAILURE-ONLY")
 
     def test_values(self):
         """Test enum values"""
-        assert VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS == "failureAndSuccess"
-        assert VerificationStatusIndicationModeEnum.FAILURE_ONLY == "failureOnly"
+        assert VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS == "FAILURE-AND-SUCCESS"
+        assert VerificationStatusIndicationModeEnum.FAILURE_ONLY == "FAILURE-ONLY"
 
     def test_get_value(self):
         """Test setValue/getValue round-trip"""
         enum = VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY)
-        assert enum.getValue() == "failureOnly"
+        assert enum.getValue() == VerificationStatusIndicationModeEnum.FAILURE_ONLY
 
 
 class TestObdRatioServiceNeeds:
@@ -3378,7 +3394,7 @@ class TestObdRatioServiceNeeds:
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "RatioNeeds"
             assert isinstance(needs_2, ObdRatioServiceNeeds)
-            assert needs_2.getConnectionType().getValue() == "observer"
+            assert needs_2.getConnectionType().getValue() == ObdRatioConnectionKindEnum.OBSERVER
             assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
             assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
         finally:
@@ -3415,7 +3431,7 @@ class TestObdRatioServiceNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "RatioNeeds"
             assert isinstance(needs_2, ObdRatioServiceNeeds)
-            assert needs_2.getConnectionType().getValue() == "apiUse"
+            assert needs_2.getConnectionType().getValue() == "API-USE"
             assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
             assert needs_2.getRateBasedMonitoredEventRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
             assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
@@ -3475,7 +3491,7 @@ class TestObdRatioDenominatorNeeds:
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "DenomNeeds"
             assert isinstance(needs_2, ObdRatioDenominatorNeeds)
-            assert needs_2.getDenominatorCondition().getValue() == "evap"
+            assert needs_2.getDenominatorCondition().getValue() == DiagnosticDenominatorConditionEnum.EVAP
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3502,7 +3518,7 @@ class TestObdRatioDenominatorNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "DenomNeeds"
             assert isinstance(needs_2, ObdRatioDenominatorNeeds)
-            assert needs_2.getDenominatorCondition().getValue() == "csers"
+            assert needs_2.getDenominatorCondition().getValue() == "CSERS"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3800,7 +3816,7 @@ class TestSecureOnBoardCommunicationNeeds:
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
-            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureOnly"
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == VerificationStatusIndicationModeEnum.FAILURE_ONLY
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3827,7 +3843,7 @@ class TestSecureOnBoardCommunicationNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
-            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureAndSuccess"
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == "FAILURE-AND-SUCCESS"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

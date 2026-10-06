@@ -28,7 +28,7 @@ class TestCalprmAxisCategoryEnum:
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum = CalprmAxisCategoryEnum()
         enum.setValue(CalprmAxisCategoryEnum.STD_AXIS)
-        assert enum.getValue() == "stdAxis"
+        assert enum.getValue() == CalprmAxisCategoryEnum.STD_AXIS
 
     def test_calprm_axis_category_enum_values(self):
         """CalprmAxisCategoryEnum shall expose the 4 spec literals in Table 5.48 order.
@@ -37,11 +37,11 @@ class TestCalprmAxisCategoryEnum:
         XSD wire forms (CALPRM-AXIS-CATEGORY-ENUM--SIMPLE) live only in the
         consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
         """
-        assert CalprmAxisCategoryEnum.COM_AXIS == "comAxis"
-        assert CalprmAxisCategoryEnum.FIX_AXIS == "fixAXIS"
-        assert CalprmAxisCategoryEnum.RES_AXIS == "resAxis"
-        assert CalprmAxisCategoryEnum.STD_AXIS == "stdAxis"
-        assert CalprmAxisCategoryEnum().getEnumValues() == ["comAxis", "fixAXIS", "resAxis", "stdAxis"]
+        assert CalprmAxisCategoryEnum.COM_AXIS == "COM-AXIS"
+        assert CalprmAxisCategoryEnum.FIX_AXIS == "FIX-AXIS"
+        assert CalprmAxisCategoryEnum.RES_AXIS == "RES-AXIS"
+        assert CalprmAxisCategoryEnum.STD_AXIS == "STD-AXIS"
+        assert CalprmAxisCategoryEnum().getEnumValues() == ["COM-AXIS", "FIX-AXIS", "RES-AXIS", "STD-AXIS"]
 
     def test_calprm_axis_category_enum_has_spec_note(self):
         """The class docstring carries the Table 5.48 Note verbatim."""
@@ -57,25 +57,25 @@ class TestCalprmAxisCategoryEnum:
         consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
         """
         enum_obj = CalprmAxisCategoryEnum()
-        assert enum_obj.validateEnumValue("comAxis") is True
-        assert enum_obj.validateEnumValue("fixAXIS") is True
-        assert enum_obj.validateEnumValue("resAxis") is True
-        assert enum_obj.validateEnumValue("stdAxis") is True
+        assert enum_obj.validateEnumValue("COM-AXIS") is True
+        assert enum_obj.validateEnumValue("FIX-AXIS") is True
+        assert enum_obj.validateEnumValue("RES-AXIS") is True
+        assert enum_obj.validateEnumValue("STD-AXIS") is True
         assert enum_obj.validateEnumValue("COM_AXIS") is False
-        assert enum_obj.validateEnumValue("COM-AXIS") is False
+        assert enum_obj.validateEnumValue("comAxis") is False
         assert enum_obj.validateEnumValue("CURVE_AXIS") is False
         assert enum_obj.validateEnumValue("unknown") is False
 
     def test_calprm_axis_category_enum_set_value_with_member(self):
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
-        assert enum_obj.getValue() == "fixAXIS"
+        assert enum_obj.getValue() == CalprmAxisCategoryEnum.FIX_AXIS
 
     def test_calprm_axis_category_enum_set_value_none_noop(self):
         """setValue(None) is a no-op and does not overwrite an existing value."""
         enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.RES_AXIS)
         enum_obj.setValue(None)
-        assert enum_obj.getValue() == "resAxis"
+        assert enum_obj.getValue() == CalprmAxisCategoryEnum.RES_AXIS
 
 
 class TestSwCalprmAxisTypeProps:
@@ -195,7 +195,7 @@ class TestSwCalprmAxisTypeProps:
         monotony.setValue(MonotonyEnum.STRICTLY_INCREASING)
         assert props.setMonotony(monotony) is props
         assert props.getMonotony() is monotony
-        assert props.getMonotony().getValue() == "strictlyIncreasing"
+        assert props.getMonotony().getValue() == MonotonyEnum.STRICTLY_INCREASING
 
     def test_sw_calprm_axis_type_props_none_no_op(self):
         """Test that setMaxGradient(None)/setMonotony(None) do not overwrite existing values."""
@@ -324,7 +324,7 @@ class TestSwCalprmAxis:
         category.setValue(CalprmAxisCategoryEnum.STD_AXIS)
         assert axis.setCategory(category) is axis
         assert axis.getCategory() is category
-        assert axis.getCategory().getValue() == "stdAxis"
+        assert axis.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
 
     def test_sw_calprm_axis_display_format(self):
         """Test getDisplayFormat/setDisplayFormat (spec Table 5.47, displayFormat: DisplayFormatString 0..1 attr)."""

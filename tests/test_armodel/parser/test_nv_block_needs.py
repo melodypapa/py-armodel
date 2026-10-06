@@ -30,9 +30,9 @@ FULL_INNER = (
     "<CYCLIC-WRITING-PERIOD>0.005</CYCLIC-WRITING-PERIOD>"
     "<N-DATA-SETS>4</N-DATA-SETS>"
     "<N-ROM-BLOCKS>3</N-ROM-BLOCKS>"
-    "<RAM-BLOCK-STATUS-CONTROL>api</RAM-BLOCK-STATUS-CONTROL>"
+    "<RAM-BLOCK-STATUS-CONTROL>API</RAM-BLOCK-STATUS-CONTROL>"
     "<READONLY>true</READONLY>"
-    "<RELIABILITY>errorCorrection</RELIABILITY>"
+    "<RELIABILITY>ERROR-CORRECTION</RELIABILITY>"
     "<RESISTANT-TO-CHANGED-SW>true</RESISTANT-TO-CHANGED-SW>"
     "<RESTORE-AT-START>false</RESTORE-AT-START>"
     "<SELECT-BLOCK-FOR-FIRST-INIT-ALL>true</SELECT-BLOCK-FOR-FIRST-INIT-ALL>"
@@ -46,7 +46,7 @@ FULL_INNER = (
     "<WRITE-ONLY-ONCE>true</WRITE-ONLY-ONCE>"
     "<WRITE-VERIFICATION>false</WRITE-VERIFICATION>"
     "<WRITING-FREQUENCY>10</WRITING-FREQUENCY>"
-    "<WRITING-PRIORITY>high</WRITING-PRIORITY>"
+    "<WRITING-PRIORITY>HIGH</WRITING-PRIORITY>"
 )
 
 
@@ -84,9 +84,9 @@ class TestReadNvBlockNeeds:
         assert needs.getNDataSets().getValue() == 4
         assert isinstance(needs.getNRomBlocks(), PositiveInteger)
         assert needs.getNRomBlocks().getValue() == 3
-        assert needs.getRamBlockStatusControl().getValue() == "api"
+        assert needs.getRamBlockStatusControl().getValue() == "API"
         assert needs.getReadonly().getValue() is True
-        assert needs.getReliability().getValue() == "errorCorrection"
+        assert needs.getReliability().getValue() == "ERROR-CORRECTION"
         assert needs.getResistantToChangedSw().getValue() is True
         assert needs.getRestoreAtStart().getValue() is False
         assert needs.getSelectBlockForFirstInitAll().getValue() is True
@@ -100,7 +100,7 @@ class TestReadNvBlockNeeds:
         assert needs.getWriteOnlyOnce().getValue() is True
         assert needs.getWriteVerification().getValue() is False
         assert needs.getWritingFrequency().getValue() == 10
-        assert needs.getWritingPriority().getValue() == "high"
+        assert needs.getWritingPriority().getValue() == "HIGH"
 
     def test_read_absent_elements(self, parser):
         """Test that absent attribute elements leave every field None."""
@@ -141,8 +141,8 @@ class TestNvBlockDescriptorDispatch:
             "<SHORT-NAME>desc</SHORT-NAME>"
             "<NV-BLOCK-NEEDS>"
             "<SHORT-NAME>nv</SHORT-NAME>"
-            "<RAM-BLOCK-STATUS-CONTROL>nvRamManager</RAM-BLOCK-STATUS-CONTROL>"
-            "<RELIABILITY>errorDetection</RELIABILITY>"
+            "<RAM-BLOCK-STATUS-CONTROL>NV-RAM-MANAGER</RAM-BLOCK-STATUS-CONTROL>"
+            "<RELIABILITY>ERROR-DETECTION</RELIABILITY>"
             "<STORE-ON-CHANGE>true</STORE-ON-CHANGE>"
             "</NV-BLOCK-NEEDS>",
             root_tag="NV-BLOCK-DESCRIPTOR",
@@ -153,8 +153,8 @@ class TestNvBlockDescriptorDispatch:
         needs = descriptor.getNvBlockNeeds()
         assert needs is not None
         assert needs.getShortName() == "nv"
-        assert needs.getRamBlockStatusControl().getValue() == "nvRamManager"
-        assert needs.getReliability().getValue() == "errorDetection"
+        assert needs.getRamBlockStatusControl().getValue() == "NV-RAM-MANAGER"
+        assert needs.getReliability().getValue() == "ERROR-DETECTION"
         assert needs.getStoreOnChange().getValue() is True
 
 
@@ -168,7 +168,7 @@ class TestSwcServiceDependencyDispatch:
             "<SHORT-NAME>nv</SHORT-NAME>"
             "<CALC-RAM-BLOCK-CRC>true</CALC-RAM-BLOCK-CRC>"
             "<N-DATA-SETS>4</N-DATA-SETS>"
-            "<WRITING-PRIORITY>medium</WRITING-PRIORITY>"
+            "<WRITING-PRIORITY>MEDIUM</WRITING-PRIORITY>"
             "</NV-BLOCK-NEEDS>"
             "</SERVICE-NEEDS>"
         )
@@ -181,7 +181,7 @@ class TestSwcServiceDependencyDispatch:
         assert needs.getShortName() == "nv"
         assert needs.getCalcRamBlockCrc().getValue() is True
         assert needs.getNDataSets().getValue() == 4
-        assert needs.getWritingPriority().getValue() == "medium"
+        assert needs.getWritingPriority().getValue() == "MEDIUM"
 
 
 class TestBswServiceDependencyDispatch:
@@ -192,7 +192,7 @@ class TestBswServiceDependencyDispatch:
             "<SERVICE-NEEDS>"
             "<NV-BLOCK-NEEDS>"
             "<SHORT-NAME>nv</SHORT-NAME>"
-            "<RAM-BLOCK-STATUS-CONTROL>api</RAM-BLOCK-STATUS-CONTROL>"
+            "<RAM-BLOCK-STATUS-CONTROL>API</RAM-BLOCK-STATUS-CONTROL>"
             "<RESTORE-AT-START>true</RESTORE-AT-START>"
             "</NV-BLOCK-NEEDS>"
             "</SERVICE-NEEDS>"
@@ -203,5 +203,5 @@ class TestBswServiceDependencyDispatch:
         needs = dependency.getServiceNeeds()
         assert needs is not None
         assert needs.getShortName() == "nv"
-        assert needs.getRamBlockStatusControl().getValue() == "api"
+        assert needs.getRamBlockStatusControl().getValue() == "API"
         assert needs.getRestoreAtStart().getValue() is True

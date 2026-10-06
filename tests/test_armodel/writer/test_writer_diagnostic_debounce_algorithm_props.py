@@ -184,7 +184,7 @@ class TestWriteDiagnosticDebounceAlgorithmProps:
             assert algorithm_2.getShortName() == "TimeBased"
             assert algorithm_2.getTimeFailedThreshold().getValue() == 0.5
             assert debounce_props_2[0].getDebounceCounterStorage().getValue() is True
-            assert debounce_props_2[0].getDebounceBehavior().getValue() == "freeze"
+            assert debounce_props_2[0].getDebounceBehavior().getValue() == DiagnosticDebounceBehaviorEnum.FREEZE
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

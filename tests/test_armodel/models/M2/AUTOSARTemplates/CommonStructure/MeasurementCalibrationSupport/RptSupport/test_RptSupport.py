@@ -286,30 +286,30 @@ class TestRoleBasedMcDataAssignment:
 class TestRptEnums:
     def test_rpt_access_enum_members(self):
         """Test RptAccessEnum members match the spec literals"""
-        assert RptAccessEnum.ENABLED == "enabled"
-        assert RptAccessEnum.NONE == "none"
-        assert RptAccessEnum.PROTECTED == "protected"
+        assert RptAccessEnum.ENABLED == "ENABLED"
+        assert RptAccessEnum.NONE == "NONE"
+        assert RptAccessEnum.PROTECTED == "PROTECTED"
 
     def test_rpt_enabler_impl_type_enum_members(self):
         """Test RptEnablerImplTypeEnum members match the spec literals"""
-        assert RptEnablerImplTypeEnum.NONE == "none"
-        assert RptEnablerImplTypeEnum.RPT_ENABLER_RAM == "rptEnablerRam"
-        assert RptEnablerImplTypeEnum.RPT_ENABLER_ROM == "rptEnablerRom"
-        assert RptEnablerImplTypeEnum.RPT_ENABLER_RAM_AND_ROM == "rptEnablerRamAndRom"
+        assert RptEnablerImplTypeEnum.NONE == "NONE"
+        assert RptEnablerImplTypeEnum.RPT_ENABLER_RAM == "RPT-ENABLER-RAM"
+        assert RptEnablerImplTypeEnum.RPT_ENABLER_ROM == "RPT-ENABLER-ROM"
+        assert RptEnablerImplTypeEnum.RPT_ENABLER_RAM_AND_ROM == "RPT-ENABLER-RAM-AND-ROM"
 
     def test_rpt_execution_control_enum_members(self):
         """Test RptExecutionControlEnum members match the spec literals"""
-        assert RptExecutionControlEnum.CONDITIONAL == "conditional"
-        assert RptExecutionControlEnum.NONE == "none"
+        assert RptExecutionControlEnum.CONDITIONAL == "CONDITIONAL"
+        assert RptExecutionControlEnum.NONE == "NONE"
 
     def test_rpt_preparation_enum_members(self):
         """Test RptPreparationEnum members match the spec literals"""
-        assert RptPreparationEnum.NONE == "none"
-        assert RptPreparationEnum.RPT_LEVEL_1 == "rptLevel1"
-        assert RptPreparationEnum.RPT_LEVEL_2 == "rptLevel2"
-        assert RptPreparationEnum.RPT_LEVEL_3 == "rptLevel3"
+        assert RptPreparationEnum.NONE == "NONE"
+        assert RptPreparationEnum.RPT_LEVEL_1 == "RPT-LEVEL-1"
+        assert RptPreparationEnum.RPT_LEVEL_2 == "RPT-LEVEL-2"
+        assert RptPreparationEnum.RPT_LEVEL_3 == "RPT-LEVEL-3"
 
     def test_rpt_service_point_enum_members(self):
         """Test RptServicePointEnum members match the spec literals"""
-        assert RptServicePointEnum.ENABLED == "enabled"
-        assert RptServicePointEnum.NONE == "none"
+        assert RptServicePointEnum.ENABLED == "ENABLED"
+        assert RptServicePointEnum.NONE == "NONE"

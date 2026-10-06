@@ -41,7 +41,7 @@ class TestReadDiagnosticIumpr:
         iumpr = self._read(parser, "<SHORT-NAME>Iumpr1</SHORT-NAME><RATIO-KIND>OBSERVER-BASED</RATIO-KIND>")
         assert iumpr.getRatioKind() is not None
         assert isinstance(iumpr.getRatioKind(), DiagnosticIumprKindEnum)
-        assert iumpr.getRatioKind().getValue() == "observerBased"
+        assert iumpr.getRatioKind().getValue() == DiagnosticIumprKindEnum.OBSERVER_BASED
 
     def test_read_empty_leaves_fields_unset(self, parser):
         """Test that an element without own children leaves every field unset (empty wrapper case)."""

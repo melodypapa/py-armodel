@@ -45,11 +45,11 @@ class TestSwImplPolicyEnum:
 
     def test_sw_impl_policy_enum_initialization(self):
         SwImplPolicyEnum()
-        assert SwImplPolicyEnum.CONST == "const"
-        assert SwImplPolicyEnum.FIXED == "fixed"
-        assert SwImplPolicyEnum.MEASUREMENT_POINT == "measurementPoint"
-        assert SwImplPolicyEnum.QUEUED == "queued"
-        assert SwImplPolicyEnum.STANDARD == "standard"
+        assert SwImplPolicyEnum.CONST == "CONST"
+        assert SwImplPolicyEnum.FIXED == "FIXED"
+        assert SwImplPolicyEnum.MEASUREMENT_POINT == "MEASUREMENT-POINT"
+        assert SwImplPolicyEnum.QUEUED == "QUEUED"
+        assert SwImplPolicyEnum.STANDARD == "STANDARD"
 
     def test_sw_impl_policy_enum_values(self):
         assert hasattr(SwImplPolicyEnum, "CONST")
@@ -57,11 +57,11 @@ class TestSwImplPolicyEnum:
         assert hasattr(SwImplPolicyEnum, "MEASUREMENT_POINT")
         assert hasattr(SwImplPolicyEnum, "QUEUED")
         assert hasattr(SwImplPolicyEnum, "STANDARD")
-        assert SwImplPolicyEnum.CONST == "const"
-        assert SwImplPolicyEnum.FIXED == "fixed"
-        assert SwImplPolicyEnum.MEASUREMENT_POINT == "measurementPoint"
-        assert SwImplPolicyEnum.QUEUED == "queued"
-        assert SwImplPolicyEnum.STANDARD == "standard"
+        assert SwImplPolicyEnum.CONST == "CONST"
+        assert SwImplPolicyEnum.FIXED == "FIXED"
+        assert SwImplPolicyEnum.MEASUREMENT_POINT == "MEASUREMENT-POINT"
+        assert SwImplPolicyEnum.QUEUED == "QUEUED"
+        assert SwImplPolicyEnum.STANDARD == "STANDARD"
 
     def test_sw_impl_policy_enum_has_spec_note(self):
         """The class docstring carries the Table 5.45 Note verbatim."""
@@ -71,15 +71,15 @@ class TestSwImplPolicyEnum:
         """SwImplPolicyEnum shall expose the 5 spec literals in Table 5.45 order."""
         enum_obj = SwImplPolicyEnum()
         expected = {
-            SwImplPolicyEnum.CONST: "const",
-            SwImplPolicyEnum.FIXED: "fixed",
-            SwImplPolicyEnum.MEASUREMENT_POINT: "measurementPoint",
-            SwImplPolicyEnum.QUEUED: "queued",
-            SwImplPolicyEnum.STANDARD: "standard",
+            SwImplPolicyEnum.CONST: "CONST",
+            SwImplPolicyEnum.FIXED: "FIXED",
+            SwImplPolicyEnum.MEASUREMENT_POINT: "MEASUREMENT-POINT",
+            SwImplPolicyEnum.QUEUED: "QUEUED",
+            SwImplPolicyEnum.STANDARD: "STANDARD",
         }
         for const, value in expected.items():
             assert const == value
-        assert enum_obj.getEnumValues() == ["const", "fixed", "measurementPoint", "queued", "standard"]
+        assert enum_obj.getEnumValues() == ["CONST", "FIXED", "MEASUREMENT-POINT", "QUEUED", "STANDARD"]
 
     def test_sw_impl_policy_enum_validate_enum_value(self):
         """validateEnumValue accepts the model literal values and rejects non-wire forms.
@@ -90,19 +90,19 @@ class TestSwImplPolicyEnum:
         SW_IMPL_POLICY_XML_MAP and are not model values.
         """
         enum_obj = SwImplPolicyEnum()
-        assert enum_obj.validateEnumValue("const") is True
-        assert enum_obj.validateEnumValue("fixed") is True
-        assert enum_obj.validateEnumValue("measurementPoint") is True
-        assert enum_obj.validateEnumValue("queued") is True
-        assert enum_obj.validateEnumValue("standard") is True
-        assert enum_obj.validateEnumValue("CONST") is False
-        assert enum_obj.validateEnumValue("MEASUREMENT-POINT") is False
+        assert enum_obj.validateEnumValue("CONST") is True
+        assert enum_obj.validateEnumValue("FIXED") is True
+        assert enum_obj.validateEnumValue("MEASUREMENT-POINT") is True
+        assert enum_obj.validateEnumValue("QUEUED") is True
+        assert enum_obj.validateEnumValue("STANDARD") is True
+        assert enum_obj.validateEnumValue("const") is False
+        assert enum_obj.validateEnumValue("measurementPoint") is False
         assert enum_obj.validateEnumValue("unknown") is False
 
     def test_sw_impl_policy_enum_set_value_with_member(self):
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum_obj = SwImplPolicyEnum().setValue(SwImplPolicyEnum.MEASUREMENT_POINT)
-        assert enum_obj.getValue() == "measurementPoint"
+        assert enum_obj.getValue() == SwImplPolicyEnum.MEASUREMENT_POINT
 
 
 class TestSwCalibrationAccessEnum:
@@ -110,17 +110,17 @@ class TestSwCalibrationAccessEnum:
 
     def test_sw_calibration_access_enum_initialization(self):
         SwCalibrationAccessEnum()
-        assert SwCalibrationAccessEnum.NOT_ACCESSIBLE == "notAccessible"
-        assert SwCalibrationAccessEnum.READ_ONLY == "readOnly"
-        assert SwCalibrationAccessEnum.READ_WRITE == "readWrite"
+        assert SwCalibrationAccessEnum.NOT_ACCESSIBLE == "NOT-ACCESSIBLE"
+        assert SwCalibrationAccessEnum.READ_ONLY == "READ-ONLY"
+        assert SwCalibrationAccessEnum.READ_WRITE == "READ-WRITE"
 
     def test_sw_calibration_access_enum_values(self):
         assert hasattr(SwCalibrationAccessEnum, "NOT_ACCESSIBLE")
         assert hasattr(SwCalibrationAccessEnum, "READ_ONLY")
         assert hasattr(SwCalibrationAccessEnum, "READ_WRITE")
-        assert SwCalibrationAccessEnum.NOT_ACCESSIBLE == "notAccessible"
-        assert SwCalibrationAccessEnum.READ_ONLY == "readOnly"
-        assert SwCalibrationAccessEnum.READ_WRITE == "readWrite"
+        assert SwCalibrationAccessEnum.NOT_ACCESSIBLE == "NOT-ACCESSIBLE"
+        assert SwCalibrationAccessEnum.READ_ONLY == "READ-ONLY"
+        assert SwCalibrationAccessEnum.READ_WRITE == "READ-WRITE"
 
     def test_sw_calibration_access_enum_has_spec_note(self):
         """The class docstring carries the Table 5.44 Note verbatim."""
@@ -130,13 +130,13 @@ class TestSwCalibrationAccessEnum:
         """SwCalibrationAccessEnum shall expose the 3 spec literals in Table 5.44 order."""
         enum_obj = SwCalibrationAccessEnum()
         expected = {
-            SwCalibrationAccessEnum.NOT_ACCESSIBLE: "notAccessible",
-            SwCalibrationAccessEnum.READ_ONLY: "readOnly",
-            SwCalibrationAccessEnum.READ_WRITE: "readWrite",
+            SwCalibrationAccessEnum.NOT_ACCESSIBLE: "NOT-ACCESSIBLE",
+            SwCalibrationAccessEnum.READ_ONLY: "READ-ONLY",
+            SwCalibrationAccessEnum.READ_WRITE: "READ-WRITE",
         }
         for const, value in expected.items():
             assert const == value
-        assert enum_obj.getEnumValues() == ["notAccessible", "readOnly", "readWrite"]
+        assert enum_obj.getEnumValues() == ["NOT-ACCESSIBLE", "READ-ONLY", "READ-WRITE"]
 
     def test_sw_calibration_access_enum_validate_enum_value(self):
         """validateEnumValue accepts the model literal values and rejects non-wire forms.
@@ -147,23 +147,23 @@ class TestSwCalibrationAccessEnum:
         consumer-side SW_CALIBRATION_ACCESS_XML_MAP and are not model values.
         """
         enum_obj = SwCalibrationAccessEnum()
-        assert enum_obj.validateEnumValue("notAccessible") is True
-        assert enum_obj.validateEnumValue("readOnly") is True
-        assert enum_obj.validateEnumValue("readWrite") is True
-        assert enum_obj.validateEnumValue("NOT-ACCESSIBLE") is False
-        assert enum_obj.validateEnumValue("READ-ONLY") is False
+        assert enum_obj.validateEnumValue("NOT-ACCESSIBLE") is True
+        assert enum_obj.validateEnumValue("READ-ONLY") is True
+        assert enum_obj.validateEnumValue("READ-WRITE") is True
+        assert enum_obj.validateEnumValue("notAccessible") is False
+        assert enum_obj.validateEnumValue("readOnly") is False
         assert enum_obj.validateEnumValue("unknown") is False
 
     def test_sw_calibration_access_enum_set_value_with_member(self):
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY)
-        assert enum_obj.getValue() == "readOnly"
+        assert enum_obj.getValue() == "READ-ONLY"
 
     def test_sw_calibration_access_enum_set_value_none_noop(self):
         """setValue(None) is a no-op and does not overwrite an existing value."""
         enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)
         enum_obj.setValue(None)
-        assert enum_obj.getValue() == "readWrite"
+        assert enum_obj.getValue() == "READ-WRITE"
 
 
 class TestDisplayPresentationEnum:
@@ -171,22 +171,22 @@ class TestDisplayPresentationEnum:
 
     def test_display_presentation_enum_initialization(self):
         DisplayPresentationEnum()
-        assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "presentationContinuous"
-        assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "presentationDiscrete"
+        assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "PRESENTATION-CONTINUOUS"
+        assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "PRESENTATION-DISCRETE"
 
     def test_display_presentation_enum_values(self):
         assert hasattr(DisplayPresentationEnum, "PRESENTATION_CONTINUOUS")
         assert hasattr(DisplayPresentationEnum, "PRESENTATION_DISCRETE")
-        assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "presentationContinuous"
-        assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "presentationDiscrete"
+        assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "PRESENTATION-CONTINUOUS"
+        assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "PRESENTATION-DISCRETE"
 
     def test_display_presentation_enum_set_value_round_trip(self):
         """The enum is instantiable and setValue round-trips each Table 5.107 literal (Rule 0011)."""
         continuous = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_CONTINUOUS)
-        assert continuous.getValue() == "presentationContinuous"
+        assert continuous.getValue() == DisplayPresentationEnum.PRESENTATION_CONTINUOUS
 
         discrete = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_DISCRETE)
-        assert discrete.getValue() == "presentationDiscrete"
+        assert discrete.getValue() == DisplayPresentationEnum.PRESENTATION_DISCRETE
 
 
 class TestSwBitRepresentation:
@@ -698,7 +698,7 @@ class TestSwDataDefProps:
     def test_sw_data_def_props_none_noop_all_scalar_members(self):
         """Every scalar setter is a no-op on None and keeps the previously set value (Rule 0004)."""
         cases = [
-            ("setAdditionalNativeTypeQualifier", "getAdditionalNativeTypeQualifier", NativeDeclarationString().setValue("volatile")),
+            ("setAdditionalNativeTypeQualifier", "getAdditionalNativeTypeQualifier", NativeDeclarationString().setValue("VOLATILE")),
             ("setBaseTypeRef", "getBaseTypeRef", RefType().setValue("/BaseTypes/uint8")),
             ("setCompuMethodRef", "getCompuMethodRef", RefType().setValue("/CompuMethods/cm")),
             ("setDataConstrRef", "getDataConstrRef", RefType().setValue("/DataConstrs/dc")),
@@ -795,7 +795,7 @@ class TestSwDataDefProps:
 
     def test_sw_data_def_props_none_noop_chain(self):
         sw_data_def_props = SwDataDefProps()
-        qualifier = NativeDeclarationString().setValue("const")
+        qualifier = NativeDeclarationString().setValue("CONST")
         sw_data_def_props.setAdditionalNativeTypeQualifier(qualifier)
         result = sw_data_def_props.setAdditionalNativeTypeQualifier(None)
         assert sw_data_def_props.getAdditionalNativeTypeQualifier() == qualifier
@@ -803,7 +803,7 @@ class TestSwDataDefProps:
 
     def test_sw_data_def_props_additional_native_type_qualifier_methods(self):
         sw_data_def_props = SwDataDefProps()
-        qualifier = NativeDeclarationString().setValue("const")
+        qualifier = NativeDeclarationString().setValue("CONST")
         result = sw_data_def_props.setAdditionalNativeTypeQualifier(qualifier)
         assert sw_data_def_props.getAdditionalNativeTypeQualifier() == qualifier
         assert result == sw_data_def_props

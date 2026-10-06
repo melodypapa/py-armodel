@@ -49,7 +49,7 @@ class TestWriteTextTableMapping:
         mapping.setBitfieldTextTableMaskFirst(_positive_integer("8"))
         mapping.setBitfieldTextTableMaskSecond(_positive_integer("16"))
         mapping.setIdenticalMapping(_boolean(True))
-        mapping.setMappingDirection(_literal("bidirectional"))
+        mapping.setMappingDirection(_literal("BIDIRECTIONAL"))
         first = TextTableValuePair()
         first.setFirstValue(_numerical("1"))
         first.setSecondValue(_numerical("2"))
@@ -66,7 +66,7 @@ class TestWriteTextTableMapping:
         assert element.findtext("BITFIELD-TEXT-TABLE-MASK-FIRST") == "8"
         assert element.findtext("BITFIELD-TEXT-TABLE-MASK-SECOND") == "16"
         assert element.findtext("IDENTICAL-MAPPING") == "true"
-        assert element.findtext("MAPPING-DIRECTION") == "bidirectional"
+        assert element.findtext("MAPPING-DIRECTION") == "BIDIRECTIONAL"
 
         value_pairs = element.find("VALUE-PAIRS")
         assert value_pairs is not None
@@ -94,7 +94,7 @@ class TestWriteTextTableMapping:
         mapping = TextTableMapping()
         mapping.setBitfieldTextTableMaskFirst(_positive_integer("8"))
         mapping.setIdenticalMapping(_boolean(True))
-        mapping.setMappingDirection(_literal("firstToSecond"))
+        mapping.setMappingDirection(_literal("FIRST-TO-SECOND"))
         pair = TextTableValuePair()
         pair.setFirstValue(_numerical("1"))
         pair.setSecondValue(_numerical("2"))
@@ -110,7 +110,7 @@ class TestWriteTextTableMapping:
 
         assert reparsed.getBitfieldTextTableMaskFirst().getValue() == 8
         assert reparsed.getIdenticalMapping().getValue() is True
-        assert reparsed.getMappingDirection().getValue() == "firstToSecond"
+        assert reparsed.getMappingDirection().getValue() == "FIRST-TO-SECOND"
         assert len(reparsed.getValuePairs()) == 1
         assert reparsed.getValuePairs()[0].getFirstValue().getValue() == 1.0
         assert reparsed.getValuePairs()[0].getSecondValue().getValue() == 2.0

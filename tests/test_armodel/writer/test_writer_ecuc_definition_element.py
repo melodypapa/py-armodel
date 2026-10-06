@@ -82,4 +82,4 @@ class TestWriteEcucDefinitionElement:
         assert element.find("LOWER-MULTIPLICITY").text == "1"
         assert element.find("UPPER-MULTIPLICITY").text == "4"
         assert element.find("UPPER-MULTIPLICITY-INFINITE").text == "true"
-        assert element.find("SCOPE").text == "local"
+        assert element.find("SCOPE").text == "LOCAL"

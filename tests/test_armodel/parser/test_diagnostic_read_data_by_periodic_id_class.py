@@ -53,9 +53,9 @@ class TestReadDiagnosticReadDataByPeriodicIDClass:
         assert len(rates) == 2
         assert rates[0].getPeriod() is not None
         assert rates[0].getPeriod().getValue() == 0.5
-        assert rates[0].getPeriodicRateCategory().getValue() == "periodicRateFast"
+        assert rates[0].getPeriodicRateCategory().getValue() == "PERIODIC-RATE-FAST"
         assert rates[1].getPeriod() is None
-        assert rates[1].getPeriodicRateCategory().getValue() == "periodicRateSlow"
+        assert rates[1].getPeriodicRateCategory().getValue() == "PERIODIC-RATE-SLOW"
 
     def test_read_scheduler_max_number(self, parser):
         """Test that the SCHEDULER-MAX-NUMBER is read into schedulerMaxNumber."""

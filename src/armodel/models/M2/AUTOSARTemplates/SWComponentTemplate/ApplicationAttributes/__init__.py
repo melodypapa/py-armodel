@@ -20,13 +20,13 @@ class DataLimitKindEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Limitation to maximum value Tags: atp.EnumerationLiteralIndex=0
-    MAX = "max"
+    MAX = "MAX"
 
     # Limitation to minimum value Tags: atp.EnumerationLiteralIndex=1
-    MIN = "min"
+    MIN = "MIN"
 
     # No limitation applicable Tags: atp.EnumerationLiteralIndex=2
-    NONE = "none"
+    NONE = "NONE"
 
     def __init__(self):
         super().__init__(
@@ -49,13 +49,13 @@ class FilterDebouncingEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The signal is a mean value Tags: atp.EnumerationLiteralIndex=0
-    DEBOUNCE_DATA = "debounceData"
+    DEBOUNCE_DATA = "DEBOUNCE-DATA"
 
     # Means that no modification of the signal has been applied. This is the default value Tags: atp.EnumerationLiteralIndex=1
-    RAW_DATA = "rawData"
+    RAW_DATA = "RAW-DATA"
 
     # The signal is delivered by a GET operation after a certain amount of time Tags: atp.EnumerationLiteralIndex=2
-    WAIT_TIME_DATE = "waitTimeDate"
+    WAIT_TIME_DATE = "WAIT-TIME-DATE"
 
     def __init__(self):
         super().__init__(
@@ -78,13 +78,13 @@ class ProcessingKindEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Indicates that a raw signal has been manipulated by some application software components by using filters. Tags: atp.EnumerationLiteralIndex=0
-    FILTERED = "filtered"
+    FILTERED = "FILTERED"
 
     # Indicates that none of the other option apply. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # Specifies that a signal is taken directly from the basic software modules, i.e. from the ECU abstraction layer. It indicates to a developer that the control algorithm in the software has to provide filters. Tags: atp.EnumerationLiteralIndex=2
-    RAW = "raw"
+    RAW = "RAW"
 
     def __init__(self):
         super().__init__(
@@ -107,10 +107,10 @@ class PulseTestEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Disables the pulse test Tags: atp.EnumerationLiteralIndex=0
-    DISABLE = "disable"
+    DISABLE = "DISABLE"
 
     # Enables the pulse test Tags: atp.EnumerationLiteralIndex=1
-    ENABLE = "enable"
+    ENABLE = "ENABLE"
 
     def __init__(self):
         super().__init__(
@@ -132,10 +132,10 @@ class SignalFanEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The connections internally in the CompositionSwComponentType via DelegationSwConnectors and AssemblySwConnectors are defined in a way that at least one data element present in the S/R interface or one ClientServerOperation in the C/S interface of the outer PortPrototype is involved in a 1:n or n:1 communication pattern. Tags: atp.EnumerationLiteralIndex=0
-    NFOLD = "nfold"
+    NFOLD = "NFOLD"
 
     # The connections internally in the CompositionSwComponentType via DelegationSwConnectors and AssemblySwConnectors are defined in a way that each VariableDataPrototype present in the S/R interface or ClientServerOperation in the C/S interface of the outer PortPrototype is involved in a 1:1 communication pattern only. Tags: atp.EnumerationLiteralIndex=1
-    SINGLE = "single"
+    SINGLE = "SINGLE"
 
     def __init__(self):
         super().__init__(

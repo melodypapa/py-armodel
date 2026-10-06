@@ -39,7 +39,7 @@ class TestWriteTDEventFrame:
         assert "FRAME-REF" in out
         assert "PHYSICAL-CHANNEL-REF" in out
         assert "TD-EVENT-TYPE" in out
-        assert "frameQueuedForTransmission" in out
+        assert "FRAME-QUEUED-FOR-TRANSMISSION" in out
 
     def test_round_trip(self):
         event = _build_event()
@@ -50,7 +50,7 @@ class TestWriteTDEventFrame:
         ARXMLParser().readTDEventFrame(reparsed, read_back)
         assert read_back.getFrameRef().getValue() == "/AUTOSAR/Frame"
         assert read_back.getPhysicalChannelRef().getValue() == "/AUTOSAR/Channel"
-        assert read_back.getTdEventType().value == "frameQueuedForTransmission"
+        assert read_back.getTdEventType().value == "FRAME-QUEUED-FOR-TRANSMISSION"
         assert read_back.getEcuInstanceRef().getValue() == "/AUTOSAR/Ecu1"
 
     def test_write_minimal(self):

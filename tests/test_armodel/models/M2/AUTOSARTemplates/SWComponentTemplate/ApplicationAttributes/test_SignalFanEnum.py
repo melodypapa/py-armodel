@@ -9,17 +9,17 @@ class TestSignalFanEnum:
         assert issubclass(SignalFanEnum, AREnum)
 
     def test_members_and_values(self):
-        assert SignalFanEnum.NFOLD == "nfold"
-        assert SignalFanEnum.SINGLE == "single"
+        assert SignalFanEnum.NFOLD == "NFOLD"
+        assert SignalFanEnum.SINGLE == "SINGLE"
 
     def test_literal_set_is_exact(self):
-        assert SignalFanEnum().getEnumValues() == ("nfold", "single")
+        assert SignalFanEnum().getEnumValues() == ("NFOLD", "SINGLE")
 
     def test_instantiability(self):
         enum = SignalFanEnum()
         result = enum.setValue(SignalFanEnum.SINGLE)
         assert result is enum
-        assert enum.getValue() == "single"
+        assert enum.getValue() == SignalFanEnum.SINGLE
 
     def test_class_docstring_verbatim(self):
         assert SignalFanEnum.__doc__.strip() == CLASS_NOTE

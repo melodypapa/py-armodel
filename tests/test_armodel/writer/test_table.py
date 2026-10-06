@@ -22,7 +22,7 @@ class TestTable:
         table.setFrame(FrameEnum().setValue(FrameEnum.ALL))
         table.setHelpEntry(String().setValue("help"))
         table.setOrient(OrientEnum().setValue(OrientEnum.LAND))
-        table.setPgwide(NameToken().setValue("pgwide"))
+        table.setPgwide(NameToken().setValue("PGWIDE"))
         table.setRowsep(TableSeparatorString().setValue("0"))
         table.setTabstyle(NameToken().setValue("style"))
         table.setTableCaption(Caption(None, "cap"))
@@ -34,11 +34,11 @@ class TestTable:
         assert element.attrib["S"] == "checksum"
         assert element.attrib["T"] == "timestamp"
         assert element.attrib["COLSEP"] == "1"
-        assert element.attrib["FLOAT"] == "float"
+        assert element.attrib["FLOAT"] == "FLOAT"
         assert element.attrib["FRAME"] == "ALL"
         assert element.attrib["HELP-ENTRY"] == "help"
         assert element.attrib["ORIENT"] == "LAND"
-        assert element.attrib["PGWIDE"] == "pgwide"
+        assert element.attrib["PGWIDE"] == "PGWIDE"
         assert element.attrib["ROWSEP"] == "0"
         assert element.attrib["TABSTYLE"] == "style"
         assert [child.tag for child in element] == ["TABLE-CAPTION", "TGROUP"]
@@ -69,7 +69,7 @@ class TestTable:
         ARXMLParser().readTable(reparsed_element, reparsed)
 
         assert reparsed.getColsep().getValue() == "1"
-        assert reparsed.getFloat().getValue() == "float"
+        assert reparsed.getFloat().getValue() == FloatEnum.FLOAT
         assert reparsed.getFrame().getValue() == "ALL"
         assert reparsed.getOrient().getValue() == "PORT"
         assert reparsed.getTableCaption().getShortName() == "cap"

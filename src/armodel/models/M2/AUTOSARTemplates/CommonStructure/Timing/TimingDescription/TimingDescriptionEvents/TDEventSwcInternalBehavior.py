@@ -29,16 +29,16 @@ class TDEventSwcInternalBehaviorTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the associated RunnableEntity has been activated, which means that it has entered the state "to be started". Tags: atp.EnumerationLiteralIndex=0
-    RUNNABLE_ENTITY_ACTIVATED = "runnableEntityActivated"
+    RUNNABLE_ENTITY_ACTIVATED = "RUNNABLE-ENTITY-ACTIVATED"
 
     # A point in time where the associated RunnableEntity has entered the state "started" after its activation. Tags: atp.EnumerationLiteralIndex=1
-    RUNNABLE_ENTITY_STARTED = "runnableEntityStarted"
+    RUNNABLE_ENTITY_STARTED = "RUNNABLE-ENTITY-STARTED"
 
     # A point in time where the associated RunnableEntity has terminated and entered the state "suspended". Tags: atp.EnumerationLiteralIndex=2
-    RUNNABLE_ENTITY_TERMINATED = "runnableEntityTerminated"
+    RUNNABLE_ENTITY_TERMINATED = "RUNNABLE-ENTITY-TERMINATED"
 
     # A point in time where the associated variable is accessed. Tags: atp.EnumerationLiteralIndex=3
-    RUNNABLE_ENTITY_VARIABLE_ACCESS = "runnableEntityVariableAccess"
+    RUNNABLE_ENTITY_VARIABLE_ACCESS = "RUNNABLE-ENTITY-VARIABLE-ACCESS"
 
     def __init__(self):
         super().__init__(

@@ -57,10 +57,10 @@ class TestHandleInvalidEnum:
     def test_handle_invalid_enum_initialization(self):
         """Test HandleInvalidEnum initialization and values."""
         enum = HandleInvalidEnum()
-        assert enum.DONT_INVALIDATE == "dontInvalidate"
-        assert enum.EXTERNAL_REPLACEMENT == "externalReplacement"
-        assert enum.KEEP == "keep"
-        assert enum.REPLACE == "replace"
+        assert enum.DONT_INVALIDATE == "DONT-INVALIDATE"
+        assert enum.EXTERNAL_REPLACEMENT == "EXTERNAL-REPLACEMENT"
+        assert enum.KEEP == "KEEP"
+        assert enum.REPLACE == "REPLACE"
         assert enum.getEnumValues() == (
             HandleInvalidEnum.DONT_INVALIDATE,
             HandleInvalidEnum.EXTERNAL_REPLACEMENT,
@@ -1066,16 +1066,16 @@ class TestTransmissionModeDefinitionEnum:
             TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE,
             TransmissionModeDefinitionEnum.TRIGGERED,
         ]
-        assert TransmissionModeDefinitionEnum.CYCLIC == "cyclic"
-        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE == "cyclicAndOnChange"
-        assert TransmissionModeDefinitionEnum.TRIGGERED == "triggered"
+        assert TransmissionModeDefinitionEnum.CYCLIC == "CYCLIC"
+        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE == "CYCLIC-AND-ON-CHANGE"
+        assert TransmissionModeDefinitionEnum.TRIGGERED == "TRIGGERED"
         assert len(values) == 3
 
     def test_instantiable(self):
         """Test that the enum can be instantiated and hold a value."""
         enum = TransmissionModeDefinitionEnum()
         enum.setValue(TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE)
-        assert enum.getValue() == "cyclicAndOnChange"
+        assert enum.getValue() == TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE
 
 
 class TestTransformationComSpecProps:
@@ -1521,14 +1521,14 @@ class TestHandleOutOfRangeStatusEnum:
         enum = HandleOutOfRangeStatusEnum()
         values = enum.getEnumValues()
         assert list(values) == [HandleOutOfRangeStatusEnum.INDICATE, HandleOutOfRangeStatusEnum.SILENT]
-        assert HandleOutOfRangeStatusEnum.INDICATE == "indicate"
-        assert HandleOutOfRangeStatusEnum.SILENT == "silent"
+        assert HandleOutOfRangeStatusEnum.INDICATE == "INDICATE"
+        assert HandleOutOfRangeStatusEnum.SILENT == "SILENT"
 
     def test_set_value_round_trip(self):
         """The enum is instantiable and takes its own members via setValue."""
         enum = HandleOutOfRangeStatusEnum()
         enum.setValue(HandleOutOfRangeStatusEnum.SILENT)
-        assert enum.getValue() == "silent"
+        assert enum.getValue() == "SILENT"
 
 
 class TestHandleTimeoutEnum:
@@ -1547,15 +1547,15 @@ class TestHandleTimeoutEnum:
             HandleTimeoutEnum.REPLACE,
             HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE,
         ]
-        assert HandleTimeoutEnum.NONE == "none"
-        assert HandleTimeoutEnum.REPLACE == "replace"
-        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE == "replaceByTimeoutSubstitutionValue"
+        assert HandleTimeoutEnum.NONE == "NONE"
+        assert HandleTimeoutEnum.REPLACE == "REPLACE"
+        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE == "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE"
 
     def test_set_value_round_trip(self):
         """The enum is instantiable and takes its own members via setValue."""
         enum = HandleTimeoutEnum()
         enum.setValue(HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE)
-        assert enum.getValue() == "replaceByTimeoutSubstitutionValue"
+        assert enum.getValue() == HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE
 
 
 class TestQueuedReceiverComSpec:
@@ -1614,18 +1614,18 @@ class TestHandleOutOfRangeEnum:
             HandleOutOfRangeEnum.NONE,
             HandleOutOfRangeEnum.SATURATE,
         ]
-        assert HandleOutOfRangeEnum.DEFAULT == "default"
-        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT == "externalReplacement"
-        assert HandleOutOfRangeEnum.IGNORE == "ignore"
-        assert HandleOutOfRangeEnum.INVALID == "invalid"
-        assert HandleOutOfRangeEnum.NONE == "none"
-        assert HandleOutOfRangeEnum.SATURATE == "saturate"
+        assert HandleOutOfRangeEnum.DEFAULT == "DEFAULT"
+        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT == "EXTERNAL-REPLACEMENT"
+        assert HandleOutOfRangeEnum.IGNORE == "IGNORE"
+        assert HandleOutOfRangeEnum.INVALID == "INVALID"
+        assert HandleOutOfRangeEnum.NONE == "NONE"
+        assert HandleOutOfRangeEnum.SATURATE == "SATURATE"
 
     def test_set_value_round_trip(self):
         """The enum is instantiable and takes its own members via setValue."""
         enum = HandleOutOfRangeEnum()
         enum.setValue(HandleOutOfRangeEnum.SATURATE)
-        assert enum.getValue() == "saturate"
+        assert enum.getValue() == HandleOutOfRangeEnum.SATURATE
 
 
 class TestReceptionComSpecProps:

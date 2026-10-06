@@ -43,7 +43,7 @@ class TestReadDiagnosticEvent:
         """Test that the CLEAR-EVENT-ALLOWED-BEHAVIOR token is read as the typed enum literal."""
         event = self._read(parser, "<CLEAR-EVENT-ALLOWED-BEHAVIOR>NO-STATUS-BYTE-CHANGE</CLEAR-EVENT-ALLOWED-BEHAVIOR>")
         assert event.getClearEventAllowedBehavior() is not None
-        assert event.getClearEventAllowedBehavior().getValue() == "noStatusByteChange"
+        assert event.getClearEventAllowedBehavior().getValue() == "NO-STATUS-BYTE-CHANGE"
 
     def test_read_sets_confirmation_threshold_variation_point(self, parser):
         """Test that the CONFIRMATION-THRESHOLD value inside the POSITIVE-INTEGER-VALUE-VARIATION-POINT wrapper is read."""
@@ -70,14 +70,14 @@ class TestReadDiagnosticEvent:
         event = self._read(parser, "<EVENT-CLEAR-ALLOWED>ALWAYS</EVENT-CLEAR-ALLOWED>")
         assert event.getEventClearAllowed() is not None
         assert isinstance(event.getEventClearAllowed(), DiagnosticEventClearAllowedEnum)
-        assert event.getEventClearAllowed().getValue() == "always"
+        assert event.getEventClearAllowed().getValue() == "ALWAYS"
 
     def test_read_sets_event_kind(self, parser):
         """Test that the EVENT-KIND token is read as the typed enum literal."""
         event = self._read(parser, "<EVENT-KIND>BSW</EVENT-KIND>")
         assert event.getEventKind() is not None
         assert isinstance(event.getEventKind(), DiagnosticEventKindEnum)
-        assert event.getEventKind().getValue() == "bsw"
+        assert event.getEventKind().getValue() == DiagnosticEventKindEnum.BSW
 
     def test_read_sets_boolean_attributes(self, parser):
         """Test that the three BOOLEAN attributes are read into their fields."""

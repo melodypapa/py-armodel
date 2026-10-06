@@ -1146,7 +1146,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
         props = axis.getSwCalprmAxisTypeProps()
         assert props.getMaxGradient().getValue() == 2.5
         assert isinstance(props.getMonotony(), MonotonyEnum)
-        assert props.getMonotony().getValue() == "strictlyIncreasing"
+        assert props.getMonotony().getValue() == MonotonyEnum.STRICTLY_INCREASING
 
     def test_setSwCalprmAxis_generic_axis_roundtrip(self):
         """SW-AXIS-GENERIC with type ref and generic params shall be written and round-trip."""

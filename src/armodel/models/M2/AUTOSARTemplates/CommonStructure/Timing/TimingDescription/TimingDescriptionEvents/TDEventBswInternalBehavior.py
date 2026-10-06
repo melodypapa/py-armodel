@@ -27,13 +27,13 @@ class TDEventBswInternalBehaviorTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the associated BswModuleEntity has been activated, which means that it has entered the state "to be started". Tags: atp.EnumerationLiteralIndex=0
-    BSW_MODULE_ENTITY_ACTIVATED = "bswModuleEntityActivated"
+    BSW_MODULE_ENTITY_ACTIVATED = "BSW-MODULE-ENTITY-ACTIVATED"
 
     # A point in time where the associated BswModuleEntity has entered the state "started" after its activation. Tags: atp.EnumerationLiteralIndex=1
-    BSW_MODULE_ENTITY_STARTED = "bswModuleEntityStarted"
+    BSW_MODULE_ENTITY_STARTED = "BSW-MODULE-ENTITY-STARTED"
 
     # A point in time where the associated BswModuleEntity has terminated and entered the state "suspended" Tags: atp.EnumerationLiteralIndex=2
-    BSW_MODULE_ENTITY_TERMINATED = "bswModuleEntityTerminated"
+    BSW_MODULE_ENTITY_TERMINATED = "BSW-MODULE-ENTITY-TERMINATED"
 
     def __init__(self):
         """

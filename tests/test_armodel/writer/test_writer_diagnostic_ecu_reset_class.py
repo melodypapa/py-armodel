@@ -60,7 +60,7 @@ class TestWriteDiagnosticEcuResetClass:
         """Test that RESPOND-TO-RESET is emitted with the XSD token of the literal value."""
         package = AUTOSAR.getInstance().createARPackage("DiagnosticEcuResetClasses")
         ecu_reset_class = package.createDiagnosticEcuResetClass("EcuResetClass1")
-        ecu_reset_class.setRespondToReset(_respond_to_reset("respondBeforeReset"))
+        ecu_reset_class.setRespondToReset(_respond_to_reset("RESPOND-BEFORE-RESET"))
 
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDiagnosticEcuResetClass(parent, ecu_reset_class)
@@ -109,7 +109,7 @@ class TestWriteDiagnosticEcuResetClass:
         document = AUTOSAR.getInstance()
         package = document.createARPackage("DiagnosticEcuResetClasses")
         ecu_reset_class = package.createDiagnosticEcuResetClass("EcuResetClass1")
-        ecu_reset_class.setRespondToReset(_respond_to_reset("respondAfterReset"))
+        ecu_reset_class.setRespondToReset(_respond_to_reset("RESPOND-AFTER-RESET"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -123,7 +123,7 @@ class TestWriteDiagnosticEcuResetClass:
             respond_to_reset = ecu_reset_class_2.getRespondToReset()
             assert respond_to_reset is not None
             assert isinstance(respond_to_reset, DiagnosticResponseToEcuResetEnum)
-            assert respond_to_reset.getValue() == "respondAfterReset"
+            assert respond_to_reset.getValue() == DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

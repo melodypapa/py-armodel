@@ -54,7 +54,7 @@ class TestMlFigureWriter:
         assert written.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
         assert written.attrib["FRAME"] == "ALL"
         assert written.attrib["HELP-ENTRY"] == "help-topic"
-        assert written.attrib["PGWIDE"] == "pgwide"
+        assert written.attrib["PGWIDE"] == "PGWIDE"
         # XSD ML-FIGURE group order: FIGURE-CAPTION, L-GRAPHIC, VERBATIM
         assert list(child.tag for child in written) == ["FIGURE-CAPTION", "L-GRAPHIC", "VERBATIM"]
         caption_el = written.find("FIGURE-CAPTION")
@@ -87,7 +87,7 @@ class TestMlFigureWriter:
 
         assert figure.getFrame().getValue() == "ALL"
         assert figure.getHelpEntry().getValue() == "help-topic"
-        assert figure.getPgwide().getValue() == "pgwide"
+        assert figure.getPgwide().getValue() == PgwideEnum.PGWIDE
         assert figure.getBreak().getValue() == "BREAK"
         assert figure.getKeepWithPrevious().getValue() == "KEEP"
         assert figure.getSi().getValue() == "si-tokens"

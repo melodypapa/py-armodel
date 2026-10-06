@@ -302,10 +302,10 @@ class ServiceVersionAcceptanceKindEnum(AREnum):
     # (no methods) — enum value form serialized on ConsumedServiceInstance.versionDrivenFindBehavior
 
     # Search for ANY or specific minor version service instance and select either ALL returned service instances (in case of ANY) or exactly the specific minor version service instances defined in requiredMinorVersion. Tags: atp.EnumerationLiteralIndex=0
-    EXACT_OR_ANY_MINOR_VERSION = "exactOrAnyMinorVersion"
+    EXACT_OR_ANY_MINOR_VERSION = "EXACT-OR-ANY-MINOR-VERSION"
 
     # Search for ANY minor version service instance and select only those service instances which have an equal or greater minor version than given in requiredMinorVersion. Tags: atp.EnumerationLiteralIndex=1
-    MINIMUM_MINOR_VERSION = "minimumMinorVersion"
+    MINIMUM_MINOR_VERSION = "MINIMUM-MINOR-VERSION"
 
     def __init__(self):
         super().__init__(
@@ -328,10 +328,10 @@ class UdpChecksumCalculationEnum(AREnum):
     # (no methods) — enum value form serialized on SocketAddress.udpChecksumHandling
 
     # Udp checksum handling shall be disabled Tags: atp.EnumerationLiteralIndex=1
-    UDP_CHECKSUM_DISABLED = "udpChecksumDisabled"
+    UDP_CHECKSUM_DISABLED = "UDP-CHECKSUM-DISABLED"
 
     # Udp checksum handling shall be enabled Tags: atp.EnumerationLiteralIndex=0
-    UDP_CHECKSUM_ENABLED = "udpChecksumEnabled"
+    UDP_CHECKSUM_ENABLED = "UDP-CHECKSUM-ENABLED"
 
     def __init__(self):
         super().__init__(
@@ -354,16 +354,16 @@ class EventGroupControlTypeEnum(AREnum):
     # (no methods) — enum value form serialized on PduActivationRoutingGroup.eventGroupControlType
 
     # Activate the data path for unicast events and triggered unicast events that are sent out after a client got subscribed. Tags: atp.EnumerationLiteralIndex=0
-    ACTIVATION_AND_TRIGGER_UNICAST = "activationAndTriggerUnicast"
+    ACTIVATION_AND_TRIGGER_UNICAST = "ACTIVATION-AND-TRIGGER-UNICAST"
 
     # Activate the data path for multicast events of an EventGroup. Tags: atp.EnumerationLiteralIndex=1
-    ACTIVATION_MULTICAST = "activationMulticast"
+    ACTIVATION_MULTICAST = "ACTIVATION-MULTICAST"
 
     # Activate the data path for unicast events of an EventGroup. Tags: atp.EnumerationLiteralIndex=2
-    ACTIVATION_UNICAST = "activationUnicast"
+    ACTIVATION_UNICAST = "ACTIVATION-UNICAST"
 
     # Activate the data path for triggered unicast events that are sent out after a client got subscribed. Tags: atp.EnumerationLiteralIndex=3
-    TRIGGER_UNICAST = "triggerUnicast"
+    TRIGGER_UNICAST = "TRIGGER-UNICAST"
 
     def __init__(self):
         super().__init__(
@@ -388,10 +388,10 @@ class TcpRoleEnum(AREnum):
     # (no methods) — enum value form serialized on StaticSocketConnection.tcpRole
 
     # Connects the client to a remote TCP host. Tags: atp.EnumerationLiteralIndex=0
-    CONNECT = "connect"
+    CONNECT = "CONNECT"
 
     # Socket is put into the server mode (listen for connections). Tags: atp.EnumerationLiteralIndex=1
-    LISTEN = "listen"
+    LISTEN = "LISTEN"
 
     def __init__(self):
         super().__init__(
@@ -415,10 +415,10 @@ class PduCollectionSemanticsEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Only the latest PDU instances are transmitted. Tags: atp.EnumerationLiteralIndex=0
-    LAST_IS_BEST = "lastIsBest"
+    LAST_IS_BEST = "LAST-IS-BEST"
 
     # All instances of PDUs are transmitted. Tags: atp.EnumerationLiteralIndex=1
-    QUEUED = "queued"
+    QUEUED = "QUEUED"
 
     def __init__(self):
         super().__init__([PduCollectionSemanticsEnum.LAST_IS_BEST, PduCollectionSemanticsEnum.QUEUED])
@@ -437,10 +437,10 @@ class PduCollectionTriggerEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Pdu will trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=0
-    ALWAYS = "always"
+    ALWAYS = "ALWAYS"
 
     # Pdu will be buffered and will not trigger the transmission of the data. Tags: atp.EnumerationLiteralIndex=1
-    NEVER = "never"
+    NEVER = "NEVER"
 
     def __init__(self):
         super().__init__([PduCollectionTriggerEnum.ALWAYS, PduCollectionTriggerEnum.NEVER])

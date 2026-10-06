@@ -119,7 +119,7 @@ class TestAttributeValueVariationPointMembers:
     def test_binding_time_round_trip_and_chaining(self):
         for subclass in ALL_CONCRETE:
             instance = subclass()
-            value = BindingTimeEnum().setValue("preCompileTime")
+            value = BindingTimeEnum().setValue("PRE-COMPILE-TIME")
             assert instance.setBindingTime(value) is instance
             assert instance.getBindingTime() is value
             instance.setBindingTime(None)

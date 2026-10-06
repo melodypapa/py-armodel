@@ -54,7 +54,7 @@ class TestWriteFlexrayPhysicalChannel:
     def test_write_field_values(self):
         parent = _write_cluster(_new_cluster_with_channel())
         channel_tag = parent.find("PHYSICAL-CHANNELS/FLEXRAY-PHYSICAL-CHANNEL")
-        assert channel_tag.find("CHANNEL-NAME").text == "channelA"
+        assert channel_tag.find("CHANNEL-NAME").text == "CHANNEL-A"
 
     def test_write_channel_without_flexray_fields_omits_elements(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")
@@ -81,4 +81,4 @@ class TestWriteFlexrayPhysicalChannel:
         assert isinstance(channel, FlexrayPhysicalChannel)
         assert channel.getShortName() == "chan"
         assert channel.getChannelName() is not None
-        assert channel.getChannelName().getValue() == "channelA"
+        assert channel.getChannelName().getValue() == FlexrayChannelName.CHANNEL_A

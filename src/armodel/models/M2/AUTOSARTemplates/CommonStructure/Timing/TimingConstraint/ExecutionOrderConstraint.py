@@ -38,15 +38,15 @@ class ExecutionOrderConstraintTypeEnum(AREnum):
 
     # Specifies that the Execution Order Constraint specifies a hierarchical execution order constraint.
     # Tags: atp.EnumerationLiteralIndex=0
-    HIERARCHICAL_EOC = "hierarchicalEOC"
+    HIERARCHICAL_EOC = "HIERARCHICAL-EOC"
 
     # Specifies that the Execution Order Constraint specifies an ordinary execution order constraint.
     # Tags: atp.EnumerationLiteralIndex=1
-    ORDINARY_EOC = "ordinaryEOC"
+    ORDINARY_EOC = "ORDINARY-EOC"
 
     # Specifies that the Execution Order Constraint specifies a repetitive execution order constraint.
     # Tags: atp.EnumerationLiteralIndex=2
-    REPETITIVE_EOC = "repetitiveEOC"
+    REPETITIVE_EOC = "REPETITIVE-EOC"
 
     def __init__(self):
         """
@@ -77,12 +77,12 @@ class LetDataExchangeParadigmEnum(AREnum):
     # This allows for a straightforward translation of the required label buffering but results in longer end-to-end latencies (multiple of the period).
     # The execution order of \ARMetaClass{Executable Entity}s within the LET interval does not affect the data flow.
     # Tags: atp.EnumerationLiteralIndex=0 atp.Status=draft
-    INTER_LET_ONLY = "interLetOnly"
+    INTER_LET_ONLY = "INTER-LET-ONLY"
 
     # The ExecutableEntity s that belong to the same EOCExecutableEntityRefGroup and are mapped to this LET interval are executed in the order defined by the EOCExecutableEntityRefGroup and exchange data directly within this LET interval according to implicit semantics.
     # Only at the borders of the LET interval or between independent EOCExecutableEntityRefGroup s, is data propagated according to the LET paradigm.
     # Tags: atp.EnumerationLiteralIndex=1 atp.Status=draft
-    INTRA_LET_EOC = "intraLetEOC"
+    INTRA_LET_EOC = "INTRA-LET-EOC"
 
     def __init__(self):
         """

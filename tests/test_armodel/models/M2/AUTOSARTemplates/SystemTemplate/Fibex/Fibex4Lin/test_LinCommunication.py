@@ -127,14 +127,14 @@ class TestResumePosition:
     """Test cases for ResumePosition (Table 6.95, p.432)."""
 
     def test_member_presence_and_values(self):
-        assert ResumePosition.CONTINUE_AT_IT_POSITION == "continueAtItPosition"
-        assert ResumePosition.START_FROM_BEGINNING == "startFromBeginning"
-        assert list(ResumePosition().getEnumValues()) == ["continueAtItPosition", "startFromBeginning"]
+        assert ResumePosition.CONTINUE_AT_IT_POSITION == "CONTINUE-AT-IT-POSITION"
+        assert ResumePosition.START_FROM_BEGINNING == "START-FROM-BEGINNING"
+        assert list(ResumePosition().getEnumValues()) == ["CONTINUE-AT-IT-POSITION", "START-FROM-BEGINNING"]
 
     def test_instantiability(self):
         enum = ResumePosition()
         assert enum == enum.setValue(ResumePosition.CONTINUE_AT_IT_POSITION)
-        assert enum.getValue() == "continueAtItPosition"
+        assert enum.getValue() == ResumePosition.CONTINUE_AT_IT_POSITION
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(ResumePosition.__doc__) == CLASS_NOTE_RESUME_POSITION
@@ -485,14 +485,14 @@ class TestRunMode:
     """Test cases for RunMode (Table 6.94, p.432)."""
 
     def test_member_presence_and_values(self):
-        assert RunMode.RUN_CONTINUOUS == "RunContinuous"
-        assert RunMode.RUN_ONCE == "runOnce"
-        assert list(RunMode().getEnumValues()) == ["RunContinuous", "runOnce"]
+        assert RunMode.RUN_CONTINUOUS == "RUN-CONTINUOUS"
+        assert RunMode.RUN_ONCE == "RUN-ONCE"
+        assert list(RunMode().getEnumValues()) == ["RUN-CONTINUOUS", "RUN-ONCE"]
 
     def test_instantiability(self):
         enum = RunMode()
         assert enum == enum.setValue(RunMode.RUN_CONTINUOUS)
-        assert enum.getValue() == "RunContinuous"
+        assert enum.getValue() == RunMode.RUN_CONTINUOUS
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(RunMode.__doc__) == CLASS_NOTE_RUN_MODE

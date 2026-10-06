@@ -36,8 +36,8 @@ class TestApplicationArrayElementReader:
         assert array_element.parent is data_type
         assert array_element.getTypeTRef().getValue() == "/DataTypes/uint8"
         assert array_element.getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
-        assert array_element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
-        assert array_element.getArraySizeSemantics().getValue() == "variableSize"
+        assert array_element.getArraySizeHandling().getValue() == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert array_element.getArraySizeSemantics().getValue() == "VARIABLE-SIZE"
         assert array_element.getIndexDataTypeRef().getValue() == "/DataTypes/IndexType"
         assert array_element.getIndexDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert isinstance(array_element.getMaxNumberOfElements(), PositiveInteger)

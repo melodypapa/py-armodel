@@ -428,10 +428,10 @@ class ServerArgumentImplPolicyEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The argument type of the RunnableEntity is derived from the AutosarDataType of the Argument Prototype. Tags: atp.EnumerationLiteralIndex=0
-    USE_ARGUMENT_TYPE = "useArgumentType"
+    USE_ARGUMENT_TYPE = "USE-ARGUMENT-TYPE"
 
     # The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2
-    USE_VOID = "useVoid"
+    USE_VOID = "USE-VOID"
 
     def __init__(self):
         super().__init__((ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID))
@@ -871,13 +871,13 @@ class MappingDirectionEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The TextTableMapping is applicable in both directions. Tags: atp.EnumerationLiteralIndex=0
-    BIDIRECTIONAL = "bidirectional"
+    BIDIRECTIONAL = "BIDIRECTIONAL"
 
     # The TextTableMapping is applicable in the direction from firstDataPrototype / firstOperationArgument referring into the PortInterface of the PPortPrototype to secondDataPrototype / secondOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=1
-    FIRST_TO_SECOND = "firstToSecond"
+    FIRST_TO_SECOND = "FIRST-TO-SECOND"
 
     # The TextTableMapping is applicable in the direction from secondDataPrototype / secondOperationArgument referring into the PortInterface of the PPortPrototype to firstDataPrototype / firstOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=2
-    SECOND_TO_FIRST = "secondToFirst"
+    SECOND_TO_FIRST = "SECOND-TO-FIRST"
 
     def __init__(self):
         super().__init__((MappingDirectionEnum.BIDIRECTIONAL, MappingDirectionEnum.FIRST_TO_SECOND, MappingDirectionEnum.SECOND_TO_FIRST))

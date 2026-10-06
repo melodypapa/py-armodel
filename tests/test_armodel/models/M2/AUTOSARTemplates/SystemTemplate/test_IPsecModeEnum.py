@@ -4,8 +4,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 class Test_IPsecModeEnum:
     def test_members(self):
         # spec literals per Table 6.226, p.575 (tunnel idx0, transport idx1)
-        assert IPsecModeEnum.TRANSPORT == "transport"
-        assert IPsecModeEnum.TUNNEL == "tunnel"
+        assert IPsecModeEnum.TRANSPORT == "TRANSPORT"
+        assert IPsecModeEnum.TUNNEL == "TUNNEL"
 
     def test_literal_order(self):
         # displayed markdown order: transport, tunnel
@@ -18,9 +18,9 @@ class Test_IPsecModeEnum:
     def test_instantiation_and_set_value(self):
         e = IPsecModeEnum()
         assert e.setValue(IPsecModeEnum.TRANSPORT) is e
-        assert e.getValue() == "transport"
+        assert e.getValue() == IPsecModeEnum.TRANSPORT
         e.setValue(IPsecModeEnum.TUNNEL)
-        assert e.getValue() == "tunnel"
+        assert e.getValue() == IPsecModeEnum.TUNNEL
 
     def test_docstring_is_spec_note_verbatim(self):
         note = "This enumeration describes the supported IPSec modes."

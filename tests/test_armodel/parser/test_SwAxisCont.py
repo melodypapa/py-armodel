@@ -46,7 +46,7 @@ def test_read_full_fields(parser):
     axis_cont = parser.getSwAxisCont(element)
     assert axis_cont is not None
     assert axis_cont.getCategory() is not None
-    assert axis_cont.getCategory().getValue() == "stdAxis"
+    assert axis_cont.getCategory().getValue() == "STD-AXIS"
     assert axis_cont.getUnitRef() is not None
     assert axis_cont.getUnitRef().getValue() == "/Units/Nm"
     assert axis_cont.getUnitRef().getDest() == "UNIT"
@@ -78,5 +78,5 @@ def test_read_through_application_value_specification(parser):
     axis_conts = spec.getSwAxisConts()
     assert len(axis_conts) == 1
     assert isinstance(axis_conts[0], SwAxisCont)
-    assert axis_conts[0].getCategory().getValue() == "resAxis"
+    assert axis_conts[0].getCategory().getValue() == "RES-AXIS"
     assert axis_conts[0].getSwAxisIndex().getValue() == "1"

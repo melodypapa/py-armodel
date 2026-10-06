@@ -54,13 +54,13 @@ class TestReadDiagnosticCommonProps:
         debounce_props = common_props.getDebounceAlgorithmProps()
         assert [item.getShortName() for item in debounce_props] == ["Deb1", "Deb2"]
         assert common_props.getDefaultEndianness() is not None
-        assert common_props.getDefaultEndianness().getValue() == "opaque"
+        assert common_props.getDefaultEndianness().getValue() == "OPAQUE"
         assert common_props.getEventCombinationReportingBehavior() is not None
-        assert common_props.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
+        assert common_props.getEventCombinationReportingBehavior().getValue() == "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST"
         assert common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is not None
         assert common_props.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
         assert common_props.getOccurrenceCounterProcessing() is not None
-        assert common_props.getOccurrenceCounterProcessing().getValue() == "confirmedDtcBit"
+        assert common_props.getOccurrenceCounterProcessing().getValue() == "CONFIRMED-DTC-BIT"
         assert common_props.getResetConfirmedBitOnOverflow() is not None
         assert common_props.getResetConfirmedBitOnOverflow().getValue() is True
         assert common_props.getResetPendingBitOnOverflow() is not None
@@ -70,7 +70,7 @@ class TestReadDiagnosticCommonProps:
         assert common_props.getResponseOnSecondDeclinedRequest() is not None
         assert common_props.getResponseOnSecondDeclinedRequest().getValue() is True
         assert common_props.getTypeOfEventCombinationSupported() is not None
-        assert common_props.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnStorage"
+        assert common_props.getTypeOfEventCombinationSupported().getValue() == "EVENT-COMBINATION-ON-STORAGE"
 
     def test_without_conditional_wrapper(self, parser):
         """Test that a COMMON-PROPERTIES element without the CONDITIONAL wrapper leaves all fields empty."""

@@ -42,7 +42,7 @@ class TestReadDiagnosticEnvDataElementCondition:
         )
         condition = self._read(parser, inner)
         assert condition.getCompareType() is not None
-        assert condition.getCompareType().getValue() == "isEqual"
+        assert condition.getCompareType().getValue() == "IS-EQUAL"
         compare_value = condition.getCompareValue()
         assert compare_value is not None
         assert compare_value.getValue().getValue() == "42"
@@ -85,6 +85,6 @@ class TestReadDiagnosticEnvDataElementCondition:
         assert len(parts) == 1
         part = parts[0]
         assert type(part).__name__ == "DiagnosticEnvDataElementCondition"
-        assert part.getCompareType().getValue() == "isNotEqual"
+        assert part.getCompareType().getValue() == "IS-NOT-EQUAL"
         assert part.getCompareValue().getValue().getValue() == 7
         assert part.getSwDataDefProps().getBaseTypeRef().getValue() == "/DataTypes/BaseTypes/uint8"

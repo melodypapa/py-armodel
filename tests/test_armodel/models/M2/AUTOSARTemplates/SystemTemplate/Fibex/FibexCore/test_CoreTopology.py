@@ -340,8 +340,8 @@ class Test_FibexCoreTopology:
         assert enum is not None
         assert IPduSignalProcessingEnum.ENUM_DEFERRED in enum.getEnumValues()
         assert IPduSignalProcessingEnum.ENUM_IMMEDIATE in enum.getEnumValues()
-        assert IPduSignalProcessingEnum.ENUM_DEFERRED == "deferred"
-        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE == "immediate"
+        assert IPduSignalProcessingEnum.ENUM_DEFERRED == "DEFERRED"
+        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE == "IMMEDIATE"
 
     def test_CommunicationController_methods(self):
         """Test CommunicationController concrete implementation methods."""
@@ -763,7 +763,7 @@ class TestCommunicationConnector:
 
         assert connector == connector.setPncGatewayType(gateway_type)
         assert connector.getPncGatewayType() is gateway_type
-        assert connector.getPncGatewayType().getValue() == "active"
+        assert connector.getPncGatewayType().getValue() == "ACTIVE"
 
         assert connector == connector.setPncGatewayType(None)  # None no-op
         assert connector.getPncGatewayType() is gateway_type  # unchanged
@@ -2022,21 +2022,21 @@ class Test_CycleRepetitionType:
         enum = CycleRepetitionType()
         assert enum is not None
         enum.setValue(CycleRepetitionType.ENUM_CYCLE_REPETITION_1)
-        assert enum.getValue() == "cycleRepetition1"
+        assert enum.getValue() == CycleRepetitionType.ENUM_CYCLE_REPETITION_1
 
     def test_literals(self):
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 == "cycleRepetition1"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_10 == "cycleRepetition10"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_16 == "cycleRepetition16"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_2 == "cycleRepetition2"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_20 == "cycleRepetition20"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_32 == "cycleRepetition32"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_4 == "cycleRepetition4"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 == "cycleRepetition40"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_5 == "cycleRepetition5"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_50 == "cycleRepetition50"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_64 == "cycleRepetition64"
-        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_8 == "cycleRepetition8"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 == "CYCLE-REPETITION-1"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_10 == "CYCLE-REPETITION-10"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_16 == "CYCLE-REPETITION-16"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_2 == "CYCLE-REPETITION-2"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_20 == "CYCLE-REPETITION-20"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_32 == "CYCLE-REPETITION-32"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_4 == "CYCLE-REPETITION-4"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_40 == "CYCLE-REPETITION-40"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_5 == "CYCLE-REPETITION-5"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_50 == "CYCLE-REPETITION-50"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_64 == "CYCLE-REPETITION-64"
+        assert CycleRepetitionType.ENUM_CYCLE_REPETITION_8 == "CYCLE-REPETITION-8"
 
         enum = CycleRepetitionType()
         assert CycleRepetitionType.ENUM_CYCLE_REPETITION_1 in enum.getEnumValues()
@@ -2089,7 +2089,7 @@ class Test_CycleRepetition:
         value.setValue(CycleRepetitionType.ENUM_CYCLE_REPETITION_4)
         assert repetition == repetition.setCycleRepetition(value)
         assert repetition.getCycleRepetition() is value
-        assert repetition.getCycleRepetition().getValue() == "cycleRepetition4"
+        assert repetition.getCycleRepetition().getValue() == CycleRepetitionType.ENUM_CYCLE_REPETITION_4
         assert repetition == repetition.setCycleRepetition(None)
         assert repetition.getCycleRepetition() is value
 

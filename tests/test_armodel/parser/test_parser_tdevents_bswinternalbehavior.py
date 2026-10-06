@@ -21,14 +21,14 @@ class TestReadTDEventBswInternalBehavior:
             f"<TD-EVENT-BSW-INTERNAL-BEHAVIOR xmlns='{NS}'>"
             "<SHORT-NAME>Bsw1</SHORT-NAME>"
             "<BSW-MODULE-ENTITY-REF DEST='BSW-MODULE-ENTITY'>/AUTOSAR/BswModuleEntity1</BSW-MODULE-ENTITY-REF>"
-            "<TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE>bswModuleEntityActivated</TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE>"
+            "<TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE>BSW-MODULE-ENTITY-ACTIVATED</TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE>"
             "</TD-EVENT-BSW-INTERNAL-BEHAVIOR>"
         )
         ARXMLParser().readTDEventBswInternalBehavior(element, event)
         assert event.getShortName() == "Bsw1"
         assert event.getBswModuleEntityRef().getValue() == "/AUTOSAR/BswModuleEntity1"
         assert event.getBswModuleEntityRef().getDest() == "BSW-MODULE-ENTITY"
-        assert event.getTdEventBswInternalBehaviorType().getValue() == "bswModuleEntityActivated"
+        assert event.getTdEventBswInternalBehaviorType().getValue() == "BSW-MODULE-ENTITY-ACTIVATED"
 
     def test_read_minimal(self):
         AUTOSAR.getInstance().new()

@@ -12,11 +12,11 @@ class TestSignalServiceTranslationControlEnum:
     """
 
     def test_literals_and_values(self):
-        assert SignalServiceTranslationControlEnum.ALL_PARTIAL_NETWORKS_ACTIVE == "allPartialNetworksActive"
-        assert SignalServiceTranslationControlEnum.ANY_PARTIAL_NETWORK_ACTIVE == "anyPartialNetworkActive"
-        assert SignalServiceTranslationControlEnum.PARTIAL_NETWORK == "partialNetwork"
-        assert SignalServiceTranslationControlEnum.SERVICE_DISCOVERY == "serviceDiscovery"
-        assert SignalServiceTranslationControlEnum.TRANSLATION_START == "translationStart"
+        assert SignalServiceTranslationControlEnum.ALL_PARTIAL_NETWORKS_ACTIVE == "ALL-PARTIAL-NETWORKS-ACTIVE"
+        assert SignalServiceTranslationControlEnum.ANY_PARTIAL_NETWORK_ACTIVE == "ANY-PARTIAL-NETWORK-ACTIVE"
+        assert SignalServiceTranslationControlEnum.PARTIAL_NETWORK == "PARTIAL-NETWORK"
+        assert SignalServiceTranslationControlEnum.SERVICE_DISCOVERY == "SERVICE-DISCOVERY"
+        assert SignalServiceTranslationControlEnum.TRANSLATION_START == "TRANSLATION-START"
 
     def test_initialization(self):
         enum_obj = SignalServiceTranslationControlEnum()

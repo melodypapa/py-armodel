@@ -24,10 +24,10 @@ class FloatEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that a page formatter is allowed to float the table to optimize the pagination. This is for example supported by TeX. Tags: atp.EnumerationLiteralIndex=0
-    FLOAT = "float"
+    FLOAT = "FLOAT"
 
     # This indicates that a page formatter is not allowed to float the object to optimize the pagination. Tags: atp.EnumerationLiteralIndex=1
-    NO_FLOAT = "noFloat"
+    NO_FLOAT = "NO-FLOAT"
 
     def __init__(self):
         super().__init__(
@@ -187,10 +187,10 @@ class PgwideEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the table shall be fit in the current text flow. Tags: atp.EnumerationLiteralIndex=0
-    NO_PGWIDE = "noPgwide"
+    NO_PGWIDE = "NO-PGWIDE"
 
     # This indicates that the table may use the entire page width. This is in particular important in case of so called "side-head layouts" but also if the table is in a list or in a note. Tags: atp.EnumerationLiteralIndex=1
-    PGWIDE = "pgwide"
+    PGWIDE = "PGWIDE"
 
     def __init__(self):
         super().__init__(

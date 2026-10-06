@@ -118,7 +118,7 @@ class TestDiagnosticDataElementRoundTrip:
         parameter = DiagnosticParameter()
         parameter.createDataElement("De1")
         data_element = parameter.getDataElement()
-        data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("fixedSize"))
+        data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE))
         max_number_of_elements = PositiveInteger()
         max_number_of_elements.setValue("4")
         data_element.setMaxNumberOfElements(max_number_of_elements)

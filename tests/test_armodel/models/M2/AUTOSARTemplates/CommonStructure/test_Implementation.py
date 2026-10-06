@@ -1092,11 +1092,11 @@ class TestLinker:
 class TestDependencyUsageEnum:
     def test_literals(self):
         """Test DependencyUsageEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 7.4"""
-        assert DependencyUsageEnum.BUILD == "build"
-        assert DependencyUsageEnum.CODEGENERATION == "codegeneration"
-        assert DependencyUsageEnum.COMPILE == "compile"
-        assert DependencyUsageEnum.EXECUTE == "execute"
-        assert DependencyUsageEnum.LINK == "link"
+        assert DependencyUsageEnum.BUILD == "BUILD"
+        assert DependencyUsageEnum.CODEGENERATION == "CODEGENERATION"
+        assert DependencyUsageEnum.COMPILE == "COMPILE"
+        assert DependencyUsageEnum.EXECUTE == "EXECUTE"
+        assert DependencyUsageEnum.LINK == "LINK"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 7.4)"""
@@ -1114,7 +1114,7 @@ class TestDependencyUsageEnum:
         enum = DependencyUsageEnum()
         result = enum.setValue(DependencyUsageEnum.CODEGENERATION)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "codegeneration"
+        assert enum.getValue() == DependencyUsageEnum.CODEGENERATION
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -1123,13 +1123,13 @@ class TestDependencyUsageEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(DependencyUsageEnum.LINK)
         enum.setValue(None)
-        assert enum.getValue() == "link"
+        assert enum.getValue() == "LINK"
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = DependencyUsageEnum()
-        assert enum.validateEnumValue("build") is True
-        assert enum.validateEnumValue("link") is True
+        assert enum.validateEnumValue("BUILD") is True
+        assert enum.validateEnumValue("LINK") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -1209,9 +1209,9 @@ class TestImplementationCodeDescriptors:
 class TestProgramminglanguageEnum:
     def test_literals(self):
         """Test ProgramminglanguageEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 8.2"""
-        assert ProgramminglanguageEnum.C == "c"
-        assert ProgramminglanguageEnum.CPP == "cpp"
-        assert ProgramminglanguageEnum.JAVA == "java"
+        assert ProgramminglanguageEnum.C == "C"
+        assert ProgramminglanguageEnum.CPP == "CPP"
+        assert ProgramminglanguageEnum.JAVA == "JAVA"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 8.2)"""
@@ -1227,7 +1227,7 @@ class TestProgramminglanguageEnum:
         enum = ProgramminglanguageEnum()
         result = enum.setValue(ProgramminglanguageEnum.CPP)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "cpp"
+        assert enum.getValue() == ProgramminglanguageEnum.CPP
 
     def test_spec_note(self):
         """Test the Table 8.2 class note."""

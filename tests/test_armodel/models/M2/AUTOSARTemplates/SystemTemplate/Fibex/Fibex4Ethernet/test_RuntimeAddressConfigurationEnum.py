@@ -11,14 +11,14 @@ class TestRuntimeAddressConfigurationEnum:
     """Test cases for RuntimeAddressConfigurationEnum (R4.3.1 Table 6.121, p.320)."""
 
     def test_member_presence_and_values(self):
-        assert RuntimeAddressConfigurationEnum.NONE == "none"
-        assert RuntimeAddressConfigurationEnum.SD == "sd"
-        assert list(RuntimeAddressConfigurationEnum().getEnumValues()) == ["none", "sd"]
+        assert RuntimeAddressConfigurationEnum.NONE == "NONE"
+        assert RuntimeAddressConfigurationEnum.SD == "SD"
+        assert list(RuntimeAddressConfigurationEnum().getEnumValues()) == ["NONE", "SD"]
 
     def test_instantiability(self):
         enum = RuntimeAddressConfigurationEnum()
         assert enum == enum.setValue(RuntimeAddressConfigurationEnum.SD)
-        assert enum.getValue() == "sd"
+        assert enum.getValue() == RuntimeAddressConfigurationEnum.SD
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(RuntimeAddressConfigurationEnum.__doc__) == CLASS_NOTE

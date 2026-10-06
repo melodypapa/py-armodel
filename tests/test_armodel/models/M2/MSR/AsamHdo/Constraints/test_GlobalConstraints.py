@@ -181,14 +181,14 @@ class TestScaleConstrValidityEnum:
         """ScaleConstrValidityEnum shall expose the 4 spec literals with their wire values (Table 5.95)."""
         enum_obj = ScaleConstrValidityEnum()
         expected = {
-            ScaleConstrValidityEnum.NOT_AVAILABLE: "notAvailable",
-            ScaleConstrValidityEnum.NOT_DEFINED: "notDefined",
-            ScaleConstrValidityEnum.NOT_VALID: "notValid",
-            ScaleConstrValidityEnum.VALID: "valid",
+            ScaleConstrValidityEnum.NOT_AVAILABLE: "NOT-AVAILABLE",
+            ScaleConstrValidityEnum.NOT_DEFINED: "NOT-DEFINED",
+            ScaleConstrValidityEnum.NOT_VALID: "NOT-VALID",
+            ScaleConstrValidityEnum.VALID: "VALID",
         }
         for const, value in expected.items():
             assert const == value
-        assert enum_obj.getEnumValues() == ["notAvailable", "notDefined", "notValid", "valid"]
+        assert enum_obj.getEnumValues() == ["NOT-AVAILABLE", "NOT-DEFINED", "NOT-VALID", "VALID"]
 
     def test_scale_constr_validity_enum_validate_enum_value(self):
         """validateEnumValue accepts the wire values and rejects non-wire forms.
@@ -197,17 +197,17 @@ class TestScaleConstrValidityEnum:
         carries atp.Status="removed" literals for this enum, so no legacy forms are valid.
         """
         enum_obj = ScaleConstrValidityEnum()
-        assert enum_obj.validateEnumValue("notAvailable") is True
-        assert enum_obj.validateEnumValue("notDefined") is True
-        assert enum_obj.validateEnumValue("notValid") is True
-        assert enum_obj.validateEnumValue("valid") is True
-        assert enum_obj.validateEnumValue("NOT-AVAILABLE") is False
+        assert enum_obj.validateEnumValue("NOT-AVAILABLE") is True
+        assert enum_obj.validateEnumValue("NOT-DEFINED") is True
+        assert enum_obj.validateEnumValue("NOT-VALID") is True
+        assert enum_obj.validateEnumValue("VALID") is True
+        assert enum_obj.validateEnumValue("notAvailable") is False
         assert enum_obj.validateEnumValue("unknown") is False
 
     def test_scale_constr_validity_enum_set_value_with_member(self):
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum_obj = ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.NOT_AVAILABLE)
-        assert enum_obj.getValue() == "notAvailable"
+        assert enum_obj.getValue() == ScaleConstrValidityEnum.NOT_AVAILABLE
 
 
 class TestPhysConstrs:

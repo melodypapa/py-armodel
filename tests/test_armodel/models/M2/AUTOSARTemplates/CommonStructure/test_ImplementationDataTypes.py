@@ -123,7 +123,7 @@ class TestImplementationDataTypeElement:
         result = element.setArrayImplPolicy(value)
         assert result is element
         assert element.getArrayImplPolicy() is value
-        assert element.getArrayImplPolicy().getValue() == "payloadAsPointerToArray"
+        assert element.getArrayImplPolicy().getValue() == ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY
         assert element.setArrayImplPolicy(None) is element
         assert element.getArrayImplPolicy() is value
 
@@ -147,7 +147,7 @@ class TestImplementationDataTypeElement:
         result = element.setArraySizeHandling(value)
         assert result is element
         assert element.getArraySizeHandling() is value
-        assert element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+        assert element.getArraySizeHandling().getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
         assert element.setArraySizeHandling(None) is element
         assert element.getArraySizeHandling() is value
 
@@ -159,7 +159,7 @@ class TestImplementationDataTypeElement:
         result = element.setArraySizeSemantics(value)
         assert result is element
         assert element.getArraySizeSemantics() is value
-        assert element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert element.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
         assert element.setArraySizeSemantics(None) is element
         assert element.getArraySizeSemantics() is value
 
@@ -393,10 +393,10 @@ class TestArraySizeSemanticsEnum:
 
     def test_literal_values(self):
         """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.10"""
-        assert ArraySizeSemanticsEnum.FIXED_SIZE == "fixedSize"
-        assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "variableSize"
+        assert ArraySizeSemanticsEnum.FIXED_SIZE == "FIXED-SIZE"
+        assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "VARIABLE-SIZE"
         enum = ArraySizeSemanticsEnum()
-        assert list(enum.getEnumValues()) == ["fixedSize", "variableSize"]
+        assert list(enum.getEnumValues()) == ["FIXED-SIZE", "VARIABLE-SIZE"]
 
     def test_set_value_round_trip(self):
         """Test instantiability and setValue/getValue round-trip per Rule 0011"""
@@ -404,9 +404,9 @@ class TestArraySizeSemanticsEnum:
         assert enum == enum.setValue(None)
         assert enum.getValue() == ""
         assert enum == enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
-        assert enum.getValue() == "fixedSize"
+        assert enum.getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
         assert enum == enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
-        assert enum.getValue() == "variableSize"
+        assert enum.getValue() == ArraySizeSemanticsEnum.VARIABLE_SIZE
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -415,13 +415,13 @@ class TestArraySizeSemanticsEnum:
         assert enum.getValue() == ""
         enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
         enum.setValue(None)
-        assert enum.getValue() == "variableSize"
+        assert enum.getValue() == ArraySizeSemanticsEnum.VARIABLE_SIZE
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ArraySizeSemanticsEnum()
-        assert enum.validateEnumValue("fixedSize") is True
-        assert enum.validateEnumValue("variableSize") is True
+        assert enum.validateEnumValue("FIXED-SIZE") is True
+        assert enum.validateEnumValue("VARIABLE-SIZE") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -432,8 +432,8 @@ class TestArraySizeSemanticsEnum:
 class TestArrayImplPolicyEnum:
     def test_literals(self):
         """Test ArrayImplPolicyEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.18"""
-        assert ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY == "payloadAsArray"
-        assert ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY == "payloadAsPointerToArray"
+        assert ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY == "PAYLOAD-AS-ARRAY"
+        assert ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY == "PAYLOAD-AS-POINTER-TO-ARRAY"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 5.18)"""
@@ -448,7 +448,7 @@ class TestArrayImplPolicyEnum:
         enum = ArrayImplPolicyEnum()
         result = enum.setValue(ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "payloadAsPointerToArray"
+        assert enum.getValue() == ArrayImplPolicyEnum.PAYLOAD_AS_POINTER_TO_ARRAY
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -457,13 +457,13 @@ class TestArrayImplPolicyEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY)
         enum.setValue(None)
-        assert enum.getValue() == "payloadAsArray"
+        assert enum.getValue() == ArrayImplPolicyEnum.PAYLOAD_AS_ARRAY
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ArrayImplPolicyEnum()
-        assert enum.validateEnumValue("payloadAsArray") is True
-        assert enum.validateEnumValue("payloadAsPointerToArray") is True
+        assert enum.validateEnumValue("PAYLOAD-AS-ARRAY") is True
+        assert enum.validateEnumValue("PAYLOAD-AS-POINTER-TO-ARRAY") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):

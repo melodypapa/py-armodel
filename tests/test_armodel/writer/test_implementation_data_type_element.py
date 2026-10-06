@@ -97,7 +97,7 @@ class TestWriteImplementationDataTypeElement:
         assert child is not None
         policy = child.find("ARRAY-IMPL-POLICY")
         assert policy is not None
-        assert policy.text == "payloadAsPointerToArray"
+        assert policy.text == "PAYLOAD-AS-POINTER-TO-ARRAY"
         optional = child.find("IS-OPTIONAL")
         assert optional is not None
         assert optional.text == "true"
@@ -146,8 +146,8 @@ class TestWriteImplementationDataTypeElement:
         element = data_type.createImplementationDataTypeElement("Elem")
         element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-POINTER-TO-ARRAY"))
         element.setArraySize(PositiveInteger().setValue("4"))
-        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue("allIndicesSameArraySize"))
-        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("fixedSize"))
+        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE))
+        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE))
         element.setIsOptional(Boolean().setValue(True))
         sub_element = element.createImplementationDataTypeElement("Sub")
         sub_element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-ARRAY"))
@@ -163,9 +163,9 @@ class TestWriteImplementationDataTypeElement:
         assert element.getArraySize() is not None
         assert element.getArraySize().getValue() == 4
         assert element.getArraySizeHandling() is not None
-        assert element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+        assert element.getArraySizeHandling().getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
         assert element.getArraySizeSemantics() is not None
-        assert element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert element.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.FIXED_SIZE
         assert element.getIsOptional() is not None
         assert element.getIsOptional().getValue() is True
         sub_element = element.getSubElements()[0]

@@ -123,7 +123,7 @@ class TestWriteEOCExecutableEntityRefs:
         reloaded = EOCExecutableEntityRefGroup(parent, "Group1")
         ARXMLParser().readEOCExecutableEntityRefGroup(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Group1"
-        assert reloaded.getLetDataExchangeParadigm().getValue() == "intraLetEOC"
+        assert reloaded.getLetDataExchangeParadigm().getValue() == LetDataExchangeParadigmEnum.INTRA_LET_EOC
         let_interval_refs = reloaded.getLetIntervalRefs()
         assert len(let_interval_refs) == 1
         assert let_interval_refs[0].getValue() == "/AUTOSAR/LetChain"

@@ -46,22 +46,22 @@ class DiagnosticCompareTypeEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # equal Tags: atp.EnumerationLiteralIndex=0
-    IS_EQUAL = "isEqual"
+    IS_EQUAL = "IS-EQUAL"
 
     # greater than or equal Tags: atp.EnumerationLiteralIndex=5
-    IS_GREATER_OR_EQUAL = "isGreaterOrEqual"
+    IS_GREATER_OR_EQUAL = "IS-GREATER-OR-EQUAL"
 
     # greater than Tags: atp.EnumerationLiteralIndex=4
-    IS_GREATER_THAN = "isGreaterThan"
+    IS_GREATER_THAN = "IS-GREATER-THAN"
 
     # less than or equal Tags: atp.EnumerationLiteralIndex=3
-    IS_LESS_OR_EQUAL = "isLessOrEqual"
+    IS_LESS_OR_EQUAL = "IS-LESS-OR-EQUAL"
 
     # less than Tags: atp.EnumerationLiteralIndex=2
-    IS_LESS_THAN = "isLessThan"
+    IS_LESS_THAN = "IS-LESS-THAN"
 
     # not equal Tags: atp.EnumerationLiteralIndex=1
-    IS_NOT_EQUAL = "isNotEqual"
+    IS_NOT_EQUAL = "IS-NOT-EQUAL"
 
     def __init__(self):
         super().__init__(

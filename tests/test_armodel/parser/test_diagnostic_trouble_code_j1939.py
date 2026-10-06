@@ -43,7 +43,7 @@ class TestReadDiagnosticTroubleCodeJ1939:
         assert trouble_code.getFmi() is not None
         assert trouble_code.getFmi().getValue() == 9
         assert trouble_code.getKind() is not None
-        assert trouble_code.getKind().getValue() == "serviceOnly"
+        assert trouble_code.getKind().getValue() == "SERVICE-ONLY"
         assert trouble_code.getNodeRef().getValue() == "/AUTOSAR/J1939Nodes/Node1"
         assert trouble_code.getSpnRef().getValue() == "/AUTOSAR/Spns/Spn1"
 
@@ -51,7 +51,7 @@ class TestReadDiagnosticTroubleCodeJ1939:
         trouble_code = DiagnosticTroubleCodeJ1939(AUTOSAR.getInstance(), "Dtc")
         element = _snip("<KIND>STANDARD</KIND>")
         parser.readDiagnosticTroubleCodeJ1939(element, trouble_code)
-        assert trouble_code.getKind().getValue() == "standard"
+        assert trouble_code.getKind().getValue() == "STANDARD"
 
     def test_read_empty(self, parser):
         trouble_code = DiagnosticTroubleCodeJ1939(AUTOSAR.getInstance(), "Dtc")

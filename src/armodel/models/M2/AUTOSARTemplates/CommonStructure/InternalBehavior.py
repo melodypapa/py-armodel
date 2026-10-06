@@ -30,13 +30,13 @@ class ReentrancyLevelEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Unlimited concurrent execution of this entity is possible, including preemption and parallel execution on multi core systems. Tags: atp.EnumerationLiteralIndex=0
-    MULTICORE_REENTRANT = "multicoreReentrant"
+    MULTICORE_REENTRANT = "MULTICORE-REENTRANT"
 
     # Concurrent execution of this entity is not possible. Tags: atp.EnumerationLiteralIndex=1
-    NON_REENTRANT = "nonReentrant"
+    NON_REENTRANT = "NON-REENTRANT"
 
     # Pseudo-concurrent execution (i.e. preemption) of this entity is possible on single core systems. Tags: atp.EnumerationLiteralIndex=2
-    SINGLE_CORE_REENTRANT = "singleCoreReentrant"
+    SINGLE_CORE_REENTRANT = "SINGLE-CORE-REENTRANT"
 
     def __init__(self):
         super().__init__(
@@ -552,10 +552,10 @@ class ApiPrincipleEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The Rte or SchM API is provided for the whole software component / BSW Module Tags: atp.EnumerationLiteralIndex=0
-    COMMON = "common"
+    COMMON = "COMMON"
 
     # The Rte or SchM API is provided for a specific ExecutableEntity of a software component / BSW Module Tags: atp.EnumerationLiteralIndex=1
-    PER_EXECUTABLE = "perExecutable"
+    PER_EXECUTABLE = "PER-EXECUTABLE"
 
     def __init__(self):
         super().__init__(

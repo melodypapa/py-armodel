@@ -497,10 +497,10 @@ class TestWriterEcucFloatParamDef:
             assert reloaded_param.getDefaultValue().getValue() == 1.5
             assert reloaded_param.getMax() is not None
             assert reloaded_param.getMax().getValue() == "99.5"
-            assert reloaded_param.getMax().getIntervalType().getValue() == "closed"
+            assert reloaded_param.getMax().getIntervalType().getValue() == IntervalTypeEnum.CLOSED
             assert reloaded_param.getMin() is not None
             assert reloaded_param.getMin().getValue() == "0.0"
-            assert reloaded_param.getMin().getIntervalType().getValue() == "open"
+            assert reloaded_param.getMin().getIntervalType().getValue() == IntervalTypeEnum.OPEN
         finally:
             os.unlink(tmp_path)
 

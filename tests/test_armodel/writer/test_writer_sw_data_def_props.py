@@ -50,7 +50,7 @@ class TestSwDataDefPropsRoundTrip:
         props.setSwAlignment(AlignmentType().setValue("4"))
         props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE))
         props.setDisplayFormat(DisplayFormatString().setValue("%5.2f"))
-        props.setAdditionalNativeTypeQualifier(NativeDeclarationString().setValue("volatile"))
+        props.setAdditionalNativeTypeQualifier(NativeDeclarationString().setValue("VOLATILE"))
         props.setSwInterpolationMethod(Identifier().setValue("linear"))
         props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
         props.setStepSize(Float().setValue("0.5"))
@@ -115,13 +115,13 @@ class TestSwDataDefPropsRoundTrip:
             data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
             props = data_type_2.getSwDataDefProps()
             assert props is not None
-            assert props.getDisplayPresentation().getValue() == "presentationContinuous"
+            assert props.getDisplayPresentation().getValue() == DisplayPresentationEnum.PRESENTATION_CONTINUOUS
             assert props.getSwAlignment().getValue() == "4"
-            assert props.getSwCalibrationAccess().getValue() == "readWrite"
+            assert props.getSwCalibrationAccess().getValue() == "READ-WRITE"
             assert props.getDisplayFormat().getValue() == "%5.2f"
-            assert props.getAdditionalNativeTypeQualifier().getValue() == "volatile"
+            assert props.getAdditionalNativeTypeQualifier().getValue() == "VOLATILE"
             assert props.getSwInterpolationMethod().getValue() == "linear"
-            assert props.getSwImplPolicy().getValue() == "standard"
+            assert props.getSwImplPolicy().getValue() == "STANDARD"
             assert props.getStepSize().getValue() == 0.5
             assert props.getSwIntendedResolution().getValue() == 0.01
             assert props.getSwValueBlockSize().getValue() == 10

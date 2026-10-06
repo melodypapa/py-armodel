@@ -95,7 +95,7 @@ class TestIoHwAbstractionServerAnnotation:
 
         assert annotation == annotation.setFilteringDebouncing(value)
         assert annotation.getFilteringDebouncing() is value
-        assert annotation.getFilteringDebouncing().getValue() == "debounceData"
+        assert annotation.getFilteringDebouncing().getValue() == FilterDebouncingEnum.DEBOUNCE_DATA
 
         annotation.setFilteringDebouncing(None)
         assert annotation.getFilteringDebouncing() is value
@@ -106,7 +106,7 @@ class TestIoHwAbstractionServerAnnotation:
 
         assert annotation == annotation.setPulseTest(value)
         assert annotation.getPulseTest() is value
-        assert annotation.getPulseTest().getValue() == "enable"
+        assert annotation.getPulseTest().getValue() == PulseTestEnum.ENABLE
 
         annotation.setPulseTest(None)
         assert annotation.getPulseTest() is value

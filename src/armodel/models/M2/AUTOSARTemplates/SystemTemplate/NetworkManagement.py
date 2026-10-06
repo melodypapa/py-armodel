@@ -166,25 +166,25 @@ class FlexrayNmScheduleVariant(AREnum):
     # (no methods)
 
     # NM-Vote and NM Data transmitted within one PDU in static segment. The NM-Vote has to be realized as separate bit within the PDU. Tags: atp.EnumerationLiteralIndex=0
-    SCHEDULE_VARIANT_1 = "scheduleVariant1"
+    SCHEDULE_VARIANT_1 = "SCHEDULE-VARIANT-1"
 
     # NM-Vote and NM-Data transmitted within one PDU in dynamic segment. The presence (or non-presence) of the PDU corresponds to the NM-Vote Tags: atp.EnumerationLiteralIndex=1
-    SCHEDULE_VARIANT_2 = "scheduleVariant2"
+    SCHEDULE_VARIANT_2 = "SCHEDULE-VARIANT-2"
 
     # NM-Vote and NM-Data are transmitted in the static segment in separate PDUs. This alternative is not recommended => Alternative 1 should be used instead. Tags: atp.EnumerationLiteralIndex=2
-    SCHEDULE_VARIANT_3 = "scheduleVariant3"
+    SCHEDULE_VARIANT_3 = "SCHEDULE-VARIANT-3"
 
     # NM-Vote transmitted in static and NM-Data transmitted in dynamic segment. Tags: atp.EnumerationLiteralIndex=3
-    SCHEDULE_VARIANT_4 = "scheduleVariant4"
+    SCHEDULE_VARIANT_4 = "SCHEDULE-VARIANT-4"
 
     # NM-Vote is transmitted in dynamic and NM-Data is transmitted in static segment. This alternative is not recommended => Variants 2 or 6 should be used instead. Tags: atp.EnumerationLiteralIndex=4
-    SCHEDULE_VARIANT_5 = "scheduleVariant5"
+    SCHEDULE_VARIANT_5 = "SCHEDULE-VARIANT-5"
 
     # NM-Vote and NM-Data are transmitted in dynamic segment in separate PDUs. Tags: atp.EnumerationLiteralIndex=5
-    SCHEDULE_VARIANT_6 = "scheduleVariant6"
+    SCHEDULE_VARIANT_6 = "SCHEDULE-VARIANT-6"
 
     # NM-Vote and a copy of the CBV are transmitted in the static segment (using the FlexRay NM Vector support) and NM-Data is transmitted in the dynamic segment Tags: atp.EnumerationLiteralIndex=6
-    SCHEDULE_VARIANT_7 = "scheduleVariant7"
+    SCHEDULE_VARIANT_7 = "SCHEDULE-VARIANT-7"
 
     def __init__(self):
         super().__init__(
@@ -211,10 +211,10 @@ class NmCoordinatorRoleEnum(AREnum):
     # (no methods)
 
     # Coordinator which "actively" performs NmCoordinator functionality at this channel Tags: atp.EnumerationLiteralIndex=0
-    ACTIVE = "active"
+    ACTIVE = "ACTIVE"
 
     # Coordinator which "passively" performs NmCoordinator functionality at this channel - used at Nm CoordinatorSync use case. Tags: atp.EnumerationLiteralIndex=1
-    PASSIVE = "passive"
+    PASSIVE = "PASSIVE"
 
     def __init__(self):
         super().__init__(
@@ -541,19 +541,19 @@ class J1939NmAddressConfigurationCapabilityEnum(AREnum):
     # (no methods)
 
     # Arbitrary Address Capable CA Tags: atp.EnumerationLiteralIndex=4 xml.name=J-1939-NM-AAC
-    J1939NM_AAC = "J-1939-NM-AAC"
+    J1939NM_AAC = "J-1939-NM--AAC"
 
     # Command Configurable Address CA. Tags: atp.EnumerationLiteralIndex=3 xml.name=J-1939-NM-CCA
-    J1939NM_CCA = "J-1939-NM-CCA"
+    J1939NM_CCA = "J-1939-NM--CCA"
 
     # Non-Configurable Address CA. Tags: atp.EnumerationLiteralIndex=0 xml.name=J-1939-NM-NCA
-    J1939NM_NCA = "J-1939-NM-NCA"
+    J1939NM_NCA = "J-1939-NM--NCA"
 
     # Self-Configurable Address CA. Tags: atp.EnumerationLiteralIndex=2 xml.name=J-1939-NM-SCA
-    J1939NM_SCA = "J-1939-NM-SCA"
+    J1939NM_SCA = "J-1939-NM--SCA"
 
     # Service Configurable Address CA. Tags: atp.EnumerationLiteralIndex=1 xml.name=J-1939-NM-SVCA
-    J1939NM_SVCA = "J-1939-NM-SVCA"
+    J1939NM_SVCA = "J-1939-NM--SVCA"
 
     def __init__(self):
         super().__init__(

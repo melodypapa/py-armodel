@@ -86,14 +86,14 @@ def _enum(enum_cls, value):
 
 def _new_crypto_algo_config():
     config = MacSecCryptoAlgoConfig()
-    config.setCapability(_enum(MacSecCapabilityEnum, "intergrityAndConfidentiality"))
+    config.setCapability(_enum(MacSecCapabilityEnum, "INTERGRITY-AND-CONFIDENTIALITY"))
     c1 = config.createCipherSuiteConfig()
     c1.setCipherSuite(_string("GCM-AES-128"))
     c1.setCipherSuitePriority(_pos_int(1))
     c2 = config.createCipherSuiteConfig()
     c2.setCipherSuite(_string("GCM-AES-256"))
     c2.setCipherSuitePriority(_pos_int(2))
-    config.setConfidentialityOffset(_enum(MacSecConfidentialityOffsetEnum, "CONFIDENTIALITY-OFFSET-30"))
+    config.setConfidentialityOffset(_enum(MacSecConfidentialityOffsetEnum, "CONFIDENTIALITY-OFFSET--30"))
     config.setReplayProtection(_bool("true"))
     config.setReplayProtectionWindow(_pos_int(100))
     return config
@@ -107,7 +107,7 @@ class TestWriteMacSecCryptoAlgoConfig:
 
         node = parent.find("MAC-SEC-CRYPTO-ALGO-CONFIG")
         assert node is not None
-        assert node.find("CAPABILITY").text == "intergrityAndConfidentiality"
+        assert node.find("CAPABILITY").text == "INTERGRITY-AND-CONFIDENTIALITY"
         wrapper = node.find("CIPHER-SUITE-CONFIGS")
         assert wrapper is not None
         children = wrapper.findall("MAC-SEC-CIPHER-SUITE-CONFIG")
@@ -116,7 +116,7 @@ class TestWriteMacSecCryptoAlgoConfig:
         assert children[0].find("CIPHER-SUITE-PRIORITY").text == "1"
         assert children[1].find("CIPHER-SUITE").text == "GCM-AES-256"
         assert children[1].find("CIPHER-SUITE-PRIORITY").text == "2"
-        assert node.find("CONFIDENTIALITY-OFFSET").text == "CONFIDENTIALITY-OFFSET-30"
+        assert node.find("CONFIDENTIALITY-OFFSET").text == "CONFIDENTIALITY-OFFSET--30"
         assert node.find("REPLAY-PROTECTION").text == "true"
         assert node.find("REPLAY-PROTECTION-WINDOW").text == "100"
 
@@ -149,11 +149,11 @@ class TestMacSecCryptoAlgoConfigRoundTrip:
         recovered = MacSecCryptoAlgoConfig()
         parser.readMacSecCryptoAlgoConfig(tree.getroot()[0][0], recovered)
 
-        assert recovered.getCapability().getValue() == "intergrityAndConfidentiality"
+        assert recovered.getCapability().getValue() == MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY
         cipher_configs = recovered.getCipherSuiteConfigs()
         assert [c.getCipherSuite().getValue() for c in cipher_configs] == ["GCM-AES-128", "GCM-AES-256"]
         assert [c.getCipherSuitePriority().getValue() for c in cipher_configs] == [1, 2]
-        assert recovered.getConfidentialityOffset().getValue() == "CONFIDENTIALITY-OFFSET-30"
+        assert recovered.getConfidentialityOffset().getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30
         assert recovered.getReplayProtection().getValue() is True
         assert recovered.getReplayProtectionWindow().getValue() == 100
 

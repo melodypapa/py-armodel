@@ -314,8 +314,8 @@ class TestDiagnosticCapabilityElementHandlers:
         from armodel.writer.arxml_writer import ARXMLWriter
 
         needs = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn")
-        needs.addAudience(DiagnosticAudienceEnum().setValue("development"))
-        needs.addAudience(DiagnosticAudienceEnum().setValue("afterSales"))
+        needs.addAudience(DiagnosticAudienceEnum().setValue(DiagnosticAudienceEnum.DEVELOPMENT))
+        needs.addAudience(DiagnosticAudienceEnum().setValue(DiagnosticAudienceEnum.AFTER_SALES))
         needs.setDiagRequirement(DiagRequirementIdString().setValue("REQ-42"))
         needs.setSecurityAccessLevel(PositiveInteger().setValue(2))
 
@@ -331,7 +331,7 @@ class TestDiagnosticCapabilityElementHandlers:
         reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
         parsed = DiagnosticCommunicationManagerNeeds(parent=_autosar_root(), short_name="cmn2")
         ARXMLParser().readDiagnosticCapabilityElement(reloaded, parsed)
-        assert [a.getValue() for a in parsed.getAudiences()] == ["development", "afterSales"]
+        assert [a.getValue() for a in parsed.getAudiences()] == ["DEVELOPMENT", "AFTER-SALES"]
         assert parsed.getDiagRequirement().getValue() == "REQ-42"
         assert parsed.getSecurityAccessLevel().getValue() == 2
 
@@ -371,7 +371,7 @@ class TestDtcStatusChangeNotificationNeedsHandlers:
         from armodel.writer.arxml_writer import ARXMLWriter
 
         needs = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds")
-        needs.setNotificationTime(DiagnosticClearDtcNotificationEnum().setValue("finish"))
+        needs.setNotificationTime(DiagnosticClearDtcNotificationEnum().setValue(DiagnosticClearDtcNotificationEnum.FINISH))
 
         parent = ET.Element("ROOT")
         ARXMLWriter().writeDtcStatusChangeNotificationNeeds(parent, needs)
@@ -381,7 +381,7 @@ class TestDtcStatusChangeNotificationNeedsHandlers:
         reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
         parsed = DtcStatusChangeNotificationNeeds(parent=_autosar_root(), short_name="dtcNeeds2")
         ARXMLParser().readDtcStatusChangeNotificationNeeds(reloaded.find("{http://autosar.org/schema/r4.0}DTC-STATUS-CHANGE-NOTIFICATION-NEEDS"), parsed)
-        assert parsed.getNotificationTime().getValue() == "finish"
+        assert parsed.getNotificationTime().getValue() == DiagnosticClearDtcNotificationEnum.FINISH
 
     def test_notification_time_absent(self):
         import xml.etree.cElementTree as ET
@@ -416,7 +416,7 @@ class TestDiagnosticValueNeedsHandlers:
         from armodel.writer.arxml_writer import ARXMLWriter
 
         needs = DiagnosticValueNeeds(parent=_autosar_root(), short_name="valueNeeds")
-        needs.setProcessingStyle(DiagnosticProcessingStyleEnum().setValue("processingStyleAsynchronousWithError"))
+        needs.setProcessingStyle(DiagnosticProcessingStyleEnum().setValue(DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR))
 
         parent = ET.Element("ROOT")
         ARXMLWriter().writeDiagnosticValueNeeds(parent, needs)
@@ -426,7 +426,7 @@ class TestDiagnosticValueNeedsHandlers:
         reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
         parsed = DiagnosticValueNeeds(parent=_autosar_root(), short_name="valueNeeds2")
         ARXMLParser().readDiagnosticValueNeeds(reloaded.find("{http://autosar.org/schema/r4.0}DIAGNOSTIC-VALUE-NEEDS"), parsed)
-        assert parsed.getProcessingStyle().getValue() == "processingStyleAsynchronousWithError"
+        assert parsed.getProcessingStyle().getValue() == DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR
 
     def test_processing_style_absent(self):
         import xml.etree.cElementTree as ET

@@ -151,7 +151,7 @@ class TestWriteConsumedServiceInstance:
         assert sdtc is not None
         assert sdtc.find("SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF").text == "/SomeipSdTimingConfigs/InstanceTiming1"
         assert el.find("SERVICE-IDENTIFIER").text == "50"
-        assert el.find("VERSION-DRIVEN-FIND-BEHAVIOR").text == "minimumMinorVersion"
+        assert el.find("VERSION-DRIVEN-FIND-BEHAVIOR").text == "MINIMUM-MINOR-VERSION"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         parent = _parent()
@@ -218,7 +218,7 @@ class TestConsumedServiceInstanceRoundTrip:
         assert recovered.getSdClientTimerConfigRef().getValue() == "/SomeipSdTimingConfigs/InstanceTiming1"
         assert recovered.getServiceIdentifier().getValue() == 50
         assert isinstance(recovered.getVersionDrivenFindBehavior(), ServiceVersionAcceptanceKindEnum)
-        assert recovered.getVersionDrivenFindBehavior().getValue() == "minimumMinorVersion"
+        assert recovered.getVersionDrivenFindBehavior().getValue() == ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring(f"<CONSUMED-SERVICE-INSTANCE xmlns='{NS}'><SHORT-NAME>EmptyService</SHORT-NAME></CONSUMED-SERVICE-INSTANCE>")

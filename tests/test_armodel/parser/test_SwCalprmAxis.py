@@ -36,11 +36,11 @@ class TestSwCalprmAxisReader:
         assert isinstance(axis.getSwAxisIndex(), AxisIndexType)
         assert axis.getSwAxisIndex().getValue() == "1"
         assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
-        assert axis.getCategory().getValue() == "stdAxis"
+        assert axis.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
         assert isinstance(axis.getSwCalprmAxisTypeProps(), SwAxisGrouped)
         assert axis.getSwCalprmAxisTypeProps().getSharedAxisTypeRef().getValue() == "/axis/types/shared"
         assert isinstance(axis.getSwCalibrationAccess(), SwCalibrationAccessEnum)
-        assert axis.getSwCalibrationAccess().getValue() == "readOnly"
+        assert axis.getSwCalibrationAccess().getValue() == "READ-ONLY"
         assert isinstance(axis.getDisplayFormat(), DisplayFormatString)
         assert axis.getDisplayFormat().getValue() == "%.3f"
 
@@ -55,7 +55,7 @@ class TestSwCalprmAxisReader:
         )
         axis = parser.getSwCalprmAxis(element)
         assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
-        assert axis.getCategory().getValue() == "comAxis"
+        assert axis.getCategory().getValue() == CalprmAxisCategoryEnum.COM_AXIS
 
     def test_read_individual_choice_variant(self, parser):
         element = _snip(
@@ -111,7 +111,7 @@ class TestSwCalprmAxisTypePropsReader:
         assert props.getMaxGradient() is not None
         assert props.getMaxGradient().getValue() == 0.75
         assert isinstance(props.getMonotony(), MonotonyEnum)
-        assert props.getMonotony().getValue() == "monotonous"
+        assert props.getMonotony().getValue() == MonotonyEnum.MONOTONOUS
 
     def test_read_base_attrs_via_grouped_choice(self, parser):
         """The SW-AXIS-GROUPED choice branch reads the base group attrs (polymorphic dispatch)."""
@@ -125,7 +125,7 @@ class TestSwCalprmAxisTypePropsReader:
         assert isinstance(props, SwAxisGrouped)
         assert props.getMaxGradient().getValue() == 1.5
         assert isinstance(props.getMonotony(), MonotonyEnum)
-        assert props.getMonotony().getValue() == "strictlyIncreasing"
+        assert props.getMonotony().getValue() == MonotonyEnum.STRICTLY_INCREASING
         assert props.getSharedAxisTypeRef().getValue() == "/axis/types/shared"
 
     def test_read_base_attrs_via_individual_choice(self, parser):
@@ -139,7 +139,7 @@ class TestSwCalprmAxisTypePropsReader:
         assert isinstance(props, SwAxisIndividual)
         assert props.getMaxGradient().getValue() == 2.5
         assert isinstance(props.getMonotony(), MonotonyEnum)
-        assert props.getMonotony().getValue() == "decreasing"
+        assert props.getMonotony().getValue() == MonotonyEnum.DECREASING
 
     def test_read_empty_type_props_yields_unset_base_attrs(self, parser):
         element = _snip(

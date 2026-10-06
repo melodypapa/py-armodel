@@ -31,14 +31,14 @@ class TestFloatEnum:
 
     def test_float_enum_members(self):
         """Test that FloatEnum has the expected members."""
-        assert FloatEnum.FLOAT == "float"
-        assert FloatEnum.NO_FLOAT == "noFloat"
+        assert FloatEnum.FLOAT == "FLOAT"
+        assert FloatEnum.NO_FLOAT == "NO-FLOAT"
 
     def test_float_enum_initialization(self):
         """Test that a FloatEnum object can be initialized."""
         float_enum = FloatEnum()
-        assert float_enum.validateEnumValue("float")
-        assert float_enum.validateEnumValue("noFloat")
+        assert float_enum.validateEnumValue("FLOAT")
+        assert float_enum.validateEnumValue("NO-FLOAT")
         assert not float_enum.validateEnumValue("unknown")
 
 
@@ -47,14 +47,14 @@ class TestPgwideEnum:
 
     def test_pgwide_enum_members(self):
         """Test that PgwideEnum has the expected members."""
-        assert PgwideEnum.NO_PGWIDE == "noPgwide"
-        assert PgwideEnum.PGWIDE == "pgwide"
+        assert PgwideEnum.NO_PGWIDE == "NO-PGWIDE"
+        assert PgwideEnum.PGWIDE == "PGWIDE"
 
     def test_pgwide_enum_initialization(self):
         """Test that a PgwideEnum object can be initialized."""
         pgwide_enum = PgwideEnum()
-        assert pgwide_enum.validateEnumValue("noPgwide")
-        assert pgwide_enum.validateEnumValue("pgwide")
+        assert pgwide_enum.validateEnumValue("NO-PGWIDE")
+        assert pgwide_enum.validateEnumValue("PGWIDE")
         assert not pgwide_enum.validateEnumValue("unknown")
 
 
@@ -342,7 +342,7 @@ class TestTable:
             "Frame": FrameEnum().setValue(FrameEnum.ALL),
             "HelpEntry": String().setValue("help"),
             "Orient": OrientEnum().setValue(OrientEnum.LAND),
-            "Pgwide": NameToken().setValue("pgwide"),
+            "Pgwide": NameToken().setValue(PgwideEnum.PGWIDE),
             "Rowsep": TableSeparatorString().setValue("0"),
             "Tabstyle": NameToken().setValue("style"),
         }

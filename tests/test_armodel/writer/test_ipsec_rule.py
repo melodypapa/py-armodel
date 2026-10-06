@@ -134,16 +134,16 @@ class TestWriteIPSecRule:
         reparsed = IPSecRule(AUTOSAR.getInstance(), "Rule1")
         ARXMLParser().readIPSecRule(node, reparsed)
 
-        assert reparsed.getDirection().getValue() == "in"
-        assert reparsed.getHeaderType().getValue() == "ah"
-        assert reparsed.getIpProtocol().getValue() == "tcp"
+        assert reparsed.getDirection().getValue() == "IN"
+        assert reparsed.getHeaderType().getValue() == IPsecHeaderTypeEnum.AH
+        assert reparsed.getIpProtocol().getValue() == IPsecIpProtocolEnum.TCP
         assert [r.getValue() for r in reparsed.getLocalCertificateRefs()] == ["/Crypto/Certs/Local1", "/Crypto/Certs/Local2"]
         assert all(r.getDest() == "CRYPTO-SERVICE-CERTIFICATE" for r in reparsed.getLocalCertificateRefs())
         assert reparsed.getLocalId().getValue() == "local-id"
         assert reparsed.getLocalPortRangeEnd().getValue() == 8080
         assert reparsed.getLocalPortRangeStart().getValue() == 1024
-        assert reparsed.getMode().getValue() == "transport"
-        assert reparsed.getPolicy().getValue() == "ipsec"
+        assert reparsed.getMode().getValue() == IPsecModeEnum.TRANSPORT
+        assert reparsed.getPolicy().getValue() == IPsecPolicyEnum.IPSEC
         assert reparsed.getPreSharedKeyRef().getValue() == "/Crypto/Keys/Key1"
         assert reparsed.getPreSharedKeyRef().getDest() == "CRYPTO-SERVICE-KEY"
         assert reparsed.getPriority().getValue() == 0

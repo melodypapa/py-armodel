@@ -51,7 +51,7 @@ def test_read_full(parser):
     assert isinstance(spec.getCategory(), Identifier)
     assert spec.getCategory().getValue() == "VAL_BLK"
     assert len(spec.getSwAxisConts()) == 2
-    assert spec.getSwAxisConts()[0].getCategory().getValue() == "stdAxis"
+    assert spec.getSwAxisConts()[0].getCategory().getValue() == "STD-AXIS"
 
     cont = spec.getSwValueCont()
     assert cont is not None

@@ -269,14 +269,14 @@ class TestServerArgumentImplPolicyEnum:
         """Test ServerArgumentImplPolicyEnum initialization."""
         enum = ServerArgumentImplPolicyEnum()
 
-        assert enum.getEnumValues() == ("useArgumentType", "useVoid")
+        assert enum.getEnumValues() == ("USE-ARGUMENT-TYPE", "USE-VOID")
 
         arg_type_enum = ServerArgumentImplPolicyEnum()
-        arg_type_enum.setValue("useArgumentType")
+        arg_type_enum.setValue(ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE)
         assert arg_type_enum.getValue() == ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE
 
         void_enum = ServerArgumentImplPolicyEnum()
-        void_enum.setValue("useVoid")
+        void_enum.setValue(ServerArgumentImplPolicyEnum.USE_VOID)
         assert void_enum.getValue() == ServerArgumentImplPolicyEnum.USE_VOID
 
 
@@ -304,7 +304,7 @@ class TestArgumentDataPrototype:
 
         # Test serverArgumentImplPolicy methods
         policy = ServerArgumentImplPolicyEnum()
-        policy.setValue("useArgumentType")
+        policy.setValue(ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE)
         arg_proto.setServerArgumentImplPolicy(policy)
         assert arg_proto.getServerArgumentImplPolicy() == policy
 

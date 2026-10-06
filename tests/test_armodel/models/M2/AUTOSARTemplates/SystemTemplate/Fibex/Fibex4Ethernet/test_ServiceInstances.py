@@ -1182,11 +1182,11 @@ class TestConsumedServiceInstance:
         """Test get/set versionDrivenFindBehavior with chaining and None no-op."""
         instance = self._instance()
         value = ARLiteral()
-        value.setValue("minimumMinorVersion")
+        value.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
 
         assert instance.setVersionDrivenFindBehavior(value) is instance
         assert instance.getVersionDrivenFindBehavior() is value
-        assert instance.getVersionDrivenFindBehavior().getValue() == "minimumMinorVersion"
+        assert instance.getVersionDrivenFindBehavior().getValue() == ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION
 
         instance.setVersionDrivenFindBehavior(None)
         assert instance.getVersionDrivenFindBehavior() is value
@@ -1542,11 +1542,11 @@ class TestServiceVersionAcceptanceKindEnum:
         """
         Test that both spec literals exist with their index order.
         """
-        assert ServiceVersionAcceptanceKindEnum.EXACT_OR_ANY_MINOR_VERSION == "exactOrAnyMinorVersion"
-        assert ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION == "minimumMinorVersion"
+        assert ServiceVersionAcceptanceKindEnum.EXACT_OR_ANY_MINOR_VERSION == "EXACT-OR-ANY-MINOR-VERSION"
+        assert ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION == "MINIMUM-MINOR-VERSION"
         assert list(ServiceVersionAcceptanceKindEnum().getEnumValues()) == [
-            "exactOrAnyMinorVersion",
-            "minimumMinorVersion",
+            ServiceVersionAcceptanceKindEnum.EXACT_OR_ANY_MINOR_VERSION,
+            ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION,
         ]
 
     def test_instantiability(self):
@@ -1556,7 +1556,7 @@ class TestServiceVersionAcceptanceKindEnum:
         enum = ServiceVersionAcceptanceKindEnum()
         result = enum.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
         assert result == enum  # method chaining
-        assert enum.getValue() == "minimumMinorVersion"
+        assert enum.getValue() == ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION
 
 
 class TestPduActivationRoutingGroup:
@@ -1710,11 +1710,11 @@ class TestUdpChecksumCalculationEnum:
         """
         Test that both spec literals exist with their index order.
         """
-        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED == "udpChecksumEnabled"
-        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED == "udpChecksumDisabled"
+        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED == "UDP-CHECKSUM-ENABLED"
+        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED == "UDP-CHECKSUM-DISABLED"
         assert list(UdpChecksumCalculationEnum().getEnumValues()) == [
-            "udpChecksumEnabled",
-            "udpChecksumDisabled",
+            UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
+            UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED,
         ]
 
     def test_instantiability(self):
@@ -1724,7 +1724,7 @@ class TestUdpChecksumCalculationEnum:
         enum = UdpChecksumCalculationEnum()
         result = enum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED)
         assert result == enum  # method chaining
-        assert enum.getValue() == "udpChecksumDisabled"
+        assert enum.getValue() == UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED
 
 
 class TestEventGroupControlTypeEnum:
@@ -1736,15 +1736,15 @@ class TestEventGroupControlTypeEnum:
         """
         Test that all spec literals exist with their index order.
         """
-        assert EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST == "activationAndTriggerUnicast"
-        assert EventGroupControlTypeEnum.ACTIVATION_MULTICAST == "activationMulticast"
-        assert EventGroupControlTypeEnum.ACTIVATION_UNICAST == "activationUnicast"
-        assert EventGroupControlTypeEnum.TRIGGER_UNICAST == "triggerUnicast"
+        assert EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST == "ACTIVATION-AND-TRIGGER-UNICAST"
+        assert EventGroupControlTypeEnum.ACTIVATION_MULTICAST == "ACTIVATION-MULTICAST"
+        assert EventGroupControlTypeEnum.ACTIVATION_UNICAST == "ACTIVATION-UNICAST"
+        assert EventGroupControlTypeEnum.TRIGGER_UNICAST == "TRIGGER-UNICAST"
         assert list(EventGroupControlTypeEnum().getEnumValues()) == [
-            "activationAndTriggerUnicast",
-            "activationMulticast",
-            "activationUnicast",
-            "triggerUnicast",
+            EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST,
+            EventGroupControlTypeEnum.ACTIVATION_MULTICAST,
+            EventGroupControlTypeEnum.ACTIVATION_UNICAST,
+            EventGroupControlTypeEnum.TRIGGER_UNICAST,
         ]
 
     def test_instantiability(self):
@@ -1754,7 +1754,7 @@ class TestEventGroupControlTypeEnum:
         enum = EventGroupControlTypeEnum()
         result = enum.setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST)
         assert result == enum  # method chaining
-        assert enum.getValue() == "activationMulticast"
+        assert enum.getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
 
 
 class TestTcpRoleEnum:
@@ -1766,11 +1766,11 @@ class TestTcpRoleEnum:
         """
         Test that all spec literals exist with their index order.
         """
-        assert TcpRoleEnum.CONNECT == "connect"
-        assert TcpRoleEnum.LISTEN == "listen"
+        assert TcpRoleEnum.CONNECT == "CONNECT"
+        assert TcpRoleEnum.LISTEN == "LISTEN"
         assert list(TcpRoleEnum().getEnumValues()) == [
-            "connect",
-            "listen",
+            TcpRoleEnum.CONNECT,
+            TcpRoleEnum.LISTEN,
         ]
 
     def test_instantiability(self):
@@ -1780,7 +1780,7 @@ class TestTcpRoleEnum:
         enum = TcpRoleEnum()
         result = enum.setValue(TcpRoleEnum.LISTEN)
         assert result == enum  # method chaining
-        assert enum.getValue() == "listen"
+        assert enum.getValue() == TcpRoleEnum.LISTEN
 
 
 class TestEventHandler:

@@ -300,31 +300,31 @@ class Test_DiagnosticCompareTypeEnum:
     def test_instantiation_and_displayed_order(self):
         enum = DiagnosticCompareTypeEnum()
         assert enum.getEnumValues() == (
-            "isEqual",
-            "isGreaterOrEqual",
-            "isGreaterThan",
-            "isLessOrEqual",
-            "isLessThan",
-            "isNotEqual",
+            DiagnosticCompareTypeEnum.IS_EQUAL,
+            DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL,
+            DiagnosticCompareTypeEnum.IS_GREATER_THAN,
+            DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL,
+            DiagnosticCompareTypeEnum.IS_LESS_THAN,
+            DiagnosticCompareTypeEnum.IS_NOT_EQUAL,
         )
 
     def test_literal_members(self):
-        assert DiagnosticCompareTypeEnum.IS_EQUAL == "isEqual"
-        assert DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL == "isGreaterOrEqual"
-        assert DiagnosticCompareTypeEnum.IS_GREATER_THAN == "isGreaterThan"
-        assert DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL == "isLessOrEqual"
-        assert DiagnosticCompareTypeEnum.IS_LESS_THAN == "isLessThan"
-        assert DiagnosticCompareTypeEnum.IS_NOT_EQUAL == "isNotEqual"
+        assert DiagnosticCompareTypeEnum.IS_EQUAL == "IS-EQUAL"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_OR_EQUAL == "IS-GREATER-OR-EQUAL"
+        assert DiagnosticCompareTypeEnum.IS_GREATER_THAN == "IS-GREATER-THAN"
+        assert DiagnosticCompareTypeEnum.IS_LESS_OR_EQUAL == "IS-LESS-OR-EQUAL"
+        assert DiagnosticCompareTypeEnum.IS_LESS_THAN == "IS-LESS-THAN"
+        assert DiagnosticCompareTypeEnum.IS_NOT_EQUAL == "IS-NOT-EQUAL"
 
     def test_validate_enum_value(self):
         enum = DiagnosticCompareTypeEnum()
-        assert enum.validateEnumValue("isEqual") is True
+        assert enum.validateEnumValue("IS-EQUAL") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_instantiable_and_value_round_trip(self):
         enum = DiagnosticCompareTypeEnum()
         enum.setValue(DiagnosticCompareTypeEnum.IS_GREATER_THAN)
-        assert enum.getValue() == "isGreaterThan"
+        assert enum.getValue() == DiagnosticCompareTypeEnum.IS_GREATER_THAN
 
     def test_class_docstring_is_spec_note_verbatim(self):
         assert DiagnosticCompareTypeEnum.__doc__ == COMPARE_TYPE_ENUM_NOTE
@@ -374,7 +374,7 @@ class Test_DiagnosticEnvCompareCondition:
         reloaded = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % xml_text)
         parsed = _ConcreteCompareCondition()
         ARXMLParser().readDiagnosticEnvCompareCondition(reloaded[0], parsed)
-        assert parsed.getCompareType().getValue() == "isEqual"
+        assert parsed.getCompareType().getValue() == DiagnosticCompareTypeEnum.IS_EQUAL
 
 
 class Test_DiagnosticEnvDataCondition:

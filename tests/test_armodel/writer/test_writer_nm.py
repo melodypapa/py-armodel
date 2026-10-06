@@ -129,7 +129,7 @@ def _literal(val="lit"):
     return lit
 
 
-def _j1939_cap(val="J-1939-NM-SCA"):
+def _j1939_cap(val="J-1939-NM--SCA"):
     cap = J1939NmAddressConfigurationCapabilityEnum()
     cap.setValue(val)
     return cap
@@ -240,7 +240,7 @@ class TestWriteNmNode:
         assert coord_tag.text == "2"
         role_tag = parent.find("NM-COORDINATOR-ROLE")
         assert role_tag is not None
-        assert role_tag.text == "active"
+        assert role_tag.text == "ACTIVE"
 
 
 class TestWriteJ1939NodeName:
@@ -335,7 +335,7 @@ class TestWriteNmClusterNmNodes:
         j1939_tag = nodes_tag.find("J-1939-NM-NODE")
         assert j1939_tag is not None
         assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY") is not None
-        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM-SCA"
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM--SCA"
 
 
 class TestWriteJ1939NmNode:
@@ -350,7 +350,7 @@ class TestWriteJ1939NmNode:
         writer.writeJ1939NmNode(parent, node)
         j1939_tag = parent.find("J-1939-NM-NODE")
         assert j1939_tag is not None
-        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM-SCA"
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM--SCA"
         node_name_tag = j1939_tag.find("NODE-NAME")
         assert node_name_tag is not None
         assert node_name_tag.find("ARBITRARY-ADDRESS-CAPABLE").text == "true"

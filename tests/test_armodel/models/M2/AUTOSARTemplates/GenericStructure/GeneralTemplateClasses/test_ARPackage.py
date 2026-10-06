@@ -1211,7 +1211,7 @@ class TestAclPermission:
         obj = self._create_acl_permission()
 
         scope = AclScopeEnum()
-        scope.setValue("descendant")
+        scope.setValue(AclScopeEnum.DESCENDANT)
         result = obj.setAclScope(scope)
         assert result is obj  # method chaining
         assert obj.getAclScope() is scope
@@ -1271,7 +1271,7 @@ class TestAclObjectSet:
         obj = self._create_acl_object_set()
 
         scope = AclScopeEnum()
-        scope.setValue("descendant")
+        scope.setValue(AclScopeEnum.DESCENDANT)
         result = obj.setAclScope(scope)
         assert result is obj  # method chaining
         assert obj.getAclScope() is scope
@@ -3687,7 +3687,7 @@ class TestDiagnosticTroubleCodeJ1939:
         result = obj.setKind(kind)
         assert result is obj  # method chaining
         assert obj.getKind() is kind
-        assert obj.getKind().getValue() == "serviceOnly"
+        assert obj.getKind().getValue() == DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY
 
         result = obj.setKind(None)
         assert result is obj  # method chaining with None
@@ -7261,7 +7261,7 @@ class TestDiagnosticResponseOnEvent:
         result = obj.setResponseOnEventAction(value)
         assert result is obj  # method chaining
         assert obj.getResponseOnEventAction() is value
-        assert obj.getResponseOnEventAction().getValue() == "onChangeOfDataIdentifier"
+        assert obj.getResponseOnEventAction().getValue() == DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER
 
         result = obj.setResponseOnEventAction(None)
         assert result is obj  # method chaining with None
@@ -7684,7 +7684,7 @@ class TestDiagnosticMemoryDestinationPrimary:
         result = obj.setTypeOfDtcSupported(value)
         assert result is obj  # method chaining
         assert obj.getTypeOfDtcSupported() is value
-        assert obj.getTypeOfDtcSupported().getValue() == "iso14229_1"
+        assert obj.getTypeOfDtcSupported().getValue() == DiagnosticTypeOfDtcSupportedEnum.ISO14229_1
 
         result = obj.setTypeOfDtcSupported(None)
         assert result is obj  # method chaining with None
@@ -10342,11 +10342,11 @@ class TestDiagnosticEvent:
         """
         obj = self._make_obj()
 
-        value = DiagnosticClearEventAllowedBehaviorEnum().setValue("noStatusByteChange")
+        value = DiagnosticClearEventAllowedBehaviorEnum().setValue(DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE)
         result = obj.setClearEventAllowedBehavior(value)
         assert result is obj  # method chaining
         assert obj.getClearEventAllowedBehavior() is value
-        assert obj.getClearEventAllowedBehavior().getValue() == "noStatusByteChange"
+        assert obj.getClearEventAllowedBehavior().getValue() == DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE
 
         result = obj.setClearEventAllowedBehavior(None)
         assert result is obj  # method chaining with None
@@ -10400,7 +10400,7 @@ class TestDiagnosticEvent:
         result = obj.setEventClearAllowed(value)
         assert result is obj  # method chaining
         assert obj.getEventClearAllowed() is value
-        assert obj.getEventClearAllowed().getValue() == "always"
+        assert obj.getEventClearAllowed().getValue() == "ALWAYS"
 
         result = obj.setEventClearAllowed(None)
         assert result is obj  # method chaining with None
@@ -10416,7 +10416,7 @@ class TestDiagnosticEvent:
         result = obj.setEventKind(value)
         assert result is obj  # method chaining
         assert obj.getEventKind() is value
-        assert obj.getEventKind().getValue() == "bsw"
+        assert obj.getEventKind().getValue() == DiagnosticEventKindEnum.BSW
 
         result = obj.setEventKind(None)
         assert result is obj  # method chaining with None
@@ -10636,7 +10636,7 @@ class TestDiagnosticExtendedDataRecord:
         result = obj.setTrigger(value)
         assert result is obj  # method chaining
         assert obj.getTrigger() is value
-        assert obj.getTrigger().getValue() == "confirmed"
+        assert obj.getTrigger().getValue() == "CONFIRMED"
 
         result = obj.setTrigger(None)
         assert result is obj  # method chaining with None
@@ -10838,7 +10838,7 @@ class TestDiagnosticFreezeFrame:
         result = obj.setTrigger(value)
         assert result is obj  # method chaining
         assert obj.getTrigger() is value
-        assert obj.getTrigger().getValue() == "confirmed"
+        assert obj.getTrigger().getValue() == "CONFIRMED"
 
         result = obj.setTrigger(None)
         assert result is obj  # method chaining with None
@@ -10996,11 +10996,11 @@ class TestDiagnosticIndicator:
         """
         obj = self._make_obj()
 
-        value = DiagnosticIndicatorTypeEnum().setValue("malfunction")
+        value = DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION)
         result = obj.setType(value)
         assert result is obj  # method chaining
         assert obj.getType() is value
-        assert obj.getType().getValue() == "malfunction"
+        assert obj.getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
 
         result = obj.setType(None)
         assert result is obj  # method chaining with None
@@ -11102,7 +11102,7 @@ class TestDiagnosticIumpr:
         result = obj.setRatioKind(value)
         assert result is obj  # method chaining
         assert obj.getRatioKind() is value
-        assert obj.getRatioKind().getValue() == "observerBased"
+        assert obj.getRatioKind().getValue() == DiagnosticIumprKindEnum.OBSERVER_BASED
 
         result = obj.setRatioKind(None)
         assert result is obj  # method chaining with None
@@ -11465,7 +11465,7 @@ class TestDiagnosticEcuInstanceProps:
         result = obj.setObdSupport(obd_support)
         assert result is obj  # method chaining
         assert obj.getObdSupport() is obd_support
-        assert obj.getObdSupport().getValue() == "primaryEcu"
+        assert obj.getObdSupport().getValue() == DiagnosticObdSupportEnum.PRIMARY_ECU
 
     def test_set_obd_support_none_no_op(self):
         """
@@ -11756,7 +11756,7 @@ class TestDiagnosticOperationCycle:
         result = obj.setType(value)
         assert result is obj  # method chaining
         assert obj.getType() is value
-        assert obj.getType().getValue() == "ignition"
+        assert obj.getType().getValue() == "IGNITION"
 
         result = obj.setType(None)
         assert result is obj  # method chaining with None

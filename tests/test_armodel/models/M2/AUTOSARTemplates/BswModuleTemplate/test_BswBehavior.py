@@ -611,9 +611,9 @@ class TestBswInterruptCategory:
         category = BswInterruptCategory()
 
         # Literals in displayed spec order (Table 5.9)
-        assert category.CAT1 == "cat1"
-        assert category.CAT2 == "cat2"
-        assert category.getEnumValues() == ("cat1", "cat2")
+        assert category.CAT1 == "CAT-1"
+        assert category.CAT2 == "CAT-2"
+        assert category.getEnumValues() == ("CAT-1", "CAT-2")
 
     def test_literals_usable_as_values(self):
         for literal in (BswInterruptCategory.CAT1, BswInterruptCategory.CAT2):

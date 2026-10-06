@@ -75,7 +75,7 @@ class TestCommConnectorPort:
         assert tag is not None
         assert tag.find("SHORT-NAME") is not None
         assert tag.find("COMMUNICATION-DIRECTION") is not None
-        assert tag.find("COMMUNICATION-DIRECTION").text == "in"
+        assert tag.find("COMMUNICATION-DIRECTION").text == "IN"
 
     def test_write_comm_connector_port_empty(self, writer):
         parent = ET.Element("PARENT")
@@ -95,7 +95,7 @@ class TestCommConnectorPort:
         assert isinstance(reloaded, CommConnectorPort)
         assert reloaded.getShortName() == "fp"
         assert reloaded.getCommunicationDirection() is not None
-        assert reloaded.getCommunicationDirection().getValue() == "in"
+        assert reloaded.getCommunicationDirection().getValue() == "IN"
 
     def test_comm_connector_port_round_trip_empty(self, writer, parser):
         parent = ET.Element("PARENT")
@@ -124,7 +124,7 @@ class TestCommConnectorPort:
         assert frame_port_tag is not None
         assert frame_port_tag.find("SHORT-NAME") is not None
         assert frame_port_tag.find("COMMUNICATION-DIRECTION") is not None
-        assert frame_port_tag.find("COMMUNICATION-DIRECTION").text == "out"
+        assert frame_port_tag.find("COMMUNICATION-DIRECTION").text == "OUT"
 
         reloaded = CanCommunicationConnector(_parent(), "conn")
         parser.readCommunicationConnectorEcuCommPortInstances(_namespaced(parent), reloaded)
@@ -132,7 +132,7 @@ class TestCommConnectorPort:
         assert len(ports) == 1
         assert isinstance(ports[0], FramePort)
         assert ports[0].getShortName() == "fp"
-        assert ports[0].getCommunicationDirection().getValue() == "out"
+        assert ports[0].getCommunicationDirection().getValue() == "OUT"
 
     def test_ipdu_port_round_trip(self, writer, parser):
         port = IPduPort(MockParent(), "ip")
@@ -160,8 +160,8 @@ class TestCommConnectorPort:
 
         assert isinstance(reloaded, CommConnectorPort)
         assert reloaded.getShortName() == "ip"
-        assert reloaded.getCommunicationDirection().getValue() == "out"
-        assert reloaded.getIPduSignalProcessing().getValue() == "deferred"
+        assert reloaded.getCommunicationDirection().getValue() == "OUT"
+        assert reloaded.getIPduSignalProcessing().getValue() == IPduSignalProcessingEnum.ENUM_DEFERRED
         assert reloaded.getRxSecurityVerification().getValue() is True
         assert float(reloaded.getTimestampRxAcceptanceWindow().getValue()) == 0.05
         assert reloaded.getUseAuthDataFreshness().getValue() is False
@@ -243,7 +243,7 @@ class TestISignalPort:
         assert ref.text == "/profiles/p1"
 
         assert tag.find("FIRST-TIMEOUT").text == "5.0"
-        assert tag.find("HANDLE-INVALID").text == "keep"
+        assert tag.find("HANDLE-INVALID").text == "KEEP"
         assert tag.find("TIMEOUT").text == "1.0"
 
         children = [child.tag for child in tag if child.tag in ("DATA-FILTER", "DDS-QOS-PROFILE-REF", "FIRST-TIMEOUT", "HANDLE-INVALID", "TIMEOUT")]
@@ -273,5 +273,5 @@ class TestISignalPort:
         assert port.getDataFilter().getDataFilterType().getValue() == "ALWAYS"
         assert port.getDdsQosProfileRef().getValue() == "/profiles/p1"
         assert port.getFirstTimeout().getValue() == 5.0
-        assert port.getHandleInvalid().getValue() == "keep"
+        assert port.getHandleInvalid().getValue() == "KEEP"
         assert port.getTimeout().getValue() == 1.0

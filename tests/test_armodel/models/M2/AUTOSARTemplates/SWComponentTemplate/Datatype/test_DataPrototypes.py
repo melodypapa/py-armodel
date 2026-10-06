@@ -247,7 +247,7 @@ class TestApplicationArrayElement:
 
         assert array_element.setArraySizeHandling(handling) is array_element
         assert array_element.getArraySizeHandling() is handling
-        assert array_element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+        assert array_element.getArraySizeHandling().getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
 
         array_element.setArraySizeHandling(None)
         assert array_element.getArraySizeHandling() is handling
@@ -260,7 +260,7 @@ class TestApplicationArrayElement:
 
         assert array_element.setArraySizeSemantics(semantics) is array_element
         assert array_element.getArraySizeSemantics() is semantics
-        assert array_element.getArraySizeSemantics().getValue() == "variableSize"
+        assert array_element.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.VARIABLE_SIZE
 
         array_element.setArraySizeSemantics(None)
         assert array_element.getArraySizeSemantics() is semantics

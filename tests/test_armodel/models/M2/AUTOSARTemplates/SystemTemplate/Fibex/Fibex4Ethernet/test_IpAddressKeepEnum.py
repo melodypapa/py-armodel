@@ -11,14 +11,14 @@ class TestIpAddressKeepEnum:
     """Test cases for IpAddressKeepEnum (Table 6.138, p.466)."""
 
     def test_member_presence_and_values(self):
-        assert IpAddressKeepEnum.FORGET == "forget"
-        assert IpAddressKeepEnum.STORE_PERSISTENTLY == "storePersistently"
-        assert list(IpAddressKeepEnum().getEnumValues()) == ["forget", "storePersistently"]
+        assert IpAddressKeepEnum.FORGET == "FORGET"
+        assert IpAddressKeepEnum.STORE_PERSISTENTLY == "STORE-PERSISTENTLY"
+        assert list(IpAddressKeepEnum().getEnumValues()) == ["FORGET", "STORE-PERSISTENTLY"]
 
     def test_instantiability(self):
         enum = IpAddressKeepEnum()
         assert enum == enum.setValue(IpAddressKeepEnum.STORE_PERSISTENTLY)
-        assert enum.getValue() == "storePersistently"
+        assert enum.getValue() == IpAddressKeepEnum.STORE_PERSISTENTLY
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(IpAddressKeepEnum.__doc__) == CLASS_NOTE

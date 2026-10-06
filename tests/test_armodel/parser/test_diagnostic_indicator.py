@@ -18,6 +18,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_indicat
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -33,10 +34,10 @@ class TestReadDiagnosticIndicator:
 
     def test_read_sets_type(self, parser):
         """Test that TYPE is read into type as the indicator type literal."""
-        indicator = self._read(parser, "<SHORT-NAME>Indicator1</SHORT-NAME><TYPE>malfunction</TYPE>")
+        indicator = self._read(parser, "<SHORT-NAME>Indicator1</SHORT-NAME><TYPE>MALFUNCTION</TYPE>")
         assert indicator.getShortName() == "Indicator1"
         assert indicator.getType() is not None
-        assert indicator.getType().getValue() == "malfunction"
+        assert indicator.getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
 
     def test_read_empty_leaves_fields_unset(self, parser):
         """Test that an element without own children leaves every field unset (empty wrapper case)."""

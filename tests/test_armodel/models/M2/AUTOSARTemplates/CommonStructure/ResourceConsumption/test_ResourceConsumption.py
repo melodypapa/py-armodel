@@ -1062,7 +1062,7 @@ class TestResourceConsumptionRoundTrip:
 
         resource.createWorstCaseStackUsage("WS").setMemoryConsumption(PositiveInteger().setValue("50"))
         resource.createMeasuredStackUsage("MSU").setMinimumMemoryConsumption(PositiveInteger().setValue("1")).setTestPattern(String().setValue("t"))
-        resource.createRoughEstimateOfExecutionTime("RT").setAdditionalInformation(String().setValue("info"))
+        resource.createRoughEstimateOfExecutionTime("RT").setAdditionalInformation(String().setValue("INFO"))
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -1120,6 +1120,6 @@ class TestResourceConsumptionRoundTrip:
 
             rt_2 = resource_2.getExecutionTimes()[1]
             assert rt_2.getShortName() == "RT"
-            assert rt_2.getAdditionalInformation().getValue() == "info"
+            assert rt_2.getAdditionalInformation().getValue() == "INFO"
         finally:
             os.remove(file_path)

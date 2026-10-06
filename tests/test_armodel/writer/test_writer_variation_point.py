@@ -68,7 +68,7 @@ class TestWriteVariationPoint:
         vp.setShortLabel(Identifier().setValue("VP_Turbo"))
 
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("codeGenerationTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("CODE-GENERATION-TIME"))
         vp.setSwSyscond(syscond)
 
         condition = PostBuildVariantCondition()
@@ -153,7 +153,7 @@ class TestWriteVariationPointSpecAttributes:
         vp.setFormalBlueprintGenerator(generator)
 
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
@@ -208,7 +208,7 @@ class TestWriteVariationPointSpecAttributes:
         assert vp_2.getDesc().getL2s()[0].getL() == "EN"
         assert vp_2.getBlueprintCondition().getPs()[0].getL1s()[0].getValue() == "Resolve the derivation manually."
         assert vp_2.getFormalBlueprintGenerator().getExpression().getValue() == 'LET Name = "Example";'
-        assert vp_2.getSwSyscond().getBindingTime().getValue() == "preCompileTime"
+        assert vp_2.getSwSyscond().getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert vp_2.getSwSyscond().getMixedString() == "sysc == 1"
         conditions = vp_2.getPostBuildVariantConditions()
         assert len(conditions) == 1
@@ -482,7 +482,7 @@ class TestWriteConditionByFormula:
     def test_write_sw_syscond_writes_binding_time_and_mixed_text(self):
         vp = VariationPoint()
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         syscond.setMixedString("sysc == 1")
         vp.setSwSyscond(syscond)
 
@@ -505,7 +505,7 @@ class TestWriteConditionByFormula:
         element = ET.Element("PARENT")
         proxy = VariationPointProxy(None, "vpp1")
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("systemDesignTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("SYSTEM-DESIGN-TIME"))
         syscond.setMixedString("sysc > 0")
         proxy.setConditionAccess(syscond)
         writer.writeVariationPointProxy(element, proxy)
@@ -518,7 +518,7 @@ class TestWriteConditionByFormula:
     def test_write_condition_by_formula_without_text_emits_no_text(self):
         vp = VariationPoint()
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("linkTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("LINK-TIME"))
         vp.setSwSyscond(syscond)
 
         element = _write_vp_to_element(vp)
@@ -541,11 +541,11 @@ class TestWriteAttributeValueVariationPoint:
 
     def test_write_all_members(self):
         avp = LimitValueVariationPoint()
-        avp.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        avp.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         avp.setSd(String().setValue("sd-x"))
         avp.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         avp.setBlueprintValue(String().setValue("derived"))
-        avp.setIntervalType(IntervalTypeEnum().setValue("closed"))
+        avp.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         avp.setMixedString("42")
 
         element = self._write_avp_to_element(avp)
@@ -584,7 +584,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
 
         proxy = VariationPointProxy(behavior, "vpp1")
         avp = NumericalValueVariationPoint()
-        avp.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        avp.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         avp.setSd(String().setValue("sd-rt"))
         avp.setShortLabel(PrimitiveIdentifier().setValue("vp_rt"))
         avp.setBlueprintValue(String().setValue("bp-rt"))
@@ -608,7 +608,7 @@ class TestWriteAttributeValueVariationPointRoundTrip:
         proxy_2 = behavior_2.getVariationPointProxies()[0]
         value_access = proxy_2.getValueAccess()
         assert isinstance(value_access, NumericalValueVariationPoint)
-        assert value_access.getBindingTime().getValue() == "preCompileTime"
+        assert value_access.getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert value_access.getSd().getValue() == "sd-rt"
         assert value_access.getShortLabel().getValue() == "vp_rt"
         assert value_access.getBlueprintValue().getValue() == "bp-rt"
@@ -652,7 +652,7 @@ class TestVariationPointProxyRoundTrip:
 
         proxy = VariationPointProxy(behavior, "vpp1")
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         proxy.setConditionAccess(syscond)
         proxy.setImplementationDataTypeRef(RefType().setValue("/Demo/ImplementationDataTypes/uint8").setDest("IMPLEMENTATION-DATA-TYPE"))
         proxy.setPostBuildValueAccessRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
@@ -691,7 +691,7 @@ class TestVariationPointProxyRoundTrip:
             assert len(proxies) == 1
             proxy_2 = proxies[0]
             assert proxy_2.getShortName() == "vpp1"
-            assert proxy_2.getConditionAccess().getBindingTime().getValue() == "preCompileTime"
+            assert proxy_2.getConditionAccess().getBindingTime().getValue() == "PRE-COMPILE-TIME"
             assert proxy_2.getImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
             assert proxy_2.getImplementationDataTypeRef().getValue() == "/Demo/ImplementationDataTypes/uint8"
             assert proxy_2.getPostBuildValueAccessRef().getDest() == "POST-BUILD-VARIANT-CRITERION"
@@ -753,11 +753,11 @@ class TestVariationPointProxyRoundTrip:
 
         proxy = VariationPointProxy(behavior, "vpp1")
         limit = LimitValueVariationPoint()
-        limit.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        limit.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         limit.setSd(String().setValue("sd-x"))
         limit.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
         limit.setBlueprintValue(String().setValue("derived"))
-        limit.setIntervalType(IntervalTypeEnum().setValue("open"))
+        limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.OPEN))
         limit.setMixedString("42")
         proxy.setValueAccess(limit)
         behavior.addVariationPointProxy(proxy)
@@ -773,11 +773,11 @@ class TestVariationPointProxyRoundTrip:
             component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
             value_access = component_2.getInternalBehavior().getVariationPointProxies()[0].getValueAccess()
             assert isinstance(value_access, LimitValueVariationPoint)
-            assert value_access.getBindingTime().getValue() == "preCompileTime"
+            assert value_access.getBindingTime().getValue() == "PRE-COMPILE-TIME"
             assert value_access.getSd().getValue() == "sd-x"
             assert value_access.getShortLabel().getValue() == "limit1"
             assert value_access.getBlueprintValue().getValue() == "derived"
-            assert value_access.getIntervalType().getValue() == "open"
+            assert value_access.getIntervalType().getValue() == IntervalTypeEnum.OPEN
             assert value_access.getMixedString() == "42"
         finally:
             if os.path.exists(file_path):
@@ -799,7 +799,7 @@ class TestConditionByFormulaRoundTrip:
         vp = VariationPoint()
         vp.setShortLabel(Identifier().setValue("VP_Country"))
         syscond = ConditionByFormula()
-        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
         syscond.setMixedString('defined(sysc) && sysc == "A"')
         vp.setSwSyscond(syscond)
         criterion.setVariationPoint(vp)
@@ -822,7 +822,7 @@ class TestConditionByFormulaRoundTrip:
         assert vp_2.getShortLabel().getValue() == "VP_Country"
         sw_syscond = vp_2.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
-        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert sw_syscond.getMixedString() == 'defined(sysc) && sysc == "A"'
 
 

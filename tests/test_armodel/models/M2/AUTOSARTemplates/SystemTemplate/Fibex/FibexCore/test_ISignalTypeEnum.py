@@ -8,7 +8,7 @@ class Test_ISignalTypeEnum:
         """Test ISignalTypeEnum member values."""
         enum = ISignalTypeEnum()
         values = enum.getEnumValues()
-        assert ISignalTypeEnum.ARRAY == "array"
-        assert ISignalTypeEnum.PRIMITIVE == "primitive"
+        assert ISignalTypeEnum.ARRAY == "ARRAY"
+        assert ISignalTypeEnum.PRIMITIVE == "PRIMITIVE"
         assert ISignalTypeEnum.ARRAY in values
         assert ISignalTypeEnum.PRIMITIVE in values

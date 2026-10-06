@@ -75,7 +75,7 @@ CONDITIONAL_XML = """
             <MC-DATA-INSTANCE-VAR-REF DEST="MC-DATA-INSTANCE">/McDataInstances/host</MC-DATA-INSTANCE-VAR-REF>
         </SW-HOST-VARIABLE>
         <SW-IMPL-POLICY>STANDARD</SW-IMPL-POLICY>
-        <ADDITIONAL-NATIVE-TYPE-QUALIFIER>volatile</ADDITIONAL-NATIVE-TYPE-QUALIFIER>
+        <ADDITIONAL-NATIVE-TYPE-QUALIFIER>VOLATILE</ADDITIONAL-NATIVE-TYPE-QUALIFIER>
         <SW-INTENDED-RESOLUTION>0.01</SW-INTENDED-RESOLUTION>
         <SW-INTERPOLATION-METHOD>linear</SW-INTERPOLATION-METHOD>
         <INVALID-VALUE>
@@ -268,13 +268,13 @@ class TestSwDataDefPropsParser:
 
     def test_read_sw_data_def_props_scalar_attrs(self):
         props = _load_props()
-        assert props.getAdditionalNativeTypeQualifier().getValue() == "volatile"
+        assert props.getAdditionalNativeTypeQualifier().getValue() == "VOLATILE"
         assert props.getDisplayFormat().getValue() == "%5.2f"
-        assert props.getDisplayPresentation().getValue() == "presentationContinuous"
+        assert props.getDisplayPresentation().getValue() == "PRESENTATION-CONTINUOUS"
         assert props.getStepSize().getValue() == 0.5
         assert props.getSwAlignment().getValue() == "8"
-        assert props.getSwCalibrationAccess().getValue() == "readWrite"
-        assert props.getSwImplPolicy().getValue() == "standard"
+        assert props.getSwCalibrationAccess().getValue() == "READ-WRITE"
+        assert props.getSwImplPolicy().getValue() == "STANDARD"
         assert props.getSwInterpolationMethod().getValue() == "linear"
         assert props.getSwIsVirtual().getValue() is True
         assert props.getSwIntendedResolution().getValue() == 0.01

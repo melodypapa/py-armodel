@@ -60,4 +60,4 @@ class TestWriteDiagnosticEventWindow:
         event_window_2 = DiagnosticEventWindow()
         parser.readDiagnosticEventWindow(wrapped.find("{http://autosar.org/schema/r4.0}DIAGNOSTIC-EVENT-WINDOW"), event_window_2)
         assert event_window_2.getEventWindowTime() is not None
-        assert event_window_2.getEventWindowTime().getValue() == "powerWindowTime"
+        assert event_window_2.getEventWindowTime().getValue() == DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME

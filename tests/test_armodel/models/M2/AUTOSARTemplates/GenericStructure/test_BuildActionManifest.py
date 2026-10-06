@@ -87,7 +87,7 @@ class TestBuildEngineeringObject:
         assert obj.getShortLabelPattern() is None
 
         file_type = NameToken()
-        file_type.setValue("c")
+        file_type.setValue("C")
         pattern = RegularExpression()
         pattern.setValue(".*")
         filename = UriString()

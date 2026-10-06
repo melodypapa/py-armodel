@@ -303,8 +303,8 @@ class TestReceiverComSpecRoundTrip:
         assert isinstance(com_spec, NonqueuedReceiverComSpec)
         assert com_spec.getDataElementRef().getValue() == "/Swc/Vdp"
         assert com_spec.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert com_spec.getHandleOutOfRange().getValue() == "externalReplacement"
-        assert com_spec.getHandleOutOfRangeStatus().getValue() == "indicate"
+        assert com_spec.getHandleOutOfRange().getValue() == "EXTERNAL-REPLACEMENT"
+        assert com_spec.getHandleOutOfRangeStatus().getValue() == HandleOutOfRangeStatusEnum.INDICATE
         assert com_spec.getMaxDeltaCounterInit().getValue() == 2
         assert com_spec.getMaxNoNewOrRepeatedData().getValue() == 3
         assert com_spec.getReceptionProps().getTimeout().getValue() == 0.5
@@ -316,7 +316,7 @@ class TestReceiverComSpecRoundTrip:
         assert com_spec.getFilter().getDataFilterType().getValue() == "ONE-EVERY-N"
         assert com_spec.getHandleDataStatus().getValue() is True
         assert com_spec.getHandleNeverReceived().getValue() is True
-        assert com_spec.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+        assert com_spec.getHandleTimeoutType().getValue() == HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE
         assert isinstance(com_spec.getInitValue(), TextValueSpecification)
         assert com_spec.getInitValue().getValue().getValue() == "42"
         assert isinstance(com_spec.getTimeoutSubstitutionValue(), NumericalValueSpecification)
@@ -340,7 +340,7 @@ class TestReceiverComSpecRoundTrip:
 
         _, r_port_2 = _round_trip_ports(document)
         com_spec_2 = r_port_2.getRequiredComSpecs()[0]
-        assert com_spec_2.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+        assert com_spec_2.getHandleTimeoutType().getValue() == HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE
 
     def test_handle_out_of_range_xml_carries_xsd_token(self):
         """HANDLE-OUT-OF-RANGE is written as the XSD token and read back as the camelCase literal (HANDLE_OUT_OF_RANGE_XML_MAP)."""
@@ -359,8 +359,8 @@ class TestReceiverComSpecRoundTrip:
         assert root.find(".//{*}NONQUEUED-RECEIVER-COM-SPEC/{*}HANDLE-OUT-OF-RANGE").text == "SATURATE"
 
         p_port_2, r_port_2 = _round_trip_ports(document)
-        assert p_port_2.getProvidedComSpecs()[0].getHandleOutOfRange().getValue() == "externalReplacement"
-        assert r_port_2.getRequiredComSpecs()[0].getHandleOutOfRange().getValue() == "saturate"
+        assert p_port_2.getProvidedComSpecs()[0].getHandleOutOfRange().getValue() == "EXTERNAL-REPLACEMENT"
+        assert r_port_2.getRequiredComSpecs()[0].getHandleOutOfRange().getValue() == HandleOutOfRangeEnum.SATURATE
 
     def test_nonqueued_receiver_com_spec_schema_valid_output(self):
         """A save carrying HANDLE-TIMEOUT-TYPE must pass the bundled R23-11 XSD when schema location is set."""
@@ -384,8 +384,8 @@ class TestReceiverComSpecRoundTrip:
                 os.remove(file_path)
 
         com_spec_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0].getRPortPrototypes()[0].getRequiredComSpecs()[0]
-        assert com_spec_2.getHandleTimeoutType().getValue() == "replace"
-        assert com_spec_2.getHandleOutOfRange().getValue() == "none"
+        assert com_spec_2.getHandleTimeoutType().getValue() == "REPLACE"
+        assert com_spec_2.getHandleOutOfRange().getValue() == "NONE"
         assert com_spec_2.getAliveTimeout().getValue() == 1.5
 
     def test_receiver_com_spec_xml_element_order_matches_xsd(self):
@@ -465,7 +465,7 @@ class TestSenderComSpecRoundTrip:
         assert isinstance(com_spec, NonqueuedSenderComSpec)
         assert com_spec.getDataElementRef().getValue() == "/Swc/Vdp"
         assert com_spec.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert com_spec.getHandleOutOfRange().getValue() == "default"
+        assert com_spec.getHandleOutOfRange().getValue() == HandleOutOfRangeEnum.DEFAULT
         assert com_spec.getNetworkRepresentation() is not None
         assert com_spec.getTransmissionAcknowledge().getTimeout().getValue() == 2.5
         assert com_spec.getTransmissionProps().getMinimumSendInterval().getValue() == 0.2
@@ -525,7 +525,7 @@ class TestTransmissionComSpecPropsRoundTrip:
         assert isinstance(props, TransmissionComSpecProps)
         assert props.getDataUpdatePeriod().getValue() == 0.01
         assert props.getMinimumSendInterval().getValue() == 0.2
-        assert props.getTransmissionMode().getValue() == "cyclicAndOnChange"
+        assert props.getTransmissionMode().getValue() == TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE
 
     def test_transmission_mode_xml_carries_xsd_token(self):
         """TRANSMISSION-MODE is written as the XSD token and read back as the camelCase literal (TRANSMISSION_MODE_DEFINITION_XML_MAP)."""
@@ -541,7 +541,7 @@ class TestTransmissionComSpecPropsRoundTrip:
 
         p_port_2, _ = _round_trip_ports(document)
         props_2 = p_port_2.getProvidedComSpecs()[0].getTransmissionProps()
-        assert props_2.getTransmissionMode().getValue() == "cyclicAndOnChange"
+        assert props_2.getTransmissionMode().getValue() == TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE
 
     def test_transmission_com_spec_props_schema_valid_output(self):
         """A save carrying TRANSMISSION-PROPS must pass the bundled R23-11 XSD when schema location is set."""
@@ -568,7 +568,7 @@ class TestTransmissionComSpecPropsRoundTrip:
         props_2 = com_spec_2.getTransmissionProps()
         assert props_2.getDataUpdatePeriod().getValue() == 0.01
         assert props_2.getMinimumSendInterval().getValue() == 0.2
-        assert props_2.getTransmissionMode().getValue() == "cyclicAndOnChange"
+        assert props_2.getTransmissionMode().getValue() == TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE
 
     def test_empty_transmission_props_round_trip(self):
         """A SenderComSpec without transmissionProps round-trips with the field unset."""

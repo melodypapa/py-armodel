@@ -35,11 +35,11 @@ class LatencyConstraintTypeEnum(AREnum):
 
     # The LatencyTimingConstraint is seen from the perspective of the response event of the scope . Given a certain response event, the age interval of the latest stimulus is constrained.
     # Tags: atp.EnumerationLiteralIndex=0
-    AGE = "age"
+    AGE = "AGE"
 
     # The LatencyTimingConstraint is seen from the perspective of the stimulus event of the scope . Given a certain stimulus event, the reaction interval of the first response is constrained.
     # Tags: atp.EnumerationLiteralIndex=1
-    REACTION = "reaction"
+    REACTION = "REACTION"
 
     def __init__(self):
         """

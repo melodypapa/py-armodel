@@ -59,7 +59,7 @@ class TestReadTrigger:
 
         policy = trigger.getSwImplPolicy()
         assert policy is not None
-        assert policy.getValue() == "queued"
+        assert policy.getValue() == "QUEUED"
         period = trigger.getTriggerPeriod()
         assert period is not None
         assert isinstance(period, MultidimensionalTime)
@@ -109,7 +109,7 @@ class TestReadTrigger:
             assert triggers[0].getShortName() == "MyTrigger"
             policy = triggers[0].getSwImplPolicy()
             assert policy is not None
-            assert policy.getValue() == "queued"
+            assert policy.getValue() == "QUEUED"
             period_2 = triggers[0].getTriggerPeriod()
             assert period_2 is not None
             assert period_2.getCseCode().getValue() == "1.0"

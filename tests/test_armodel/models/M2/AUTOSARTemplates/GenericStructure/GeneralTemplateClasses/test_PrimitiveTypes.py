@@ -552,8 +552,8 @@ class TestNativeDeclarationString:
         """
         Test NativeDeclarationString value assignment.
         """
-        native_declaration = NativeDeclarationString().setValue("volatile")
-        assert native_declaration.getValue() == "volatile"
+        native_declaration = NativeDeclarationString().setValue(DiagnosticHandleDDDIConfigurationEnum.VOLATILE)
+        assert native_declaration.getValue() == DiagnosticHandleDDDIConfigurationEnum.VOLATILE
 
 
 class TestPrimitiveIdentifier:
@@ -809,29 +809,29 @@ class TestIntervalTypeEnum:
     def test_initialization(self):
         enum = IntervalTypeEnum()
         enum.setValue(IntervalTypeEnum.OPEN)
-        assert enum.getValue() == "open"
+        assert enum.getValue() == IntervalTypeEnum.OPEN
 
     def test_enum_values(self):
         enum = IntervalTypeEnum()
 
-        assert IntervalTypeEnum.CLOSED == "closed"
-        assert IntervalTypeEnum.OPEN == "open"
+        assert IntervalTypeEnum.CLOSED == "CLOSED"
+        assert IntervalTypeEnum.OPEN == "OPEN"
 
-        assert enum.validateEnumValue("closed") is True
-        assert enum.validateEnumValue("open") is True
+        assert enum.validateEnumValue("CLOSED") is True
+        assert enum.validateEnumValue("OPEN") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_literal_display_order(self):
         """Members appear in the markdown Table 5.88 display order (EnumerationLiteralIndex 0, 2)."""
         enum = IntervalTypeEnum()
 
-        assert enum.getEnumValues() == ["closed", "open"]
+        assert enum.getEnumValues() == ["CLOSED", "OPEN"]
 
     def test_set_value_round_trip(self):
         """Instantiability and setValue/getValue round-trip."""
         enum = IntervalTypeEnum()
         assert enum.setValue(IntervalTypeEnum.CLOSED) is enum
-        assert enum.getValue() == "closed"
+        assert enum.getValue() == IntervalTypeEnum.CLOSED
 
 
 class TestLimit:
@@ -865,10 +865,10 @@ class TestLimit:
         result = limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         assert result is limit  # Verify method chaining
         assert isinstance(limit.getIntervalType(), IntervalTypeEnum)
-        assert limit.getIntervalType().getValue() == "closed"
+        assert limit.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
 
         limit.setIntervalType(None)
-        assert limit.getIntervalType().getValue() == "closed"
+        assert limit.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
 
     def test_value_methods(self):
         """
@@ -1094,7 +1094,7 @@ class TestArgumentDirectionEnum:
         # Verify basic properties
         assert enum is not None
         # Enum values are stored as a tuple, not a list
-        assert enum.getEnumValues() == ("in", "inout", "out")
+        assert enum.getEnumValues() == ("IN", "INOUT", "OUT")
 
     def test_enum_values(self):
         """
@@ -1102,14 +1102,14 @@ class TestArgumentDirectionEnum:
         """
         enum = ArgumentDirectionEnum()
 
-        assert ArgumentDirectionEnum.IN == "in"
-        assert ArgumentDirectionEnum.INOUT == "inout"
-        assert ArgumentDirectionEnum.OUT == "out"
+        assert ArgumentDirectionEnum.IN == "IN"
+        assert ArgumentDirectionEnum.INOUT == "INOUT"
+        assert ArgumentDirectionEnum.OUT == "OUT"
 
         # Test validation
-        assert enum.validateEnumValue("in") is True
-        assert enum.validateEnumValue("inout") is True
-        assert enum.validateEnumValue("out") is True
+        assert enum.validateEnumValue("IN") is True
+        assert enum.validateEnumValue("INOUT") is True
+        assert enum.validateEnumValue("OUT") is True
         assert enum.validateEnumValue("invalid") is False
 
 
@@ -1127,9 +1127,9 @@ class TestByteOrderEnum:
         # Verify basic properties
         assert enum is not None
         assert enum.getEnumValues() == [
-            "mostSignificantByteFirst",
-            "mostSignificantByteLast",
-            "opaque",
+            ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST,
+            ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST,
+            ByteOrderEnum.OPAQUE,
         ]
 
     def test_enum_values(self):
@@ -1138,14 +1138,14 @@ class TestByteOrderEnum:
         """
         enum = ByteOrderEnum()
 
-        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST == "mostSignificantByteFirst"
-        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST == "mostSignificantByteLast"
-        assert ByteOrderEnum.OPAQUE == "opaque"
+        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert ByteOrderEnum.OPAQUE == "OPAQUE"
 
         # Test validation
-        assert enum.validateEnumValue("mostSignificantByteFirst") is True
-        assert enum.validateEnumValue("mostSignificantByteLast") is True
-        assert enum.validateEnumValue("opaque") is True
+        assert enum.validateEnumValue("MOST-SIGNIFICANT-BYTE-FIRST") is True
+        assert enum.validateEnumValue("MOST-SIGNIFICANT-BYTE-LAST") is True
+        assert enum.validateEnumValue("OPAQUE") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_set_value_round_trip(self):
@@ -1154,13 +1154,13 @@ class TestByteOrderEnum:
         """
         enum = ByteOrderEnum()
         assert enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST) is enum
-        assert enum.getValue() == "mostSignificantByteFirst"
+        assert enum.getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
 
         enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)
-        assert enum.getValue() == "mostSignificantByteLast"
+        assert enum.getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
 
         enum.setValue(ByteOrderEnum.OPAQUE)
-        assert enum.getValue() == "opaque"
+        assert enum.getValue() == ByteOrderEnum.OPAQUE
 
     def test_set_value_none_no_op(self):
         """
@@ -1169,7 +1169,7 @@ class TestByteOrderEnum:
         enum = ByteOrderEnum()
         enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
         enum.setValue(None)
-        assert enum.getValue() == "mostSignificantByteFirst"
+        assert enum.getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
 
 
 class TestMonotonyEnum:
@@ -1180,21 +1180,21 @@ class TestMonotonyEnum:
     def test_initialization(self):
         enum = MonotonyEnum()
         enum.setValue(MonotonyEnum.STRICTLY_INCREASING)
-        assert enum.getValue() == "strictlyIncreasing"
+        assert enum.getValue() == MonotonyEnum.STRICTLY_INCREASING
 
     def test_enum_values(self):
         enum = MonotonyEnum()
 
-        assert MonotonyEnum.DECREASING == "decreasing"
-        assert MonotonyEnum.INCREASING == "increasing"
-        assert MonotonyEnum.MONOTONOUS == "monotonous"
-        assert MonotonyEnum.NO_MONOTONY == "noMonotony"
-        assert MonotonyEnum.STRICTLY_DECREASING == "strictlyDecreasing"
-        assert MonotonyEnum.STRICTLY_INCREASING == "strictlyIncreasing"
-        assert MonotonyEnum.STRICT_MONOTONOUS == "strictMonotonous"
+        assert MonotonyEnum.DECREASING == "DECREASING"
+        assert MonotonyEnum.INCREASING == "INCREASING"
+        assert MonotonyEnum.MONOTONOUS == "MONOTONOUS"
+        assert MonotonyEnum.NO_MONOTONY == "NO-MONOTONY"
+        assert MonotonyEnum.STRICTLY_DECREASING == "STRICTLY-DECREASING"
+        assert MonotonyEnum.STRICTLY_INCREASING == "STRICTLY-INCREASING"
+        assert MonotonyEnum.STRICT_MONOTONOUS == "STRICT-MONOTONOUS"
 
-        assert enum.validateEnumValue("decreasing") is True
-        assert enum.validateEnumValue("strictMonotonous") is True
+        assert enum.validateEnumValue("DECREASING") is True
+        assert enum.validateEnumValue("STRICT-MONOTONOUS") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_literal_display_order(self):
@@ -1202,20 +1202,20 @@ class TestMonotonyEnum:
         enum = MonotonyEnum()
 
         assert enum.getEnumValues() == [
-            "decreasing",
-            "increasing",
-            "monotonous",
-            "noMonotony",
-            "strictlyDecreasing",
-            "strictlyIncreasing",
-            "strictMonotonous",
+            MonotonyEnum.DECREASING,
+            MonotonyEnum.INCREASING,
+            MonotonyEnum.MONOTONOUS,
+            MonotonyEnum.NO_MONOTONY,
+            MonotonyEnum.STRICTLY_DECREASING,
+            MonotonyEnum.STRICTLY_INCREASING,
+            MonotonyEnum.STRICT_MONOTONOUS,
         ]
 
     def test_set_value_round_trip(self):
         """Instantiability and setValue/getValue round-trip."""
         enum = MonotonyEnum()
         assert enum.setValue(MonotonyEnum.NO_MONOTONY) is enum
-        assert enum.getValue() == "noMonotony"
+        assert enum.getValue() == MonotonyEnum.NO_MONOTONY
 
 
 class TestCIdentifier:
@@ -1692,7 +1692,7 @@ class TestAclScopeEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["dependant", "descendant", "explicit"]
+        assert enum.getEnumValues() == ["DEPENDANT", "DESCENDANT", "EXPLICIT"]
 
     def test_enum_values(self):
         """
@@ -1700,14 +1700,14 @@ class TestAclScopeEnum:
         """
         enum = AclScopeEnum()
 
-        assert AclScopeEnum.DEPENDANT == "dependant"
-        assert AclScopeEnum.DESCENDANT == "descendant"
-        assert AclScopeEnum.EXPLICIT == "explicit"
+        assert AclScopeEnum.DEPENDANT == "DEPENDANT"
+        assert AclScopeEnum.DESCENDANT == "DESCENDANT"
+        assert AclScopeEnum.EXPLICIT == "EXPLICIT"
 
         # Test validation
-        assert enum.validateEnumValue("dependant") is True
-        assert enum.validateEnumValue("descendant") is True
-        assert enum.validateEnumValue("explicit") is True
+        assert enum.validateEnumValue("DEPENDANT") is True
+        assert enum.validateEnumValue("DESCENDANT") is True
+        assert enum.validateEnumValue("EXPLICIT") is True
         assert enum.validateEnumValue("invalid") is False
 
 
@@ -1857,7 +1857,7 @@ class TestDiagnosticOccurrenceCounterProcessingEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["confirmedDtcBit", "testFailedBit"]
+        assert enum.getEnumValues() == ["CONFIRMED-DTC-BIT", "TEST-FAILED-BIT"]
 
     def test_enum_values(self):
         """
@@ -1865,11 +1865,11 @@ class TestDiagnosticOccurrenceCounterProcessingEnum:
         """
         enum = DiagnosticOccurrenceCounterProcessingEnum()
 
-        assert DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT == "confirmedDtcBit"
-        assert DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT == "testFailedBit"
+        assert DiagnosticOccurrenceCounterProcessingEnum.CONFIRMED_DTC_BIT == "CONFIRMED-DTC-BIT"
+        assert DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT == "TEST-FAILED-BIT"
 
-        assert enum.validateEnumValue("confirmedDtcBit") is True
-        assert enum.validateEnumValue("testFailedBit") is True
+        assert enum.validateEnumValue("CONFIRMED-DTC-BIT") is True
+        assert enum.validateEnumValue("TEST-FAILED-BIT") is True
         assert enum.validateEnumValue("invalid") is False
 
 
@@ -1889,11 +1889,11 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "iso11992_4",
-            "iso14229_1",
-            "iso15031_6",
-            "saeJ1939_73",
-            "saeJ2012_da",
+            DiagnosticTypeOfDtcSupportedEnum.ISO11992_4,
+            DiagnosticTypeOfDtcSupportedEnum.ISO14229_1,
+            DiagnosticTypeOfDtcSupportedEnum.ISO15031_6,
+            DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73,
+            DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA,
         ]
 
     def test_enum_values(self):
@@ -1902,17 +1902,17 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         """
         enum = DiagnosticTypeOfDtcSupportedEnum()
 
-        assert DiagnosticTypeOfDtcSupportedEnum.ISO11992_4 == "iso11992_4"
-        assert DiagnosticTypeOfDtcSupportedEnum.ISO14229_1 == "iso14229_1"
-        assert DiagnosticTypeOfDtcSupportedEnum.ISO15031_6 == "iso15031_6"
-        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73 == "saeJ1939_73"
-        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA == "saeJ2012_da"
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO11992_4 == "ISO-11992--4"
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO14229_1 == "ISO-14229--1"
+        assert DiagnosticTypeOfDtcSupportedEnum.ISO15031_6 == "ISO-15031--6"
+        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73 == "SAE-J-1939--73"
+        assert DiagnosticTypeOfDtcSupportedEnum.SAEJ2012_DA == "SAE-J-2012--DA"
 
-        assert enum.validateEnumValue("iso11992_4") is True
-        assert enum.validateEnumValue("iso14229_1") is True
-        assert enum.validateEnumValue("iso15031_6") is True
-        assert enum.validateEnumValue("saeJ1939_73") is True
-        assert enum.validateEnumValue("saeJ2012_da") is True
+        assert enum.validateEnumValue("ISO-11992--4") is True
+        assert enum.validateEnumValue("ISO-14229--1") is True
+        assert enum.validateEnumValue("ISO-15031--6") is True
+        assert enum.validateEnumValue("SAE-J-1939--73") is True
+        assert enum.validateEnumValue("SAE-J-2012--DA") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -1922,7 +1922,7 @@ class TestDiagnosticTypeOfDtcSupportedEnum:
         enum = DiagnosticTypeOfDtcSupportedEnum()
         enum.setValue(DiagnosticTypeOfDtcSupportedEnum.ISO14229_1)
 
-        assert enum.getValue() == "iso14229_1"
+        assert enum.getValue() == DiagnosticTypeOfDtcSupportedEnum.ISO14229_1
 
 
 class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
@@ -1941,8 +1941,8 @@ class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "calculated",
-            "configured",
+            DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED,
+            DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED,
         ]
 
     def test_enum_values(self):
@@ -1951,11 +1951,11 @@ class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
         """
         enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
 
-        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED == "calculated"
-        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED == "configured"
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED == "CALCULATED"
+        assert DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CONFIGURED == "CONFIGURED"
 
-        assert enum.validateEnumValue("calculated") is True
-        assert enum.validateEnumValue("configured") is True
+        assert enum.validateEnumValue("CALCULATED") is True
+        assert enum.validateEnumValue("CONFIGURED") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -1965,7 +1965,7 @@ class TestDiagnosticTypeOfFreezeFrameRecordNumerationEnum:
         enum = DiagnosticTypeOfFreezeFrameRecordNumerationEnum()
         enum.setValue(DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED)
 
-        assert enum.getValue() == "calculated"
+        assert enum.getValue() == DiagnosticTypeOfFreezeFrameRecordNumerationEnum.CALCULATED
 
 
 class TestDiagnosticEventCombinationBehaviorEnum:
@@ -1984,8 +1984,8 @@ class TestDiagnosticEventCombinationBehaviorEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "eventCombinationOnRetrieval",
-            "eventCombinationOnStorage",
+            DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL,
+            DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE,
         ]
 
     def test_enum_values(self):
@@ -1994,11 +1994,11 @@ class TestDiagnosticEventCombinationBehaviorEnum:
         """
         enum = DiagnosticEventCombinationBehaviorEnum()
 
-        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL == "eventCombinationOnRetrieval"
-        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE == "eventCombinationOnStorage"
+        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL == "EVENT-COMBINATION-ON-RETRIEVAL"
+        assert DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_STORAGE == "EVENT-COMBINATION-ON-STORAGE"
 
-        assert enum.validateEnumValue("eventCombinationOnRetrieval") is True
-        assert enum.validateEnumValue("eventCombinationOnStorage") is True
+        assert enum.validateEnumValue("EVENT-COMBINATION-ON-RETRIEVAL") is True
+        assert enum.validateEnumValue("EVENT-COMBINATION-ON-STORAGE") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2008,7 +2008,7 @@ class TestDiagnosticEventCombinationBehaviorEnum:
         enum = DiagnosticEventCombinationBehaviorEnum()
         enum.setValue(DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL)
 
-        assert enum.getValue() == "eventCombinationOnRetrieval"
+        assert enum.getValue() == DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL
 
 
 class TestDiagnosticEventCombinationReportingBehaviorEnum:
@@ -2026,7 +2026,7 @@ class TestDiagnosticEventCombinationReportingBehaviorEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["reportingInChronlogicalOrderOldestFirst"]
+        assert enum.getEnumValues() == ["REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST"]
 
     def test_enum_values(self):
         """
@@ -2034,9 +2034,9 @@ class TestDiagnosticEventCombinationReportingBehaviorEnum:
         """
         enum = DiagnosticEventCombinationReportingBehaviorEnum()
 
-        assert DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST == "reportingInChronlogicalOrderOldestFirst"
+        assert DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST == "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST"
 
-        assert enum.validateEnumValue("reportingInChronlogicalOrderOldestFirst") is True
+        assert enum.validateEnumValue("REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2046,7 +2046,7 @@ class TestDiagnosticEventCombinationReportingBehaviorEnum:
         enum = DiagnosticEventCombinationReportingBehaviorEnum()
         enum.setValue(DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST)
 
-        assert enum.getValue() == "reportingInChronlogicalOrderOldestFirst"
+        assert enum.getValue() == DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST
 
 
 class TestDiagnosticResponseToEcuResetEnum:
@@ -2064,7 +2064,7 @@ class TestDiagnosticResponseToEcuResetEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["respondAfterReset", "respondBeforeReset"]
+        assert enum.getEnumValues() == ["RESPOND-AFTER-RESET", "RESPOND-BEFORE-RESET"]
 
     def test_enum_values(self):
         """
@@ -2072,11 +2072,11 @@ class TestDiagnosticResponseToEcuResetEnum:
         """
         enum = DiagnosticResponseToEcuResetEnum()
 
-        assert DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET == "respondAfterReset"
-        assert DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET == "respondBeforeReset"
+        assert DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET == "RESPOND-AFTER-RESET"
+        assert DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET == "RESPOND-BEFORE-RESET"
 
-        assert enum.validateEnumValue("respondAfterReset") is True
-        assert enum.validateEnumValue("respondBeforeReset") is True
+        assert enum.validateEnumValue("RESPOND-AFTER-RESET") is True
+        assert enum.validateEnumValue("RESPOND-BEFORE-RESET") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2086,7 +2086,7 @@ class TestDiagnosticResponseToEcuResetEnum:
         enum = DiagnosticResponseToEcuResetEnum()
         enum.setValue(DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET)
 
-        assert enum.getValue() == "respondBeforeReset"
+        assert enum.getValue() == DiagnosticResponseToEcuResetEnum.RESPOND_BEFORE_RESET
 
 
 class TestDiagnosticInhibitionMaskEnum:
@@ -2104,7 +2104,7 @@ class TestDiagnosticInhibitionMaskEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["lastFailed", "notTested", "tested", "testedAndFailed"]
+        assert enum.getEnumValues() == ["LAST-FAILED", "NOT-TESTED", "TESTED", "TESTED-AND-FAILED"]
 
     def test_enum_values(self):
         """
@@ -2112,15 +2112,15 @@ class TestDiagnosticInhibitionMaskEnum:
         """
         enum = DiagnosticInhibitionMaskEnum()
 
-        assert DiagnosticInhibitionMaskEnum.LAST_FAILED == "lastFailed"
-        assert DiagnosticInhibitionMaskEnum.NOT_TESTED == "notTested"
-        assert DiagnosticInhibitionMaskEnum.TESTED == "tested"
-        assert DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED == "testedAndFailed"
+        assert DiagnosticInhibitionMaskEnum.LAST_FAILED == "LAST-FAILED"
+        assert DiagnosticInhibitionMaskEnum.NOT_TESTED == "NOT-TESTED"
+        assert DiagnosticInhibitionMaskEnum.TESTED == "TESTED"
+        assert DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED == "TESTED-AND-FAILED"
 
-        assert enum.validateEnumValue("lastFailed") is True
-        assert enum.validateEnumValue("notTested") is True
-        assert enum.validateEnumValue("tested") is True
-        assert enum.validateEnumValue("testedAndFailed") is True
+        assert enum.validateEnumValue("LAST-FAILED") is True
+        assert enum.validateEnumValue("NOT-TESTED") is True
+        assert enum.validateEnumValue("TESTED") is True
+        assert enum.validateEnumValue("TESTED-AND-FAILED") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2130,7 +2130,7 @@ class TestDiagnosticInhibitionMaskEnum:
         enum = DiagnosticInhibitionMaskEnum()
         enum.setValue(DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED)
 
-        assert enum.getValue() == "testedAndFailed"
+        assert enum.getValue() == DiagnosticInhibitionMaskEnum.TESTED_AND_FAILED
 
 
 class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
@@ -2148,7 +2148,7 @@ class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["serviceOnly", "standard"]
+        assert enum.getEnumValues() == ["SERVICE-ONLY", "STANDARD"]
 
     def test_enum_values(self):
         """
@@ -2156,11 +2156,11 @@ class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
         """
         enum = DiagnosticTroubleCodeJ1939DtcKindEnum()
 
-        assert DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY == "serviceOnly"
-        assert DiagnosticTroubleCodeJ1939DtcKindEnum.STANDARD == "standard"
+        assert DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY == "SERVICE-ONLY"
+        assert DiagnosticTroubleCodeJ1939DtcKindEnum.STANDARD == "STANDARD"
 
-        assert enum.validateEnumValue("serviceOnly") is True
-        assert enum.validateEnumValue("standard") is True
+        assert enum.validateEnumValue("SERVICE-ONLY") is True
+        assert enum.validateEnumValue("STANDARD") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2170,7 +2170,7 @@ class TestDiagnosticTroubleCodeJ1939DtcKindEnum:
         enum = DiagnosticTroubleCodeJ1939DtcKindEnum()
         enum.setValue(DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY)
 
-        assert enum.getValue() == "serviceOnly"
+        assert enum.getValue() == DiagnosticTroubleCodeJ1939DtcKindEnum.SERVICE_ONLY
 
 
 class TestDiagnosticHandleDDDIConfigurationEnum:
@@ -2188,7 +2188,7 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["nonVolatile", "volatile"]
+        assert enum.getEnumValues() == ["NON-VOLATILE", "VOLATILE"]
 
     def test_enum_values(self):
         """
@@ -2196,11 +2196,11 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
         """
         enum = DiagnosticHandleDDDIConfigurationEnum()
 
-        assert DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE == "nonVolatile"
-        assert DiagnosticHandleDDDIConfigurationEnum.VOLATILE == "volatile"
+        assert DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE == "NON-VOLATILE"
+        assert DiagnosticHandleDDDIConfigurationEnum.VOLATILE == "VOLATILE"
 
-        assert enum.validateEnumValue("nonVolatile") is True
-        assert enum.validateEnumValue("volatile") is True
+        assert enum.validateEnumValue("NON-VOLATILE") is True
+        assert enum.validateEnumValue("VOLATILE") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2210,7 +2210,7 @@ class TestDiagnosticHandleDDDIConfigurationEnum:
         enum = DiagnosticHandleDDDIConfigurationEnum()
         enum.setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
 
-        assert enum.getValue() == "nonVolatile"
+        assert enum.getValue() == DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE
 
 
 class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
@@ -2228,7 +2228,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["clearDynamicallyDefineDataIdentifier", "defineByIdentifier", "defineByMemoryAddress"]
+        assert enum.getEnumValues() == ["CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER", "DEFINE-BY-IDENTIFIER", "DEFINE-BY-MEMORY-ADDRESS"]
 
     def test_enum_values(self):
         """
@@ -2236,13 +2236,13 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
         """
         enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
 
-        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER == "clearDynamicallyDefineDataIdentifier"
-        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER == "defineByIdentifier"
-        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS == "defineByMemoryAddress"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER == "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER == "DEFINE-BY-IDENTIFIER"
+        assert DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_MEMORY_ADDRESS == "DEFINE-BY-MEMORY-ADDRESS"
 
-        assert enum.validateEnumValue("clearDynamicallyDefineDataIdentifier") is True
-        assert enum.validateEnumValue("defineByIdentifier") is True
-        assert enum.validateEnumValue("defineByMemoryAddress") is True
+        assert enum.validateEnumValue("CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER") is True
+        assert enum.validateEnumValue("DEFINE-BY-IDENTIFIER") is True
+        assert enum.validateEnumValue("DEFINE-BY-MEMORY-ADDRESS") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2252,7 +2252,7 @@ class TestDiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum:
         enum = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum()
         enum.setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
 
-        assert enum.getValue() == "defineByIdentifier"
+        assert enum.getValue() == DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER
 
 
 class TestDiagnosticPeriodicRateCategoryEnum:
@@ -2270,7 +2270,7 @@ class TestDiagnosticPeriodicRateCategoryEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["periodicRateFast", "periodicRateMedium", "periodicRateSlow"]
+        assert enum.getEnumValues() == ["PERIODIC-RATE-FAST", "PERIODIC-RATE-MEDIUM", "PERIODIC-RATE-SLOW"]
 
     def test_enum_values(self):
         """
@@ -2278,13 +2278,13 @@ class TestDiagnosticPeriodicRateCategoryEnum:
         """
         enum = DiagnosticPeriodicRateCategoryEnum()
 
-        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST == "periodicRateFast"
-        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM == "periodicRateMedium"
-        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW == "periodicRateSlow"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_FAST == "PERIODIC-RATE-FAST"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM == "PERIODIC-RATE-MEDIUM"
+        assert DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW == "PERIODIC-RATE-SLOW"
 
-        assert enum.validateEnumValue("periodicRateFast") is True
-        assert enum.validateEnumValue("periodicRateMedium") is True
-        assert enum.validateEnumValue("periodicRateSlow") is True
+        assert enum.validateEnumValue("PERIODIC-RATE-FAST") is True
+        assert enum.validateEnumValue("PERIODIC-RATE-MEDIUM") is True
+        assert enum.validateEnumValue("PERIODIC-RATE-SLOW") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2294,7 +2294,7 @@ class TestDiagnosticPeriodicRateCategoryEnum:
         enum = DiagnosticPeriodicRateCategoryEnum()
         enum.setValue(DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW)
 
-        assert enum.getValue() == "periodicRateSlow"
+        assert enum.getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_SLOW
 
 
 class TestDiagnosticEventWindowTimeEnum:
@@ -2312,7 +2312,7 @@ class TestDiagnosticEventWindowTimeEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["infiniteTimeToResponse", "powerWindowTime"]
+        assert enum.getEnumValues() == ["INFINITE-TIME-TO-RESPONSE", "POWER-WINDOW-TIME"]
 
     def test_enum_values(self):
         """
@@ -2320,11 +2320,11 @@ class TestDiagnosticEventWindowTimeEnum:
         """
         enum = DiagnosticEventWindowTimeEnum()
 
-        assert DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE == "infiniteTimeToResponse"
-        assert DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME == "powerWindowTime"
+        assert DiagnosticEventWindowTimeEnum.INFINITE_TIME_TO_RESPONSE == "INFINITE-TIME-TO-RESPONSE"
+        assert DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME == "POWER-WINDOW-TIME"
 
-        assert enum.validateEnumValue("infiniteTimeToResponse") is True
-        assert enum.validateEnumValue("powerWindowTime") is True
+        assert enum.validateEnumValue("INFINITE-TIME-TO-RESPONSE") is True
+        assert enum.validateEnumValue("POWER-WINDOW-TIME") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2334,7 +2334,7 @@ class TestDiagnosticEventWindowTimeEnum:
         enum = DiagnosticEventWindowTimeEnum()
         enum.setValue(DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME)
 
-        assert enum.getValue() == "powerWindowTime"
+        assert enum.getValue() == DiagnosticEventWindowTimeEnum.POWER_WINDOW_TIME
 
 
 class TestDiagnosticRecordTriggerEnum:
@@ -2353,13 +2353,13 @@ class TestDiagnosticRecordTriggerEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "confirmed",
-            "custom",
-            "fdcThreshold",
-            "pending",
-            "testFailed",
-            "testFailedThisOperationCycle",
-            "testPassed",
+            "CONFIRMED",
+            "CUSTOM",
+            "FDC-THRESHOLD",
+            "PENDING",
+            "TEST-FAILED",
+            DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE,
+            DiagnosticRecordTriggerEnum.TEST_PASSED,
         ]
 
     def test_enum_values(self):
@@ -2368,21 +2368,21 @@ class TestDiagnosticRecordTriggerEnum:
         """
         enum = DiagnosticRecordTriggerEnum()
 
-        assert DiagnosticRecordTriggerEnum.CONFIRMED == "confirmed"
-        assert DiagnosticRecordTriggerEnum.CUSTOM == "custom"
-        assert DiagnosticRecordTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
-        assert DiagnosticRecordTriggerEnum.PENDING == "pending"
-        assert DiagnosticRecordTriggerEnum.TEST_FAILED == "testFailed"
-        assert DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE == "testFailedThisOperationCycle"
-        assert DiagnosticRecordTriggerEnum.TEST_PASSED == "testPassed"
+        assert DiagnosticRecordTriggerEnum.CONFIRMED == "CONFIRMED"
+        assert DiagnosticRecordTriggerEnum.CUSTOM == "CUSTOM"
+        assert DiagnosticRecordTriggerEnum.FDC_THRESHOLD == "FDC-THRESHOLD"
+        assert DiagnosticRecordTriggerEnum.PENDING == "PENDING"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED == "TEST-FAILED"
+        assert DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE == "TEST-FAILED-THIS-OPERATION-CYCLE"
+        assert DiagnosticRecordTriggerEnum.TEST_PASSED == "TEST-PASSED"
 
-        assert enum.validateEnumValue("confirmed") is True
-        assert enum.validateEnumValue("custom") is True
-        assert enum.validateEnumValue("fdcThreshold") is True
-        assert enum.validateEnumValue("pending") is True
-        assert enum.validateEnumValue("testFailed") is True
-        assert enum.validateEnumValue("testFailedThisOperationCycle") is True
-        assert enum.validateEnumValue("testPassed") is True
+        assert enum.validateEnumValue("CONFIRMED") is True
+        assert enum.validateEnumValue("CUSTOM") is True
+        assert enum.validateEnumValue("FDC-THRESHOLD") is True
+        assert enum.validateEnumValue("PENDING") is True
+        assert enum.validateEnumValue("TEST-FAILED") is True
+        assert enum.validateEnumValue("TEST-FAILED-THIS-OPERATION-CYCLE") is True
+        assert enum.validateEnumValue("TEST-PASSED") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2392,7 +2392,7 @@ class TestDiagnosticRecordTriggerEnum:
         enum = DiagnosticRecordTriggerEnum()
         enum.setValue(DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE)
 
-        assert enum.getValue() == "testFailedThisOperationCycle"
+        assert enum.getValue() == DiagnosticRecordTriggerEnum.TEST_FAILED_THIS_OPERATION_CYCLE
 
 
 class TestDiagnosticResponseOnEventActionEnum:
@@ -2411,15 +2411,15 @@ class TestDiagnosticResponseOnEventActionEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "clear",
-            "onChangeOfDataIdentifier",
-            "onComparisonOfValues",
-            "onDTCStatusChange",
-            "report",
-            "reportDTCRecordInformationOnDtcStatusChange",
-            "reportMostRecentDtcOnStatusChange",
-            "start",
-            "stop",
+            "CLEAR",
+            DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER,
+            DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES,
+            DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE,
+            DiagnosticResponseOnEventActionEnum.REPORT,
+            DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE,
+            DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE,
+            "START",
+            DiagnosticResponseOnEventActionEnum.STOP,
         ]
 
     def test_enum_values(self):
@@ -2428,25 +2428,25 @@ class TestDiagnosticResponseOnEventActionEnum:
         """
         enum = DiagnosticResponseOnEventActionEnum()
 
-        assert DiagnosticResponseOnEventActionEnum.CLEAR == "clear"
-        assert DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER == "onChangeOfDataIdentifier"
-        assert DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES == "onComparisonOfValues"
-        assert DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE == "onDTCStatusChange"
-        assert DiagnosticResponseOnEventActionEnum.REPORT == "report"
-        assert DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE == "reportDTCRecordInformationOnDtcStatusChange"
-        assert DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE == "reportMostRecentDtcOnStatusChange"
-        assert DiagnosticResponseOnEventActionEnum.START == "start"
-        assert DiagnosticResponseOnEventActionEnum.STOP == "stop"
+        assert DiagnosticResponseOnEventActionEnum.CLEAR == "CLEAR"
+        assert DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER == "ON-CHANGE-OF-DATA-IDENTIFIER"
+        assert DiagnosticResponseOnEventActionEnum.ON_COMPARISON_OF_VALUES == "ON-COMPARISON-OF-VALUES"
+        assert DiagnosticResponseOnEventActionEnum.ON_DTC_STATUS_CHANGE == "ON-DTC-STATUS-CHANGE"
+        assert DiagnosticResponseOnEventActionEnum.REPORT == "REPORT"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE == "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE"
+        assert DiagnosticResponseOnEventActionEnum.REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE == "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE"
+        assert DiagnosticResponseOnEventActionEnum.START == "START"
+        assert DiagnosticResponseOnEventActionEnum.STOP == "STOP"
 
-        assert enum.validateEnumValue("clear") is True
-        assert enum.validateEnumValue("onChangeOfDataIdentifier") is True
-        assert enum.validateEnumValue("onComparisonOfValues") is True
-        assert enum.validateEnumValue("onDTCStatusChange") is True
-        assert enum.validateEnumValue("report") is True
-        assert enum.validateEnumValue("reportDTCRecordInformationOnDtcStatusChange") is True
-        assert enum.validateEnumValue("reportMostRecentDtcOnStatusChange") is True
-        assert enum.validateEnumValue("start") is True
-        assert enum.validateEnumValue("stop") is True
+        assert enum.validateEnumValue("CLEAR") is True
+        assert enum.validateEnumValue("ON-CHANGE-OF-DATA-IDENTIFIER") is True
+        assert enum.validateEnumValue("ON-COMPARISON-OF-VALUES") is True
+        assert enum.validateEnumValue("ON-DTC-STATUS-CHANGE") is True
+        assert enum.validateEnumValue("REPORT") is True
+        assert enum.validateEnumValue("REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE") is True
+        assert enum.validateEnumValue("REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE") is True
+        assert enum.validateEnumValue("START") is True
+        assert enum.validateEnumValue("STOP") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2456,7 +2456,7 @@ class TestDiagnosticResponseOnEventActionEnum:
         enum = DiagnosticResponseOnEventActionEnum()
         enum.setValue(DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER)
 
-        assert enum.getValue() == "onChangeOfDataIdentifier"
+        assert enum.getValue() == DiagnosticResponseOnEventActionEnum.ON_CHANGE_OF_DATA_IDENTIFIER
 
 
 class TestDiagnosticClearDtcLimitationEnum:
@@ -2474,7 +2474,7 @@ class TestDiagnosticClearDtcLimitationEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["allSupportedDtcs", "clearAllDtcs"]
+        assert enum.getEnumValues() == ["ALL-SUPPORTED-DTCS", "CLEAR-ALL-DTCS"]
 
     def test_enum_values(self):
         """
@@ -2482,11 +2482,11 @@ class TestDiagnosticClearDtcLimitationEnum:
         """
         enum = DiagnosticClearDtcLimitationEnum()
 
-        assert DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS == "allSupportedDtcs"
-        assert DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS == "clearAllDtcs"
+        assert DiagnosticClearDtcLimitationEnum.ALL_SUPPORTED_DTCS == "ALL-SUPPORTED-DTCS"
+        assert DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS == "CLEAR-ALL-DTCS"
 
-        assert enum.validateEnumValue("allSupportedDtcs") is True
-        assert enum.validateEnumValue("clearAllDtcs") is True
+        assert enum.validateEnumValue("ALL-SUPPORTED-DTCS") is True
+        assert enum.validateEnumValue("CLEAR-ALL-DTCS") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2496,7 +2496,7 @@ class TestDiagnosticClearDtcLimitationEnum:
         enum = DiagnosticClearDtcLimitationEnum()
         enum.setValue(DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS)
 
-        assert enum.getValue() == "clearAllDtcs"
+        assert enum.getValue() == DiagnosticClearDtcLimitationEnum.CLEAR_ALL_DTCS
 
 
 class TestDiagnosticClearEventAllowedBehaviorEnum:
@@ -2514,7 +2514,7 @@ class TestDiagnosticClearEventAllowedBehaviorEnum:
 
         assert enum is not None
         assert isinstance(enum, AREnum)
-        assert enum.getEnumValues() == ["noStatusByteChange", "onlyThisCycleAndReadiness"]
+        assert enum.getEnumValues() == ["NO-STATUS-BYTE-CHANGE", "ONLY-THIS-CYCLE-AND-READINESS"]
 
     def test_enum_values(self):
         """
@@ -2522,11 +2522,11 @@ class TestDiagnosticClearEventAllowedBehaviorEnum:
         """
         enum = DiagnosticClearEventAllowedBehaviorEnum()
 
-        assert DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE == "noStatusByteChange"
-        assert DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS == "onlyThisCycleAndReadiness"
+        assert DiagnosticClearEventAllowedBehaviorEnum.NO_STATUS_BYTE_CHANGE == "NO-STATUS-BYTE-CHANGE"
+        assert DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS == "ONLY-THIS-CYCLE-AND-READINESS"
 
-        assert enum.validateEnumValue("noStatusByteChange") is True
-        assert enum.validateEnumValue("onlyThisCycleAndReadiness") is True
+        assert enum.validateEnumValue("NO-STATUS-BYTE-CHANGE") is True
+        assert enum.validateEnumValue("ONLY-THIS-CYCLE-AND-READINESS") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2536,7 +2536,7 @@ class TestDiagnosticClearEventAllowedBehaviorEnum:
         enum = DiagnosticClearEventAllowedBehaviorEnum()
         enum.setValue(DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS)
 
-        assert enum.getValue() == "onlyThisCycleAndReadiness"
+        assert enum.getValue() == DiagnosticClearEventAllowedBehaviorEnum.ONLY_THIS_CYCLE_AND_READINESS
 
 
 class TestDiagnosticConnectedIndicatorBehaviorEnum:
@@ -2555,11 +2555,11 @@ class TestDiagnosticConnectedIndicatorBehaviorEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "blinkMode",
-            "blinkOrContinuousOnMode",
-            "continuousOnMode",
-            "fastFlashingMode",
-            "slowFlashingMode",
+            DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE,
+            DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE,
+            DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE,
+            DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE,
+            DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE,
         ]
 
     def test_enum_values(self):
@@ -2568,17 +2568,17 @@ class TestDiagnosticConnectedIndicatorBehaviorEnum:
         """
         enum = DiagnosticConnectedIndicatorBehaviorEnum()
 
-        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE == "blinkMode"
-        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE == "blinkOrContinuousOnMode"
-        assert DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE == "continuousOnMode"
-        assert DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE == "fastFlashingMode"
-        assert DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE == "slowFlashingMode"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE == "BLINK-MODE"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE == "BLINK-OR-CONTINUOUS-ON-MODE"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.CONTINUOUS_ON_MODE == "CONTINUOUS-ON-MODE"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.FAST_FLASHING_MODE == "FAST-FLASHING-MODE"
+        assert DiagnosticConnectedIndicatorBehaviorEnum.SLOW_FLASHING_MODE == "SLOW-FLASHING-MODE"
 
-        assert enum.validateEnumValue("blinkMode") is True
-        assert enum.validateEnumValue("blinkOrContinuousOnMode") is True
-        assert enum.validateEnumValue("continuousOnMode") is True
-        assert enum.validateEnumValue("fastFlashingMode") is True
-        assert enum.validateEnumValue("slowFlashingMode") is True
+        assert enum.validateEnumValue("BLINK-MODE") is True
+        assert enum.validateEnumValue("BLINK-OR-CONTINUOUS-ON-MODE") is True
+        assert enum.validateEnumValue("CONTINUOUS-ON-MODE") is True
+        assert enum.validateEnumValue("FAST-FLASHING-MODE") is True
+        assert enum.validateEnumValue("SLOW-FLASHING-MODE") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2588,7 +2588,7 @@ class TestDiagnosticConnectedIndicatorBehaviorEnum:
         enum = DiagnosticConnectedIndicatorBehaviorEnum()
         enum.setValue(DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE)
 
-        assert enum.getValue() == "blinkOrContinuousOnMode"
+        assert enum.getValue() == DiagnosticConnectedIndicatorBehaviorEnum.BLINK_OR_CONTINUOUS_ON_MODE
 
 
 class TestDiagnosticDebounceBehaviorEnum:
@@ -2607,8 +2607,8 @@ class TestDiagnosticDebounceBehaviorEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "freeze",
-            "reset",
+            DiagnosticDebounceBehaviorEnum.FREEZE,
+            DiagnosticDebounceBehaviorEnum.RESET,
         ]
 
     def test_enum_values(self):
@@ -2617,11 +2617,11 @@ class TestDiagnosticDebounceBehaviorEnum:
         """
         enum = DiagnosticDebounceBehaviorEnum()
 
-        assert DiagnosticDebounceBehaviorEnum.FREEZE == "freeze"
-        assert DiagnosticDebounceBehaviorEnum.RESET == "reset"
+        assert DiagnosticDebounceBehaviorEnum.FREEZE == "FREEZE"
+        assert DiagnosticDebounceBehaviorEnum.RESET == "RESET"
 
-        assert enum.validateEnumValue("freeze") is True
-        assert enum.validateEnumValue("reset") is True
+        assert enum.validateEnumValue("FREEZE") is True
+        assert enum.validateEnumValue("RESET") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2631,7 +2631,7 @@ class TestDiagnosticDebounceBehaviorEnum:
         enum = DiagnosticDebounceBehaviorEnum()
         enum.setValue(DiagnosticDebounceBehaviorEnum.RESET)
 
-        assert enum.getValue() == "reset"
+        assert enum.getValue() == DiagnosticDebounceBehaviorEnum.RESET
 
 
 class TestDiagnosticEventClearAllowedEnum:
@@ -2650,8 +2650,8 @@ class TestDiagnosticEventClearAllowedEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "always",
-            "requiresCallbackExecution",
+            "ALWAYS",
+            DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION,
         ]
 
     def test_enum_values(self):
@@ -2660,11 +2660,11 @@ class TestDiagnosticEventClearAllowedEnum:
         """
         enum = DiagnosticEventClearAllowedEnum()
 
-        assert DiagnosticEventClearAllowedEnum.ALWAYS == "always"
-        assert DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION == "requiresCallbackExecution"
+        assert DiagnosticEventClearAllowedEnum.ALWAYS == "ALWAYS"
+        assert DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION == "REQUIRES-CALLBACK-EXECUTION"
 
-        assert enum.validateEnumValue("always") is True
-        assert enum.validateEnumValue("requiresCallbackExecution") is True
+        assert enum.validateEnumValue("ALWAYS") is True
+        assert enum.validateEnumValue("REQUIRES-CALLBACK-EXECUTION") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2674,7 +2674,7 @@ class TestDiagnosticEventClearAllowedEnum:
         enum = DiagnosticEventClearAllowedEnum()
         enum.setValue(DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION)
 
-        assert enum.getValue() == "requiresCallbackExecution"
+        assert enum.getValue() == DiagnosticEventClearAllowedEnum.REQUIRES_CALLBACK_EXECUTION
 
 
 class TestDiagnosticEventDisplacementStrategyEnum:
@@ -2693,9 +2693,9 @@ class TestDiagnosticEventDisplacementStrategyEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "full",
-            "none",
-            "prioOcc",
+            "FULL",
+            "NONE",
+            DiagnosticEventDisplacementStrategyEnum.PRIO_OCC,
         ]
 
     def test_enum_values(self):
@@ -2704,13 +2704,13 @@ class TestDiagnosticEventDisplacementStrategyEnum:
         """
         enum = DiagnosticEventDisplacementStrategyEnum()
 
-        assert DiagnosticEventDisplacementStrategyEnum.FULL == "full"
-        assert DiagnosticEventDisplacementStrategyEnum.NONE == "none"
-        assert DiagnosticEventDisplacementStrategyEnum.PRIO_OCC == "prioOcc"
+        assert DiagnosticEventDisplacementStrategyEnum.FULL == "FULL"
+        assert DiagnosticEventDisplacementStrategyEnum.NONE == "NONE"
+        assert DiagnosticEventDisplacementStrategyEnum.PRIO_OCC == "PRIO-OCC"
 
-        assert enum.validateEnumValue("full") is True
-        assert enum.validateEnumValue("none") is True
-        assert enum.validateEnumValue("prioOcc") is True
+        assert enum.validateEnumValue("FULL") is True
+        assert enum.validateEnumValue("NONE") is True
+        assert enum.validateEnumValue("PRIO-OCC") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2720,7 +2720,7 @@ class TestDiagnosticEventDisplacementStrategyEnum:
         enum = DiagnosticEventDisplacementStrategyEnum()
         enum.setValue(DiagnosticEventDisplacementStrategyEnum.PRIO_OCC)
 
-        assert enum.getValue() == "prioOcc"
+        assert enum.getValue() == DiagnosticEventDisplacementStrategyEnum.PRIO_OCC
 
 
 class TestDiagnosticEventKindEnum:
@@ -2739,8 +2739,8 @@ class TestDiagnosticEventKindEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "bsw",
-            "swc",
+            DiagnosticEventKindEnum.BSW,
+            DiagnosticEventKindEnum.SWC,
         ]
 
     def test_enum_values(self):
@@ -2749,11 +2749,11 @@ class TestDiagnosticEventKindEnum:
         """
         enum = DiagnosticEventKindEnum()
 
-        assert DiagnosticEventKindEnum.BSW == "bsw"
-        assert DiagnosticEventKindEnum.SWC == "swc"
+        assert DiagnosticEventKindEnum.BSW == "BSW"
+        assert DiagnosticEventKindEnum.SWC == "SWC"
 
-        assert enum.validateEnumValue("bsw") is True
-        assert enum.validateEnumValue("swc") is True
+        assert enum.validateEnumValue("BSW") is True
+        assert enum.validateEnumValue("SWC") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2763,7 +2763,7 @@ class TestDiagnosticEventKindEnum:
         enum = DiagnosticEventKindEnum()
         enum.setValue(DiagnosticEventKindEnum.SWC)
 
-        assert enum.getValue() == "swc"
+        assert enum.getValue() == DiagnosticEventKindEnum.SWC
 
 
 class TestDiagnosticIumprKindEnum:
@@ -2782,8 +2782,8 @@ class TestDiagnosticIumprKindEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "apiBased",
-            "observerBased",
+            DiagnosticIumprKindEnum.API_BASED,
+            DiagnosticIumprKindEnum.OBSERVER_BASED,
         ]
 
     def test_enum_values(self):
@@ -2792,11 +2792,11 @@ class TestDiagnosticIumprKindEnum:
         """
         enum = DiagnosticIumprKindEnum()
 
-        assert DiagnosticIumprKindEnum.API_BASED == "apiBased"
-        assert DiagnosticIumprKindEnum.OBSERVER_BASED == "observerBased"
+        assert DiagnosticIumprKindEnum.API_BASED == "API-BASED"
+        assert DiagnosticIumprKindEnum.OBSERVER_BASED == "OBSERVER-BASED"
 
-        assert enum.validateEnumValue("apiBased") is True
-        assert enum.validateEnumValue("observerBased") is True
+        assert enum.validateEnumValue("API-BASED") is True
+        assert enum.validateEnumValue("OBSERVER-BASED") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2806,7 +2806,7 @@ class TestDiagnosticIumprKindEnum:
         enum = DiagnosticIumprKindEnum()
         enum.setValue(DiagnosticIumprKindEnum.OBSERVER_BASED)
 
-        assert enum.getValue() == "observerBased"
+        assert enum.getValue() == DiagnosticIumprKindEnum.OBSERVER_BASED
 
 
 class TestDiagnosticMemoryEntryStorageTriggerEnum:
@@ -2825,9 +2825,9 @@ class TestDiagnosticMemoryEntryStorageTriggerEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "confirmed",
-            "fdcThreshold",
-            "testFailed",
+            "CONFIRMED",
+            "FDC-THRESHOLD",
+            "TEST-FAILED",
         ]
 
     def test_enum_values(self):
@@ -2836,13 +2836,13 @@ class TestDiagnosticMemoryEntryStorageTriggerEnum:
         """
         enum = DiagnosticMemoryEntryStorageTriggerEnum()
 
-        assert DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED == "confirmed"
-        assert DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD == "fdcThreshold"
-        assert DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED == "testFailed"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.CONFIRMED == "CONFIRMED"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD == "FDC-THRESHOLD"
+        assert DiagnosticMemoryEntryStorageTriggerEnum.TEST_FAILED == "TEST-FAILED"
 
-        assert enum.validateEnumValue("confirmed") is True
-        assert enum.validateEnumValue("fdcThreshold") is True
-        assert enum.validateEnumValue("testFailed") is True
+        assert enum.validateEnumValue("CONFIRMED") is True
+        assert enum.validateEnumValue("FDC-THRESHOLD") is True
+        assert enum.validateEnumValue("TEST-FAILED") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2852,7 +2852,7 @@ class TestDiagnosticMemoryEntryStorageTriggerEnum:
         enum = DiagnosticMemoryEntryStorageTriggerEnum()
         enum.setValue(DiagnosticMemoryEntryStorageTriggerEnum.FDC_THRESHOLD)
 
-        assert enum.getValue() == "fdcThreshold"
+        assert enum.getValue() == "FDC-THRESHOLD"
 
 
 class TestDiagnosticObdSupportEnum:
@@ -2871,10 +2871,10 @@ class TestDiagnosticObdSupportEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "masterEcu",
-            "noObdSupport",
-            "primaryEcu",
-            "secondaryEcu",
+            DiagnosticObdSupportEnum.MASTER_ECU,
+            DiagnosticObdSupportEnum.NO_OBD_SUPPORT,
+            DiagnosticObdSupportEnum.PRIMARY_ECU,
+            DiagnosticObdSupportEnum.SECONDARY_ECU,
         ]
 
     def test_enum_values(self):
@@ -2883,15 +2883,15 @@ class TestDiagnosticObdSupportEnum:
         """
         enum = DiagnosticObdSupportEnum()
 
-        assert DiagnosticObdSupportEnum.MASTER_ECU == "masterEcu"
-        assert DiagnosticObdSupportEnum.NO_OBD_SUPPORT == "noObdSupport"
-        assert DiagnosticObdSupportEnum.PRIMARY_ECU == "primaryEcu"
-        assert DiagnosticObdSupportEnum.SECONDARY_ECU == "secondaryEcu"
+        assert DiagnosticObdSupportEnum.MASTER_ECU == "MASTER-ECU"
+        assert DiagnosticObdSupportEnum.NO_OBD_SUPPORT == "NO-OBD-SUPPORT"
+        assert DiagnosticObdSupportEnum.PRIMARY_ECU == "PRIMARY-ECU"
+        assert DiagnosticObdSupportEnum.SECONDARY_ECU == "SECONDARY-ECU"
 
-        assert enum.validateEnumValue("masterEcu") is True
-        assert enum.validateEnumValue("noObdSupport") is True
-        assert enum.validateEnumValue("primaryEcu") is True
-        assert enum.validateEnumValue("secondaryEcu") is True
+        assert enum.validateEnumValue("MASTER-ECU") is True
+        assert enum.validateEnumValue("NO-OBD-SUPPORT") is True
+        assert enum.validateEnumValue("PRIMARY-ECU") is True
+        assert enum.validateEnumValue("SECONDARY-ECU") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2901,7 +2901,7 @@ class TestDiagnosticObdSupportEnum:
         enum = DiagnosticObdSupportEnum()
         enum.setValue(DiagnosticObdSupportEnum.PRIMARY_ECU)
 
-        assert enum.getValue() == "primaryEcu"
+        assert enum.getValue() == DiagnosticObdSupportEnum.PRIMARY_ECU
 
 
 class TestDiagnosticOperationCycleTypeEnum:
@@ -2920,10 +2920,10 @@ class TestDiagnosticOperationCycleTypeEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "ignition",
-            "obdDrivingCycle",
-            "other",
-            "warmup",
+            "IGNITION",
+            DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE,
+            "OTHER",
+            "WARMUP",
         ]
 
     def test_enum_values(self):
@@ -2932,15 +2932,15 @@ class TestDiagnosticOperationCycleTypeEnum:
         """
         enum = DiagnosticOperationCycleTypeEnum()
 
-        assert DiagnosticOperationCycleTypeEnum.IGNITION == "ignition"
-        assert DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE == "obdDrivingCycle"
-        assert DiagnosticOperationCycleTypeEnum.OTHER == "other"
-        assert DiagnosticOperationCycleTypeEnum.WARMUP == "warmup"
+        assert DiagnosticOperationCycleTypeEnum.IGNITION == "IGNITION"
+        assert DiagnosticOperationCycleTypeEnum.OBD_DRIVING_CYCLE == "OBD-DRIVING-CYCLE"
+        assert DiagnosticOperationCycleTypeEnum.OTHER == "OTHER"
+        assert DiagnosticOperationCycleTypeEnum.WARMUP == "WARMUP"
 
-        assert enum.validateEnumValue("ignition") is True
-        assert enum.validateEnumValue("obdDrivingCycle") is True
-        assert enum.validateEnumValue("other") is True
-        assert enum.validateEnumValue("warmup") is True
+        assert enum.validateEnumValue("IGNITION") is True
+        assert enum.validateEnumValue("OBD-DRIVING-CYCLE") is True
+        assert enum.validateEnumValue("OTHER") is True
+        assert enum.validateEnumValue("WARMUP") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2950,7 +2950,7 @@ class TestDiagnosticOperationCycleTypeEnum:
         enum = DiagnosticOperationCycleTypeEnum()
         enum.setValue(DiagnosticOperationCycleTypeEnum.WARMUP)
 
-        assert enum.getValue() == "warmup"
+        assert enum.getValue() == "WARMUP"
 
 
 class TestDiagnosticSignificanceEnum:
@@ -2969,8 +2969,8 @@ class TestDiagnosticSignificanceEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "fault",
-            "occurence",
+            DiagnosticSignificanceEnum.FAULT,
+            DiagnosticSignificanceEnum.OCCURENCE,
         ]
 
     def test_enum_values(self):
@@ -2979,11 +2979,11 @@ class TestDiagnosticSignificanceEnum:
         """
         enum = DiagnosticSignificanceEnum()
 
-        assert DiagnosticSignificanceEnum.FAULT == "fault"
-        assert DiagnosticSignificanceEnum.OCCURENCE == "occurence"
+        assert DiagnosticSignificanceEnum.FAULT == "FAULT"
+        assert DiagnosticSignificanceEnum.OCCURENCE == "OCCURENCE"
 
-        assert enum.validateEnumValue("fault") is True
-        assert enum.validateEnumValue("occurence") is True
+        assert enum.validateEnumValue("FAULT") is True
+        assert enum.validateEnumValue("OCCURENCE") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -2993,7 +2993,7 @@ class TestDiagnosticSignificanceEnum:
         enum = DiagnosticSignificanceEnum()
         enum.setValue(DiagnosticSignificanceEnum.OCCURENCE)
 
-        assert enum.getValue() == "occurence"
+        assert enum.getValue() == DiagnosticSignificanceEnum.OCCURENCE
 
 
 class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
@@ -3012,8 +3012,8 @@ class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "statusBitAgingAndDisplacement",
-            "statusBitNormal",
+            DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT,
+            DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL,
         ]
 
     def test_enum_values(self):
@@ -3022,11 +3022,11 @@ class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
         """
         enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
 
-        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT == "statusBitAgingAndDisplacement"
-        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL == "statusBitNormal"
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT == "STATUS-BIT-AGING-AND-DISPLACEMENT"
+        assert DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_NORMAL == "STATUS-BIT-NORMAL"
 
-        assert enum.validateEnumValue("statusBitAgingAndDisplacement") is True
-        assert enum.validateEnumValue("statusBitNormal") is True
+        assert enum.validateEnumValue("STATUS-BIT-AGING-AND-DISPLACEMENT") is True
+        assert enum.validateEnumValue("STATUS-BIT-NORMAL") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -3036,7 +3036,7 @@ class TestDiagnosticStatusBitHandlingTestFailedSinceLastClearEnum:
         enum = DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum()
         enum.setValue(DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT)
 
-        assert enum.getValue() == "statusBitAgingAndDisplacement"
+        assert enum.getValue() == DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum.STATUS_BIT_AGING_AND_DISPLACEMENT
 
 
 class TestDiagnosticTestResultUpdateEnum:
@@ -3055,8 +3055,8 @@ class TestDiagnosticTestResultUpdateEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "always",
-            "steady",
+            "ALWAYS",
+            "STEADY",
         ]
 
     def test_enum_values(self):
@@ -3065,11 +3065,11 @@ class TestDiagnosticTestResultUpdateEnum:
         """
         enum = DiagnosticTestResultUpdateEnum()
 
-        assert DiagnosticTestResultUpdateEnum.ALWAYS == "always"
-        assert DiagnosticTestResultUpdateEnum.STEADY == "steady"
+        assert DiagnosticTestResultUpdateEnum.ALWAYS == "ALWAYS"
+        assert DiagnosticTestResultUpdateEnum.STEADY == "STEADY"
 
-        assert enum.validateEnumValue("always") is True
-        assert enum.validateEnumValue("steady") is True
+        assert enum.validateEnumValue("ALWAYS") is True
+        assert enum.validateEnumValue("STEADY") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -3079,7 +3079,7 @@ class TestDiagnosticTestResultUpdateEnum:
         enum = DiagnosticTestResultUpdateEnum()
         enum.setValue(DiagnosticTestResultUpdateEnum.STEADY)
 
-        assert enum.getValue() == "steady"
+        assert enum.getValue() == "STEADY"
 
 
 class TestDiagnosticUdsSeverityEnum:
@@ -3098,10 +3098,10 @@ class TestDiagnosticUdsSeverityEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "checkAtNextHalt",
-            "immediately",
-            "maintenanceOnly",
-            "noSeverity",
+            DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT,
+            DiagnosticUdsSeverityEnum.IMMEDIATELY,
+            DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY,
+            DiagnosticUdsSeverityEnum.NO_SEVERITY,
         ]
 
     def test_enum_values(self):
@@ -3110,15 +3110,15 @@ class TestDiagnosticUdsSeverityEnum:
         """
         enum = DiagnosticUdsSeverityEnum()
 
-        assert DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT == "checkAtNextHalt"
-        assert DiagnosticUdsSeverityEnum.IMMEDIATELY == "immediately"
-        assert DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY == "maintenanceOnly"
-        assert DiagnosticUdsSeverityEnum.NO_SEVERITY == "noSeverity"
+        assert DiagnosticUdsSeverityEnum.CHECK_AT_NEXT_HALT == "CHECK-AT-NEXT-HALT"
+        assert DiagnosticUdsSeverityEnum.IMMEDIATELY == "IMMEDIATELY"
+        assert DiagnosticUdsSeverityEnum.MAINTENANCE_ONLY == "MAINTENANCE-ONLY"
+        assert DiagnosticUdsSeverityEnum.NO_SEVERITY == "NO-SEVERITY"
 
-        assert enum.validateEnumValue("checkAtNextHalt") is True
-        assert enum.validateEnumValue("immediately") is True
-        assert enum.validateEnumValue("maintenanceOnly") is True
-        assert enum.validateEnumValue("noSeverity") is True
+        assert enum.validateEnumValue("CHECK-AT-NEXT-HALT") is True
+        assert enum.validateEnumValue("IMMEDIATELY") is True
+        assert enum.validateEnumValue("MAINTENANCE-ONLY") is True
+        assert enum.validateEnumValue("NO-SEVERITY") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -3128,7 +3128,7 @@ class TestDiagnosticUdsSeverityEnum:
         enum = DiagnosticUdsSeverityEnum()
         enum.setValue(DiagnosticUdsSeverityEnum.NO_SEVERITY)
 
-        assert enum.getValue() == "noSeverity"
+        assert enum.getValue() == DiagnosticUdsSeverityEnum.NO_SEVERITY
 
 
 class TestDiagnosticWwhObdDtcClassEnum:
@@ -3147,11 +3147,11 @@ class TestDiagnosticWwhObdDtcClassEnum:
         assert enum is not None
         assert isinstance(enum, AREnum)
         assert enum.getEnumValues() == [
-            "demDtcWwhObdClassA",
-            "demDtcWwhObdClassB1",
-            "demDtcWwhObdClassB2",
-            "demDtcWwhObdClassC",
-            "demDtcWwhObdClassNoInformation",
+            DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A,
+            DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1,
+            DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2,
+            DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C,
+            DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION,
         ]
 
     def test_enum_values(self):
@@ -3160,17 +3160,17 @@ class TestDiagnosticWwhObdDtcClassEnum:
         """
         enum = DiagnosticWwhObdDtcClassEnum()
 
-        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A == "demDtcWwhObdClassA"
-        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1 == "demDtcWwhObdClassB1"
-        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2 == "demDtcWwhObdClassB2"
-        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C == "demDtcWwhObdClassC"
-        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION == "demDtcWwhObdClassNoInformation"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_A == "DEM-DTC-WWH-OBD-CLASS-A"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B1 == "DEM-DTC-WWH-OBD-CLASS-B-1"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_B2 == "DEM-DTC-WWH-OBD-CLASS-B-2"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_C == "DEM-DTC-WWH-OBD-CLASS-C"
+        assert DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION == "DEM-DTC-WWH-OBD-CLASS-NO-INFORMATION"
 
-        assert enum.validateEnumValue("demDtcWwhObdClassA") is True
-        assert enum.validateEnumValue("demDtcWwhObdClassB1") is True
-        assert enum.validateEnumValue("demDtcWwhObdClassB2") is True
-        assert enum.validateEnumValue("demDtcWwhObdClassC") is True
-        assert enum.validateEnumValue("demDtcWwhObdClassNoInformation") is True
+        assert enum.validateEnumValue("DEM-DTC-WWH-OBD-CLASS-A") is True
+        assert enum.validateEnumValue("DEM-DTC-WWH-OBD-CLASS-B-1") is True
+        assert enum.validateEnumValue("DEM-DTC-WWH-OBD-CLASS-B-2") is True
+        assert enum.validateEnumValue("DEM-DTC-WWH-OBD-CLASS-C") is True
+        assert enum.validateEnumValue("DEM-DTC-WWH-OBD-CLASS-NO-INFORMATION") is True
         assert enum.validateEnumValue("invalid") is False
 
     def test_get_value(self):
@@ -3180,4 +3180,4 @@ class TestDiagnosticWwhObdDtcClassEnum:
         enum = DiagnosticWwhObdDtcClassEnum()
         enum.setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION)
 
-        assert enum.getValue() == "demDtcWwhObdClassNoInformation"
+        assert enum.getValue() == DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION

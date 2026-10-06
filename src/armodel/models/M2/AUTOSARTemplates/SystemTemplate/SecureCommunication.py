@@ -892,13 +892,13 @@ class MacSecConfidentialityOffsetEnum(AREnum):
     # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.confidentialityOffset
 
     # confidentiality offset of 0. Tags: atp.EnumerationLiteralIndex=0 xml.name=CONFIDENTIALITY-OFFSET-0
-    CONFIDENTIALITY_OFFSET_0 = "CONFIDENTIALITY-OFFSET-0"
+    CONFIDENTIALITY_OFFSET_0 = "CONFIDENTIALITY-OFFSET--0"
 
     # confidentiality offset of 30. Tags: atp.EnumerationLiteralIndex=1 xml.name=CONFIDENTIALITY-OFFSET-30
-    CONFIDENTIALITY_OFFSET_30 = "CONFIDENTIALITY-OFFSET-30"
+    CONFIDENTIALITY_OFFSET_30 = "CONFIDENTIALITY-OFFSET--30"
 
     # confidentiality offset of 50. Tags: atp.EnumerationLiteralIndex=2 xml.name=CONFIDENTIALITY-OFFSET-50
-    CONFIDENTIALITY_OFFSET_50 = "CONFIDENTIALITY-OFFSET-50"
+    CONFIDENTIALITY_OFFSET_50 = "CONFIDENTIALITY-OFFSET--50"
 
     def __init__(self):
         super().__init__(
@@ -922,10 +922,10 @@ class MacSecCapabilityEnum(AREnum):
     # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.capability
 
     # Option that ensures integrity without confidentiality Tags: atp.EnumerationLiteralIndex=0
-    INTERGRITY_WITHOUT_CONFIDENTIALITY = "intergrityWithoutConfidentiality"
+    INTERGRITY_WITHOUT_CONFIDENTIALITY = "INTERGRITY-WITHOUT-CONFIDENTIALITY"
 
     # Option that ensures confidentiality and integrity Tags: atp.EnumerationLiteralIndex=1
-    INTERGRITY_AND_CONFIDENTIALITY = "intergrityAndConfidentiality"
+    INTERGRITY_AND_CONFIDENTIALITY = "INTERGRITY-AND-CONFIDENTIALITY"
 
     def __init__(self):
         super().__init__(
@@ -948,10 +948,10 @@ class MacSecRoleEnum(AREnum):
     # (no methods) — enum value form serialized on MacSecLocalKayProps.role
 
     # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
-    PEER = "peer"
+    PEER = "PEER"
 
     # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
-    KEY_SERVER = "keyServer"
+    KEY_SERVER = "KEY-SERVER"
 
     def __init__(self):
         super().__init__(
@@ -974,10 +974,10 @@ class MacSecFailPermissiveModeEnum(AREnum):
     # (no methods) — enum value form serialized on MacSecProps.onFailPermissiveMode
 
     # The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel. Tags: atp.EnumerationLiteralIndex=0
-    NEVER = "never"
+    NEVER = "NEVER"
 
     # The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value (onFailPermissiveModeTimeout) is reached and the following conditions apply: - A participant belonging to the same CA was recognized and authenticated. - A secure channel could be established. - Both participants can transmit and receive MACsec protected traffic through the SC. Tags: atp.EnumerationLiteralIndex=1
-    TIMEOUT = "timeout"
+    TIMEOUT = "TIMEOUT"
 
     def __init__(self):
         super().__init__(
@@ -1000,16 +1000,16 @@ class IPsecIpProtocolEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # ANY protocol Tags: atp.EnumerationLiteralIndex=3
-    ANY = "any"
+    ANY = "ANY"
 
     # Internet Control Message Protocol (ICMP) Tags: atp.EnumerationLiteralIndex=2
-    ICMP = "icmp"
+    ICMP = "ICMP"
 
     # TCP Protocol Tags: atp.EnumerationLiteralIndex=1
-    TCP = "tcp"
+    TCP = "TCP"
 
     # UDP Protocol Tags: atp.EnumerationLiteralIndex=0
-    UDP = "udp"
+    UDP = "UDP"
 
     def __init__(self):
         super().__init__(
@@ -1034,16 +1034,16 @@ class IPsecPolicyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Signifying that packets should be discarded Tags: atp.EnumerationLiteralIndex=3
-    DROP = "drop"
+    DROP = "DROP"
 
     # Signifying that packets should be protected. Tags: atp.EnumerationLiteralIndex=1
-    IPSEC = "ipsec"
+    IPSEC = "IPSEC"
 
     # Signifying that no IPsec processing should be done at all. Tags: atp.EnumerationLiteralIndex=2
-    PASSTHROUGH = "passthrough"
+    PASSTHROUGH = "PASSTHROUGH"
 
     # Signifying that packets should be discarded and a diagnostic ICMP returned. Tags: atp.EnumerationLiteralIndex=4
-    REJECT = "reject"
+    REJECT = "REJECT"
 
     def __init__(self):
         super().__init__(
@@ -1068,10 +1068,10 @@ class IPsecModeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Signifying that the IPSec transport mode is used. With the transport mode the original IP header is retained and only the IP payload and ESP trailer is encrypted. Tags: atp.EnumerationLiteralIndex=1
-    TRANSPORT = "transport"
+    TRANSPORT = "TRANSPORT"
 
     # Signifying that the IPSec tunnel mode is used. With tunnel mode, the entire original IP packet is protected by IPSec. This means IPSec wraps the original packet, encrypts it, adds a new IP header and sends it to the other side. Tags: atp.EnumerationLiteralIndex=0
-    TUNNEL = "tunnel"
+    TUNNEL = "TUNNEL"
 
     def __init__(self):
         super().__init__(
@@ -1094,13 +1094,13 @@ class IPsecHeaderTypeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Authentication Header (AH) Tags: atp.EnumerationLiteralIndex=0
-    AH = "ah"
+    AH = "AH"
 
     # Encapsulating Security Payloads (ESP) Tags: atp.EnumerationLiteralIndex=1
-    ESP = "esp"
+    ESP = "ESP"
 
     # No header Tags: atp.EnumerationLiteralIndex=2
-    NONE = "none"
+    NONE = "NONE"
 
     def __init__(self):
         super().__init__(
@@ -1124,13 +1124,13 @@ class IPsecDpdActionEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Deletes the SA. Tags: atp.EnumerationLiteralIndex=0
-    CLEAR = "clear"
+    CLEAR = "CLEAR"
 
     # Immediately tries to establish the connection. Tags: atp.EnumerationLiteralIndex=2
-    RESTART = "restart"
+    RESTART = "RESTART"
 
     # tries to establish the connection after traffic is sent to the peer. Tags: atp.EnumerationLiteralIndex=1
-    TRAP = "trap"
+    TRAP = "TRAP"
 
     def __init__(self):
         super().__init__(

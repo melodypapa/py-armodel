@@ -158,15 +158,15 @@ class TestWriteDiagnosticCommonProps:
             assert common_props_2.getAuthenticationTimeout() is not None
             assert common_props_2.getAuthenticationTimeout().getValue() == 0.5
             assert common_props_2.getDefaultEndianness() is not None
-            assert common_props_2.getDefaultEndianness().getValue() == "mostSignificantByteFirst"
+            assert common_props_2.getDefaultEndianness().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
             assert common_props_2.getEventCombinationReportingBehavior() is not None
-            assert common_props_2.getEventCombinationReportingBehavior().getValue() == "reportingInChronlogicalOrderOldestFirst"
+            assert common_props_2.getEventCombinationReportingBehavior().getValue() == DiagnosticEventCombinationReportingBehaviorEnum.REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST
             assert common_props_2.getMaxNumberOfRequestCorrectlyReceivedResponsePending() is not None
             assert common_props_2.getMaxNumberOfRequestCorrectlyReceivedResponsePending().getValue() == 10
             assert common_props_2.getOccurrenceCounterProcessing() is not None
-            assert common_props_2.getOccurrenceCounterProcessing().getValue() == "testFailedBit"
+            assert common_props_2.getOccurrenceCounterProcessing().getValue() == DiagnosticOccurrenceCounterProcessingEnum.TEST_FAILED_BIT
             assert common_props_2.getTypeOfEventCombinationSupported() is not None
-            assert common_props_2.getTypeOfEventCombinationSupported().getValue() == "eventCombinationOnRetrieval"
+            assert common_props_2.getTypeOfEventCombinationSupported().getValue() == DiagnosticEventCombinationBehaviorEnum.EVENT_COMBINATION_ON_RETRIEVAL
             assert common_props_2.getResetConfirmedBitOnOverflow() is not None
             assert common_props_2.getResetConfirmedBitOnOverflow().getValue() is True
         finally:

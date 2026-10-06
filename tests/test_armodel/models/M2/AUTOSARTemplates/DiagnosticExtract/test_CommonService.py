@@ -406,10 +406,10 @@ class Test_DiagnosticEcuResetClass:
 
     def test_get_set_respond_to_reset(self):
         service_class = DiagnosticEcuResetClass(_pkg(), "MyDersc")
-        value = _respond_to_reset("respondAfterReset")
+        value = _respond_to_reset("RESPOND-AFTER-RESET")
         assert service_class.setRespondToReset(value) is service_class
         assert service_class.getRespondToReset() is value
-        assert service_class.getRespondToReset().getValue() == "respondAfterReset"
+        assert service_class.getRespondToReset().getValue() == DiagnosticResponseToEcuResetEnum.RESPOND_AFTER_RESET
         service_class.setRespondToReset(None)
         assert service_class.getRespondToReset() is value  # None is a no-op
 
@@ -840,7 +840,7 @@ class Test_DiagnosticDynamicallyDefineDataIdentifierClass:
         value = DiagnosticHandleDDDIConfigurationEnum().setValue(DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE)
         assert service_class.setConfigurationHandling(value) is service_class
         assert service_class.getConfigurationHandling() is value
-        assert service_class.getConfigurationHandling().getValue() == "nonVolatile"
+        assert service_class.getConfigurationHandling().getValue() == DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE
         service_class.setConfigurationHandling(None)
         assert service_class.getConfigurationHandling() is value  # None is a no-op
 
@@ -849,7 +849,7 @@ class Test_DiagnosticDynamicallyDefineDataIdentifierClass:
         value = DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum().setValue(DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER)
         assert service_class.addSubfunction(value) is service_class
         assert service_class.getSubfunctions() == [value]
-        assert service_class.getSubfunctions()[0].getValue() == "defineByIdentifier"
+        assert service_class.getSubfunctions()[0].getValue() == DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum.DEFINE_BY_IDENTIFIER
         service_class.addSubfunction(None)
         assert service_class.getSubfunctions() == [value]  # None is a no-op
 

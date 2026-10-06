@@ -30,13 +30,13 @@ class ModeActivationKind(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # On entering the referred mode. Tags: atp.EnumerationLiteralIndex=0
-    ON_ENTRY = "onEntry"
+    ON_ENTRY = "ON-ENTRY"
 
     # On exiting the referred mode. Tags: atp.EnumerationLiteralIndex=1
-    ON_EXIT = "onExit"
+    ON_EXIT = "ON-EXIT"
 
     # On transition of the 1st referred mode to the 2nd referred mode. Tags: atp.EnumerationLiteralIndex=2
-    ON_TRANSITION = "onTransition"
+    ON_TRANSITION = "ON-TRANSITION"
 
     def __init__(self):
         super().__init__(
@@ -686,10 +686,10 @@ class ModeErrorReactionPolicyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # This represents the ability to switch to the defaultMode in case of a mode error. Tags: atp.EnumerationLiteralIndex=0
-    DEFAULT_MODE = "defaultMode"
+    DEFAULT_MODE = "DEFAULT-MODE"
 
     # This represents the ability to keep the last mode in case of a mode error. Tags: atp.EnumerationLiteralIndex=1
-    LAST_MODE = "lastMode"
+    LAST_MODE = "LAST-MODE"
 
     def __init__(self):
         super().__init__(

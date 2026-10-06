@@ -2084,16 +2084,16 @@ class Ipv4AddressSourceEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # AutoIP is used to dynamically assign IP addresses at device startup. Tags: atp.EnumerationLiteralIndex=0
-    AUTO_IP = "autoIp"
+    AUTO_IP = "AUTO-IP"
 
     # Linklocal IPv4 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=2 xml.name=AUTO-IP-DOIP
-    AUTO_IP_DOIP = "autoIp_doip"
+    AUTO_IP_DOIP = "AUTO-IP--DOIP"
 
     # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=3
-    DHCPV4 = "dhcpv4"
+    DHCPV4 = "DHCPV-4"
 
     # The IP Address shall be declared manually. Tags: atp.EnumerationLiteralIndex=4
-    FIXED = "fixed"
+    FIXED = "FIXED"
 
     def __init__(self):
         super().__init__([Ipv4AddressSourceEnum.AUTO_IP, Ipv4AddressSourceEnum.AUTO_IP_DOIP, Ipv4AddressSourceEnum.DHCPV4, Ipv4AddressSourceEnum.FIXED])
@@ -2287,10 +2287,10 @@ class IpAddressKeepEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # After a dynamic IP address has been assigned just use it for this session. Tags: atp.EnumerationLiteralIndex=0
-    FORGET = "forget"
+    FORGET = "FORGET"
 
     # After a dynamic IP address has been assigned store the address persistently. Tags: atp.EnumerationLiteralIndex=1
-    STORE_PERSISTENTLY = "storePersistently"
+    STORE_PERSISTENTLY = "STORE-PERSISTENTLY"
 
     def __init__(self):
         super().__init__(
@@ -2314,19 +2314,19 @@ class Ipv6AddressSourceEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=0
-    DHCPV6 = "dhcpv6"
+    DHCPV6 = "DHCPV-6"
 
     # The IP Address shall be declared manually. Tags: atp.EnumerationLiteralIndex=1
-    FIXED = "fixed"
+    FIXED = "FIXED"
 
     # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
-    LINK_LOCAL = "linkLocal"
+    LINK_LOCAL = "LINK-LOCAL"
 
     # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
-    LINK_LOCAL_DOIP = "linkLocal_doip"
+    LINK_LOCAL_DOIP = "LINK-LOCAL--DOIP"
 
     # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
-    ROUTER_ADVERTISEMENT = "routerAdvertisement"
+    ROUTER_ADVERTISEMENT = "ROUTER-ADVERTISEMENT"
 
     def __init__(self):
         super().__init__(
@@ -2352,13 +2352,13 @@ class EthernetConnectionNegotiationEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPort.connectionNegotiationBehavior
 
     # Automatic Negotiation Tags: atp.EnumerationLiteralIndex=0
-    AUTO = "auto"
+    AUTO = "AUTO"
 
     # Master Tags: atp.EnumerationLiteralIndex=1
-    MASTER = "master"
+    MASTER = "MASTER"
 
     # Slave Tags: atp.EnumerationLiteralIndex=2
-    SLAVE = "slave"
+    SLAVE = "SLAVE"
 
     def __init__(self):
         super().__init__(
@@ -2382,13 +2382,13 @@ class CouplingPortRoleEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPort.couplingPortRole
 
     # The hostPort is connected to an ECU (host ecu). The host ECU controls the connected Coupling Element (e.g. Ethernet switch). Tags: atp.EnumerationLiteralIndex=0
-    HOST_PORT = "hostPort"
+    HOST_PORT = "HOST-PORT"
 
     # A CoupingPort can be a standardPort that is used to connect the CouplingElement with Coupling Ports outside the ECU. Tags: atp.EnumerationLiteralIndex=2
-    STANDARD_PORT = "standardPort"
+    STANDARD_PORT = "STANDARD-PORT"
 
     # A CouplingPort can be connected to another CouplingPort of a CouplingElement located on the same ECU (CouplingElement.ecuInstance) using the CouplingPortConnection. This is used to model a cascaded switch. Tags: atp.EnumerationLiteralIndex=1
-    UP_LINK_PORT = "upLinkPort"
+    UP_LINK_PORT = "UP-LINK-PORT"
 
     def __init__(self):
         super().__init__(
@@ -3177,10 +3177,10 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPort.receiveActivity
 
     # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
-    FORWARD_AS_IS = "forwardAsIs"
+    FORWARD_AS_IS = "FORWARD-AS-IS"
 
     # Drop if untagged. Tags: atp.EnumerationLiteralIndex=1
-    DROP_UNTAGGED = "dropUntagged"
+    DROP_UNTAGGED = "DROP-UNTAGGED"
 
     def __init__(self):
         super().__init__(
@@ -3202,16 +3202,16 @@ class TimeSyncTechnologyEnum(AREnum):
     # (no methods) — enum value form serialized on consuming attribute
 
     # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
-    AVB_IEEE802_1AS = "AVB-IEEE-802-1-AS"
+    AVB_IEEE802_1AS = "AVB--IEEE-802--1-AS"
 
     # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1
-    NTP_RFC958 = "NTP-RFC-958"
+    NTP_RFC958 = "NTP--RFC-958"
 
     # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2
-    PTP_IEEE1588_2002 = "PTP-IEEE-1588-2002"
+    PTP_IEEE1588_2002 = "PTP--IEEE-1588--2002"
 
     # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3
-    PTP_IEEE1588_2008 = "PTP-IEEE-1588-2008"
+    PTP_IEEE1588_2008 = "PTP--IEEE-1588--2008"
 
     def __init__(self):
         super().__init__(
@@ -3235,13 +3235,13 @@ class DoIpEntityRoleEnum(AREnum):
     # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
 
     # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
-    EDGE_NODE = "edgeNode"
+    EDGE_NODE = "EDGE-NODE"
 
     # Network node is a Gateway between the DoIP network and other networks. Tags: atp.EnumerationLiteralIndex=1
-    GATEWAY = "gateway"
+    GATEWAY = "GATEWAY"
 
     # Network node is a DoIp node. Tags: atp.EnumerationLiteralIndex=2
-    NODE = "node"
+    NODE = "NODE"
 
     def __init__(self):
         super().__init__(
@@ -3472,10 +3472,10 @@ class CouplingPortRatePolicyActionEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPortRatePolicy.policyAction
 
     # If the rate policy is violated the frame shall be dropped. Tags: atp.EnumerationLiteralIndex=0
-    DROP_FRAME = "dropFrame"
+    DROP_FRAME = "DROP-FRAME"
 
     # If the rate policy is violated the CouplingPort this CouplingPortRatePolicy is defined on shall block all frames from the MAC-Address the violation was caused by. Tags: atp.EnumerationLiteralIndex=1
-    BLOCK_SOURCE = "blockSource"
+    BLOCK_SOURCE = "BLOCK-SOURCE"
 
     def __init__(self):
         super().__init__(

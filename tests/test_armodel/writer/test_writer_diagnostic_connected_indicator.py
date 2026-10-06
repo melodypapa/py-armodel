@@ -93,7 +93,7 @@ class TestWriteDiagnosticConnectedIndicator:
 
         assert reloaded.getBehavior() is not None
         assert isinstance(reloaded.getBehavior(), DiagnosticConnectedIndicatorBehaviorEnum)
-        assert reloaded.getBehavior().getValue() == "blinkMode"
+        assert reloaded.getBehavior().getValue() == DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE
         assert reloaded.getHealingCycleCounterThreshold() is not None
         assert reloaded.getHealingCycleCounterThreshold().getValue() == 3
         assert reloaded.getHealingCycleRef() is not None

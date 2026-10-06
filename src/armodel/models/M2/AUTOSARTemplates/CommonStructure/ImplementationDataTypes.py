@@ -334,10 +334,10 @@ class ArrayImplPolicyEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This configuration demands the implementation of the payload as an array. Tags: atp.EnumerationLiteralIndex=0
-    PAYLOAD_AS_ARRAY = "payloadAsArray"
+    PAYLOAD_AS_ARRAY = "PAYLOAD-AS-ARRAY"
 
     # This configuration demands the implementation of the payload as a pointer to an array. Tags: atp.EnumerationLiteralIndex=1
-    PAYLOAD_AS_POINTER_TO_ARRAY = "payloadAsPointerToArray"
+    PAYLOAD_AS_POINTER_TO_ARRAY = "PAYLOAD-AS-POINTER-TO-ARRAY"
 
     def __init__(self):
         super().__init__(
@@ -359,10 +359,10 @@ class ArraySizeSemanticsEnum(AREnum):
     # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeSemantics, DiagnosticDataElement.arraySizeSemantics, ImplementationDataTypeElement.arraySizeSemantics, SwTextProps.arraySizeSemantics (R23-11)
 
     # This means that the ApplicationArrayDataType will always have a fixed number of elements. Tags: atp.EnumerationLiteralIndex=0
-    FIXED_SIZE = "fixedSize"
+    FIXED_SIZE = "FIXED-SIZE"
 
     # This implies that the actual number of elements in the ApplicationArrayDataType might vary at run-time. The value of arraySize represents the maximum number of elements in the array. Tags: atp.EnumerationLiteralIndex=1
-    VARIABLE_SIZE = "variableSize"
+    VARIABLE_SIZE = "VARIABLE-SIZE"
 
     def __init__(self):
         super().__init__(

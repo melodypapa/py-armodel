@@ -11,17 +11,17 @@ class TestPduCollectionTriggerEnum:
     """Test cases for PduCollectionTriggerEnum (Table 6.41, p.357)."""
 
     def test_member_presence_and_values(self):
-        assert PduCollectionTriggerEnum.ALWAYS == "always"
-        assert PduCollectionTriggerEnum.NEVER == "never"
+        assert PduCollectionTriggerEnum.ALWAYS == "ALWAYS"
+        assert PduCollectionTriggerEnum.NEVER == "NEVER"
         assert list(PduCollectionTriggerEnum().getEnumValues()) == [
-            "always",
-            "never",
+            "ALWAYS",
+            "NEVER",
         ]
 
     def test_instantiability(self):
         enum = PduCollectionTriggerEnum()
         assert enum == enum.setValue(PduCollectionTriggerEnum.NEVER)
-        assert enum.getValue() == "never"
+        assert enum.getValue() == "NEVER"
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(PduCollectionTriggerEnum.__doc__) == CLASS_NOTE

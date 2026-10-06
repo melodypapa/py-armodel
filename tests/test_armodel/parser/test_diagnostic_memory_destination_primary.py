@@ -17,6 +17,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticTypeOfDtcSupportedEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -39,7 +40,7 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         """Test that TYPE-OF-DTC-SUPPORTED is read through the synced enum token map."""
         primary = self._read(parser, "<TYPE-OF-DTC-SUPPORTED>ISO-14229-1</TYPE-OF-DTC-SUPPORTED>")
         assert primary.getTypeOfDtcSupported() is not None
-        assert primary.getTypeOfDtcSupported().getValue() == "iso14229_1"
+        assert primary.getTypeOfDtcSupported().getValue() == DiagnosticTypeOfDtcSupportedEnum.ISO14229_1
 
     def test_read_sets_inherited_base_group_attribute(self, parser):
         """Test that a base group child (MAX-NUMBER-OF-EVENT-ENTRIES) is read via the base helper."""
@@ -51,7 +52,7 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         """Test that CLEAR-DTC-LIMITATION is read through the base helper's enum token path."""
         primary = self._read(parser, "<CLEAR-DTC-LIMITATION>ALL-SUPPORTED-DTCS</CLEAR-DTC-LIMITATION>")
         assert primary.getClearDtcLimitation() is not None
-        assert primary.getClearDtcLimitation().getValue() == "allSupportedDtcs"
+        assert primary.getClearDtcLimitation().getValue() == "ALL-SUPPORTED-DTCS"
 
     def test_read_sets_inherited_base_group_storage_trigger_token(self, parser):
         """Test that MEMORY-ENTRY-STORAGE-TRIGGER is read through the base helper's enum token path."""
@@ -60,7 +61,7 @@ class TestReadDiagnosticMemoryDestinationPrimary:
 
         assert primary.getMemoryEntryStorageTrigger() is not None
         assert isinstance(primary.getMemoryEntryStorageTrigger(), DiagnosticMemoryEntryStorageTriggerEnum)
-        assert primary.getMemoryEntryStorageTrigger().getValue() == "confirmed"
+        assert primary.getMemoryEntryStorageTrigger().getValue() == "CONFIRMED"
 
     def test_read_empty_leaves_fields_none(self, parser):
         """Test that an element without own or base group children leaves every field None (empty wrapper case)."""
@@ -94,12 +95,12 @@ class TestReadDiagnosticMemoryDestinationPrimary:
         primary = self._read(parser, inner)
         assert primary.getShortName() == "MemoryDestinationPrimary1"
         assert primary.getAgingRequiresTestedCycle().value is True
-        assert primary.getClearDtcLimitation().getValue() == "clearAllDtcs"
+        assert primary.getClearDtcLimitation().getValue() == "CLEAR-ALL-DTCS"
         assert primary.getDtcStatusAvailabilityMask().getValue() == 255
-        assert primary.getEventDisplacementStrategy().getValue() == "full"
+        assert primary.getEventDisplacementStrategy().getValue() == "FULL"
         assert primary.getMaxNumberOfEventEntries().getValue() == 10
-        assert primary.getMemoryEntryStorageTrigger().getValue() == "fdcThreshold"
-        assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "statusBitAgingAndDisplacement"
+        assert primary.getMemoryEntryStorageTrigger().getValue() == "FDC-THRESHOLD"
+        assert primary.getStatusBitHandlingTestFailedSinceLastClear().getValue() == "STATUS-BIT-AGING-AND-DISPLACEMENT"
         assert primary.getStatusBitStorageTestFailed().value is True
-        assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "calculated"
-        assert primary.getTypeOfDtcSupported().getValue() == "saeJ1939_73"
+        assert primary.getTypeOfFreezeFrameRecordNumeration().getValue() == "CALCULATED"
+        assert primary.getTypeOfDtcSupported().getValue() == DiagnosticTypeOfDtcSupportedEnum.SAEJ1939_73

@@ -474,8 +474,8 @@ class TestImplementationDataTypeWriter:
         pkg = autosar.createARPackage("Pkg")
         elem = ImplementationDataTypeElement(pkg, "Elem")
         elem.setArraySize(_make_float(4, "4"))
-        elem.setArraySizeHandling(_make_literal("allIndicesSameArraySize"))
-        elem.setArraySizeSemantics(_make_literal("variableSize"))
+        elem.setArraySizeHandling(_make_literal("ALL-INDICES-SAME-ARRAY-SIZE"))
+        elem.setArraySizeSemantics(_make_literal("VARIABLE-SIZE"))
         elem.createImplementationDataTypeElement("Sub")
 
         parent = _parent()
@@ -1059,8 +1059,8 @@ class TestSwComponentWriter:
         pkg = autosar.createARPackage("Pkg")
         array_type = pkg.createApplicationArrayDataType("ArrType")
         elem = array_type.createApplicationArrayElement("Elem")
-        elem.setArraySizeHandling(_make_literal("allIndicesSameArraySize"))
-        elem.setArraySizeSemantics(_make_literal("variableSize"))
+        elem.setArraySizeHandling(_make_literal("ALL-INDICES-SAME-ARRAY-SIZE"))
+        elem.setArraySizeSemantics(_make_literal("VARIABLE-SIZE"))
         elem.setMaxNumberOfElements(_make_float(8, "8"))
 
         parent = _parent()
@@ -1478,11 +1478,11 @@ class TestModeDeclarationWriter:
         manager_el = child.find("MODE-MANAGER-ERROR-BEHAVIOR")
         assert manager_el is not None
         assert manager_el.find("DEFAULT-MODE-REF").text == "/Group/ErrorMode"
-        assert manager_el.find("ERROR-REACTION-POLICY").text == "defaultMode"
+        assert manager_el.find("ERROR-REACTION-POLICY").text == "DEFAULT-MODE"
         user_el = child.find("MODE-USER-ERROR-BEHAVIOR")
         assert user_el is not None
         assert user_el.find("DEFAULT-MODE-REF") is None
-        assert user_el.find("ERROR-REACTION-POLICY").text == "lastMode"
+        assert user_el.find("ERROR-REACTION-POLICY").text == "LAST-MODE"
 
     def test_write_mode_declaration_group_error_behaviors_none(self, writer):
         autosar = AUTOSAR.getInstance()

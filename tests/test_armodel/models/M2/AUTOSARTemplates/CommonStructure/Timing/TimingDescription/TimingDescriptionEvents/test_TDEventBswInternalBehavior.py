@@ -52,7 +52,7 @@ class TestTDEventBswInternalBehavior:
         enum.setValue(TDEventBswInternalBehaviorTypeEnum.BSW_MODULE_ENTITY_ACTIVATED)
         assert event.setTdEventBswInternalBehaviorType(enum) is event
         assert event.getTdEventBswInternalBehaviorType() is enum
-        assert event.getTdEventBswInternalBehaviorType().getValue() == "bswModuleEntityActivated"
+        assert event.getTdEventBswInternalBehaviorType().getValue() == TDEventBswInternalBehaviorTypeEnum.BSW_MODULE_ENTITY_ACTIVATED
 
     def test_set_td_event_bsw_internal_behavior_type_none_noop(self):
         parent = self._parent()

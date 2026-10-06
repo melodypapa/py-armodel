@@ -46,7 +46,7 @@ class TestDataTransformation:
 
         assert transformation == transformation.setDataTransformationKind(value)
         assert transformation.getDataTransformationKind() is value
-        assert transformation.getDataTransformationKind().getValue() == "symmetric"
+        assert transformation.getDataTransformationKind().getValue() == DataTransformationKindEnum.SYMMETRIC
 
         assert transformation == transformation.setDataTransformationKind(None)
         assert transformation.getDataTransformationKind() is value

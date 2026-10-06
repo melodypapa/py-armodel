@@ -8,7 +8,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_text_table_mapping.py
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableValuePair
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import MappingDirectionEnum, TextTableValuePair
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -23,7 +23,7 @@ class TestReadTextTableMapping:
                 <BITFIELD-TEXT-TABLE-MASK-FIRST>8</BITFIELD-TEXT-TABLE-MASK-FIRST>
                 <BITFIELD-TEXT-TABLE-MASK-SECOND>16</BITFIELD-TEXT-TABLE-MASK-SECOND>
                 <IDENTICAL-MAPPING>true</IDENTICAL-MAPPING>
-                <MAPPING-DIRECTION>bidirectional</MAPPING-DIRECTION>
+                <MAPPING-DIRECTION>BIDIRECTIONAL</MAPPING-DIRECTION>
                 <VALUE-PAIRS>
                     <TEXT-TABLE-VALUE-PAIR>
                         <FIRST-VALUE>1</FIRST-VALUE>
@@ -41,7 +41,7 @@ class TestReadTextTableMapping:
         assert mapping.getBitfieldTextTableMaskFirst().getValue() == 8
         assert mapping.getBitfieldTextTableMaskSecond().getValue() == 16
         assert mapping.getIdenticalMapping().getValue() is True
-        assert mapping.getMappingDirection().getValue() == "bidirectional"
+        assert mapping.getMappingDirection().getValue() == MappingDirectionEnum.BIDIRECTIONAL
 
         value_pairs = mapping.getValuePairs()
         assert len(value_pairs) == 2

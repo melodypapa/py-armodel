@@ -62,10 +62,10 @@ class TDEventBswModuleTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the associated BswModuleEntry has been called. Tags: atp.EnumerationLiteralIndex=0
-    BSW_M_ENTRY_CALLED = "bswMEntryCalled"
+    BSW_M_ENTRY_CALLED = "BSW-M-ENTRY-CALLED"
 
     # A point in time where the call of the associated BswModuleEntry has returned. Tags: atp.EnumerationLiteralIndex=1
-    BSW_M_ENTRY_CALL_RETURNED = "bswMEntryCallReturned"
+    BSW_M_ENTRY_CALL_RETURNED = "BSW-M-ENTRY-CALL-RETURNED"
 
     def __init__(self):
         """
@@ -92,13 +92,13 @@ class TDEventBswModeDeclarationTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the associated ModeDeclarationGroupPrototype has been requested. Tags: atp.EnumerationLiteralIndex=0
-    MODE_DECLARATION_REQUESTED = "modeDeclarationRequested"
+    MODE_DECLARATION_REQUESTED = "MODE-DECLARATION-REQUESTED"
 
     # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been completed. Tags: atp.EnumerationLiteralIndex=1
-    MODE_DECLARATION_SWITCH_COMPLETED = "modeDeclarationSwitchCompleted"
+    MODE_DECLARATION_SWITCH_COMPLETED = "MODE-DECLARATION-SWITCH-COMPLETED"
 
     # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been initiated by the BswM. Tags: atp.EnumerationLiteralIndex=2
-    MODE_DECLARATION_SWITCH_INITIATED = "modeDeclarationSwitchInitiated"
+    MODE_DECLARATION_SWITCH_INITIATED = "MODE-DECLARATION-SWITCH-INITIATED"
 
     def __init__(self):
         """

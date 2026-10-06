@@ -35,20 +35,20 @@ class SwImplPolicyEnum(AREnum):
     # (no methods) — enum value form serialized on SwDataDefProps.swImplPolicy (SW-IMPL-POLICY element; consumers: SwDataDefProps, InternalTriggeringPoint, Trigger, BswInternalTriggeringPoint)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # forced implementation such that the running software within the ECU shall not modify it. For example implemented with the "const" modifier in C. This can be applied for parameters (not for those in NVRAM) as well as argument data prototypes. Tags: atp.EnumerationLiteralIndex=0
-    CONST = "const"
+    # forced implementation such that the running software within the ECU shall not modify it. For example implemented with the "CONST" modifier in C. This can be applied for parameters (not for those in NVRAM) as well as argument data prototypes. Tags: atp.EnumerationLiteralIndex=0
+    CONST = "CONST"
 
     # This data element is fixed. In particular this indicates, that it might also be implemented e.g. as in place data, (#DEFINE). Tags: atp.EnumerationLiteralIndex=1
-    FIXED = "fixed"
+    FIXED = "FIXED"
 
-    # The data element is created for measurement purposes only. The data element is never read directly within the ECU software. In contrast to a "standard" data element in an unconnected provide port is, this unconnection is guaranteed for measurementPoint data elements. Tags: atp.EnumerationLiteralIndex=2
-    MEASUREMENT_POINT = "measurementPoint"
+    # The data element is created for measurement purposes only. The data element is never read directly within the ECU software. In contrast to a "STANDARD" data element in an unconnected provide port is, this unconnection is guaranteed for measurementPoint data elements. Tags: atp.EnumerationLiteralIndex=2
+    MEASUREMENT_POINT = "MEASUREMENT-POINT"
 
     # The content of the data element is queued and the data element has 'event' semantics, i.e. data elements are stored in a queue and all data elements are processed in 'first in first out' order. The queuing is intended to be implemented by RTE Generator. This value is not applicable for parameters. Tags: atp.EnumerationLiteralIndex=3
-    QUEUED = "queued"
+    QUEUED = "QUEUED"
 
     # This is applicable for all kinds of data elements. For variable data prototypes the 'last is best' semantics applies. For parameter there is no specific implementation directive. Tags: atp.EnumerationLiteralIndex=4
-    STANDARD = "standard"
+    STANDARD = "STANDARD"
 
     def __init__(self):
         super().__init__([SwImplPolicyEnum.CONST, SwImplPolicyEnum.FIXED, SwImplPolicyEnum.MEASUREMENT_POINT, SwImplPolicyEnum.QUEUED, SwImplPolicyEnum.STANDARD])
@@ -65,13 +65,13 @@ class SwCalibrationAccessEnum(AREnum):
     # (no methods) — enum value form serialized on ModeDeclarationGroupPrototype.swCalibrationAccess, SwCalprmAxis.swCalibrationAccess, SwDataDefProps.swCalibrationAccess (R23-11)
 
     # The element will not be accessible via MCD tools, i.e. will not appear in the ASAP file. Tags: atp.EnumerationLiteralIndex=0
-    NOT_ACCESSIBLE = "notAccessible"
+    NOT_ACCESSIBLE = "NOT-ACCESSIBLE"
 
     # The element will only appear as read-only in an ASAP file. Tags: atp.EnumerationLiteralIndex=1
-    READ_ONLY = "readOnly"
+    READ_ONLY = "READ-ONLY"
 
     # The element will appear in the ASAP file with both read and write access. Tags: atp.EnumerationLiteralIndex=2
-    READ_WRITE = "readWrite"
+    READ_WRITE = "READ-WRITE"
 
     def __init__(self):
         super().__init__([SwCalibrationAccessEnum.NOT_ACCESSIBLE, SwCalibrationAccessEnum.READ_ONLY, SwCalibrationAccessEnum.READ_WRITE])
@@ -89,10 +89,10 @@ class DisplayPresentationEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The presentation of data shall form a continuous graph between data points. Tags: atp.EnumerationLiteralIndex=0
-    PRESENTATION_CONTINUOUS = "presentationContinuous"
+    PRESENTATION_CONTINUOUS = "PRESENTATION-CONTINUOUS"
 
     # The presentation of data shall be step-shaped between data points. Tags: atp.EnumerationLiteralIndex=1
-    PRESENTATION_DISCRETE = "presentationDiscrete"
+    PRESENTATION_DISCRETE = "PRESENTATION-DISCRETE"
 
     def __init__(self):
         super().__init__([DisplayPresentationEnum.PRESENTATION_CONTINUOUS, DisplayPresentationEnum.PRESENTATION_DISCRETE])

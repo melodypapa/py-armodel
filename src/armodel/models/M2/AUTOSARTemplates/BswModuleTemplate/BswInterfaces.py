@@ -29,10 +29,10 @@ class BswEntryKindEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # This BswModuleEntry specifies an abstract signature of C-functions. The signature needs to be implemented by concrete BswModuleEntrys Tags: atp.EnumerationLiteralIndex=0
-    ABSTRACT = "abstract"
+    ABSTRACT = "ABSTRACT"
 
     # This BswModuleEntry specifies a concrete C-function with its signature. Tags: atp.EnumerationLiteralIndex=1
-    CONCRETE = "concrete"
+    CONCRETE = "CONCRETE"
 
     def __init__(self):
         super().__init__([BswEntryKindEnum.ABSTRACT, BswEntryKindEnum.CONCRETE])
@@ -51,19 +51,19 @@ class BswCallType(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # Callback (i.e. the caller specifies the signature) Tags: atp.EnumerationLiteralIndex=0
-    CALLBACK = "callback"
+    CALLBACK = "CALLBACK"
 
     # Callout - provide defined means to extend the functionality of an existing module. In this case caller specifies the signature. Tags: atp.EnumerationLiteralIndex=4
-    CALLOUT = "callout"
+    CALLOUT = "CALLOUT"
 
     # Interrupt routine Tags: atp.EnumerationLiteralIndex=1
-    INTERRUPT = "interrupt"
+    INTERRUPT = "INTERRUPT"
 
     # Regular API call Tags: atp.EnumerationLiteralIndex=2
-    REGULAR = "regular"
+    REGULAR = "REGULAR"
 
     # Called by the scheduler Tags: atp.EnumerationLiteralIndex=3
-    SCHEDULED = "scheduled"
+    SCHEDULED = "SCHEDULED"
 
     def __init__(self):
         super().__init__([BswCallType.CALLBACK, BswCallType.CALLOUT, BswCallType.INTERRUPT, BswCallType.REGULAR, BswCallType.SCHEDULED])
@@ -81,20 +81,20 @@ class BswExecutionContext(AREnum):
     # (no methods) — enum value form serialized on BswModuleEntry.executionContext
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    # Context of an OS "hook" routine always Tags: atp.EnumerationLiteralIndex=0
-    HOOK = "hook"
+    # Context of an OS "HOOK" routine always Tags: atp.EnumerationLiteralIndex=0
+    HOOK = "HOOK"
 
     # CAT1 interrupt context always Tags: atp.EnumerationLiteralIndex=1
-    INTERRUPT_CAT_1 = "interruptCat1"
+    INTERRUPT_CAT_1 = "INTERRUPT-CAT-1"
 
     # CAT2 interrupt context always Tags: atp.EnumerationLiteralIndex=2
-    INTERRUPT_CAT_2 = "interruptCat2"
+    INTERRUPT_CAT_2 = "INTERRUPT-CAT-2"
 
     # Task context always Tags: atp.EnumerationLiteralIndex=3
-    TASK = "task"
+    TASK = "TASK"
 
     # The execution context is not specified by the API Tags: atp.EnumerationLiteralIndex=4
-    UNSPECIFIED = "unspecified"
+    UNSPECIFIED = "UNSPECIFIED"
 
     def __init__(self):
         super().__init__([BswExecutionContext.HOOK, BswExecutionContext.INTERRUPT_CAT_1, BswExecutionContext.INTERRUPT_CAT_2, BswExecutionContext.TASK, BswExecutionContext.UNSPECIFIED])
@@ -113,16 +113,16 @@ class SwServiceImplPolicyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # inline service definition. Tags: atp.EnumerationLiteralIndex=0
-    INLINE = "inline"
+    INLINE = "INLINE"
 
-    # The service (in AUTOSAR: BswModuleEntry) is implemented in a way that it either resolves to an inline function or to a standard function depending on conditions set at a later point in time. The following two values are standardized (to be used for code sections only and exclusively to each other): • INLINE - The code section is declared with the keyword "inline". • LOCAL_INLINE - The code section is declared with the keyword "static inline". In both cases (INLINE and LOCAL_INLINE) the inline expansion depends on the compiler. Depending on this, the code section either corresponds to an actual section in memory or is put into the section of the caller. Tags: atp.EnumerationLiteralIndex=1
-    INLINE_CONDITIONAL = "inlineConditional"
+    # The service (in AUTOSAR: BswModuleEntry) is implemented in a way that it either resolves to an inline function or to a standard function depending on conditions set at a later point in time. The following two values are standardized (to be used for code sections only and exclusively to each other): • INLINE - The code section is declared with the keyword "INLINE". • LOCAL_INLINE - The code section is declared with the keyword "static inline". In both cases (INLINE and LOCAL_INLINE) the inline expansion depends on the compiler. Depending on this, the code section either corresponds to an actual section in memory or is put into the section of the caller. Tags: atp.EnumerationLiteralIndex=1
+    INLINE_CONDITIONAL = "INLINE-CONDITIONAL"
 
     # macro service definition. Tags: atp.EnumerationLiteralIndex=2
-    MACRO = "macro"
+    MACRO = "MACRO"
 
     # Standard service and default value, if nothing is defined. Tags: atp.EnumerationLiteralIndex=3
-    STANDARD = "standard"
+    STANDARD = "STANDARD"
 
     def __init__(self):
         super().__init__([SwServiceImplPolicyEnum.INLINE, SwServiceImplPolicyEnum.INLINE_CONDITIONAL, SwServiceImplPolicyEnum.MACRO, SwServiceImplPolicyEnum.STANDARD])
@@ -521,7 +521,7 @@ class BswEntryRelationshipEnum(AREnum):
     # (no methods)
 
     # Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0
-    DERIVED_FROM = "derivedFrom"
+    DERIVED_FROM = "DERIVED-FROM"
 
     def __init__(self):
         super().__init__(

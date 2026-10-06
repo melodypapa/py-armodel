@@ -26,13 +26,13 @@ ARXML = """<?xml version="1.0" encoding="UTF-8"?>
             <CONTROL-PROVIDED-EVENT-GROUP-REFS>
               <CONTROL-PROVIDED-EVENT-GROUP-REF DEST="EVENT-HANDLER">/pkg/EventHandler</CONTROL-PROVIDED-EVENT-GROUP-REF>
             </CONTROL-PROVIDED-EVENT-GROUP-REFS>
-            <SERVICE-CONTROL>translationStart</SERVICE-CONTROL>
+            <SERVICE-CONTROL>TRANSLATION-START</SERVICE-CONTROL>
             <SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS>
               <SHORT-NAME>eventProps</SHORT-NAME>
               <SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS>
                 <SHORT-NAME>elementProps</SHORT-NAME>
                 <FILTER>
-                  <DATA-FILTER-TYPE>always</DATA-FILTER-TYPE>
+                  <DATA-FILTER-TYPE>ALWAYS</DATA-FILTER-TYPE>
                 </FILTER>
                 <TRANSMISSION-TRIGGER>true</TRANSMISSION-TRIGGER>
               </SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS>
@@ -90,7 +90,7 @@ class TestSignalServiceTranslationParsing:
         assert props.getControlPncRefs()[0].getValue() == "/pkg/PncMapping"
         assert len(props.getControlProvidedEventGroupRefs()) == 1
         assert props.getControlProvidedEventGroupRefs()[0].getValue() == "/pkg/EventHandler"
-        assert props.getServiceControl().getValue() == "translationStart"
+        assert props.getServiceControl().getValue() == "TRANSLATION-START"
 
     def test_event_props(self, loaded_document):
         pkg = loaded_document.getARPackages()[0]
@@ -112,7 +112,7 @@ class TestSignalServiceTranslationParsing:
         element_props = event_props.getSignalServiceTranslationElementProps()[0]
         assert element_props.getShortName() == "elementProps"
         assert element_props.getFilter() is not None
-        assert element_props.getFilter().getDataFilterType().getValue() == "always"
+        assert element_props.getFilter().getDataFilterType().getValue() == "ALWAYS"
         assert element_props.getTransmissionTrigger().getValue() is True
 
     def test_empty_list_round_trip_not_loaded(self, tmp_path):

@@ -57,7 +57,7 @@ class TestExecutionOrderConstraint:
         eoc_type = ExecutionOrderConstraintTypeEnum().setValue(ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC)
         assert constraint.setExecutionOrderConstraintType(eoc_type) is constraint
         assert constraint.getExecutionOrderConstraintType() is eoc_type
-        assert constraint.getExecutionOrderConstraintType().getValue() == "hierarchicalEOC"
+        assert constraint.getExecutionOrderConstraintType().getValue() == ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC
 
     def test_set_execution_order_constraint_type_none_is_no_op(self):
         parent = self._parent()
@@ -193,13 +193,13 @@ class TestExecutionOrderConstraintTypeEnum:
         """Test ExecutionOrderConstraintTypeEnum initialization"""
         enum = ExecutionOrderConstraintTypeEnum()
         assert isinstance(enum, ExecutionOrderConstraintTypeEnum)
-        assert list(enum.getEnumValues()) == ["hierarchicalEOC", "ordinaryEOC", "repetitiveEOC"]
+        assert list(enum.getEnumValues()) == ["HIERARCHICAL-EOC", "ORDINARY-EOC", "REPETITIVE-EOC"]
 
     def test_enum_values(self):
         """Test ExecutionOrderConstraintTypeEnum literal values (Table 3.69)"""
-        assert ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC == "hierarchicalEOC"
-        assert ExecutionOrderConstraintTypeEnum.ORDINARY_EOC == "ordinaryEOC"
-        assert ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC == "repetitiveEOC"
+        assert ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC == "HIERARCHICAL-EOC"
+        assert ExecutionOrderConstraintTypeEnum.ORDINARY_EOC == "ORDINARY-EOC"
+        assert ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC == "REPETITIVE-EOC"
 
     def test_valid_values(self):
         """Test ExecutionOrderConstraintTypeEnum setValue round-trip for all literals"""
@@ -213,12 +213,12 @@ class TestLetDataExchangeParadigmEnum:
         """Test LetDataExchangeParadigmEnum initialization"""
         enum = LetDataExchangeParadigmEnum()
         assert isinstance(enum, LetDataExchangeParadigmEnum)
-        assert list(enum.getEnumValues()) == ["interLetOnly", "intraLetEOC"]
+        assert list(enum.getEnumValues()) == ["INTER-LET-ONLY", "INTRA-LET-EOC"]
 
     def test_enum_values(self):
         """Test LetDataExchangeParadigmEnum literal values (Table 4.4)"""
-        assert LetDataExchangeParadigmEnum.INTER_LET_ONLY == "interLetOnly"
-        assert LetDataExchangeParadigmEnum.INTRA_LET_EOC == "intraLetEOC"
+        assert LetDataExchangeParadigmEnum.INTER_LET_ONLY == "INTER-LET-ONLY"
+        assert LetDataExchangeParadigmEnum.INTRA_LET_EOC == "INTRA-LET-EOC"
 
     def test_valid_values(self):
         """Test LetDataExchangeParadigmEnum setValue round-trip for all literals"""

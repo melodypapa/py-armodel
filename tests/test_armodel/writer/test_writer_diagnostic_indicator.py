@@ -45,7 +45,7 @@ class TestWriteDiagnosticIndicator:
         return package.createDiagnosticIndicator(short_name)
 
     def _populate(self, indicator: DiagnosticIndicator) -> DiagnosticIndicator:
-        indicator.setType(DiagnosticIndicatorTypeEnum().setValue("malfunction"))
+        indicator.setType(DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION))
         return indicator
 
     def test_write_all_fields_in_xsd_order(self):
@@ -62,7 +62,7 @@ class TestWriteDiagnosticIndicator:
             "TYPE",
         ]
         assert child.find("SHORT-NAME").text == "Indicator1"
-        assert child.find("TYPE").text == "malfunction"
+        assert child.find("TYPE").text == "MALFUNCTION"
 
     def test_write_unset_fields_emit_no_children(self):
         """Test that an unpopulated DiagnosticIndicator emits no own children (empty wrapper case)."""
@@ -87,7 +87,7 @@ class TestWriteDiagnosticIndicator:
         child = parent.find("DIAGNOSTIC-INDICATOR")
         assert child is not None
         assert child.find("SHORT-NAME").text == "Indicator1"
-        assert child.find("TYPE").text == "malfunction"
+        assert child.find("TYPE").text == "MALFUNCTION"
 
     def test_round_trip_preserves_field_values(self):
         """Test the full set → save → reload → assert cycle over an ARPackage with field values."""
@@ -106,7 +106,7 @@ class TestWriteDiagnosticIndicator:
             assert indicator_2 is not None
             assert indicator_2.getShortName() == "Indicator1"
             assert indicator_2.getType() is not None
-            assert indicator_2.getType().getValue() == "malfunction"
+            assert indicator_2.getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

@@ -35,16 +35,16 @@ class TestLEnum:
 
     def test_l_enum_members(self):
         """Test that LEnum has the expected members."""
-        assert LEnum.AA == "aa"
-        assert LEnum.EN == "en"
-        assert LEnum.DE == "de"
-        assert LEnum.FOR_ALL == "forAll"
+        assert LEnum.AA == "AA"
+        assert LEnum.EN == "EN"
+        assert LEnum.DE == "DE"
+        assert LEnum.FOR_ALL == "FOR-ALL"
 
     def test_l_enum_values(self):
         """Test that LEnum values are all valid."""
         l_enum = LEnum()
-        assert l_enum.validateEnumValue("en")
-        assert l_enum.validateEnumValue("de")
+        assert l_enum.validateEnumValue("EN")
+        assert l_enum.validateEnumValue("DE")
         assert not l_enum.validateEnumValue("xx")
 
     def test_l_enum_initialization(self):

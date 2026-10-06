@@ -58,7 +58,7 @@ class TestReadDiagnosticDataElement:
             "<VARIATION-POINT />",
         )
         assert data_element.getArraySizeSemantics() is not None
-        assert data_element.getArraySizeSemantics().getValue() == "fixedSize"
+        assert data_element.getArraySizeSemantics().getValue() == "FIXED-SIZE"
         assert data_element.getMaxNumberOfElements() is not None
         assert data_element.getMaxNumberOfElements().getValue() == 4
         assert data_element.getScalingInfoSize() is not None

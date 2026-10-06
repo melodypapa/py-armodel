@@ -110,14 +110,14 @@ class TestPhysConstrsRoundTrip:
             assert constrs_2 is not None
             lower_2 = constrs_2.getLowerLimit()
             assert lower_2.getValue() == "0"
-            assert lower_2.getIntervalType().getValue() == "closed"
+            assert lower_2.getIntervalType().getValue() == IntervalTypeEnum.CLOSED
             upper_2 = constrs_2.getUpperLimit()
             assert upper_2.getValue() == "65535"
-            assert upper_2.getIntervalType().getValue() == "open"
+            assert upper_2.getIntervalType().getValue() == IntervalTypeEnum.OPEN
             assert constrs_2.getMaxGradient().getValue() == 1.5
             assert constrs_2.getMaxDiff().getValue() == 0.5
             assert isinstance(constrs_2.getMonotony(), MonotonyEnum)
-            assert constrs_2.getMonotony().getValue() == "increasing"
+            assert constrs_2.getMonotony().getValue() == MonotonyEnum.INCREASING
             scales_2 = constrs_2.getScaleConstrs()
             assert len(scales_2) == 1
             assert scales_2[0].getShortLabel().getValue() == "s1"

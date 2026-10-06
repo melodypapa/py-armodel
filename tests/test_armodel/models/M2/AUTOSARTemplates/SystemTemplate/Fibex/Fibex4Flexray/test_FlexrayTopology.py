@@ -1309,7 +1309,7 @@ class TestFlexrayPhysicalChannel:
         value = FlexrayChannelName().setValue(FlexrayChannelName.CHANNEL_A)
         assert channel == channel.setChannelName(value)
         assert channel.getChannelName() == value
-        assert channel.getChannelName().getValue() == "channelA"
+        assert channel.getChannelName().getValue() == FlexrayChannelName.CHANNEL_A
 
         assert channel == channel.setChannelName(None)
         assert channel.getChannelName() == value

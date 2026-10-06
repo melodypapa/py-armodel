@@ -61,10 +61,10 @@ class RptServicePointEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Enables generation of service points by the RTE generator. Tags: atp.EnumerationLiteralIndex=0
-    ENABLED = "enabled"
+    ENABLED = "ENABLED"
 
     # No Service Points are requested. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     def __init__(self):
         super().__init__(

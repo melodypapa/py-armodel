@@ -29,8 +29,8 @@ class TestRteApiReturnValueProvisionEnum:
         enum = RteApiReturnValueProvisionEnum()
 
         assert enum.setValue(RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED) is enum
-        assert enum.getValue() == "returnValueProvided"
-        assert enum.validateEnumValue("noReturnValueProvided") is True
+        assert enum.getValue() == RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED
+        assert enum.validateEnumValue("NO-RETURN-VALUE-PROVIDED") is True
         assert enum.validateEnumValue("invalid") is False
 
 

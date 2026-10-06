@@ -191,10 +191,10 @@ class ContainedIPduCollectionSemanticsEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The ContainedIPdu data will be fetched via TriggerTransmit just before the transmission executes. Tags: atp.EnumerationLiteralIndex=0
-    LAST_IS_BEST = "lastIsBest"
+    LAST_IS_BEST = "LAST-IS-BEST"
 
     # The ContainedIPdu data will instantly be stored to the ContainerIPdu in the context of the Transmit API. Tags: atp.EnumerationLiteralIndex=1
-    QUEUED = "queued"
+    QUEUED = "QUEUED"
 
     def __init__(self):
         super().__init__([ContainedIPduCollectionSemanticsEnum.LAST_IS_BEST, ContainedIPduCollectionSemanticsEnum.QUEUED])
@@ -952,16 +952,16 @@ class SecuredPduHeaderEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # No header included in the SecuredPdu. Tags: atp.EnumerationLiteralIndex=0
-    NO_HEADER = "noHeader"
+    NO_HEADER = "NO-HEADER"
 
     # 8 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=1
-    SECURED_PDU_HEADER08_BIT = "securedPduHeader08Bit"
+    SECURED_PDU_HEADER08_BIT = "SECURED-PDU-HEADER-08-BIT"
 
     # 16 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=2
-    SECURED_PDU_HEADER16_BIT = "securedPduHeader16Bit"
+    SECURED_PDU_HEADER16_BIT = "SECURED-PDU-HEADER-16-BIT"
 
     # 32 Bit Secured I-PDU Header included in the Secured I-PDU. Tags: atp.EnumerationLiteralIndex=3
-    SECURED_PDU_HEADER32_BIT = "securedPduHeader32Bit"
+    SECURED_PDU_HEADER32_BIT = "SECURED-PDU-HEADER-32-BIT"
 
     def __init__(self):
         super().__init__([SecuredPduHeaderEnum.NO_HEADER, SecuredPduHeaderEnum.SECURED_PDU_HEADER08_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER16_BIT, SecuredPduHeaderEnum.SECURED_PDU_HEADER32_BIT])
@@ -1135,19 +1135,19 @@ class TransferPropertyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal. Tags: atp.EnumerationLiteralIndex=0
-    PENDING = "pending"
+    PENDING = "PENDING"
 
     # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. Tags: atp.EnumerationLiteralIndex=1
-    TRIGGERED = "triggered"
+    TRIGGERED = "TRIGGERED"
 
     # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. Tags: atp.EnumerationLiteralIndex=2
-    TRIGGERED_ON_CHANGE = "triggeredOnChange"
+    TRIGGERED_ON_CHANGE = "TRIGGERED-ON-CHANGE"
 
     # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=3
-    TRIGGERED_ON_CHANGE_WITHOUT_REPETITION = "triggeredOnChangeWithoutRepetition"
+    TRIGGERED_ON_CHANGE_WITHOUT_REPETITION = "TRIGGERED-ON-CHANGE-WITHOUT-REPETITION"
 
     # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=4
-    TRIGGERED_WITHOUT_REPETITION = "triggeredWithoutRepetition"
+    TRIGGERED_WITHOUT_REPETITION = "TRIGGERED-WITHOUT-REPETITION"
 
     def __init__(self):
         super().__init__(
@@ -1573,10 +1573,10 @@ class ISignalTypeEnum(AREnum):
     # (no methods)
 
     # ISignal shall be interpreted as an array (UINT8_N, UINT8_DYN) Tags: atp.EnumerationLiteralIndex=0
-    ARRAY = "array"
+    ARRAY = "ARRAY"
 
     # ISignal shall be interpreted as a primitive type (e.g. UINT_8, SINT_32) Tags: atp.EnumerationLiteralIndex=1
-    PRIMITIVE = "primitive"
+    PRIMITIVE = "PRIMITIVE"
 
     def __init__(self):
         super().__init__(
@@ -2550,16 +2550,16 @@ class TriggerMode(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # IPduM sends a transmission request to the PduR if a dynamic part is received. Tags: atp.EnumerationLiteralIndex=0
-    DYNAMIC_PART_TRIGGER = "dynamicPartTrigger"
+    DYNAMIC_PART_TRIGGER = "DYNAMIC-PART-TRIGGER"
 
     # IPduM does not trigger transmission because of receiving anything of this IPdu in case of Trigger Transmit. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # IPduM sends a transmission request to the PduR if a static or dynamic part is received. Tags: atp.EnumerationLiteralIndex=2
-    STATIC_OR_DYNAMIC_PART_TRIGGER = "staticOrDynamicPartTrigger"
+    STATIC_OR_DYNAMIC_PART_TRIGGER = "STATIC-OR-DYNAMIC-PART-TRIGGER"
 
     # IPduM sends a transmission request to the PduR if a static part is received. Tags: atp.EnumerationLiteralIndex=3
-    STATIC_PART_TRIGGER = "staticPartTrigger"
+    STATIC_PART_TRIGGER = "STATIC-PART-TRIGGER"
 
     def __init__(self):
         super().__init__([TriggerMode.DYNAMIC_PART_TRIGGER, TriggerMode.NONE, TriggerMode.STATIC_OR_DYNAMIC_PART_TRIGGER, TriggerMode.STATIC_PART_TRIGGER])
@@ -3075,10 +3075,10 @@ class CommunicationDirectionType(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Reception (Input) Tags: atp.EnumerationLiteralIndex=0
-    IN = "in"
+    IN = "IN"
 
     # Transmission (Output) Tags: atp.EnumerationLiteralIndex=1
-    OUT = "out"
+    OUT = "OUT"
 
     def __init__(self):
         super().__init__([CommunicationDirectionType.IN, CommunicationDirectionType.OUT])
@@ -3111,10 +3111,10 @@ class IPduSignalProcessingEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
-    ENUM_DEFERRED = "deferred"
+    ENUM_DEFERRED = "DEFERRED"
 
     # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
-    ENUM_IMMEDIATE = "immediate"
+    ENUM_IMMEDIATE = "IMMEDIATE"
 
     def __init__(self):
         super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])

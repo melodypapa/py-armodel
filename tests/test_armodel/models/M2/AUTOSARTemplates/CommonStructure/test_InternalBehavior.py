@@ -18,9 +18,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 class TestReentrancyLevelEnum:
     def test_literals(self):
         """Test ReentrancyLevelEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.5"""
-        assert ReentrancyLevelEnum.MULTICORE_REENTRANT == "multicoreReentrant"
-        assert ReentrancyLevelEnum.NON_REENTRANT == "nonReentrant"
-        assert ReentrancyLevelEnum.SINGLE_CORE_REENTRANT == "singleCoreReentrant"
+        assert ReentrancyLevelEnum.MULTICORE_REENTRANT == "MULTICORE-REENTRANT"
+        assert ReentrancyLevelEnum.NON_REENTRANT == "NON-REENTRANT"
+        assert ReentrancyLevelEnum.SINGLE_CORE_REENTRANT == "SINGLE-CORE-REENTRANT"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 5.5)"""
@@ -36,7 +36,7 @@ class TestReentrancyLevelEnum:
         enum = ReentrancyLevelEnum()
         result = enum.setValue(ReentrancyLevelEnum.SINGLE_CORE_REENTRANT)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "singleCoreReentrant"
+        assert enum.getValue() == ReentrancyLevelEnum.SINGLE_CORE_REENTRANT
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -45,14 +45,14 @@ class TestReentrancyLevelEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(ReentrancyLevelEnum.MULTICORE_REENTRANT)
         enum.setValue(None)
-        assert enum.getValue() == "multicoreReentrant"
+        assert enum.getValue() == ReentrancyLevelEnum.MULTICORE_REENTRANT
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ReentrancyLevelEnum()
-        assert enum.validateEnumValue("multicoreReentrant") is True
-        assert enum.validateEnumValue("nonReentrant") is True
-        assert enum.validateEnumValue("singleCoreReentrant") is True
+        assert enum.validateEnumValue("MULTICORE-REENTRANT") is True
+        assert enum.validateEnumValue("NON-REENTRANT") is True
+        assert enum.validateEnumValue("SINGLE-CORE-REENTRANT") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):
@@ -63,8 +63,8 @@ class TestReentrancyLevelEnum:
 class TestApiPrincipleEnum:
     def test_literals(self):
         """Test ApiPrincipleEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 5.18"""
-        assert ApiPrincipleEnum.COMMON == "common"
-        assert ApiPrincipleEnum.PER_EXECUTABLE == "perExecutable"
+        assert ApiPrincipleEnum.COMMON == "COMMON"
+        assert ApiPrincipleEnum.PER_EXECUTABLE == "PER-EXECUTABLE"
 
     def test_enum_values(self):
         """Test the valid enum value set in spec literal order (Table 5.18)"""
@@ -79,7 +79,7 @@ class TestApiPrincipleEnum:
         enum = ApiPrincipleEnum()
         result = enum.setValue(ApiPrincipleEnum.PER_EXECUTABLE)
         assert result is enum  # Method chaining
-        assert enum.getValue() == "perExecutable"
+        assert enum.getValue() == ApiPrincipleEnum.PER_EXECUTABLE
 
     def test_set_value_none_noop(self):
         """Test setValue(None) is a no-op"""
@@ -88,13 +88,13 @@ class TestApiPrincipleEnum:
         assert enum.getValue() == ""  # ARLiteral's empty representation for an unset literal
         enum.setValue(ApiPrincipleEnum.COMMON)
         enum.setValue(None)
-        assert enum.getValue() == "common"
+        assert enum.getValue() == ApiPrincipleEnum.COMMON
 
     def test_validate_enum_value(self):
         """Test validateEnumValue accepts spec literals and rejects others"""
         enum = ApiPrincipleEnum()
-        assert enum.validateEnumValue("common") is True
-        assert enum.validateEnumValue("perExecutable") is True
+        assert enum.validateEnumValue("COMMON") is True
+        assert enum.validateEnumValue("PER-EXECUTABLE") is True
         assert enum.validateEnumValue("bogus") is False
 
     def test_spec_note(self):

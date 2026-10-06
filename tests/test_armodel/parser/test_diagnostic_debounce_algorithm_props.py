@@ -17,6 +17,7 @@ from unittest.mock import MagicMock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticDebounceBehaviorEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -93,7 +94,7 @@ class TestReadDiagnosticDebounceAlgorithmProps:
         inner = "<SHORT-NAME>DebounceProps1</SHORT-NAME>" "<DEBOUNCE-BEHAVIOR>FREEZE</DEBOUNCE-BEHAVIOR>"
         debounce_props = self._read(parser, inner)
         assert debounce_props.getDebounceBehavior() is not None
-        assert debounce_props.getDebounceBehavior().getValue() == "freeze"
+        assert debounce_props.getDebounceBehavior().getValue() == DiagnosticDebounceBehaviorEnum.FREEZE
 
     def test_empty_wrapper(self, parser):
         """Test that a props element without own children leaves all fields unset."""

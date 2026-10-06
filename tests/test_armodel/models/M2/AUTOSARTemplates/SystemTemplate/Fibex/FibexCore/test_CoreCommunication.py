@@ -92,7 +92,7 @@ class Test_FibexCoreCommunication:
         order = ByteOrderEnum()
         order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
         mapping.setPackingByteOrder(order)
-        assert mapping.getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+        assert mapping.getPackingByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
         assert mapping == mapping.setPackingByteOrder(order)  # Test method chaining
         # None is a no-op and does not overwrite an existing packingByteOrder
         assert mapping == mapping.setPackingByteOrder(None)

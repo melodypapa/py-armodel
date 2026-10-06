@@ -10,15 +10,15 @@ class TestNoteTypeEnum:
 
     def test_note_type_enum_members(self):
         """Test that NoteTypeEnum has the expected members."""
-        assert NoteTypeEnum.CAUTION == "caution"
-        assert NoteTypeEnum.EXAMPLE == "example"
-        assert NoteTypeEnum.HINT == "hint"
-        assert NoteTypeEnum.OTHER == "other"
+        assert NoteTypeEnum.CAUTION == "CAUTION"
+        assert NoteTypeEnum.EXAMPLE == "EXAMPLE"
+        assert NoteTypeEnum.HINT == "HINT"
+        assert NoteTypeEnum.OTHER == "OTHER"
 
     def test_note_type_enum_initialization(self):
         """Test that a NoteTypeEnum object can be initialized."""
         note_type_enum = NoteTypeEnum()
-        assert note_type_enum.validateEnumValue("hint")
+        assert note_type_enum.validateEnumValue("HINT")
         assert not note_type_enum.validateEnumValue("unknown")
 
 

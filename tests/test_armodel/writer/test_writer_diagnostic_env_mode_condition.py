@@ -132,7 +132,7 @@ class TestWriteDiagnosticEnvModeCondition:
             assert len(parts) == 1
             part = parts[0]
             assert type(part).__name__ == "DiagnosticEnvModeCondition"
-            assert part.getCompareType().getValue() == "isEqual"
+            assert part.getCompareType().getValue() == DiagnosticCompareTypeEnum.IS_EQUAL
             assert part.getModeElementRef() is not None
             assert part.getModeElementRef().getDest() == "DIAGNOSTIC-ENV-BSW-MODE-ELEMENT"
             assert part.getModeElementRef().getValue() == "/AUTOSAR/DiagEnvConditions/Env1/ModeElements/BswMode1"

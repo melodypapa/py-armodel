@@ -35,13 +35,13 @@ class HandleInvalidEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Invalidation is switched off. Tags: atp.EnumerationLiteralIndex=0
-    DONT_INVALIDATE = "dontInvalidate"
+    DONT_INVALIDATE = "DONT-INVALIDATE"
     # Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith. Tags: atp.EnumerationLiteralIndex=1
-    EXTERNAL_REPLACEMENT = "externalReplacement"
+    EXTERNAL_REPLACEMENT = "EXTERNAL-REPLACEMENT"
     # The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access. Tags: atp.EnumerationLiteralIndex=2
-    KEEP = "keep"
+    KEEP = "KEEP"
     # Replace a received invalidValue. The replacement value is specified by the initValue. Tags: atp.EnumerationLiteralIndex=3
-    REPLACE = "replace"
+    REPLACE = "REPLACE"
 
     def __init__(self):
         super().__init__((HandleInvalidEnum.DONT_INVALIDATE, HandleInvalidEnum.EXTERNAL_REPLACEMENT, HandleInvalidEnum.KEEP, HandleInvalidEnum.REPLACE))
@@ -198,13 +198,13 @@ class TransmissionModeDefinitionEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod. Tags: atp.EnumerationLiteralIndex=0
-    CYCLIC = "cyclic"
+    CYCLIC = "CYCLIC"
 
     # The data is assumed to be transmitted in a cyclic manner (with cycle time dataUpdatePeriod) and additionally there may be arbitrary transmission if the data value changes (minimumSendInterval to be respected, if defined). Tags: atp.EnumerationLiteralIndex=2
-    CYCLIC_AND_ON_CHANGE = "cyclicAndOnChange"
+    CYCLIC_AND_ON_CHANGE = "CYCLIC-AND-ON-CHANGE"
 
     # The data is assumed to be transmitted in an arbitrary manner (minimumSendInterval to be respected, if defined). Tags: atp.EnumerationLiteralIndex=1
-    TRIGGERED = "triggered"
+    TRIGGERED = "TRIGGERED"
 
     def __init__(self):
         super().__init__(
@@ -1596,22 +1596,22 @@ class HandleOutOfRangeEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE will use the initValue if the actual value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=0
-    DEFAULT = "default"
+    DEFAULT = "DEFAULT"
 
     # This indicates that the value replacement is sourced from the attribute replaceWith. Tags: atp.EnumerationLiteralIndex=1
-    EXTERNAL_REPLACEMENT = "externalReplacement"
+    EXTERNAL_REPLACEMENT = "EXTERNAL-REPLACEMENT"
 
     # The RTE will ignore any attempt to send or receive the corresponding dataElement if the value is out of the specified range. Tags: atp.EnumerationLiteralIndex=2
-    IGNORE = "ignore"
+    IGNORE = "IGNORE"
 
     # The RTE will use the invalidValue if the value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=3
-    INVALID = "invalid"
+    INVALID = "INVALID"
 
     # A range check is not required. Tags: atp.EnumerationLiteralIndex=4
-    NONE = "none"
+    NONE = "NONE"
 
     # The RTE will saturate the value of the dataElement such that it is limited to the applicable upper bound if it is greater than the upper bound. Consequently, it is limited to the applicable lower bound if the value is less than the lower bound. Tags: atp.EnumerationLiteralIndex=5
-    SATURATE = "saturate"
+    SATURATE = "SATURATE"
 
     def __init__(self):
         super().__init__(
@@ -1638,10 +1638,10 @@ class HandleOutOfRangeStatusEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE sets the return status to RTE_E_OUT_OF_RANGE if the received value is out of range and the attribute handleOutOfRange is not set to "none" or "invalid". Tags: atp.EnumerationLiteralIndex=0
-    INDICATE = "indicate"
+    INDICATE = "INDICATE"
 
     # The RTE sets the return status to RTE_E_OK Tags: atp.EnumerationLiteralIndex=1
-    SILENT = "silent"
+    SILENT = "SILENT"
 
     def __init__(self):
         super().__init__(
@@ -1664,13 +1664,13 @@ class HandleTimeoutEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If set to none no replacement shall take place. Tags: atp.EnumerationLiteralIndex=0
-    NONE = "none"
+    NONE = "NONE"
 
     # If set to replace, the replacement value shall be the ComInitValue. Tags: atp.EnumerationLiteralIndex=1
-    REPLACE = "replace"
+    REPLACE = "REPLACE"
 
     # If set to replace, the replacement value shall be the timeout substitution value. Tags: atp.EnumerationLiteralIndex=2
-    REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE = "replaceByTimeoutSubstitutionValue"
+    REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE = "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE"
 
     def __init__(self):
         super().__init__(

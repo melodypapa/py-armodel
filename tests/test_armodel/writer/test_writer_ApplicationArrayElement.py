@@ -110,8 +110,8 @@ class TestApplicationArrayElementRoundTrip:
             assert array_element.short_name == "Elem"
             assert array_element.getTypeTRef().getValue() == "/DataTypes/uint8"
             assert array_element.getTypeTRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
-            assert array_element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
-            assert array_element.getArraySizeSemantics().getValue() == "variableSize"
+            assert array_element.getArraySizeHandling().getValue() == ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
+            assert array_element.getArraySizeSemantics().getValue() == ArraySizeSemanticsEnum.VARIABLE_SIZE
             assert array_element.getIndexDataTypeRef().getValue() == "/DataTypes/IndexType"
             assert array_element.getIndexDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
             assert isinstance(array_element.getMaxNumberOfElements(), PositiveInteger)

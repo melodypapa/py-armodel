@@ -99,10 +99,10 @@ class OsTaskPreemptabilityEnum(AREnum):
     # (no methods) — enum value form serialized on OsTaskProxy.preemptability (Steps 5/6 N/A: standalone AREnum)
 
     # Task is preemptable. Tags: atp.EnumerationLiteralIndex=1
-    FULL = "full"
+    FULL = "FULL"
 
     # Task is not preemptable. Tags: atp.EnumerationLiteralIndex=0
-    NONE = "none"
+    NONE = "NONE"
 
     def __init__(self):
         super().__init__(

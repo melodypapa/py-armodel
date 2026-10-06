@@ -67,7 +67,7 @@ class TestReadCollection:
         parser.readCollection(element, collection)
 
         assert collection.getAutoCollect() is not None
-        assert collection.getAutoCollect().getValue() == "refAll"
+        assert collection.getAutoCollect().getValue() == AutoCollectEnum.REF_ALL
         assert collection.getCollectionSemantics() is not None
         assert collection.getCollectionSemantics().getValue() == "DECLINATION_OF"
         assert collection.getElementRole() is not None
@@ -207,7 +207,7 @@ class TestReadCollection:
             collections = document.getARPackages()[0].getCollections()
             assert len(collections) == 1
             assert collections[0].getShortName() == "MyCollection"
-            assert collections[0].getAutoCollect().getValue() == "refNone"
+            assert collections[0].getAutoCollect().getValue() == AutoCollectEnum.REF_NONE
             assert collections[0].getElementRefs()[0].getValue() == "/AUTOSAR/EngN"
         finally:
             os.remove(file_path)
@@ -246,7 +246,7 @@ class TestReadCollection:
 
             collection_2 = document_2.getARPackages()[0].getCollections()[0]
             assert collection_2.getShortName() == "MyCollection"
-            assert collection_2.getAutoCollect().getValue() == "refAll"
+            assert collection_2.getAutoCollect().getValue() == AutoCollectEnum.REF_ALL
             assert collection_2.getCollectionSemantics().getValue() == "DECLINATION_OF"
             assert collection_2.getElementRole().getValue() == "PART_OF_SUBSET"
             assert collection_2.getElementRefs()[0].getValue() == "/AUTOSAR/ExpandedView"

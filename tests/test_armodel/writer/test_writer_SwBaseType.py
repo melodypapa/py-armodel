@@ -163,7 +163,7 @@ class TestSwBaseTypeRoundTrip:
             assert definition_2.getBaseTypeSize().getValue() == 8
             assert definition_2.getBaseTypeEncoding().getValue() == "IEEE754"
             assert definition_2.getMemAlignment().getValue() == 8
-            assert definition_2.getByteOrder().getValue() == "mostSignificantByteFirst"
+            assert definition_2.getByteOrder().getValue() == ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST
             assert definition_2.getNativeDeclaration().getValue() == "unsigned char"
         finally:
             if os.path.exists(file_path):

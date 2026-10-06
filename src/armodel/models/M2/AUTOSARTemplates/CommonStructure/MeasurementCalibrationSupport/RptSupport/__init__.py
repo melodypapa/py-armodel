@@ -29,13 +29,13 @@ class RptAccessEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The related data element is accessible by RP tool. Tags: atp.EnumerationLiteralIndex=0
-    ENABLED = "enabled"
+    ENABLED = "ENABLED"
 
     # The related data element is not accessible by RP tool. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # The data element is known to the RP tool however its usage for RP can be restricted. Use case: limitation based on access rights Tags: atp.EnumerationLiteralIndex=2
-    PROTECTED = "protected"
+    PROTECTED = "PROTECTED"
 
     def __init__(self):
         super().__init__(
@@ -60,16 +60,16 @@ class RptEnablerImplTypeEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # No "RP enabler" is implemented. Tags: atp.EnumerationLiteralIndex=0
-    NONE = "none"
+    NONE = "NONE"
 
     # "RP enabler" is implemented as a RAM variable Tags: atp.EnumerationLiteralIndex=1
-    RPT_ENABLER_RAM = "rptEnablerRam"
+    RPT_ENABLER_RAM = "RPT-ENABLER-RAM"
 
     # "RP enabler" is implemented as a calibrateable ROM variable. Tags: atp.EnumerationLiteralIndex=2
-    RPT_ENABLER_ROM = "rptEnablerRom"
+    RPT_ENABLER_ROM = "RPT-ENABLER-ROM"
 
     # The RTE generator implements both the RAM and ROM "RP enabler". Tags: atp.EnumerationLiteralIndex=3
-    RPT_ENABLER_RAM_AND_ROM = "rptEnablerRamAndRom"
+    RPT_ENABLER_RAM_AND_ROM = "RPT-ENABLER-RAM-AND-ROM"
 
     def __init__(self):
         super().__init__(
@@ -95,10 +95,10 @@ class RptExecutionControlEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The ExecutableEntity is only executed when the rapid prototyping disable flag is NOT set. Tags: atp.EnumerationLiteralIndex=0
-    CONDITIONAL = "conditional"
+    CONDITIONAL = "CONDITIONAL"
 
     # The ExecutableEntity is executed without specific rapid prototyping condition. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     def __init__(self):
         super().__init__(
@@ -122,16 +122,16 @@ class RptPreparationEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # No RP preparation for VariableDataPrototype. Tags: atp.EnumerationLiteralIndex=0
-    NONE = "none"
+    NONE = "NONE"
 
     # The RTE implementation uses an "RP global buffer" for measurement and post-build hooking purposes. Tags: atp.EnumerationLiteralIndex=1
-    RPT_LEVEL_1 = "rptLevel1"
+    RPT_LEVEL_1 = "RPT-LEVEL-1"
 
     # As rpLevel1 but the RTE implementation also uses both "RP enabler flag" to permit RP overwrite at run-time. Tags: atp.EnumerationLiteralIndex=2
-    RPT_LEVEL_2 = "rptLevel2"
+    RPT_LEVEL_2 = "RPT-LEVEL-2"
 
     # As rpLevel2 but the RTE implementation also uses "RP global measurement buffer" to record the original ECU-generated value in addition to the RP value. Tags: atp.EnumerationLiteralIndex=3
-    RPT_LEVEL_3 = "rptLevel3"
+    RPT_LEVEL_3 = "RPT-LEVEL-3"
 
     def __init__(self):
         super().__init__(

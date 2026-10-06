@@ -27,13 +27,13 @@ class DataTransformationKindEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The DataTransformation shall only be applied to the receiving end only, i.e. transform from byte array to data type. Tags: atp.EnumerationLiteralIndex=0
-    ASYMMETRIC_FROM_BYTE_ARRAY = "asymmetricFromByteArray"
+    ASYMMETRIC_FROM_BYTE_ARRAY = "ASYMMETRIC-FROM-BYTE-ARRAY"
 
     # The DataTransformation shall be applied to the sending end only, i.e. from data type to byte array. Tags: atp.EnumerationLiteralIndex=1
-    ASYMMETRIC_TO_BYTE_ARRAY = "asymmetricToByteArray"
+    ASYMMETRIC_TO_BYTE_ARRAY = "ASYMMETRIC-TO-BYTE-ARRAY"
 
     # The DataTransformation shall be applied at both the sending and the receiving end of the communication. Tags: atp.EnumerationLiteralIndex=2
-    SYMMETRIC = "symmetric"
+    SYMMETRIC = "SYMMETRIC"
 
     def __init__(self):
         super().__init__(
@@ -208,16 +208,16 @@ class DataIdModeEnum(AREnum):
     # (no methods)
 
     # Two bytes are included in the CRC (double ID configuration). Tags: atp.EnumerationLiteralIndex=0
-    ALL_16_BIT = "all16Bit"
+    ALL_16_BIT = "ALL-16-BIT"
 
     # One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. Tags: atp.EnumerationLiteralIndex=1
-    ALTERNATING_8_BIT = "alternating8Bit"
+    ALTERNATING_8_BIT = "ALTERNATING-8-BIT"
 
     # The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits. Tags: atp.EnumerationLiteralIndex=2
-    LOWER_12_BIT = "lower12Bit"
+    LOWER_12_BIT = "LOWER-12-BIT"
 
     # Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. Tags: atp.EnumerationLiteralIndex=3
-    LOWER_8_BIT = "lower8Bit"
+    LOWER_8_BIT = "LOWER-8-BIT"
 
     def __init__(self):
         super().__init__(
@@ -241,10 +241,10 @@ class EndToEndProfileBehaviorEnum(AREnum):
     # (no methods)
 
     # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
-    PRE_R4_2 = "PRE-R-4-2"
+    PRE_R4_2 = "PRE--R-4--2"
 
     # Check behaves like new P4/P5/P6 profiles introduced in AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=1 xml.name=R-4-2
-    R4_2 = "R-4-2"
+    R4_2 = "R-4--2"
 
     def __init__(self):
         super().__init__(
@@ -778,16 +778,16 @@ class TransformerClassEnum(AREnum):
     # (no methods) — enum value form serialized on TransformationTechnology.transformerClass (TRANSFORMER-CLASS element)
 
     # The transformer is a custom transformer. Tags: atp.EnumerationLiteralIndex=0
-    CUSTOM = "custom"
+    CUSTOM = "CUSTOM"
 
     # The transformer is a safety transformer. Tags: atp.EnumerationLiteralIndex=1
-    SAFETY = "safety"
+    SAFETY = "SAFETY"
 
     # The transformer is a security transformer. Tags: atp.EnumerationLiteralIndex=2
-    SECURITY = "security"
+    SECURITY = "SECURITY"
 
     # The transformer is a serializing transformer. Tags: atp.EnumerationLiteralIndex=3
-    SERIALIZER = "serializer"
+    SERIALIZER = "SERIALIZER"
 
     def __init__(self):
         super().__init__([TransformerClassEnum.CUSTOM, TransformerClassEnum.SAFETY, TransformerClassEnum.SECURITY, TransformerClassEnum.SERIALIZER])

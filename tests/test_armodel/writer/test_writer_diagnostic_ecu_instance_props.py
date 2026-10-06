@@ -139,7 +139,7 @@ class TestWriteDiagnosticEcuInstanceProps:
             assert refs[1].getValue() == "/AUTOSAR/EcuInstances/Ecu2"
             assert props_2.getObdSupport() is not None
             assert isinstance(props_2.getObdSupport(), DiagnosticObdSupportEnum)
-            assert props_2.getObdSupport().getValue() == "primaryEcu"
+            assert props_2.getObdSupport().getValue() == DiagnosticObdSupportEnum.PRIMARY_ECU
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

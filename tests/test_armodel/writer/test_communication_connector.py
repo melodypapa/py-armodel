@@ -133,7 +133,7 @@ class TestWriteCommunicationConnector:
         assert masks is not None
         assert [mask.text for mask in masks.findall("PNC-FILTER-ARRAY-MASK")] == ["255", "1"]
 
-        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "active"
+        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "ACTIVE"
 
     def test_write_omits_empty_wrappers_and_optional_elements(self, writer):
         parent = _write_connector(_bare_connector())
@@ -162,12 +162,12 @@ class TestWriteCommunicationConnector:
         ports = reloaded.getEcuCommPortInstances()
         assert len(ports) == 1
         assert ports[0].getShortName() == "fp"
-        assert ports[0].getCommunicationDirection().getValue() == "in"
+        assert ports[0].getCommunicationDirection().getValue() == "IN"
 
         masks = reloaded.getPncFilterArrayMasks()
         assert [mask.getValue() for mask in masks] == [255, 1]
 
-        assert reloaded.getPncGatewayType().getValue() == "active"
+        assert reloaded.getPncGatewayType().getValue() == "ACTIVE"
 
     def test_round_trip_empty(self, writer, parser):
         parent = _write_connector(_bare_connector())

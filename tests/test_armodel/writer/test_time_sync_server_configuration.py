@@ -96,7 +96,7 @@ class TestWriteTimeSyncServerConfiguration:
         assert server.find("PRIORITY").text == "7"
         assert server.find("SYNC-INTERVAL").text == "1.0"
         assert server.find("TIME-SYNC-SERVER-IDENTIFIER").text == "srv-1"
-        assert server.find("TIME-SYNC-TECHNOLOGY").text == "NTP-RFC-958"
+        assert server.find("TIME-SYNC-TECHNOLOGY").text == "NTP--RFC-958"
 
     def test_write_empty_server_omits_attributes(self):
         sync = TimeSynchronization()
@@ -121,7 +121,7 @@ class TestWriteTimeSyncServerConfiguration:
         assert server.getPriority().getValue() == 7
         assert server.getSyncInterval().getValue() == 1.0
         assert server.getTimeSyncServerIdentifier().getValue() == "srv-1"
-        assert server.getTimeSyncTechnology().getValue() == "NTP-RFC-958"
+        assert server.getTimeSyncTechnology().getValue() == TimeSyncTechnologyEnum.NTP_RFC958
 
 
 class TestWriteTimeSynchronization:
@@ -147,7 +147,7 @@ class TestWriteTimeSynchronization:
         assert reloaded is not None
         client = reloaded.getTimeSyncClient()
         assert client is not None
-        assert client.getTimeSyncTechnology().getValue() == "NTP-RFC-958"
+        assert client.getTimeSyncTechnology().getValue() == TimeSyncTechnologyEnum.NTP_RFC958
         masters = client.getOrderedMasters()
         assert len(masters) == 1
         assert masters[0].getIndex().getValue() == 1

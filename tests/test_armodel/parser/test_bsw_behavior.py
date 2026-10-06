@@ -123,7 +123,7 @@ class TestBswExclusiveAreaPolicy:
         policies = """<EXCLUSIVE-AREA-POLICYS>
             <BSW-EXCLUSIVE-AREA-POLICY>
                 <ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>
-                <API-PRINCIPLE>common</API-PRINCIPLE>
+                <API-PRINCIPLE>COMMON</API-PRINCIPLE>
                 <EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/Pkg/Ea</EXCLUSIVE-AREA-REF>
             </BSW-EXCLUSIVE-AREA-POLICY>
         </EXCLUSIVE-AREA-POLICYS>"""
@@ -131,7 +131,7 @@ class TestBswExclusiveAreaPolicy:
         policies_2 = behavior.getExclusiveAreaPolicies()
         assert len(policies_2) == 1
         assert policies_2[0].getEnableTakeAddress().getValue() is True
-        assert policies_2[0].getApiPrinciple().getValue() == "common"
+        assert policies_2[0].getApiPrinciple().getValue() == "COMMON"
         assert policies_2[0].getExclusiveAreaRef().getValue() == "/Pkg/Ea"
         assert policies_2[0].getExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA"
 

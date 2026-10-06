@@ -109,7 +109,7 @@ class TestWriteSocketAddress:
         assert el.find("PATH-MTU-DISCOVERY-ENABLED").text == "true"
         assert el.find("PDU-COLLECTION-MAX-BUFFER-SIZE").text == "1024"
         assert float(el.find("PDU-COLLECTION-TIMEOUT").text) == 0.005
-        assert el.find("UDP-CHECKSUM-HANDLING").text == "udpChecksumEnabled"
+        assert el.find("UDP-CHECKSUM-HANDLING").text == "UDP-CHECKSUM-ENABLED"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         address = SocketAddress(MockParent(), "EmptyAddress")
@@ -166,7 +166,7 @@ class TestSocketAddressRoundTrip:
         assert recovered_address.getPduCollectionMaxBufferSize().getValue() == 1024
         assert recovered_address.getPduCollectionTimeout().getValue() == 0.005
         assert isinstance(recovered_address.getUdpChecksumHandling(), UdpChecksumCalculationEnum)
-        assert recovered_address.getUdpChecksumHandling().getValue() == "udpChecksumEnabled"
+        assert recovered_address.getUdpChecksumHandling().getValue() == UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring(f"<SOCKET-ADDRESS xmlns='{NS}'><SHORT-NAME>SA1</SHORT-NAME></SOCKET-ADDRESS>")
@@ -197,7 +197,7 @@ def _wrap(element: ET.Element) -> ET.Element:
 def _static_connection(short_name):
     connection = StaticSocketConnection(MockParent(), short_name)
     role = ARLiteral()
-    role.setValue("listen")
+    role.setValue("LISTEN")
     connection.setTcpRole(role)
     return connection
 
@@ -216,7 +216,7 @@ class TestSocketAddressStaticSocketConnections:
         entries = wrapper.findall("STATIC-SOCKET-CONNECTION")
         assert len(entries) == 2
         assert entries[0].find("SHORT-NAME").text == "SSC1"
-        assert entries[0].find("TCP-ROLE").text == "listen"
+        assert entries[0].find("TCP-ROLE").text == "LISTEN"
         assert entries[1].find("SHORT-NAME").text == "SSC2"
 
     def test_round_trip_preserves_static_socket_connections(self, writer, parser, tmp_path):
@@ -239,7 +239,7 @@ class TestSocketAddressStaticSocketConnections:
         assert len(connections) == 2
         assert isinstance(connections[0], StaticSocketConnection)
         assert connections[0].getShortName() == "SSC1"
-        assert connections[0].getTcpRole().getValue() == "listen"
+        assert connections[0].getTcpRole().getValue() == "LISTEN"
         assert connections[1].getShortName() == "SSC2"
 
     def test_reader_no_wrapper_leaves_list_empty(self, parser):

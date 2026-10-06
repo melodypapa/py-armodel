@@ -62,7 +62,7 @@ class TestReadVariationPoint:
 
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
-        assert sw_syscond.getBindingTime().getValue() == "codeGenerationTime"
+        assert sw_syscond.getBindingTime().getValue() == "CODE-GENERATION-TIME"
 
         conditions = vp.getPostBuildVariantConditions()
         assert len(conditions) == 1
@@ -128,7 +128,7 @@ class TestReadConditionByFormula:
 
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
-        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert sw_syscond.getMixedString() == "sysc == 1"
 
     def test_read_sw_syscond_without_text_leaves_text_none(self, parser):
@@ -138,7 +138,7 @@ class TestReadConditionByFormula:
         vp = parser.readVariationPoint(vp_element, VariationPoint())
 
         sw_syscond = vp.getSwSyscond()
-        assert sw_syscond.getBindingTime().getValue() == "linkTime"
+        assert sw_syscond.getBindingTime().getValue() == "LINK-TIME"
         assert sw_syscond.getMixedString() is None
 
     def test_read_condition_access_reads_mixed_text(self, parser):
@@ -154,7 +154,7 @@ class TestReadConditionByFormula:
 
         condition_access = proxy.getConditionAccess()
         assert isinstance(condition_access, ConditionByFormula)
-        assert condition_access.getBindingTime().getValue() == "systemDesignTime"
+        assert condition_access.getBindingTime().getValue() == "SYSTEM-DESIGN-TIME"
         assert condition_access.getMixedString() == "sysc > 0"
 
 
@@ -365,7 +365,7 @@ class TestReadVariationPointProxy:
 
         value_access = proxy.getValueAccess()
         assert isinstance(value_access, NumericalValueVariationPoint)
-        assert value_access.getBindingTime().getValue() == "preCompileTime"
+        assert value_access.getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert value_access.getSd().getValue() == "sd-1"
         assert value_access.getShortLabel().getValue() == "vp1"
         assert value_access.getBlueprintValue().getValue() == "bp"
@@ -401,7 +401,7 @@ class TestReadVariationPointProxy:
 
         value_access = proxy.getValueAccess()
         assert isinstance(value_access, LimitValueVariationPoint)
-        assert value_access.getIntervalType().getValue() == "closed"
+        assert value_access.getIntervalType().getValue() == "CLOSED"
         assert value_access.getMixedString() == "42"
 
 
@@ -457,7 +457,7 @@ class TestReadVariationPointSpecAttributes:
 
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
-        assert sw_syscond.getBindingTime().getValue() == "preCompileTime"
+        assert sw_syscond.getBindingTime().getValue() == "PRE-COMPILE-TIME"
         assert sw_syscond.getMixedString() == "sysc == 1"
 
         conditions = vp.getPostBuildVariantConditions()
@@ -495,7 +495,7 @@ class TestVariationPointRoundTrip:
         vp = behavior.getVariationPoint()
         assert vp is not None
         assert vp.getShortLabel().getValue() == "VP1"
-        assert vp.getSwSyscond().getBindingTime().getValue() == "codeGenerationTime"
+        assert vp.getSwSyscond().getBindingTime().getValue() == "CODE-GENERATION-TIME"
         conditions = vp.getPostBuildVariantConditions()
         assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
 
@@ -515,7 +515,7 @@ class TestVariationPointRoundTrip:
         vp2 = behavior2.getVariationPoint()
         assert vp2 is not None
         assert vp2.getShortLabel().getValue() == "VP1"
-        assert vp2.getSwSyscond().getBindingTime().getValue() == "codeGenerationTime"
+        assert vp2.getSwSyscond().getBindingTime().getValue() == "CODE-GENERATION-TIME"
         conditions2 = vp2.getPostBuildVariantConditions()
         assert conditions2[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
         assert conditions2[0].getValue().getValue() == 1

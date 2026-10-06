@@ -234,13 +234,13 @@ class TestMcSupportDataRoundTrip:
             assert instance_2.getRole().getValue() == "roleA"
             assert instance_2.getSymbol().getValue() == "sym"
             assert instance_2.getFlatMapEntryRef().getValue() == "/flatmap"
-            assert instance_2.getRptImplPolicy().getRptEnablerImplType().getValue() == "rptEnablerRam"
-            assert instance_2.getRptImplPolicy().getRptPreparationLevel().getValue() == "rptLevel2"
+            assert instance_2.getRptImplPolicy().getRptEnablerImplType().getValue() == RptEnablerImplTypeEnum.RPT_ENABLER_RAM
+            assert instance_2.getRptImplPolicy().getRptPreparationLevel().getValue() == RptPreparationEnum.RPT_LEVEL_2
             assert len(instance_2.getSubElements()) == 1
             assert instance_2.getSubElements()[0].getSymbol().getValue() == "sub_sym"
             assert instance_2.getMcDataAssignments()[0].getMcDataInstanceRefs()[0].getValue() == "/mc/inst"
             assert instance_2.getMcDataAssignments()[0].getRole().getValue() == "RpEnablerFlag"
-            assert instance_2.getResultingRptSwPrototypingAccess().getRptHookAccess().getValue() == "enabled"
+            assert instance_2.getResultingRptSwPrototypingAccess().getRptHookAccess().getValue() == "ENABLED"
             assert support_2.getMcVariableInstances()[0].getDisplayIdentifier().getValue() == "meas_1"
 
             rpt_2 = support_2.getRptSupportData()
@@ -249,7 +249,7 @@ class TestMcSupportDataRoundTrip:
             assert rpt_2.getExecutionContexts()[0].getShortName() == "TaskA"
             component_2 = rpt_2.getRptComponents()[0]
             assert component_2.getShortName() == "Comp1"
-            assert component_2.getRpImplPolicy().getRptEnablerImplType().getValue() == "rptEnablerRam"
+            assert component_2.getRpImplPolicy().getRptEnablerImplType().getValue() == RptEnablerImplTypeEnum.RPT_ENABLER_RAM
             entity_2 = component_2.getRptExecutableEntities()[0]
             assert entity_2.getShortName() == "Run1"
             assert entity_2.getSymbol().getValue() == "Run1_func"
@@ -264,8 +264,8 @@ class TestMcSupportDataRoundTrip:
             assert event_2.getRptServicePointPreRefs()[0].getValue() == "/sp/pre"
             assert event_2.getRptExecutableEntityProperties().getMaxRptEventId().getValue() == 100
             assert event_2.getRptExecutableEntityProperties().getMinRptEventId().getValue() == 1
-            assert event_2.getRptExecutableEntityProperties().getRptExecutionControl().getValue() == "conditional"
-            assert event_2.getRptExecutableEntityProperties().getRptServicePoint().getValue() == "enabled"
+            assert event_2.getRptExecutableEntityProperties().getRptExecutionControl().getValue() == RptExecutionControlEnum.CONDITIONAL
+            assert event_2.getRptExecutableEntityProperties().getRptServicePoint().getValue() == "ENABLED"
             service_point_2 = rpt_2.getRptServicePoints()[0]
             assert service_point_2.getShortName() == "SP1"
             assert service_point_2.getServiceId().getValue() == 5

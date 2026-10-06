@@ -49,7 +49,7 @@ class TestInternalTriggeringPoint:
         policy = SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED)
         assert trigger_point.setSwImplPolicy(policy) is trigger_point
         assert trigger_point.getSwImplPolicy() is policy
-        assert trigger_point.getSwImplPolicy().getValue() == "queued"
+        assert trigger_point.getSwImplPolicy().getValue() == "QUEUED"
 
         assert trigger_point.setSwImplPolicy(None) is trigger_point
         assert trigger_point.getSwImplPolicy() is policy

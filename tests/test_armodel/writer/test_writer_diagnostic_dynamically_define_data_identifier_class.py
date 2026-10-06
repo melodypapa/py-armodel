@@ -144,9 +144,9 @@ class TestWriteDiagnosticDynamicallyDefineDataIdentifierClass:
             assert dddi_class_2.getCheckPerSourceId() is not None
             assert dddi_class_2.getCheckPerSourceId().getValue() is True
             assert dddi_class_2.getConfigurationHandling() is not None
-            assert dddi_class_2.getConfigurationHandling().getValue() == "nonVolatile"
+            assert dddi_class_2.getConfigurationHandling().getValue() == DiagnosticHandleDDDIConfigurationEnum.NON_VOLATILE
             values = [subfunction.getValue() for subfunction in dddi_class_2.getSubfunctions()]
-            assert values == ["clearDynamicallyDefineDataIdentifier", "defineByMemoryAddress"]
+            assert values == ["CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER", "DEFINE-BY-MEMORY-ADDRESS"]
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

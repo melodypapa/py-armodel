@@ -46,7 +46,7 @@ class TestReadTriggerInterface:
         assert triggers[0].getShortName() == "Trig1"
         policy = triggers[0].getSwImplPolicy()
         assert policy is not None
-        assert policy.getValue() == "queued"
+        assert policy.getValue() == "QUEUED"
         assert triggers[1].getShortName() == "Trig2"
         assert triggers[1].getSwImplPolicy() is None
 
@@ -94,7 +94,7 @@ class TestReadTriggerInterface:
             assert triggers[0].getShortName() == "Trig1"
             policy = triggers[0].getSwImplPolicy()
             assert policy is not None
-            assert policy.getValue() == "queued"
+            assert policy.getValue() == "QUEUED"
             assert triggers[1].getShortName() == "Trig2"
         finally:
             os.remove(file_path)

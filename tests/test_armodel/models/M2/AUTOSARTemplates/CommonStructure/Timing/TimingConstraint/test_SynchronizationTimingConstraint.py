@@ -55,7 +55,7 @@ class TestSynchronizationTiming:
         kind = EventOccurrenceKindEnum().setValue(EventOccurrenceKindEnum.SINGLE_OCCURRENCE)
         assert constraint.setEventOccurrenceKind(kind) is constraint
         assert constraint.getEventOccurrenceKind() is kind
-        assert constraint.getEventOccurrenceKind().getValue() == "singleOccurrence"
+        assert constraint.getEventOccurrenceKind().getValue() == EventOccurrenceKindEnum.SINGLE_OCCURRENCE
 
     def test_set_event_occurrence_kind_none_is_no_op(self):
         constraint = SynchronizationTimingConstraint(self._parent(), "Sync1")
@@ -101,7 +101,7 @@ class TestSynchronizationTiming:
         sync_type = SynchronizationTypeEnum().setValue(SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION)
         assert constraint.setSynchronizationConstraintType(sync_type) is constraint
         assert constraint.getSynchronizationConstraintType() is sync_type
-        assert constraint.getSynchronizationConstraintType().getValue() == "stimulusSynchronization"
+        assert constraint.getSynchronizationConstraintType().getValue() == SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION
 
     def test_set_synchronization_constraint_type_none_is_no_op(self):
         constraint = SynchronizationTimingConstraint(self._parent(), "Sync1")
@@ -131,12 +131,12 @@ class TestSynchronizationTypeEnum:
         """Test SynchronizationTypeEnum initialization"""
         enum = SynchronizationTypeEnum()
         assert isinstance(enum, SynchronizationTypeEnum)
-        assert list(enum.getEnumValues()) == ["responseSynchronization", "stimulusSynchronization"]
+        assert list(enum.getEnumValues()) == ["RESPONSE-SYNCHRONIZATION", "STIMULUS-SYNCHRONIZATION"]
 
     def test_enum_values(self):
         """Test SynchronizationTypeEnum literal values (Table 3.55)"""
-        assert SynchronizationTypeEnum.RESPONSE_SYNCHRONIZATION == "responseSynchronization"
-        assert SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION == "stimulusSynchronization"
+        assert SynchronizationTypeEnum.RESPONSE_SYNCHRONIZATION == "RESPONSE-SYNCHRONIZATION"
+        assert SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION == "STIMULUS-SYNCHRONIZATION"
 
     def test_valid_values(self):
         """Test SynchronizationTypeEnum setValue round-trip for all literals"""
@@ -150,12 +150,12 @@ class TestEventOccurrenceKindEnum:
         """Test EventOccurrenceKindEnum initialization"""
         enum = EventOccurrenceKindEnum()
         assert isinstance(enum, EventOccurrenceKindEnum)
-        assert list(enum.getEnumValues()) == ["multipleOccurrences", "singleOccurrence"]
+        assert list(enum.getEnumValues()) == ["MULTIPLE-OCCURRENCES", "SINGLE-OCCURRENCE"]
 
     def test_enum_values(self):
         """Test EventOccurrenceKindEnum literal values (Table 3.56)"""
-        assert EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES == "multipleOccurrences"
-        assert EventOccurrenceKindEnum.SINGLE_OCCURRENCE == "singleOccurrence"
+        assert EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES == "MULTIPLE-OCCURRENCES"
+        assert EventOccurrenceKindEnum.SINGLE_OCCURRENCE == "SINGLE-OCCURRENCE"
 
     def test_valid_values(self):
         """Test EventOccurrenceKindEnum setValue round-trip for all literals"""

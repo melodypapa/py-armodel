@@ -127,10 +127,10 @@ class ResumePosition(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Continue at IT Point. Tags: atp.EnumerationLiteralIndex=0
-    CONTINUE_AT_IT_POSITION = "continueAtItPosition"
+    CONTINUE_AT_IT_POSITION = "CONTINUE-AT-IT-POSITION"
 
     # Start from the beginning Tags: atp.EnumerationLiteralIndex=1
-    START_FROM_BEGINNING = "startFromBeginning"
+    START_FROM_BEGINNING = "START-FROM-BEGINNING"
 
     def __init__(self):
         super().__init__([ResumePosition.CONTINUE_AT_IT_POSITION, ResumePosition.START_FROM_BEGINNING])
@@ -149,10 +149,10 @@ class RunMode(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # RUN_CONTINUOUS run mode Tags: atp.EnumerationLiteralIndex=0
-    RUN_CONTINUOUS = "RunContinuous"
+    RUN_CONTINUOUS = "RUN-CONTINUOUS"
 
     # RUN_ONCE run mode Tags: atp.EnumerationLiteralIndex=1
-    RUN_ONCE = "runOnce"
+    RUN_ONCE = "RUN-ONCE"
 
     def __init__(self):
         super().__init__([RunMode.RUN_CONTINUOUS, RunMode.RUN_ONCE])

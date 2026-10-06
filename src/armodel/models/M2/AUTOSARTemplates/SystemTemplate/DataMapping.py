@@ -715,22 +715,22 @@ class DataTypePolicyEnum(AREnum):
     # (no methods)
 
     # This literal indicates that this ISignal is used to transport a message as part of a service for Dds. Tags: atp.EnumerationLiteralIndex=6 atp.Status=candidate
-    DDS_SERVICE = "ddsService"
+    DDS_SERVICE = "DDS-SERVICE"
 
     # This literal indicates that this ISignal is used to transport a signal based signal for Dds. Tags: atp.EnumerationLiteralIndex=5 atp.Status=candidate
-    DDS_SIGNAL = "ddsSignal"
+    DDS_SIGNAL = "DDS-SIGNAL"
 
     # In case the System Description doesn't use a complete Software Component Description (VFB View) this value can be chosen. This supports the inclusion of legacy signals. The aggregation of SwDataDefProps shall be used to configure the "ComSignalDataInvalidValue" and the Data Semantics. Tags: atp.EnumerationLiteralIndex=0
-    LEGACY = "legacy"
+    LEGACY = "LEGACY"
 
     # Ignore any networkRepresentationProps of this ISignal and use the networkRepresentation from the ComSpec. Please note that the usage does not imply the existence of the SwDataDefProps in the role networkRepresentation aggregated by the SenderComSpec or ReceiverComSpec if an ImplementationDataType is defined. Tags: atp.EnumerationLiteralIndex=1
-    NETWORK_REPRESENTATION_FROM_COM_SPEC = "networkRepresentationFromComSpec"
+    NETWORK_REPRESENTATION_FROM_COM_SPEC = "NETWORK-REPRESENTATION-FROM-COM-SPEC"
 
     # If this value is chosen the requirements specified in the ComSpec (networkRepresentationFromComSpec) are not fullfilled by the aggregated SwDataDefProps. In this case the networkRepresentation is specified by the aggregated swDataDefProps. Tags: atp.EnumerationLiteralIndex=2
-    OVERRIDE = "override"
+    OVERRIDE = "OVERRIDE"
 
     # This literal indicates that a transformer chain shall be used to communicate the ISignal as UINT8_N over the bus. Tags: atp.EnumerationLiteralIndex=4
-    TRANSFORMING_I_SIGNAL = "transformingISignal"
+    TRANSFORMING_I_SIGNAL = "TRANSFORMING-I-SIGNAL"
 
     def __init__(self):
         super().__init__(

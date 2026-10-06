@@ -38,7 +38,7 @@ class _ConcreteDataMapping(DataMapping):
     pass
 
 
-def _communication_direction(value="in") -> CommunicationDirectionType:
+def _communication_direction(value="IN") -> CommunicationDirectionType:
     direction = CommunicationDirectionType()
     direction.setValue(value)
     return direction
@@ -66,7 +66,7 @@ def _new_mapping_with_introduction() -> DataMapping:
 
 def _new_mapping_full() -> DataMapping:
     mapping = _new_mapping_with_introduction()
-    mapping.setCommunicationDirection(_communication_direction("in"))
+    mapping.setCommunicationDirection(_communication_direction("IN"))
     return mapping
 
 
@@ -89,7 +89,7 @@ class TestWriteDataMapping:
 
         direction = element.find("COMMUNICATION-DIRECTION")
         assert direction is not None
-        assert direction.text == "in"
+        assert direction.text == "IN"
 
     def test_write_ref_lists(self):
         mapping = _ConcreteDataMapping()
@@ -130,11 +130,11 @@ class TestWriteDataMapping:
         mapping = _ConcreteDataMapping()
         ARXMLParser().readDataMapping(wrapped[0], mapping)
 
-        assert mapping.getCommunicationDirection().getValue() == "in"
+        assert mapping.getCommunicationDirection().getValue() == "IN"
 
         target = ET.Element("CONCRETE-MAPPING")
         ARXMLWriter().writeDataMapping(target, mapping)
 
-        assert target.find("COMMUNICATION-DIRECTION").text == "in"
+        assert target.find("COMMUNICATION-DIRECTION").text == "IN"
         assert target.find("INTRODUCTION/P/L-1").text == "Mapping intro"
         assert len(target) == 2

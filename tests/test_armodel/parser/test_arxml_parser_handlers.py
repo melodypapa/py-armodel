@@ -827,15 +827,15 @@ class TestDataTypeAndValueSpecHandlers:
             "<BASE-TYPE-ENCODING>IEEE754</BASE-TYPE-ENCODING>"
             "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>"
             "<MEM-ALIGNMENT>4</MEM-ALIGNMENT>"
-            "<NATIVE-DECLARATION>float</NATIVE-DECLARATION>",
+            "<NATIVE-DECLARATION>FLOAT</NATIVE-DECLARATION>",
             root_tag="SW-BASE-TYPE",
         )
         parser.readSwBaseType(element, bt)
         definition = bt.getBaseTypeDefinition()
         assert definition.getBaseTypeSize().getValue() == 32
         assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
-        assert definition.getNativeDeclaration().getValue() == "float"
-        assert definition.getByteOrder().getValue() == "mostSignificantByteFirst"
+        assert definition.getNativeDeclaration().getValue() == "FLOAT"
+        assert definition.getByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
 
     def test_readBaseTypeDirectDefinition_empty(self, parser):
         from armodel.models import BaseTypeDirectDefinition
@@ -1176,7 +1176,7 @@ class TestRuleBasedValueSpecHandlers:
         )
         cont = parser.getRuleBasedAxisCont(element)
         assert cont is not None
-        assert cont.getCategory().getValue() == "stdAxis"
+        assert cont.getCategory().getValue() == "STD-AXIS"
         assert cont.getUnitRef().getValue() == "/p/u"
         assert cont.getSwArraysize() is not None
         assert cont.getSwAxisIndex().getValue() == "1"
@@ -1217,7 +1217,7 @@ class TestRuleBasedValueSpecHandlers:
         assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
         assert value_spec.getCategory().getValue() == "ARRAY"
         assert len(value_spec.getSwAxisConts()) == 1
-        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "stdAxis"
+        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "STD-AXIS"
         assert value_spec.getSwValueCont() is not None
 
     def test_getValueSpecification_dispatch_application_rule_based(self, parser):
@@ -1286,7 +1286,7 @@ class TestRuleBasedValueSpecHandlers:
         )
 
         element = _snip(
-            "<SHORT-NAME>c</SHORT-NAME>"
+            "<SHORT-NAME>C</SHORT-NAME>"
             "<VALUE-SPEC>"
             "<COMPOSITE-RULE-BASED-VALUE-SPECIFICATION>"
             "<RULE>FILL_UNTIL_END</RULE>"
@@ -1724,7 +1724,7 @@ class TestBswBehaviorOrchestratorHandlers:
             "<SHORT-NAME>ib</SHORT-NAME>"
             "<EXCLUSIVE-AREA-POLICYS>"
             "<SWC-EXCLUSIVE-AREA-POLICY>"
-            "<API-PRINCIPLE>perExecutable</API-PRINCIPLE>"
+            "<API-PRINCIPLE>PER-EXECUTABLE</API-PRINCIPLE>"
             '<EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/ea1</EXCLUSIVE-AREA-REF>'
             "</SWC-EXCLUSIVE-AREA-POLICY>"
             "</EXCLUSIVE-AREA-POLICYS>",
@@ -1733,7 +1733,7 @@ class TestBswBehaviorOrchestratorHandlers:
         warning_parser.readSwcInternalBehavior(element, behavior)
         policies = behavior.getExclusiveAreaPolicies()
         assert len(policies) == 1
-        assert policies[0].getApiPrinciple().getValue() == "perExecutable"
+        assert policies[0].getApiPrinciple().getValue() == "PER-EXECUTABLE"
         assert policies[0].getExclusiveAreaRef().getValue() == "/ea1"
 
     def test_readSwcInternalBehavior_with_optional_literals(self, warning_parser):
@@ -1921,7 +1921,7 @@ class TestDataTransformationHandlers:
             "<HAS-INTERNAL-STATE>true</HAS-INTERNAL-STATE>"
             "<NEEDS-ORIGINAL-DATA>true</NEEDS-ORIGINAL-DATA>"
             "<PROTOCOL>E2E</PROTOCOL>"
-            "<TRANSFORMER-CLASS>safety</TRANSFORMER-CLASS>"
+            "<TRANSFORMER-CLASS>SAFETY</TRANSFORMER-CLASS>"
             "<VERSION>1.0</VERSION>"
             "</TRANSFORMATION-TECHNOLOGY>"
             "</TRANSFORMATION-TECHNOLOGYS>",
@@ -1933,7 +1933,7 @@ class TestDataTransformationHandlers:
         assert tech.getHasInternalState().getValue() is True
         assert tech.getNeedsOriginalData() is not None
         assert tech.getProtocol().getValue() == "E2E"
-        assert tech.getTransformerClass().getValue() == "safety"
+        assert tech.getTransformerClass().getValue() == "SAFETY"
         assert tech.getVersion().getValue() == "1.0"
 
     def test_readTransformationTechnology_with_buffer_properties(self, parser):
@@ -1982,7 +1982,7 @@ class TestDataTransformationHandlers:
             "<SHORT-NAME>tech1</SHORT-NAME>"
             "<TRANSFORMATION-DESCRIPTIONS>"
             "<END-TO-END-TRANSFORMATION-DESCRIPTION>"
-            "<DATA-ID-MODE>all16Bit</DATA-ID-MODE>"
+            "<DATA-ID-MODE>ALL-16-BIT</DATA-ID-MODE>"
             "<MAX-DELTA-COUNTER>2</MAX-DELTA-COUNTER>"
             "<MAX-ERROR-STATE-INIT>1</MAX-ERROR-STATE-INIT>"
             "<MAX-ERROR-STATE-INVALID>2</MAX-ERROR-STATE-INVALID>"
@@ -1991,7 +1991,7 @@ class TestDataTransformationHandlers:
             "<MIN-OK-STATE-INIT>1</MIN-OK-STATE-INIT>"
             "<MIN-OK-STATE-INVALID>1</MIN-OK-STATE-INVALID>"
             "<MIN-OK-STATE-VALID>1</MIN-OK-STATE-VALID>"
-            "<PROFILE-BEHAVIOR>R-4-2</PROFILE-BEHAVIOR>"
+            "<PROFILE-BEHAVIOR>R-4--2</PROFILE-BEHAVIOR>"
             "<PROFILE-NAME>Profile1</PROFILE-NAME>"
             "<SYNC-COUNTER-INIT>0</SYNC-COUNTER-INIT>"
             "<UPPER-HEADER-BITS-TO-SHIFT>4</UPPER-HEADER-BITS-TO-SHIFT>"
@@ -2008,7 +2008,7 @@ class TestDataTransformationHandlers:
         tech = dtf_set.getTransformationTechnologies()[0]
         assert tech.getTransformationDescription() is not None
         desc = tech.getTransformationDescription()
-        assert desc.getDataIdMode().getValue() == "all16Bit"
+        assert desc.getDataIdMode().getValue() == "ALL-16-BIT"
         assert desc.getMaxDeltaCounter().getValue() == 2
         assert desc.getProfileName().getValue() == "Profile1"
 
@@ -2128,7 +2128,7 @@ class TestKeywordAndCollectionHandlers:
             root_tag="COLLECTION",
         )
         parser.readCollection(element, coll)
-        assert coll.getAutoCollect().getValue() == "refAll"
+        assert coll.getAutoCollect().getValue() == "REF-ALL"
         assert coll.getElementRole().getValue() == "role1"
         assert len(coll.getElementRefs()) == 2
         assert coll.getElementRefs()[0].getValue() == "/e1"
@@ -2314,7 +2314,7 @@ class TestModeDeclarationGroupHandlers:
             "<SHORT-NAME>Group</SHORT-NAME>"
             "<MODE-MANAGER-ERROR-BEHAVIOR>"
             "<DEFAULT-MODE-REF DEST='MODE-DECLARATION'>/Group/ErrorMode</DEFAULT-MODE-REF>"
-            "<ERROR-REACTION-POLICY>defaultMode</ERROR-REACTION-POLICY>"
+            "<ERROR-REACTION-POLICY>DEFAULT-MODE</ERROR-REACTION-POLICY>"
             "</MODE-MANAGER-ERROR-BEHAVIOR>",
             root_tag="MODE-DECLARATION-GROUP",
         )
@@ -2333,7 +2333,7 @@ class TestModeDeclarationGroupHandlers:
             "<SHORT-NAME>Group</SHORT-NAME>"
             "<MODE-USER-ERROR-BEHAVIOR>"
             "<DEFAULT-MODE-REF DEST='MODE-DECLARATION'>/Group/ErrorMode</DEFAULT-MODE-REF>"
-            "<ERROR-REACTION-POLICY>lastMode</ERROR-REACTION-POLICY>"
+            "<ERROR-REACTION-POLICY>LAST-MODE</ERROR-REACTION-POLICY>"
             "</MODE-USER-ERROR-BEHAVIOR>",
             root_tag="MODE-DECLARATION-GROUP",
         )

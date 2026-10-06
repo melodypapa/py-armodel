@@ -112,13 +112,13 @@ class TestSwCalprmAxisRoundTrip:
             axis = axises[0]
             assert axis.getSwAxisIndex().getValue() == "1"
             assert isinstance(axis.getCategory(), CalprmAxisCategoryEnum)
-            assert axis.getCategory().getValue() == "stdAxis"
+            assert axis.getCategory().getValue() == CalprmAxisCategoryEnum.STD_AXIS
             assert isinstance(axis.getSwCalprmAxisTypeProps(), SwAxisGrouped)
             assert axis.getSwCalprmAxisTypeProps().getMaxGradient().getValue() == 2.5
             assert isinstance(axis.getSwCalprmAxisTypeProps().getMonotony(), MonotonyEnum)
-            assert axis.getSwCalprmAxisTypeProps().getMonotony().getValue() == "strictlyIncreasing"
+            assert axis.getSwCalprmAxisTypeProps().getMonotony().getValue() == MonotonyEnum.STRICTLY_INCREASING
             assert axis.getSwCalprmAxisTypeProps().getSharedAxisTypeRef().getValue() == "/axis/types/shared"
-            assert axis.getSwCalibrationAccess().getValue() == "readOnly"
+            assert axis.getSwCalibrationAccess().getValue() == "READ-ONLY"
             assert axis.getDisplayFormat().getValue() == "%.3f"
         finally:
             if os.path.exists(file_path):

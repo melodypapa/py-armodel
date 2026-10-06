@@ -376,9 +376,9 @@ class TestLinScheduleTableRoundTrip:
         ARXMLParser().readLinScheduleTable(root[0][0], reloaded)
 
         assert isinstance(reloaded.getResumePosition(), ResumePosition)
-        assert reloaded.getResumePosition().getValue() == "continueAtItPosition"
+        assert reloaded.getResumePosition().getValue() == ResumePosition.CONTINUE_AT_IT_POSITION
         assert isinstance(reloaded.getRunMode(), RunMode)
-        assert reloaded.getRunMode().getValue() == "runOnce"
+        assert reloaded.getRunMode().getValue() == RunMode.RUN_ONCE
 
     def test_roundtrip_multi_entry_field_values(self, writer):
         pkg = _pkg()
@@ -419,5 +419,5 @@ class TestLinScheduleTableRoundTrip:
         writer.writeLinScheduleTable(parent, table)
         lst = parent.find("LIN-SCHEDULE-TABLE")
         assert lst is not None
-        assert lst.find("RESUME-POSITION").text == "startFromBeginning"
+        assert lst.find("RESUME-POSITION").text == "START-FROM-BEGINNING"
         assert lst.find("TABLE-ENTRYS") is None

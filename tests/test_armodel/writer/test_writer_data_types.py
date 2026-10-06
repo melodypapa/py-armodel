@@ -643,7 +643,7 @@ class TestSwDataDefPropsWriter:
         props.setStepSize(_float("0.5"))
         props.setDataConstrRef(_ref("DATA-CONSTR", "/dc"))
         props.setImplementationDataTypeRef(_ref("IMPLEMENTATION-DATA-TYPE", "/idt"))
-        props.setSwImplPolicy(_literal("standard"))
+        props.setSwImplPolicy(_literal("STANDARD"))
         props.setSwIntendedResolution(_numerical("8"))
         props.setSwRecordLayoutRef(_ref("SW-RECORD-LAYOUT", "/rl"))
         props.setValueAxisDataTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/vad"))
@@ -814,8 +814,8 @@ class TestApplicationArrayElementRoundTrip:
         array_type = pkg.createApplicationArrayDataType("MyArrayType")
         array_type.setDynamicArraySizeProfile(_literal("myProfile"))
         element = array_type.createApplicationArrayElement("MyArrayElement")
-        element.setArraySizeHandling(_literal("allIndicesSameArraySize"))
-        element.setArraySizeSemantics(_literal("fixedSize"))
+        element.setArraySizeHandling(_literal("ALL-INDICES-SAME-ARRAY-SIZE"))
+        element.setArraySizeSemantics(_literal("FIXED-SIZE"))
         element.setIndexDataTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/AUTOSAR/myIndexDataType"))
         element.setMaxNumberOfElements(PositiveInteger().setValue("8"))
 
@@ -832,8 +832,8 @@ class TestApplicationArrayElementRoundTrip:
             element_2 = array_type_2.getApplicationArrayElement()
             assert element_2 is not None
             assert element_2.getShortName() == "MyArrayElement"
-            assert element_2.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
-            assert element_2.getArraySizeSemantics().getValue() == "fixedSize"
+            assert element_2.getArraySizeHandling().getValue() == "ALL-INDICES-SAME-ARRAY-SIZE"
+            assert element_2.getArraySizeSemantics().getValue() == "FIXED-SIZE"
             assert element_2.getIndexDataTypeRef().getValue() == "/AUTOSAR/myIndexDataType"
             assert element_2.getIndexDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
             assert element_2.getMaxNumberOfElements().getValue() == 8
@@ -934,7 +934,7 @@ class TestBaseTypeDirectDefinitionWriter:
         btd.setBaseTypeEncoding(_literal("IEEE754"))
         btd.setByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         btd.setMemAlignment(_numerical("4"))
-        btd.setNativeDeclaration(_literal("float"))
+        btd.setNativeDeclaration(_literal("FLOAT"))
 
         parent = _parent()
         writer.setBaseTypeDirectDefinition(parent, btd)
@@ -943,7 +943,7 @@ class TestBaseTypeDirectDefinitionWriter:
         assert parent.find("BASE-TYPE-ENCODING").text == "IEEE754"
         assert parent.find("BYTE-ORDER").text == "OPAQUE"
         assert parent.find("MEM-ALIGNMENT").text == "4"
-        assert parent.find("NATIVE-DECLARATION").text == "float"
+        assert parent.find("NATIVE-DECLARATION").text == "FLOAT"
 
         # Elements are emitted in XSD sequenceOffset order (70, 90, 100, 110, 120)
         assert [child.tag for child in parent] == [
@@ -1804,7 +1804,7 @@ class TestInternalConstrsWriter:
         scales = child.find("SCALE-CONSTRS")
         assert scales is not None
         scale_tag = scales.find("SCALE-CONSTR")
-        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.attrib["VALIDITY"] == "VALID"
         assert scale_tag.find("SHORT-LABEL").text == "s1"
         assert scale_tag.find("LOWER-LIMIT").text == "5.0"
         assert scale_tag.find("UPPER-LIMIT").text == "50.0"
@@ -1871,7 +1871,7 @@ class TestPhysConstrsWriter:
         scales = child.find("SCALE-CONSTRS")
         assert scales is not None
         scale_tag = scales.find("SCALE-CONSTR")
-        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.attrib["VALIDITY"] == "VALID"
         assert scale_tag.find("SHORT-LABEL").text == "s1"
         assert scale_tag.find("DESC/L-2").text == "scale desc"
         assert scale_tag.find("LOWER-LIMIT").text == "5.0"

@@ -337,10 +337,10 @@ class TestSwcServiceDependencyRoundTrip:
             dependency_2 = behavior_2.getSwcServiceDependencies()[0]
             needs_2 = {n.getShortName(): n for n in dependency_2.getServiceNeeds()}
 
-            assert needs_2["EnableNeeds"].getInitialStatus().getValue() == "eventAcceptanceEnabled"
-            assert needs_2["CycleNeeds"].getOperationCycle().getValue() == "warmup"
-            assert needs_2["StorageNeeds"].getInitialStatus().getValue() == "eventStorageEnabled"
-            assert needs_2["IndicatorNeeds"].getType().getValue() == "malfunction"
+            assert needs_2["EnableNeeds"].getInitialStatus().getValue() == EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED
+            assert needs_2["CycleNeeds"].getOperationCycle().getValue() == "WARMUP"
+            assert needs_2["StorageNeeds"].getInitialStatus().getValue() == StorageConditionStatusEnum.EVENT_STORAGE_ENABLE
+            assert needs_2["IndicatorNeeds"].getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
             assert needs_2["FimNeeds"].getControlledFidRef().getValue() == "/Fim/Ref"
         finally:
             if os.path.exists(file_path):

@@ -13,6 +13,7 @@ dispatch is wired with the DiagnosticReadDataByPeriodicIDClass pass.
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_periodic_rate.py
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticPeriodicRateCategoryEnum
 from tests.test_armodel.parser._helpers import _snip
 
 
@@ -37,7 +38,7 @@ class TestReadDiagnosticPeriodicRate:
         """Test that the PERIODIC-RATE-CATEGORY enum token is read into periodicRateCategory."""
         rate = self._read(parser, "<PERIODIC-RATE-CATEGORY>PERIODIC-RATE-MEDIUM</PERIODIC-RATE-CATEGORY>")
         assert rate.getPeriodicRateCategory() is not None
-        assert rate.getPeriodicRateCategory().getValue() == "periodicRateMedium"
+        assert rate.getPeriodicRateCategory().getValue() == DiagnosticPeriodicRateCategoryEnum.PERIODIC_RATE_MEDIUM
 
     def test_read_empty_wrapper(self, parser):
         """Test that an empty wrapper (no children) parses leaving all fields unset."""

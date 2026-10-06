@@ -30,7 +30,7 @@ class TestAutoCollectEnum:
         Table 13.2 literals in displayed order with their EnumerationLiteralIndex
         (refAll=0, refNone=1, refNonStandard=2).
         """
-        assert AutoCollectEnum().getEnumValues() == ("refAll", "refNone", "refNonStandard")
+        assert AutoCollectEnum().getEnumValues() == ("REF-ALL", "REF-NONE", "REF-NON-STANDARD")
 
     def test_instantiability_and_value_round_trip(self):
         """
@@ -39,11 +39,11 @@ class TestAutoCollectEnum:
         enum = AutoCollectEnum()
         assert enum.getValue() == ""
         enum.setValue(AutoCollectEnum.REF_ALL)
-        assert enum.getValue() == "refAll"
+        assert enum.getValue() == AutoCollectEnum.REF_ALL
         enum.setValue(AutoCollectEnum.REF_NONE)
-        assert enum.getValue() == "refNone"
+        assert enum.getValue() == AutoCollectEnum.REF_NONE
         enum.setValue(AutoCollectEnum.REF_NON_STANDARD)
-        assert enum.getValue() == "refNonStandard"
+        assert enum.getValue() == AutoCollectEnum.REF_NON_STANDARD
 
     def test_class_docstring_matches_spec_note(self):
         """

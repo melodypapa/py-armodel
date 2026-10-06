@@ -231,8 +231,8 @@ class TestReadBswModuleEntry:
             "<SHORT-NAME>Entry</SHORT-NAME>"
             "<ROLE>theRole</ROLE>"
             "<FUNCTION-PROTOTYPE-EMITTER>RTE</FUNCTION-PROTOTYPE-EMITTER>"
-            "<CALL-TYPE>scheduled</CALL-TYPE>"
-            "<BSW-ENTRY-KIND>concrete</BSW-ENTRY-KIND>"
+            "<CALL-TYPE>SCHEDULED</CALL-TYPE>"
+            "<BSW-ENTRY-KIND>CONCRETE</BSW-ENTRY-KIND>"
             "<SERVICE-ID>42</SERVICE-ID>"
             "</BSW-MODULE-ENTRY>"
         )
@@ -242,8 +242,8 @@ class TestReadBswModuleEntry:
 
         assert entry.getRole().getText() == "theRole"
         assert entry.getFunctionPrototypeEmitter().getText() == "RTE"
-        assert entry.getCallType().getText() == "scheduled"
-        assert entry.getBswEntryKind().getText() == "concrete"
+        assert entry.getCallType().getText() == "SCHEDULED"
+        assert entry.getBswEntryKind().getText() == "CONCRETE"
         assert entry.getServiceId().getValue() == 42
 
 
@@ -260,8 +260,8 @@ class TestReadWriteBswModuleEntryRoundTrip:
         entry = pkg.createBswModuleEntry("Entry")
         entry.setRole(ARLiteral().setValue("theRole"))
         entry.setFunctionPrototypeEmitter(ARLiteral().setValue("RTE"))
-        entry.setCallType(ARLiteral().setValue("scheduled"))
-        entry.setBswEntryKind(ARLiteral().setValue("concrete"))
+        entry.setCallType(ARLiteral().setValue("SCHEDULED"))
+        entry.setBswEntryKind(ARLiteral().setValue("CONCRETE"))
 
         writer = ARXMLWriter()
         root = ET.Element("{http://autosar.org/schema/r4.0}AR-PACKAGES")
@@ -274,8 +274,8 @@ class TestReadWriteBswModuleEntryRoundTrip:
 
         assert entry2.getRole().getText() == "theRole"
         assert entry2.getFunctionPrototypeEmitter().getText() == "RTE"
-        assert entry2.getCallType().getText() == "scheduled"
-        assert entry2.getBswEntryKind().getText() == "concrete"
+        assert entry2.getCallType().getText() == "SCHEDULED"
+        assert entry2.getBswEntryKind().getText() == "CONCRETE"
 
 
 class TestReadWriteBswModuleDescriptionRoundTrip:

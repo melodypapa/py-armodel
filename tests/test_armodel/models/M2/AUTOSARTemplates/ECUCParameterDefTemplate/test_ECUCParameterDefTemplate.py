@@ -204,7 +204,7 @@ class TestEcucScopeEnum:
         Test that the two spec literals are defined with their Table 2.7 Literal values.
         """
         assert EcucScopeEnum.ECU == "ECU"
-        assert EcucScopeEnum.LOCAL == "local"
+        assert EcucScopeEnum.LOCAL == "LOCAL"
 
     def test_enum_values(self):
         """
@@ -212,7 +212,7 @@ class TestEcucScopeEnum:
         """
         scope_enum = EcucScopeEnum()
 
-        assert scope_enum.getEnumValues() == ["ECU", "local"]
+        assert scope_enum.getEnumValues() == ["ECU", "LOCAL"]
 
     def test_set_value(self):
         """
@@ -221,7 +221,7 @@ class TestEcucScopeEnum:
         scope_enum = EcucScopeEnum()
         scope_enum.setValue(EcucScopeEnum.LOCAL)
 
-        assert scope_enum.getValue() == "local"
+        assert scope_enum.getValue() == EcucScopeEnum.LOCAL
 
 
 class TestEcucDefinitionElement:
@@ -493,10 +493,10 @@ class TestEcucConfigurationClassEnum:
         """
         Test that the four spec literals are defined with their Table 2.12 Literal values.
         """
-        assert EcucConfigurationClassEnum.LINK == "Link"
-        assert EcucConfigurationClassEnum.POST_BUILD == "PostBuild"
-        assert EcucConfigurationClassEnum.PRE_COMPILE == "PreCompile"
-        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PublishedInformation"
+        assert EcucConfigurationClassEnum.LINK == "LINK"
+        assert EcucConfigurationClassEnum.POST_BUILD == "POST-BUILD"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PRE-COMPILE"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PUBLISHED-INFORMATION"
 
     def test_enum_values(self):
         """
@@ -505,10 +505,10 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
 
         assert config_class_enum.getEnumValues() == [
-            "Link",
-            "PostBuild",
-            "PreCompile",
-            "PublishedInformation",
+            "LINK",
+            "POST-BUILD",
+            EcucConfigurationClassEnum.PRE_COMPILE,
+            EcucConfigurationClassEnum.PUBLISHED_INFORMATION,
         ]
 
     def test_set_value(self):
@@ -518,7 +518,7 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
         config_class_enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE)
 
-        assert config_class_enum.getValue() == "PreCompile"
+        assert config_class_enum.getValue() == EcucConfigurationClassEnum.PRE_COMPILE
 
 
 class TestEcucDestinationUriNestingContractEnum:

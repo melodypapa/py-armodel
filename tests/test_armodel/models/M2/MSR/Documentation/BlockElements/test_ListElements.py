@@ -27,8 +27,8 @@ class TestListEnum:
         # Check that enum has expected values
         assert hasattr(ListEnum, "NUMBER")
         assert hasattr(ListEnum, "UNNUMBER")
-        assert ListEnum.NUMBER == "number"
-        assert ListEnum.UNNUMBER == "unnumber"
+        assert ListEnum.NUMBER == "NUMBER"
+        assert ListEnum.UNNUMBER == "UNNUMBER"
 
     def test_list_enum_has_spec_note(self):
         """The class docstring carries the Table 9.10 Note verbatim."""
@@ -37,9 +37,9 @@ class TestListEnum:
     def test_list_enum_spec_literals(self):
         """ListEnum shall expose the 2 spec literals in Table 9.10 order."""
         enum_obj = ListEnum()
-        assert ListEnum.NUMBER == "number"
-        assert ListEnum.UNNUMBER == "unnumber"
-        assert enum_obj.getEnumValues() == ["number", "unnumber"]
+        assert ListEnum.NUMBER == "NUMBER"
+        assert ListEnum.UNNUMBER == "UNNUMBER"
+        assert enum_obj.getEnumValues() == ["NUMBER", "UNNUMBER"]
 
     def test_list_enum_validate_enum_value(self):
         """validateEnumValue accepts the model literal values and rejects non-wire forms.
@@ -50,16 +50,16 @@ class TestListEnum:
         handling and are not model values.
         """
         enum_obj = ListEnum()
-        assert enum_obj.validateEnumValue("number") is True
-        assert enum_obj.validateEnumValue("unnumber") is True
-        assert enum_obj.validateEnumValue("NUMBER") is False
-        assert enum_obj.validateEnumValue("UNNUMBER") is False
+        assert enum_obj.validateEnumValue("NUMBER") is True
+        assert enum_obj.validateEnumValue("UNNUMBER") is True
+        assert enum_obj.validateEnumValue("number") is False
+        assert enum_obj.validateEnumValue("unnumber") is False
         assert enum_obj.validateEnumValue("unknown") is False
 
     def test_list_enum_set_value_with_member(self):
         """The enum is instantiable and its literal value can be set from a member constant."""
         enum_obj = ListEnum().setValue(ListEnum.UNNUMBER)
-        assert enum_obj.getValue() == "unnumber"
+        assert enum_obj.getValue() == ListEnum.UNNUMBER
 
 
 class TestItem:
@@ -224,13 +224,13 @@ class TestItemLabelPosEnum:
 
     def test_item_label_pos_enum_members(self):
         """Test that ItemLabelPosEnum has the expected members."""
-        assert ItemLabelPosEnum.NEWLINE == "newline"
-        assert ItemLabelPosEnum.NO_NEWLINE == "noNewline"
+        assert ItemLabelPosEnum.NEWLINE == "NEWLINE"
+        assert ItemLabelPosEnum.NO_NEWLINE == "NO-NEWLINE"
 
     def test_item_label_pos_enum_initialization(self):
         """Test that an ItemLabelPosEnum object can be initialized."""
         item_label_pos_enum = ItemLabelPosEnum()
-        assert item_label_pos_enum.validateEnumValue("newline")
+        assert item_label_pos_enum.validateEnumValue("NEWLINE")
         assert not item_label_pos_enum.validateEnumValue("unknown")
 
 

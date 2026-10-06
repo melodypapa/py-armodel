@@ -61,7 +61,7 @@ class TestReadDiagnosticConnectedIndicator:
 
         assert connected_indicator.getBehavior() is not None
         assert isinstance(connected_indicator.getBehavior(), DiagnosticConnectedIndicatorBehaviorEnum)
-        assert connected_indicator.getBehavior().getValue() == "blinkMode"
+        assert connected_indicator.getBehavior().getValue() == DiagnosticConnectedIndicatorBehaviorEnum.BLINK_MODE
         assert connected_indicator.getHealingCycleCounterThreshold() is not None
         assert connected_indicator.getHealingCycleCounterThreshold().getValue() == 3
         assert connected_indicator.getHealingCycleRef() is not None

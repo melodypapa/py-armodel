@@ -22,7 +22,7 @@ class TestStd:
         date = DateTime().setValue("2026-09-12")
         position = String().setValue("section 1")
         state = String().setValue("final")
-        subtitle = String().setValue("standard")
+        subtitle = String().setValue("STANDARD")
         url = Url().setValue(UriString().setValue("https://example.com/std"))
 
         assert std.setDate(date) is std

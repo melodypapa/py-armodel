@@ -52,7 +52,7 @@ def _new_connection(short_name="Conn1"):
     remote_ref = RefType()
     remote_ref.setValue("/Ecu/SoAd/SocketAddress/Remote")
     timeout = TimeValue().setValue(30)
-    role = ARLiteral().setValue("connect")
+    role = ARLiteral().setValue("CONNECT")
     connection.addIPduIdentifierRef(ref_1)
     connection.addIPduIdentifierRef(ref_2)
     connection.setRemoteAddressRef(remote_ref)
@@ -75,7 +75,7 @@ class TestWriteStaticSocketConnection:
         assert remote_ref is not None
         assert remote_ref.text == "/Ecu/SoAd/SocketAddress/Remote"
         assert node.find("TCP-CONNECT-TIMEOUT").text == "30.0"
-        assert node.find("TCP-ROLE").text == "connect"
+        assert node.find("TCP-ROLE").text == "CONNECT"
 
     def test_write_empty_fields(self, writer):
         parent = ET.Element("PARENT")
@@ -104,7 +104,7 @@ class TestStaticSocketConnectionRoundTrip:
         assert ipdu_refs[1].getValue() == "/Ecu/SoCon/IPdu2"
         assert parsed.getRemoteAddressRef().getValue() == "/Ecu/SoAd/SocketAddress/Remote"
         assert parsed.getTcpConnectTimeout().getValue() == 30
-        assert parsed.getTcpRole().getValue() == "connect"
+        assert parsed.getTcpRole().getValue() == "CONNECT"
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<STATIC-SOCKET-CONNECTION xmlns='%s'><SHORT-NAME>Empty</SHORT-NAME></STATIC-SOCKET-CONNECTION>" % NS)
