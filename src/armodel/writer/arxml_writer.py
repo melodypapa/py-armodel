@@ -17746,6 +17746,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDataLinkLayerRule(self, element: ET.Element, rule: Optional[DataLinkLayerRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())

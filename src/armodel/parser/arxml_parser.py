@@ -17705,6 +17705,7 @@ class ARXMLParser(AbstractARXMLParser):
         return False
 
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        self.readARObject(element, rule)
         destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
         if destination_mac is not None:
             mac_address = MacAddressString()
