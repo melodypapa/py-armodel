@@ -182,7 +182,7 @@ class TestTransmissionAcknowledgementRequest:
         """Class docstring must be the Table 4.71 Note copied verbatim with the class-level constraint appended."""
         note = "Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity."
         constraint = "[constr_1892] Existence of attribute TransmissionAcknowledgementRequest . timeout: For each TransmissionAcknowledgementRequest, attribute timeout shall exist at the time when the contract phase generation is executed. ()"
-        assert TransmissionAcknowledgementRequest.__doc__.strip() == note + "\n\n    " + constraint
+        assert inspect.cleandoc(TransmissionAcknowledgementRequest.__doc__) == inspect.cleandoc(note + "\n\n    " + constraint)
         timeout_note = "Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again."
         assert TransmissionAcknowledgementRequest.getTimeout.__doc__.strip() == timeout_note
         assert TransmissionAcknowledgementRequest.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."

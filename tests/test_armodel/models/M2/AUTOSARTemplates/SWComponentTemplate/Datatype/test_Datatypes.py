@@ -199,7 +199,7 @@ class TestApplicationArrayDataType:
         assert isinstance(array_type, ARObject)
 
     def test_class_docstring_matches_spec_note(self):
-        assert ApplicationArrayDataType.__doc__.strip() == (
+        assert inspect.cleandoc(ApplicationArrayDataType.__doc__) == inspect.cleandoc(
             "An application data type which is an array, each element is of the same application data type.\n\n"
             "    [constr_1907] Existence of attribute ApplicationArrayDataType.element: For each ApplicationArrayDataType, "
             "the aggregation of ApplicationArrayElement in the role element shall exist at the time when the RTE is generated."

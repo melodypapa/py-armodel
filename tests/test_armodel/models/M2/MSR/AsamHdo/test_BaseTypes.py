@@ -2,6 +2,7 @@
 This module contains tests for the BaseTypes module in MSR.AsamHdo.
 """
 
+import inspect
 import typing
 from abc import ABC
 
@@ -219,7 +220,7 @@ class TestBaseType:
         assert definition.getNativeDeclaration() is None
 
     def test_class_docstring_matches_spec_note(self):
-        assert BaseType.__doc__.strip() == (
+        assert inspect.cleandoc(BaseType.__doc__) == inspect.cleandoc(
             "This abstract meta-class represents the ability to specify a platform dependent base type.\n\n"
             "    [constr_1910] Existence of attribute BaseType.baseTypeDefinition: For each BaseType "
             "(which will be utilized in the form of SwBaseType), the aggregation in the role baseTypeDefinition "
