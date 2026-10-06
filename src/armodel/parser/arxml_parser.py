@@ -6730,7 +6730,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readTransformerHardErrorEvent(self, element: ET.Element, event: TransformerHardErrorEvent):
         # self.logger.debug("Read TransformerHardErrorEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
-        self.readPOperationIRef(element, "OPERATION-IREF", event)
+        self.readPOperationIRef(element, "OPERATION-IREF", cast(OperationInvokedEvent, event))
         child_element = self.find(element, "REQUIRED-TRIGGER-IREF")
         if child_element is not None:
             instance_ref = RTriggerInAtomicSwcInstanceRef()
