@@ -2645,6 +2645,48 @@ class TestBswServiceDependencyHandlers:
         assert needs.getDiagRequirement() is None
         assert needs.getSecurityAccessLevel() is None
 
+    def test_readBswServiceDependency_do_ip_routing_activation_authentication_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationAuthenticationNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS><SHORT-NAME>needs</SHORT-NAME>"
+            "<DATA-LENGTH-REQUEST>4</DATA-LENGTH-REQUEST>"
+            "<DATA-LENGTH-RESPONSE>8</DATA-LENGTH-RESPONSE>"
+            "<ROUTING-ACTIVATION-TYPE>RA_0xE1</ROUTING-ACTIVATION-TYPE>"
+            "</DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, DoIpRoutingActivationAuthenticationNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getDataLengthRequest().getValue() == 4
+        assert needs.getDataLengthResponse().getValue() == 8
+        assert needs.getRoutingActivationType().getValue() == "RA_0xE1"
+
+    def test_readBswServiceDependency_do_ip_routing_activation_authentication_needs_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationAuthenticationNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS><SHORT-NAME>needs</SHORT-NAME>" "</DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, DoIpRoutingActivationAuthenticationNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getDataLengthRequest() is None
+        assert needs.getDataLengthResponse() is None
+        assert needs.getRoutingActivationType() is None
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps

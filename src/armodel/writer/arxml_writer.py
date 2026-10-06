@@ -6406,7 +6406,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-REQUEST", cast(Integer, needs.getDataLengthRequest()))
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH-RESPONSE", cast(Integer, needs.getDataLengthResponse()))
-        self.setChildElementOptionalLiteral(child_element, "ROUTING-ACTIVATION-TYPE", needs.getRoutingActivationType())
+        self.setChildElementOptionalNameToken(child_element, "ROUTING-ACTIVATION-TYPE", needs.getRoutingActivationType())
 
     def writeDoIpRoutingActivationConfirmationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationConfirmationNeeds):
         child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
