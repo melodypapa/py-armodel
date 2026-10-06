@@ -3417,7 +3417,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             type = list.getType()
             if type is not None:
                 if isinstance(type, ListEnum):
-                    child_element.attrib["TYPE"] = cast(str, type.getValue()).upper()
+                    child_element.attrib["TYPE"] = cast(str, type.getValue())
                 else:
                     child_element.attrib["TYPE"] = type
             for item in list.getItems():

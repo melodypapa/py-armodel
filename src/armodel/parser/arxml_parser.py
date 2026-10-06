@@ -6868,7 +6868,7 @@ class ARXMLParser(AbstractARXMLParser):
             list = ARList()
             self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
-                list.setType(ListEnum().setValue(child_element.attrib["TYPE"].lower()))
+                list.setType(ListEnum().setValue(child_element.attrib["TYPE"]))
             for item_element in self.findall(child_element, "ITEM"):
                 item = Item()
                 self.readPaginateable(item_element, item)
