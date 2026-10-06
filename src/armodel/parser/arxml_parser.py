@@ -17739,6 +17739,7 @@ class ARXMLParser(AbstractARXMLParser):
                 payload_rule.addPayloadBytePatternRulePart(part)
 
     def readPayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.readARObject(element, part)
         part.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
         part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
 

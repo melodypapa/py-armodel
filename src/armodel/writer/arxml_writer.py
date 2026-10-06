@@ -17764,6 +17764,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writePayloadBytePatternRulePart(part_tag, part)
 
     def writePayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.writeARObject(element, part)
         self.setChildElementOptionalPositiveInteger(element, "OFFSET", cast(Integer, part.getOffset()))
         self.setChildElementOptionalPositiveInteger(element, "VALUE", cast(Integer, part.getValue()))
 
