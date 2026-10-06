@@ -375,6 +375,7 @@ __all__ = [
     "SystemSignalGroup",
     "TcpOptionFilterSet",
     "TlvDataIdDefinitionSet",
+    "TtcanCluster",
     "TriggerInterface",
     "Unit",
     "UserDefinedIPdu",
@@ -2329,6 +2330,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             cluster = J1939Cluster(self, short_name)
             self.addReferrableElement(cluster)
         return cast(J1939Cluster, self.getReferrableElement(short_name, J1939Cluster))
+
+    def createTtcanCluster(self, short_name: str) -> TtcanCluster:
+
+        if not self.IsReferrableElementExists(short_name, TtcanCluster):
+            cluster = TtcanCluster(self, short_name)
+            self.addReferrableElement(cluster)
+        return cast(TtcanCluster, self.getReferrableElement(short_name, TtcanCluster))
 
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
 
@@ -4982,6 +4990,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E402
     CanCluster,
     EcuInstance,
+    TtcanCluster,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402

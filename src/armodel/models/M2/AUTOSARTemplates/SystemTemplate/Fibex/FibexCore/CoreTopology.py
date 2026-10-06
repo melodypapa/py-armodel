@@ -10,6 +10,9 @@ if TYPE_CHECKING:
         CanCommunicationConnector,
         CanCommunicationController,
         CanPhysicalChannel,
+        TtcanCommunicationConnector,
+        TtcanCommunicationController,
+        TtcanPhysicalChannel,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
         EthernetCommunicationConnector,
@@ -26,10 +29,12 @@ if TYPE_CHECKING:
         LinCommunicationConnector,
         LinMaster,
         LinPhysicalChannel,
+        LinSlave,
     )
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
         CommunicationDirectionType,
+        EthernetFrameTriggering,
         FramePort,
         FrameTriggering,
         IPduPort,
@@ -233,26 +238,26 @@ class CycleRepetition(CommunicationCycle):
 
 class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
     """
-    A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.
+    A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.#
     """
 
     # PhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.7, p.59
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommConnectorRefs            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addCommConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFrameTriggerings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCanFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createLinFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createFlexrayFrameTriggering     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getISignalTriggerings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createISignalTriggering         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getManagedPhysicalChannelRefs   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addManagedPhysicalChannelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduTriggerings               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createPduTriggering             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCommConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommConnectorRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEthernetFrameTriggering   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFlexrayFrameTriggering    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createLinFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrameTriggerings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createISignalTriggering         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getISignalTriggerings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addManagedPhysicalChannelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getManagedPhysicalChannelRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPduTriggering             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduTriggerings               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
@@ -275,13 +280,7 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
         # One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduTriggerings: List[PduTriggering] = []
 
-    def getCommConnectorRefs(self) -> List[RefType]:
-        """
-        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.commConnectorRefs
-
-    def addCommConnectorRef(self, value: RefType) -> PhysicalChannel:
+    def addCommConnectorRef(self, value: Optional[RefType]) -> PhysicalChannel:
         """
         Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing commConnectorRefs.
@@ -290,11 +289,11 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.commConnectorRefs.append(value)
         return self
 
-    def getFrameTriggerings(self) -> List[FrameTriggering]:
+    def getCommConnectorRefs(self) -> List[RefType]:
         """
-        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        return list(sorted(self.frameTriggerings, key=lambda o: o.getShortName()))
+        return self.commConnectorRefs
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
         """
@@ -308,17 +307,17 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.frameTriggerings.append(triggering)
         return cast(CanFrameTriggering, self.getReferrableElement(short_name, CanFrameTriggering))
 
-    def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
+    def createEthernetFrameTriggering(self, short_name: str) -> EthernetFrameTriggering:
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import EthernetFrameTriggering
 
-        if not self.IsReferrableElementExists(short_name, LinFrameTriggering):
-            triggering = LinFrameTriggering(self, short_name)
+        if not self.IsReferrableElementExists(short_name, EthernetFrameTriggering):
+            triggering = EthernetFrameTriggering(self, short_name)
             self.addReferrableElement(triggering)
             self.frameTriggerings.append(triggering)
-        return cast(LinFrameTriggering, self.getReferrableElement(short_name, LinFrameTriggering))
+        return cast(EthernetFrameTriggering, self.getReferrableElement(short_name, EthernetFrameTriggering))
 
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
         """
@@ -332,11 +331,23 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.frameTriggerings.append(triggering)
         return cast(FlexrayFrameTriggering, self.getReferrableElement(short_name, FlexrayFrameTriggering))
 
-    def getISignalTriggerings(self) -> List[ISignalTriggering]:
+    def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
         """
-        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        return list(sorted(self.iSignalTriggerings, key=lambda o: o.getShortName()))
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+
+        if not self.IsReferrableElementExists(short_name, LinFrameTriggering):
+            triggering = LinFrameTriggering(self, short_name)
+            self.addReferrableElement(triggering)
+            self.frameTriggerings.append(triggering)
+        return cast(LinFrameTriggering, self.getReferrableElement(short_name, LinFrameTriggering))
+
+    def getFrameTriggerings(self) -> List[FrameTriggering]:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.frameTriggerings
 
     def createISignalTriggering(self, short_name: str) -> ISignalTriggering:
         """
@@ -350,13 +361,13 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.iSignalTriggerings.append(triggering)
         return cast(ISignalTriggering, self.getReferrableElement(short_name, ISignalTriggering))
 
-    def getManagedPhysicalChannelRefs(self) -> List[RefType]:
+    def getISignalTriggerings(self) -> List[ISignalTriggering]:
         """
-        Reference between a channel with role managing channel and a channel with role managed channel.
+        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        return self.managedPhysicalChannelRefs
+        return self.iSignalTriggerings
 
-    def addManagedPhysicalChannelRef(self, value: RefType) -> PhysicalChannel:
+    def addManagedPhysicalChannelRef(self, value: Optional[RefType]) -> PhysicalChannel:
         """
         Reference between a channel with role managing channel and a channel with role managed channel.
         A None value is a no-op and does not overwrite an existing managedPhysicalChannelRefs.
@@ -365,11 +376,11 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.managedPhysicalChannelRefs.append(value)
         return self
 
-    def getPduTriggerings(self) -> List[PduTriggering]:
+    def getManagedPhysicalChannelRefs(self) -> List[RefType]:
         """
-        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        Reference between a channel with role managing channel and a channel with role managed channel.
         """
-        return list(sorted(self.pduTriggerings, key=lambda o: o.getShortName()))
+        return self.managedPhysicalChannelRefs
 
     def createPduTriggering(self, short_name: str) -> PduTriggering:
         """
@@ -382,6 +393,12 @@ class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
             self.addReferrableElement(triggering)
             self.pduTriggerings.append(triggering)
         return cast(PduTriggering, self.getReferrableElement(short_name, PduTriggering))
+
+    def getPduTriggerings(self) -> List[PduTriggering]:
+        """
+        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduTriggerings
 
 
 class FlexrayChannelName(AREnum):
@@ -424,6 +441,7 @@ class CommunicationCluster(FibexElement, ABC):
     # [x] createLinPhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEthernetPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createFlexrayPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createTtcanPhysicalChannel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getProtocolName              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setProtocolName              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -540,6 +558,18 @@ class CommunicationCluster(FibexElement, ABC):
             self.physicalChannel.append(channel)
         return self.getReferrableElement(short_name, FlexrayPhysicalChannel)
 
+    def createTtcanPhysicalChannel(self, short_name: str) -> TtcanPhysicalChannel:
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanPhysicalChannel
+
+        if not self.IsReferrableElementExists(short_name, TtcanPhysicalChannel):
+            channel = TtcanPhysicalChannel(self, short_name)
+            self.addReferrableElement(channel)
+            self.physicalChannel.append(channel)
+        return cast(TtcanPhysicalChannel, self.getReferrableElement(short_name, TtcanPhysicalChannel))
+
     def getProtocolName(self) -> Optional[String]:
         """
         The name of the protocol used.
@@ -572,19 +602,20 @@ class CommunicationCluster(FibexElement, ABC):
 
 
 class AbstractCanCluster(CommunicationCluster, ABC):
-    """Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes."""
+    """
+    Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes.
+    """
 
     # AbstractCanCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.8, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBusOffRecovery      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBusOffRecovery      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanFdBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanFdBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanXlBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanXlBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBusOffRecovery [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBusOffRecovery [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanFdBaudrate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanFdBaudrate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanXlBaudrate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanXlBaudrate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
@@ -648,13 +679,14 @@ class AbstractCanCluster(CommunicationCluster, ABC):
 
 
 class CanCluster(AbstractCanCluster):
-    """CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"""
+    """
+    CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
+    """
 
     # CanCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.9, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -727,23 +759,22 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
 
     # CommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.4, p.54
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
@@ -796,10 +827,6 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         A None value is a no-op and does not overwrite an existing createEcuWakeupSource.
         """
         if value is not None:
-            if not isinstance(value, Boolean):
-                boolean = Boolean()
-                boolean.setValue(value)
-                value = boolean
             self.createEcuWakeupSource = value
         return self
 
@@ -815,20 +842,10 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         A None value is a no-op and does not overwrite an existing dynamicPncToChannelMappingEnabled.
         """
         if value is not None:
-            if not isinstance(value, Boolean):
-                boolean = Boolean()
-                boolean.setValue(value)
-                value = boolean
             self.dynamicPncToChannelMappingEnabled = value
         return self
 
-    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
-        """
-        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return list(sorted(self.ecuCommPortInstances, key=lambda o: o.getShortName()))
-
-    def createFramePort(self, short_name) -> FramePort:
+    def createFramePort(self, short_name: str) -> FramePort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -840,7 +857,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(FramePort, self.getReferrableElement(short_name))
 
-    def createIPduPort(self, short_name) -> IPduPort:
+    def createIPduPort(self, short_name: str) -> IPduPort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -852,7 +869,7 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(IPduPort, self.getReferrableElement(short_name))
 
-    def createISignalPort(self, short_name) -> ISignalPort:
+    def createISignalPort(self, short_name: str) -> ISignalPort:
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
@@ -864,11 +881,11 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
             self.ecuCommPortInstances.append(port)
         return cast(ISignalPort, self.getReferrableElement(short_name))
 
-    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
         """
-        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        return self.pncFilterArrayMasks
+        return self.ecuCommPortInstances
 
     def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> CommunicationConnector:
         """
@@ -878,6 +895,12 @@ class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
         if value is not None:
             self.pncFilterArrayMasks.append(value)
         return self
+
+    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        """
+        return self.pncFilterArrayMasks
 
     def getPncGatewayType(self) -> Optional[PncGatewayTypeEnum]:
         """
@@ -969,11 +992,14 @@ class EcuInstance(FibexElement):
     # [x] createEthernetCommunicationController                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationController                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createLinSlave                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTtcanCommunicationController                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTtcanCommunicationConnector                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1290,6 +1316,30 @@ class EcuInstance(FibexElement):
             self.commControllers.append(controller)
         return cast(LinMaster, self.getReferrableElement(short_name, LinMaster))
 
+    def createLinSlave(self, short_name: str) -> LinSlave:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinSlave
+
+        if not self.IsReferrableElementExists(short_name, LinSlave):
+            controller = LinSlave(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(LinSlave, self.getReferrableElement(short_name, LinSlave))
+
+    def createTtcanCommunicationController(self, short_name: str) -> TtcanCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanCommunicationController
+
+        if not self.IsReferrableElementExists(short_name, TtcanCommunicationController):
+            controller = TtcanCommunicationController(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(TtcanCommunicationController, self.getReferrableElement(short_name, TtcanCommunicationController))
+
     def getCommControllers(self) -> List[CommunicationController]:
         """
         CommunicationControllers of the ECU.
@@ -1343,6 +1393,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(connector)
             self.connectors.append(connector)
         return cast(LinCommunicationConnector, self.getReferrableElement(short_name, LinCommunicationConnector))
+
+    def createTtcanCommunicationConnector(self, short_name: str) -> TtcanCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import TtcanCommunicationConnector
+
+        if not self.IsReferrableElementExists(short_name, TtcanCommunicationConnector):
+            connector = TtcanCommunicationConnector(self, short_name)
+            self.addReferrableElement(connector)
+            self.connectors.append(connector)
+        return cast(TtcanCommunicationConnector, self.getReferrableElement(short_name, TtcanCommunicationConnector))
 
     def getConnectors(self) -> List[CommunicationConnector]:
         """
@@ -1667,7 +1729,77 @@ class ClientIdRange(ARObject):
 
 
 class TtcanCluster(AbstractCanCluster):
-    pass
+    """
+    TTCAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters
+    """
+
+    # TtcanCluster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.24, p.76
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBasicCycleLength [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBasicCycleLength [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNtu              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNtu              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationMode    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationMode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Length of a basic-cycle. Unit: NTUs
+        self.basicCycleLength: Optional[Integer] = None
+
+        # Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        self.ntu: Optional[TimeValue] = None
+
+        # Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        self.operationMode: Optional[Boolean] = None
+
+    def getBasicCycleLength(self) -> Optional[Integer]:
+        """
+        Length of a basic-cycle. Unit: NTUs
+        """
+        return self.basicCycleLength
+
+    def setBasicCycleLength(self, value: Optional[Integer]) -> TtcanCluster:
+        """
+        Length of a basic-cycle. Unit: NTUs
+        A None value is a no-op and does not overwrite an existing basicCycleLength.
+        """
+        if value is not None:
+            self.basicCycleLength = value
+        return self
+
+    def getNtu(self) -> Optional[TimeValue]:
+        """
+        Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        """
+        return self.ntu
+
+    def setNtu(self, value: Optional[TimeValue]) -> TtcanCluster:
+        """
+        Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.
+        A None value is a no-op and does not overwrite an existing ntu.
+        """
+        if value is not None:
+            self.ntu = value
+        return self
+
+    def getOperationMode(self) -> Optional[Boolean]:
+        """
+        Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        """
+        return self.operationMode
+
+    def setOperationMode(self, value: Optional[Boolean]) -> TtcanCluster:
+        """
+        Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered
+        A None value is a no-op and does not overwrite an existing operationMode.
+        """
+        if value is not None:
+            self.operationMode = value
+        return self
 
 
 class UserDefinedCluster(CommunicationCluster):

@@ -5,7 +5,8 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, Limit, PositiveInteger, PositiveUnlimitedInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanPhysicalChannel,
@@ -13,6 +14,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanCommunicationConnector,
     CanCommunicationController,
     CanPhysicalChannel,
+    TtcanCommunicationConnector,
+    TtcanCommunicationController,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     EthernetCommunicationConnector,
@@ -28,8 +32,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     CommunicationDirectionType,
+    EthernetFrameTriggering,
     FibexElement,
     FramePort,
+    FrameTriggering,
     IPduPort,
     IPduSignalProcessingEnum,
     ISignalPort,
@@ -51,6 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FlexrayChannelName,
     PhysicalChannel,
     PncGatewayTypeEnum,
+    TtcanCluster,
 )
 
 
@@ -269,33 +276,6 @@ class Test_FibexCoreTopology:
         assert cluster.getCanFdBaudrate() == 500000
         assert cluster == cluster.setCanXlBaudrate(10000000)
         assert cluster.getCanXlBaudrate() == 10000000
-
-    def test_CanCluster(self):
-        """Test CanCluster class functionality."""
-        parent = MockParent()
-        cluster = CanCluster(parent, "test_can_cluster")
-
-        assert isinstance(cluster, AbstractCanCluster)
-        assert isinstance(cluster, CommunicationCluster)
-
-        # Test default values
-        assert cluster.getBusOffRecovery() is None
-        assert cluster.getCanFdBaudrate() is None
-        assert cluster.getCanXlBaudrate() is None
-
-        # Test setter/getter methods with method chaining
-        recovery = CanClusterBusOffRecovery()
-        cluster.setBusOffRecovery(recovery)
-        assert cluster.getBusOffRecovery() == recovery
-        assert cluster == cluster.setBusOffRecovery(recovery)  # Test method chaining
-
-        cluster.setCanFdBaudrate(500000)
-        assert cluster.getCanFdBaudrate() == 500000
-        assert cluster == cluster.setCanFdBaudrate(500000)  # Test method chaining
-
-        cluster.setCanXlBaudrate(10000000)
-        assert cluster.getCanXlBaudrate() == 10000000
-        assert cluster == cluster.setCanXlBaudrate(10000000)  # Test method chaining
 
     def test_CommunicationController(self):
         """Test CommunicationController abstract class instantiation."""
@@ -626,6 +606,24 @@ class Test_FibexCoreTopology:
         assert isinstance(flexray_channel, FlexrayPhysicalChannel)
         assert len(cluster.getPhysicalChannels()) >= 4  # Another channel created
 
+    def test_CommunicationCluster_create_ttcan_physical_channel(self):
+        """Test createTtcanPhysicalChannel: create, dedup by short name, append to physicalChannel (Table 3.26 consumer)."""
+        parent = MockParent()
+        cluster = CanCluster(parent, "test_cluster_ttcan")
+
+        channel = cluster.createTtcanPhysicalChannel("ttcan_channel")
+        assert isinstance(channel, TtcanPhysicalChannel)
+        assert channel.getShortName() == "ttcan_channel"
+        assert channel in cluster.getPhysicalChannels()
+
+        again = cluster.createTtcanPhysicalChannel("ttcan_channel")
+        assert again is channel
+        assert len(cluster.getPhysicalChannels()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(CommunicationCluster.createTtcanPhysicalChannel, localns={"TtcanPhysicalChannel": TtcanPhysicalChannel})
+        assert hints["return"] is TtcanPhysicalChannel
+
     def test_PhysicalChannel_spec_attributes(self):
         """Test PhysicalChannel spec attributes (Table 3.7) per Rule 0001."""
 
@@ -671,17 +669,44 @@ class Test_FibexCoreTopology:
         assert isinstance(pdu_triggering, PduTriggering)
         assert pdu_triggering in channel.getPduTriggerings()
 
-    def test_CommunicationConnector_methods(self):
-        """Test CommunicationConnector concrete implementation methods (Table 3.4)."""
 
-        class ConcreteCommunicationConnector(CommunicationConnector):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
+COMMUNICATION_CONNECTOR_CLASS_NOTE = "The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance."
 
-        parent = MockParent()
-        connector = ConcreteCommunicationConnector(parent, "test_communication_connector")
 
-        # Test default values
+class ConcreteCommunicationConnector(CommunicationConnector):
+    pass
+
+
+class TestCommunicationConnector:
+    """Test cases for CommunicationConnector (Table 3.4, p.54)."""
+
+    MEMBERS = [
+        "commControllerRef",
+        "createEcuWakeupSource",
+        "dynamicPncToChannelMappingEnabled",
+        "ecuCommPortInstances",
+        "pncFilterArrayMasks",
+        "pncGatewayType",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CommunicationConnector, Identifiable)
+        assert issubclass(CommunicationConnector, VariationPointCapable)
+        assert issubclass(CommunicationConnector, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="CommunicationConnector is an abstract class"):
+            CommunicationConnector(MockParent(), "test_communication_connector")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CommunicationConnector.__doc__) == COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CommunicationConnector.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+
         assert connector.getCommControllerRef() is None
         assert connector.getCreateEcuWakeupSource() is None
         assert connector.getDynamicPncToChannelMappingEnabled() is None
@@ -689,61 +714,660 @@ class Test_FibexCoreTopology:
         assert connector.getPncFilterArrayMasks() == []
         assert connector.getPncGatewayType() is None
 
-        # commController (ref, CommunicationController, 0..1)
-        ref1 = object()
-        connector.setCommControllerRef(ref1)
-        assert connector.getCommControllerRef() == ref1
-        assert connector == connector.setCommControllerRef(ref1)  # method chaining
+    def test_member_order(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        members = [k for k in vars(connector) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_comm_controller_ref(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        ref = RefType()
+        ref.setValue("/Systems/S/ECUS/Ecu/CTRL")
+        ref.setDest("CAN-COMMUNICATION-CONTROLLER")
+
+        assert connector == connector.setCommControllerRef(ref)
+        assert connector.getCommControllerRef() is ref
+        assert connector.getCommControllerRef().getValue() == "/Systems/S/ECUS/Ecu/CTRL"
+
         assert connector == connector.setCommControllerRef(None)  # None no-op
-        assert connector.getCommControllerRef() == ref1  # unchanged
+        assert connector.getCommControllerRef() is ref  # unchanged
 
-        # createEcuWakeupSource (attr, Boolean, 0..1)
-        connector.setCreateEcuWakeupSource(True)
+    def test_get_set_create_ecu_wakeup_source(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        flag = Boolean()
+        flag.setValue(True)
+
+        assert connector == connector.setCreateEcuWakeupSource(flag)
+        assert connector.getCreateEcuWakeupSource() is flag
         assert connector.getCreateEcuWakeupSource().getValue() is True
-        assert connector == connector.setCreateEcuWakeupSource(True)  # method chaining
+
         assert connector == connector.setCreateEcuWakeupSource(None)  # None no-op
-        assert connector.getCreateEcuWakeupSource().getValue() is True  # unchanged
+        assert connector.getCreateEcuWakeupSource() is flag  # unchanged
 
-        # dynamicPncToChannelMappingEnabled (attr, Boolean, 0..1)
-        connector.setDynamicPncToChannelMappingEnabled(False)
+    def test_get_set_dynamic_pnc_to_channel_mapping_enabled(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        flag = Boolean()
+        flag.setValue(False)
+
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(flag)
+        assert connector.getDynamicPncToChannelMappingEnabled() is flag
         assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False
-        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # method chaining
+
         assert connector == connector.setDynamicPncToChannelMappingEnabled(None)  # None no-op
-        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False  # unchanged
+        assert connector.getDynamicPncToChannelMappingEnabled() is flag  # unchanged
 
-        # pncGatewayType (attr, PncGatewayTypeEnum, 0..1)
-        connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE
-        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ACTIVE)  # method chaining
+    def test_get_set_pnc_gateway_type(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        gateway_type = PncGatewayTypeEnum()
+        gateway_type.setValue(PncGatewayTypeEnum.ACTIVE)
+
+        assert connector == connector.setPncGatewayType(gateway_type)
+        assert connector.getPncGatewayType() is gateway_type
+        assert connector.getPncGatewayType().getValue() == "active"
+
         assert connector == connector.setPncGatewayType(None)  # None no-op
-        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ACTIVE  # unchanged
+        assert connector.getPncGatewayType() is gateway_type  # unchanged
 
-        # pncFilterArrayMask (ordered, attr, PositiveInteger, *)
-        connector.addPncFilterArrayMask(0xFF)
-        connector.addPncFilterArrayMask(0x01)
-        assert connector.getPncFilterArrayMasks() == [0xFF, 0x01]  # ordered
-        assert connector == connector.addPncFilterArrayMask(0x01)  # method chaining
+    def test_add_pnc_filter_array_mask(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        mask1 = PositiveInteger()
+        mask1.setValue("255")
+        mask2 = PositiveInteger()
+        mask2.setValue("1")
 
-        # ecuCommPortInstance (aggr, CommConnectorPort, *) -> dedicated typed list
+        assert connector == connector.addPncFilterArrayMask(mask1)
+        assert connector == connector.addPncFilterArrayMask(mask2)
+        assert connector.getPncFilterArrayMasks() == [mask1, mask2]  # ordered, insertion order
+        assert connector.getPncFilterArrayMasks()[0].getValue() == 255
+
+        assert connector == connector.addPncFilterArrayMask(None)  # None no-op
+        assert connector.getPncFilterArrayMasks() == [mask1, mask2]  # unchanged
+
+    def test_create_ports_append(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+
         frame_port = connector.createFramePort("frame_port")
         assert isinstance(frame_port, FramePort)
-        assert frame_port in connector.getEcuCommPortInstances()
-        assert len(connector.getEcuCommPortInstances()) == 1  # exactly one port
+        assert frame_port.getShortName() == "frame_port"
+        assert connector.getEcuCommPortInstances() == [frame_port]
 
         ipdu_port = connector.createIPduPort("ipdu_port")
         assert isinstance(ipdu_port, IPduPort)
-        assert ipdu_port in connector.getEcuCommPortInstances()
-        assert len(connector.getEcuCommPortInstances()) == 2
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port]
 
         isignal_port = connector.createISignalPort("isignal_port")
         assert isinstance(isignal_port, ISignalPort)
-        assert isignal_port in connector.getEcuCommPortInstances()
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port, isignal_port]
+
+    def test_create_port_duplicate_returns_existing(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        frame_port = connector.createFramePort("frame_port")
+        ipdu_port = connector.createIPduPort("ipdu_port")
+        isignal_port = connector.createISignalPort("isignal_port")
+
+        assert connector.createFramePort("frame_port") is frame_port
+        assert connector.createIPduPort("ipdu_port") is ipdu_port
+        assert connector.createISignalPort("isignal_port") is isignal_port
         assert len(connector.getEcuCommPortInstances()) == 3
 
-        # createXxx returns the existing element on duplicate short name
-        dup = connector.createFramePort("frame_port")
-        assert dup is frame_port
-        assert len(connector.getEcuCommPortInstances()) == 3  # no duplicate
+    def test_get_ecu_comm_port_instances_preserves_insertion_order(self):
+        connector = ConcreteCommunicationConnector(MockParent(), "conn")
+        second = connector.createFramePort("b_port")
+        first = connector.createFramePort("a_port")
+
+        assert connector.getEcuCommPortInstances() == [second, first]
+
+    def test_type_hints(self):
+        for getter, setter, value_type in [
+            ("getCommControllerRef", "setCommControllerRef", RefType),
+            ("getCreateEcuWakeupSource", "setCreateEcuWakeupSource", Boolean),
+            ("getDynamicPncToChannelMappingEnabled", "setDynamicPncToChannelMappingEnabled", Boolean),
+            ("getPncGatewayType", "setPncGatewayType", PncGatewayTypeEnum),
+        ]:
+            hints = typing.get_type_hints(getattr(CommunicationConnector, getter))
+            assert hints["return"] == typing.Optional[value_type], getter
+            hints = typing.get_type_hints(getattr(CommunicationConnector, setter))
+            assert hints["value"] == typing.Optional[value_type], setter
+            _assert_return_is(hints, CommunicationConnector)
+
+        hints = typing.get_type_hints(CommunicationConnector.getEcuCommPortInstances)
+        assert hints["return"] == typing.List[CommConnectorPort]
+        hints = typing.get_type_hints(CommunicationConnector.addPncFilterArrayMask)
+        assert hints["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(CommunicationConnector.getPncFilterArrayMasks)["return"] == typing.List[PositiveInteger]
+
+        # concrete port classes are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        localns = {"FramePort": FramePort, "IPduPort": IPduPort, "ISignalPort": ISignalPort}
+        for creator, port_type in [
+            ("createFramePort", FramePort),
+            ("createIPduPort", IPduPort),
+            ("createISignalPort", ISignalPort),
+        ]:
+            hints = typing.get_type_hints(getattr(CommunicationConnector, creator), localns=localns)
+            assert hints["short_name"] is str, creator
+            _assert_return_is(hints, port_type)
+
+
+PHYSICAL_CHANNEL_CLASS_NOTE = "A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.#"
+
+PHYSICAL_CHANNEL_ATTRIBUTE_NOTES = {
+    "commConnectorRefs": (
+        "Reference to the ECUInstance via a Communication Connector to which the channel is connected. "
+        "atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "frameTriggerings": (
+        "One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "iSignalTriggerings": (
+        "One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+    "managedPhysicalChannelRefs": "Reference between a channel with role managing channel and a channel with role managed channel.",
+    "pduTriggerings": (
+        "One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. "
+        "atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. "
+        "Stereotypes: atpSplitable; atpVariation "
+        "Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    ),
+}
+
+
+class ConcretePhysicalChannel(PhysicalChannel):
+    pass
+
+
+class TestPhysicalChannel:
+    """Test cases for PhysicalChannel (Table 3.7, p.59)."""
+
+    MEMBERS = [
+        "commConnectorRefs",
+        "frameTriggerings",
+        "iSignalTriggerings",
+        "managedPhysicalChannelRefs",
+        "pduTriggerings",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(PhysicalChannel, Identifiable)
+        assert issubclass(PhysicalChannel, VariationPointCapable)
+        assert issubclass(PhysicalChannel, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="PhysicalChannel is an abstract class"):
+            PhysicalChannel(MockParent(), "test_physical_channel")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(PhysicalChannel.__doc__) == PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert PhysicalChannel.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_member_order(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        members = [k for k in vars(channel) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_comm_connector_ref(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        ref1 = RefType()
+        ref1.setValue("/ECU/CONN1")
+        ref2 = RefType()
+        ref2.setValue("/ECU/CONN2")
+
+        assert channel == channel.addCommConnectorRef(ref1)
+        assert channel == channel.addCommConnectorRef(ref2)
+        assert channel.getCommConnectorRefs() == [ref1, ref2]  # insertion order
+
+        assert channel == channel.addCommConnectorRef(None)  # None no-op
+        assert channel.getCommConnectorRefs() == [ref1, ref2]  # unchanged
+
+    def test_add_managed_physical_channel_ref(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        ref1 = RefType()
+        ref1.setValue("/CLUSTER/CH1")
+        ref2 = RefType()
+        ref2.setValue("/CLUSTER/CH2")
+
+        assert channel == channel.addManagedPhysicalChannelRef(ref1)
+        assert channel == channel.addManagedPhysicalChannelRef(ref2)
+        assert channel.getManagedPhysicalChannelRefs() == [ref1, ref2]  # insertion order
+
+        assert channel == channel.addManagedPhysicalChannelRef(None)  # None no-op
+        assert channel.getManagedPhysicalChannelRefs() == [ref1, ref2]  # unchanged
+
+    def test_create_frame_triggerings_append(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        # non-alphabetical insertion order proves the getter does not sort
+        can_triggering = channel.createCanFrameTriggering("z_can")
+        ethernet_triggering = channel.createEthernetFrameTriggering("a_ethernet")
+        flexray_triggering = channel.createFlexrayFrameTriggering("m_flexray")
+        lin_triggering = channel.createLinFrameTriggering("b_lin")
+
+        assert isinstance(can_triggering, CanFrameTriggering)
+        assert isinstance(ethernet_triggering, EthernetFrameTriggering)
+        assert isinstance(flexray_triggering, FlexrayFrameTriggering)
+        assert isinstance(lin_triggering, LinFrameTriggering)
+        assert channel.getFrameTriggerings() == [can_triggering, ethernet_triggering, flexray_triggering, lin_triggering]
+
+    def test_create_frame_triggering_duplicate_returns_existing(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        can_triggering = channel.createCanFrameTriggering("ft")
+        ethernet_triggering = channel.createEthernetFrameTriggering("ft")
+
+        # same short name may coexist across different types (Rule 0004)
+        assert channel.createCanFrameTriggering("ft") is can_triggering
+        assert channel.createEthernetFrameTriggering("ft") is ethernet_triggering
+        assert channel.createFlexrayFrameTriggering("ft").getShortName() == "ft"
+        assert channel.createLinFrameTriggering("ft").getShortName() == "ft"
+        assert len(channel.getFrameTriggerings()) == 4
+
+    def test_create_isignal_triggering(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        triggering = channel.createISignalTriggering("ist")
+        assert isinstance(triggering, ISignalTriggering)
+        assert triggering.getShortName() == "ist"
+        assert channel.createISignalTriggering("ist") is triggering
+        assert channel.getISignalTriggerings() == [triggering]  # duplicate returns existing, no append
+
+    def test_create_pdu_triggering(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+
+        triggering = channel.createPduTriggering("pdt")
+        assert isinstance(triggering, PduTriggering)
+        assert triggering.getShortName() == "pdt"
+        assert channel.createPduTriggering("pdt") is triggering
+        assert channel.getPduTriggerings() == [triggering]  # duplicate returns existing, no append
+
+    def test_get_triggerings_preserve_insertion_order(self):
+        channel = ConcretePhysicalChannel(MockParent(), "ch")
+        second = channel.createISignalTriggering("b_ist")
+        first = channel.createISignalTriggering("a_ist")
+
+        assert channel.getISignalTriggerings() == [second, first]
+
+        pdu_second = channel.createPduTriggering("b_pdt")
+        pdu_first = channel.createPduTriggering("a_pdt")
+        assert channel.getPduTriggerings() == [pdu_second, pdu_first]
+
+    def test_accessor_notes(self):
+        mutators = {
+            "commConnectorRefs": "addCommConnectorRef",
+            "frameTriggerings": "createCanFrameTriggering",
+            "iSignalTriggerings": "createISignalTriggering",
+            "managedPhysicalChannelRefs": "addManagedPhysicalChannelRef",
+            "pduTriggerings": "createPduTriggering",
+        }
+        getters = {
+            "commConnectorRefs": "getCommConnectorRefs",
+            "frameTriggerings": "getFrameTriggerings",
+            "iSignalTriggerings": "getISignalTriggerings",
+            "managedPhysicalChannelRefs": "getManagedPhysicalChannelRefs",
+            "pduTriggerings": "getPduTriggerings",
+        }
+        for field, note in PHYSICAL_CHANNEL_ATTRIBUTE_NOTES.items():
+            getter = getattr(PhysicalChannel, getters[field])
+            mutator = getattr(PhysicalChannel, mutators[field])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, getters[field]
+            assert mutator.__doc__ is not None and mutator.__doc__.strip().startswith(note), mutators[field]
+            if field in ("commConnectorRefs", "managedPhysicalChannelRefs"):
+                assert ("A None value is a no-op and does not overwrite an existing %s." % field) in mutator.__doc__, mutators[field]
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(PhysicalChannel.addCommConnectorRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(PhysicalChannel.getCommConnectorRefs)["return"] == typing.List[RefType]
+
+        hints = typing.get_type_hints(PhysicalChannel.addManagedPhysicalChannelRef)
+        assert hints["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(PhysicalChannel.getManagedPhysicalChannelRefs)["return"] == typing.List[RefType]
+
+        hints = typing.get_type_hints(PhysicalChannel.createISignalTriggering, localns={"ISignalTriggering": ISignalTriggering})
+        assert hints["short_name"] is str
+        _assert_return_is(hints, ISignalTriggering)
+        # aggregated child types are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        assert typing.get_type_hints(PhysicalChannel.getISignalTriggerings, localns={"ISignalTriggering": ISignalTriggering})["return"] == typing.List[ISignalTriggering]
+
+        hints = typing.get_type_hints(PhysicalChannel.createPduTriggering, localns={"PduTriggering": PduTriggering})
+        _assert_return_is(hints, PduTriggering)
+        assert typing.get_type_hints(PhysicalChannel.getPduTriggerings, localns={"PduTriggering": PduTriggering})["return"] == typing.List[PduTriggering]
+
+        # concrete frame triggering classes are TYPE_CHECKING-only imports in CoreTopology - resolve via localns
+        localns = {
+            "CanFrameTriggering": CanFrameTriggering,
+            "EthernetFrameTriggering": EthernetFrameTriggering,
+            "FlexrayFrameTriggering": FlexrayFrameTriggering,
+            "LinFrameTriggering": LinFrameTriggering,
+        }
+        for creator, triggering_type in [
+            ("createCanFrameTriggering", CanFrameTriggering),
+            ("createEthernetFrameTriggering", EthernetFrameTriggering),
+            ("createFlexrayFrameTriggering", FlexrayFrameTriggering),
+            ("createLinFrameTriggering", LinFrameTriggering),
+        ]:
+            hints = typing.get_type_hints(getattr(PhysicalChannel, creator), localns=localns)
+            assert hints["short_name"] is str, creator
+            _assert_return_is(hints, triggering_type)
+        assert typing.get_type_hints(PhysicalChannel.getFrameTriggerings, localns={"FrameTriggering": FrameTriggering})["return"] == typing.List[FrameTriggering]
+
+
+ABSTRACT_CAN_CLUSTER_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes."
+
+ABSTRACT_CAN_CLUSTER_ATTRIBUTE_NOTES = {
+    "busOffRecovery": "CAN bus off monitoring / recovery at system level.",
+    "canFdBaudrate": "Specifies the data segment baud rate of the controller in bits/s.",
+    "canXlBaudrate": "Specifies the data segment baud rate of the CAN XL controller in bits/s.",
+}
+
+
+class TestAbstractCanCluster:
+    """Test cases for AbstractCanCluster (Table 3.8, p.62)."""
+
+    MEMBERS = [
+        "busOffRecovery",
+        "canFdBaudrate",
+        "canXlBaudrate",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(AbstractCanCluster, CommunicationCluster)
+        assert issubclass(AbstractCanCluster, FibexElement)
+        assert issubclass(AbstractCanCluster, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="AbstractCanCluster is an abstract class"):
+            AbstractCanCluster(MockParent(), "test_abstract_can_cluster")
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(AbstractCanCluster.__doc__) == ABSTRACT_CAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert AbstractCanCluster.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        cluster = CanCluster(MockParent(), "cluster")
+
+        assert cluster.getBusOffRecovery() is None
+        assert cluster.getCanFdBaudrate() is None
+        assert cluster.getCanXlBaudrate() is None
+
+    def test_member_order(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_bus_off_recovery(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+    def test_get_set_can_fd_baudrate(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        baudrate = PositiveUnlimitedInteger()
+        baudrate.setValue("500000")
+
+        assert cluster == cluster.setCanFdBaudrate(baudrate)
+        assert cluster.getCanFdBaudrate() is baudrate
+        assert cluster.getCanFdBaudrate().getValue() == 500000
+
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is baudrate  # unchanged
+
+    def test_get_set_can_xl_baudrate(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        baudrate = PositiveUnlimitedInteger()
+        baudrate.setValue("10000000")
+
+        assert cluster == cluster.setCanXlBaudrate(baudrate)
+        assert cluster.getCanXlBaudrate() is baudrate
+        assert cluster.getCanXlBaudrate().getValue() == 10000000
+
+        assert cluster == cluster.setCanXlBaudrate(None)  # None no-op
+        assert cluster.getCanXlBaudrate() is baudrate  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in ABSTRACT_CAN_CLUSTER_ATTRIBUTE_NOTES.items():
+            getter = getattr(AbstractCanCluster, "get" + field[0].upper() + field[1:])
+            setter = getattr(AbstractCanCluster, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        # CanClusterBusOffRecovery is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        localns = {"CanClusterBusOffRecovery": CanClusterBusOffRecovery}
+        hints = typing.get_type_hints(AbstractCanCluster.getBusOffRecovery, localns=localns)
+        assert hints["return"] == typing.Optional[CanClusterBusOffRecovery]
+        hints = typing.get_type_hints(AbstractCanCluster.setBusOffRecovery, localns=localns)
+        assert hints["value"] == typing.Optional[CanClusterBusOffRecovery]
+        _assert_return_is(hints, AbstractCanCluster)
+
+        for getter, setter in [
+            ("getCanFdBaudrate", "setCanFdBaudrate"),
+            ("getCanXlBaudrate", "setCanXlBaudrate"),
+        ]:
+            hints = typing.get_type_hints(getattr(AbstractCanCluster, getter))
+            assert hints["return"] == typing.Optional[PositiveUnlimitedInteger], getter
+            hints = typing.get_type_hints(getattr(AbstractCanCluster, setter))
+            assert hints["value"] == typing.Optional[PositiveUnlimitedInteger], setter
+            _assert_return_is(hints, AbstractCanCluster)
+
+
+CAN_CLUSTER_CLASS_NOTE = "CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"
+
+
+class TestCanCluster:
+    """Test cases for CanCluster (Table 3.9, p.62)."""
+
+    INHERITED_MEMBERS = [
+        "baudrate",
+        "physicalChannel",
+        "protocolName",
+        "protocolVersion",
+        "busOffRecovery",
+        "canFdBaudrate",
+        "canXlBaudrate",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CanCluster, AbstractCanCluster)
+        assert issubclass(CanCluster, CommunicationCluster)
+        assert issubclass(CanCluster, FibexElement)
+        assert issubclass(CanCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = CanCluster(MockParent(), "cluster")  # Table 3.9 carries no abstract stereotype
+
+        assert isinstance(cluster, AbstractCanCluster)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CanCluster.__doc__) == CAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert CanCluster.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        # Table 3.9's Attribute row is "-" — CanCluster adds no fields or accessors beyond its bases (Rule 0001.3)
+        own = [name for name, value in vars(CanCluster).items() if not name.startswith("_")]
+        assert own == []
+
+    def test_initialization_defaults(self):
+        cluster = CanCluster(MockParent(), "cluster")
+
+        for getter in ["getBaudrate", "getProtocolName", "getProtocolVersion", "getBusOffRecovery", "getCanFdBaudrate", "getCanXlBaudrate"]:
+            assert getattr(cluster, getter)() is None, getter
+        assert cluster.getPhysicalChannels() == []
+
+    def test_member_order(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.INHERITED_MEMBERS)]
+        assert members == self.INHERITED_MEMBERS
+
+    def test_inherited_accessors_round_trip(self):
+        cluster = CanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+        recovery.setBorTimeL1(TimeValue().setValue("0.1"))
+        fd_baudrate = PositiveUnlimitedInteger().setValue("2000000")
+        xl_baudrate = PositiveUnlimitedInteger().setValue("10000000")
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+        assert cluster == cluster.setCanFdBaudrate(fd_baudrate)
+        assert cluster.getCanFdBaudrate() is fd_baudrate
+        assert cluster.getCanFdBaudrate().getValue() == 2000000
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is fd_baudrate  # unchanged
+
+        assert cluster == cluster.setCanXlBaudrate(xl_baudrate)
+        assert cluster.getCanXlBaudrate() is xl_baudrate
+        assert cluster.getCanXlBaudrate().getValue() == 10000000
+        assert cluster == cluster.setCanXlBaudrate(None)  # None no-op
+        assert cluster.getCanXlBaudrate() is xl_baudrate  # unchanged
+
+
+TTCAN_CLUSTER_CLASS_NOTE = "TTCAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"
+
+TTCAN_CLUSTER_ATTRIBUTE_NOTES = {
+    "basicCycleLength": "Length of a basic-cycle. Unit: NTUs",
+    "ntu": "Unit measuring all times and providing a constant of the whole network. For level 1, this is always the CAN bit time. Unit: seconds.",
+    "operationMode": "Possible operation modes True: Time-Triggered False: Event-Synchronised-Time-Triggered",
+}
+
+
+class TestTtcanCluster:
+    """Test cases for TtcanCluster (Table 3.24, p.76)."""
+
+    MEMBERS = [
+        "basicCycleLength",
+        "ntu",
+        "operationMode",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(TtcanCluster, AbstractCanCluster)
+        assert issubclass(TtcanCluster, CommunicationCluster)
+        assert issubclass(TtcanCluster, FibexElement)
+        assert issubclass(TtcanCluster, ARObject)
+
+    def test_concrete_instantiation(self):
+        cluster = TtcanCluster(MockParent(), "cluster")  # Table 3.24 carries no abstract stereotype
+
+        assert isinstance(cluster, AbstractCanCluster)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(TtcanCluster.__doc__) == TTCAN_CLUSTER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert TtcanCluster.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+
+        assert cluster.getBasicCycleLength() is None
+        assert cluster.getNtu() is None
+        assert cluster.getOperationMode() is None
+
+    def test_member_order(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        members = [k for k in vars(cluster) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_basic_cycle_length(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        length = Integer()
+        length.setValue(19)
+
+        assert cluster == cluster.setBasicCycleLength(length)
+        assert cluster.getBasicCycleLength() is length
+        assert cluster.getBasicCycleLength().getValue() == 19
+
+        assert cluster == cluster.setBasicCycleLength(None)  # None no-op
+        assert cluster.getBasicCycleLength() is length  # unchanged
+
+    def test_get_set_ntu(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        ntu = TimeValue()
+        ntu.setValue("0.0001")
+
+        assert cluster == cluster.setNtu(ntu)
+        assert cluster.getNtu() is ntu
+        assert cluster.getNtu().getValue() == 0.0001
+
+        assert cluster == cluster.setNtu(None)  # None no-op
+        assert cluster.getNtu() is ntu  # unchanged
+
+    def test_get_set_operation_mode(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        mode = Boolean()
+        mode.setValue(True)
+
+        assert cluster == cluster.setOperationMode(mode)
+        assert cluster.getOperationMode() is mode
+        assert cluster.getOperationMode().getValue() is True
+
+        assert cluster == cluster.setOperationMode(None)  # None no-op
+        assert cluster.getOperationMode() is mode  # unchanged
+
+    def test_inherited_accessors_round_trip(self):
+        cluster = TtcanCluster(MockParent(), "cluster")
+        recovery = CanClusterBusOffRecovery()
+        recovery.setBorTimeL1(TimeValue().setValue("0.1"))
+        fd_baudrate = PositiveUnlimitedInteger().setValue("2000000")
+
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() is recovery
+        assert cluster == cluster.setBusOffRecovery(None)  # None no-op
+        assert cluster.getBusOffRecovery() is recovery  # unchanged
+
+        assert cluster == cluster.setCanFdBaudrate(fd_baudrate)
+        assert cluster.getCanFdBaudrate() is fd_baudrate
+        assert cluster == cluster.setCanFdBaudrate(None)  # None no-op
+        assert cluster.getCanFdBaudrate() is fd_baudrate  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in TTCAN_CLUSTER_ATTRIBUTE_NOTES.items():
+            getter = getattr(TtcanCluster, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCluster, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        for getter, setter, member_type in [
+            ("getBasicCycleLength", "setBasicCycleLength", Integer),
+            ("getNtu", "setNtu", TimeValue),
+            ("getOperationMode", "setOperationMode", Boolean),
+        ]:
+            hints = typing.get_type_hints(getattr(TtcanCluster, getter))
+            assert hints["return"] == typing.Optional[member_type], getter
+            hints = typing.get_type_hints(getattr(TtcanCluster, setter))
+            assert hints["value"] == typing.Optional[member_type], setter
+            _assert_return_is(hints, TtcanCluster)
 
 
 ECU_INSTANCE_CLASS_NOTE = "ECUInstances are used to define the ECUs used in the topology. " "The type of the ECU is defined by a reference to an ECU specified with the ECU resource description."
@@ -1250,6 +1874,42 @@ class Test_FibexCoreEcuInstance:
         assert hints["return"] is CanCommunicationController
         hints = typing.get_type_hints(EcuInstance.createCanCommunicationConnector, localns=localns)
         assert hints["return"] is CanCommunicationConnector
+
+    def test_EcuInstance_create_ttcan_communication_controller(self):
+        """Test createTtcanCommunicationController: create, dedup by short name, append to commControllers."""
+        parent = MockParent()
+        ecu = EcuInstance(parent, "test_ecu_ttcan")
+
+        controller = ecu.createTtcanCommunicationController("ttcan_controller")
+        assert isinstance(controller, TtcanCommunicationController)
+        assert controller.getShortName() == "ttcan_controller"
+        assert controller in ecu.getCommControllers()
+
+        again = ecu.createTtcanCommunicationController("ttcan_controller")
+        assert again is controller
+        assert len(ecu.getCommControllers()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(EcuInstance.createTtcanCommunicationController, localns={"TtcanCommunicationController": TtcanCommunicationController})
+        assert hints["return"] is TtcanCommunicationController
+
+    def test_EcuInstance_create_ttcan_communication_connector(self):
+        """Test createTtcanCommunicationConnector: create, dedup by short name, append to connectors (Table 3.27 consumer)."""
+        parent = MockParent()
+        ecu = EcuInstance(parent, "test_ecu_ttcan_conn")
+
+        connector = ecu.createTtcanCommunicationConnector("ttcan_connector")
+        assert isinstance(connector, TtcanCommunicationConnector)
+        assert connector.getShortName() == "ttcan_connector"
+        assert connector in ecu.getConnectors()
+
+        again = ecu.createTtcanCommunicationConnector("ttcan_connector")
+        assert again is connector
+        assert len(ecu.getConnectors()) == 1
+
+        # The concrete class is a TYPE_CHECKING-only import in CoreTopology - resolve via localns
+        hints = typing.get_type_hints(EcuInstance.createTtcanCommunicationConnector, localns={"TtcanCommunicationConnector": TtcanCommunicationConnector})
+        assert hints["return"] is TtcanCommunicationConnector
 
 
 class Test_ClientIdRange:

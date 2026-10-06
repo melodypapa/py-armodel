@@ -3177,7 +3177,7 @@ class TestEcuInstanceHandlers:
         parser.readCommunicationConnector(element, conn)
         assert conn.getCreateEcuWakeupSource().getValue() is True
         assert conn.getDynamicPncToChannelMappingEnabled().getValue() is False
-        assert conn.getPncFilterArrayMasks() == [255, 1]
+        assert [mask.getValue() for mask in conn.getPncFilterArrayMasks()] == [255, 1]
         assert conn.getPncGatewayType().getValue() == "active"
 
     def test_readFramePort_sets_communicationDirection(self, parser):
@@ -3702,7 +3702,7 @@ class TestFrameAndFlexrayTriggering:
             "<CHANNEL-REF DEST='FLEXRAY-PHYSICAL-CHANNEL'>/FlexrayCluster/ChannelA</CHANNEL-REF>"
             "<CYCLE-REPETITION>4</CYCLE-REPETITION>"
             "<FIFO-DEPTH>8</FIFO-DEPTH>"
-            "<FLEXRAY-FIFO-RANGE><RANGE-MAX>200</RANGE-MAX><RANGE-MIN>100</RANGE-MIN></FLEXRAY-FIFO-RANGE>"
+            "<FIFO-RANGES><FLEXRAY-FIFO-RANGE><RANGE-MAX>200</RANGE-MAX><RANGE-MIN>100</RANGE-MIN></FLEXRAY-FIFO-RANGE></FIFO-RANGES>"
             "<MSG-ID-MASK>16</MSG-ID-MASK>"
             "<MSG-ID-MATCH>32</MSG-ID-MATCH>"
             "</FLEXRAY-FIFO-CONFIGURATION>",

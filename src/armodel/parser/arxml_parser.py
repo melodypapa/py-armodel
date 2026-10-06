@@ -1119,6 +1119,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    TtcanCommunicationConnector,
+    TtcanCommunicationController,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
     RuntimeAddressConfigurationEnum,
@@ -1290,6 +1292,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlave,
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
@@ -1301,6 +1304,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
+    EthernetFrameTriggering,
     Frame,
     FramePort,
     FrameTriggering,
@@ -1344,6 +1348,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: F401
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
+    TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
@@ -1360,6 +1365,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FlexrayChannelName,
     PhysicalChannel,
     PncGatewayTypeEnum,
+    TtcanCluster,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
@@ -3442,7 +3448,7 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setUsedFidRef(self.getChildElementOptionalRefType(element, "USED-FID-REF"))
 
     def readObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
-        self.readServiceNeeds(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
         needs.setDenominatorCondition(cast(Optional[DiagnosticDenominatorConditionEnum], self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION")))
 
     def readDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):
@@ -3461,17 +3467,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
         needs.setDataLengthResponse(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-RESPONSE"))
-        child_element = self.find(element, "ROUTING-ACTIVATION-TYPE")
-        if child_element is not None:
-            needs.setRoutingActivationType(NameToken().setValue(child_element.text or ""))
+        needs.setRoutingActivationType(self.getChildElementOptionalNameToken(element, "ROUTING-ACTIVATION-TYPE"))
 
     def readDoIpRoutingActivationConfirmationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationConfirmationNeeds):
         self.readServiceNeeds(element, needs)
         needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
         needs.setDataLengthResponse(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-RESPONSE"))
-        child_element = self.find(element, "ROUTING-ACTIVATION-TYPE")
-        if child_element is not None:
-            needs.setRoutingActivationType(NameToken().setValue(child_element.text or ""))
+        needs.setRoutingActivationType(self.getChildElementOptionalNameToken(element, "ROUTING-ACTIVATION-TYPE"))
 
     def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
         self.readServiceNeeds(element, needs)
@@ -9879,6 +9881,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
             triggering.addPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
+    def readEthernetFrameTriggering(self, element: ET.Element, triggering: EthernetFrameTriggering):
+        self.readFrameTriggering(element, triggering)
+
     def readCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
@@ -10040,8 +10045,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "FRAME-TRIGGERINGS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-FRAME-TRIGGERING":
-                triggering = channel.createCanFrameTriggering(self.getShortName(child_element))
-                self.readCanFrameTriggering(child_element, triggering)
+                self.readCanFrameTriggering(child_element, channel.createCanFrameTriggering(self.getShortName(child_element)))
+            elif tag_name == "ETHERNET-FRAME-TRIGGERING":
+                self.readEthernetFrameTriggering(child_element, channel.createEthernetFrameTriggering(self.getShortName(child_element)))
             elif tag_name == "LIN-FRAME-TRIGGERING":
                 self.readLinFrameTriggering(child_element, channel.createLinFrameTriggering(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-FRAME-TRIGGERING":
@@ -10077,10 +10083,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannelCommConnectorRefs(element, channel)
         self.readPhysicalChannelFrameTriggerings(element, channel)
         self.readPhysicalChannelISignalTriggerings(element, channel)
-        self.readPhysicalChannelPduTriggerings(element, channel)
         self.readPhysicalChannelManagedPhysicalChannelRefs(element, channel)
+        self.readPhysicalChannelPduTriggerings(element, channel)
 
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
+        self.readPhysicalChannel(element, channel)
+
+    def readTtcanPhysicalChannel(self, element: ET.Element, channel: TtcanPhysicalChannel):
+        self.logger.debug("Read TtcanPhysicalChannel %s" % channel.getShortName())
         self.readPhysicalChannel(element, channel)
 
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
@@ -10232,6 +10242,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinPhysicalChannel(self, element: ET.Element, channel: LinPhysicalChannel):
         self.readPhysicalChannel(element, channel)
+        channel.setBusIdleTimeoutPeriod(self.getChildElementOptionalTimeValue(element, "BUS-IDLE-TIMEOUT-PERIOD"))
         self.readLinPhysicalChannelScheduleTables(element, channel)
 
     def getIpv4Configuration(self, element: ET.Element) -> Ipv4Configuration:
@@ -10898,6 +10909,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "CAN-PHYSICAL-CHANNEL":
                 channel = cluster.createCanPhysicalChannel(self.getShortName(child_element))
                 self.readCanPhysicalChannel(child_element, channel)
+            elif tag_name == "TTCAN-PHYSICAL-CHANNEL":
+                channel = cluster.createTtcanPhysicalChannel(self.getShortName(child_element))
+                self.readTtcanPhysicalChannel(child_element, channel)
             elif tag_name == "LIN-PHYSICAL-CHANNEL":
                 channel = cluster.createLinPhysicalChannel(self.getShortName(child_element))
                 self.readLinPhysicalChannel(child_element, channel)
@@ -10948,6 +10962,16 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "CAN-CLUSTER-VARIANTS/CAN-CLUSTER-CONDITIONAL")
         if child_element is not None:
             self.readAbstractCanCluster(child_element, cluster)
+
+    def readTtcanCluster(self, element: ET.Element, cluster: TtcanCluster):
+        self.logger.debug("Read TtcanCluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "TTCAN-CLUSTER-VARIANTS/TTCAN-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readAbstractCanCluster(child_element, cluster)
+            cluster.setBasicCycleLength(self.getChildElementOptionalIntegerValue(child_element, "BASIC-CYCLE-LENGTH"))
+            cluster.setNtu(self.getChildElementOptionalTimeValue(child_element, "NTU"))
+            cluster.setOperationMode(self.getChildElementOptionalBooleanValue(child_element, "OPERATION-MODE"))
 
     def readJ1939Cluster(self, element: ET.Element, cluster: J1939Cluster):
         self.logger.debug("Read J1939Cluster <%s>" % cluster.getShortName())
@@ -11117,10 +11141,10 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
+            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
             cluster.setCouplingPortStartupActiveTime(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME"))
             cluster.setCouplingPortSwitchoffDelay(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY"))
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
-            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def readDiagnosticCondition(self, element: ET.Element, condition: DiagnosticCondition):
         condition.setInitValue(self.getChildElementOptionalBooleanValue(element, "INIT-VALUE"))
@@ -14288,12 +14312,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerFdConfiguration()
-            configuration.setPaddingValue(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PADDING-VALUE")))
-            configuration.setPropSeg(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG")))
-            configuration.setSspOffset(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET")))
-            configuration.setSyncJumpWidth(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH")))
-            configuration.setTimeSeg1(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1")))
-            configuration.setTimeSeg2(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2")))
+            self.readARObject(child_element, configuration)
+            configuration.setPaddingValue(self.getChildElementOptionalPositiveInteger(child_element, "PADDING-VALUE"))
+            configuration.setPropSeg(self.getChildElementOptionalPositiveInteger(child_element, "PROP-SEG"))
+            configuration.setSspOffset(self.getChildElementOptionalPositiveInteger(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalPositiveInteger(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-2"))
             configuration.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
         return configuration
 
@@ -14302,6 +14327,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             fifo_range = FlexrayFifoRange()
+            self.readARObject(child_element, fifo_range)
             fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MAX"))
             fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MIN"))
         return fifo_range
@@ -14311,15 +14337,16 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = FlexrayFifoConfiguration()
+            self.readARObject(child_element, configuration)
             configuration.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID"))
             configuration.setBaseCycle(self.getChildElementOptionalIntegerValue(child_element, "BASE-CYCLE"))
             configuration.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNEL-REF"))
             configuration.setCycleRepetition(self.getChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION"))
             configuration.setFifoDepth(self.getChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH"))
-            for range_child in self.findall(child_element, "FLEXRAY-FIFO-RANGE"):
-                fifo_range = configuration.createFlexrayFifoRange()
-                fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
-                fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
+            for range_child in self.findall(child_element, "FIFO-RANGES/FLEXRAY-FIFO-RANGE"):
+                fifo_range = self.getFlexrayFifoRange(range_child, ".")
+                if fifo_range is not None:
+                    configuration.addFlexrayFifoRange(fifo_range)
             configuration.setMsgIdMask(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK"))
             configuration.setMsgIdMatch(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH"))
         return configuration
@@ -14347,15 +14374,16 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerXlConfiguration()
+            self.readARObject(child_element, configuration)
             configuration.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
-            configuration.setPropSeg(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG")))
-            configuration.setPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-L")))
-            configuration.setPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-O")))
-            configuration.setPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "PWM-S")))
-            configuration.setSspOffset(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET")))
-            configuration.setSyncJumpWidth(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH")))
-            configuration.setTimeSeg1(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1")))
-            configuration.setTimeSeg2(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2")))
+            configuration.setPropSeg(self.getChildElementOptionalPositiveInteger(child_element, "PROP-SEG"))
+            configuration.setPwmL(self.getChildElementOptionalPositiveInteger(child_element, "PWM-L"))
+            configuration.setPwmO(self.getChildElementOptionalPositiveInteger(child_element, "PWM-O"))
+            configuration.setPwmS(self.getChildElementOptionalPositiveInteger(child_element, "PWM-S"))
+            configuration.setSspOffset(self.getChildElementOptionalPositiveInteger(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalPositiveInteger(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalPositiveInteger(child_element, "TIME-SEG-2"))
             configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return configuration
 
@@ -14379,18 +14407,19 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             requirements = CanControllerXlConfigurationRequirements()
+            self.readARObject(child_element, requirements)
             requirements.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
             requirements.setMaxNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT"))
-            requirements.setMaxPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-L")))
-            requirements.setMaxPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-O")))
-            requirements.setMaxPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-S")))
+            requirements.setMaxPwmL(self.getChildElementOptionalPositiveInteger(child_element, "MAX-PWM-L"))
+            requirements.setMaxPwmO(self.getChildElementOptionalPositiveInteger(child_element, "MAX-PWM-O"))
+            requirements.setMaxPwmS(self.getChildElementOptionalPositiveInteger(child_element, "MAX-PWM-S"))
             requirements.setMaxSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT"))
             requirements.setMaxSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH"))
             requirements.setMaxTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MAX-TRCV-DELAY-COMPENSATION-OFFSET"))
             requirements.setMinNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MIN-NUMBER-OF-TIME-QUANTA-PER-BIT"))
-            requirements.setMinPwmL(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-L")))
-            requirements.setMinPwmO(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-O")))
-            requirements.setMinPwmS(cast(Optional[PositiveInteger], self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-S")))
+            requirements.setMinPwmL(self.getChildElementOptionalPositiveInteger(child_element, "MIN-PWM-L"))
+            requirements.setMinPwmO(self.getChildElementOptionalPositiveInteger(child_element, "MIN-PWM-O"))
+            requirements.setMinPwmS(self.getChildElementOptionalPositiveInteger(child_element, "MIN-PWM-S"))
             requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT"))
             requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH"))
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
@@ -14408,9 +14437,10 @@ class ARXMLParser(AbstractARXMLParser):
         can_xl_props.setCanXlConfigReqs(self.getCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS"))
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
-        attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
+        self.readARObject(element, attributes)
+        attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-ATTRIBUTES"))
         attributes.setCanControllerFdRequirements(self.getCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS"))
-        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION"))
+        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-ATTRIBUTES"))
         attributes.setCanControllerXlRequirements(self.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS"))
 
     def readCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):
@@ -14446,6 +14476,21 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "CAN-COMMUNICATION-CONTROLLER-VARIANTS/CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
             self.readAbstractCanCommunicationController(child_element, controller)
+
+    def readTtcanCommunicationController(self, element: ET.Element, controller: TtcanCommunicationController):
+        self.logger.debug("Read TtcanCommunicationController %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+        child_element = self.find(element, "TTCAN-COMMUNICATION-CONTROLLER-VARIANTS/TTCAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        if child_element is not None:
+            self.readAbstractCanCommunicationController(child_element, controller)
+            controller.setApplWatchdogLimit(self.getChildElementOptionalIntegerValue(child_element, "APPL-WATCHDOG-LIMIT"))
+            controller.setExpectedTxTrigger(self.getChildElementOptionalIntegerValue(child_element, "EXPECTED-TX-TRIGGER"))
+            controller.setExternalClockSynchronisation(self.getChildElementOptionalBooleanValue(child_element, "EXTERNAL-CLOCK-SYNCHRONISATION"))
+            controller.setInitialRefOffset(self.getChildElementOptionalIntegerValue(child_element, "INITIAL-REF-OFFSET"))
+            controller.setMaster(self.getChildElementOptionalBooleanValue(child_element, "MASTER"))
+            controller.setTimeMasterPriority(self.getChildElementOptionalIntegerValue(child_element, "TIME-MASTER-PRIORITY"))
+            controller.setTimeTriggeredCanLevel(self.getChildElementOptionalIntegerValue(child_element, "TIME-TRIGGERED-CAN-LEVEL"))
+            controller.setTxEnableWindowLength(self.getChildElementOptionalIntegerValue(child_element, "TX-ENABLE-WINDOW-LENGTH"))
 
     def readCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.readIdentifiable(element, item)
@@ -14872,11 +14917,27 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE"))
             controller.setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
 
+    def readLinSlave(self, element: ET.Element, controller: LinSlave):
+        self.logger.debug("Read LinSlave %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+        child_element = self.find(element, "LIN-SLAVE-VARIANTS/LIN-SLAVE-CONDITIONAL")
+        if child_element is not None:
+            self.readLinCommunicationController(child_element, controller)
+            controller.setAssignNad(self.getChildElementOptionalBooleanValue(child_element, "ASSIGN-NAD"))
+            controller.setConfiguredNad(self.getChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD"))
+            controller.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
+            controller.setInitialNad(self.getChildElementOptionalIntegerValue(child_element, "INITIAL-NAD"))
+            controller.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
+            controller.setNasTimeout(self.getChildElementOptionalTimeValue(child_element, "NAS-TIMEOUT"))
+            controller.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
+            controller.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
+
     def getLinErrorResponse(self, element: ET.Element, key: str) -> Optional[LinErrorResponse]:
         response = None
         child_element = self.find(element, key)
         if child_element is not None:
             response = LinErrorResponse()
+            self.readARObject(child_element, response)
             response.setResponseErrorRef(self.getChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF"))
         return response
 
@@ -14884,18 +14945,28 @@ class ARXMLParser(AbstractARXMLParser):
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
-            frame = LinConfigurableFrame()
-            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
-            frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
+            frame = self.readLinConfigurableFrame(child_element)
+        return frame
+
+    def readLinConfigurableFrame(self, child_element: ET.Element) -> LinConfigurableFrame:
+        frame = LinConfigurableFrame()
+        self.readARObject(child_element, frame)
+        frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+        frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
         return frame
 
     def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> Optional[LinOrderedConfigurableFrame]:
         frame = None
         child_element = self.find(element, key)
         if child_element is not None:
-            frame = LinOrderedConfigurableFrame()
-            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
-            frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+            frame = self.readLinOrderedConfigurableFrame(child_element)
+        return frame
+
+    def readLinOrderedConfigurableFrame(self, child_element: ET.Element) -> LinOrderedConfigurableFrame:
+        frame = LinOrderedConfigurableFrame()
+        self.readARObject(child_element, frame)
+        frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+        frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
         return frame
 
     def getLinSlaveConfig(self, element: ET.Element, key: str) -> Optional[LinSlaveConfig]:
@@ -14907,6 +14978,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readLinSlaveConfig(self, child_element: ET.Element) -> LinSlaveConfig:
         config = LinSlaveConfig()
+        self.readARObject(child_element, config)
         config.setConfiguredNad(self.getChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD"))
         config.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
         ident_element = self.find(child_element, "IDENT")
@@ -14918,18 +14990,12 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(child_element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                configurable_frame = LinConfigurableFrame()
-                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                config.addLinConfigurableFrame(configurable_frame)
+                config.addLinConfigurableFrame(self.readLinConfigurableFrame(frame_element))
         config.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
         ordered_wrapper = self.find(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                ordered_frame = LinOrderedConfigurableFrame()
-                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                config.addLinOrderedConfigurableFrame(ordered_frame)
+                config.addLinOrderedConfigurableFrame(self.readLinOrderedConfigurableFrame(frame_element))
         config.setProtocolVersion(cast(Optional[String], self.getChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION")))
         config.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
         config.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
@@ -14946,8 +15012,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthernetCommunicationController(child_element, instance.createEthernetCommunicationController(self.getShortName(child_element)))
             elif tag_name == "LIN-MASTER":
                 self.readLinMaster(child_element, instance.createLinMaster(self.getShortName(child_element)))
+            elif tag_name == "LIN-SLAVE":
+                self.readLinSlave(child_element, instance.createLinSlave(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONTROLLER":
                 self.readFlexrayCommunicationController(child_element, instance.createFlexrayCommunicationController(self.getShortName(child_element)))
+            elif tag_name == "TTCAN-COMMUNICATION-CONTROLLER":
+                self.readTtcanCommunicationController(child_element, instance.createTtcanCommunicationController(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 
@@ -14995,7 +15065,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommunicationConnectorEcuCommPortInstances(element, connector)
         for mask in self.findall(element, "PNC-FILTER-ARRAY-MASKS/PNC-FILTER-ARRAY-MASK"):
             if mask.text is not None:
-                connector.addPncFilterArrayMask(cast(Optional[PositiveInteger], int(mask.text.strip())))
+                mask_value = PositiveInteger()
+                mask_value.setValue(mask.text)
+                connector.addPncFilterArrayMask(mask_value)
         connector.setPncGatewayType(cast(Optional[PncGatewayTypeEnum], self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE")))
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
@@ -15005,6 +15077,10 @@ class ARXMLParser(AbstractARXMLParser):
         connector.setPncWakeupCanIdMask(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-CAN-ID-MASK"))
         connector.setPncWakeupDataMask(self.getChildElementOptionalPositiveUnlimitedInteger(element, "PNC-WAKEUP-DATA-MASK"))
         connector.setPncWakeupDlc(self.getChildElementOptionalPositiveInteger(element, "PNC-WAKEUP-DLC"))
+
+    def readTtcanCommunicationConnector(self, element: ET.Element, connector: TtcanCommunicationConnector):
+        self.logger.debug("Read TtcanCommunicationConnector %s" % connector.getShortName())
+        self.readCommunicationConnector(element, connector)
 
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
@@ -15020,17 +15096,11 @@ class ARXMLParser(AbstractARXMLParser):
         frames_wrapper = self.find(element, "LIN-CONFIGURABLE-FRAMES")
         if frames_wrapper is not None:
             for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
-                configurable_frame = LinConfigurableFrame()
-                configurable_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                configurable_frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
-                connector.addLinConfigurableFrame(configurable_frame)
+                connector.addLinConfigurableFrame(self.readLinConfigurableFrame(frame_element))
         ordered_wrapper = self.find(element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
         if ordered_wrapper is not None:
             for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
-                ordered_frame = LinOrderedConfigurableFrame()
-                ordered_frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
-                ordered_frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
-                connector.addLinOrderedConfigurableFrame(ordered_frame)
+                connector.addLinOrderedConfigurableFrame(self.readLinOrderedConfigurableFrame(frame_element))
         connector.setScheduleChangeNextTimeBase(self.getChildElementOptionalBooleanValue(element, "SCHEDULE-CHANGE-NEXT-TIME-BASE"))
 
     def readFlexrayCommunicationConnector(self, element: ET.Element, connector: FlexrayCommunicationConnector):
@@ -15045,6 +15115,8 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "CAN-COMMUNICATION-CONNECTOR":
                 connector = instance.createCanCommunicationConnector(self.getShortName(child_element))
                 self.readCanCommunicationConnector(child_element, connector)
+            elif tag_name == "TTCAN-COMMUNICATION-CONNECTOR":
+                self.readTtcanCommunicationConnector(child_element, instance.createTtcanCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-COMMUNICATION-CONNECTOR":
                 self.readEthernetCommunicationConnector(child_element, instance.createEthernetCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "LIN-COMMUNICATION-CONNECTOR":
@@ -17094,6 +17166,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readPdurIPduGroup(child_element, parent.createPdurIPduGroup(self.getShortName(child_element)))
             elif tag_name == "CAN-CLUSTER":
                 self.readCanCluster(child_element, parent.createCanCluster(self.getShortName(child_element)))
+            elif tag_name == "TTCAN-CLUSTER":
+                self.readTtcanCluster(child_element, parent.createTtcanCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-CLUSTER":
                 self.readJ1939Cluster(child_element, parent.createJ1939Cluster(self.getShortName(child_element)))
             elif tag_name == "CAN-FRAME":

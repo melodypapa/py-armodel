@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -43,6 +43,29 @@ def test_write_lin_error_response_all_fields(writer):
     el = parent.find("LIN-ERROR-RESPONSE")
     assert el is not None
     assert el.find("RESPONSE-ERROR-REF").text == "/System/ISignalTriggering"
+
+
+def test_write_checksum_and_timestamp_attributes(writer):
+    parent = _parent()
+    response = LinErrorResponse()
+    response.setChecksum(String().setValue("1234"))
+    response.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+
+    writer.setLinErrorResponse(parent, "LIN-ERROR-RESPONSE", response)
+
+    el = parent.find("LIN-ERROR-RESPONSE")
+    assert el is not None
+    assert el.attrib["S"] == "1234"
+    assert el.attrib["T"] == "2024-01-01T00:00:00Z"
+
+
+def test_write_empty_wrapper_keeps_element_without_ref(writer):
+    parent = _parent()
+    writer.setLinErrorResponse(parent, "LIN-ERROR-RESPONSE", LinErrorResponse())
+
+    el = parent.find("LIN-ERROR-RESPONSE")
+    assert el is not None
+    assert el.find("RESPONSE-ERROR-REF") is None
 
 
 def test_write_lin_error_response_none(writer):

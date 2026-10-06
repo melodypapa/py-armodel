@@ -18,23 +18,22 @@ class CanControllerFdConfiguration(ARObject):
 
     # CanControllerFdConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.16, p.66
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPaddingValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPaddingValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPaddingValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPaddingValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPropSeg         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPropSeg         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSspOffset       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSspOffset       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncJumpWidth   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncJumpWidth   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg1        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg1        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg2        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg2        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxBitRateSwitch [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxBitRateSwitch [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -344,29 +343,28 @@ class CanControllerXlConfiguration(ARObject):
 
     # CanControllerXlConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.18, p.71
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmL                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmL                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmO                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmO                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPwmS                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPwmS                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorSignalingEnabled  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorSignalingEnabled  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPropSeg                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPropSeg                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmL                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmL                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmO                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmO                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPwmS                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPwmS                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSspOffset              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSspOffset              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncJumpWidth          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncJumpWidth          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg1               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg1               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeSeg2               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeSeg2               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrcvPwmModeEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrcvPwmModeEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -517,41 +515,40 @@ class CanControllerXlConfigurationRequirements(ARObject):
 
     # CanControllerXlConfigurationRequirements method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.19, p.72
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -580,7 +577,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         # Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         self.maxTrcvDelayCompensationOffset: Optional[TimeValue] = None
 
-        # Minimum number of time quantas in the bit time.
+        # Minimum number of time quanta in the bit time.
         self.minNumberOfTimeQuantaPerBit: Optional[Integer] = None
 
         # Specifies the minimum PWM long phase length.
@@ -598,7 +595,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         # The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
         self.minSyncJumpWidth: Optional[Float] = None
 
-        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         self.minTrcvDelayCompensationOffset: Optional[TimeValue] = None
 
         # Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
@@ -693,11 +690,11 @@ class CanControllerXlConfigurationRequirements(ARObject):
         return self
 
     def getMinNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
-        """Minimum number of time quantas in the bit time."""
+        """Minimum number of time quanta in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
     def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> CanControllerXlConfigurationRequirements:
-        """Minimum number of time quantas in the bit time.
+        """Minimum number of time quanta in the bit time.
         A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.minNumberOfTimeQuantaPerBit = value
@@ -759,11 +756,11 @@ class CanControllerXlConfigurationRequirements(ARObject):
         return self
 
     def getMinTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
-        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled."""
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.minTrcvDelayCompensationOffset
 
     def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
-        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
         A None value is a no-op and does not overwrite an existing minTrcvDelayCompensationOffset."""
         if value is not None:
             self.minTrcvDelayCompensationOffset = value
@@ -786,17 +783,16 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
     # AbstractCanCommunicationControllerAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.13, p.64
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanControllerFdAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerFdAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerFdRequirements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerFdRequirements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerXlAttributes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerXlAttributes    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanControllerXlRequirements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerXlRequirements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
@@ -975,11 +971,10 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
 
     # AbstractCanCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.12, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
@@ -991,16 +986,12 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
         self.canControllerAttributes: Optional[AbstractCanCommunicationControllerAttributes] = None
 
     def getCanControllerAttributes(self) -> Optional[AbstractCanCommunicationControllerAttributes]:
-        """
-        CAN Bit Timing configuration
-        """
+        """CAN Bit Timing configuration"""
         return self.canControllerAttributes
 
     def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> AbstractCanCommunicationController:
-        """
-        CAN Bit Timing configuration
-        A None value is a no-op and does not overwrite an existing canControllerAttributes.
-        """
+        """CAN Bit Timing configuration
+        A None value is a no-op and does not overwrite an existing canControllerAttributes."""
         if value is not None:
             self.canControllerAttributes = value
         return self
@@ -1011,12 +1002,184 @@ class CanCommunicationController(AbstractCanCommunicationController):
 
     # CanCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.11, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanCommunicationController, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+class TtcanCommunicationController(AbstractCanCommunicationController):
+    """TTCAN bus specific communication port attributes."""
+
+    # TtcanCommunicationController method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.25, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplWatchdogLimit            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplWatchdogLimit            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExpectedTxTrigger            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExpectedTxTrigger            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExternalClockSynchronisation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExternalClockSynchronisation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialRefOffset             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialRefOffset             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaster                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaster                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeMasterPriority           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeMasterPriority           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeTriggeredCanLevel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeTriggeredCanLevel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxEnableWindowLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxEnableWindowLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        self.applWatchdogLimit: Optional[Integer] = None
+
+        # The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        self.expectedTxTrigger: Optional[Integer] = None
+
+        # One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        self.externalClockSynchronisation: Optional[Boolean] = None
+
+        # The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        self.initialRefOffset: Optional[Integer] = None
+
+        # One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        self.master: Optional[Boolean] = None
+
+        # The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        self.timeMasterPriority: Optional[Integer] = None
+
+        # One bit shall be used to distinguish between Level 1 and Level 2.
+        self.timeTriggeredCanLevel: Optional[Integer] = None
+
+        # The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        self.txEnableWindowLength: Optional[Integer] = None
+
+    def getApplWatchdogLimit(self) -> Optional[Integer]:
+        """
+        The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        """
+        return self.applWatchdogLimit
+
+    def setApplWatchdogLimit(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.
+        A None value is a no-op and does not overwrite an existing applWatchdogLimit.
+        """
+        if value is not None:
+            self.applWatchdogLimit = value
+        return self
+
+    def getExpectedTxTrigger(self) -> Optional[Integer]:
+        """
+        The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        """
+        return self.expectedTxTrigger
+
+    def setExpectedTxTrigger(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.
+        A None value is a no-op and does not overwrite an existing expectedTxTrigger.
+        """
+        if value is not None:
+            self.expectedTxTrigger = value
+        return self
+
+    def getExternalClockSynchronisation(self) -> Optional[Boolean]:
+        """
+        One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        """
+        return self.externalClockSynchronisation
+
+    def setExternalClockSynchronisation(self, value: Optional[Boolean]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).
+        A None value is a no-op and does not overwrite an existing externalClockSynchronisation.
+        """
+        if value is not None:
+            self.externalClockSynchronisation = value
+        return self
+
+    def getInitialRefOffset(self) -> Optional[Integer]:
+        """
+        The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        """
+        return self.initialRefOffset
+
+    def setInitialRefOffset(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.
+        A None value is a no-op and does not overwrite an existing initialRefOffset.
+        """
+        if value is not None:
+            self.initialRefOffset = value
+        return self
+
+    def getMaster(self) -> Optional[Boolean]:
+        """
+        One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        """
+        return self.master
+
+    def setMaster(self, value: Optional[Boolean]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.
+        A None value is a no-op and does not overwrite an existing master.
+        """
+        if value is not None:
+            self.master = value
+        return self
+
+    def getTimeMasterPriority(self) -> Optional[Integer]:
+        """
+        The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        """
+        return self.timeMasterPriority
+
+    def setTimeMasterPriority(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.
+        A None value is a no-op and does not overwrite an existing timeMasterPriority.
+        """
+        if value is not None:
+            self.timeMasterPriority = value
+        return self
+
+    def getTimeTriggeredCanLevel(self) -> Optional[Integer]:
+        """
+        One bit shall be used to distinguish between Level 1 and Level 2.
+        """
+        return self.timeTriggeredCanLevel
+
+    def setTimeTriggeredCanLevel(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        One bit shall be used to distinguish between Level 1 and Level 2.
+        A None value is a no-op and does not overwrite an existing timeTriggeredCanLevel.
+        """
+        if value is not None:
+            self.timeTriggeredCanLevel = value
+        return self
+
+    def getTxEnableWindowLength(self) -> Optional[Integer]:
+        """
+        The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        """
+        return self.txEnableWindowLength
+
+    def setTxEnableWindowLength(self, value: Optional[Integer]) -> TtcanCommunicationController:
+        """
+        The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.
+        A None value is a no-op and does not overwrite an existing txEnableWindowLength.
+        """
+        if value is not None:
+            self.txEnableWindowLength = value
+        return self
 
 
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
@@ -1026,10 +1189,9 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
 
     # AbstractCanPhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.20, p.73
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [-] reader  [-] writer
-    # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable; reader/writer coverage flows through the concrete CAN-PHYSICAL-CHANNEL / TTCAN-PHYSICAL-CHANNEL dispatch — XSD group ABSTRACT-CAN-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 218, is an empty sequence)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanPhysicalChannel:
@@ -1045,10 +1207,9 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
 
     # CanPhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.21, p.73
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable; reader/writer coverage flows through the concrete CAN-PHYSICAL-CHANNEL dispatch — XSD group CAN-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 15574, is an empty sequence)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1061,10 +1222,9 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
 
     # AbstractCanCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.22, p.73
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # (no own attributes; reader/writer coverage via CAN-COMMUNICATION-CONNECTOR dispatch of subclasses)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable; reader/writer coverage flows through the concrete CAN-COMMUNICATION-CONNECTOR / TTCAN-COMMUNICATION-CONNECTOR dispatch — XSD group ABSTRACT-CAN-COMMUNICATION-CONNECTOR, AUTOSAR_00052.xsd line 135, is an empty sequence)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
@@ -1622,8 +1782,30 @@ class J1939Cluster(AbstractCanCluster):
 
 
 class TtcanCommunicationConnector(AbstractCanCommunicationConnector):
-    pass
+    """
+    TTCAN bus specific communication connector attributes.
+    """
+
+    # TtcanCommunicationConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.27, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanCommunicationConnector, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable; reader/writer coverage flows through the concrete TTCAN-COMMUNICATION-CONNECTOR dispatch — XSD group TTCAN-COMMUNICATION-CONNECTOR, AUTOSAR_00052.xsd line 126966, is an empty sequence)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class TtcanPhysicalChannel(AbstractCanPhysicalChannel):
-    pass
+    """
+    TTCAN bus specific physical channel attributes.
+    """
+
+    # TtcanPhysicalChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.26, p.77
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable; reader/writer coverage flows through the concrete TTCAN-PHYSICAL-CHANNEL dispatch — XSD group TTCAN-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 127126, is an empty sequence)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

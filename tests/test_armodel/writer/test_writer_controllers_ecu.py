@@ -291,8 +291,8 @@ class TestWriterSetCanControllerFdConfiguration:
         assert parent[0].find("PROP-SEG") is not None
         assert parent[0].find("SSP-OFFSET") is not None
         assert parent[0].find("SYNC-JUMP-WIDTH") is not None
-        assert parent[0].find("TIME-SEG1") is not None
-        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TIME-SEG-1") is not None
+        assert parent[0].find("TIME-SEG-2") is not None
         assert parent[0].find("TX-BIT-RATE-SWITCH") is not None
 
     def test_none(self, writer):
@@ -358,8 +358,8 @@ class TestWriterSetCanControllerXlConfiguration:
         assert parent[0].find("PWM-S") is not None
         assert parent[0].find("SSP-OFFSET") is not None
         assert parent[0].find("SYNC-JUMP-WIDTH") is not None
-        assert parent[0].find("TIME-SEG1") is not None
-        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TIME-SEG-1") is not None
+        assert parent[0].find("TIME-SEG-2") is not None
         assert parent[0].find("TRCV-PWM-MODE-ENABLED") is not None
 
     def test_none(self, writer):
@@ -448,13 +448,13 @@ class TestWriterAbstractCanCommunicationControllerAttributes:
         parent = _parent()
         writer.writeAbstractCanCommunicationControllerAttributes(parent, attrs)
 
-        xl_el = parent.find("CAN-CONTROLLER-XL-CONFIGURATION")
+        xl_el = parent.find("CAN-CONTROLLER-XL-ATTRIBUTES")
         assert xl_el is not None
         assert xl_el.find("ERROR-SIGNALING-ENABLED").text == "true"
         assert xl_el.find("PROP-SEG").text == "4"
         assert xl_el.find("SYNC-JUMP-WIDTH").text == "1"
-        assert xl_el.find("TIME-SEG1").text == "13"
-        assert xl_el.find("TIME-SEG2").text == "2"
+        assert xl_el.find("TIME-SEG-1").text == "13"
+        assert xl_el.find("TIME-SEG-2").text == "2"
         assert xl_el.find("TRCV-PWM-MODE-ENABLED").text == "true"
         req_el = parent.find("CAN-CONTROLLER-XL-REQUIREMENTS")
         assert req_el is not None
@@ -819,10 +819,10 @@ class TestWriterCommunicationConnector:
     def test_optional_attributes(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createCanCommunicationConnector("cc")
-        connector.setCreateEcuWakeupSource(True)
-        connector.setDynamicPncToChannelMappingEnabled(False)
-        connector.addPncFilterArrayMask(255)
-        connector.addPncFilterArrayMask(1)
+        connector.setCreateEcuWakeupSource(_bool(True))
+        connector.setDynamicPncToChannelMappingEnabled(_bool(False))
+        connector.addPncFilterArrayMask(_posint(255))
+        connector.addPncFilterArrayMask(_posint(1))
         parent = _parent()
         writer.writeCommunicationConnector(parent, connector)
         assert parent.find("CREATE-ECU-WAKEUP-SOURCE").text == "true"

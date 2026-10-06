@@ -3385,6 +3385,45 @@ class TestObdRatioServiceNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdRatioServiceNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createObdRatioServiceNeeds("RatioNeeds")
+        needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.API_USE))
+        event_ref = RefType()
+        event_ref.setValue("/Ratio/MonitoredEvent")
+        event_ref.setDest("DIAGNOSTIC-EVENT-NEEDS")
+        needs.setRateBasedMonitoredEventRef(event_ref)
+        fid_ref = RefType()
+        fid_ref.setValue("/Ratio/UsedFid")
+        fid_ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setUsedFidRef(fid_ref)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "RatioNeeds"
+            assert isinstance(needs_2, ObdRatioServiceNeeds)
+            assert needs_2.getConnectionType().getValue() == "apiUse"
+            assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
+            assert needs_2.getRateBasedMonitoredEventRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
+            assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
+            assert needs_2.getUsedFidRef().getDest() == "FUNCTION-INHIBITION-NEEDS"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestObdRatioDenominatorNeeds:
     def test_initialization(self):
@@ -3394,6 +3433,7 @@ class TestObdRatioDenominatorNeeds:
         needs = ObdRatioDenominatorNeeds(ar_root, "TestObdRatioDenominatorNeeds")
 
         assert needs is not None
+        assert isinstance(needs, DiagnosticCapabilityElement)
         assert needs.getShortName() == "TestObdRatioDenominatorNeeds"
         assert needs.getDenominatorCondition() is None
 
@@ -3440,6 +3480,33 @@ class TestObdRatioDenominatorNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdRatioDenominatorNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createObdRatioDenominatorNeeds("DenomNeeds")
+        needs.setDenominatorCondition(DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.CSERS))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "DenomNeeds"
+            assert isinstance(needs_2, ObdRatioDenominatorNeeds)
+            assert needs_2.getDenominatorCondition().getValue() == "csers"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestDoIpRoutingActivationAuthenticationNeeds:
     def test_initialization(self):
@@ -3449,6 +3516,7 @@ class TestDoIpRoutingActivationAuthenticationNeeds:
         needs = DoIpRoutingActivationAuthenticationNeeds(ar_root, "TestDoIpRoutingActivationAuthenticationNeeds")
 
         assert needs is not None
+        assert isinstance(needs, DoIpServiceNeeds)
         assert needs.getShortName() == "TestDoIpRoutingActivationAuthenticationNeeds"
         assert needs.getDataLengthRequest() is None
         assert needs.getDataLengthResponse() is None
@@ -3529,6 +3597,37 @@ class TestDoIpRoutingActivationAuthenticationNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves DoIpRoutingActivationAuthenticationNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createDoIpRoutingActivationAuthenticationNeeds("AuthNeeds")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "AuthNeeds"
+            assert isinstance(needs_2, DoIpRoutingActivationAuthenticationNeeds)
+            assert needs_2.getDataLengthRequest().getValue() == 4
+            assert needs_2.getDataLengthResponse().getValue() == 8
+            assert needs_2.getRoutingActivationType().getValue() == "RA_0xE1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestDoIpRoutingActivationConfirmationNeeds:
     def test_initialization(self):
@@ -3538,6 +3637,7 @@ class TestDoIpRoutingActivationConfirmationNeeds:
         needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
 
         assert needs is not None
+        assert isinstance(needs, DoIpServiceNeeds)
         assert needs.getShortName() == "TestDoIpRoutingActivationConfirmationNeeds"
         assert needs.getDataLengthRequest() is None
         assert needs.getDataLengthResponse() is None
@@ -3618,6 +3718,37 @@ class TestDoIpRoutingActivationConfirmationNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves DoIpRoutingActivationConfirmationNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createDoIpRoutingActivationConfirmationNeeds("ConfNeeds")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "ConfNeeds"
+            assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
+            assert needs_2.getDataLengthRequest().getValue() == 4
+            assert needs_2.getDataLengthResponse().getValue() == 8
+            assert needs_2.getRoutingActivationType().getValue() == "RA_0xE1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestSecureOnBoardCommunicationNeeds:
     def test_initialization(self):
@@ -3627,6 +3758,7 @@ class TestSecureOnBoardCommunicationNeeds:
         needs = SecureOnBoardCommunicationNeeds(ar_root, "TestSecureOnBoardCommunicationNeeds")
 
         assert needs is not None
+        assert isinstance(needs, ServiceNeeds)
         assert needs.getShortName() == "TestSecureOnBoardCommunicationNeeds"
         assert needs.getVerificationStatusIndicationMode() is None
 
@@ -3669,6 +3801,33 @@ class TestSecureOnBoardCommunicationNeeds:
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
             assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureOnly"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves SecureOnBoardCommunicationNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createSecureOnBoardCommunicationNeeds("SecOcNeeds")
+        needs.setVerificationStatusIndicationMode(VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "SecOcNeeds"
+            assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureAndSuccess"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

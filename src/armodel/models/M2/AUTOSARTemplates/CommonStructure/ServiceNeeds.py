@@ -2637,14 +2637,14 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     # DoIpRoutingActivationAuthenticationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.58, p.806
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2708,7 +2708,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     def getRoutingActivationType(self) -> Optional[NameToken]:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
 
         Returns:
             NameToken instance, or None if not set
@@ -2717,7 +2717,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     def setRoutingActivationType(self, value: Optional[NameToken]) -> DoIpRoutingActivationAuthenticationNeeds:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
         A None value is a no-op and does not overwrite an existing routingActivationType.
 
         Args:
@@ -2738,14 +2738,14 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     # DoIpRoutingActivationConfirmationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.59, p.807
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLengthRequest         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthRequest         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLengthResponse        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthResponse        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutingActivationType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutingActivationType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2809,7 +2809,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def getRoutingActivationType(self) -> Optional[NameToken]:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
 
         Returns:
             NameToken instance, or None if not set
@@ -2818,7 +2818,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def setRoutingActivationType(self, value: Optional[NameToken]) -> DoIpRoutingActivationConfirmationNeeds:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
         A None value is a no-op and does not overwrite an existing routingActivationType.
 
         Args:
@@ -3408,17 +3408,17 @@ class ObdRatioConnectionKindEnum(AREnum):
         )
 
 
-class ObdRatioDenominatorNeeds(ServiceNeeds):
+class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
     """
     This meta-class shall be used to indicate that a software-component wants to access the in-use-monitoring performance ration denominator.
     """
 
     # ObdRatioDenominatorNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.51, p.803
-    # Spec verified: R23-11
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDenominatorCondition         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDenominatorCondition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDenominatorCondition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDenominatorCondition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3429,9 +3429,6 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
     def getDenominatorCondition(self) -> Optional[DiagnosticDenominatorConditionEnum]:
         """
         This attribute indicates the applicable denominator condition.
-
-        Returns:
-            DiagnosticDenominatorConditionEnum instance, or None if not set
         """
         return self.denominatorCondition
 
@@ -3439,12 +3436,6 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
         """
         This attribute indicates the applicable denominator condition.
         A None value is a no-op and does not overwrite an existing denominatorCondition.
-
-        Args:
-            value: The DiagnosticDenominatorConditionEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.denominatorCondition = value
@@ -3458,14 +3449,14 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdRatioServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.44, p.795
-    # Spec verified: R23-11
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectionType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectionType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsedFidRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsedFidRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionType              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionType              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateBasedMonitoredEventRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateBasedMonitoredEventRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedFidRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedFidRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3482,9 +3473,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getConnectionType(self) -> Optional[ObdRatioConnectionKindEnum]:
         """
         Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
-
-        Returns:
-            ObdRatioConnectionKindEnum instance, or None if not set
         """
         return self.connectionType
 
@@ -3492,12 +3480,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
         A None value is a no-op and does not overwrite an existing connectionType.
-
-        Args:
-            value: The ObdRatioConnectionKindEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.connectionType = value
@@ -3506,9 +3488,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getRateBasedMonitoredEventRef(self) -> Optional[RefType]:
         """
         The rate based monitored Diagnostic Event.
-
-        Returns:
-            RefType instance, or None if not set
         """
         return self.rateBasedMonitoredEventRef
 
@@ -3516,12 +3495,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         The rate based monitored Diagnostic Event.
         A None value is a no-op and does not overwrite an existing rateBasedMonitoredEventRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.rateBasedMonitoredEventRef = value
@@ -3530,9 +3503,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getUsedFidRef(self) -> Optional[RefType]:
         """
         This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
-
-        Returns:
-            RefType instance, or None if not set
         """
         return self.usedFidRef
 
@@ -3540,12 +3510,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
         A None value is a no-op and does not overwrite an existing usedFidRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.usedFidRef = value
@@ -3612,10 +3576,10 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
 
     # SecureOnBoardCommunicationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.68, p.824
-    # Spec verified: R23-11
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVerificationStatusIndicationMode  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVerificationStatusIndicationMode  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -2,8 +2,15 @@
 
 Verifies that a LinMaster created on an EcuInstance survives a full
 set -> save -> reload cycle, including its aggregated LinSlaveConfig
-list and inherited PROTOCOL-VERSION, with empty-wrapper omission.
+list and inherited PROTOCOL-VERSION, with empty-wrapper omission. XML
+element order per XSD LIN-MASTER-CONTENT (AUTOSAR_00052.xsd line 77433):
+LIN-SLAVES, TIME-BASE, TIME-BASE-JITTER, preceded inside the
+LIN-MASTER-CONDITIONAL wrapper by the inherited
+LIN-COMMUNICATION-CONTROLLER-CONTENT (PROTOCOL-VERSION); the
+LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL wrapper is always emitted.
 """
+
+import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -180,3 +187,53 @@ def test_round_trip_empty_wrapper_list(writer, parser, tmp_path):
     assert re_master.getLinSlaves() == []
     assert re_master.getTimeBase() is None
     assert re_master.getTimeBaseJitter() is None
+
+
+class TestWriteLinMasterXmlShape:
+    def _write_master(self, master):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeLinMaster(parent, master)
+        return parent.find("LIN-MASTER")
+
+    def test_write_conditional_children_in_xsd_order(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        _, master = _build_master(pkg)
+        lin_master = self._write_master(master)
+
+        cond = lin_master.find("LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL")
+        assert cond is not None
+        tags = [child.tag for child in cond]
+        assert tags.index("PROTOCOL-VERSION") < tags.index("LIN-SLAVES")
+        assert tags.index("LIN-SLAVES") < tags.index("TIME-BASE")
+        assert tags.index("TIME-BASE") < tags.index("TIME-BASE-JITTER")
+
+    def test_write_wraps_in_variants_conditional(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        instance = pkg.createEcuInstance("EcuInst")
+        master = instance.createLinMaster("BareMaster")
+        lin_master = self._write_master(master)
+
+        cond = lin_master.find("LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL")
+        assert cond is not None
+        assert len(cond) == 0
+
+    def test_write_empty_slaves_omits_wrapper(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        instance = pkg.createEcuInstance("EcuInst")
+        master = instance.createLinMaster("BareMaster")
+        master.setProtocolVersion(_literal("2.1"))
+        lin_master = self._write_master(master)
+
+        cond = lin_master.find("LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL")
+        assert cond.find("LIN-SLAVES") is None
+        assert cond.find("PROTOCOL-VERSION").text == "2.1"
+
+    def test_write_base_helper_called_exactly_once(self):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        _, master = _build_master(pkg)
+        lin_master = self._write_master(master)
+
+        assert len(lin_master.findall(".//PROTOCOL-VERSION")) == 1
+        assert len(lin_master.findall(".//LIN-SLAVES")) == 1
+        assert len(lin_master.findall(".//TIME-BASE")) == 1
+        assert len(lin_master.findall(".//TIME-BASE-JITTER")) == 1

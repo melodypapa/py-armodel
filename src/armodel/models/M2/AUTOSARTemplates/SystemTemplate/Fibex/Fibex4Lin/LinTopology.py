@@ -15,9 +15,8 @@ class LinSlaveConfigIdent(Referrable):
 
     # LinSlaveConfigIdent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.40, p.95
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -28,11 +27,10 @@ class LinCommunicationController(CommunicationController, ABC):
 
     # LinCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.37, p.93
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProtocolVersion           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProtocolVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinCommunicationController:
@@ -63,15 +61,14 @@ class LinMaster(LinCommunicationController):
 
     # LinMaster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.38, p.94
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getLinSlaves        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinSlave         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeBase         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeBase         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeBaseJitter   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeBaseJitter   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLinSlaves       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinSlave        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBase        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBase        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBaseJitter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBaseJitter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -235,13 +232,12 @@ class LinConfigurableFrame(ARObject):
 
     # LinConfigurableFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.44, p.99
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFrameRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFrameRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMessageId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMessageId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFrameRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMessageId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMessageId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -284,13 +280,12 @@ class LinOrderedConfigurableFrame(ARObject):
 
     # LinOrderedConfigurableFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.45, p.99
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFrameRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFrameRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFrameRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndex     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndex     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -333,29 +328,28 @@ class LinSlaveConfig(ARObject):
 
     # LinSlaveConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.39, p.95
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfiguredNad                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConfiguredNad                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFunctionId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdent                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdent                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitialNad                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitialNad                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinConfigurableFrames             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinConfigurableFrame              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinErrorResponse                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLinErrorResponse                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinOrderedConfigurableFrames      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addLinOrderedConfigurableFrame       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProtocolVersion                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProtocolVersion                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupplierId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSupplierId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVariantId                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVariantId                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConfiguredNad                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfiguredNad                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdent                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialNad                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialNad                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinConfigurableFrames        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinConfigurableFrame         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinErrorResponse             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinErrorResponse             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinOrderedConfigurableFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinOrderedConfigurableFrame  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProtocolVersion              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProtocolVersion              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupplierId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupplierId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariantId                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariantId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -366,7 +360,7 @@ class LinSlaveConfig(ARObject):
         # LIN function ID.
         self.functionId: Optional[PositiveInteger] = None
 
-        # This adds the ability to become referrable to LinSlaveConfig.
+        # This adds the ability to become referrable to LinSlave Config.
         self.ident: Optional[LinSlaveConfigIdent] = None
 
         # Initial NAD of the LIN slave.
@@ -417,12 +411,12 @@ class LinSlaveConfig(ARObject):
         return self
 
     def getIdent(self) -> Optional[LinSlaveConfigIdent]:
-        """This adds the ability to become referrable to LinSlaveConfig."""
+        """This adds the ability to become referrable to LinSlave Config."""
         return self.ident
 
     def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> LinSlaveConfig:
         """
-        This adds the ability to become referrable to LinSlaveConfig.
+        This adds the ability to become referrable to LinSlave Config.
         A None value is a no-op and does not overwrite an existing ident.
         """
         if value is not None:
@@ -526,48 +520,53 @@ class LinCluster(CommunicationCluster):
 
     # LinCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.36, p.93
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class LinPhysicalChannel(PhysicalChannel):
-    """
-    Represents a LIN physical channel in the communication system,
-    defining LIN-specific properties including bus idle timeout
-    and schedule tables for LIN network communication.
-    """
+    """LIN specific attributes to the physicalChannel"""
 
     # LinPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
-    # [ ] setBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
-    # [ ] getScheduleTables            [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinScheduleTable       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.46, p.100
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBusIdleTimeoutPeriod [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBusIdleTimeoutPeriod [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getScheduleTables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLinScheduleTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel.
         self.busIdleTimeoutPeriod: Optional[TimeValue] = None
+
+        # Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.scheduleTables: List[LinScheduleTable] = []
 
-    def getBusIdleTimeoutPeriod(self):
+    def getBusIdleTimeoutPeriod(self) -> Optional[TimeValue]:
+        """This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel."""
         return self.busIdleTimeoutPeriod
 
-    def setBusIdleTimeoutPeriod(self, value):
+    def setBusIdleTimeoutPeriod(self, value: Optional[TimeValue]) -> LinPhysicalChannel:
+        """
+        This attribute shall be used to set an idle timeout period for the enclosing LinPhysicalChannel.
+        A None value is a no-op and does not overwrite an existing busIdleTimeoutPeriod.
+        """
         if value is not None:
             self.busIdleTimeoutPeriod = value
         return self
 
-    def getScheduleTables(self):
+    def getScheduleTables(self) -> List[LinScheduleTable]:
+        """Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.scheduleTables
 
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinScheduleTable
-
+        """Schedule tables organize the timings of the frames for LIN. atpVariation: If the transmitted frames are variable, the corresponding ScheduleTables shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=scheduleTable.shortName, schedule Table.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, LinScheduleTable):
             end_point = LinScheduleTable(self, short_name)
             self.addReferrableElement(end_point)
@@ -576,4 +575,158 @@ class LinPhysicalChannel(PhysicalChannel):
 
 
 class LinSlave(LinCommunicationController):
-    pass
+    """
+    Describing the properties of the referring ecu as a LIN slave.
+    """
+
+    # LinSlave method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.41, p.97
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignNad            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignNad            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConfiguredNad        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConfiguredNad        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitialNad           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialNad           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinErrorResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLinErrorResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNasTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNasTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupplierId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupplierId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariantId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariantId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported.
+        self.assignNad: Optional[Boolean] = None
+
+        # To distinguish LIN slaves that are used twice or more within the same cluster.
+        self.configuredNad: Optional[Integer] = None
+
+        # LIN function ID
+        self.functionId: Optional[PositiveInteger] = None
+
+        # This attribute represents the initial NAD.
+        self.initialNad: Optional[Integer] = None
+
+        # Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        self.linErrorResponse: Optional[LinErrorResponse] = None
+
+        # Value of the N_AS timeout. Unit: seconds.
+        self.nasTimeout: Optional[TimeValue] = None
+
+        # LIN Supplier ID
+        self.supplierId: Optional[PositiveInteger] = None
+
+        # Specifies the Variant ID
+        self.variantId: Optional[PositiveInteger] = None
+
+    def getAssignNad(self) -> Optional[Boolean]:
+        """This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported."""
+        return self.assignNad
+
+    def setAssignNad(self, value: Optional[Boolean]) -> LinSlave:
+        """
+        This attribute has the ability to control whether the node configuration command 'Assign NAD' is supported.
+        A None value is a no-op and does not overwrite an existing assignNad.
+        """
+        if value is not None:
+            self.assignNad = value
+        return self
+
+    def getConfiguredNad(self) -> Optional[Integer]:
+        """To distinguish LIN slaves that are used twice or more within the same cluster."""
+        return self.configuredNad
+
+    def setConfiguredNad(self, value: Optional[Integer]) -> LinSlave:
+        """
+        To distinguish LIN slaves that are used twice or more within the same cluster.
+        A None value is a no-op and does not overwrite an existing configuredNad.
+        """
+        if value is not None:
+            self.configuredNad = value
+        return self
+
+    def getFunctionId(self) -> Optional[PositiveInteger]:
+        """LIN function ID"""
+        return self.functionId
+
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        LIN function ID
+        A None value is a no-op and does not overwrite an existing functionId.
+        """
+        if value is not None:
+            self.functionId = value
+        return self
+
+    def getInitialNad(self) -> Optional[Integer]:
+        """This attribute represents the initial NAD."""
+        return self.initialNad
+
+    def setInitialNad(self, value: Optional[Integer]) -> LinSlave:
+        """
+        This attribute represents the initial NAD.
+        A None value is a no-op and does not overwrite an existing initialNad.
+        """
+        if value is not None:
+            self.initialNad = value
+        return self
+
+    def getLinErrorResponse(self) -> Optional[LinErrorResponse]:
+        """Each slave node shall publish one response error in one of its transmitted unconditional frames."""
+        return self.linErrorResponse
+
+    def setLinErrorResponse(self, value: Optional[LinErrorResponse]) -> LinSlave:
+        """
+        Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        A None value is a no-op and does not overwrite an existing linErrorResponse.
+        """
+        if value is not None:
+            self.linErrorResponse = value
+        return self
+
+    def getNasTimeout(self) -> Optional[TimeValue]:
+        """Value of the N_AS timeout. Unit: seconds."""
+        return self.nasTimeout
+
+    def setNasTimeout(self, value: Optional[TimeValue]) -> LinSlave:
+        """
+        Value of the N_AS timeout. Unit: seconds.
+        A None value is a no-op and does not overwrite an existing nasTimeout.
+        """
+        if value is not None:
+            self.nasTimeout = value
+        return self
+
+    def getSupplierId(self) -> Optional[PositiveInteger]:
+        """LIN Supplier ID"""
+        return self.supplierId
+
+    def setSupplierId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        LIN Supplier ID
+        A None value is a no-op and does not overwrite an existing supplierId.
+        """
+        if value is not None:
+            self.supplierId = value
+        return self
+
+    def getVariantId(self) -> Optional[PositiveInteger]:
+        """Specifies the Variant ID"""
+        return self.variantId
+
+    def setVariantId(self, value: Optional[PositiveInteger]) -> LinSlave:
+        """
+        Specifies the Variant ID
+        A None value is a no-op and does not overwrite an existing variantId.
+        """
+        if value is not None:
+            self.variantId = value
+        return self

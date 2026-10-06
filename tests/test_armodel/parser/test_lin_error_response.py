@@ -22,3 +22,20 @@ class TestGetLinErrorResponse:
         ref = result.getResponseErrorRef()
         assert isinstance(ref, RefType)
         assert ref.getValue() == "/System/ISignalTriggering"
+
+    def test_reads_checksum_and_timestamp_attributes(self, parser):
+        element = _snip('<LIN-ERROR-RESPONSE S="1234" T="2024-01-01T00:00:00Z">' "<RESPONSE-ERROR-REF>/System/ISignalTriggering</RESPONSE-ERROR-REF>" "</LIN-ERROR-RESPONSE>")
+        result = parser.getLinErrorResponse(element, "LIN-ERROR-RESPONSE")
+
+        assert isinstance(result, LinErrorResponse)
+        assert result.getChecksum() is not None
+        assert result.getChecksum().getValue() == "1234"
+        assert result.getTimestamp() is not None
+        assert result.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+
+    def test_reads_empty_wrapper_to_default_field(self, parser):
+        element = _snip("<LIN-ERROR-RESPONSE/>")
+        result = parser.getLinErrorResponse(element, "LIN-ERROR-RESPONSE")
+
+        assert isinstance(result, LinErrorResponse)
+        assert result.getResponseErrorRef() is None

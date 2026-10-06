@@ -1,5 +1,16 @@
 """Parser tests for getLinSlaveConfig (Table 3.39, p.95).
 
+LIN-SLAVE-CONFIG has no standalone element dispatch: it serializes only as a
+choice of LIN-SLAVE-CONFIG elements under the LIN-SLAVES wrapper inside the
+LIN-MASTER CONDITIONAL (consumer path, Rule 0001.7 — see test_lin_master.py).
+Element order per the XSD LIN-SLAVE-CONFIG group (AUTOSAR_00052.xsd line 77742):
+CONFIGURED-NAD, FUNCTION-ID, IDENT, INITIAL-NAD, LIN-CONFIGURABLE-FRAMES,
+LIN-ERROR-RESPONSE, LIN-ORDERED-CONFIGURABLE-FRAMES, PROTOCOL-VERSION,
+SUPPLIER-ID, VARIANT-ID (member LIN-SLAVE-ECU-REF carries atp.Status="removed"
+and is absent from the R23-11 table — not modeled). getLinSlaveConfig (the
+class's reader entry point) calls readARObject exactly once so the inherited
+S/T attributes round-trip.
+
 Shared fixtures (``parser``) are provided by ``conftest.py``; the ``_snip``
 helper lives in ``_helpers.py``.
 """
@@ -25,6 +36,17 @@ _FULL = (
     "<SUPPLIER-ID>17</SUPPLIER-ID>"
     "<VARIANT-ID>9</VARIANT-ID>"
     "</LIN-SLAVE-CONFIG>"
+)
+
+_ST_CONFIG = '<LIN-SLAVE-CONFIG S="chk-1" T="2009-07-23T13:38:00Z">' "<CONFIGURED-NAD>3</CONFIGURED-NAD>" "</LIN-SLAVE-CONFIG>"
+
+_ST_IDENT = (
+    '<LIN-SLAVE-CONFIG><IDENT S="id-chk" T="2009-07-23T13:38:00Z">'
+    "<SHORT-NAME>SlaveIdent</SHORT-NAME>"
+    "<SHORT-NAME-FRAGMENTS>"
+    "<SHORT-NAME-FRAGMENT><ROLE>prefix</ROLE><FRAGMENT>PFX</FRAGMENT></SHORT-NAME-FRAGMENT>"
+    "</SHORT-NAME-FRAGMENTS>"
+    "</IDENT></LIN-SLAVE-CONFIG>"
 )
 
 
@@ -74,3 +96,31 @@ class TestGetLinSlaveConfig:
         assert config.getLinConfigurableFrames() == []
         assert config.getLinOrderedConfigurableFrames() == []
         assert config.getConfiguredNad() is None
+
+    def test_reads_inherited_checksum_and_timestamp(self, parser):
+        element = _snip(_ST_CONFIG)
+        config = parser.getLinSlaveConfig(element, "LIN-SLAVE-CONFIG")
+
+        assert config.getChecksum().getValue() == "chk-1"
+        assert config.getTimestamp().getValue() == "2009-07-23T13:38:00Z"
+
+    def test_reads_config_without_st_attributes_to_none(self, parser):
+        element = _snip(_FULL)
+        config = parser.getLinSlaveConfig(element, "LIN-SLAVE-CONFIG")
+
+        assert config.getChecksum() is None
+        assert config.getTimestamp() is None
+
+    def test_reads_ident_referrable_payload(self, parser):
+        element = _snip(_ST_IDENT)
+        config = parser.getLinSlaveConfig(element, "LIN-SLAVE-CONFIG")
+
+        ident = config.getIdent()
+        assert isinstance(ident, LinSlaveConfigIdent)
+        assert ident.getShortName() == "SlaveIdent"
+        fragments = ident.getShortNameFragments()
+        assert len(fragments) == 1
+        assert fragments[0].getRole().getValue() == "prefix"
+        assert fragments[0].getFragment().getValue() == "PFX"
+        assert ident.getChecksum().getValue() == "id-chk"
+        assert ident.getTimestamp().getValue() == "2009-07-23T13:38:00Z"

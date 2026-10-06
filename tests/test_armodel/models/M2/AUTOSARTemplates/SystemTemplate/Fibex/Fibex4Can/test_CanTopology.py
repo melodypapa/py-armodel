@@ -4,11 +4,13 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationConnector,
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
+    AbstractCanPhysicalChannel,
     CanClusterBusOffRecovery,
     CanCommunicationConnector,
     CanCommunicationController,
@@ -18,8 +20,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    CanPhysicalChannel,
+    TtcanCommunicationConnector,
+    TtcanCommunicationController,
+    TtcanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
 
 
 class MockParent(ARObject):
@@ -1026,3 +1032,430 @@ class TestCanControllerConfiguration:
         """Test getter/setter docstrings carry the spec Note verbatim (Table 3.14)"""
         self._assert_docstring(CanControllerConfiguration.getTimeSeg2, TIME_SEG_2_NOTE)
         self._assert_docstring(CanControllerConfiguration.setTimeSeg2, TIME_SEG_2_NOTE, "timeSeg2")
+
+
+ABSTRACT_CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN Controller attributes."
+CAN_CONTROLLER_ATTRIBUTES_NOTE = "CAN Bit Timing configuration"
+
+
+class ConcreteAbstractCanCommunicationController(AbstractCanCommunicationController):
+    pass
+
+
+class TestAbstractCanCommunicationController:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.12: ARObject, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(AbstractCanCommunicationController, CommunicationController)
+        assert issubclass(AbstractCanCommunicationController, Identifiable)
+        assert issubclass(AbstractCanCommunicationController, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.12)"""
+        with pytest.raises(TypeError, match="AbstractCanCommunicationController is an abstract class"):
+            AbstractCanCommunicationController(MockParent(), "test_abstract_controller")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.12)"""
+        assert inspect.cleandoc(AbstractCanCommunicationController.__doc__).strip() == ABSTRACT_CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanCommunicationController.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        """Test that all __init__ fields default to None, incl. inherited base fields"""
+        controller = ConcreteAbstractCanCommunicationController(MockParent(), "ctrl")
+
+        assert isinstance(controller, AbstractCanCommunicationController)
+        assert isinstance(controller, CommunicationController)
+        assert controller.getCanControllerAttributes() is None
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 3.12)"""
+        source = inspect.getsource(AbstractCanCommunicationController.__init__)
+        assert source.index("self.canControllerAttributes") >= 0
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_get_set_can_controller_attributes(self):
+        """Test canControllerAttributes default, guarded set chaining, None no-op and typing"""
+        controller = ConcreteAbstractCanCommunicationController(MockParent(), "ctrl")
+
+        assert controller.getCanControllerAttributes() is None
+
+        attrs = CanControllerConfiguration()
+        assert controller == controller.setCanControllerAttributes(attrs)
+        assert controller.getCanControllerAttributes() is attrs
+
+        assert controller == controller.setCanControllerAttributes(None)
+        assert controller.getCanControllerAttributes() is attrs
+
+        getter_hints = typing.get_type_hints(AbstractCanCommunicationController.getCanControllerAttributes)
+        assert getter_hints.get("return") == typing.Optional[AbstractCanCommunicationControllerAttributes]
+
+        setter_hints = typing.get_type_hints(AbstractCanCommunicationController.setCanControllerAttributes)
+        assert setter_hints.get("value") == typing.Optional[AbstractCanCommunicationControllerAttributes]
+        assert setter_hints.get("return") is AbstractCanCommunicationController
+
+    def test_can_controller_attributes_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 3.12)"""
+        self._assert_docstring(AbstractCanCommunicationController.getCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE)
+        self._assert_docstring(AbstractCanCommunicationController.setCanControllerAttributes, CAN_CONTROLLER_ATTRIBUTES_NOTE, "canControllerAttributes")
+
+
+CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "CAN bus specific communication port attributes."
+
+
+class TestCanCommunicationController:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.11: ARObject, AbstractCanCommunicationController, CommunicationController, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(CanCommunicationController, AbstractCanCommunicationController)
+        assert issubclass(CanCommunicationController, CommunicationController)
+        assert issubclass(CanCommunicationController, Identifiable)
+        assert issubclass(CanCommunicationController, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited fields default to None (Table 3.11 has no own attribute rows)"""
+        controller = CanCommunicationController(MockParent(), "ctrl")
+
+        assert isinstance(controller, CanCommunicationController)
+        assert isinstance(controller, AbstractCanCommunicationController)
+        assert controller.getCanControllerAttributes() is None
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.11)"""
+        assert inspect.cleandoc(CanCommunicationController.__doc__).strip() == CAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanCommunicationController.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.11 has no attribute rows)"""
+        own_methods = [name for name in CanCommunicationController.__dict__ if inspect.isfunction(getattr(CanCommunicationController, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(CanCommunicationController.__init__)
+        assert "self." not in source
+
+
+ABSTRACT_CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN CommunicationConnector attributes."
+
+
+class TestAbstractCanCommunicationConnector:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.22: ARObject, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(AbstractCanCommunicationConnector, CommunicationConnector)
+        assert issubclass(AbstractCanCommunicationConnector, Identifiable)
+        assert issubclass(AbstractCanCommunicationConnector, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.22)"""
+        with pytest.raises(TypeError, match="AbstractCanCommunicationConnector is an abstract class"):
+            AbstractCanCommunicationConnector(MockParent(), "test_abstract_can_communication_connector")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.22)"""
+        assert inspect.cleandoc(AbstractCanCommunicationConnector.__doc__).strip() == ABSTRACT_CAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanCommunicationConnector.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.22 has no attribute rows)"""
+        own_methods = [name for name in AbstractCanCommunicationConnector.__dict__ if inspect.isfunction(getattr(AbstractCanCommunicationConnector, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(AbstractCanCommunicationConnector.__init__)
+        assert "self." not in source
+
+    def test_initialization_defaults_via_concrete_subclass(self):
+        """Test __init__ + the inherited CommunicationConnector accessors through the concrete subclass CanCommunicationConnector (Table 3.22 is abstract)"""
+        connector = CanCommunicationConnector(MockParent(), "conn")
+
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getCommControllerRef() is None
+        assert connector.getCreateEcuWakeupSource() is None
+        assert connector.getDynamicPncToChannelMappingEnabled() is None
+        assert connector.getEcuCommPortInstances() == []
+        assert connector.getPncFilterArrayMasks() == []
+        assert connector.getPncGatewayType() is None
+
+
+ABSTRACT_CAN_PHYSICAL_CHANNEL_CLASS_NOTE = "Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes."
+
+
+class TestAbstractCanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.20: ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(AbstractCanPhysicalChannel, PhysicalChannel)
+        assert issubclass(AbstractCanPhysicalChannel, Identifiable)
+        assert issubclass(AbstractCanPhysicalChannel, ARObject)
+
+    def test_abstract_guard(self):
+        """Test the class cannot be instantiated directly (abstract per Table 3.20)"""
+        with pytest.raises(TypeError, match="AbstractCanPhysicalChannel is an abstract class"):
+            AbstractCanPhysicalChannel(MockParent(), "test_abstract_can_physical_channel")
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.20)"""
+        assert inspect.cleandoc(AbstractCanPhysicalChannel.__doc__).strip() == ABSTRACT_CAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert AbstractCanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.20 has no attribute rows)"""
+        own_methods = [name for name in AbstractCanPhysicalChannel.__dict__ if inspect.isfunction(getattr(AbstractCanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(AbstractCanPhysicalChannel.__init__)
+        assert "self." not in source
+
+    def test_initialization_defaults_via_concrete_subclass(self):
+        """Test __init__ + the inherited PhysicalChannel accessors through the concrete subclass CanPhysicalChannel (Table 3.20 is abstract)"""
+        channel = CanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+
+CAN_PHYSICAL_CHANNEL_CLASS_NOTE = "CAN bus specific physical channel attributes."
+
+
+class TestCanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.21: ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(CanPhysicalChannel, AbstractCanPhysicalChannel)
+        assert issubclass(CanPhysicalChannel, PhysicalChannel)
+        assert issubclass(CanPhysicalChannel, Identifiable)
+        assert issubclass(CanPhysicalChannel, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited PhysicalChannel fields default to empty (Table 3.21 has no attribute rows)"""
+        channel = CanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, CanPhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.21)"""
+        assert inspect.cleandoc(CanPhysicalChannel.__doc__).strip() == CAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.21 has no attribute rows)"""
+        own_methods = [name for name in CanPhysicalChannel.__dict__ if inspect.isfunction(getattr(CanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(CanPhysicalChannel.__init__)
+        assert "self." not in source
+
+
+TTCAN_COMMUNICATION_CONTROLLER_CLASS_NOTE = "TTCAN bus specific communication port attributes."
+
+TTCAN_COMMUNICATION_CONTROLLER_ATTRIBUTE_NOTES = {
+    "applWatchdogLimit": "The Appl_Watchdog_Limit shall be an 8-bit value specifying the period for the application watchdog in Appl_Watchdog_Limit times 256 NTUs.",
+    "expectedTxTrigger": "The Expected_Tx_Trigger shall be an eight (8) bit value which limits the number of messages the FSE may try to transmit in one matrix cycle.",
+    "externalClockSynchronisation": "One bit shall be used to configure whether or not external clock synchronisation will be allowed during runtime (only Level 2).",
+    "initialRefOffset": "The Initial_Ref_Offset shall be an eight (8) bit value for the initialisation of Ref_Trigger_Offset.",
+    "master": "One bit shall be used to distinguish between (potential) time masters and time slaves. This can be derived from the frame-triggering's triggers.",
+    "timeMasterPriority": "The time master priority shall contain a three bit value for the priority of the current time master (the last three bits of the identifier of the reference message). This can be derived from the frame-triggering's triggers.",
+    "timeTriggeredCanLevel": "One bit shall be used to distinguish between Level 1 and Level 2.",
+    "txEnableWindowLength": "The length of the Tx_Enable window shall be a four (4) bit value specifying the length of the time period (1-16 nominal CAN bit times) in which a transmission may be started.",
+}
+
+
+class TestTtcanCommunicationController:
+    """Test cases for TtcanCommunicationController (Table 3.25, p.77)."""
+
+    MEMBERS = [
+        "applWatchdogLimit",
+        "expectedTxTrigger",
+        "externalClockSynchronisation",
+        "initialRefOffset",
+        "master",
+        "timeMasterPriority",
+        "timeTriggeredCanLevel",
+        "txEnableWindowLength",
+    ]
+
+    def _new_controller(self, name="controller"):
+        return TtcanCommunicationController(MockParent(), name)
+
+    def _member_value(self, field):
+        if field in ("externalClockSynchronisation", "master"):
+            return Boolean().setValue(True)
+        return Integer().setValue(8)
+
+    def test_inheritance(self):
+        assert issubclass(TtcanCommunicationController, AbstractCanCommunicationController)
+        assert issubclass(TtcanCommunicationController, CommunicationController)
+        assert issubclass(TtcanCommunicationController, Identifiable)
+        assert issubclass(TtcanCommunicationController, ARObject)
+
+    def test_concrete_instantiation(self):
+        controller = self._new_controller()  # Table 3.25 carries no abstract stereotype
+
+        assert isinstance(controller, AbstractCanCommunicationController)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(TtcanCommunicationController.__doc__) == TTCAN_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert TtcanCommunicationController.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        controller = self._new_controller()
+
+        for field in self.MEMBERS:
+            assert getattr(controller, "get" + field[0].upper() + field[1:])() is None, field
+        assert controller.getCanControllerAttributes() is None
+
+    def test_member_order(self):
+        controller = self._new_controller()
+        members = [k for k in vars(controller) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_members(self):
+        for field in self.MEMBERS:
+            controller = self._new_controller()
+            value = self._member_value(field)
+            setter = getattr(controller, "set" + field[0].upper() + field[1:])
+            getter = getattr(controller, "get" + field[0].upper() + field[1:])
+
+            assert controller == setter(value)
+            assert getter() is value
+
+            assert controller == setter(None)  # None no-op
+            assert getter() is value  # unchanged
+
+    def test_accessor_notes(self):
+        for field, note in TTCAN_COMMUNICATION_CONTROLLER_ATTRIBUTE_NOTES.items():
+            getter = getattr(TtcanCommunicationController, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCommunicationController, "set" + field[0].upper() + field[1:])
+            assert getter.__doc__ is not None and getter.__doc__.strip() == note, "get" + field
+            assert setter.__doc__ is not None and setter.__doc__.strip().startswith(note), "set" + field
+            assert ("A None value is a no-op and does not overwrite an existing %s." % field) in setter.__doc__, "set" + field
+
+    def test_type_hints(self):
+        for field in self.MEMBERS:
+            member_type = Boolean if field in ("externalClockSynchronisation", "master") else Integer
+            getter = getattr(TtcanCommunicationController, "get" + field[0].upper() + field[1:])
+            setter = getattr(TtcanCommunicationController, "set" + field[0].upper() + field[1:])
+
+            hints = typing.get_type_hints(getter)
+            assert hints["return"] == typing.Optional[member_type], "get" + field
+            hints = typing.get_type_hints(setter)
+            assert hints["value"] == typing.Optional[member_type], "set" + field
+            hint = hints["return"]
+            if isinstance(hint, typing.ForwardRef):  # CanTopology uses `from __future__ import annotations`
+                assert hint.__forward_arg__ == "TtcanCommunicationController", "set" + field
+            else:
+                assert hint == TtcanCommunicationController, "set" + field
+
+
+TTCAN_PHYSICAL_CHANNEL_CLASS_NOTE = "TTCAN bus specific physical channel attributes."
+
+
+class TestTtcanPhysicalChannel:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.26: ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)"""
+        assert issubclass(TtcanPhysicalChannel, AbstractCanPhysicalChannel)
+        assert issubclass(TtcanPhysicalChannel, PhysicalChannel)
+        assert issubclass(TtcanPhysicalChannel, Identifiable)
+        assert issubclass(TtcanPhysicalChannel, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited PhysicalChannel fields default to empty (Table 3.26 has no attribute rows)"""
+        channel = TtcanPhysicalChannel(MockParent(), "ch")
+
+        assert isinstance(channel, TtcanPhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
+        assert isinstance(channel, PhysicalChannel)
+        assert channel.getCommConnectorRefs() == []
+        assert channel.getFrameTriggerings() == []
+        assert channel.getISignalTriggerings() == []
+        assert channel.getManagedPhysicalChannelRefs() == []
+        assert channel.getPduTriggerings() == []
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.26)"""
+        assert inspect.cleandoc(TtcanPhysicalChannel.__doc__).strip() == TTCAN_PHYSICAL_CHANNEL_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert TtcanPhysicalChannel.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.26 has no attribute rows)"""
+        own_methods = [name for name in TtcanPhysicalChannel.__dict__ if inspect.isfunction(getattr(TtcanPhysicalChannel, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(TtcanPhysicalChannel.__init__)
+        assert "self." not in source
+
+
+TTCAN_COMMUNICATION_CONNECTOR_CLASS_NOTE = "TTCAN bus specific communication connector attributes."
+
+
+class TestTtcanCommunicationConnector:
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 3.27: ARObject, AbstractCanCommunicationConnector, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable)"""
+        assert issubclass(TtcanCommunicationConnector, AbstractCanCommunicationConnector)
+        assert issubclass(TtcanCommunicationConnector, CommunicationConnector)
+        assert issubclass(TtcanCommunicationConnector, Identifiable)
+        assert issubclass(TtcanCommunicationConnector, ARObject)
+
+    def test_initialization_defaults(self):
+        """Test that the concrete class instantiates and all inherited CommunicationConnector fields default to empty (Table 3.27 has no attribute rows)"""
+        connector = TtcanCommunicationConnector(MockParent(), "conn")
+
+        assert isinstance(connector, TtcanCommunicationConnector)
+        assert isinstance(connector, AbstractCanCommunicationConnector)
+        assert isinstance(connector, CommunicationConnector)
+        assert connector.getCommControllerRef() is None
+        assert connector.getCreateEcuWakeupSource() is None
+        assert connector.getDynamicPncToChannelMappingEnabled() is None
+        assert connector.getEcuCommPortInstances() == []
+        assert connector.getPncFilterArrayMasks() == []
+        assert connector.getPncGatewayType() is None
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 3.27)"""
+        assert inspect.cleandoc(TtcanCommunicationConnector.__doc__).strip() == TTCAN_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert TtcanCommunicationConnector.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        """Test that the class declares no own fields or accessors (Table 3.27 has no attribute rows)"""
+        own_methods = [name for name in TtcanCommunicationConnector.__dict__ if inspect.isfunction(getattr(TtcanCommunicationConnector, name, None))]
+        assert own_methods == ["__init__"]
+
+        source = inspect.getsource(TtcanCommunicationConnector.__init__)
+        assert "self." not in source

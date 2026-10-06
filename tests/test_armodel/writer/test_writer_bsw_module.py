@@ -2986,6 +2986,202 @@ class TestWriterBswServiceDependency:
         assert ref_element.text == "/Fim/Controlled"
         assert ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
 
+    def test_writeBswServiceDependency_obd_ratio_service_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioConnectionKindEnum, ObdRatioServiceNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioServiceNeeds(dependency, "needs")
+        needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER))
+        event_ref = RefType()
+        event_ref.setValue("/Ratio/MonitoredEvent")
+        event_ref.setDest("DIAGNOSTIC-EVENT-NEEDS")
+        needs.setRateBasedMonitoredEventRef(event_ref)
+        fid_ref = RefType()
+        fid_ref.setValue("/Ratio/UsedFid")
+        fid_ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setUsedFidRef(fid_ref)
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        ratio_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-SERVICE-NEEDS")
+        assert ratio_element is not None
+        assert ratio_element.find("SHORT-NAME").text == "needs"
+        assert ratio_element.find("CONNECTION-TYPE").text == "observer"
+        event_ref_element = ratio_element.find("RATE-BASED-MONITORED-EVENT-REF")
+        assert event_ref_element is not None
+        assert event_ref_element.text == "/Ratio/MonitoredEvent"
+        assert event_ref_element.get("DEST") == "DIAGNOSTIC-EVENT-NEEDS"
+        fid_ref_element = ratio_element.find("USED-FID-REF")
+        assert fid_ref_element is not None
+        assert fid_ref_element.text == "/Ratio/UsedFid"
+        assert fid_ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
+
+    def test_writeBswServiceDependency_obd_ratio_denominator_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticDenominatorConditionEnum, ObdRatioDenominatorNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, PositiveInteger
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioDenominatorNeeds(dependency, "needs")
+        needs.setDenominatorCondition(DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.CSERS))
+        needs.setDiagRequirement(DiagRequirementIdString().setValue("REQ-042"))
+        needs.setSecurityAccessLevel(PositiveInteger().setValue("3"))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        denom_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-DENOMINATOR-NEEDS")
+        assert denom_element is not None
+        assert denom_element.find("SHORT-NAME").text == "needs"
+        assert denom_element.find("DENOMINATOR-CONDITION").text == "csers"
+        assert denom_element.find("DIAG-REQUIREMENT").text == "REQ-042"
+        assert denom_element.find("SECURITY-ACCESS-LEVEL").text == "3"
+
+    def test_writeBswServiceDependency_obd_ratio_denominator_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioDenominatorNeeds
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioDenominatorNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        denom_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-DENOMINATOR-NEEDS")
+        assert denom_element is not None
+        assert denom_element.find("SHORT-NAME").text == "needs"
+        assert denom_element.find("DENOMINATOR-CONDITION") is None
+        assert denom_element.find("DIAG-REQUIREMENT") is None
+        assert denom_element.find("SECURITY-ACCESS-LEVEL") is None
+
+    def test_writeBswServiceDependency_do_ip_routing_activation_authentication_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationAuthenticationNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationAuthenticationNeeds(dependency, "needs")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        auth_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS")
+        assert auth_element is not None
+        assert auth_element.find("SHORT-NAME").text == "needs"
+        assert auth_element.find("DATA-LENGTH-REQUEST").text == "4"
+        assert auth_element.find("DATA-LENGTH-RESPONSE").text == "8"
+        assert auth_element.find("ROUTING-ACTIVATION-TYPE").text == "RA_0xE1"
+
+    def test_writeBswServiceDependency_do_ip_routing_activation_authentication_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationAuthenticationNeeds
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationAuthenticationNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        auth_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS")
+        assert auth_element is not None
+        assert auth_element.find("SHORT-NAME").text == "needs"
+        assert auth_element.find("DATA-LENGTH-REQUEST") is None
+        assert auth_element.find("DATA-LENGTH-RESPONSE") is None
+        assert auth_element.find("ROUTING-ACTIVATION-TYPE") is None
+
+    def test_writeBswServiceDependency_do_ip_routing_activation_confirmation_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationConfirmationNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationConfirmationNeeds(dependency, "needs")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        conf_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
+        assert conf_element is not None
+        assert conf_element.find("SHORT-NAME").text == "needs"
+        assert conf_element.find("DATA-LENGTH-REQUEST").text == "4"
+        assert conf_element.find("DATA-LENGTH-RESPONSE").text == "8"
+        assert conf_element.find("ROUTING-ACTIVATION-TYPE").text == "RA_0xE1"
+
+    def test_writeBswServiceDependency_do_ip_routing_activation_confirmation_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationConfirmationNeeds
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationConfirmationNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        conf_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
+        assert conf_element is not None
+        assert conf_element.find("SHORT-NAME").text == "needs"
+        assert conf_element.find("DATA-LENGTH-REQUEST") is None
+        assert conf_element.find("DATA-LENGTH-RESPONSE") is None
+        assert conf_element.find("ROUTING-ACTIVATION-TYPE") is None
+
+    def test_writeBswServiceDependency_secure_on_board_communication_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds, VerificationStatusIndicationModeEnum
+
+        dependency = BswServiceDependency()
+        needs = SecureOnBoardCommunicationNeeds(dependency, "needs")
+        needs.setVerificationStatusIndicationMode(VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        secoc_element = dep_element.find("SERVICE-NEEDS/SECURE-ON-BOARD-COMMUNICATION-NEEDS")
+        assert secoc_element is not None
+        assert secoc_element.find("SHORT-NAME").text == "needs"
+        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE").text == "failureOnly"
+
+    def test_writeBswServiceDependency_secure_on_board_communication_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds
+
+        dependency = BswServiceDependency()
+        needs = SecureOnBoardCommunicationNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        secoc_element = dep_element.find("SERVICE-NEEDS/SECURE-ON-BOARD-COMMUNICATION-NEEDS")
+        assert secoc_element is not None
+        assert secoc_element.find("SHORT-NAME").text == "needs"
+        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE") is None
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()
