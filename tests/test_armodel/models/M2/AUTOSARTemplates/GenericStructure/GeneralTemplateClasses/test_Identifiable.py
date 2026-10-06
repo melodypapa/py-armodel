@@ -12,9 +12,10 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticParameter, RoleBasedResourceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticParameter, RoleBasedResourceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -1900,3 +1901,89 @@ class TestDiagnosticFunctionInhibitSource:
         assert inspect.cleandoc(DiagnosticFunctionInhibitSource.setEventRef.__doc__) == (self.EVENT_NOTE + "\nA None value is a no-op and does not overwrite an existing eventRef.")
         assert inspect.cleandoc(DiagnosticFunctionInhibitSource.getEventGroupRef.__doc__) == self.EVENT_GROUP_NOTE
         assert inspect.cleandoc(DiagnosticFunctionInhibitSource.setEventGroupRef.__doc__) == (self.EVENT_GROUP_NOTE + "\nA None value is a no-op and does not overwrite an existing eventGroupRef.")
+
+
+class TestDdsCpTopic:
+    """
+    Test class for DdsCpTopic functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.177, p.527
+    """
+
+    CLASS_NOTE = "Definition of a DDS Partition. Tags: atp.Status=candidate"
+    DDS_PARTITION_NOTE = "Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate"
+    TOPIC_NAME_NOTE = "Definition of the DDS Topic Name. Tags: atp.Status=candidate"
+
+    def _create_topic(self) -> DdsCpTopic:
+        return DdsCpTopic(AUTOSAR.getInstance(), "Topic1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpTopic initializes all attributes to their defaults.
+        """
+        obj = self._create_topic()
+
+        assert obj.getShortName() == "Topic1"
+        assert obj.getDdsPartitionRef() is None
+        assert obj.getTopicName() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpTopic derives from Identifiable (Base column most-derived synced class).
+        """
+        assert issubclass(DdsCpTopic, Identifiable)
+        assert issubclass(DdsCpTopic, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (the spec Note itself says "DDS Partition" — copied as rendered).
+        """
+        assert inspect.cleandoc(DdsCpTopic.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpTopic.__init__.__doc__ is None
+
+    def test_get_set_dds_partition_ref(self):
+        """
+        Test getDdsPartitionRef and setDdsPartitionRef round-trip and None no-op.
+        """
+        obj = self._create_topic()
+
+        value = RefType().setDest("DDS-CP-PARTITION").setValue("/DdsCpConfig/Domains/Domain1/Partitions/Partition1")
+        result = obj.setDdsPartitionRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsPartitionRef() is value
+        assert obj.getDdsPartitionRef().getValue() == "/DdsCpConfig/Domains/Domain1/Partitions/Partition1"
+        assert obj.getDdsPartitionRef().getDest() == "DDS-CP-PARTITION"
+
+        result = obj.setDdsPartitionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsPartitionRef() is value  # None is a no-op
+
+    def test_get_set_topic_name(self):
+        """
+        Test getTopicName and setTopicName round-trip and None no-op.
+        """
+        obj = self._create_topic()
+
+        value = String().setValue("MyDdsTopic")
+        result = obj.setTopicName(value)
+        assert result is obj  # method chaining
+        assert obj.getTopicName() is value
+        assert obj.getTopicName().getValue() == "MyDdsTopic"
+
+        result = obj.setTopicName(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTopicName() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpTopic.getDdsPartitionRef.__doc__) == self.DDS_PARTITION_NOTE
+        assert inspect.cleandoc(DdsCpTopic.setDdsPartitionRef.__doc__) == (self.DDS_PARTITION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsPartitionRef.")
+        assert inspect.cleandoc(DdsCpTopic.getTopicName.__doc__) == self.TOPIC_NAME_NOTE
+        assert inspect.cleandoc(DdsCpTopic.setTopicName.__doc__) == (self.TOPIC_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing topicName.")

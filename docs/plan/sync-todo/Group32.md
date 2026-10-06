@@ -568,17 +568,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DdsCpTopic` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DdsCpTopic` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2; Identifiable.py hosts the sibling DdsCp* Identifiable stubs DdsCpDomain/DdsCpPartition/DdsCpServiceInstance, and ArObject.py cannot import Identifiable at runtime — cycle via Identifiable.py l.8. Stub-batch test tuple rehoused, VariableAccessScopeEnum precedent 12e743cc9.)
+  - Note: Step 1 — the class Note row reads "Definition of a DDS Partition." — a spec-side copy artifact,
+    present verbatim in BOTH the markdown (l.13798) and the XSD complexType documentation (l.29326); copied
+    verbatim per Rule 0001.4. Attribute rows render after the caption (header block before it); row order
+    ddsPartition/topicName kept for members, XSD group DDS-CP-TOPIC order matches (AUTOSAR_00052.xsd
+    l.29295). ddsPartition ref target DdsCpPartition is still a stub (queued Table 6.178) — field is
+    RefType-typed, gap noted per Rule 0001.10. Base Identifiable → readIdentifiable/writeIdentifiable;
+    not VP-capable (no VARIATION-POINT in group). Nested helper read/writeDdsCpTopic added; aggregator
+    hook-in (DdsCpDomain.ddsTopic — queued Table 6.176) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpPartition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.178, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

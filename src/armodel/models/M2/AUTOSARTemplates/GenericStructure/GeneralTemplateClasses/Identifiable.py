@@ -1487,6 +1487,62 @@ class DdsCpServiceInstance(Identifiable, ABC):
     pass
 
 
+class DdsCpTopic(Identifiable):
+    """
+    Definition of a DDS Partition. Tags: atp.Status=candidate
+    """
+
+    # DdsCpTopic method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.177, p.527
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsPartitionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsPartitionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+        self.ddsPartitionRef: Optional[RefType] = None
+
+        # Definition of the DDS Topic Name. Tags: atp.Status=candidate
+        self.topicName: Optional[String] = None
+
+    def getDdsPartitionRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+        """
+        return self.ddsPartitionRef
+
+    def setDdsPartitionRef(self, value: Optional[RefType]) -> DdsCpTopic:
+        """
+        Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsPartitionRef.
+        """
+        if value is not None:
+            self.ddsPartitionRef = value
+        return self
+
+    def getTopicName(self) -> Optional[String]:
+        """
+        Definition of the DDS Topic Name. Tags: atp.Status=candidate
+        """
+        return self.topicName
+
+    def setTopicName(self, value: Optional[String]) -> DdsCpTopic:
+        """
+        Definition of the DDS Topic Name. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing topicName.
+        """
+        if value is not None:
+            self.topicName = value
+        return self
+
+
 class FlexrayArTpNode(Identifiable):
     pass
 

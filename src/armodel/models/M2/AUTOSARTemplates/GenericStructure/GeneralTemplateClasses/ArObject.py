@@ -2473,10 +2473,6 @@ class DdsCpServiceInstanceOperation(ARObject, VariationPointCapable):
         return self
 
 
-class DdsCpTopic(ARObject):
-    pass
-
-
 class DdsDeadline(ARObject):
     pass
 

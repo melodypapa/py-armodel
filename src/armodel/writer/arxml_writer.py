@@ -567,6 +567,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -15656,6 +15657,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
+    def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
+        child_element = ET.SubElement(element, "DDS-CP-TOPIC")
+        self.writeIdentifiable(child_element, topic)
+        self.setChildElementOptionalRefType(child_element, "DDS-PARTITION-REF", topic.getDdsPartitionRef())
+        self.setChildElementOptionalString(child_element, "TOPIC-NAME", topic.getTopicName())
 
     def writeDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
         child_element = ET.SubElement(element, "TOPIC-DATA")

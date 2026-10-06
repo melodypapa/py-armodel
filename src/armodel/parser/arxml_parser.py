@@ -727,6 +727,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -11879,6 +11880,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
         self.logger.debug("Read DiagnosticParameterSupportInfo")
         support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
+    def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
+        self.logger.debug("Read DdsCpTopic")
+        self.readIdentifiable(element, topic)
+        topic.setDdsPartitionRef(self.getChildElementOptionalRefType(element, "DDS-PARTITION-REF"))
+        topic.setTopicName(self.getChildElementOptionalString(element, "TOPIC-NAME"))
 
     def readDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
         self.logger.debug("Read DdsTopicData")
