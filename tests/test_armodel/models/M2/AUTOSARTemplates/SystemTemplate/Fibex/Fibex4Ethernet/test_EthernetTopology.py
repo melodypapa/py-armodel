@@ -1454,15 +1454,25 @@ class TestEthernetPhysicalLayerTypeEnum:
 
 
 class TestEthernetSwitchVlanIngressTagEnum:
-    """Test cases for EthernetSwitchVlanIngressTagEnum (Table 3.58, p.111)."""
+    """Test cases for EthernetSwitchVlanIngressTagEnum (Table 3.58, p.111, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
-            EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
-            EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
-        ]
-        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "FORWARD-AS-IS"
+    def test_member_presence_and_values(self):
         assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "DROP-UNTAGGED"
+        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "FORWARD-AS-IS"
+        assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
+            EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
+            EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
+        ]
+
+    def test_instantiability_round_trip(self):
+        drop = EthernetSwitchVlanIngressTagEnum().setValue(EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED)
+        assert drop.getValue() == EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED
+
+        forward = EthernetSwitchVlanIngressTagEnum().setValue(EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS)
+        assert forward.getValue() == EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetSwitchVlanIngressTagEnum.__doc__) == "Defines the possible tagging behavior at an ingress port."
 
 
 class TestTimeSyncTechnologyEnum:

@@ -3347,21 +3347,21 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
     # EthernetSwitchVlanIngressTagEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.58, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.receiveActivity
-
-    # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
-    FORWARD_AS_IS = "FORWARD-AS-IS"
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Drop if untagged. Tags: atp.EnumerationLiteralIndex=1
     DROP_UNTAGGED = "DROP-UNTAGGED"
 
+    # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
+    FORWARD_AS_IS = "FORWARD-AS-IS"
+
     def __init__(self):
         super().__init__(
             [
-                EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
                 EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
+                EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
             ]
         )
 
