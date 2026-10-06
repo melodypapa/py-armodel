@@ -1403,10 +1403,6 @@ class ReferenceTailoring(AttributeTailoring):
     pass
 
 
-class RptContainer(Identifiable):
-    pass
-
-
 class SdgTailoring(DataFormatElementScope):
     pass
 

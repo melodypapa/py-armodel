@@ -175,9 +175,8 @@ class TestSwcServiceDependencyDispatch:
 
         parser.readSwcServiceDependencyServiceNeeds(element, dependency)
 
-        needs_list = dependency.getServiceNeeds()
-        assert len(needs_list) == 1
-        needs = needs_list[0]
+        needs = dependency.getServiceNeeds()
+        assert needs is not None
         assert needs.getShortName() == "nv"
         assert needs.getCalcRamBlockCrc().getValue() is True
         assert needs.getNDataSets().getValue() == 4

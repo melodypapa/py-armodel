@@ -577,6 +577,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -668,6 +669,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticStorageCondition,
     DiagnosticStorageConditionGroup,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
@@ -774,6 +776,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
@@ -1013,7 +1016,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
+    ModeAccessPointIdent,
+    RapidPrototypingScenario,
+    RptContainer,
+    RptExecutableEntityProperties,
+    RptHook,
+    RptImplPolicy,
+    RptProfile,
+    RptServicePointEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -1060,6 +1073,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -2729,9 +2743,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, descriptor)
         child_element = self.find(element, "BULK-NV-BLOCK")
         if child_element is not None:
-            prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
-            block = descriptor.createBulkNvBlock(self.getShortName(cast(ET.Element, prototype_element)))
-            self.readVariableDataPrototype(cast(ET.Element, prototype_element), block)
+            block = descriptor.createBulkNvBlock(self.getShortName(child_element))
+            self.readAutosarDataPrototype(child_element, block)
+            block.setInitValue(self.getInitValue(child_element))
         for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
             mapping = NvBlockDataMapping()
             self.readNvBlockDataMapping(child_element, mapping)
@@ -3923,8 +3937,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceDependency(element, dependency)
         self.readSwcServiceDependencyAssignedData(element, dependency)
         self.readSwcServiceDependencyAssignedPorts(element, dependency)
-        self.readSwcServiceDependencyServiceNeeds(element, dependency)
         self.readSwcServiceDependencyRepresentedPortGroup(element, dependency)
+        self.readSwcServiceDependencyServiceNeeds(element, dependency)
 
     def readSwcInternalBehaviorServiceDependencies(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):
@@ -3939,9 +3953,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "INCLUDED-DATA-TYPE-SETS/INCLUDED-DATA-TYPE-SET"):
             include_data_type_set = IncludedDataTypeSet()
             self.readARObject(child_element, include_data_type_set)
-            include_data_type_set.setLiteralPrefix(self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX"))
             for ref_type in self.getChildElementRefTypeList(child_element, "DATA-TYPE-REFS/DATA-TYPE-REF"):
                 include_data_type_set.addDataTypeRef(ref_type)
+            include_data_type_set.setLiteralPrefix(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX")))
             include_data_type_sets.append(include_data_type_set)
         return include_data_type_sets
 
@@ -4766,6 +4780,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
         self.readSwcInternalBehaviorImplicitInterRunnableVariables(element, behavior)
+        self.readSwcInternalBehaviorIncludedDataTypeSets(element, behavior)
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
         self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
@@ -4795,6 +4810,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSwcInternalBehavior(child_element, behavior)
             else:
                 self.notImplemented("Unsupported Internal Behaviors <%s>" % tag_name)
+
+    def readSwcInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for data_type_set in self.getIncludedDataTypeSets(element):
+            behavior.addIncludedDataTypeSet(data_type_set)
 
     def getIncludedModeDeclarationGroupSets(self, element: ET.Element) -> List[IncludedModeDeclarationGroupSet]:
         group_sets = []
@@ -5957,6 +5976,76 @@ class ARXMLParser(AbstractARXMLParser):
         properties.setRptExecutionControl(cast(Optional[RptExecutionControlEnum], self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")))
         properties.setRptServicePoint(cast(Optional[RptServicePointEnum], self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT")))
 
+    def readRptContainer(self, element: ET.Element, container: RptContainer):
+        self.readIdentifiable(element, container)
+        bypass_irefs_element = self.find(element, "BY-PASS-POINT-IREFS")
+        if bypass_irefs_element is not None:
+            for child_element in self.findall(bypass_irefs_element, "BY-PASS-POINT-IREF"):
+                container.addByPassPointIRef(self.getAnyInstanceRefFromElement(child_element))
+        for ref in self.getChildElementRefTypeList(element, "EXPLICIT-RPT-PROFILE-SELECTION-REFS/EXPLICIT-RPT-PROFILE-SELECTION-REF"):
+            container.addExplicitRptProfileSelectionRef(ref)
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                sub_container = container.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, sub_container)
+        rpt_executable_entity_properties_element = self.find(element, "RPT-EXECUTABLE-ENTITY-PROPERTIES")
+        if rpt_executable_entity_properties_element is not None:
+            properties = RptExecutableEntityProperties()
+            self.readRptExecutableEntityProperties(rpt_executable_entity_properties_element, properties)
+            container.setRptExecutableEntityProperties(properties)
+        rpt_hooks_element = self.find(element, "RPT-HOOKS")
+        if rpt_hooks_element is not None:
+            for child_element in self.findall(rpt_hooks_element, "RPT-HOOK"):
+                hook = RptHook()
+                self.readRptHook(child_element, hook)
+                container.setRptHook(hook)
+        rpt_impl_policy_element = self.find(element, "RPT-IMPL-POLICY")
+        if rpt_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rpt_impl_policy_element, policy)
+            container.setRptImplPolicy(policy)
+        rpt_sw_prototyping_access_element = self.find(element, "RPT-SW-PROTOTYPING-ACCESS")
+        if rpt_sw_prototyping_access_element is not None:
+            access = RptSwPrototypingAccess()
+            self.readRptSwPrototypingAccess(rpt_sw_prototyping_access_element, access)
+            container.setRptSwPrototypingAccess(access)
+
+    def readRptHook(self, element: ET.Element, hook: RptHook):
+        self.readARObject(element, hook)
+        hook.setCodeLabel(self.getChildElementOptionalCIdentifier(element, "CODE-LABEL"))
+        hook.setMcdIdentifier(self.getChildElementOptionalNameToken(element, "MCD-IDENTIFIER"))
+        hook.setRptArHookIRef(self.getAnyInstanceRef(element, "RPT-AR-HOOK-IREF"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child_element in self.findall(sdgs_element, "SDG"):
+                hook.addSdg(self.getSdg(child_element))
+        self.readVariationPointCapable(element, hook)
+
+    def readRptProfile(self, element: ET.Element, profile: RptProfile):
+        self.readIdentifiable(element, profile)
+        profile.setMaxServicePointId(self.getChildElementOptionalPositiveInteger(element, "MAX-SERVICE-POINT-ID"))
+        profile.setMinServicePointId(self.getChildElementOptionalPositiveInteger(element, "MIN-SERVICE-POINT-ID"))
+        profile.setServicePointSymbolPost(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-POST"))
+        profile.setServicePointSymbolPre(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-PRE"))
+        profile.setStimEnabler(cast(Optional[RptEnablerImplTypeEnum], self.getChildElementOptionalLiteral(element, "STIM-ENABLER")))
+
+    def readRapidPrototypingScenario(self, element: ET.Element, scenario: RapidPrototypingScenario):
+        self.logger.debug("Read RapidPrototypingScenario <%s>" % scenario.getShortName())
+        self.readIdentifiable(element, scenario)
+        scenario.setHostSystemRef(self.getChildElementOptionalRefType(element, "HOST-SYSTEM-REF"))
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                container = scenario.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, container)
+        profiles_element = self.find(element, "RPT-PROFILES")
+        if profiles_element is not None:
+            for child_element in self.findall(profiles_element, "RPT-PROFILE"):
+                profile = scenario.createRptProfile(self.getShortName(child_element))
+                self.readRptProfile(child_element, profile)
+        scenario.setRptSystemRef(self.getChildElementOptionalRefType(element, "RPT-SYSTEM-REF"))
+
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))
         service_point.setSymbol(cast(Optional[CIdentifier], self.getChildElementOptionalLiteral(element, "SYMBOL")))
@@ -6684,6 +6773,15 @@ class ARXMLParser(AbstractARXMLParser):
         event.setActivation(self._readEnumToken(element, "ACTIVATION", ModeActivationKind, MODE_ACTIVATION_KIND_XML_MAP))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
+    def readSwcModeManagerErrorEvent(self, element: ET.Element, event: SwcModeManagerErrorEvent):
+        # self.logger.debug("Read SwcModeManagerErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        child_element = self.find(element, "MODE-GROUP-IREF")
+        if child_element is not None:
+            instance_ref = PModeGroupInAtomicSwcInstanceRef()
+            self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            event.setModeGroupIRef(instance_ref)
+
     def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         # self.logger.debug("Read InternalTriggerOccurredEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
@@ -6755,6 +6853,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTimingEvent(child_element, event)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
                 self.readSwcModeSwitchEvent(child_element, parent.createSwcModeSwitchEvent(self.getShortName(child_element)))
+            elif tag_name == "SWC-MODE-MANAGER-ERROR-EVENT":
+                self.readSwcModeManagerErrorEvent(child_element, parent.createSwcModeManagerErrorEvent(self.getShortName(child_element)))
             elif tag_name == "OPERATION-INVOKED-EVENT":
                 self.readOperationInvokedEvent(child_element, parent.createOperationInvokedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-RECEIVED-EVENT":
@@ -8357,6 +8457,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentDocumentationElement(self, child_element: ET.Element) -> SwComponentDocumentation:
         documentation = SwComponentDocumentation()
+        self.readARObject(child_element, documentation)
         predefined_chapter_map = [
             ("SW-FEATURE-DEF", documentation.createSwFeatureDef),
             ("SW-FEATURE-DESC", documentation.createSwFeatureDesc),
@@ -8374,6 +8475,7 @@ class ARXMLParser(AbstractARXMLParser):
         for chapter_element in self.findall(child_element, "CHAPTER"):
             chapter = documentation.createChapter(self.getShortName(chapter_element))
             self.readChapterBody(chapter_element, chapter)
+        self.readVariationPointCapable(child_element, documentation)
         return documentation
 
     def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
@@ -12378,6 +12480,23 @@ class ARXMLParser(AbstractARXMLParser):
         test_routine_identifier.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
         test_routine_identifier.setRequestDataSize(self.getChildElementOptionalPositiveInteger(element, "REQUEST-DATA-SIZE"))
         test_routine_identifier.setResponseDataSize(self.getChildElementOptionalPositiveInteger(element, "RESPONSE-DATA-SIZE"))
+
+    def getDiagnosticTestIdentifier(self, element: ET.Element) -> Optional[DiagnosticTestIdentifier]:
+        child_element = self.find(element, "TEST-IDENTIFIER")
+        if child_element is None:
+            return None
+        identifier = DiagnosticTestIdentifier()
+        identifier.setId(self.getChildElementOptionalPositiveInteger(child_element, "ID"))
+        identifier.setUasId(self.getChildElementOptionalPositiveInteger(child_element, "UAS-ID"))
+        return identifier
+
+    def readDiagnosticTestResult(self, element: ET.Element, test_result: DiagnosticTestResult):
+        self.logger.debug("Read DiagnosticTestResult <%s>" % test_result.getShortName())
+        self.readIdentifiable(element, test_result)
+        test_result.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENTS/DIAGNOSTIC-EVENT-REF-CONDITIONAL/DIAGNOSTIC-EVENT-REF"))
+        test_result.setMonitoredIdentifierRef(self.getChildElementOptionalRefType(element, "MONITORED-IDENTIFIER-REF"))
+        test_result.setTestIdentifier(self.getDiagnosticTestIdentifier(element))
+        test_result.setUpdateKind(cast(Optional[DiagnosticTestResultUpdateEnum], self.getChildElementOptionalLiteral(element, "UPDATE-KIND")))
 
     def readDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Read DiagnosticRequestVehicleInfo <%s>" % request_vehicle_info.getShortName())
@@ -17655,6 +17774,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "VIEW-MAP-SET":
             view_map_set = parent.createViewMapSet(self.getShortName(child_element))
             self.readViewMapSet(child_element, view_map_set)
+        elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
+            scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
+            self.readRapidPrototypingScenario(child_element, scenario)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -18015,6 +18137,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER":
             test_routine_identifier = parent.createDiagnosticTestRoutineIdentifier(self.getShortName(child_element))
             self.readDiagnosticTestRoutineIdentifier(child_element, test_routine_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-TEST-RESULT":
+            test_result = parent.createDiagnosticTestResult(self.getShortName(child_element))
+            self.readDiagnosticTestResult(child_element, test_result)
             return True
         if tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO":
             request_vehicle_info = parent.createDiagnosticRequestVehicleInfo(self.getShortName(child_element))

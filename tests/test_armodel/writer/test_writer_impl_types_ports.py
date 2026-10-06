@@ -1714,3 +1714,341 @@ class TestTimingWriter:
         assert child.tag == "SWC-TIMING"
         assert child.find("SHORT-NAME").text == "SwcTiming"
         assert child.find("TIMING-REQUIREMENTS") is not None
+
+
+class TestSensorActuatorSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SensorActuatorSwComponentType with a sensor actuator ref (Table 10.1)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createSensorActuatorSwComponentType("SensorSwc")
+        swc.setSensorActuatorRef(_make_ref("/HwTypes/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSensorActuatorSwComponentType()[0]
+            assert isinstance(swc_2, SensorActuatorSwComponentType)
+            assert swc_2.getShortName() == "SensorSwc"
+            ref = swc_2.getSensorActuatorRef()
+            assert ref is not None
+            assert ref.getValue() == "/HwTypes/Sensor"
+            assert ref.getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SensorActuatorSwComponentType without a sensor actuator ref round-trips without the element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createSensorActuatorSwComponentType("SensorSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("SENSOR-ACTUATOR-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("SENSOR-ACTUATOR-REF") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSensorActuatorSwComponentType()[0]
+            assert swc_2.getSensorActuatorRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestEcuAbstractionSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an EcuAbstractionSwComponentType with hardware element refs (Table 10.2)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createEcuAbstractionSwComponentType("EcuSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Ecu/Led", "HW-DESCRIPTION-ENTITY"))
+        swc.addHardwareElementRef(_make_ref("/Hw/Ecu/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, EcuAbstractionSwComponentType))
+            assert isinstance(swc_2, EcuAbstractionSwComponentType)
+            assert swc_2.getShortName() == "EcuSwc"
+            refs = swc_2.getHardwareElementRefs()
+            assert len(refs) == 2
+            assert refs[0].getValue() == "/Hw/Ecu/Led"
+            assert refs[0].getDest() == "HW-DESCRIPTION-ENTITY"
+            assert refs[1].getValue() == "/Hw/Ecu/Sensor"
+            assert refs[1].getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an EcuAbstractionSwComponentType without hardware element refs round-trips without the wrapper element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createEcuAbstractionSwComponentType("EcuSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("ECU-ABSTRACTION-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("HARDWARE-ELEMENT-REFS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert swc_2.getHardwareElementRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestComplexDeviceDriverSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ComplexDeviceDriverSwComponentType with hardware element refs (Table 10.3)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createComplexDeviceDriverSwComponentType("CddSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Cdd/Led", "HW-DESCRIPTION-ENTITY"))
+        swc.addHardwareElementRef(_make_ref("/Hw/Cdd/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, ComplexDeviceDriverSwComponentType))
+            assert isinstance(swc_2, ComplexDeviceDriverSwComponentType)
+            assert swc_2.getShortName() == "CddSwc"
+            refs = swc_2.getHardwareElementRefs()
+            assert len(refs) == 2
+            assert refs[0].getValue() == "/Hw/Cdd/Led"
+            assert refs[0].getDest() == "HW-DESCRIPTION-ENTITY"
+            assert refs[1].getValue() == "/Hw/Cdd/Sensor"
+            assert refs[1].getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a ComplexDeviceDriverSwComponentType without hardware element refs round-trips without the wrapper element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createComplexDeviceDriverSwComponentType("CddSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("HARDWARE-ELEMENT-REFS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert swc_2.getHardwareElementRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestServiceSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ServiceSwComponentType with an inherited port (Table 11.2 — no own attributes)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createServiceSwComponentType("SvcSwc")
+        swc.createRPortPrototype("ModeRequest")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, ServiceSwComponentType))
+            assert isinstance(swc_2, ServiceSwComponentType)
+            assert swc_2.getShortName() == "SvcSwc"
+            assert [p.short_name for p in swc_2.getPorts()] == ["ModeRequest"]
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a bare ServiceSwComponentType round-trips without the PORTS wrapper."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createServiceSwComponentType("SvcSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("SERVICE-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("PORTS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert isinstance(swc_2, ServiceSwComponentType)
+            assert swc_2.getPorts() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestNvBlockSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a NvBlockSwComponentType with bulk and nv block descriptors (Table 11.4)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createNvBlockSwComponentType("NvSwc")
+        bulk1 = swc.createBulkNvDataDescriptor("Bulk1")
+        bulk1.createBulkNvBlock("BulkBlock1")
+        swc.createBulkNvDataDescriptor("Bulk2")
+        swc.createNvBlockDescriptor("Nv1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, NvBlockSwComponentType))
+            assert isinstance(swc_2, NvBlockSwComponentType)
+            assert swc_2.getShortName() == "NvSwc"
+            bulk_descriptors = swc_2.getBulkNvDataDescriptors()
+            assert [d.short_name for d in bulk_descriptors] == ["Bulk1", "Bulk2"]
+            assert bulk_descriptors[0].getBulkNvBlock() is not None
+            assert bulk_descriptors[0].getBulkNvBlock().short_name == "BulkBlock1"
+            assert [d.short_name for d in swc_2.getNvBlockDescriptors()] == ["Nv1"]
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a bare NvBlockSwComponentType round-trips without the descriptor wrapper elements."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createNvBlockSwComponentType("NvSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("NV-BLOCK-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("BULK-NV-DATA-DESCRIPTORS") for c in swc_element)
+            assert all(not c.tag.endswith("NV-BLOCK-DESCRIPTORS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert isinstance(swc_2, NvBlockSwComponentType)
+            assert swc_2.getBulkNvDataDescriptors() == []
+            assert swc_2.getNvBlockDescriptors() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

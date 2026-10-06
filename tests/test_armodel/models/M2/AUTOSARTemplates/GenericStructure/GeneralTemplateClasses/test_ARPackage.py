@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -135,6 +136,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticStorageConditionGroup,
     DiagnosticStorageConditionPortMapping,
     DiagnosticSwMapping,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTransferExit,
     DiagnosticTroubleCode,
@@ -170,6 +172,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCycleTypeEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
@@ -9315,6 +9318,162 @@ class TestDiagnosticRequestControlOfOnBoardDevice:
         )
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.getTestIdRef.__doc__) == self.TEST_ID_NOTE
         assert inspect.cleandoc(DiagnosticRequestControlOfOnBoardDevice.setTestIdRef.__doc__) == (self.TEST_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing testIdRef.")
+
+
+class TestDiagnosticTestResult:
+    """
+    Test class for DiagnosticTestResult functionality.
+
+    Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.201, p.204
+    """
+
+    CLASS_NOTE = (
+        "This meta-class represents the ability to define diagnostic test results. Tags: atp.recommendedPackage=DiagnosticTestResults\n"
+        "\n"
+        "[constr_1850] Existence of aggregation DiagnosticTestResult.testIdentifier: "
+        "For each DiagnosticTestResult, the aggregation of meta-class DiagnosticTestIdentifier in the role testIdentifier shall exist at the time when the DEXT is complete.\n"
+        "\n"
+        "[constr_1851] Existence of reference DiagnosticTestResult.monitoredIdentifier: "
+        "For each DiagnosticTestResult, the reference to meta-class DiagnosticTestIdentifier in the role monitoredIdentifier shall exist at the time when the DEXT is complete."
+    )
+
+    DIAGNOSTIC_EVENT_NOTE = (
+        "This attribute represents the diagnostic event that is related to the diagnostic test result. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    )
+    MONITORED_IDENTIFIER_NOTE = "This attribute represents the related diagnostic monitored identifier."
+    TEST_IDENTIFIER_NOTE = "This attribute represents the applicable test identifier."
+    UPDATE_KIND_NOTE = "This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+
+    def _make_obj(self) -> DiagnosticTestResult:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return DiagnosticTestResult(ar_root, "TestResult1")
+
+    def test_initialization(self):
+        """
+        Test that the concrete class instantiates with the most-derived base chain and empty defaults.
+        """
+        obj = self._make_obj()
+
+        assert obj.getShortName() == "TestResult1"
+        assert isinstance(obj, DiagnosticTestResult)
+        assert isinstance(obj, ARElement)
+        assert obj.getDiagnosticEventRef() is None
+        assert obj.getMonitoredIdentifierRef() is None
+        assert obj.getTestIdentifier() is None
+        assert obj.getUpdateKind() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (plus the class-level constraints).
+        """
+        assert inspect.cleandoc(DiagnosticTestResult.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DiagnosticTestResult.__init__.__doc__ is None
+
+    def test_get_set_diagnostic_event_ref(self):
+        """
+        Round-trips the diagnosticEventRef; None is a no-op.
+        """
+        obj = self._make_obj()
+        ref = RefType().setValue("/DiagnosticTestResults/DiagnosticEvent1")
+
+        result = obj.setDiagnosticEventRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getDiagnosticEventRef() is ref
+        assert obj.getDiagnosticEventRef().getValue() == "/DiagnosticTestResults/DiagnosticEvent1"
+
+        result = obj.setDiagnosticEventRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDiagnosticEventRef() is ref  # None is a no-op
+
+    def test_get_set_monitored_identifier_ref(self):
+        """
+        Round-trips the monitoredIdentifierRef; None is a no-op.
+        """
+        obj = self._make_obj()
+        ref = RefType().setValue("/DiagnosticTestResults/DiagnosticMeasurementIdentifier1")
+
+        result = obj.setMonitoredIdentifierRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getMonitoredIdentifierRef() is ref
+        assert obj.getMonitoredIdentifierRef().getValue() == "/DiagnosticTestResults/DiagnosticMeasurementIdentifier1"
+
+        result = obj.setMonitoredIdentifierRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMonitoredIdentifierRef() is ref  # None is a no-op
+
+    def test_get_set_test_identifier(self):
+        """
+        Round-trips the aggregated testIdentifier; None is a no-op.
+        """
+        obj = self._make_obj()
+        identifier = DiagnosticTestIdentifier()
+        identifier_id = PositiveInteger()
+        identifier_id.setValue(4)
+        identifier.setId(identifier_id)
+
+        result = obj.setTestIdentifier(identifier)
+        assert result is obj  # method chaining
+        assert obj.getTestIdentifier() is identifier
+
+        result = obj.setTestIdentifier(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTestIdentifier() is identifier  # None is a no-op
+
+    def test_get_set_update_kind(self):
+        """
+        Round-trips the updateKind enum; None is a no-op.
+        """
+        obj = self._make_obj()
+        update_kind = DiagnosticTestResultUpdateEnum()
+        update_kind.setValue(DiagnosticTestResultUpdateEnum.STEADY)
+
+        result = obj.setUpdateKind(update_kind)
+        assert result is obj  # method chaining
+        assert obj.getUpdateKind() is update_kind
+        assert obj.getUpdateKind().getValue() == DiagnosticTestResultUpdateEnum.STEADY
+
+        result = obj.setUpdateKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getUpdateKind() is update_kind  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setters + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DiagnosticTestResult.getDiagnosticEventRef.__doc__) == self.DIAGNOSTIC_EVENT_NOTE
+        assert inspect.cleandoc(DiagnosticTestResult.setDiagnosticEventRef.__doc__) == (
+            self.DIAGNOSTIC_EVENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing diagnosticEventRef."
+        )
+        assert inspect.cleandoc(DiagnosticTestResult.getMonitoredIdentifierRef.__doc__) == self.MONITORED_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticTestResult.setMonitoredIdentifierRef.__doc__) == (
+            self.MONITORED_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing monitoredIdentifierRef."
+        )
+        assert inspect.cleandoc(DiagnosticTestResult.getTestIdentifier.__doc__) == self.TEST_IDENTIFIER_NOTE
+        assert inspect.cleandoc(DiagnosticTestResult.setTestIdentifier.__doc__) == (self.TEST_IDENTIFIER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing testIdentifier.")
+        assert inspect.cleandoc(DiagnosticTestResult.getUpdateKind.__doc__) == self.UPDATE_KIND_NOTE
+        assert inspect.cleandoc(DiagnosticTestResult.setUpdateKind.__doc__) == (self.UPDATE_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing updateKind.")
+
+    def test_create_diagnostic_test_result(self):
+        """
+        Test that the ARPackage create factory creates and reuses the element.
+        """
+        package = AUTOSAR.getInstance().createARPackage("DiagnosticTestResults")
+        element = package.createDiagnosticTestResult("TestResult1")
+
+        assert element is not None
+        assert isinstance(element, DiagnosticTestResult)
+        assert element.getShortName() == "TestResult1"
+        assert package.getReferrableElement("TestResult1", DiagnosticTestResult) is element
+
+        duplicate = package.createDiagnosticTestResult("TestResult1")
+        assert duplicate is element  # duplicate short name returns the existing element
 
 
 class TestDiagnosticTestRoutineIdentifier:

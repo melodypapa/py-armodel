@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataWriteCompletedEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent, WaitPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeManagerErrorEvent, SwcModeSwitchEvent, TimingEvent, WaitPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -586,6 +586,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     # [x] createDataReceivedEvent                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createDataReceiveErrorEvent                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createSwcModeSwitchEvent                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwcModeManagerErrorEvent               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createInternalTriggerOccurredEvent           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createModeSwitchedAckEvent                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createBackgroundEvent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -599,6 +600,7 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     # [x] getTimingEvents                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataReceivedEvents                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSwcModeSwitchEvents                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwcModeManagerErrorEvents                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getInternalTriggerOccurredEvents             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getModeSwitchedAckEvents                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBackgroundEvents                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -911,6 +913,16 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
             self.events.append(event)
         return cast(SwcModeSwitchEvent, self.getReferrableElement(short_name, SwcModeSwitchEvent))
 
+    def createSwcModeManagerErrorEvent(self, short_name: str) -> SwcModeManagerErrorEvent:
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        if not self.IsReferrableElementExists(short_name, SwcModeManagerErrorEvent):
+            event = SwcModeManagerErrorEvent(self, short_name)
+            self.addReferrableElement(event)
+            self.events.append(event)
+        return cast(SwcModeManagerErrorEvent, self.getReferrableElement(short_name, SwcModeManagerErrorEvent))
+
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
         """
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
@@ -1036,6 +1048,12 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
         return sorted([c for c in self.events if isinstance(c, SwcModeSwitchEvent)], key=lambda e: e.short_name)
+
+    def getSwcModeManagerErrorEvents(self) -> List[SwcModeManagerErrorEvent]:
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted([c for c in self.events if isinstance(c, SwcModeManagerErrorEvent)], key=lambda e: e.short_name)
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
         """

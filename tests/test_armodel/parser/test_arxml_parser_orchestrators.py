@@ -3430,8 +3430,8 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
 
     def test_nv_block_needs_branch(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3447,8 +3447,8 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "NvNeed"
+        assert needs is not None
+        assert needs.getShortName() == "NvNeed"
 
     def test_diagnostic_enable_condition_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3465,9 +3465,9 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
-        assert needs[0].getInitialStatus().getValue() == "EVENT-ACCEPTANCE-ENABLED"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
+        assert needs.getInitialStatus().getValue() == "EVENT-ACCEPTANCE-ENABLED"
 
     def test_diagnostic_operation_cycle_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3484,9 +3484,9 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
-        assert needs[0].getOperationCycle().getValue() == "POWER"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
+        assert needs.getOperationCycle().getValue() == "POWER"
 
     def test_diagnostic_storage_condition_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3503,9 +3503,9 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
-        assert needs[0].getInitialStatus().getValue() == "EVENT-STORAGE-DISABLED"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
+        assert needs.getInitialStatus().getValue() == "EVENT-STORAGE-DISABLED"
 
     def test_indicator_status_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3522,9 +3522,9 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
-        assert needs[0].getType().getValue() == "AMBER-WARNING"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
+        assert needs.getType().getValue() == "AMBER-WARNING"
 
     def test_function_inhibition_availability_needs_member(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3541,9 +3541,9 @@ class TestSwcServiceDependencyServiceNeeds:
         )
         parser.readSwcServiceDependencyServiceNeeds(element, dep)
         needs = dep.getServiceNeeds()
-        assert len(needs) == 1
-        assert needs[0].getShortName() == "Need"
-        assert needs[0].getControlledFidRef().getValue() == "/Fim/Controlled"
+        assert needs is not None
+        assert needs.getShortName() == "Need"
+        assert needs.getControlledFidRef().getValue() == "/Fim/Controlled"
 
     def test_unknown_service_needs_warning(self, warning_parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -3558,7 +3558,7 @@ class TestSwcServiceDependencyServiceNeeds:
             """,
         )
         warning_parser.readSwcServiceDependencyServiceNeeds(element, dep)
-        assert len(dep.getServiceNeeds()) == 0
+        assert dep.getServiceNeeds() is None
 
 
 class TestIncludedDataTypeSets:

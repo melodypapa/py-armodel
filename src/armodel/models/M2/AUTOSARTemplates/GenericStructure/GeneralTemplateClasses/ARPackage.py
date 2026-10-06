@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -116,7 +117,6 @@ __all__ = [
     "SecurityEventContextMappingBswModule",
     "SecurityEventContextMappingApplication",
     "SdgDef",
-    "RapidPrototypingScenario",
     "PostBuildVariantCriterionValueSet",
     "PhysicalDimensionMappingSet",
     "LifeCycleStateDefinitionGroup",
@@ -428,6 +428,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCycleTypeEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
@@ -782,6 +783,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_control_of_on_board_device_class = DiagnosticRequestControlOfOnBoardDeviceClass(self, short_name)
             self.addReferrableElement(request_control_of_on_board_device_class)
         return cast(DiagnosticRequestControlOfOnBoardDeviceClass, self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass))
+
+    def createDiagnosticTestResult(self, short_name: str) -> DiagnosticTestResult:
+        """
+        Creates a new DiagnosticTestResult with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTestResult represents the ability to define diagnostic test results.
+
+        Args:
+            short_name: The short name for the new DiagnosticTestResult
+
+        Returns:
+            The newly created or existing DiagnosticTestResult instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTestResult):
+            test_result = DiagnosticTestResult(self, short_name)
+            self.addReferrableElement(test_result)
+        return cast(DiagnosticTestResult, self.getReferrableElement(short_name, DiagnosticTestResult))
 
     def createDiagnosticTestRoutineIdentifier(self, short_name: str) -> DiagnosticTestRoutineIdentifier:
         """
@@ -4503,6 +4522,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(view_map_set)
         return cast(ViewMapSet, self.getReferrableElement(short_name, ViewMapSet))
 
+    def createRapidPrototypingScenario(self, short_name: str) -> RapidPrototypingScenario:
+
+        if not self.IsReferrableElementExists(short_name, RapidPrototypingScenario):
+            scenario = RapidPrototypingScenario(self, short_name)
+            self.addReferrableElement(scenario)
+        return cast(RapidPrototypingScenario, self.getReferrableElement(short_name, RapidPrototypingScenario))
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.short_name))
@@ -4834,6 +4860,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.short_name))
 
+    def getRapidPrototypingScenarios(self) -> List[RapidPrototypingScenario]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, RapidPrototypingScenario)), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -5049,6 +5079,7 @@ AclOperation.__bases__ = (ARElement,)
 AclPermission.__bases__ = (ARElement,)
 AclRole.__bases__ = (ARElement,)
 ViewMapSet.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RapidPrototypingScenario  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
@@ -10693,7 +10724,105 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
 
 
 class DiagnosticTestResult(ARElement):
-    pass
+    """
+    This meta-class represents the ability to define diagnostic test results. Tags: atp.recommendedPackage=DiagnosticTestResults
+
+    [constr_1850] Existence of aggregation DiagnosticTestResult.testIdentifier: For each DiagnosticTestResult, the aggregation of meta-class DiagnosticTestIdentifier in the role testIdentifier shall exist at the time when the DEXT is complete.
+
+    [constr_1851] Existence of reference DiagnosticTestResult.monitoredIdentifier: For each DiagnosticTestResult, the reference to meta-class DiagnosticTestIdentifier in the role monitoredIdentifier shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticTestResult method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.201, p.204
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMonitoredIdentifierRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMonitoredIdentifierRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestIdentifier            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTestIdentifier            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateKind                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateKind                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This attribute represents the related diagnostic monitored identifier.
+        self.monitoredIdentifierRef: Optional[RefType] = None
+
+        # This attribute represents the applicable test identifier.
+        self.testIdentifier: Optional[DiagnosticTestIdentifier] = None
+
+        # This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.updateKind: Optional[DiagnosticTestResultUpdateEnum] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticTestResult:
+        """
+        This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getMonitoredIdentifierRef(self) -> Optional[RefType]:
+        """
+        This attribute represents the related diagnostic monitored identifier.
+        """
+        return self.monitoredIdentifierRef
+
+    def setMonitoredIdentifierRef(self, value: Optional[RefType]) -> DiagnosticTestResult:
+        """
+        This attribute represents the related diagnostic monitored identifier.
+
+        A None value is a no-op and does not overwrite an existing monitoredIdentifierRef.
+        """
+        if value is not None:
+            self.monitoredIdentifierRef = value
+        return self
+
+    def getTestIdentifier(self) -> Optional[DiagnosticTestIdentifier]:
+        """
+        This attribute represents the applicable test identifier.
+        """
+        return self.testIdentifier
+
+    def setTestIdentifier(self, value: Optional[DiagnosticTestIdentifier]) -> DiagnosticTestResult:
+        """
+        This attribute represents the applicable test identifier.
+
+        A None value is a no-op and does not overwrite an existing testIdentifier.
+        """
+        if value is not None:
+            self.testIdentifier = value
+        return self
+
+    def getUpdateKind(self) -> Optional[DiagnosticTestResultUpdateEnum]:
+        """
+        This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.updateKind
+
+    def setUpdateKind(self, value: Optional[DiagnosticTestResultUpdateEnum]) -> DiagnosticTestResult:
+        """
+        This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing updateKind.
+        """
+        if value is not None:
+            self.updateKind = value
+        return self
 
 
 class DiagnosticTestRoutineIdentifier(ARElement):
@@ -11256,10 +11385,6 @@ class PhysicalDimensionMappingSet(ARElement):
 
 
 class PostBuildVariantCriterionValueSet(ARElement):
-    pass
-
-
-class RapidPrototypingScenario(ARElement):
     pass
 
 

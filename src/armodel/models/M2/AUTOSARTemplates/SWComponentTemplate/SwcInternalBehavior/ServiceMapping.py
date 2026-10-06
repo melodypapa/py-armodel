@@ -3,6 +3,7 @@ This module contains classes for representing AUTOSAR service mapping elements
 in software component internal behavior templates.
 """
 
+from __future__ import annotations
 from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
@@ -67,8 +68,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     WarningIndicatorRequestedBitNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 
 
@@ -102,7 +103,7 @@ class RoleBasedPortAssignment(ARObject, VariationPointCapable):
         """
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value: Optional[RefType]) -> "RoleBasedPortAssignment":
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> RoleBasedPortAssignment:
         """
         Service PortPrototype used in the assigned role. This PortPrototype shall either belong to the same AtomicSwComponentType as the SwcInternalBehavior which owns the ServiceDependency or to the same NvBlockSwComponentType as the NvBlockDescriptor. A None value is a no-op and does not overwrite an existing portPrototypeRef.
         """
@@ -116,7 +117,7 @@ class RoleBasedPortAssignment(ARObject, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "RoleBasedPortAssignment":
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedPortAssignment:
         """
         This is the role of the assigned Port in the given context. The value shall be a shortName of the Blueprint of a PortInterface as standardized in the Software Specification of the related AUTOSAR Service. A None value is a no-op and does not overwrite an existing role.
         """
@@ -125,69 +126,100 @@ class RoleBasedPortAssignment(ARObject, VariationPointCapable):
         return self
 
 
-class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapable):
-    """
-    Specialization of ServiceDependency in the context of an SwcInternalBehavior. It allows to associate ports, port groups and (in special cases) data defined for an atomic software component to a given ServiceNeeds element.
-    """
+class SwcServiceDependency(AtpStructureElement, ServiceDependency):
+    """Specialization of ServiceDependency in the context of an SwcInternalBehavior. It allows to associate ports, port groups and (in special cases) data defined for an atomic software component to a given ServiceNeeds element."""
 
     # SwcServiceDependency method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.56, p.608
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] AddAssignedData              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getAssignedData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] AddAssignedPort              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getAssignedPorts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createNvBlockNeeds           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticRoutineNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticValueNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticEventNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticEventInfoNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createCryptoServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticIoControlNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDltUserNeeds           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createErrorTracerNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticEnableConditionNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticOperationCycleNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createDiagnosticStorageConditionNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createFunctionInhibitionAvailabilityNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createIndicatorStatusNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getNvBlockNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticValueNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticEventNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticEventInfoNeeds  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getCryptoServiceNeeds        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDiagnosticIoControlNeeds  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDltUserNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getErrorTracerNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createObdInfoServiceNeeds    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createObdMonitorServiceNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createObdPidServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getObdInfoServiceNeeds       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getObdMonitorServiceNeeds    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getObdPidServiceNeeds        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRepresentedPortGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getRepresentedPortGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getServiceNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.56, p.609
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] AddAssignedData                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedData                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] AddAssignedPort                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedPorts                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRepresentedPortGroupRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRepresentedPortGroupRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createNvBlockNeeds                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticCommunicationManagerNeeds    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticComponentNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticControlNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticUploadDownloadNeeds          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticsCommunicationSecurityNeeds  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticRoutineNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticValueNeeds                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticEventNeeds                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticEventInfoNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCryptoKeyManagementNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCryptoServiceJobNeeds                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCryptoServiceNeeds                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEcuStateMgrUserNeeds                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDtcStatusChangeNotificationNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticIoControlNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticEnableConditionNeeds         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticEventManagerNeeds            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticOperationCycleNeeds          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticRequestFileTransferNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDiagnosticStorageConditionNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFunctionInhibitionAvailabilityNeeds    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFunctionInhibitionNeeds                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFurtherActionByteNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createGlobalSupervisionNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createHardwareTestNeeds                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIdsMgrCustomTimestampNeeds             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIndicatorStatusNeeds                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939DcmDm19Support                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939RmIncomingRequestServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createJ1939RmOutgoingRequestServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDltUserNeeds                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createComMgrUserNeeds                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createErrorTracerNeeds                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdInfoServiceNeeds                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdMonitorServiceNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdPidServiceNeeds                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdControlServiceNeeds                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdRatioServiceNeeds                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createObdRatioDenominatorNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpActivationLineNeeds                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpGidNeeds                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpGidSynchronizationNeeds            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpPowerModeStatusNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpRoutingActivationAuthenticationNeeds  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDoIpRoutingActivationConfirmationNeeds  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSecureOnBoardCommunicationNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSupervisedEntityCheckpointNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSyncTimeBaseMgrUserNeeds               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createV2xDataManagerNeeds                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createV2xFacUserNeeds                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createV2xMUserNeeds                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createVendorSpecificServiceNeeds             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createWarningIndicatorRequestedBitNeeds      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createIdsMgrNeeds                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockNeeds                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticCommunicationManagerNeeds       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticRoutineNeeds                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticValueNeeds                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventNeeds                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventInfoNeeds                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCryptoServiceNeeds                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuStateMgrUserNeeds                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDtcStatusChangeNotificationNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticIoControlNeeds                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDltUserNeeds                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComMgrUserNeeds                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getErrorTracerNeeds                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdInfoServiceNeeds                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdMonitorServiceNeeds                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdPidServiceNeeds                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getObdControlServiceNeeds                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getServiceNeeds                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     def __init__(self, parent: ARObject, short_name: str):
         ServiceDependency.__init__(self)
-        Identifiable.__init__(self, parent, short_name)
+        AtpStructureElement.__init__(self, parent, short_name)
 
-        # Defines the role of an associated data object of the same component.
+        # Defines the role of an associated data object of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedData, assignedData.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.assignedData: List[RoleBasedDataAssignment] = []
 
-        # Defines the role of an associated port of the same component.
+        # Defines the role of an associated port of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedPort, assignedPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.assignedPort: List[RoleBasedPortAssignment] = []
 
         # This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
@@ -196,52 +228,38 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         # The associated ServiceNeeds.
         self.serviceNeeds: Optional[ServiceNeeds] = None
 
-    def AddAssignedData(self, data: RoleBasedDataAssignment):
-        """
-        Adds assigned data to this service dependency.
-
-        Args:
-            data: The role-based data assignment to add
-        """
-        self.assignedData.append(data)
+    def AddAssignedData(self, data: Optional[RoleBasedDataAssignment]) -> SwcServiceDependency:
+        """Defines the role of an associated data object of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedData, assignedData.variation Point.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append anything."""
+        if data is not None:
+            self.assignedData.append(data)
+        return self
 
     def getAssignedData(self) -> List[RoleBasedDataAssignment]:
-        """
-        Gets the list of assigned data.
-
-        Returns:
-            List[RoleBasedDataAssignment]: The assigned data list
-        """
+        """Defines the role of an associated data object of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedData, assignedData.variation Point.shortLabel vh.latestBindingTime=preCompileTime"""
         return self.assignedData
 
-    def AddAssignedPort(self, data: RoleBasedPortAssignment):
-        """
-        Adds an assigned port to this service dependency.
-
-        Args:
-            data: The role-based port assignment to add
-        """
-        self.assignedPort.append(data)
+    def AddAssignedPort(self, data: Optional[RoleBasedPortAssignment]) -> SwcServiceDependency:
+        """Defines the role of an associated port of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedPort, assignedPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append anything."""
+        if data is not None:
+            self.assignedPort.append(data)
+        return self
 
     def getAssignedPorts(self) -> List[RoleBasedPortAssignment]:
-        """
-        Gets the list of assigned ports.
-
-        Returns:
-            List[RoleBasedPortAssignment]: The assigned ports list
-        """
+        """Defines the role of an associated port of the same component. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedPort, assignedPort.variation Point.shortLabel vh.latestBindingTime=preCompileTime"""
         return self.assignedPort
 
+    def getRepresentedPortGroupRef(self) -> Optional[RefType]:
+        """This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found."""
+        return self.representedPortGroupRef
+
+    def setRepresentedPortGroupRef(self, value: Optional[RefType]) -> SwcServiceDependency:
+        """This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found. A None value is a no-op and does not overwrite an existing representedPortGroupRef."""
+        if value is not None:
+            self.representedPortGroupRef = value
+        return self
+
     def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
-        """
-        Creates or retrieves an NvBlockNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            NvBlockNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, NvBlockNeeds):
             needs = NvBlockNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -249,16 +267,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(NvBlockNeeds, self.getReferrableElement(short_name, NvBlockNeeds))
 
     def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
-        """
-        Creates or retrieves a DiagnosticCommunicationManagerNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticCommunicationManagerNeeds: The created or existing needs
-                element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticCommunicationManagerNeeds):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -266,15 +275,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticCommunicationManagerNeeds, self.getReferrableElement(short_name, DiagnosticCommunicationManagerNeeds))
 
     def createDiagnosticComponentNeeds(self, short_name: str) -> DiagnosticComponentNeeds:
-        """
-        Creates or retrieves a DiagnosticComponentNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticComponentNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticComponentNeeds):
             needs = DiagnosticComponentNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -282,15 +283,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticComponentNeeds, self.getReferrableElement(short_name, DiagnosticComponentNeeds))
 
     def createDiagnosticControlNeeds(self, short_name: str) -> DiagnosticControlNeeds:
-        """
-        Creates or retrieves a DiagnosticControlNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticControlNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticControlNeeds):
             needs = DiagnosticControlNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -298,15 +291,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticControlNeeds, self.getReferrableElement(short_name, DiagnosticControlNeeds))
 
     def createDiagnosticUploadDownloadNeeds(self, short_name: str) -> DiagnosticUploadDownloadNeeds:
-        """
-        Creates or retrieves a DiagnosticUploadDownloadNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticUploadDownloadNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticUploadDownloadNeeds):
             needs = DiagnosticUploadDownloadNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -314,15 +299,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticUploadDownloadNeeds, self.getReferrableElement(short_name, DiagnosticUploadDownloadNeeds))
 
     def createDiagnosticsCommunicationSecurityNeeds(self, short_name: str) -> DiagnosticsCommunicationSecurityNeeds:
-        """
-        Creates or retrieves a DiagnosticsCommunicationSecurityNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticsCommunicationSecurityNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticsCommunicationSecurityNeeds):
             needs = DiagnosticsCommunicationSecurityNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -330,15 +307,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticsCommunicationSecurityNeeds, self.getReferrableElement(short_name, DiagnosticsCommunicationSecurityNeeds))
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
-        """
-        Creates or retrieves a DiagnosticRoutineNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticRoutineNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticRoutineNeeds):
             needs = DiagnosticRoutineNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -346,15 +315,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticRoutineNeeds, self.getReferrableElement(short_name, DiagnosticRoutineNeeds))
 
     def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
-        """
-        Creates or retrieves a DiagnosticValueNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticValueNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticValueNeeds):
             needs = DiagnosticValueNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -362,15 +323,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticValueNeeds, self.getReferrableElement(short_name, DiagnosticValueNeeds))
 
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
-        """
-        Creates or retrieves a DiagnosticEventNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticEventNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticEventNeeds):
             needs = DiagnosticEventNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -378,15 +331,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticEventNeeds, self.getReferrableElement(short_name, DiagnosticEventNeeds))
 
     def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
-        """
-        Creates or retrieves a DiagnosticEventInfoNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticEventInfoNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticEventInfoNeeds):
             needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -394,15 +339,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticEventInfoNeeds, self.getReferrableElement(short_name, DiagnosticEventInfoNeeds))
 
     def createCryptoKeyManagementNeeds(self, short_name: str) -> CryptoKeyManagementNeeds:
-        """
-        Creates or retrieves a CryptoKeyManagementNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            CryptoKeyManagementNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, CryptoKeyManagementNeeds):
             needs = CryptoKeyManagementNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -410,15 +347,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(CryptoKeyManagementNeeds, self.getReferrableElement(short_name, CryptoKeyManagementNeeds))
 
     def createCryptoServiceJobNeeds(self, short_name: str) -> CryptoServiceJobNeeds:
-        """
-        Creates or retrieves a CryptoServiceJobNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            CryptoServiceJobNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, CryptoServiceJobNeeds):
             needs = CryptoServiceJobNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -426,15 +355,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(CryptoServiceJobNeeds, self.getReferrableElement(short_name, CryptoServiceJobNeeds))
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
-        """
-        Creates or retrieves a CryptoServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            CryptoServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, CryptoServiceNeeds):
             needs = CryptoServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -442,15 +363,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(CryptoServiceNeeds, self.getReferrableElement(short_name, CryptoServiceNeeds))
 
     def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
-        """
-        Creates or retrieves an EcuStateMgrUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            EcuStateMgrUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, EcuStateMgrUserNeeds):
             needs = EcuStateMgrUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -458,16 +371,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(EcuStateMgrUserNeeds, self.getReferrableElement(short_name, EcuStateMgrUserNeeds))
 
     def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
-        """
-        Creates or retrieves a DtcStatusChangeNotificationNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DtcStatusChangeNotificationNeeds: The created or existing needs
-                element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DtcStatusChangeNotificationNeeds):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -475,15 +379,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DtcStatusChangeNotificationNeeds, self.getReferrableElement(short_name, DtcStatusChangeNotificationNeeds))
 
     def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
-        """
-        Creates or retrieves a DiagnosticIoControlNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticIoControlNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticIoControlNeeds):
             needs = DiagnosticIoControlNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -491,15 +387,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticIoControlNeeds, self.getReferrableElement(short_name, DiagnosticIoControlNeeds))
 
     def createDiagnosticEnableConditionNeeds(self, short_name: str) -> DiagnosticEnableConditionNeeds:
-        """
-        Creates or retrieves a DiagnosticEnableConditionNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticEnableConditionNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticEnableConditionNeeds):
             needs = DiagnosticEnableConditionNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -507,15 +395,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticEnableConditionNeeds, self.getReferrableElement(short_name, DiagnosticEnableConditionNeeds))
 
     def createDiagnosticEventManagerNeeds(self, short_name: str) -> DiagnosticEventManagerNeeds:
-        """
-        Creates or retrieves a DiagnosticEventManagerNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticEventManagerNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticEventManagerNeeds):
             needs = DiagnosticEventManagerNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -523,15 +403,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticEventManagerNeeds, self.getReferrableElement(short_name, DiagnosticEventManagerNeeds))
 
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
-        """
-        Creates or retrieves a DiagnosticOperationCycleNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticOperationCycleNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticOperationCycleNeeds):
             needs = DiagnosticOperationCycleNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -539,15 +411,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticOperationCycleNeeds, self.getReferrableElement(short_name, DiagnosticOperationCycleNeeds))
 
     def createDiagnosticRequestFileTransferNeeds(self, short_name: str) -> DiagnosticRequestFileTransferNeeds:
-        """
-        Creates or retrieves a DiagnosticRequestFileTransferNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticRequestFileTransferNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticRequestFileTransferNeeds):
             needs = DiagnosticRequestFileTransferNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -555,15 +419,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticRequestFileTransferNeeds, self.getReferrableElement(short_name, DiagnosticRequestFileTransferNeeds))
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
-        """
-        Creates or retrieves a DiagnosticStorageConditionNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DiagnosticStorageConditionNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DiagnosticStorageConditionNeeds):
             needs = DiagnosticStorageConditionNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -571,15 +427,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DiagnosticStorageConditionNeeds, self.getReferrableElement(short_name, DiagnosticStorageConditionNeeds))
 
     def createFunctionInhibitionAvailabilityNeeds(self, short_name: str) -> FunctionInhibitionAvailabilityNeeds:
-        """
-        Creates or retrieves a FunctionInhibitionAvailabilityNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            FunctionInhibitionAvailabilityNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, FunctionInhibitionAvailabilityNeeds):
             needs = FunctionInhibitionAvailabilityNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -587,15 +435,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(FunctionInhibitionAvailabilityNeeds, self.getReferrableElement(short_name, FunctionInhibitionAvailabilityNeeds))
 
     def createFunctionInhibitionNeeds(self, short_name: str) -> FunctionInhibitionNeeds:
-        """
-        Creates or retrieves a FunctionInhibitionNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            FunctionInhibitionNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, FunctionInhibitionNeeds):
             needs = FunctionInhibitionNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -603,15 +443,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(FunctionInhibitionNeeds, self.getReferrableElement(short_name, FunctionInhibitionNeeds))
 
     def createFurtherActionByteNeeds(self, short_name: str) -> FurtherActionByteNeeds:
-        """
-        Creates or retrieves a FurtherActionByteNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            FurtherActionByteNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, FurtherActionByteNeeds):
             needs = FurtherActionByteNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -619,15 +451,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(FurtherActionByteNeeds, self.getReferrableElement(short_name, FurtherActionByteNeeds))
 
     def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
-        """
-        Creates or retrieves a GlobalSupervisionNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            GlobalSupervisionNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, GlobalSupervisionNeeds):
             needs = GlobalSupervisionNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -635,15 +459,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(GlobalSupervisionNeeds, self.getReferrableElement(short_name, GlobalSupervisionNeeds))
 
     def createHardwareTestNeeds(self, short_name: str) -> HardwareTestNeeds:
-        """
-        Creates or retrieves a HardwareTestNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            HardwareTestNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, HardwareTestNeeds):
             needs = HardwareTestNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -651,15 +467,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(HardwareTestNeeds, self.getReferrableElement(short_name, HardwareTestNeeds))
 
     def createIdsMgrCustomTimestampNeeds(self, short_name: str) -> IdsMgrCustomTimestampNeeds:
-        """
-        Creates or retrieves a IdsMgrCustomTimestampNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            IdsMgrCustomTimestampNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, IdsMgrCustomTimestampNeeds):
             needs = IdsMgrCustomTimestampNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -667,15 +475,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(IdsMgrCustomTimestampNeeds, self.getReferrableElement(short_name, IdsMgrCustomTimestampNeeds))
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
-        """
-        Creates or retrieves an IndicatorStatusNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            IndicatorStatusNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, IndicatorStatusNeeds):
             needs = IndicatorStatusNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -683,15 +483,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(IndicatorStatusNeeds, self.getReferrableElement(short_name, IndicatorStatusNeeds))
 
     def createJ1939DcmDm19Support(self, short_name: str) -> J1939DcmDm19Support:
-        """
-        Creates or retrieves a J1939DcmDm19Support element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            J1939DcmDm19Support: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, J1939DcmDm19Support):
             needs = J1939DcmDm19Support(self, short_name)
             self.addReferrableElement(needs)
@@ -699,15 +491,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(J1939DcmDm19Support, self.getReferrableElement(short_name, J1939DcmDm19Support))
 
     def createJ1939RmIncomingRequestServiceNeeds(self, short_name: str) -> J1939RmIncomingRequestServiceNeeds:
-        """
-        Creates or retrieves a J1939RmIncomingRequestServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            J1939RmIncomingRequestServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, J1939RmIncomingRequestServiceNeeds):
             needs = J1939RmIncomingRequestServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -715,15 +499,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(J1939RmIncomingRequestServiceNeeds, self.getReferrableElement(short_name, J1939RmIncomingRequestServiceNeeds))
 
     def createJ1939RmOutgoingRequestServiceNeeds(self, short_name: str) -> J1939RmOutgoingRequestServiceNeeds:
-        """
-        Creates or retrieves a J1939RmOutgoingRequestServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            J1939RmOutgoingRequestServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, J1939RmOutgoingRequestServiceNeeds):
             needs = J1939RmOutgoingRequestServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -731,15 +507,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(J1939RmOutgoingRequestServiceNeeds, self.getReferrableElement(short_name, J1939RmOutgoingRequestServiceNeeds))
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
-        """
-        Creates or retrieves a DltUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DltUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DltUserNeeds):
             needs = DltUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -747,15 +515,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DltUserNeeds, self.getReferrableElement(short_name, DltUserNeeds))
 
     def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
-        """
-        Creates or retrieves a ComMgrUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ComMgrUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ComMgrUserNeeds):
             needs = ComMgrUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -763,15 +523,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ComMgrUserNeeds, self.getReferrableElement(short_name, ComMgrUserNeeds))
 
     def createErrorTracerNeeds(self, short_name: str) -> ErrorTracerNeeds:
-        """
-        Creates or retrieves an ErrorTracerNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ErrorTracerNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ErrorTracerNeeds):
             needs = ErrorTracerNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -779,15 +531,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ErrorTracerNeeds, self.getReferrableElement(short_name, ErrorTracerNeeds))
 
     def createObdInfoServiceNeeds(self, short_name: str) -> ObdInfoServiceNeeds:
-        """
-        Creates or retrieves an ObdInfoServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdInfoServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdInfoServiceNeeds):
             needs = ObdInfoServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -795,15 +539,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdInfoServiceNeeds, self.getReferrableElement(short_name, ObdInfoServiceNeeds))
 
     def createObdMonitorServiceNeeds(self, short_name: str) -> ObdMonitorServiceNeeds:
-        """
-        Creates or retrieves an ObdMonitorServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdMonitorServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdMonitorServiceNeeds):
             needs = ObdMonitorServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -811,15 +547,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdMonitorServiceNeeds, self.getReferrableElement(short_name, ObdMonitorServiceNeeds))
 
     def createObdPidServiceNeeds(self, short_name: str) -> ObdPidServiceNeeds:
-        """
-        Creates or retrieves an ObdPidServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdPidServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdPidServiceNeeds):
             needs = ObdPidServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -827,15 +555,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdPidServiceNeeds, self.getReferrableElement(short_name, ObdPidServiceNeeds))
 
     def createObdControlServiceNeeds(self, short_name: str) -> ObdControlServiceNeeds:
-        """
-        Creates or retrieves an ObdControlServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdControlServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdControlServiceNeeds):
             needs = ObdControlServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -843,15 +563,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdControlServiceNeeds, self.getReferrableElement(short_name, ObdControlServiceNeeds))
 
     def createObdRatioServiceNeeds(self, short_name: str) -> ObdRatioServiceNeeds:
-        """
-        Creates or retrieves an ObdRatioServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdRatioServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdRatioServiceNeeds):
             needs = ObdRatioServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -859,15 +571,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdRatioServiceNeeds, self.getReferrableElement(short_name, ObdRatioServiceNeeds))
 
     def createObdRatioDenominatorNeeds(self, short_name: str) -> ObdRatioDenominatorNeeds:
-        """
-        Creates or retrieves an ObdRatioDenominatorNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            ObdRatioDenominatorNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, ObdRatioDenominatorNeeds):
             needs = ObdRatioDenominatorNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -875,15 +579,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(ObdRatioDenominatorNeeds, self.getReferrableElement(short_name, ObdRatioDenominatorNeeds))
 
     def createDoIpActivationLineNeeds(self, short_name: str) -> DoIpActivationLineNeeds:
-        """
-        Creates or retrieves a DoIpActivationLineNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpActivationLineNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpActivationLineNeeds):
             needs = DoIpActivationLineNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -891,15 +587,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpActivationLineNeeds, self.getReferrableElement(short_name, DoIpActivationLineNeeds))
 
     def createDoIpGidNeeds(self, short_name: str) -> DoIpGidNeeds:
-        """
-        Creates or retrieves a DoIpGidNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpGidNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpGidNeeds):
             needs = DoIpGidNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -907,15 +595,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpGidNeeds, self.getReferrableElement(short_name, DoIpGidNeeds))
 
     def createDoIpGidSynchronizationNeeds(self, short_name: str) -> DoIpGidSynchronizationNeeds:
-        """
-        Creates or retrieves a DoIpGidSynchronizationNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpGidSynchronizationNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpGidSynchronizationNeeds):
             needs = DoIpGidSynchronizationNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -923,15 +603,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpGidSynchronizationNeeds, self.getReferrableElement(short_name, DoIpGidSynchronizationNeeds))
 
     def createDoIpPowerModeStatusNeeds(self, short_name: str) -> DoIpPowerModeStatusNeeds:
-        """
-        Creates or retrieves a DoIpPowerModeStatusNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpPowerModeStatusNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpPowerModeStatusNeeds):
             needs = DoIpPowerModeStatusNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -939,15 +611,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpPowerModeStatusNeeds, self.getReferrableElement(short_name, DoIpPowerModeStatusNeeds))
 
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
-        """
-        Creates or retrieves a DoIpRoutingActivationAuthenticationNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpRoutingActivationAuthenticationNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpRoutingActivationAuthenticationNeeds):
             needs = DoIpRoutingActivationAuthenticationNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -955,15 +619,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpRoutingActivationAuthenticationNeeds, self.getReferrableElement(short_name, DoIpRoutingActivationAuthenticationNeeds))
 
     def createDoIpRoutingActivationConfirmationNeeds(self, short_name: str) -> DoIpRoutingActivationConfirmationNeeds:
-        """
-        Creates or retrieves a DoIpRoutingActivationConfirmationNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            DoIpRoutingActivationConfirmationNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, DoIpRoutingActivationConfirmationNeeds):
             needs = DoIpRoutingActivationConfirmationNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -971,15 +627,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(DoIpRoutingActivationConfirmationNeeds, self.getReferrableElement(short_name, DoIpRoutingActivationConfirmationNeeds))
 
     def createSecureOnBoardCommunicationNeeds(self, short_name: str) -> SecureOnBoardCommunicationNeeds:
-        """
-        Creates or retrieves a SecureOnBoardCommunicationNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            SecureOnBoardCommunicationNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, SecureOnBoardCommunicationNeeds):
             needs = SecureOnBoardCommunicationNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -987,15 +635,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(SecureOnBoardCommunicationNeeds, self.getReferrableElement(short_name, SecureOnBoardCommunicationNeeds))
 
     def createSupervisedEntityCheckpointNeeds(self, short_name: str) -> SupervisedEntityCheckpointNeeds:
-        """
-        Creates or retrieves a SupervisedEntityCheckpointNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            SupervisedEntityCheckpointNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, SupervisedEntityCheckpointNeeds):
             needs = SupervisedEntityCheckpointNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1003,15 +643,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(SupervisedEntityCheckpointNeeds, self.getReferrableElement(short_name, SupervisedEntityCheckpointNeeds))
 
     def createSyncTimeBaseMgrUserNeeds(self, short_name: str) -> SyncTimeBaseMgrUserNeeds:
-        """
-        Creates or retrieves a SyncTimeBaseMgrUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            SyncTimeBaseMgrUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, SyncTimeBaseMgrUserNeeds):
             needs = SyncTimeBaseMgrUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1019,15 +651,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(SyncTimeBaseMgrUserNeeds, self.getReferrableElement(short_name, SyncTimeBaseMgrUserNeeds))
 
     def createV2xDataManagerNeeds(self, short_name: str) -> V2xDataManagerNeeds:
-        """
-        Creates or retrieves a V2xDataManagerNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            V2xDataManagerNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, V2xDataManagerNeeds):
             needs = V2xDataManagerNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1035,15 +659,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(V2xDataManagerNeeds, self.getReferrableElement(short_name, V2xDataManagerNeeds))
 
     def createV2xFacUserNeeds(self, short_name: str) -> V2xFacUserNeeds:
-        """
-        Creates or retrieves a V2xFacUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            V2xFacUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, V2xFacUserNeeds):
             needs = V2xFacUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1051,15 +667,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(V2xFacUserNeeds, self.getReferrableElement(short_name, V2xFacUserNeeds))
 
     def createV2xMUserNeeds(self, short_name: str) -> V2xMUserNeeds:
-        """
-        Creates or retrieves a V2xMUserNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            V2xMUserNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, V2xMUserNeeds):
             needs = V2xMUserNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1067,15 +675,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(V2xMUserNeeds, self.getReferrableElement(short_name, V2xMUserNeeds))
 
     def createVendorSpecificServiceNeeds(self, short_name: str) -> VendorSpecificServiceNeeds:
-        """
-        Creates or retrieves a VendorSpecificServiceNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            VendorSpecificServiceNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, VendorSpecificServiceNeeds):
             needs = VendorSpecificServiceNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1083,15 +683,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(VendorSpecificServiceNeeds, self.getReferrableElement(short_name, VendorSpecificServiceNeeds))
 
     def createWarningIndicatorRequestedBitNeeds(self, short_name: str) -> WarningIndicatorRequestedBitNeeds:
-        """
-        Creates or retrieves a WarningIndicatorRequestedBitNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            WarningIndicatorRequestedBitNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, WarningIndicatorRequestedBitNeeds):
             needs = WarningIndicatorRequestedBitNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1099,15 +691,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(WarningIndicatorRequestedBitNeeds, self.getReferrableElement(short_name, WarningIndicatorRequestedBitNeeds))
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
-        """
-        Creates or retrieves an IdsMgrNeeds element.
-
-        Args:
-            short_name: The short name for the needs element
-
-        Returns:
-            IdsMgrNeeds: The created or existing needs element
-        """
+        """The associated ServiceNeeds."""
         if not self.IsReferrableElementExists(short_name, IdsMgrNeeds):
             needs = IdsMgrNeeds(self, short_name)
             self.addReferrableElement(needs)
@@ -1115,195 +699,76 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         return cast(IdsMgrNeeds, self.getReferrableElement(short_name, IdsMgrNeeds))
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
-        """
-        Gets sorted NvBlockNeeds elements.
-
-        Returns:
-            List[NvBlockNeeds]: Sorted list of NvBlockNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, NvBlockNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticCommunicationManagerNeeds(self) -> List[DiagnosticCommunicationManagerNeeds]:
-        """
-        Gets sorted DiagnosticCommunicationManagerNeeds elements.
-
-        Returns:
-            List[DiagnosticCommunicationManagerNeeds]: Sorted list of
-                DiagnosticCommunicationManagerNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticCommunicationManagerNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticRoutineNeeds(self) -> List[DiagnosticRoutineNeeds]:
-        """
-        Gets sorted DiagnosticRoutineNeeds elements.
-
-        Returns:
-            List[DiagnosticRoutineNeeds]: Sorted list of
-                DiagnosticRoutineNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticRoutineNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticValueNeeds(self) -> List[DiagnosticValueNeeds]:
-        """
-        Gets sorted DiagnosticValueNeeds elements.
-
-        Returns:
-            List[DiagnosticValueNeeds]: Sorted list of DiagnosticValueNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticValueNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticEventNeeds(self) -> List[DiagnosticEventNeeds]:
-        """
-        Gets sorted DiagnosticEventNeeds elements.
-
-        Returns:
-            List[DiagnosticEventNeeds]: Sorted list of DiagnosticEventNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticEventInfoNeeds(self) -> List[DiagnosticEventInfoNeeds]:
-        """
-        Gets sorted DiagnosticEventInfoNeeds elements.
-
-        Returns:
-            List[DiagnosticEventInfoNeeds]: Sorted list of
-                DiagnosticEventInfoNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticEventInfoNeeds)], key=lambda e: e.short_name)
 
     def getCryptoServiceNeeds(self) -> List[CryptoServiceNeeds]:
-        """
-        Gets sorted CryptoServiceNeeds elements.
-
-        Returns:
-            List[CryptoServiceNeeds]: Sorted list of CryptoServiceNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, CryptoServiceNeeds)], key=lambda e: e.short_name)
 
     def getEcuStateMgrUserNeeds(self) -> List[EcuStateMgrUserNeeds]:
-        """
-        Gets sorted EcuStateMgrUserNeeds elements.
-
-        Returns:
-            List[EcuStateMgrUserNeeds]: Sorted list of EcuStateMgrUserNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, EcuStateMgrUserNeeds)], key=lambda e: e.short_name)
 
     def getDtcStatusChangeNotificationNeeds(self) -> List[DtcStatusChangeNotificationNeeds]:
-        """
-        Gets sorted DtcStatusChangeNotificationNeeds elements.
-
-        Returns:
-            List[DtcStatusChangeNotificationNeeds]: Sorted list of
-                DtcStatusChangeNotificationNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DtcStatusChangeNotificationNeeds)], key=lambda e: e.short_name)
 
     def getDiagnosticIoControlNeeds(self) -> List[DiagnosticIoControlNeeds]:
-        """
-        Gets sorted DiagnosticIoControlNeeds elements.
-
-        Returns:
-            List[DiagnosticIoControlNeeds]: Sorted list of
-                DiagnosticIoControlNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DiagnosticIoControlNeeds)], key=lambda e: e.short_name)
 
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
-        """
-        Gets sorted DltUserNeeds elements.
-
-        Returns:
-            List[DltUserNeeds]: Sorted list of DltUserNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, DltUserNeeds)], key=lambda e: e.short_name)
 
     def getComMgrUserNeeds(self) -> List[ComMgrUserNeeds]:
-        """
-        Gets sorted ComMgrUserNeeds elements.
-
-        Returns:
-            List[ComMgrUserNeeds]: Sorted list of ComMgrUserNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ComMgrUserNeeds)], key=lambda e: e.short_name)
 
     def getErrorTracerNeeds(self) -> List[ErrorTracerNeeds]:
-        """
-        Gets sorted ErrorTracerNeeds elements.
-
-        Returns:
-            List[ErrorTracerNeeds]: Sorted list of ErrorTracerNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ErrorTracerNeeds)], key=lambda e: e.short_name)
 
     def getObdInfoServiceNeeds(self) -> List[ObdInfoServiceNeeds]:
-        """
-        Gets sorted ObdInfoServiceNeeds elements.
-
-        Returns:
-            List[ObdInfoServiceNeeds]: Sorted list of ObdInfoServiceNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ObdInfoServiceNeeds)], key=lambda e: e.short_name)
 
     def getObdMonitorServiceNeeds(self) -> List[ObdMonitorServiceNeeds]:
-        """
-        Gets sorted ObdMonitorServiceNeeds elements.
-
-        Returns:
-            List[ObdMonitorServiceNeeds]: Sorted list of ObdMonitorServiceNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ObdMonitorServiceNeeds)], key=lambda e: e.short_name)
 
     def getObdPidServiceNeeds(self) -> List[ObdPidServiceNeeds]:
-        """
-        Gets sorted ObdPidServiceNeeds elements.
-
-        Returns:
-            List[ObdPidServiceNeeds]: Sorted list of ObdPidServiceNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ObdPidServiceNeeds)], key=lambda e: e.short_name)
 
     def getObdControlServiceNeeds(self) -> List[ObdControlServiceNeeds]:
-        """
-        Gets sorted ObdControlServiceNeeds elements.
-
-        Returns:
-            List[ObdControlServiceNeeds]: Sorted list of ObdControlServiceNeeds
-        """
+        """The associated ServiceNeeds."""
         return sorted([c for c in self.referrableElements if isinstance(c, ObdControlServiceNeeds)], key=lambda e: e.short_name)
 
-    def getServiceNeeds(self) -> List[ServiceNeeds]:
-        """
-        Gets sorted ServiceNeeds elements.
-
-        Returns:
-            List[ServiceNeeds]: Sorted list of ServiceNeeds
-        """
-        return sorted([c for c in self.referrableElements if isinstance(c, ServiceNeeds)], key=lambda e: e.short_name)
-
-    def setRepresentedPortGroupRef(self, value: Optional[RefType]) -> "SwcServiceDependency":
-        """
-        This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
-        A None value is a no-op and does not overwrite an existing representedPortGroupRef.
-
-        Args:
-            value: The represented port group reference to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.representedPortGroupRef = value
-        return self
-
-    def getRepresentedPortGroupRef(self) -> Optional[RefType]:
-        """
-        This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
-
-        Returns:
-            RefType: The represented port group reference
-        """
-        return self.representedPortGroupRef
+    def getServiceNeeds(self) -> Optional[ServiceNeeds]:
+        """The associated ServiceNeeds."""
+        return self.serviceNeeds
 
 
 class RoleBasedDataTypeAssignment(ARObject, VariationPointCapable):
@@ -1340,7 +805,7 @@ class RoleBasedDataTypeAssignment(ARObject, VariationPointCapable):
         """
         return self.role
 
-    def setRole(self, value: Optional[Identifier]) -> "RoleBasedDataTypeAssignment":
+    def setRole(self, value: Optional[Identifier]) -> RoleBasedDataTypeAssignment:
         """
         This is the role of the associated data type in the given context.
         Only sets the value if it is not None.
@@ -1361,7 +826,7 @@ class RoleBasedDataTypeAssignment(ARObject, VariationPointCapable):
         """
         return self.usedImplementationDataTypeRef
 
-    def setUsedImplementationDataTypeRef(self, value: Optional[RefType]) -> "RoleBasedDataTypeAssignment":
+    def setUsedImplementationDataTypeRef(self, value: Optional[RefType]) -> RoleBasedDataTypeAssignment:
         """
         This represents the associated ImplementationDataType.
         Only sets the value if it is not None.

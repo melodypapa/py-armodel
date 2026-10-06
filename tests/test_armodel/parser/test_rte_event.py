@@ -63,6 +63,52 @@ class TestRteEVent:
         assert irefs[0].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/On"
         assert irefs[1].getTargetModeDeclarationRef().getValue() == "/MyComponents/ModeDclGroup/Off"
 
+    def test_swc_mode_manager_error_events(self):
+        xml_content = """
+            <APPLICATION-SW-COMPONENT-TYPE>
+              <SHORT-NAME>MyComponents</SHORT-NAME>
+              <INTERNAL-BEHAVIORS>
+                <SWC-INTERNAL-BEHAVIOR T="2024-11-01T09:39:52+02:00" UUID="0c573b8e-57a1-4bc5-b815-07b6e0094060">
+                  <SHORT-NAME>MyInternalBehavior</SHORT-NAME>
+                  <EVENTS>
+                    <SWC-MODE-MANAGER-ERROR-EVENT>
+                      <SHORT-NAME>mee_event1</SHORT-NAME>
+                      <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/MyComponents/MySwc_IB/re_mee_1</START-ON-EVENT-REF>
+                      <MODE-GROUP-IREF>
+                        <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/MyComponents/pp_mode</CONTEXT-P-PORT-REF>
+                        <TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/MyComponents/ModeDclGroup</TARGET-MODE-GROUP-REF>
+                      </MODE-GROUP-IREF>
+                    </SWC-MODE-MANAGER-ERROR-EVENT>
+                  </EVENTS>
+                </SWC-INTERNAL-BEHAVIOR>
+              </INTERNAL-BEHAVIORS>
+            </APPLICATION-SW-COMPONENT-TYPE>
+        """  # noqa E501
+
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": ""}
+
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
+        parser.readAtomicSwComponentType(element, sw_component)
+
+        internal_behavior = sw_component.getInternalBehavior()
+        assert internal_behavior is not None
+        events = internal_behavior.getSwcModeManagerErrorEvents()
+        assert len(events) == 1
+
+        event = events[0]
+        assert event.getShortName() == "mee_event1"
+        assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_mee_1"
+        iref = event.getModeGroupIRef()
+        assert iref is not None
+        assert iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert iref.getContextPPortRef().getValue() == "/MyComponents/pp_mode"
+        assert iref.getTargetModeGroupRef().getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        assert iref.getTargetModeGroupRef().getValue() == "/MyComponents/ModeDclGroup"
+
     def test_mode_switched_ack_events(self):
         xml_content = """
             <APPLICATION-SW-COMPONENT-TYPE>
