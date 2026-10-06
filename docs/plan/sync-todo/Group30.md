@@ -347,16 +347,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its StreamFilterMACAddress member type); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 5 Attribute rows
+    in displayed order (destinationMacAddress `0..1` aggr StreamFilterMACAddress, etherType
+    `0..1` attr PositiveInteger, sourceMacAddress `0..1` aggr StreamFilterMACAddress, vlanId
+    `0..1` attr PositiveInteger, vlanPriority `0..1` attr PositiveInteger); XML child order per
+    XSD group STREAM-FILTER-RULE-DATA-LINK-LAYER (DESTINATION-MAC-ADDRESS, ETHER-TYPE,
+    SOURCE-MAC-ADDRESS, VLAN-ID, VLAN-PRIORITY) — reader/writer dispatch the nested
+    DESTINATION-MAC-ADDRESS / SOURCE-MAC-ADDRESS children through readStreamFilterMACAddress /
+    writeStreamFilterMACAddress (the aggregator SwitchStreamFilterRule is still a stub; nothing
+    to wire there yet).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20498 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterMACAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.87, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

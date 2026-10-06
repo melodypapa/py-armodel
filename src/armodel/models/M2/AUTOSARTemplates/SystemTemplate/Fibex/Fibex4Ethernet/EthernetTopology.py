@@ -682,6 +682,125 @@ class StreamFilterMACAddress(ARObject):
         return self
 
 
+class StreamFilterRuleDataLinkLayer(ARObject):
+    """
+    Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
+    """
+
+    # StreamFilterRuleDataLinkLayer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.86, p.137
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEtherType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEtherType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddress      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddress      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanPriority          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanPriority          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+        self.destinationMacAddress: Optional[StreamFilterMACAddress] = None
+
+        # Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+        self.etherType: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+        self.sourceMacAddress: Optional[StreamFilterMACAddress] = None
+
+        # Filter of packets with a VlanId. Tags: atp.Status=candidate
+        self.vlanId: Optional[PositiveInteger] = None
+
+        # Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+        self.vlanPriority: Optional[PositiveInteger] = None
+
+    def getDestinationMacAddress(self) -> Optional[StreamFilterMACAddress]:
+        """
+        Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+        """
+        return self.destinationMacAddress
+
+    def setDestinationMacAddress(self, value: Optional[StreamFilterMACAddress]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationMacAddress.
+        """
+        if value is not None:
+            self.destinationMacAddress = value
+        return self
+
+    def getEtherType(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.etherType
+
+    def setEtherType(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing etherType.
+        """
+        if value is not None:
+            self.etherType = value
+        return self
+
+    def getSourceMacAddress(self) -> Optional[StreamFilterMACAddress]:
+        """
+        Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+        """
+        return self.sourceMacAddress
+
+    def setSourceMacAddress(self, value: Optional[StreamFilterMACAddress]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceMacAddress.
+        """
+        if value is not None:
+            self.sourceMacAddress = value
+        return self
+
+    def getVlanId(self) -> Optional[PositiveInteger]:
+        """
+        Filter of packets with a VlanId. Tags: atp.Status=candidate
+        """
+        return self.vlanId
+
+    def setVlanId(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter of packets with a VlanId. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing vlanId.
+        """
+        if value is not None:
+            self.vlanId = value
+        return self
+
+    def getVlanPriority(self) -> Optional[PositiveInteger]:
+        """
+        Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+        """
+        return self.vlanPriority
+
+    def setVlanPriority(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing vlanPriority.
+        """
+        if value is not None:
+            self.vlanPriority = value
+        return self
+
+
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
     General class to define structural elements a CouplingPort may consist of.

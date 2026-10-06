@@ -2594,10 +2594,6 @@ class StreamFilterPortRange(ARObject):
     pass
 
 
-class StreamFilterRuleDataLinkLayer(ARObject):
-    pass
-
-
 class StreamFilterRuleIpTp(ARObject):
     pass
 

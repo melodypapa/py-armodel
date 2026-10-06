@@ -977,6 +977,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     SdServerConfig,
     StreamFilterMACAddress,
+    StreamFilterRuleDataLinkLayer,
     SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
@@ -12028,6 +12029,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(element, mac_address)
             self.setChildElementOptionalLiteral(element, "MAC-ADDRESS", mac_address.getMacAddress())
             self.setChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK", mac_address.getMacAddressMask())
+
+    def writeStreamFilterRuleDataLinkLayer(self, element: ET.Element, rule: Optional[StreamFilterRuleDataLinkLayer]):
+        if rule is not None:
+            self.writeARObject(element, rule)
+            destination_mac_address = rule.getDestinationMacAddress()
+            if destination_mac_address is not None:
+                destination_mac_address_element = ET.SubElement(element, "DESTINATION-MAC-ADDRESS")
+                self.writeStreamFilterMACAddress(destination_mac_address_element, destination_mac_address)
+            self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
+            source_mac_address = rule.getSourceMacAddress()
+            if source_mac_address is not None:
+                source_mac_address_element = ET.SubElement(element, "SOURCE-MAC-ADDRESS")
+                self.writeStreamFilterMACAddress(source_mac_address_element, source_mac_address)
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)

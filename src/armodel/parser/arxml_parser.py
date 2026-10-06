@@ -1173,6 +1173,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     SdServerConfig,
     StreamFilterMACAddress,
+    StreamFilterRuleDataLinkLayer,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
@@ -11178,6 +11179,22 @@ class ARXMLParser(AbstractARXMLParser):
             address = MacAddressString()
             address.setValue(child_element.getValue())
             mac_address.setMacAddressMask(address)
+
+    def readStreamFilterRuleDataLinkLayer(self, element: ET.Element, rule: StreamFilterRuleDataLinkLayer):
+        self.readARObject(element, rule)
+        child_element = self.find(element, "DESTINATION-MAC-ADDRESS")
+        if child_element is not None:
+            mac_address = StreamFilterMACAddress()
+            self.readStreamFilterMACAddress(child_element, mac_address)
+            rule.setDestinationMacAddress(mac_address)
+        rule.setEtherType(self.getChildElementOptionalPositiveInteger(element, "ETHER-TYPE"))
+        child_element = self.find(element, "SOURCE-MAC-ADDRESS")
+        if child_element is not None:
+            mac_address = StreamFilterMACAddress()
+            self.readStreamFilterMACAddress(child_element, mac_address)
+            rule.setSourceMacAddress(mac_address)
+        rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
+        rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)
