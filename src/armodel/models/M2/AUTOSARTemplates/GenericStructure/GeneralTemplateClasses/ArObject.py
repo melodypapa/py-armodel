@@ -2610,10 +2610,6 @@ class TransformationProps(ARObject, ABC):
     pass
 
 
-class TriggerToSignalMapping(ARObject):
-    pass
-
-
 class UserDefinedCommunicationConnector(ARObject):
     pass
 

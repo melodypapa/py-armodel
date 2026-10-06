@@ -3,7 +3,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping, TriggerToSignalMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
     AppOsTaskProxyToEcuTaskProxyMapping,
@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
+    TriggerInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
@@ -963,6 +964,8 @@ __all__ = [
     "SwcToSwcOperationArguments",
     "SwcToSwcOperationArgumentsDirectionEnum",
     "SwcToSwcSignal",
+    "TriggerInSystemInstanceRef",
+    "TriggerToSignalMapping",
     "CpSoftwareCluster",
     "SwcToEcuMapping",
     "SwcToImplMapping",

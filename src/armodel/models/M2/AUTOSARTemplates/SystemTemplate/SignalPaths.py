@@ -42,7 +42,7 @@ class SignalPathConstraint(ARObject, VariationPointCapable, ABC):
     """
 
     # SignalPathConstraint method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table F.114 (R23-11 markdown appendix; page not extractable from the R23-11 PDF)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.114, p.NN/A (R23-11 markdown appendix; page not extractable from the R23-11 PDF)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

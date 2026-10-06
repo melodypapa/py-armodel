@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, List, Optional
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import TriggerInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -751,3 +751,63 @@ class ClientServerToSignalMapping(DataMapping):
 
 class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     pass
+
+
+class TriggerToSignalMapping(DataMapping):
+    """
+    This meta-class represents the ability to map a trigger to a SystemSignal of size 0. The Trigger does not transport any other information than its existence, therefore the limitation in terms of signal length.
+
+    [constr_5477] Existence of TriggerToSignalMapping.systemSignal: For each TriggerToSignalMapping, the reference to SystemSignal in the role systemSignal shall exist at the time when the Ecu Extract is complete.
+
+    [constr_5478] Existence of TriggerToSignalMapping.trigger: For each TriggerToSignalMapping, the reference to Trigger in the role trigger shall exist at the time when the Ecu Extract is complete.
+    """
+
+    # TriggerToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.35, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerIRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+        self.systemSignalRef: Optional[RefType] = None
+
+        # This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+        self.triggerIRef: Optional[TriggerInSystemInstanceRef] = None
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> TriggerToSignalMapping:
+        """
+        This is the SystemSignal taken to transport the Trigger over the network. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
+
+    def getTriggerIRef(self) -> Optional[TriggerInSystemInstanceRef]:
+        """
+        This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[TriggerInSystemInstanceRef]) -> TriggerToSignalMapping:
+        """
+        This represents the Trigger that shall be used to trigger RunnableEntities deployed to a remote ECU. Tags: xml.sequenceOffset=10 InstanceRef implemented by: TriggerInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self

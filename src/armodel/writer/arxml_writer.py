@@ -906,6 +906,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalMapping,
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
+    TriggerToSignalMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
@@ -1163,6 +1164,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
+    TriggerInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
@@ -5084,6 +5086,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-OPERATION-REF", ref.getTargetOperationRef())
+
+    def setTriggerInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[TriggerInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPOSITION-REF", ref.getContextCompositionRef())
+            for component_ref in ref.getContextComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-REF", ref.getContextPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", ref.getTargetTriggerRef())
 
     def setPortGroupInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: PortGroupInSystemInstanceRef):
         if ref is not None:
@@ -13002,6 +13015,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDocumentationBlock(element, "INTRODUCTION", constraint.getIntroduction())
         self.writeVariationPoint(element, constraint.getVariationPoint())
 
+    def writeTriggerToSignalMapping(self, element: ET.Element, mapping: TriggerToSignalMapping):
+        child_element = ET.SubElement(element, "TRIGGER-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setTriggerInSystemInstanceRef(child_element, "TRIGGER-IREF", mapping.getTriggerIRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
     def writeSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
         child_element = ET.SubElement(element, "SWC-TO-SWC-SIGNAL")
         self.writeARObject(child_element, signal)
@@ -13133,6 +13152,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeSenderReceiverToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
                     self.writeSenderReceiverToSignalGroupMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, TriggerToSignalMapping):
+                    self.writeTriggerToSignalMapping(child_element, data_mapping)
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
