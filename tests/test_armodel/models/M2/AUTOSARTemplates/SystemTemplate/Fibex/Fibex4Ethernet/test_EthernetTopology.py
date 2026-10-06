@@ -450,14 +450,24 @@ class TestEthernetTopology:
         assert membership.getDhcpAddressAssignment() is config
 
     def test_ethernet_switch_vlan_egress_tagging_enum(self):
-        """EthernetSwitchVlanEgressTaggingEnum members and wire values (Table 3.78, p.130)."""
+        """EthernetSwitchVlanEgressTaggingEnum members, wire values and docstring (Table 3.78, p.130, R23-11)."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
 
-        value = EthernetSwitchVlanEgressTaggingEnum()
-        value.setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
-        assert value.getValue() == "NOT-SENT"
+        assert EthernetSwitchVlanEgressTaggingEnum.NOT_SENT == "NOT-SENT"
         assert EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED == "SENT-TAGGED"
         assert EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED == "SENT-UNTAGGED"
+        assert list(EthernetSwitchVlanEgressTaggingEnum().getEnumValues()) == ["NOT-SENT", "SENT-TAGGED", "SENT-UNTAGGED"]
+
+        not_sent = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
+        assert not_sent.getValue() == EthernetSwitchVlanEgressTaggingEnum.NOT_SENT
+
+        sent_tagged = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED)
+        assert sent_tagged.getValue() == EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED
+
+        sent_untagged = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED)
+        assert sent_untagged.getValue() == EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED
+
+        assert inspect.cleandoc(EthernetSwitchVlanEgressTaggingEnum.__doc__) == "Defines the VLAN tag sending behavior."
 
     def test_coupling_port(self):
         """
