@@ -335,16 +335,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-06 (20463 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its aggregator SwitchStreamIdentification, spec table order); stub-guard tuple + consumer
+    imports updated. Base chain's most-derived model class is `Identifiable`. Table has 3
+    Attribute rows in displayed order (dataLinkLayerRule `0..1` aggr StreamFilterRuleDataLinkLayer,
+    ieee1722TpRule `0..1` aggr StreamFilterIEEE1722Tp, ipTpRule `0..1` aggr StreamFilterRuleIpTp);
+    XML child order per XSD group SWITCH-STREAM-FILTER-RULE (DATA-LINK-LAYER-RULE,
+    IEEE-1722-TP-RULE, IP-TP-RULE — unwrapped, emitted in live documents as the STREAM-FILTER-RULE
+    child of SWITCH-STREAM-IDENTIFICATION). Reader/writer dispatch all three leaves
+    (read/writeStreamFilterRuleDataLinkLayer, read/writeStreamFilterIEEE1722Tp,
+    read/writeStreamFilterRuleIpTp); the previously identity-only STREAM-FILTER-RULE wiring inside
+    read/writeSwitchStreamIdentification (invoked from read/writeCouplingElementSwitchDetails) now
+    dispatches to the full reader/writer. Note: CouplingElementSwitchDetails.streamFilters /
+    createStreamFilter aggregates SwitchStreamFilterEntry (no SwitchStreamFilterRule child per XSD
+    group SWITCH-STREAM-FILTER-ENTRY) — the SwitchStreamFilterRule aggregation path is
+    switchStreamIdentification(s) → streamFilterRule.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20599 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

@@ -1579,10 +1579,6 @@ class SwitchStreamFilterEntry(Identifiable):
     pass
 
 
-class SwitchStreamFilterRule(Identifiable):
-    pass
-
-
 class SwitchStreamGateEntry(Identifiable):
     pass
 

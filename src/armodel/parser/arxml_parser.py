@@ -1179,6 +1179,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchStreamFilterRule,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
@@ -11170,7 +11171,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "STREAM-FILTER-RULE")
         if child_element is not None:
             stream_filter_rule = stream_identification.createStreamFilterRule(self.getShortName(child_element))
-            self.readIdentifiable(child_element, stream_filter_rule)
+            self.readSwitchStreamFilterRule(child_element, stream_filter_rule)
 
     def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
         self.readARObject(element, mac_address)
@@ -11270,6 +11271,24 @@ class ARXMLParser(AbstractARXMLParser):
     def readStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: StreamFilterIEEE1722Tp):
         self.readARObject(element, tp_rule)
         tp_rule.setStreamId(self.getChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID"))
+
+    def readSwitchStreamFilterRule(self, element: ET.Element, stream_filter_rule: SwitchStreamFilterRule):
+        self.readIdentifiable(element, stream_filter_rule)
+        child_element = self.find(element, "DATA-LINK-LAYER-RULE")
+        if child_element is not None:
+            data_link_layer_rule = StreamFilterRuleDataLinkLayer()
+            self.readStreamFilterRuleDataLinkLayer(child_element, data_link_layer_rule)
+            stream_filter_rule.setDataLinkLayerRule(data_link_layer_rule)
+        child_element = self.find(element, "IEEE-1722-TP-RULE")
+        if child_element is not None:
+            tp_rule = StreamFilterIEEE1722Tp()
+            self.readStreamFilterIEEE1722Tp(child_element, tp_rule)
+            stream_filter_rule.setIeee1722TpRule(tp_rule)
+        child_element = self.find(element, "IP-TP-RULE")
+        if child_element is not None:
+            ip_tp_rule = StreamFilterRuleIpTp()
+            self.readStreamFilterRuleIpTp(child_element, ip_tp_rule)
+            stream_filter_rule.setIpTpRule(ip_tp_rule)
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)

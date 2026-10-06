@@ -983,6 +983,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchStreamFilterRule,
     SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
@@ -12027,7 +12028,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         stream_filter_rule = stream_identification.getStreamFilterRule()
         if stream_filter_rule is not None:
             stream_filter_rule_element = ET.SubElement(child_element, "STREAM-FILTER-RULE")
-            self.writeIdentifiable(stream_filter_rule_element, stream_filter_rule)
+            self.writeSwitchStreamFilterRule(stream_filter_rule_element, stream_filter_rule)
 
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:
@@ -12104,6 +12105,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_rule is not None:
             self.writeARObject(element, tp_rule)
             self.setChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID", tp_rule.getStreamId())
+
+    def writeSwitchStreamFilterRule(self, element: ET.Element, stream_filter_rule: Optional[SwitchStreamFilterRule]):
+        if stream_filter_rule is not None:
+            self.writeIdentifiable(element, stream_filter_rule)
+            data_link_layer_rule = stream_filter_rule.getDataLinkLayerRule()
+            if data_link_layer_rule is not None:
+                data_link_layer_rule_element = ET.SubElement(element, "DATA-LINK-LAYER-RULE")
+                self.writeStreamFilterRuleDataLinkLayer(data_link_layer_rule_element, data_link_layer_rule)
+            ieee_1722_tp_rule = stream_filter_rule.getIeee1722TpRule()
+            if ieee_1722_tp_rule is not None:
+                ieee_1722_tp_rule_element = ET.SubElement(element, "IEEE-1722-TP-RULE")
+                self.writeStreamFilterIEEE1722Tp(ieee_1722_tp_rule_element, ieee_1722_tp_rule)
+            ip_tp_rule = stream_filter_rule.getIpTpRule()
+            if ip_tp_rule is not None:
+                ip_tp_rule_element = ET.SubElement(element, "IP-TP-RULE")
+                self.writeStreamFilterRuleIpTp(ip_tp_rule_element, ip_tp_rule)
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)

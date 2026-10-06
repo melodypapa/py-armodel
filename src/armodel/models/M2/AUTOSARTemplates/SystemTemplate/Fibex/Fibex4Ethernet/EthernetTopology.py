@@ -12,7 +12,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SwitchFlowMeteringEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
-    SwitchStreamFilterRule,
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -625,6 +624,83 @@ class SwitchStreamIdentification(Identifiable):
         Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
         """
         return self.streamFilterRule
+
+
+class SwitchStreamFilterRule(Identifiable):
+    """
+    SwitchStreamIdentification Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterRule method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.85, p.136
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLinkLayerRule  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLinkLayerRule  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIeee1722TpRule     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIeee1722TpRule     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpTpRule           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpTpRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+        self.dataLinkLayerRule: Optional[StreamFilterRuleDataLinkLayer] = None
+
+        # Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+        self.ieee1722TpRule: Optional[StreamFilterIEEE1722Tp] = None
+
+        # Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+        self.ipTpRule: Optional[StreamFilterRuleIpTp] = None
+
+    def getDataLinkLayerRule(self) -> Optional[StreamFilterRuleDataLinkLayer]:
+        """
+        Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+        """
+        return self.dataLinkLayerRule
+
+    def setDataLinkLayerRule(self, value: Optional[StreamFilterRuleDataLinkLayer]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing dataLinkLayerRule.
+        """
+        if value is not None:
+            self.dataLinkLayerRule = value
+        return self
+
+    def getIeee1722TpRule(self) -> Optional[StreamFilterIEEE1722Tp]:
+        """
+        Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+        """
+        return self.ieee1722TpRule
+
+    def setIeee1722TpRule(self, value: Optional[StreamFilterIEEE1722Tp]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ieee1722TpRule.
+        """
+        if value is not None:
+            self.ieee1722TpRule = value
+        return self
+
+    def getIpTpRule(self) -> Optional[StreamFilterRuleIpTp]:
+        """
+        Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+        """
+        return self.ipTpRule
+
+    def setIpTpRule(self, value: Optional[StreamFilterRuleIpTp]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipTpRule.
+        """
+        if value is not None:
+            self.ipTpRule = value
+        return self
 
 
 class StreamFilterMACAddress(ARObject):

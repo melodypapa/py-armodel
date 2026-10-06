@@ -16,7 +16,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SwitchFlowMeteringEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
-    SwitchStreamFilterRule,
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -25,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementEnum,
     CouplingElementSwitchDetails,
     CouplingPort,
+    SwitchStreamFilterRule,
     SwitchStreamIdentification,
 )
 from armodel.parser.arxml_parser import ARXMLParser
