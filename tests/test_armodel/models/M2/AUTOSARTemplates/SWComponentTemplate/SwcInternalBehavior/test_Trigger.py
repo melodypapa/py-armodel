@@ -100,9 +100,7 @@ class TestExternalTriggeringPoint:
 
     def test_spec_notes_are_verbatim(self):
         """Class and member docstrings carry the Table 7.39 markdown Notes verbatim."""
-        assert inspect.cleandoc(ExternalTriggeringPoint.__doc__) == (
-            "If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise an ExternalTriggerOccurred Event."
-        )
+        assert inspect.cleandoc(ExternalTriggeringPoint.__doc__) == ("If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise an ExternalTriggerOccurred Event.")
         ident_note = (
             "The aggregation in the role ident provides the ability to make the ExternalTriggeringPoint identifiable. "
             "From the semantical point of view, the ExternalTriggering Point is considered a first-class Identifiable "
@@ -118,9 +116,7 @@ class TestExternalTriggeringPoint:
             "InstanceRef implemented by: PTriggerInAtomicSwc TypeInstanceRef"
         )
         assert inspect.cleandoc(ExternalTriggeringPoint.getTrigger.__doc__) == trigger_note
-        assert inspect.cleandoc(ExternalTriggeringPoint.setTrigger.__doc__) == (
-            trigger_note + "\nA None value is a no-op and does not overwrite an existing trigger."
-        )
+        assert inspect.cleandoc(ExternalTriggeringPoint.setTrigger.__doc__) == (trigger_note + "\nA None value is a no-op and does not overwrite an existing trigger.")
 
 
 def _make_ref(value):
