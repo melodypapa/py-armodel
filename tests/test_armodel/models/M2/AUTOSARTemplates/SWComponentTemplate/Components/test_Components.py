@@ -460,8 +460,25 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         sensor_sw_component = SensorActuatorSwComponentType(ar_root, "TestSensorActuatorSwComponent")
 
-        # Just check instantiation
         assert sensor_sw_component is not None
+        assert isinstance(sensor_sw_component, AtomicSwComponentType)
+        assert sensor_sw_component.sensorActuatorRef is None
+
+    def test_SensorActuatorSwComponentType_get_set_sensorActuatorRef(self):
+        """Test getSensorActuatorRef/setSensorActuatorRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        sensor_sw_component = SensorActuatorSwComponentType(ar_root, "TestSensorActuatorSwComponent")
+
+        ref = RefType().setValue("/HwTypes/Sensor")
+        ref.dest = "HW-DESCRIPTION-ENTITY"
+
+        assert sensor_sw_component.setSensorActuatorRef(ref) is sensor_sw_component
+        assert sensor_sw_component.getSensorActuatorRef() is ref
+        assert sensor_sw_component.sensorActuatorRef is ref
+
+        sensor_sw_component.setSensorActuatorRef(None)
+        assert sensor_sw_component.getSensorActuatorRef() is ref
 
     def test_ServiceProxySwComponentType(self):
         """Test ServiceProxySwComponentType class."""

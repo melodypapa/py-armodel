@@ -2661,9 +2661,7 @@ No deviations (2026-10-06 re-sync, Table 7.50, p.600): Rule 0023 release-column-
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `sensorActuatorRef` | `Ref (HwDescriptionEntity)` | Ref | missing |
+No deviations (2026-10-06 re-sync, Table 10.1, p.646): Rule 0023 release-column-less checklist replaced with the 6-column format and the stale `# Spec verified: R23-11` marker removed (stays withheld pending the batch 9b confirmation, user instruction). Stale deviation row removed: `missing` for `sensorActuatorRef` — implemented since the pre-survey state (field `Optional[RefType]` + get/set pair; reader/writer SENSOR-ACTUATOR-REF via getChildElementOptionalRefType/setChildElementOptionalRefType; base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction); sole table attribute `sensorActuator` (ref, 0..1, HwDescriptionEntity) matches the code both directions. Class docstring Note rewritten verbatim including the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3); member comment/getter/setter docstrings carry the XSD SENSOR-ACTUATOR-REF documentation verbatim ("Reference from the Sensor Actuator Software Component Type to the description of the actual hardware.") — the markdown table has no per-attribute Note cell (ParameterSwComponentType precedent). Schema-validated save→reload round-trip added (populated + empty, writer tests). Report-only: XSD group SENSOR-ACTUATOR-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd line 104873) holds no member beyond the PDF table (Rule 0015) and no `atp.Status="removed"` members; no Rule 0001.10 missing member types (ref targets RefType with DEST=HW-DESCRIPTION-ENTITY--SUBTYPES-ENUM).
 
 ## `DiagnosticOperationCycleNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 761

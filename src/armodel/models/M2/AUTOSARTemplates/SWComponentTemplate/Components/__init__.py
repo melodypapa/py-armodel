@@ -1120,14 +1120,15 @@ class NvBlockSwComponentType(AtomicSwComponentType):
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
     """
-    The SensorActuatorSwComponentType introduces the possibility to link from the software representation of a sensor/actuator to its hardware description provided by the ECU Resource Template.
+    The SensorActuatorSwComponentType introduces the possibility to link from the software representation of a sensor/actuator to its hardware description provided by the ECU Resource Template. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # SensorActuatorSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 10.1, p.646
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSensorActuatorRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSensorActuatorRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSensorActuatorRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSensorActuatorRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1137,27 +1138,15 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
 
     def getSensorActuatorRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the description of the actual hardware.
-
         Reference from the Sensor Actuator Software Component Type to the description of the actual hardware.
-
-        Returns:
-            Optional[RefType]: The reference to the actual hardware, or None if not set
         """
         return self.sensorActuatorRef
 
     def setSensorActuatorRef(self, value: Optional[RefType]) -> SensorActuatorSwComponentType:
         """
-        Sets the reference to the description of the actual hardware.
-        A None value is a no-op and does not overwrite an existing reference.
-
         Reference from the Sensor Actuator Software Component Type to the description of the actual hardware.
 
-        Args:
-            value: The reference to the actual hardware
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing sensorActuatorRef.
         """
         if value is not None:
             self.sensorActuatorRef = value

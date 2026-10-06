@@ -1714,3 +1714,68 @@ class TestTimingWriter:
         assert child.tag == "SWC-TIMING"
         assert child.find("SHORT-NAME").text == "SwcTiming"
         assert child.find("TIMING-REQUIREMENTS") is not None
+
+
+class TestSensorActuatorSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SensorActuatorSwComponentType with a sensor actuator ref (Table 10.1)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createSensorActuatorSwComponentType("SensorSwc")
+        swc.setSensorActuatorRef(_make_ref("/HwTypes/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSensorActuatorSwComponentType()[0]
+            assert isinstance(swc_2, SensorActuatorSwComponentType)
+            assert swc_2.getShortName() == "SensorSwc"
+            ref = swc_2.getSensorActuatorRef()
+            assert ref is not None
+            assert ref.getValue() == "/HwTypes/Sensor"
+            assert ref.getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SensorActuatorSwComponentType without a sensor actuator ref round-trips without the element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createSensorActuatorSwComponentType("SensorSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("SENSOR-ACTUATOR-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("SENSOR-ACTUATOR-REF") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSensorActuatorSwComponentType()[0]
+            assert swc_2.getSensorActuatorRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
