@@ -1979,3 +1979,76 @@ class TestServiceSwComponentTypeRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestNvBlockSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a NvBlockSwComponentType with bulk and nv block descriptors (Table 11.4)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createNvBlockSwComponentType("NvSwc")
+        bulk1 = swc.createBulkNvDataDescriptor("Bulk1")
+        bulk1.createBulkNvBlock("BulkBlock1")
+        swc.createBulkNvDataDescriptor("Bulk2")
+        swc.createNvBlockDescriptor("Nv1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, NvBlockSwComponentType))
+            assert isinstance(swc_2, NvBlockSwComponentType)
+            assert swc_2.getShortName() == "NvSwc"
+            bulk_descriptors = swc_2.getBulkNvDataDescriptors()
+            assert [d.short_name for d in bulk_descriptors] == ["Bulk1", "Bulk2"]
+            assert bulk_descriptors[0].getBulkNvBlock() is not None
+            assert bulk_descriptors[0].getBulkNvBlock().short_name == "BulkBlock1"
+            assert [d.short_name for d in swc_2.getNvBlockDescriptors()] == ["Nv1"]
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a bare NvBlockSwComponentType round-trips without the descriptor wrapper elements."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createNvBlockSwComponentType("NvSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("NV-BLOCK-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("BULK-NV-DATA-DESCRIPTORS") for c in swc_element)
+            assert all(not c.tag.endswith("NV-BLOCK-DESCRIPTORS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert isinstance(swc_2, NvBlockSwComponentType)
+            assert swc_2.getBulkNvDataDescriptors() == []
+            assert swc_2.getNvBlockDescriptors() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

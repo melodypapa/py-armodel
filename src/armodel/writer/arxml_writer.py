@@ -4961,7 +4961,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         block = descriptor.getBulkNvBlock()
         if block is not None:
             block_element = ET.SubElement(child_element, "BULK-NV-BLOCK")
-            self.writeVariableDataPrototype(block_element, block)
+            self.writeAutosarDataPrototype(block_element, block)
+            self.setChildValueSpecification(block_element, "INIT-VALUE", block.getInitValue())
         mappings = descriptor.getNvBlockDataMappings()
         if len(mappings) > 0:
             mappings_element = ET.SubElement(child_element, "NV-BLOCK-DATA-MAPPINGS")

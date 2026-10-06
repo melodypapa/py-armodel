@@ -1015,49 +1015,30 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
 
 class NvBlockSwComponentType(AtomicSwComponentType):
     """
-    The NvBlockSwComponentType defines non volatile data which data can be shared between SwComponentPrototypes. The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports.
+    The NvBlockSwComponentType defines non volatile data which data can be shared between SwComponentPrototypes. The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # NvBlockSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.4, p.664
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createBulkNvDataDescriptor   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBulkNvDataDescriptors     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createNvBlockDescriptor      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvBlockDescriptors        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBulkNvDataDescriptor  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBulkNvDataDescriptors    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNvBlockDescriptor     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvBlockDescriptors       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
+        # This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.bulkNvDataDescriptors: List[BulkNvDataDescriptor] = []
 
-        # Specification of the properties of exactly one NVRAM Block.
+        # Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.nvBlockDescriptors: List[NvBlockDescriptor] = []
-
-    def getBulkNvDataDescriptors(self) -> List[BulkNvDataDescriptor]:
-        """
-        Gets the bulk NV Data Blocks provided to the application software by this NvBlockSwComponentType.
-
-        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
-
-        Returns:
-            List[BulkNvDataDescriptor]: The list of bulk NV data descriptors
-        """
-        return self.bulkNvDataDescriptors
 
     def createBulkNvDataDescriptor(self, short_name: str) -> BulkNvDataDescriptor:
         """
-        Creates a bulk NV data descriptor of this NvBlockSwComponentType.
-        Returns the existing descriptor when the short name already exists.
-
-        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType.
-
-        Args:
-            short_name: The short name of the BulkNvDataDescriptor
-
-        Returns:
-            The created or existing BulkNvDataDescriptor
+        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         if not self.IsReferrableElementExists(short_name, BulkNvDataDescriptor):
             descriptor = BulkNvDataDescriptor(self, short_name)
@@ -1065,35 +1046,27 @@ class NvBlockSwComponentType(AtomicSwComponentType):
             self.bulkNvDataDescriptors.append(descriptor)
         return cast(BulkNvDataDescriptor, self.getReferrableElement(short_name, BulkNvDataDescriptor))
 
-    def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
+    def getBulkNvDataDescriptors(self) -> List[BulkNvDataDescriptor]:
         """
-        Gets the specification of the properties of the NVRAM Blocks owned by this NvBlockSwComponentType.
-
-        Specification of the properties of exactly one NVRAM Block.
-
-        Returns:
-            List[NvBlockDescriptor]: The list of NV block descriptors
+        This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
-        return self.nvBlockDescriptors
+        return self.bulkNvDataDescriptors
 
     def createNvBlockDescriptor(self, short_name: str) -> NvBlockDescriptor:
         """
-        Creates a nvBlockDescriptor of this NvBlockSwComponentType.
-        Returns the existing descriptor when the short name already exists.
-
-        Specification of the properties of exactly one NVRAM Block.
-
-        Args:
-            short_name: The short name of the NvBlockDescriptor
-
-        Returns:
-            The created or existing NvBlockDescriptor
+        Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         if not self.IsReferrableElementExists(short_name, NvBlockDescriptor):
             descriptor = NvBlockDescriptor(self, short_name)
             self.addReferrableElement(descriptor)
             self.nvBlockDescriptors.append(descriptor)
         return cast(NvBlockDescriptor, self.getReferrableElement(short_name, NvBlockDescriptor))
+
+    def getNvBlockDescriptors(self) -> List[NvBlockDescriptor]:
+        """
+        Specification of the properties of exactly one NVRAM Block. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.nvBlockDescriptors
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):

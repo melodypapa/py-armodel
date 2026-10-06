@@ -2730,9 +2730,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, descriptor)
         child_element = self.find(element, "BULK-NV-BLOCK")
         if child_element is not None:
-            prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
-            block = descriptor.createBulkNvBlock(self.getShortName(cast(ET.Element, prototype_element)))
-            self.readVariableDataPrototype(cast(ET.Element, prototype_element), block)
+            block = descriptor.createBulkNvBlock(self.getShortName(child_element))
+            self.readAutosarDataPrototype(child_element, block)
+            block.setInitValue(self.getInitValue(child_element))
         for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
             mapping = NvBlockDataMapping()
             self.readNvBlockDataMapping(child_element, mapping)

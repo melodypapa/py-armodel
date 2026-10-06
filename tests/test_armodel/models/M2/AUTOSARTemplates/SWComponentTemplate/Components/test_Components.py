@@ -1563,3 +1563,131 @@ class Test_ServiceSwComponentType_Spec:
         behavior = swc.createSwcInternalBehavior("B")
         assert swc.getInternalBehavior() is behavior
         assert swc.createSymbolProps("S") is swc.getSymbolProps()
+
+
+NV_BLOCK_SW_COMPONENT_TYPE_CLASS_NOTE = (
+    "The NvBlockSwComponentType defines non volatile data which data can be shared between SwComponentPrototypes."
+    " The non volatile data of the NvBlockSwComponentType are accessible via provided and required ports."
+    " Tags: atp.recommendedPackage=SwComponentTypes"
+)
+
+NV_BLOCK_SW_COMPONENT_TYPE_MEMBER_NOTES = {
+    "bulkNvDataDescriptor": (
+        "This aggregation formally defines the bulk Nv Blocks that are provided to the application software by the enclosing NvBlockSwComponentType."
+        " Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=bulkNvDataDescriptor.shortName, bulkNvDataDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    ),
+    "nvBlockDescriptor": (
+        "Specification of the properties of exactly one NVRAM Block."
+        " Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nvBlockDescriptor.shortName, nvBlockDescriptor.variationPoint.shortLabel vh.latestBindingTime=preCompileTime"
+    ),
+}
+
+NV_BLOCK_SW_COMPONENT_TYPE_MEMBERS = [
+    "bulkNvDataDescriptors",
+    "nvBlockDescriptors",
+]
+
+
+class Test_NvBlockSwComponentType_Spec:
+    """Spec pins for NvBlockSwComponentType (CP_TPS_SoftwareComponentTemplate Table 11.4, p.664)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        return document.createARPackage("AUTOSAR").createNvBlockSwComponentType("NvSwc")
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+
+        assert issubclass(NvBlockSwComponentType, AtomicSwComponentType)
+        assert issubclass(NvBlockSwComponentType, SwComponentType)
+        assert issubclass(NvBlockSwComponentType, ARElement)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(NvBlockSwComponentType.__doc__) == NV_BLOCK_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert NvBlockSwComponentType.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        swc = self._make()
+        assert swc.getBulkNvDataDescriptors() == []
+        assert swc.getNvBlockDescriptors() == []
+
+    def test_member_order(self):
+        swc = self._make()
+        members = [k for k in vars(swc) if k in set(NV_BLOCK_SW_COMPONENT_TYPE_MEMBERS)]
+        assert members == NV_BLOCK_SW_COMPONENT_TYPE_MEMBERS
+
+    def test_accessor_order(self):
+        import ast
+        import inspect
+
+        source = inspect.getsource(NvBlockSwComponentType)
+        cls = next(n for n in ast.parse(source).body if isinstance(n, ast.ClassDef))
+        names = [n.name for n in cls.body if isinstance(n, ast.FunctionDef)]
+        assert names.index("createBulkNvDataDescriptor") < names.index("getBulkNvDataDescriptors")
+        assert names.index("createNvBlockDescriptor") < names.index("getNvBlockDescriptors")
+
+    def test_docstrings_verbatim(self):
+        getter_notes = {
+            NvBlockSwComponentType.getBulkNvDataDescriptors: NV_BLOCK_SW_COMPONENT_TYPE_MEMBER_NOTES["bulkNvDataDescriptor"],
+            NvBlockSwComponentType.getNvBlockDescriptors: NV_BLOCK_SW_COMPONENT_TYPE_MEMBER_NOTES["nvBlockDescriptor"],
+        }
+        for getter, note in getter_notes.items():
+            assert getter.__doc__ is not None, getter.__name__
+            assert getter.__doc__.strip().split("\n")[0] == note, getter.__name__
+        mutator_notes = {
+            NvBlockSwComponentType.createBulkNvDataDescriptor: NV_BLOCK_SW_COMPONENT_TYPE_MEMBER_NOTES["bulkNvDataDescriptor"],
+            NvBlockSwComponentType.createNvBlockDescriptor: NV_BLOCK_SW_COMPONENT_TYPE_MEMBER_NOTES["nvBlockDescriptor"],
+        }
+        for mutator, note in mutator_notes.items():
+            assert mutator.__doc__ is not None, mutator.__name__
+            assert note in mutator.__doc__, mutator.__name__
+
+    def test_create_get_bulk_nv_data_descriptors(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor
+
+        swc = self._make()
+        descriptor = swc.createBulkNvDataDescriptor("Bulk1")
+        assert isinstance(descriptor, BulkNvDataDescriptor)
+        assert descriptor.short_name == "Bulk1"
+        assert swc.getBulkNvDataDescriptors() == [descriptor]
+        assert swc.bulkNvDataDescriptors == [descriptor]
+        assert swc.createBulkNvDataDescriptor("Bulk1") is descriptor
+        swc.createBulkNvDataDescriptor("Bulk2")
+        assert [d.short_name for d in swc.getBulkNvDataDescriptors()] == ["Bulk1", "Bulk2"]
+
+    def test_create_get_nv_block_descriptors(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import NvBlockDescriptor
+
+        swc = self._make()
+        descriptor = swc.createNvBlockDescriptor("Nv1")
+        assert isinstance(descriptor, NvBlockDescriptor)
+        assert descriptor.short_name == "Nv1"
+        assert swc.getNvBlockDescriptors() == [descriptor]
+        assert swc.nvBlockDescriptors == [descriptor]
+        assert swc.createNvBlockDescriptor("Nv1") is descriptor
+        swc.createNvBlockDescriptor("Nv2")
+        assert [d.short_name for d in swc.getNvBlockDescriptors()] == ["Nv1", "Nv2"]
+
+    def test_type_hints(self):
+        import typing
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDescriptor
+
+        hints = typing.get_type_hints(NvBlockSwComponentType.getBulkNvDataDescriptors)
+        assert hints["return"] == typing.List[BulkNvDataDescriptor]
+        hints = typing.get_type_hints(NvBlockSwComponentType.createBulkNvDataDescriptor)
+        assert hints["short_name"] is str
+        assert hints["return"] is BulkNvDataDescriptor
+        hints = typing.get_type_hints(NvBlockSwComponentType.getNvBlockDescriptors)
+        assert hints["return"] == typing.List[NvBlockDescriptor]
+        hints = typing.get_type_hints(NvBlockSwComponentType.createNvBlockDescriptor)
+        assert hints["short_name"] is str
+        assert hints["return"] is NvBlockDescriptor
