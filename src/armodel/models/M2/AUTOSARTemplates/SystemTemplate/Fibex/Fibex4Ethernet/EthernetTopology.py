@@ -1779,21 +1779,20 @@ class Ipv4DhcpServerConfiguration(Describable):
 
     # Ipv4DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.80, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1810,7 +1809,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         # Amount of time in seconds that a client may keep the IP address.
         self.defaultLeaseTime: Optional[TimeValue] = None
 
-        # IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        # IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip4AddressString] = []
 
         # Default network mask to be used by DHCP clients. Notation 255.255.255.255
@@ -1868,18 +1867,18 @@ class Ipv4DhcpServerConfiguration(Describable):
             self.defaultLeaseTime = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
-        """IP addresses of preconfigured DNS servers. Notation 255.255.255.255"""
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
-        IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and does not append to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES"""
+        return self.dnsServerAddresses
 
     def getNetworkMask(self) -> Optional[Ip4AddressString]:
         """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""

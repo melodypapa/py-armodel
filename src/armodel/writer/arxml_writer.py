@@ -12507,6 +12507,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIpv4DhcpServerConfiguration(self, element: ET.Element, key: str, config: Optional[Ipv4DhcpServerConfiguration]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeDescribable(child_element, config)
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND", config.getAddressRangeLowerBound())
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND", config.getAddressRangeUpperBound())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", config.getDefaultGateway())
