@@ -2749,7 +2749,3 @@ class SeverityEnum(AREnum):
 
 class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
     pass
-
-
-class SwitchStreamFilterActionPortModificationEnum(AREnum):
-    pass

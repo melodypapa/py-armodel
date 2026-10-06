@@ -703,6 +703,27 @@ class SwitchStreamFilterRule(Identifiable):
         return self
 
 
+class SwitchStreamFilterActionPortModificationEnum(AREnum):
+    """
+    Definition how the SwitchStreamFilterActionPortModification is applied. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterActionPortModificationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.94, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwitchStreamFilterActionDestPortModification.modification (queued next; no token map — XSD facets EXTEND/OVERWRITE are the serialized form)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Extend the egress destination of an Ethernet frame. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    EXTEND = "EXTEND"
+
+    # Overwrite the egress destination of an Ethernet frame. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    OVERWRITE = "OVERWRITE"
+
+    def __init__(self):
+        super().__init__([SwitchStreamFilterActionPortModificationEnum.EXTEND, SwitchStreamFilterActionPortModificationEnum.OVERWRITE])
+
+
 class StreamFilterMACAddress(ARObject):
     """
     Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
