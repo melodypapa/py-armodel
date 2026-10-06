@@ -44,7 +44,7 @@ class HardwareConfiguration(ARObject):
     def __init__(self):
         super().__init__()
 
-        # Specifies additional information on the Hardware Configuration.
+        # Specifies additional information on the HardwareConfiguration.
         self.additionalInformation: Optional[String] = None
 
         # Specifies in which mode the processor is operating.
@@ -55,13 +55,13 @@ class HardwareConfiguration(ARObject):
 
     def getAdditionalInformation(self) -> Optional[String]:
         """
-        Specifies additional information on the Hardware Configuration.
+        Specifies additional information on the HardwareConfiguration.
         """
         return self.additionalInformation
 
     def setAdditionalInformation(self, value: Optional[String]) -> HardwareConfiguration:
         """
-        Specifies additional information on the Hardware Configuration.
+        Specifies additional information on the HardwareConfiguration.
         A None value is a no-op and does not overwrite an existing additionalInformation.
         """
         if value is not None:

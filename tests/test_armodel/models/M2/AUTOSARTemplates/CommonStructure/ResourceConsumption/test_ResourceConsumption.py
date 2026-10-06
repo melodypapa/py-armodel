@@ -37,7 +37,7 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 HW_CLASS_NOTE = "Describes in which mode the hardware is operating while needing this resource consumption."
-HW_ADDITIONAL_INFORMATION_NOTE = "Specifies additional information on the Hardware Configuration."
+HW_ADDITIONAL_INFORMATION_NOTE = "Specifies additional information on the HardwareConfiguration."
 HW_PROCESSOR_MODE_NOTE = "Specifies in which mode the processor is operating."
 HW_PROCESSOR_SPEED_NOTE = "Specifies the speed the processor is operating."
 

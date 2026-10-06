@@ -5486,6 +5486,7 @@ class ARXMLParser(AbstractARXMLParser):
             interval.setUpperBound(upper_bound)
 
     def readHardwareConfiguration(self, element: ET.Element, config: HardwareConfiguration):
+        self.readARObject(element, config)
         config.setAdditionalInformation(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION")))
         config.setProcessorMode(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-MODE")))
         config.setProcessorSpeed(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-SPEED")))

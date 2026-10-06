@@ -7025,6 +7025,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setHardwareConfiguration(self, element: ET.Element, config):
         if config is not None:
             child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
+            self.writeARObject(child_element, config)
             self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", config.getAdditionalInformation())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
