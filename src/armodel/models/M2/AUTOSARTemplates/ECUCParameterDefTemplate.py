@@ -329,6 +329,7 @@ class EcucDestinationUriDefRefType(RefType):
 
     # EcucDestinationUriDefRefType method parity checklist:
     # Spec: R23-11/AUTOSAR_00052.xsd, DESTINATION-URI-REF nested type (group ECUC-CONTAINER-DEF), line 51614 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own accessors — the DESTINATION-URI-REF element round-trips via the consuming class EcucContainerDef.destinationUriRefs reader/writer helpers)
