@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 812 | 42.7% |
+| [x] Done | 825 | 43.4% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 401 | 21.1% |
+| [ ] Deferred | 388 | 20.4% |
 | [ ] Implemented | 346 | 18.2% |
 | [ ] Created | 334 | 17.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -334,7 +334,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConditionByFormula`                                    | [x] Done    | 18b494eba5                               | Group8           |
 | `ConditionalChangeNad`                                  | [ ] Implemented| N/A                                      | Group32          |
 | `ConfidenceInterval`                                    | [ ] Implemented| N/A                                      | Group35          |
-| `ConfigReferenceValue`                                  | [ ] Deferred| N/A                                      | Group19          |
+| `ConfigReferenceValue`                                  | [x] Done    | 7ed4c9a4a4                               | Group19          |
 | `ConsistencyNeeds`                                      | [ ] Implemented| N/A                                      | Group28          |
 | `ConstantReference`                                     | [x] Done    | 4853348ea0                               | Group9           |
 | `ConstantSpecification`                                 | [x] Done    | 265721a764                               | Group9           |
@@ -803,13 +803,13 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucAbstractStringParamDef`                            | [ ] Deferred| 024153f73a                               | Group26          |
 | `EcucAddInfoParamDef`                                   | [ ] Deferred| cf5c0e3618                               | Group26          |
 | `EcucAddInfoParamValue`                                 | [ ] Deferred| 0c30fe6b6b                               | Group27          |
-| `EcucBooleanParamDef`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucBooleanParamDef`                                   | [x] Done    | b40b99238a                               | Group19          |
 | `EcucChoiceContainerDef`                                | [ ] Deferred| 416e583ff2                               | Group26          |
 | `EcucChoiceReferenceDef`                                | [ ] Deferred| b85e3d5202                               | Group26          |
 | `EcucCommonAttributes`                                  | [ ] Deferred| b5ba9d4e2f                               | Group26          |
-| `EcucConditionFormula`                                  | [ ] Deferred| N/A                                      | Group19          |
+| `EcucConditionFormula`                                  | [x] Done    | 86096857ad                               | Group19          |
 | `EcucConditionSpecification`                            | [ ] Implemented| 901e5bb4c3                               | Group27          |
-| `EcucConfigurationClassEnum`                            | [ ] Deferred| N/A                                      | Group19          |
+| `EcucConfigurationClassEnum`                            | [x] Done    | eb890b899c                               | Group19          |
 | `EcucConfigurationVariantEnum`                          | [ ] Deferred| 5ce1bb021e                               | Group26          |
 | `EcucContainerDef`                                      | [ ] Deferred| d497b88ae7                               | Group26          |
 | `EcucContainerValue`                                    | [ ] Deferred| 319fcf7080                               | Group27          |
@@ -817,20 +817,20 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucDefinitionElement`                                 | [ ] Deferred| ac47ae89f3                               | Group26          |
 | `EcucDerivationSpecification`                           | [ ] Deferred| 91a9e3ee35                               | Group26          |
 | `EcucDestinationUriDef`                                 | [ ] Deferred| 2f69e3cc20                               | Group26          |
-| `EcucDestinationUriDefRefType`                          | [ ] Deferred| N/A                                      | Group19          |
+| `EcucDestinationUriDefRefType`                          | [x] Done    | 7047c575f7                               | Group19          |
 | `EcucDestinationUriDefSet`                              | [ ] Deferred| f580ebdeec                               | Group26          |
 | `EcucDestinationUriNestingContractEnum`                 | [ ] Deferred| 9a8cb02be7                               | Group26          |
 | `EcucDestinationUriPolicy`                              | [ ] Deferred| 37330e12c0                               | Group26          |
 | `EcucEnumerationLiteralDef`                             | [ ] Deferred| 48d98b4b49                               | Group26          |
 | `EcucEnumerationParamDef`                               | [ ] Deferred| 5085d038de                               | Group26          |
-| `EcucFloatParamDef`                                     | [ ] Deferred| N/A                                      | Group19          |
-| `EcucForeignReferenceDef`                               | [ ] Deferred| N/A                                      | Group19          |
+| `EcucFloatParamDef`                                     | [x] Done    | 454e47206b                               | Group19          |
+| `EcucForeignReferenceDef`                               | [x] Done    | 958007001d                               | Group19          |
 | `EcucFunctionNameDef`                                   | [ ] Deferred| e44edd9d6d                               | Group26          |
 | `EcucIndexableValue`                                    | [ ] Deferred| 7fa66d34f9                               | Group27          |
 | `EcucInstanceReferenceDef`                              | [ ] Deferred| c27549b512                               | Group26          |
 | `EcucInstanceReferenceValue`                            | [ ] Deferred| 9d34a15176                               | Group27          |
 | `EcucIntegerParamDef`                                   | [ ] Deferred| 62c89e7a96                               | Group26          |
-| `EcucLinkerSymbolDef`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucLinkerSymbolDef`                                   | [x] Done    | 776f61b1df                               | Group19          |
 | `EcucModuleConfigurationValues`                         | [ ] Deferred| 963ae8fcfc                               | Group27          |
 | `EcucModuleDef`                                         | [ ] Deferred| 3dd8367d26                               | Group26          |
 | `EcucMultilineStringParamDef`                           | [ ] Deferred| fdee6f9a41                               | Group26          |
@@ -838,19 +838,19 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucNumericalParamValue`                               | [ ] Deferred| c2eb1c04d2                               | Group27          |
 | `EcucParamConfContainerDef`                             | [ ] Deferred| 571d1bb8d7                               | Group26          |
 | `EcucParameterDef`                                      | [ ] Deferred| bf479d9bf8                               | Group26          |
-| `EcucParameterDerivationFormula`                        | [ ] Deferred| N/A                                      | Group19          |
+| `EcucParameterDerivationFormula`                        | [x] Done    | 16bd8cd3d0                               | Group19          |
 | `EcucParameterValue`                                    | [ ] Deferred| de8db969b1                               | Group27          |
 | `EcucQuery`                                             | [ ] Deferred| 8bb9dbd181                               | Group26          |
-| `EcucQueryExpression`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucQueryExpression`                                   | [x] Done    | a6ca958629                               | Group19          |
 | `EcucReferenceDef`                                      | [x] Done    | 0d45067479                               | Group19          |
 | `EcucReferenceValue`                                    | [ ] Deferred| 5986011aa6                               | Group27          |
-| `EcucScopeEnum`                                         | [ ] Deferred| N/A                                      | Group19          |
+| `EcucScopeEnum`                                         | [x] Done    | 096c9544fc                               | Group19          |
 | `EcucStringParamDef`                                    | [ ] Deferred| 0e1c4660e5                               | Group26          |
 | `EcucSymbolicNameReferenceDef`                          | [x] Done    | 0d45067479                               | Group19          |
 | `EcucTextualParamValue`                                 | [ ] Deferred| b4a24a5d87                               | Group27          |
 | `EcucUriReferenceDef`                                   | [x] Done    | 0d45067479                               | Group19          |
 | `EcucValidationCondition`                               | [ ] Deferred| 401e19fd2d                               | Group27          |
-| `EcucValueCollection`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucValueCollection`                                   | [x] Done    | b65b2313a2                               | Group19          |
 | `EcucValueConfigurationClass`                           | [ ] Deferred| 6549a18aee                               | Group26          |
 | `EmphasisText`                                          | [x] Done    | N/A                                      | Group21          |
 | `EndToEndDescription`                                   | [x] Done    | d3db89bb98                               | Group10          |
@@ -1288,7 +1288,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeSwitchedAckRequest`                                | [x] Done    | f587d873eb                               | Group10          |
 | `ModeTransition`                                        | [x] Done    | e3d79f89ca                               | Group22          |
 | `Modification`                                          | [x] Done    | 008307967e                               | Group9           |
-| `ModuleConfiguration`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `ModuleConfiguration`                                   | [x] Done    | 5cedb145b9                               | Group19          |
 | `MonotonyEnum`                                          | [ ] Implemented| N/A                                      | Group28          |
 | `MsrQueryArg`                                           | [x] Done    | 4566d4d4f7                               | Group22          |
 | `MsrQueryChapter`                                       | [x] Done    | 50103018c3                               | Group3           |
