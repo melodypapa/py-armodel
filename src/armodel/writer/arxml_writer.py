@@ -837,7 +837,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptHook, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptHook, RptImplPolicy, RptProfile
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -7585,6 +7585,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for sdg in sdgs:
                     self.setSdg(sdgs_element, sdg)
             self.writeVariationPointCapable(child_element, hook)
+
+    def writeRptProfile(self, element: ET.Element, profile: Optional[RptProfile]):
+        if profile is not None:
+            child_element = ET.SubElement(element, "RPT-PROFILE")
+            self.writeIdentifiable(child_element, profile)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SERVICE-POINT-ID", cast(Integer, profile.getMaxServicePointId()))
+            self.setChildElementOptionalPositiveInteger(child_element, "MIN-SERVICE-POINT-ID", cast(Integer, profile.getMinServicePointId()))
+            self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-POST", profile.getServicePointSymbolPost())
+            self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-PRE", profile.getServicePointSymbolPre())
+            self.setChildElementOptionalLiteral(child_element, "STIM-ENABLER", profile.getStimEnabler())
 
     def writeRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         self.writeIdentifiable(element, service_point)

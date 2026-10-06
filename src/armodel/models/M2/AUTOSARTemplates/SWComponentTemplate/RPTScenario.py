@@ -7,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -328,6 +328,126 @@ class RptHook(ARObject, VariationPointCapable):
         This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
         """
         return self.sdgs
+
+
+class RptProfile(Identifiable):
+    """
+    The RptProfile describes the common properties of a Rapid Prototyping method.
+    """
+
+    # RptProfile method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.7, p.854
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxServicePointId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxServicePointId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinServicePointId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinServicePointId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServicePointSymbolPost   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServicePointSymbolPost   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServicePointSymbolPre    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServicePointSymbolPre    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStimEnabler              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStimEnabler              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRptProfile/writeRptProfile (readIdentifiable/
+    # writeIdentifiable once each, Rule 0025; element <RPT-PROFILE>, group RPT-PROFILE XSD
+    # AUTOSAR_00052.xsd l.100138, sequenceOffset order MAX-SERVICE-POINT-ID, MIN-SERVICE-POINT-ID,
+    # SERVICE-POINT-SYMBOL-POST, SERVICE-POINT-SYMBOL-PRE, STIM-ENABLER). Aggregated by
+    # RapidPrototypingScenario.rptProfile (RPT-PROFILES wrapper) — the
+    # RapidPrototypingScenario dispatch is that class's own queued sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        self.maxServicePointId: Optional[PositiveInteger] = None
+
+        # Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        self.minServicePointId: Optional[PositiveInteger] = None
+
+        # Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        self.servicePointSymbolPost: Optional[CIdentifier] = None
+
+        # Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        self.servicePointSymbolPre: Optional[CIdentifier] = None
+
+        # Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        self.stimEnabler: Optional[RptEnablerImplTypeEnum] = None
+
+    def getMaxServicePointId(self) -> Optional[PositiveInteger]:
+        """
+        Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        """
+        return self.maxServicePointId
+
+    def setMaxServicePointId(self, value: Optional[PositiveInteger]) -> "RptProfile":
+        """
+        Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing maxServicePointId.
+        """
+        if value is not None:
+            self.maxServicePointId = value
+        return self
+
+    def getMinServicePointId(self) -> Optional[PositiveInteger]:
+        """
+        Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        """
+        return self.minServicePointId
+
+    def setMinServicePointId(self, value: Optional[PositiveInteger]) -> "RptProfile":
+        """
+        Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing minServicePointId.
+        """
+        if value is not None:
+            self.minServicePointId = value
+        return self
+
+    def getServicePointSymbolPost(self) -> Optional[CIdentifier]:
+        """
+        Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        """
+        return self.servicePointSymbolPost
+
+    def setServicePointSymbolPost(self, value: Optional[CIdentifier]) -> "RptProfile":
+        """
+        Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing servicePointSymbolPost.
+        """
+        if value is not None:
+            self.servicePointSymbolPost = value
+        return self
+
+    def getServicePointSymbolPre(self) -> Optional[CIdentifier]:
+        """
+        Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        """
+        return self.servicePointSymbolPre
+
+    def setServicePointSymbolPre(self, value: Optional[CIdentifier]) -> "RptProfile":
+        """
+        Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing servicePointSymbolPre.
+        """
+        if value is not None:
+            self.servicePointSymbolPre = value
+        return self
+
+    def getStimEnabler(self) -> Optional[RptEnablerImplTypeEnum]:
+        """
+        Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        """
+        return self.stimEnabler
+
+    def setStimEnabler(self, value: Optional[RptEnablerImplTypeEnum]) -> "RptProfile":
+        """
+        Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing stimEnabler.
+        """
+        if value is not None:
+            self.stimEnabler = value
+        return self
 
 
 class ExternalTriggeringPointIdent(IdentCaption):

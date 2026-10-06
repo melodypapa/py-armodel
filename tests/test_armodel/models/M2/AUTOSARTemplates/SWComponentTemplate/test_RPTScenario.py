@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     RptExecutableEntityProperties,
     RptHook,
     RptImplPolicy,
+    RptProfile,
     RptServicePointEnum,
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -370,3 +371,119 @@ class TestRptHook:
         assert typing.get_type_hints(RptHook.getSdgs).get("return") == typing.List[Sdg]
         assert typing.get_type_hints(RptHook.addSdg).get("sdg") == typing.Optional[Sdg]
         assert typing.get_type_hints(RptHook.addSdg).get("return") is RptHook
+
+
+class TestRptProfile:
+    """Test class for RptProfile class (Table 14.7, p.854)."""
+
+    SPEC_NOTE = "The RptProfile describes the common properties of a Rapid Prototyping method."
+
+    def test_rpt_profile_concrete(self):
+        """RptProfile is concrete (Table 14.7 header, XSD RPT-PROFILE abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert isinstance(profile, RptProfile)
+        assert profile.getShortName() == "RptProfile1"
+
+    def test_rpt_profile_heritage(self):
+        """Most-derived base is Identifiable (Table 14.7 Base: ARObject, Identifiable, MultilanguageReferrable, Referrable — Rule 0001.2)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert type(profile).__bases__ == (Identifiable,)
+        for ancestor in (ARObject, Identifiable):
+            assert isinstance(profile, ancestor)
+
+    def test_rpt_profile_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.7)."""
+        assert RptProfile.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptProfile initialization defaults (all Table 14.7 attributes unset)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert profile is not None
+        assert profile.getMaxServicePointId() is None
+        assert profile.getMinServicePointId() is None
+        assert profile.getServicePointSymbolPost() is None
+        assert profile.getServicePointSymbolPre() is None
+        assert profile.getStimEnabler() is None
+
+    def test_get_set_max_service_point_id(self):
+        """Test maxServicePointId setter and getter (PositiveInteger, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = PositiveInteger().setValue("4")
+        result = profile.setMaxServicePointId(test_value)
+
+        assert result is profile
+        assert profile.getMaxServicePointId() == test_value
+
+        profile.setMaxServicePointId(None)
+        assert profile.getMaxServicePointId() == test_value
+
+    def test_get_set_min_service_point_id(self):
+        """Test minServicePointId setter and getter (PositiveInteger, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = PositiveInteger().setValue("2")
+        result = profile.setMinServicePointId(test_value)
+
+        assert result is profile
+        assert profile.getMinServicePointId() == test_value
+
+        profile.setMinServicePointId(None)
+        assert profile.getMinServicePointId() == test_value
+
+    def test_get_set_service_point_symbol_post(self):
+        """Test servicePointSymbolPost setter and getter (CIdentifier, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = CIdentifier().setValue("Rpt_PostServicePoint")
+        result = profile.setServicePointSymbolPost(test_value)
+
+        assert result is profile
+        assert profile.getServicePointSymbolPost() == test_value
+
+        profile.setServicePointSymbolPost(None)
+        assert profile.getServicePointSymbolPost() == test_value
+
+    def test_get_set_service_point_symbol_pre(self):
+        """Test servicePointSymbolPre setter and getter (CIdentifier, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = CIdentifier().setValue("Rpt_PreServicePoint")
+        result = profile.setServicePointSymbolPre(test_value)
+
+        assert result is profile
+        assert profile.getServicePointSymbolPre() == test_value
+
+        profile.setServicePointSymbolPre(None)
+        assert profile.getServicePointSymbolPre() == test_value
+
+    def test_get_set_stim_enabler(self):
+        """Test stimEnabler setter and getter (RptEnablerImplTypeEnum, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = RptEnablerImplTypeEnum().setValue(RptEnablerImplTypeEnum.RPT_ENABLER_RAM)
+        result = profile.setStimEnabler(test_value)
+
+        assert result is profile
+        assert profile.getStimEnabler() == test_value
+
+        profile.setStimEnabler(None)
+        assert profile.getStimEnabler() == test_value
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptProfile.getMaxServicePointId).get("return") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMaxServicePointId).get("value") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMaxServicePointId).get("return") is RptProfile
+
+        assert typing.get_type_hints(RptProfile.getMinServicePointId).get("return") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMinServicePointId).get("value") == typing.Optional[PositiveInteger]
+
+        assert typing.get_type_hints(RptProfile.getServicePointSymbolPost).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptProfile.setServicePointSymbolPost).get("value") == typing.Optional[CIdentifier]
+
+        assert typing.get_type_hints(RptProfile.getServicePointSymbolPre).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptProfile.setServicePointSymbolPre).get("value") == typing.Optional[CIdentifier]
+
+        assert typing.get_type_hints(RptProfile.getStimEnabler).get("return") == typing.Optional[RptEnablerImplTypeEnum]
+        assert typing.get_type_hints(RptProfile.setStimEnabler).get("value") == typing.Optional[RptEnablerImplTypeEnum]

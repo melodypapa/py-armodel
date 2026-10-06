@@ -2258,10 +2258,6 @@ class RoleBasedResourceDependency(ARObject):
         return self
 
 
-class RptProfile(ARObject):
-    pass
-
-
 class SpecificationScope(ARObject):
     pass
 

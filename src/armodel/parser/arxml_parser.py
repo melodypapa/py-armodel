@@ -1022,6 +1022,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     RptExecutableEntityProperties,
     RptHook,
     RptImplPolicy,
+    RptProfile,
     RptServicePointEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
@@ -5983,6 +5984,14 @@ class ARXMLParser(AbstractARXMLParser):
             for child_element in self.findall(sdgs_element, "SDG"):
                 hook.addSdg(self.getSdg(child_element))
         self.readVariationPointCapable(element, hook)
+
+    def readRptProfile(self, element: ET.Element, profile: RptProfile):
+        self.readIdentifiable(element, profile)
+        profile.setMaxServicePointId(self.getChildElementOptionalPositiveInteger(element, "MAX-SERVICE-POINT-ID"))
+        profile.setMinServicePointId(self.getChildElementOptionalPositiveInteger(element, "MIN-SERVICE-POINT-ID"))
+        profile.setServicePointSymbolPost(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-POST"))
+        profile.setServicePointSymbolPre(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-PRE"))
+        profile.setStimEnabler(cast(Optional[RptEnablerImplTypeEnum], self.getChildElementOptionalLiteral(element, "STIM-ENABLER")))
 
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))
