@@ -2,8 +2,10 @@
 Writer/reader round-trip tests for EthIpProps (Table 3.100, p.146).
 
 XML element order per XSD ETH-IP-PROPS group: IPV-4-PROPS, IPV-6-PROPS.
-The member types Ipv4Props/Ipv6Props are queued separately (Tables 3.101/3.105),
-so until their sync lands the children round-trip presence-only (empty elements).
+The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since
+the Ipv4Props sync (Table 3.101); the member type Ipv6Props is queued separately
+(Table 3.105), so until its sync lands the IPV-6-PROPS child round-trips
+presence-only (empty element).
 writeEthIpProps calls writeIdentifiable on the ETH-IP-PROPS element exactly once.
 """
 
@@ -12,8 +14,8 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4Props, Ipv6Props
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps, Ipv4Props
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -90,6 +92,24 @@ class TestEthIpPropsRoundTrip:
         assert reloaded.getShortName() == "IpProps"
         assert isinstance(reloaded.getIpv4Props(), Ipv4Props)
         assert isinstance(reloaded.getIpv6Props(), Ipv6Props)
+
+    def test_round_trip_nested_ipv4_props_children(self):
+        eth_ip_props = EthIpProps(_pkg(), "IpProps")
+        ipv4_props = Ipv4Props()
+        ipv4_props.setArpProps(Ipv4ArpProps())
+        ipv4_props.setAutoIpProps(Ipv4AutoIpProps())
+        ipv4_props.setFragmentationProps(Ipv4FragmentationProps())
+        eth_ip_props.setIpv4Props(ipv4_props)
+
+        parent = _write_eth_ip_props(eth_ip_props)
+        reloaded = EthIpProps(_pkg(), "IpProps")
+        ARXMLParser().readEthIpProps(_namespaced_first_child(parent), reloaded)
+
+        reloaded_ipv4_props = reloaded.getIpv4Props()
+        assert isinstance(reloaded_ipv4_props, Ipv4Props)
+        assert isinstance(reloaded_ipv4_props.getArpProps(), Ipv4ArpProps)
+        assert isinstance(reloaded_ipv4_props.getAutoIpProps(), Ipv4AutoIpProps)
+        assert isinstance(reloaded_ipv4_props.getFragmentationProps(), Ipv4FragmentationProps)
 
     def test_round_trip_empty_through_eth_ip_props(self):
         parent = _write_eth_ip_props(EthIpProps(_pkg(), "IpProps"))

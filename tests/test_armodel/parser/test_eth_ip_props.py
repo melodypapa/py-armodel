@@ -11,8 +11,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4Props, Ipv6Props
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps, Ipv4Props
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -78,6 +78,28 @@ class TestReadEthIpProps:
         assert eth_ip_props.getCategory().getValue() == "myCategory"
         assert isinstance(eth_ip_props.getIpv4Props(), Ipv4Props)
         assert eth_ip_props.getIpv6Props() is None
+
+    def test_read_nested_ipv4_props_children(self, parser):
+        """The IPV-4-PROPS child dispatches to readIpv4Props (Ipv4Props, Table 3.101)."""
+        eth_ip_props = _make_eth_ip_props()
+        element = ET.fromstring(
+            f"""<ETH-IP-PROPS xmlns='{NS}'>
+                <SHORT-NAME>IpProps</SHORT-NAME>
+                <IPV-4-PROPS>
+                    <ARP-PROPS/>
+                    <AUTO-IP-PROPS/>
+                    <FRAGMENTATION-PROPS/>
+                </IPV-4-PROPS>
+            </ETH-IP-PROPS>"""
+        )
+
+        parser.readEthIpProps(element, eth_ip_props)
+
+        ipv4_props = eth_ip_props.getIpv4Props()
+        assert isinstance(ipv4_props, Ipv4Props)
+        assert isinstance(ipv4_props.getArpProps(), Ipv4ArpProps)
+        assert isinstance(ipv4_props.getAutoIpProps(), Ipv4AutoIpProps)
+        assert isinstance(ipv4_props.getFragmentationProps(), Ipv4FragmentationProps)
 
     def test_read_absent_optional_members(self, parser):
         """Absent optional members leave the fields untouched (empty case)."""

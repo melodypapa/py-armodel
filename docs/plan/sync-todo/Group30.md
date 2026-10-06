@@ -694,15 +694,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its aggregator EthIpProps, spec table order); stub-guard tuple + consumer imports
+    (parser, EthIpProps model/parser/writer tests) updated accordingly. Base chain's
+    most-derived model class is `ARObject`. Table has 3 Attribute rows in displayed order
+    (arpProps `0..1` aggr Ipv4ArpProps, autoIpProps `0..1` aggr Ipv4AutoIpProps,
+    fragmentationProps `0..1` aggr Ipv4FragmentationProps — the markdown cell
+    "fragmentation Props" is a page-split artifact; the canonical name is confirmed by the
+    XSD appinfo `mmt.qualifiedName="Ipv4Props.fragmentationProps"`); the markdown attribute
+    rows carry no Note column, so member docstrings are the XSD IPV-4-PROPS group element
+    documentations (same shape as the already-synced aggregator table 3.100); XML child
+    order per XSD group IPV-4-PROPS (ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS).
+    EthIpProps' IPV-4-PROPS dispatch upgraded from presence-only to the full
+    readIpv4Props/writeIpv4Props level. Member types Ipv4ArpProps/Ipv4AutoIpProps/
+    Ipv4FragmentationProps are still ArObject.py stubs (queued Tables 3.102/3.103/3.104),
+    so their children round-trip identity-only via readARObject/writeARObject — ready to
+    upgrade at their own syncs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20738 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `Ipv4ArpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.102, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

@@ -577,7 +577,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv4Props,
+    Ipv4ArpProps,
+    Ipv4AutoIpProps,
+    Ipv4FragmentationProps,
     Ipv6Props,
     PhysicalDimensionMapping,
 )
@@ -1171,6 +1173,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     GenericTp,
     GlobalTimeCouplingPortProps,
     Ipv4DhcpServerConfiguration,
+    Ipv4Props,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     PlcaProps,
@@ -11018,10 +11021,31 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, props)
         child_element = self.find(element, "IPV-4-PROPS")
         if child_element is not None:
-            props.setIpv4Props(Ipv4Props())
+            ipv4_props = Ipv4Props()
+            self.readIpv4Props(child_element, ipv4_props)
+            props.setIpv4Props(ipv4_props)
         child_element = self.find(element, "IPV-6-PROPS")
         if child_element is not None:
             props.setIpv6Props(Ipv6Props())
+
+    def readIpv4Props(self, element: ET.Element, props: Ipv4Props):
+        """Read an R23-11 <IPV-4-PROPS> element (Table 3.101, p.146): ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS."""
+        self.readARObject(element, props)
+        child_element = self.find(element, "ARP-PROPS")
+        if child_element is not None:
+            arp_props = Ipv4ArpProps()
+            self.readARObject(child_element, arp_props)
+            props.setArpProps(arp_props)
+        child_element = self.find(element, "AUTO-IP-PROPS")
+        if child_element is not None:
+            auto_ip_props = Ipv4AutoIpProps()
+            self.readARObject(child_element, auto_ip_props)
+            props.setAutoIpProps(auto_ip_props)
+        child_element = self.find(element, "FRAGMENTATION-PROPS")
+        if child_element is not None:
+            fragmentation_props = Ipv4FragmentationProps()
+            self.readARObject(child_element, fragmentation_props)
+            props.setFragmentationProps(fragmentation_props)
 
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""

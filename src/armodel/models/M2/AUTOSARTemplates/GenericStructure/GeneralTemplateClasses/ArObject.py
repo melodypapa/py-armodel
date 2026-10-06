@@ -2486,10 +2486,6 @@ class Ipv4FragmentationProps(ARObject):
     pass
 
 
-class Ipv4Props(ARObject):
-    pass
-
-
 class Ipv6FragmentationProps(ARObject):
     pass
 

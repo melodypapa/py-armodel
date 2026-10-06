@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4Props, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5680,9 +5680,10 @@ class EthIpProps(ARElement):
     # [x] getIpv6Props    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIpv6Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Member types Ipv4Props/Ipv6Props are queued separately in this group (Tables
-    # 3.101/3.105) — until their sync lands the IPV-4-PROPS/IPV-6-PROPS children
-    # round-trip presence-only (empty ARObject-level elements).
+    # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
+    # Ipv4Props sync (Table 3.101); the member type Ipv6Props is queued separately
+    # (Table 3.105) — until its sync lands the IPV-6-PROPS child round-trips
+    # presence-only (empty ARObject-level element).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -5723,6 +5724,80 @@ class EthIpProps(ARElement):
         """
         if value is not None:
             self.ipv6Props = value
+        return self
+
+
+class Ipv4Props(ARObject):
+    """This meta-class specifies the configuration options for IPv4."""
+
+    # Ipv4Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.101, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArpProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAutoIpProps        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutoIpProps        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Member types Ipv4ArpProps/Ipv4AutoIpProps/Ipv4FragmentationProps are queued next
+    # (Tables 3.102/3.103/3.104) — until their syncs land the ARP-PROPS/AUTO-IP-PROPS/
+    # FRAGMENTATION-PROPS children round-trip identity-only via the ARObject level
+    # (readARObject/writeARObject on each child).
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration properties for the ARP (Address Resolution Protocol).
+        self.arpProps: Optional[Ipv4ArpProps] = None
+
+        # Configuration options for Auto-IP (automatic private IP addressing).
+        self.autoIpProps: Optional[Ipv4AutoIpProps] = None
+
+        # Configuration options for IPv4 packet fragmentation/reassembly.
+        self.fragmentationProps: Optional[Ipv4FragmentationProps] = None
+
+    def getArpProps(self) -> Optional[Ipv4ArpProps]:
+        """Configuration properties for the ARP (Address Resolution Protocol)."""
+        return self.arpProps
+
+    def setArpProps(self, value: Optional[Ipv4ArpProps]) -> Ipv4Props:
+        """
+        Configuration properties for the ARP (Address Resolution Protocol).
+
+        A None value is a no-op and does not overwrite an existing arpProps.
+        """
+        if value is not None:
+            self.arpProps = value
+        return self
+
+    def getAutoIpProps(self) -> Optional[Ipv4AutoIpProps]:
+        """Configuration options for Auto-IP (automatic private IP addressing)."""
+        return self.autoIpProps
+
+    def setAutoIpProps(self, value: Optional[Ipv4AutoIpProps]) -> Ipv4Props:
+        """
+        Configuration options for Auto-IP (automatic private IP addressing).
+
+        A None value is a no-op and does not overwrite an existing autoIpProps.
+        """
+        if value is not None:
+            self.autoIpProps = value
+        return self
+
+    def getFragmentationProps(self) -> Optional[Ipv4FragmentationProps]:
+        """Configuration options for IPv4 packet fragmentation/reassembly."""
+        return self.fragmentationProps
+
+    def setFragmentationProps(self, value: Optional[Ipv4FragmentationProps]) -> Ipv4Props:
+        """
+        Configuration options for IPv4 packet fragmentation/reassembly.
+
+        A None value is a no-op and does not overwrite an existing fragmentationProps.
+        """
+        if value is not None:
+            self.fragmentationProps = value
         return self
 
 
