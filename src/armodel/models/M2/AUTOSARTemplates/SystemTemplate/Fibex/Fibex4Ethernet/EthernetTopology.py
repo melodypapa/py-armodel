@@ -1332,19 +1332,18 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
     # EthernetCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.62, p.117
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEthIpPropsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEthIpPropsRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNeighborCacheSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNeighborCacheSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPathMtuEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPathMtuEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPathMtuTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPathMtuTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEthIpPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEthIpPropsRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumTransmissionUnit  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumTransmissionUnit  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNeighborCacheSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNeighborCacheSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPathMtuEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPathMtuEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPathMtuTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPathMtuTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
