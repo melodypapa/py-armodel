@@ -556,6 +556,16 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (MEM-CLASS-SYMBOL atp.Status="removed", group MEMORY-SECTION, AUTOSAR_00052.xsd L80899)
     → Rule 0019 combine case, kept as legacy member; cross-checked vs SWComponentTemplate
     Tables 5.89/5.90 (same sets/order).
+  - note (Step 1 addendum 2026-10-06, batch-9b review): Table 8.2 is a CONFIRMED
+    PAGE-SPLIT render — the body breaks between the `size` row (md L3541) and the
+    `swAddrmethod` row (md L3549) across a blank line, a base64 image, a
+    `glyph[triangle]`, and a repeated class header (md L3547); the trailing
+    swAddrmethod/symbol rows live in the continuation fragment. This Step-1
+    extraction DID capture both post-split rows (see the 7-member list above), so
+    no row loss occurred — recorded so a future drift pass does not re-trust a
+    short read window ending at the image (the other 11 Group20 markdown tables
+    are split-free; Tables 6.206/6.207 render caption-above, F.115 and the 8.x
+    tables caption-below).
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
@@ -585,6 +595,13 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 7 re-run 2026-10-06, batch-9b review): Rule 0019 checklist citation
     completed — the second `# Spec:` line (R4.3.1 Table 9.2, p.145) added for the
     legacy memClassSymbol combine case; per-row release values were already correct.
+  - note (Step 6 re-run 2026-10-06, batch-9b review): Rule 0001.11 reader order
+    realigned — readMemorySections child lookups now follow the XSD MEMORY-SECTION
+    group sequence (ALIGNMENT → EXECUTABLE-ENTITY-REFS → MEM-CLASS-SYMBOL → OPTIONS
+    → PREFIX-REF → SIZE → SW-ADDRMETHOD-REF → SYMBOL; was a legacy call order with
+    PREFIX-REF/EXECUTABLE-ENTITY-REFS read after SYMBOL); functionally neutral
+    (tag-based lookup), pinned by a reader-order test; writer was already in XSD
+    order.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12579 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)

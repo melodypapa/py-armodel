@@ -5457,14 +5457,14 @@ class ARXMLParser(AbstractARXMLParser):
             memory_section = consumption.createMemorySection(self.getShortName(child_element))
             self.readIdentifiable(child_element, memory_section)
             memory_section.setAlignment(self.getChildElementOptionalAlignmentType(child_element, "ALIGNMENT"))
+            for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
+                memory_section.addExecutableEntityRef(ref)
             memory_section.setMemClassSymbol(self.getChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL"))
             self.readMemorySectionOptions(child_element, memory_section)
+            memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
             memory_section.setSize(self.getChildElementOptionalPositiveInteger(child_element, "SIZE"))
             memory_section.setSwAddrMethodRef(self.getChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF"))
             memory_section.setSymbol(self.getChildElementOptionalIdentifier(child_element, "SYMBOL"))
-            memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
-            for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
-                memory_section.addExecutableEntityRef(ref)
             # self.logger.debug("read MemorySections %s" % memory_section.getShortName())
 
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
