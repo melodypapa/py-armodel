@@ -10,6 +10,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AclScopeEnum,
+    AdditionalBindingTimeEnum,
     AlignmentType,
     AnyServiceInstanceId,
     AnyVersionString,
@@ -1709,6 +1710,45 @@ class TestAclScopeEnum:
         assert enum.validateEnumValue("DESCENDANT") is True
         assert enum.validateEnumValue("EXPLICIT") is True
         assert enum.validateEnumValue("invalid") is False
+
+
+class TestAdditionalBindingTimeEnum:
+    """
+    Test class for AdditionalBindingTimeEnum functionality (Table 12.4).
+    """
+
+    def test_initialization(self):
+        """
+        Test AdditionalBindingTimeEnum initialization.
+        """
+        enum = AdditionalBindingTimeEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == ["BLUEPRINT-DERIVATION-TIME", "POST-BUILD"]
+
+    def test_enum_values(self):
+        """
+        Test AdditionalBindingTimeEnum values.
+        """
+        enum = AdditionalBindingTimeEnum()
+
+        assert AdditionalBindingTimeEnum.BLUEPRINT_DERIVATION_TIME == "BLUEPRINT-DERIVATION-TIME"
+        assert AdditionalBindingTimeEnum.POST_BUILD == "POST-BUILD"
+
+        # Test validation
+        assert enum.validateEnumValue("BLUEPRINT-DERIVATION-TIME") is True
+        assert enum.validateEnumValue("POST-BUILD") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_set_get_value(self):
+        """Test setValue round-trip with enum constants."""
+        enum = AdditionalBindingTimeEnum()
+        assert enum.setValue(AdditionalBindingTimeEnum.BLUEPRINT_DERIVATION_TIME) is enum
+        assert enum.getValue() == AdditionalBindingTimeEnum.BLUEPRINT_DERIVATION_TIME
+
+        enum.setValue(AdditionalBindingTimeEnum.POST_BUILD)
+        assert enum.getValue() == AdditionalBindingTimeEnum.POST_BUILD
 
 
 class TestSymbolStringMembers:

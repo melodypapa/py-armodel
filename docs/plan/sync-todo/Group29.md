@@ -181,15 +181,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AdditionalBindingTimeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 12.4, p.700
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): Enumeration table confirms 2 literals in XSD facet order — `blueprintDerivationTime` (markdown renders "blueprintDerivation Time" with a wrap space; XSD `mmt.qualifiedName` confirms the camelCase join) → `BLUEPRINT_DERIVATION_TIME = "BLUEPRINT-DERIVATION-TIME"`, `postBuild` → `POST_BUILD = "POST-BUILD"` (AUTOSAR_00052.xsd simpleType `ADDITIONAL-BINDING-TIME-ENUM--SIMPLE`, line 131303). Spec Package row says `M2::…GenericStructure::VariantHandling`; placement stays in the queue's `GeneralTemplateClasses/PrimitiveTypes.py` — the repo home of shared `AREnum` subclasses (Rule 0010) where the stub already sits next to synced sibling `AclScopeEnum`. No in-repo consumer references the enum yet (`vh.latestBindingTime` exists only as a Tags-level property), so it round-trips through consuming classes once they sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; serialized as an attribute value on a consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer changes; parser/writer untouched, regression run skipped)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11465 passed / 0 failed: models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - Step 8 (2026-10-06): no deviations — literals 1:1 with Table 12.4 (2 rows, XSD facet order), member values are the exact `ADDITIONAL-BINDING-TIME-ENUM--SIMPLE` facets, docstrings verbatim incl. the `atp.EnumerationLiteralIndex` Tags tails; no deviation-tracker entry needed.
 
 - [ ] `FunctionInhibitionAvailabilityNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.13, p.751
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
