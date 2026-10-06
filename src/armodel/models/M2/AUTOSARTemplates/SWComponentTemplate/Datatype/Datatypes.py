@@ -109,13 +109,13 @@ class ArraySizeHandlingEnum(AREnum):
     # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling (R23-11)
 
     # All elements of the variable size array may have different sizes. Tags: atp.EnumerationLiteralIndex=0
-    ALL_INDICES_DIFFERENT_ARRAY_SIZE = "allIndicesDifferentArraySize"
+    ALL_INDICES_DIFFERENT_ARRAY_SIZE = "ALL-INDICES-DIFFERENT-ARRAY-SIZE"
 
     # All elements of the variable size array have the same size. Tags: atp.EnumerationLiteralIndex=1
-    ALL_INDICES_SAME_ARRAY_SIZE = "allIndicesSameArraySize"
+    ALL_INDICES_SAME_ARRAY_SIZE = "ALL-INDICES-SAME-ARRAY-SIZE"
 
     # The size of all dimensions of the variable size array is determined by the size of the contained array element. Tags: atp.EnumerationLiteralIndex=2
-    INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE = "inheritedFromArrayElementTypeSize"
+    INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE = "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE"
 
     def __init__(self):
         super().__init__(

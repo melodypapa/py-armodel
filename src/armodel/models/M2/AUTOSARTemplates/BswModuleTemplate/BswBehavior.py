@@ -742,9 +742,9 @@ class BswInterruptCategory(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Cat1 interrupt routines are not controlled by the OS and are only allowed to make a very limited selection of OS calls to enable and disable all interrupts. The BswInterruptEntity is implemented by the interrupt service routine, which is directly called from the interrupt vector (not via the OS). Tags: atp.EnumerationLiteralIndex=0
-    CAT1 = "cat1"
+    CAT1 = "CAT-1"
     # Cat2 interrupt routines are controlled by the OS and they are allowed to make OS calls. The Bsw InterruptEntity is implemented by the interrupt handler, which is called from the OS. Tags: atp.EnumerationLiteralIndex=1
-    CAT2 = "cat2"
+    CAT2 = "CAT-2"
 
     def __init__(self):
         super().__init__(

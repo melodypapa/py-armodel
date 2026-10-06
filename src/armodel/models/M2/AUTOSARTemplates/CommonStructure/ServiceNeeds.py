@@ -142,10 +142,10 @@ class RamBlockStatusControlEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The ramBlock status is controlled via service interface by usage of the SetRamBlockStatus operation. Tags: atp.EnumerationLiteralIndex=0
-    API = "api"
+    API = "API"
 
     # The ramBlock status is controlled exclusively by the Nv Ram Manager. Tags: atp.EnumerationLiteralIndex=1
-    NV_RAM_MANAGER = "nvRamManager"
+    NV_RAM_MANAGER = "NV-RAM-MANAGER"
 
     def __init__(self):
         super().__init__(
@@ -168,13 +168,13 @@ class NvBlockNeedsReliabilityEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Errors shall be corrected Tags: atp.EnumerationLiteralIndex=0
-    ERROR_CORRECTION = "errorCorrection"
+    ERROR_CORRECTION = "ERROR-CORRECTION"
 
     # Errors shall be detected Tags: atp.EnumerationLiteralIndex=1
-    ERROR_DETECTION = "errorDetection"
+    ERROR_DETECTION = "ERROR-DETECTION"
 
     # Data need not to be handled with protection Tags: atp.EnumerationLiteralIndex=2
-    NO_PROTECTION = "noProtection"
+    NO_PROTECTION = "NO-PROTECTION"
 
     def __init__(self):
         super().__init__(
@@ -198,13 +198,13 @@ class NvBlockNeedsWritingPriorityEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Writing priority is high. Tags: atp.EnumerationLiteralIndex=0
-    HIGH = "high"
+    HIGH = "HIGH"
 
     # Writing priority is low. Tags: atp.EnumerationLiteralIndex=1
-    LOW = "low"
+    LOW = "LOW"
 
     # Writing priority is medium. Tags: atp.EnumerationLiteralIndex=2
-    MEDIUM = "medium"
+    MEDIUM = "MEDIUM"
 
     def __init__(self):
         super().__init__(
@@ -666,10 +666,10 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
-    IS_NOT_RELEVANT = "isNotRelevant"
+    IS_NOT_RELEVANT = "IS-NOT-RELEVANT"
 
     # This value indicates a relevance for diagnostics. Tags: atp.EnumerationLiteralIndex=1
-    IS_RELEVANT = "isRelevant"
+    IS_RELEVANT = "IS-RELEVANT"
 
     def __init__(self):
         super().__init__(
@@ -796,19 +796,19 @@ class DiagnosticAudienceEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The object is for free aftermarket service organizations. Tags: atp.EnumerationLiteralIndex=1
-    AFTER_MARKET = "aftermarket"
+    AFTER_MARKET = "AFTERMARKET"
 
     # The object is relevant for the OEM after-sales organization. Tags: atp.EnumerationLiteralIndex=2
-    AFTER_SALES = "afterSales"
+    AFTER_SALES = "AFTER-SALES"
 
     # The object is relevant for engineering only. Tags: atp.EnumerationLiteralIndex=3
-    DEVELOPMENT = "development"
+    DEVELOPMENT = "DEVELOPMENT"
 
     # The object is relevant for manufacturing. Tags: atp.EnumerationLiteralIndex=4
-    MANUFACTURING = "manufacturing"
+    MANUFACTURING = "MANUFACTURING"
 
     # The object is relevant for the ECU-supplier aftermarket organization. Tags: atp.EnumerationLiteralIndex=5
-    SUPPLIER = "supplier"
+    SUPPLIER = "SUPPLIER"
 
     def __init__(self):
         super().__init__(
@@ -835,10 +835,10 @@ class DiagnosticServiceRequestCallbackTypeEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a manufacturer. Tags: atp.EnumerationLiteralIndex=0
-    REQUEST_CALLBACK_TYPE_MANUFACTURER = "requestCallbackTypeManufacturer"
+    REQUEST_CALLBACK_TYPE_MANUFACTURER = "REQUEST-CALLBACK-TYPE-MANUFACTURER"
 
     # This represents the case that the usage of PortInterface ServiceRequestNotification has the characteristics of being used by a supplier. Tags: atp.EnumerationLiteralIndex=1
-    REQUEST_CALLBACK_TYPE_SUPPLIER = "requestCallbackTypeSupplier"
+    REQUEST_CALLBACK_TYPE_SUPPLIER = "REQUEST-CALLBACK-TYPE-SUPPLIER"
 
     def __init__(self):
         super().__init__(
@@ -940,10 +940,10 @@ class DiagnosticRoutineTypeEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the diagnostic server is not blocked while the diagnostic routine is running. Tags: atp.EnumerationLiteralIndex=0
-    ASYNCHRONOUS = "asynchronous"
+    ASYNCHRONOUS = "ASYNCHRONOUS"
 
     # This indicates that the diagnostic routine blocks the diagnostic server in the ECU while the routine is running. Tags: atp.EnumerationLiteralIndex=1
-    SYNCHRONOUS = "synchronous"
+    SYNCHRONOUS = "SYNCHRONOUS"
 
     def __init__(self):
         super().__init__(
@@ -1058,13 +1058,13 @@ class DiagnosticValueAccessEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The access to the data element is limited to read-only. This is typically used to read-out diagnostic information (e.g. current values). Tags: atp.EnumerationLiteralIndex=0
-    READ_ONLY = "readOnly"
+    READ_ONLY = "READ-ONLY"
 
     # The value of the diagnostic data element is classified as configurable (read and write access is possible). Tags: atp.EnumerationLiteralIndex=1
-    READ_WRITE = "readWrite"
+    READ_WRITE = "READ-WRITE"
 
     # The access to the data element is limited to write-only. This supports the use case where the Dcm just writes data to the application software without the intention to read it back, Tags: atp.EnumerationLiteralIndex=2
-    WRITE_ONLY = "writeOnly"
+    WRITE_ONLY = "WRITE-ONLY"
 
     def __init__(self):
         super().__init__(
@@ -1089,13 +1089,13 @@ class DiagnosticProcessingStyleEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request. Tags: atp.EnumerationLiteralIndex=0
-    PROCESSING_STYLE_ASYNCHRONOUS = "processingStyleAsynchronous"
+    PROCESSING_STYLE_ASYNCHRONOUS = "PROCESSING-STYLE-ASYNCHRONOUS"
 
     # The software-component processes the request in background but still the Dcm has to issue the call again to eventually obtain the result of the request or handle error code. Tags: atp.EnumerationLiteralIndex=1
-    PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "processingStyleAsynchronousWithError"
+    PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR = "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR"
 
     # The software-component is supposed to react synchronously on the request. Tags: atp.EnumerationLiteralIndex=2
-    PROCESSING_STYLE_SYNCHRONOUS = "processingStyleSynchronous"
+    PROCESSING_STYLE_SYNCHRONOUS = "PROCESSING-STYLE-SYNCHRONOUS"
 
     def __init__(self):
         super().__init__(
@@ -1538,10 +1538,10 @@ class DtcKindEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # This indicates that the monitor reports a OBD-relevant malfunction. Tags: atp.EnumerationValue=0
-    EMISSION_RELATED_DTC = "emissionRelatedDtc"
+    EMISSION_RELATED_DTC = "EMISSION-RELATED-DTC"
 
     # This indicates that the monitor reports a non-OBD-relevant malfunction. Tags: atp.EnumerationValue=1
-    NON_EMMISSION_RELATED_DTC = "nonEmmissionRelatedDtc"
+    NON_EMMISSION_RELATED_DTC = "NON-EMMISSION-RELATED-DTC"
 
     def __init__(self):
         super().__init__(
@@ -1641,10 +1641,10 @@ class DiagnosticClearDtcNotificationEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The ClearDtcCallback shall be executed when the DTC operation finishes. Tags: atp.EnumerationLiteralIndex=1
-    FINISH = "finish"
+    FINISH = "FINISH"
 
     # The ClearDtcCallback shall be executed when the DTC operation starts. Tags: atp.EnumerationLiteralIndex=0
-    START = "start"
+    START = "START"
 
     def __init__(self):
         super().__init__(
@@ -1668,13 +1668,13 @@ class DtcFormatTypeEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # Defines the J1939 DTC format. Tags: atp.EnumerationValue=0
-    J1939 = "j1939"
+    J1939 = "J-1939"
 
     # Defines the OBD DTC format. Tags: atp.EnumerationValue=1
-    OBD = "obd"
+    OBD = "OBD"
 
     # Defines the UDS DTC format. Tags: atp.EnumerationValue=2
-    UDS = "uds"
+    UDS = "UDS"
 
     def __init__(self):
         super().__init__(
@@ -2237,17 +2237,17 @@ class DiagnosticDenominatorConditionEnum(AREnum):
     # Condition based on definition of 500miles conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=2 xml.name=-500-MILES
     _500MILES = "-500-MILES"
     # Condition based on definition of "cold start" as defined for EU5+ Tags: atp.EnumerationLiteralIndex=0
-    COLDSTART = "coldstart"
+    COLDSTART = "COLDSTART"
     # Conditions based on the "Cold start emission reduction strategy" denominator Tags: atp.EnumerationLiteralIndex=5
-    CSERS = "csers"
+    CSERS = "CSERS"
     # Condition based on definition of "EVAP" conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=1
-    EVAP = "evap"
+    EVAP = "EVAP"
     # Conditions based on the "EVAP purge flow" denominator. Tags: atp.EnumerationLiteralIndex=6
-    EVAPPURGEFLOW = "evappurgeflow"
+    EVAPPURGEFLOW = "EVAPPURGEFLOW"
     # condition based on definition of individual requirements. Tags: atp.EnumerationLiteralIndex=3
-    INDIVIDUAL = "individual"
+    INDIVIDUAL = "INDIVIDUAL"
     # Condition based on definition of OBD requirements. Tags: atp.EnumerationLiteralIndex=4
-    OBD = "obd"
+    OBD = "OBD"
 
     def __init__(self):
         super().__init__(
@@ -2421,10 +2421,10 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The value 'always' configures Dem to accept the call to SetDTR() regardless of the state of the diagnostics. Tags: atp.EnumerationLiteralIndex=0
-    ALWAYS = "always"
+    ALWAYS = "ALWAYS"
 
     # The value 'steady' configures Dem to accept it only when debouncing is at the limit. Tags: atp.EnumerationLiteralIndex=1
-    STEADY = "steady"
+    STEADY = "STEADY"
 
     def __init__(self):
         """
@@ -2920,9 +2920,9 @@ class EventAcceptanceStatusEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Acceptance of a diagnostic event is disabled. Tags: atp.EnumerationLiteralIndex=0
-    EVENT_ACCEPTANCE_DISABLED = "eventAcceptanceDisabled"
+    EVENT_ACCEPTANCE_DISABLED = "EVENT-ACCEPTANCE-DISABLED"
     # Acceptance of a diagnostic event is enabled. Tags: atp.EnumerationLiteralIndex=1
-    EVENT_ACCEPTANCE_ENABLED = "eventAcceptanceEnabled"
+    EVENT_ACCEPTANCE_ENABLED = "EVENT-ACCEPTANCE-ENABLED"
 
     def __init__(self):
         super().__init__(
@@ -3099,19 +3099,19 @@ class DiagnosticIndicatorTypeEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Amber Warning Lamp Tags: atp.EnumerationLiteralIndex=0
-    AMBER_WARNING = "amberWarning"
+    AMBER_WARNING = "AMBER-WARNING"
 
     # Malfunction Indicator Lamp Tags: atp.EnumerationLiteralIndex=1
-    MALFUNCTION = "malfunction"
+    MALFUNCTION = "MALFUNCTION"
 
     # Protect Lamp Tags: atp.EnumerationLiteralIndex=2
-    PROTECT_LAMP = "protectLamp"
+    PROTECT_LAMP = "PROTECT-LAMP"
 
     # Red Stop Lamp Tags: atp.EnumerationLiteralIndex=3
-    RED_STOP_LAMP = "redStopLamp"
+    RED_STOP_LAMP = "RED-STOP-LAMP"
 
     # Warning Tags: atp.EnumerationLiteralIndex=4
-    WARNING = "warning"
+    WARNING = "WARNING"
 
     def __init__(self):
         """
@@ -3221,13 +3221,13 @@ class MaxCommModeEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Full communication is requested. Tags: atp.EnumerationLiteralIndex=0
-    FULL = "full"
+    FULL = "FULL"
 
     # No communication is requested. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # Silent communication is requested: Only listening but not "talking". Tags: atp.EnumerationLiteralIndex=2
-    SILENT = "silent"
+    SILENT = "SILENT"
 
     def __init__(self):
         """
@@ -3395,9 +3395,9 @@ class ObdRatioConnectionKindEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The IUMPR service (of the DEM) uses an explicit API to connect to the component or module. Tags: atp.EnumerationLiteralIndex=0
-    API_USE = "apiUse"
+    API_USE = "API-USE"
     # The IUMPR service (of the Dem) uses no API but "observes" the associated diagnostic event. Tags: atp.EnumerationLiteralIndex=1
-    OBSERVER = "observer"
+    OBSERVER = "OBSERVER"
 
     def __init__(self):
         super().__init__(
@@ -3529,17 +3529,17 @@ class OperationCycleTypeEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Ignition ON / OFF cycle. Tags: atp.EnumerationLiteralIndex=0
-    IGNITION = "ignition"
+    IGNITION = "IGNITION"
     # OBD Driving cycle. Tags: atp.EnumerationLiteralIndex=1
-    OBD_DCY = "obdDcy"
+    OBD_DCY = "OBD-DCY"
     # Further operation cycle. Tags: atp.EnumerationLiteralIndex=2
-    OTHER = "other"
+    OTHER = "OTHER"
     # Power ON / OFF cycle. Tags: atp.EnumerationLiteralIndex=3
-    POWER = "power"
+    POWER = "POWER"
     # Time based operation cycle. Tags: atp.EnumerationLiteralIndex=4
-    TIME = "time"
+    TIME = "TIME"
     # OBD Warm up cycle. Tags: atp.EnumerationLiteralIndex=5
-    WARMUP = "warmup"
+    WARMUP = "WARMUP"
 
     def __init__(self):
         super().__init__(
@@ -3624,76 +3624,76 @@ class ServiceProviderEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # This value means that the specific nature is either unknown or it is not important for the given purpose. This is also the default value for any attribute of type ServiceProviderEnum Tags: atp.EnumerationLiteralIndex=0
-    ANY_STANDARDIZED = "anyStandardized"
+    ANY_STANDARDIZED = "ANY-STANDARDIZED"
 
     # The service relates to the Basic Software Mode Manager (BswM) Tags: atp.EnumerationLiteralIndex=1
-    BASIC_SOFTWARE_MODE_MANAGER = "basicSoftwareModeManager"
+    BASIC_SOFTWARE_MODE_MANAGER = "BASIC-SOFTWARE-MODE-MANAGER"
 
     # The service relates to the COM Manager (ComM). Tags: atp.EnumerationLiteralIndex=2
-    COM_MANAGER = "comManager"
+    COM_MANAGER = "COM-MANAGER"
 
     # The service relates to the Key Manager (KeyM). Tags: atp.EnumerationLiteralIndex=23
-    CRYPTO_KEY_MANAGEMENT = "cryptoKeyManagement"
+    CRYPTO_KEY_MANAGEMENT = "CRYPTO-KEY-MANAGEMENT"
 
     # The service relates to the Crypto Service Manager (CsM). Tags: atp.EnumerationLiteralIndex=3
-    CRYPTO_SERVICE_MANAGER = "cryptoServiceManager"
+    CRYPTO_SERVICE_MANAGER = "CRYPTO-SERVICE-MANAGER"
 
     # The service relates to the Default Error Tracer (DET) Tags: atp.EnumerationLiteralIndex=4
-    DEFAULT_ERROR_TRACER = "defaultErrorTracer"
+    DEFAULT_ERROR_TRACER = "DEFAULT-ERROR-TRACER"
 
     # The service relates to the Diagnostic Communication Manager (DCM). Tags: atp.EnumerationLiteralIndex=6
-    DIAGNOSTIC_COMMUNICATION_MANAGER = "diagnosticCommunicationManager"
+    DIAGNOSTIC_COMMUNICATION_MANAGER = "DIAGNOSTIC-COMMUNICATION-MANAGER"
 
     # The service relates to the Diagnostic Event Manager (DEM). Tags: atp.EnumerationLiteralIndex=7
-    DIAGNOSTIC_EVENT_MANAGER = "diagnosticEventManager"
+    DIAGNOSTIC_EVENT_MANAGER = "DIAGNOSTIC-EVENT-MANAGER"
 
     # The service relates to the Diagnostic Log and Trace (DLT). Tags: atp.EnumerationLiteralIndex=8
-    DIAGNOSTIC_LOG_AND_TRACE = "diagnosticLogAndTrace"
+    DIAGNOSTIC_LOG_AND_TRACE = "DIAGNOSTIC-LOG-AND-TRACE"
 
     # The service relates to the ECU Manager (EcuM). Tags: atp.EnumerationLiteralIndex=9
-    ECU_MANAGER = "ecuManager"
+    ECU_MANAGER = "ECU-MANAGER"
 
     # This service relates to the error tracer. Tags: atp.EnumerationLiteralIndex=18
-    ERROR_TRACER = "errorTracer"
+    ERROR_TRACER = "ERROR-TRACER"
 
     # The service relates to the Function Inhibition Manager (FIM). Tags: atp.EnumerationLiteralIndex=10
-    FUNCTION_INHIBITION_MANAGER = "functionInhibitionManager"
+    FUNCTION_INHIBITION_MANAGER = "FUNCTION-INHIBITION-MANAGER"
 
     # This service relates to the hardware test manager. Tags: atp.EnumerationLiteralIndex=19
-    HARDWARE_TEST_MANAGER = "hardwareTestManager"
+    HARDWARE_TEST_MANAGER = "HARDWARE-TEST-MANAGER"
 
     # The service relates to the intrusion detection security management (IdsM). Tags: atp.EnumerationLiteralIndex=24
-    INTRUSION_DETECTION_SECURITY_MANAGEMENT = "intrusionDetectionSecurityManagement"
+    INTRUSION_DETECTION_SECURITY_MANAGEMENT = "INTRUSION-DETECTION-SECURITY-MANAGEMENT"
 
     # This service relates to the J1939 Dcm. Tags: atp.EnumerationLiteralIndex=22
-    J1939_DCM = "j1939Dcm"
+    J1939_DCM = "J-1939-DCM"
 
     # The service relates to the J1939Rm. Tags: atp.EnumerationLiteralIndex=11
-    J1939_REQUEST_MANAGER = "j1939RequestManager"
+    J1939_REQUEST_MANAGER = "J-1939-REQUEST-MANAGER"
 
     # The service relates to the Non-Volatile RAM Manager (NvM). Tags: atp.EnumerationLiteralIndex=12
-    NON_VOLATILE_RAM_MANAGER = "nonVolatileRamManager"
+    NON_VOLATILE_RAM_MANAGER = "NON-VOLATILE-RAM-MANAGER"
 
     # The service relates to the Operating System (OS). Tags: atp.EnumerationLiteralIndex=13
-    OPERATING_SYSTEM = "operatingSystem"
+    OPERATING_SYSTEM = "OPERATING-SYSTEM"
 
     # The service relates to the SecOc module. Tags: atp.EnumerationLiteralIndex=14
-    SECURE_ON_BOARD_COMMUNICATION = "secureOnBoardCommunication"
+    SECURE_ON_BOARD_COMMUNICATION = "SECURE-ON-BOARD-COMMUNICATION"
 
     # The service relates to the Sync Time Base Manager (StbM). Tags: atp.EnumerationLiteralIndex=15
-    SYNC_BASE_TIME_MANAGER = "syncBaseTimeManager"
+    SYNC_BASE_TIME_MANAGER = "SYNC-BASE-TIME-MANAGER"
 
     # This service relates to the Vehicle to X facilities. Tags: atp.EnumerationLiteralIndex=20
-    V2X_FACILITIES = "v2xFacilities"
+    V2X_FACILITIES = "V-2-X-FACILITIES"
 
     # This service relates to the Vehicle to X management. Tags: atp.EnumerationLiteralIndex=21
-    V2X_MANAGEMENT = "v2xManagement"
+    V2X_MANAGEMENT = "V-2-X-MANAGEMENT"
 
     # This value denotes a vendor-specific service. Tags: atp.EnumerationLiteralIndex=16
-    VENDOR_SPECIFIC = "vendorSpecific"
+    VENDOR_SPECIFIC = "VENDOR-SPECIFIC"
 
     # The service relates to the Watchdog Manager (WdgM). Tags: atp.EnumerationLiteralIndex=17
-    WATCH_DOG_MANAGER = "watchDogManager"
+    WATCH_DOG_MANAGER = "WATCH-DOG-MANAGER"
 
     def __init__(self):
         """
@@ -3742,9 +3742,9 @@ class StorageConditionStatusEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Storage of a diagnostic event is disabled. Tags: atp.EnumerationLiteralIndex=0
-    EVENT_STORAGE_DISABLE = "eventStorageDisabled"
+    EVENT_STORAGE_DISABLE = "EVENT-STORAGE-DISABLED"
     # Storage of a diagnostic event is enabled. Tags: atp.EnumerationLiteralIndex=1
-    EVENT_STORAGE_ENABLE = "eventStorageEnabled"
+    EVENT_STORAGE_ENABLE = "EVENT-STORAGE-ENABLED"
 
     def __init__(self):
         super().__init__(
@@ -4112,9 +4112,9 @@ class VerificationStatusIndicationModeEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # Verification attempts that came out "false" or "true" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=1
-    FAILURE_AND_SUCCESS = "failureAndSuccess"
+    FAILURE_AND_SUCCESS = "FAILURE-AND-SUCCESS"
     # Only verification attempts that came out "false" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=0
-    FAILURE_ONLY = "failureOnly"
+    FAILURE_ONLY = "FAILURE-ONLY"
 
     def __init__(self):
         super().__init__(

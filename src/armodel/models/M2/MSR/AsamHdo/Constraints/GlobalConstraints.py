@@ -160,16 +160,16 @@ class ScaleConstrValidityEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # Currently invalid area The value usually is presented by the ECU but can currently not be performed due to e.g. initialization or temporary problems. Please note, that this behavior appears during runtime and cannot be handled while data is edited. Tags: atp.EnumerationValue=0
-    NOT_AVAILABLE = "notAvailable"
+    NOT_AVAILABLE = "NOT-AVAILABLE"
 
     # Indicates an area which is marked in a specification (e.g. as reserved) Shall usually not be set by the ECU but is used by a tester to verify correct ECU. Tags: atp.EnumerationValue=1
-    NOT_DEFINED = "notDefined"
+    NOT_DEFINED = "NOT-DEFINED"
 
     # The ECU cannot process the requested data. Tags: atp.EnumerationValue=2
-    NOT_VALID = "notValid"
+    NOT_VALID = "NOT-VALID"
 
     # Current value is within a valid range and can be presented to user as is. Tags: atp.EnumerationValue=3
-    VALID = "valid"
+    VALID = "VALID"
 
     def __init__(self):
         super().__init__(

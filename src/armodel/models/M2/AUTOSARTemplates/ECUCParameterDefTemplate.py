@@ -159,7 +159,7 @@ class EcucScopeEnum(AREnum):
     ECU = "ECU"
 
     # An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1
-    LOCAL = "local"
+    LOCAL = "LOCAL"
 
     def __init__(self):
         super().__init__(
@@ -351,16 +351,16 @@ class EcucConfigurationClassEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0
-    LINK = "Link"
+    LINK = "LINK"
 
     # PostBuildTime: after compilation a configuration parameter can be changed. Tags: atp.EnumerationLiteralIndex=1
-    POST_BUILD = "PostBuild"
+    POST_BUILD = "POST-BUILD"
 
     # PreCompile Time: after compilation a configuration parameter can not be changed any more. Tags: atp.EnumerationLiteralIndex=2
-    PRE_COMPILE = "PreCompile"
+    PRE_COMPILE = "PRE-COMPILE"
 
     # PublishedInformation is used to specify the fact that certain information is fixed even before the pre-compile stage. Tags: atp.EnumerationLiteralIndex=3
-    PUBLISHED_INFORMATION = "PublishedInformation"
+    PUBLISHED_INFORMATION = "PUBLISHED-INFORMATION"
 
     def __init__(self):
         super().__init__(

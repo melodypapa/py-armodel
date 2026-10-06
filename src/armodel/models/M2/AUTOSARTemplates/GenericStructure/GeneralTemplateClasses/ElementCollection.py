@@ -29,11 +29,11 @@ class AutoCollectEnum(AREnum):
     # Spec verified: R23-11
 
     # All objects being referenced (recursively) from the objects mentioned directly in the collection are also considered as part of the collection. Tags: atp.EnumerationLiteralIndex=0
-    REF_ALL = "refAll"
+    REF_ALL = "REF-ALL"
     # This indicates that only those objects mentioned directly in the collection are part of the collection. No other objects are considered further. Tags: atp.EnumerationLiteralIndex=1
-    REF_NONE = "refNone"
+    REF_NONE = "REF-NONE"
     # This indicates that non standard objects ([TPS_GST_00088]) referenced (recursively) by the objects mentioned directly in the collection are also considered to be part of the collection. Tags: atp.EnumerationLiteralIndex=2
-    REF_NON_STANDARD = "refNonStandard"
+    REF_NON_STANDARD = "REF-NON-STANDARD"
 
     def __init__(self):
         super().__init__((AutoCollectEnum.REF_ALL, AutoCollectEnum.REF_NONE, AutoCollectEnum.REF_NON_STANDARD))

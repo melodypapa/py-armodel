@@ -1303,146 +1303,146 @@ from armodel.validation import ARXMLValidator
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
 #: (AR:BINDING-TIME-ENUM--SIMPLE).
 BINDING_TIME_XML_MAP = {
-    "codeGenerationTime": "CODE-GENERATION-TIME",
-    "linkTime": "LINK-TIME",
-    "preCompileTime": "PRE-COMPILE-TIME",
-    "systemDesignTime": "SYSTEM-DESIGN-TIME",
+    "CODE-GENERATION-TIME": "CODE-GENERATION-TIME",
+    "LINK-TIME": "LINK-TIME",
+    "PRE-COMPILE-TIME": "PRE-COMPILE-TIME",
+    "SYSTEM-DESIGN-TIME": "SYSTEM-DESIGN-TIME",
 }
 
 #: Mapping between ModeActivationKind literal values and their XML element text
 #: (AR:MODE-ACTIVATION-KIND--SIMPLE).
 MODE_ACTIVATION_KIND_XML_MAP = {
-    "onEntry": "ON-ENTRY",
-    "onExit": "ON-EXIT",
-    "onTransition": "ON-TRANSITION",
+    "ON-ENTRY": "ON-ENTRY",
+    "ON-EXIT": "ON-EXIT",
+    "ON-TRANSITION": "ON-TRANSITION",
 }
 
 #: Mapping between IntervalTypeEnum values and their XML attribute tokens
 #: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
 INTERVAL_TYPE_XML_MAP = {
-    "closed": "CLOSED",
-    "open": "OPEN",
+    "CLOSED": "CLOSED",
+    "OPEN": "OPEN",
 }
 
 #: Mapping between AutoCollectEnum literal values and their XML element text
 #: (AR:AUTO-COLLECT-ENUM--SIMPLE).
 AUTO_COLLECT_XML_MAP = {
-    "refAll": "REF-ALL",
-    "refNone": "REF-NONE",
-    "refNonStandard": "REF-NON-STANDARD",
+    "REF-ALL": "REF-ALL",
+    "REF-NONE": "REF-NONE",
+    "REF-NON-STANDARD": "REF-NON-STANDARD",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
 #: (AR:ACL-SCOPE-ENUM--SIMPLE).
 ACL_SCOPE_XML_MAP = {
-    "dependant": "DEPENDANT",
-    "descendant": "DESCENDANT",
-    "explicit": "EXPLICIT",
+    "DEPENDANT": "DEPENDANT",
+    "DESCENDANT": "DESCENDANT",
+    "EXPLICIT": "EXPLICIT",
 }
 
 #: Mapping between SwImplPolicyEnum literal values and their XML element text
 #: (AR:SW-IMPL-POLICY-ENUM--SIMPLE).
 SW_IMPL_POLICY_XML_MAP = {
-    "const": "CONST",
-    "fixed": "FIXED",
-    "measurementPoint": "MEASUREMENT-POINT",
-    "queued": "QUEUED",
-    "standard": "STANDARD",
+    "CONST": "CONST",
+    "FIXED": "FIXED",
+    "MEASUREMENT-POINT": "MEASUREMENT-POINT",
+    "QUEUED": "QUEUED",
+    "STANDARD": "STANDARD",
 }
 
 #: Mapping between ArraySizeSemanticsEnum literal values and their XML element text
 #: (AR:ARRAY-SIZE-SEMANTICS-ENUM--SIMPLE).
 ARRAY_SIZE_SEMANTICS_XML_MAP = {
-    "fixedSize": "FIXED-SIZE",
-    "variableSize": "VARIABLE-SIZE",
+    "FIXED-SIZE": "FIXED-SIZE",
+    "VARIABLE-SIZE": "VARIABLE-SIZE",
 }
 
 #: Mapping between DisplayPresentationEnum literal values and their XML element text
 #: (AR:DISPLAY-PRESENTATION-ENUM--SIMPLE).
 DISPLAY_PRESENTATION_XML_MAP = {
-    "presentationContinuous": "PRESENTATION-CONTINUOUS",
-    "presentationDiscrete": "PRESENTATION-DISCRETE",
+    "PRESENTATION-CONTINUOUS": "PRESENTATION-CONTINUOUS",
+    "PRESENTATION-DISCRETE": "PRESENTATION-DISCRETE",
 }
 
 #: Mapping between ArraySizeHandlingEnum literal values and their XML element text
 #: (AR:ARRAY-SIZE-HANDLING-ENUM--SIMPLE).
 ARRAY_SIZE_HANDLING_XML_MAP = {
-    "allIndicesDifferentArraySize": "ALL-INDICES-DIFFERENT-ARRAY-SIZE",
-    "allIndicesSameArraySize": "ALL-INDICES-SAME-ARRAY-SIZE",
-    "inheritedFromArrayElementTypeSize": "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE",
+    "ALL-INDICES-DIFFERENT-ARRAY-SIZE": "ALL-INDICES-DIFFERENT-ARRAY-SIZE",
+    "ALL-INDICES-SAME-ARRAY-SIZE": "ALL-INDICES-SAME-ARRAY-SIZE",
+    "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE": "INHERITED-FROM-ARRAY-ELEMENT-TYPE-SIZE",
 }
 
 #: Mapping between SwCalibrationAccessEnum literal values and their XML element text
 #: (AR:SW-CALIBRATION-ACCESS-ENUM--SIMPLE).
 SW_CALIBRATION_ACCESS_XML_MAP = {
-    "notAccessible": "NOT-ACCESSIBLE",
-    "readOnly": "READ-ONLY",
-    "readWrite": "READ-WRITE",
+    "NOT-ACCESSIBLE": "NOT-ACCESSIBLE",
+    "READ-ONLY": "READ-ONLY",
+    "READ-WRITE": "READ-WRITE",
 }
 
 #: Mapping between CalprmAxisCategoryEnum literal values and their XML element text
 #: (AR:CALPRM-AXIS-CATEGORY-ENUM--SIMPLE).
 CALPRM_AXIS_CATEGORY_XML_MAP = {
-    "comAxis": "COM_AXIS",
-    "fixAXIS": "FIX_AXIS",
-    "resAxis": "RES_AXIS",
-    "stdAxis": "STD_AXIS",
+    "COM-AXIS": "COM_AXIS",
+    "FIX-AXIS": "FIX_AXIS",
+    "RES-AXIS": "RES_AXIS",
+    "STD-AXIS": "STD_AXIS",
 }
 
 #: Mapping between MonotonyEnum literal values and their XML element text
 #: (AR:MONOTONY-ENUM--SIMPLE).
 MONOTONY_XML_MAP = {
-    "decreasing": "DECREASING",
-    "increasing": "INCREASING",
-    "monotonous": "MONOTONOUS",
-    "noMonotony": "NO-MONOTONY",
-    "strictlyDecreasing": "STRICTLY-DECREASING",
-    "strictlyIncreasing": "STRICTLY-INCREASING",
-    "strictMonotonous": "STRICT-MONOTONOUS",
+    "DECREASING": "DECREASING",
+    "INCREASING": "INCREASING",
+    "MONOTONOUS": "MONOTONOUS",
+    "NO-MONOTONY": "NO-MONOTONY",
+    "STRICTLY-DECREASING": "STRICTLY-DECREASING",
+    "STRICTLY-INCREASING": "STRICTLY-INCREASING",
+    "STRICT-MONOTONOUS": "STRICT-MONOTONOUS",
 }
 
 #: Mapping between HandleTimeoutEnum literal values and their XML element text
 #: (AR:HANDLE-TIMEOUT-ENUM--SIMPLE).
 HANDLE_TIMEOUT_XML_MAP = {
-    "none": "NONE",
-    "replace": "REPLACE",
-    "replaceByTimeoutSubstitutionValue": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
+    "NONE": "NONE",
+    "REPLACE": "REPLACE",
+    "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE": "REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE",
 }
 
 #: Mapping between HandleOutOfRangeEnum literal values and their XML element text
 #: (AR:HANDLE-OUT-OF-RANGE-ENUM--SIMPLE).
 HANDLE_OUT_OF_RANGE_XML_MAP = {
-    "default": "DEFAULT",
-    "externalReplacement": "EXTERNAL-REPLACEMENT",
-    "ignore": "IGNORE",
-    "invalid": "INVALID",
-    "none": "NONE",
-    "saturate": "SATURATE",
+    "DEFAULT": "DEFAULT",
+    "EXTERNAL-REPLACEMENT": "EXTERNAL-REPLACEMENT",
+    "IGNORE": "IGNORE",
+    "INVALID": "INVALID",
+    "NONE": "NONE",
+    "SATURATE": "SATURATE",
 }
 
 #: Mapping between TransmissionModeDefinitionEnum literal values and their XML element text
 #: (AR:TRANSMISSION-MODE-DEFINITION-ENUM--SIMPLE).
 TRANSMISSION_MODE_DEFINITION_XML_MAP = {
-    "cyclic": "CYCLIC",
-    "cyclicAndOnChange": "CYCLIC-AND-ON-CHANGE",
-    "triggered": "TRIGGERED",
+    "CYCLIC": "CYCLIC",
+    "CYCLIC-AND-ON-CHANGE": "CYCLIC-AND-ON-CHANGE",
+    "TRIGGERED": "TRIGGERED",
 }
 
 #: Mapping between VariableAccessScopeEnum literal values and their XML element text
 #: (AR:VARIABLE-ACCESS-SCOPE-ENUM--SIMPLE).
 VARIABLE_ACCESS_SCOPE_XML_MAP = {
-    "communicationInterEcu": "COMMUNICATION-INTER-ECU",
-    "communicationIntraPartition": "COMMUNICATION-INTRA-PARTITION",
-    "interPartitionIntraEcu": "INTER-PARTITION-INTRA-ECU",
+    "COMMUNICATION-INTER-ECU": "COMMUNICATION-INTER-ECU",
+    "COMMUNICATION-INTRA-PARTITION": "COMMUNICATION-INTRA-PARTITION",
+    "INTER-PARTITION-INTRA-ECU": "INTER-PARTITION-INTRA-ECU",
 }
 
 BSW_INTERRUPT_CATEGORY_XML_MAP = {
-    "cat1": "CAT-1",
-    "cat2": "CAT-2",
+    "CAT-1": "CAT-1",
+    "CAT-2": "CAT-2",
 }
 
 BSW_ENTRY_RELATIONSHIP_XML_MAP = {
-    "derivedFrom": "DERIVED-FROM",
+    "DERIVED-FROM": "DERIVED-FROM",
 }
 
 DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
@@ -1451,258 +1451,258 @@ DIAGNOSTIC_LOGICAL_OPERATOR_XML_MAP = {
 }
 
 DIAGNOSTIC_COMPARE_TYPE_XML_MAP = {
-    "isEqual": "IS-EQUAL",
-    "isNotEqual": "IS-NOT-EQUAL",
-    "isLessThan": "IS-LESS-THAN",
-    "isLessOrEqual": "IS-LESS-OR-EQUAL",
-    "isGreaterThan": "IS-GREATER-THAN",
-    "isGreaterOrEqual": "IS-GREATER-OR-EQUAL",
+    "IS-EQUAL": "IS-EQUAL",
+    "IS-NOT-EQUAL": "IS-NOT-EQUAL",
+    "IS-LESS-THAN": "IS-LESS-THAN",
+    "IS-LESS-OR-EQUAL": "IS-LESS-OR-EQUAL",
+    "IS-GREATER-THAN": "IS-GREATER-THAN",
+    "IS-GREATER-OR-EQUAL": "IS-GREATER-OR-EQUAL",
 }
 
 DIAGNOSTIC_AUDIENCE_XML_MAP = {
-    "aftermarket": "AFTERMARKET",
-    "afterSales": "AFTER-SALES",
-    "development": "DEVELOPMENT",
-    "manufacturing": "MANUFACTURING",
-    "supplier": "SUPPLIER",
+    "AFTERMARKET": "AFTERMARKET",
+    "AFTER-SALES": "AFTER-SALES",
+    "DEVELOPMENT": "DEVELOPMENT",
+    "MANUFACTURING": "MANUFACTURING",
+    "SUPPLIER": "SUPPLIER",
 }
 DIAGNOSTIC_SERVICE_REQUEST_CALLBACK_TYPE_XML_MAP = {
-    "requestCallbackTypeManufacturer": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
-    "requestCallbackTypeSupplier": "REQUEST-CALLBACK-TYPE-SUPPLIER",
+    "REQUEST-CALLBACK-TYPE-MANUFACTURER": "REQUEST-CALLBACK-TYPE-MANUFACTURER",
+    "REQUEST-CALLBACK-TYPE-SUPPLIER": "REQUEST-CALLBACK-TYPE-SUPPLIER",
 }
 
 DIAGNOSTIC_ROUTINE_TYPE_XML_MAP = {
-    "asynchronous": "ASYNCHRONOUS",
-    "synchronous": "SYNCHRONOUS",
+    "ASYNCHRONOUS": "ASYNCHRONOUS",
+    "SYNCHRONOUS": "SYNCHRONOUS",
 }
 
 DIAGNOSTIC_VALUE_ACCESS_XML_MAP = {
-    "readOnly": "READ-ONLY",
-    "readWrite": "READ-WRITE",
-    "writeOnly": "WRITE-ONLY",
+    "READ-ONLY": "READ-ONLY",
+    "READ-WRITE": "READ-WRITE",
+    "WRITE-ONLY": "WRITE-ONLY",
 }
 
 DIAGNOSTIC_PROCESSING_STYLE_XML_MAP = {
-    "processingStyleAsynchronous": "PROCESSING-STYLE-ASYNCHRONOUS",
-    "processingStyleAsynchronousWithError": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
-    "processingStyleSynchronous": "PROCESSING-STYLE-SYNCHRONOUS",
+    "PROCESSING-STYLE-ASYNCHRONOUS": "PROCESSING-STYLE-ASYNCHRONOUS",
+    "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR": "PROCESSING-STYLE-ASYNCHRONOUS-WITH-ERROR",
+    "PROCESSING-STYLE-SYNCHRONOUS": "PROCESSING-STYLE-SYNCHRONOUS",
 }
 
 DIAGNOSTIC_CLEAR_DTC_NOTIFICATION_XML_MAP = {
-    "start": "START",
-    "finish": "FINISH",
+    "START": "START",
+    "FINISH": "FINISH",
 }
 
 DIAGNOSTIC_CLEAR_DTC_LIMITATION_XML_MAP = {
-    "allSupportedDtcs": "ALL-SUPPORTED-DTCS",
-    "clearAllDtcs": "CLEAR-ALL-DTCS",
+    "ALL-SUPPORTED-DTCS": "ALL-SUPPORTED-DTCS",
+    "CLEAR-ALL-DTCS": "CLEAR-ALL-DTCS",
 }
 
 DIAGNOSTIC_EVENT_DISPLACEMENT_STRATEGY_XML_MAP = {
-    "full": "FULL",
-    "none": "NONE",
-    "prioOcc": "PRIO-OCC",
+    "FULL": "FULL",
+    "NONE": "NONE",
+    "PRIO-OCC": "PRIO-OCC",
 }
 
 #: Mapping between DiagnosticMemoryEntryStorageTriggerEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-MEMORY-ENTRY-STORAGE-TRIGGER-ENUM--SIMPLE).
 DIAGNOSTIC_MEMORY_ENTRY_STORAGE_TRIGGER_XML_MAP = {
-    "confirmed": "CONFIRMED",
-    "fdcThreshold": "FDC-THRESHOLD",
-    "testFailed": "TEST-FAILED",
+    "CONFIRMED": "CONFIRMED",
+    "FDC-THRESHOLD": "FDC-THRESHOLD",
+    "TEST-FAILED": "TEST-FAILED",
 }
 
 #: Mapping between DiagnosticRecordTriggerEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-RECORD-TRIGGER-ENUM--SIMPLE).
 DIAGNOSTIC_RECORD_TRIGGER_XML_MAP = {
-    "confirmed": "CONFIRMED",
-    "custom": "CUSTOM",
-    "fdcThreshold": "FDC-THRESHOLD",
-    "pending": "PENDING",
-    "testFailed": "TEST-FAILED",
-    "testFailedThisOperationCycle": "TEST-FAILED-THIS-OPERATION-CYCLE",
-    "testPassed": "TEST-PASSED",
+    "CONFIRMED": "CONFIRMED",
+    "CUSTOM": "CUSTOM",
+    "FDC-THRESHOLD": "FDC-THRESHOLD",
+    "PENDING": "PENDING",
+    "TEST-FAILED": "TEST-FAILED",
+    "TEST-FAILED-THIS-OPERATION-CYCLE": "TEST-FAILED-THIS-OPERATION-CYCLE",
+    "TEST-PASSED": "TEST-PASSED",
 }
 
 #: Mapping between DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-STATUS-BIT-HANDLING-TEST-FAILED-SINCE-LAST-CLEAR-ENUM--SIMPLE).
 DIAGNOSTIC_STATUS_BIT_HANDLING_TEST_FAILED_SINCE_LAST_CLEAR_XML_MAP = {
-    "statusBitAgingAndDisplacement": "STATUS-BIT-AGING-AND-DISPLACEMENT",
-    "statusBitNormal": "STATUS-BIT-NORMAL",
+    "STATUS-BIT-AGING-AND-DISPLACEMENT": "STATUS-BIT-AGING-AND-DISPLACEMENT",
+    "STATUS-BIT-NORMAL": "STATUS-BIT-NORMAL",
 }
 
 DIAGNOSTIC_TYPE_OF_DTC_SUPPORTED_XML_MAP = {
-    "iso11992_4": "ISO-11992-4",
-    "iso14229_1": "ISO-14229-1",
-    "iso15031_6": "ISO-15031-6",
-    "saeJ1939_73": "SAE-J-1939-73",
-    "saeJ2012_da": "SAE-J-2012-DA",
+    "ISO-11992--4": "ISO-11992-4",
+    "ISO-14229--1": "ISO-14229-1",
+    "ISO-15031--6": "ISO-15031-6",
+    "SAE-J-1939--73": "SAE-J-1939-73",
+    "SAE-J-2012--DA": "SAE-J-2012-DA",
 }
 
 #: Mapping between DiagnosticTypeOfFreezeFrameRecordNumerationEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-TYPE-OF-FREEZE-FRAME-RECORD-NUMERATION-ENUM--SIMPLE).
 DIAGNOSTIC_TYPE_OF_FREEZE_FRAME_RECORD_NUMERATION_XML_MAP = {
-    "calculated": "CALCULATED",
-    "configured": "CONFIGURED",
+    "CALCULATED": "CALCULATED",
+    "CONFIGURED": "CONFIGURED",
 }
 
 DTC_FORMAT_TYPE_XML_MAP = {
-    "j1939": "J-1939",
-    "obd": "OBD",
+    "J-1939": "J-1939",
+    "OBD": "OBD",
 }
 
 DTC_KIND_XML_MAP = {
-    "emissionRelatedDtc": "EMISSION-RELATED-DTC",
-    "nonEmmissionRelatedDtc": "NON-EMMISSION-RELATED-DTC",
+    "EMISSION-RELATED-DTC": "EMISSION-RELATED-DTC",
+    "NON-EMMISSION-RELATED-DTC": "NON-EMMISSION-RELATED-DTC",
 }
 
 #: Mapping between DiagnosticResponseToEcuResetEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-RESPONSE-TO-ECU-RESET-ENUM--SIMPLE).
 DIAGNOSTIC_RESPONSE_TO_ECU_RESET_XML_MAP = {
-    "respondAfterReset": "RESPOND-AFTER-RESET",
-    "respondBeforeReset": "RESPOND-BEFORE-RESET",
+    "RESPOND-AFTER-RESET": "RESPOND-AFTER-RESET",
+    "RESPOND-BEFORE-RESET": "RESPOND-BEFORE-RESET",
 }
 
 #: Mapping between DiagnosticTroubleCodeJ1939DtcKindEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-TROUBLE-CODE-J-1939-DTC-KIND-ENUM--SIMPLE).
 DIAGNOSTIC_TROUBLE_CODE_J1939_DTC_KIND_XML_MAP = {
-    "serviceOnly": "SERVICE-ONLY",
-    "standard": "STANDARD",
+    "SERVICE-ONLY": "SERVICE-ONLY",
+    "STANDARD": "STANDARD",
 }
 
 #: Mapping between DiagnosticOccurrenceCounterProcessingEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-OCCURRENCE-COUNTER-PROCESSING-ENUM--SIMPLE).
 DIAGNOSTIC_OCCURRENCE_COUNTER_PROCESSING_XML_MAP = {
-    "confirmedDtcBit": "CONFIRMED-DTC-BIT",
-    "testFailedBit": "TEST-FAILED-BIT",
+    "CONFIRMED-DTC-BIT": "CONFIRMED-DTC-BIT",
+    "TEST-FAILED-BIT": "TEST-FAILED-BIT",
 }
 
 #: Mapping between ByteOrderEnum literal values and their XML element text
 #: (AR:BYTE-ORDER-ENUM--SIMPLE).
 BYTE_ORDER_XML_MAP = {
-    "mostSignificantByteFirst": "MOST-SIGNIFICANT-BYTE-FIRST",
-    "mostSignificantByteLast": "MOST-SIGNIFICANT-BYTE-LAST",
-    "opaque": "OPAQUE",
+    "MOST-SIGNIFICANT-BYTE-FIRST": "MOST-SIGNIFICANT-BYTE-FIRST",
+    "MOST-SIGNIFICANT-BYTE-LAST": "MOST-SIGNIFICANT-BYTE-LAST",
+    "OPAQUE": "OPAQUE",
 }
 
 #: Mapping between DiagnosticEventCombinationBehaviorEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-EVENT-COMBINATION-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_COMBINATION_BEHAVIOR_XML_MAP = {
-    "eventCombinationOnRetrieval": "EVENT-COMBINATION-ON-RETRIEVAL",
-    "eventCombinationOnStorage": "EVENT-COMBINATION-ON-STORAGE",
+    "EVENT-COMBINATION-ON-RETRIEVAL": "EVENT-COMBINATION-ON-RETRIEVAL",
+    "EVENT-COMBINATION-ON-STORAGE": "EVENT-COMBINATION-ON-STORAGE",
 }
 
 #: Mapping between DiagnosticEventCombinationReportingBehaviorEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-EVENT-COMBINATION-REPORTING-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_COMBINATION_REPORTING_BEHAVIOR_XML_MAP = {
-    "reportingInChronlogicalOrderOldestFirst": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
+    "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST": "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST",
 }
 
 #: Mapping between DiagnosticDebounceBehaviorEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-DEBOUNCE-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_DEBOUNCE_BEHAVIOR_XML_MAP = {
-    "freeze": "FREEZE",
-    "reset": "RESET",
+    "FREEZE": "FREEZE",
+    "RESET": "RESET",
 }
 
 #: Mapping between DiagnosticHandleDDDIConfigurationEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-HANDLE-DDDI-CONFIGURATION-ENUM--SIMPLE).
 DIAGNOSTIC_HANDLE_DDDI_CONFIGURATION_XML_MAP = {
-    "nonVolatile": "NON-VOLATILE",
-    "volatile": "VOLATILE",
+    "NON-VOLATILE": "NON-VOLATILE",
+    "VOLATILE": "VOLATILE",
 }
 
 #: Mapping between DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-DYNAMICALLY-DEFINE-DATA-IDENTIFIER-SUBFUNCTION-ENUM--SIMPLE).
 DIAGNOSTIC_DYNAMICALLY_DEFINE_DATA_IDENTIFIER_SUBFUNCTION_XML_MAP = {
-    "clearDynamicallyDefineDataIdentifier": "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER",
-    "defineByIdentifier": "DEFINE-BY-IDENTIFIER",
-    "defineByMemoryAddress": "DEFINE-BY-MEMORY-ADDRESS",
+    "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER": "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER",
+    "DEFINE-BY-IDENTIFIER": "DEFINE-BY-IDENTIFIER",
+    "DEFINE-BY-MEMORY-ADDRESS": "DEFINE-BY-MEMORY-ADDRESS",
 }
 
 #: Mapping between DiagnosticPeriodicRateCategoryEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-PERIODIC-RATE-CATEGORY-ENUM--SIMPLE).
 DIAGNOSTIC_PERIODIC_RATE_CATEGORY_XML_MAP = {
-    "periodicRateFast": "PERIODIC-RATE-FAST",
-    "periodicRateMedium": "PERIODIC-RATE-MEDIUM",
-    "periodicRateSlow": "PERIODIC-RATE-SLOW",
+    "PERIODIC-RATE-FAST": "PERIODIC-RATE-FAST",
+    "PERIODIC-RATE-MEDIUM": "PERIODIC-RATE-MEDIUM",
+    "PERIODIC-RATE-SLOW": "PERIODIC-RATE-SLOW",
 }
 
 #: Mapping between DiagnosticEventWindowTimeEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-EVENT-WINDOW-TIME-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_WINDOW_TIME_XML_MAP = {
-    "infiniteTimeToResponse": "INFINITE-TIME-TO-RESPONSE",
-    "powerWindowTime": "POWER-WINDOW-TIME",
+    "INFINITE-TIME-TO-RESPONSE": "INFINITE-TIME-TO-RESPONSE",
+    "POWER-WINDOW-TIME": "POWER-WINDOW-TIME",
 }
 
 #: Mapping between DiagnosticResponseOnEventActionEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-RESPONSE-ON-EVENT-ACTION-ENUM--SIMPLE).
 DIAGNOSTIC_RESPONSE_ON_EVENT_ACTION_XML_MAP = {
-    "clear": "CLEAR",
-    "onChangeOfDataIdentifier": "ON-CHANGE-OF-DATA-IDENTIFIER",
-    "onComparisonOfValues": "ON-COMPARISON-OF-VALUES",
-    "onDTCStatusChange": "ON-DTC-STATUS-CHANGE",
-    "report": "REPORT",
-    "reportDTCRecordInformationOnDtcStatusChange": "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE",
-    "reportMostRecentDtcOnStatusChange": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
-    "start": "START",
-    "stop": "STOP",
+    "CLEAR": "CLEAR",
+    "ON-CHANGE-OF-DATA-IDENTIFIER": "ON-CHANGE-OF-DATA-IDENTIFIER",
+    "ON-COMPARISON-OF-VALUES": "ON-COMPARISON-OF-VALUES",
+    "ON-DTC-STATUS-CHANGE": "ON-DTC-STATUS-CHANGE",
+    "REPORT": "REPORT",
+    "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE": "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE",
+    "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE": "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE",
+    "START": "START",
+    "STOP": "STOP",
 }
 
 #: Mapping between DiagnosticClearEventAllowedBehaviorEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-CLEAR-EVENT-ALLOWED-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_CLEAR_EVENT_ALLOWED_BEHAVIOR_XML_MAP = {
-    "noStatusByteChange": "NO-STATUS-BYTE-CHANGE",
-    "onlyThisCycleAndReadiness": "ONLY-THIS-CYCLE-AND-READINESS",
+    "NO-STATUS-BYTE-CHANGE": "NO-STATUS-BYTE-CHANGE",
+    "ONLY-THIS-CYCLE-AND-READINESS": "ONLY-THIS-CYCLE-AND-READINESS",
 }
 
 #: Mapping between DiagnosticConnectedIndicatorBehaviorEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-CONNECTED-INDICATOR-BEHAVIOR-ENUM--SIMPLE).
 DIAGNOSTIC_CONNECTED_INDICATOR_BEHAVIOR_XML_MAP = {
-    "blinkMode": "BLINK-MODE",
-    "blinkOrContinuousOnMode": "BLINK-OR-CONTINUOUS-ON-MODE",
-    "continuousOnMode": "CONTINUOUS-ON-MODE",
-    "fastFlashingMode": "FAST-FLASHING-MODE",
-    "slowFlashingMode": "SLOW-FLASHING-MODE",
+    "BLINK-MODE": "BLINK-MODE",
+    "BLINK-OR-CONTINUOUS-ON-MODE": "BLINK-OR-CONTINUOUS-ON-MODE",
+    "CONTINUOUS-ON-MODE": "CONTINUOUS-ON-MODE",
+    "FAST-FLASHING-MODE": "FAST-FLASHING-MODE",
+    "SLOW-FLASHING-MODE": "SLOW-FLASHING-MODE",
 }
 
 #: Mapping between DiagnosticEventClearAllowedEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-EVENT-CLEAR-ALLOWED-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_CLEAR_ALLOWED_XML_MAP = {
-    "always": "ALWAYS",
-    "requiresCallbackExecution": "REQUIRES-CALLBACK-EXECUTION",
+    "ALWAYS": "ALWAYS",
+    "REQUIRES-CALLBACK-EXECUTION": "REQUIRES-CALLBACK-EXECUTION",
 }
 
 #: Mapping between DiagnosticEventKindEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-EVENT-KIND-ENUM--SIMPLE).
 DIAGNOSTIC_EVENT_KIND_XML_MAP = {
-    "bsw": "BSW",
-    "swc": "SWC",
+    "BSW": "BSW",
+    "SWC": "SWC",
 }
 
 #: Mapping between DiagnosticIumprKindEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-IUMPR-KIND-ENUM--SIMPLE).
 DIAGNOSTIC_IUMPR_KIND_XML_MAP = {
-    "apiBased": "API-BASED",
-    "observerBased": "OBSERVER-BASED",
+    "API-BASED": "API-BASED",
+    "OBSERVER-BASED": "OBSERVER-BASED",
 }
 
 #: Mapping between DiagnosticObdSupportEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-OBD-SUPPORT-ENUM--SIMPLE).
 DIAGNOSTIC_OBD_SUPPORT_XML_MAP = {
-    "masterEcu": "MASTER-ECU",
-    "noObdSupport": "NO-OBD-SUPPORT",
-    "primaryEcu": "PRIMARY-ECU",
-    "secondaryEcu": "SECONDARY-ECU",
+    "MASTER-ECU": "MASTER-ECU",
+    "NO-OBD-SUPPORT": "NO-OBD-SUPPORT",
+    "PRIMARY-ECU": "PRIMARY-ECU",
+    "SECONDARY-ECU": "SECONDARY-ECU",
 }
 
 #: Mapping between DiagnosticOperationCycleTypeEnum literal values and their XML element text
 #: (AR:DIAGNOSTIC-OPERATION-CYCLE-TYPE-ENUM--SIMPLE).
 DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP = {
-    "ignition": "IGNITION",
-    "obdDrivingCycle": "OBD-DRIVING-CYCLE",
-    "other": "OTHER",
-    "warmup": "WARMUP",
+    "IGNITION": "IGNITION",
+    "OBD-DRIVING-CYCLE": "OBD-DRIVING-CYCLE",
+    "OTHER": "OTHER",
+    "WARMUP": "WARMUP",
 }
 
 

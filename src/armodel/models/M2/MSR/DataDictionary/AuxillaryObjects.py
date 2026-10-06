@@ -17,10 +17,10 @@ class MemoryAllocationKeywordPolicyType(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # The MemorySection shortNames of referring MemorySections and therefore the belonging Memory Allocation Keywords in the code are build with the shortName of the SwAddrMethod. This is the default value if the attribute does not exist. Tags: atp.EnumerationLiteralIndex=0
-    ADDR_METHOD_SHORT_NAME = "addrMethodShortName"
+    ADDR_METHOD_SHORT_NAME = "ADDR-METHOD-SHORT-NAME"
 
     # The MemorySection shortNames of referring MemorySections and therefore the belonging Memory Allocation Keywords in the code are build with the shortName of the SwAddrMethod and a variable alignment postfix. Thereby the alignment postfix needs to be consistent with the alignment attribute of the related MemorySection. Tags: atp.EnumerationLiteralIndex=1
-    ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT = "addrMethodShortNameAndAlignment"
+    ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT = "ADDR-METHOD-SHORT-NAME-AND-ALIGNMENT"
 
     def __init__(self):
         super().__init__(
@@ -43,25 +43,25 @@ class MemorySectionType(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # This memory section is reserved for "virtual variables" that are computed by an MCD system during a measurement session but do not exist in the ECU memory. Tags: atp.EnumerationLiteralIndex=2
-    CALIBRATION_VARIABLES = "calibrationVariables"
+    CALIBRATION_VARIABLES = "CALIBRATION-VARIABLES"
 
     # To be used for calibratable constants of ECU-functions. Tags: atp.EnumerationLiteralIndex=3
-    CALPRM = "calprm"
+    CALPRM = "CALPRM"
 
     # To be used for mapping code to application block, boot block, external flash etc. Tags: atp.EnumerationLiteralIndex=4
-    CODE = "code"
+    CODE = "CODE"
 
     # Constants with attributes that show that they reside in one segment for module configuration. Tags: atp.EnumerationLiteralIndex=5
-    CONFIG_DATA = "configData"
+    CONFIG_DATA = "CONFIG-DATA"
 
     # To be used for global or static constants. Tags: atp.EnumerationLiteralIndex=6
-    CONST = "const"
+    CONST = "CONST"
 
     # This memory section is reserved for "virtual parameters" that are taken for computing the values of so-called dependent parameter of an MCD system. Dependent Parameters that are not at the same time "virtual parameters" are allocated in the ECU memory. Virtual parameters, on the other hand, are not allocated in the ECU memory. Virtual parameters exist in the ECU Hex file for the purpose of being considered (for computing the values of dependent parameters) during an offline-calibration session. Tags: atp.EnumerationLiteralIndex=7
-    EXCLUDE_FROM_FLASH = "excludeFromFlash"
+    EXCLUDE_FROM_FLASH = "EXCLUDE-FROM-FLASH"
 
     # To be used for global or static variables. The expected initialization is specified with the attribute sectionInitializationPolicy. Tags: atp.EnumerationLiteralIndex=9
-    VAR = "var"
+    VAR = "VAR"
 
     def __init__(self):
         super().__init__(

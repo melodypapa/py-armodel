@@ -902,10 +902,10 @@ class IntervalTypeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The area is limited by the value given. The value itself is included. Tags: atp.EnumerationLiteralIndex=0
-    CLOSED = "closed"
+    CLOSED = "CLOSED"
 
     # The area is limited by the value given. The value itself is not included. Tags: atp.EnumerationLiteralIndex=2
-    OPEN = "open"
+    OPEN = "OPEN"
 
     def __init__(self):
         super().__init__(
@@ -1189,13 +1189,13 @@ class ArgumentDirectionEnum(AREnum):
     # (no methods) — serialized as an attribute value on the consuming class
 
     # The argument value is passed to the callee. Tags: atp.EnumerationLiteralIndex=0
-    IN = "in"
+    IN = "IN"
 
     # The argument value is passed to the callee but also passed back from the callee to the caller. Tags: atp.EnumerationLiteralIndex=1
-    INOUT = "inout"
+    INOUT = "INOUT"
 
     # The argument value is passed from the callee to the caller. Tags: atp.EnumerationLiteralIndex=2
-    OUT = "out"
+    OUT = "OUT"
 
     def __init__(self):
         """
@@ -1333,13 +1333,13 @@ class ByteOrderEnum(AREnum):
     # (no methods) — enum value form serialized on BaseTypeDirectDefinition.byteOrder, DiagnosticCommonProps.defaultEndianness, ISignalToIPduMapping.packingByteOrder, MultiplexedIPdu.selectorFieldByteOrder, PduToFrameMapping.packingByteOrder, SegmentPosition.segmentByteOrder, System.containerIPduHeaderByteOrder (R23-11)
 
     # Most significant byte shall come at the lowest address (also known as BigEndian or as Motorola-Format) Tags: atp.EnumerationLiteralIndex=0
-    MOST_SIGNIFICANT_BYTE_FIRST = "mostSignificantByteFirst"
+    MOST_SIGNIFICANT_BYTE_FIRST = "MOST-SIGNIFICANT-BYTE-FIRST"
 
     # Most significant byte shall come highest address (also known as LittleEndian or as Intel-Format) Tags: atp.EnumerationLiteralIndex=1
-    MOST_SIGNIFICANT_BYTE_LAST = "mostSignificantByteLast"
+    MOST_SIGNIFICANT_BYTE_LAST = "MOST-SIGNIFICANT-BYTE-LAST"
 
     # For opaque data endianness conversion has to be configured to Opaque. See AUTOSAR COM Specification for more details. Tags: atp.EnumerationLiteralIndex=2
-    OPAQUE = "opaque"
+    OPAQUE = "OPAQUE"
 
     def __init__(self):
         super().__init__(
@@ -1367,25 +1367,25 @@ class MonotonyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the related curve needs to be monotony decreasing. Tags: atp.EnumerationLiteralIndex=0
-    DECREASING = "decreasing"
+    DECREASING = "DECREASING"
 
     # This indicates that the related curve needs to be monotony increasing. Tags: atp.EnumerationLiteralIndex=1
-    INCREASING = "increasing"
+    INCREASING = "INCREASING"
 
     # This indicates that the values shall be monotonously decreasing or increasing, depending on the trend set by the first values of the series. Tags: atp.EnumerationLiteralIndex=2
-    MONOTONOUS = "monotonous"
+    MONOTONOUS = "MONOTONOUS"
 
     # This indicates that the related curve needs not to be monotony. Tags: atp.EnumerationLiteralIndex=3
-    NO_MONOTONY = "noMonotony"
+    NO_MONOTONY = "NO-MONOTONY"
 
     # This indicates that the related curve needs to be strictly monotony decreasing. Tags: atp.EnumerationLiteralIndex=4
-    STRICTLY_DECREASING = "strictlyDecreasing"
+    STRICTLY_DECREASING = "STRICTLY-DECREASING"
 
     # This indicates that the related curve needs to be strictly monotony increasing. Tags: atp.EnumerationLiteralIndex=5
-    STRICTLY_INCREASING = "strictlyIncreasing"
+    STRICTLY_INCREASING = "STRICTLY-INCREASING"
 
     # This indicates that the values shall be strict monotonously decreasing or increasing, depending on the trend set by the first values of the series. Tags: atp.EnumerationLiteralIndex=6
-    STRICT_MONOTONOUS = "strictMonotonous"
+    STRICT_MONOTONOUS = "STRICT-MONOTONOUS"
 
     def __init__(self):
         super().__init__(
@@ -1649,13 +1649,13 @@ class AclScopeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This specifies that the AclPermission applies to dependant (in particular referenced) operations / objects as well. Note that this includes the descendant ones. Tags: atp.EnumerationLiteralIndex=0
-    DEPENDANT = "dependant"
+    DEPENDANT = "DEPENDANT"
 
     # This specifies that the AclPermission applies to descendant operations / objects as well. Tags: atp.EnumerationLiteralIndex=1
-    DESCENDANT = "descendant"
+    DESCENDANT = "DESCENDANT"
 
     # This is indicates that the AclPermission applies to explicit objects / operations only. Tags: atp.EnumerationLiteralIndex=2
-    EXPLICIT = "explicit"
+    EXPLICIT = "EXPLICIT"
 
     def __init__(self):
         super().__init__(
@@ -1743,10 +1743,10 @@ class DiagnosticClearDtcLimitationEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # DEM_ClearDtc API accepts all supported DTC values. Tags: atp.EnumerationLiteralIndex=0
-    ALL_SUPPORTED_DTCS = "allSupportedDtcs"
+    ALL_SUPPORTED_DTCS = "ALL-SUPPORTED-DTCS"
 
     # DEM_ClearDtc API accepts ClearAllDTCs only. Tags: atp.EnumerationLiteralIndex=1
-    CLEAR_ALL_DTCS = "clearAllDtcs"
+    CLEAR_ALL_DTCS = "CLEAR-ALL-DTCS"
 
     def __init__(self):
         super().__init__(
@@ -1769,10 +1769,10 @@ class DiagnosticClearEventAllowedBehaviorEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The event status byte keeps unchanged. Tags: atp.EnumerationLiteralIndex=0
-    NO_STATUS_BYTE_CHANGE = "noStatusByteChange"
+    NO_STATUS_BYTE_CHANGE = "NO-STATUS-BYTE-CHANGE"
 
     # The OperationCycle and readiness bits of the event status byte are reset. Tags: atp.EnumerationLiteralIndex=1
-    ONLY_THIS_CYCLE_AND_READINESS = "onlyThisCycleAndReadiness"
+    ONLY_THIS_CYCLE_AND_READINESS = "ONLY-THIS-CYCLE-AND-READINESS"
 
     def __init__(self):
         super().__init__(
@@ -1795,19 +1795,19 @@ class DiagnosticConnectedIndicatorBehaviorEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The indicator blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=0
-    BLINK_MODE = "blinkMode"
+    BLINK_MODE = "BLINK-MODE"
 
     # The indicator is active and blinks when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=1
-    BLINK_OR_CONTINUOUS_ON_MODE = "blinkOrContinuousOnMode"
+    BLINK_OR_CONTINUOUS_ON_MODE = "BLINK-OR-CONTINUOUS-ON-MODE"
 
     # The indicator is active when the event has status FAILED. Tags: atp.EnumerationLiteralIndex=2
-    CONTINUOUS_ON_MODE = "continuousOnMode"
+    CONTINUOUS_ON_MODE = "CONTINUOUS-ON-MODE"
 
     # Flash Indicator Lamp should be set to "Fast Flash". Tags: atp.EnumerationLiteralIndex=3
-    FAST_FLASHING_MODE = "fastFlashingMode"
+    FAST_FLASHING_MODE = "FAST-FLASHING-MODE"
 
     # Flash Indicator Lamp should be set to "Slow Flash". Tags: atp.EnumerationLiteralIndex=4
-    SLOW_FLASHING_MODE = "slowFlashingMode"
+    SLOW_FLASHING_MODE = "SLOW-FLASHING-MODE"
 
     def __init__(self):
         super().__init__(
@@ -1833,10 +1833,10 @@ class DiagnosticDebounceBehaviorEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The event debounce counter will be frozen with the current value and will not change while a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. After all related enable conditions are fulfilled and ControlDTCSetting of the related event is enabled again, the event qualification will continue with the next report of the event (i.e. SetEventStatus). Tags: atp.EnumerationLiteralIndex=0
-    FREEZE = "freeze"
+    FREEZE = "FREEZE"
 
     # The event debounce counter will be reset to initial value if a related enable condition is not fulfilled or ControlDTCSetting of the related event is disabled. The qualification of the event will be restarted with the next valid event report. Tags: atp.EnumerationLiteralIndex=1
-    RESET = "reset"
+    RESET = "RESET"
 
     def __init__(self):
         super().__init__(
@@ -1859,13 +1859,13 @@ class DiagnosticDynamicallyDefineDataIdentifierSubfunctionEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Clear the specified dynamic data identifier. Tags: atp.EnumerationLiteralIndex=0
-    CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER = "clearDynamicallyDefineDataIdentifier"
+    CLEAR_DYNAMICALLY_DEFINE_DATA_IDENTIFIER = "CLEAR-DYNAMICALLY-DEFINE-DATA-IDENTIFIER"
 
     # The definition of dynamic data identifier shall be done via a reference to a diagnostic data identifier. Tags: atp.EnumerationLiteralIndex=1
-    DEFINE_BY_IDENTIFIER = "defineByIdentifier"
+    DEFINE_BY_IDENTIFIER = "DEFINE-BY-IDENTIFIER"
 
     # The definition of dynamic data identifier shall be done via a reference to a memory address. Tags: atp.EnumerationLiteralIndex=2
-    DEFINE_BY_MEMORY_ADDRESS = "defineByMemoryAddress"
+    DEFINE_BY_MEMORY_ADDRESS = "DEFINE-BY-MEMORY-ADDRESS"
 
     def __init__(self):
         super().__init__(
@@ -1889,10 +1889,10 @@ class DiagnosticEventClearAllowedEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The clearing is allowed unconditionally. Tags: atp.EnumerationLiteralIndex=0
-    ALWAYS = "always"
+    ALWAYS = "ALWAYS"
 
     # In case the clearing of a Diagnostic Event has to be allowed or prohibited through the SWC interface CallbackClearEventAllowed, the SWC has to indicate this by defining appropriate ServiceNeeds (i.e. DiagnosticEventNeeds). Tags: atp.EnumerationLiteralIndex=2
-    REQUIRES_CALLBACK_EXECUTION = "requiresCallbackExecution"
+    REQUIRES_CALLBACK_EXECUTION = "REQUIRES-CALLBACK-EXECUTION"
 
     def __init__(self):
         super().__init__(
@@ -1915,10 +1915,10 @@ class DiagnosticEventCombinationBehaviorEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Event combination on retrieval is used to combine events. For each event an individual event memory entry is created, while reporting the data via UDS, the data is combined. Tags: atp.EnumerationLiteralIndex=1
-    EVENT_COMBINATION_ON_RETRIEVAL = "eventCombinationOnRetrieval"
+    EVENT_COMBINATION_ON_RETRIEVAL = "EVENT-COMBINATION-ON-RETRIEVAL"
 
     # Event combination on storage is used to combine events. Only one memory entry exists for each DTC which is also reported via UDS. Tags: atp.EnumerationLiteralIndex=0
-    EVENT_COMBINATION_ON_STORAGE = "eventCombinationOnStorage"
+    EVENT_COMBINATION_ON_STORAGE = "EVENT-COMBINATION-ON-STORAGE"
 
     def __init__(self):
         super().__init__(
@@ -1941,7 +1941,7 @@ class DiagnosticEventCombinationReportingBehaviorEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The reporting order for event combination on retrieval is the chronological storage order of the events Tags: atp.EnumerationLiteralIndex=0
-    REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST = "reportingInChronlogicalOrderOldestFirst"
+    REPORTING_IN_CHRONLOGICAL_ORDER_OLDEST_FIRST = "REPORTING-IN-CHRONLOGICAL-ORDER-OLDEST-FIRST"
 
     def __init__(self):
         super().__init__(
@@ -1963,13 +1963,13 @@ class DiagnosticEventDisplacementStrategyEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Event memory entry displacement is enabled, by consideration of priority active/passive status, and occurrence. Tags: atp.EnumerationLiteralIndex=0
-    FULL = "full"
+    FULL = "FULL"
 
     # Event memory entry displacement is disabled. Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # Event memory entry displacement is enabled, by consideration of priority and occurrence (but without active/passive status). Tags: atp.EnumerationLiteralIndex=2
-    PRIO_OCC = "prioOcc"
+    PRIO_OCC = "PRIO-OCC"
 
     def __init__(self):
         super().__init__(
@@ -1993,10 +1993,10 @@ class DiagnosticEventKindEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The event is assigned to a BSW module. Tags: atp.EnumerationLiteralIndex=0
-    BSW = "bsw"
+    BSW = "BSW"
 
     # The event is assigned to a SWC. Tags: atp.EnumerationLiteralIndex=1
-    SWC = "swc"
+    SWC = "SWC"
 
     def __init__(self):
         super().__init__(
@@ -2019,10 +2019,10 @@ class DiagnosticEventWindowTimeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This value specifies that the event window shall stay active for an infinite amount of time (e.g. open window until power off). Tags: atp.EnumerationLiteralIndex=3
-    INFINITE_TIME_TO_RESPONSE = "infiniteTimeToResponse"
+    INFINITE_TIME_TO_RESPONSE = "INFINITE-TIME-TO-RESPONSE"
 
     # This enumeration value specifies that the server shall send response on event messages until the server is powered down. The server stops sending response on event messages with the power down and will send no more response on event messages after server is up again. Tags: atp.EnumerationLiteralIndex=4
-    POWER_WINDOW_TIME = "powerWindowTime"
+    POWER_WINDOW_TIME = "POWER-WINDOW-TIME"
 
     def __init__(self):
         super().__init__(
@@ -2045,10 +2045,10 @@ class DiagnosticHandleDDDIConfigurationEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be stored as non-volatile data. Tags: atp.EnumerationLiteralIndex=0
-    NON_VOLATILE = "nonVolatile"
+    NON_VOLATILE = "NON-VOLATILE"
 
     # This indicates that the configuration of DynamicallyDefineDataIdentifier shall be handled as volatile data. Tags: atp.EnumerationLiteralIndex=1
-    VOLATILE = "volatile"
+    VOLATILE = "VOLATILE"
 
     def __init__(self):
         super().__init__(
@@ -2071,16 +2071,16 @@ class DiagnosticInhibitionMaskEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This represents the inhibition mask behavior "last failed". Tags: atp.EnumerationLiteralIndex=0
-    LAST_FAILED = "lastFailed"
+    LAST_FAILED = "LAST-FAILED"
 
     # This represents the inhibition mask behavior "not tested". Tags: atp.EnumerationLiteralIndex=1
-    NOT_TESTED = "notTested"
+    NOT_TESTED = "NOT-TESTED"
 
-    # This represents the inhibition mask behavior "tested". Tags: atp.EnumerationLiteralIndex=3
-    TESTED = "tested"
+    # This represents the inhibition mask behavior "TESTED". Tags: atp.EnumerationLiteralIndex=3
+    TESTED = "TESTED"
 
     # This represents the inhibition mask behavior "tested and failed". Tags: atp.EnumerationLiteralIndex=2
-    TESTED_AND_FAILED = "testedAndFailed"
+    TESTED_AND_FAILED = "TESTED-AND-FAILED"
 
     def __init__(self):
         super().__init__(
@@ -2105,10 +2105,10 @@ class DiagnosticIumprKindEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The calculation is based on the usage of an API. Tags: atp.EnumerationLiteralIndex=0
-    API_BASED = "apiBased"
+    API_BASED = "API-BASED"
 
     # The calculation is based on the usage of an observer. Tags: atp.EnumerationLiteralIndex=1
-    OBSERVER_BASED = "observerBased"
+    OBSERVER_BASED = "OBSERVER-BASED"
 
     def __init__(self):
         super().__init__(
@@ -2131,13 +2131,13 @@ class DiagnosticMemoryEntryStorageTriggerEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Status information of UDS DTC status bit 3 Tags: atp.EnumerationLiteralIndex=0
-    CONFIRMED = "confirmed"
+    CONFIRMED = "CONFIRMED"
 
     # Threshold to allocate an event memory entry and to capture the Freeze Frame. Tags: atp.EnumerationLiteralIndex=1
-    FDC_THRESHOLD = "fdcThreshold"
+    FDC_THRESHOLD = "FDC-THRESHOLD"
 
     # Status information of UDS DTC status bit 0. Tags: atp.EnumerationLiteralIndex=3
-    TEST_FAILED = "testFailed"
+    TEST_FAILED = "TEST-FAILED"
 
     def __init__(self):
         super().__init__(
@@ -2161,16 +2161,16 @@ class DiagnosticObdSupportEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This represent the role "master ECU". Tags: atp.EnumerationLiteralIndex=0
-    MASTER_ECU = "masterEcu"
+    MASTER_ECU = "MASTER-ECU"
 
     # This represents the ability to explicitly specify that no participation in OBD is foreseen. Tags: atp.EnumerationLiteralIndex=1
-    NO_OBD_SUPPORT = "noObdSupport"
+    NO_OBD_SUPPORT = "NO-OBD-SUPPORT"
 
     # This represents the role "primary ECU". Tags: atp.EnumerationLiteralIndex=2
-    PRIMARY_ECU = "primaryEcu"
+    PRIMARY_ECU = "PRIMARY-ECU"
 
     # This represents the role "secondary ECU". Tags: atp.EnumerationLiteralIndex=3
-    SECONDARY_ECU = "secondaryEcu"
+    SECONDARY_ECU = "SECONDARY-ECU"
 
     def __init__(self):
         super().__init__(
@@ -2195,10 +2195,10 @@ class DiagnosticOccurrenceCounterProcessingEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 if the fault confirmation was successful (ConfirmedDTC bit is already set). Tags: atp.EnumerationLiteralIndex=0
-    CONFIRMED_DTC_BIT = "confirmedDtcBit"
+    CONFIRMED_DTC_BIT = "CONFIRMED-DTC-BIT"
 
     # The occurrence counter is incremented when TestFailed bit transitions from 0 to 1 (and the fault confirmation is not considered). Tags: atp.EnumerationLiteralIndex=1
-    TEST_FAILED_BIT = "testFailedBit"
+    TEST_FAILED_BIT = "TEST-FAILED-BIT"
 
     def __init__(self):
         super().__init__(
@@ -2221,16 +2221,16 @@ class DiagnosticOperationCycleTypeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Ignition ON / OFF cycle Tags: atp.EnumerationLiteralIndex=0
-    IGNITION = "ignition"
+    IGNITION = "IGNITION"
 
     # OBD Driving cycle Tags: atp.EnumerationLiteralIndex=1
-    OBD_DRIVING_CYCLE = "obdDrivingCycle"
+    OBD_DRIVING_CYCLE = "OBD-DRIVING-CYCLE"
 
     # further operation cycle Tags: atp.EnumerationLiteralIndex=2
-    OTHER = "other"
+    OTHER = "OTHER"
 
     # OBD Warm up cycle Tags: atp.EnumerationLiteralIndex=5
-    WARMUP = "warmup"
+    WARMUP = "WARMUP"
 
     def __init__(self):
         super().__init__(
@@ -2255,13 +2255,13 @@ class DiagnosticPeriodicRateCategoryEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This value represents a fast periodic rate. Tags: atp.EnumerationLiteralIndex=0
-    PERIODIC_RATE_FAST = "periodicRateFast"
+    PERIODIC_RATE_FAST = "PERIODIC-RATE-FAST"
 
     # This value represents a medium periodic rate. Tags: atp.EnumerationLiteralIndex=1
-    PERIODIC_RATE_MEDIUM = "periodicRateMedium"
+    PERIODIC_RATE_MEDIUM = "PERIODIC-RATE-MEDIUM"
 
     # This value represents a slow periodic rate. Tags: atp.EnumerationLiteralIndex=2
-    PERIODIC_RATE_SLOW = "periodicRateSlow"
+    PERIODIC_RATE_SLOW = "PERIODIC-RATE-SLOW"
 
     def __init__(self):
         super().__init__(
@@ -2285,25 +2285,25 @@ class DiagnosticRecordTriggerEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # capture on "Confirmed" Tags: atp.EnumerationLiteralIndex=0
-    CONFIRMED = "confirmed"
+    CONFIRMED = "CONFIRMED"
 
     # implement custom capture Tags: atp.EnumerationLiteralIndex=4
-    CUSTOM = "custom"
+    CUSTOM = "CUSTOM"
 
     # capture on "FDC Threshold" Tags: atp.EnumerationLiteralIndex=1
-    FDC_THRESHOLD = "fdcThreshold"
+    FDC_THRESHOLD = "FDC-THRESHOLD"
 
     # capture on "Pending" Tags: atp.EnumerationLiteralIndex=2
-    PENDING = "pending"
+    PENDING = "PENDING"
 
     # capture on "Test Failed" Tags: atp.EnumerationLiteralIndex=3
-    TEST_FAILED = "testFailed"
+    TEST_FAILED = "TEST-FAILED"
 
     # Test Failed This Operation Cycle. Tags: atp.EnumerationLiteralIndex=5
-    TEST_FAILED_THIS_OPERATION_CYCLE = "testFailedThisOperationCycle"
+    TEST_FAILED_THIS_OPERATION_CYCLE = "TEST-FAILED-THIS-OPERATION-CYCLE"
 
     # Capture on testFailed bit transition 1 -> 0. Tags: atp.EnumerationLiteralIndex=6
-    TEST_PASSED = "testPassed"
+    TEST_PASSED = "TEST-PASSED"
 
     def __init__(self):
         super().__init__(
@@ -2331,31 +2331,31 @@ class DiagnosticResponseOnEventActionEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Clears the configured events. Tags: atp.EnumerationLiteralIndex=2
-    CLEAR = "clear"
+    CLEAR = "CLEAR"
 
     # Reports based on change of data identifier. Tags: atp.EnumerationLiteralIndex=6
-    ON_CHANGE_OF_DATA_IDENTIFIER = "onChangeOfDataIdentifier"
+    ON_CHANGE_OF_DATA_IDENTIFIER = "ON-CHANGE-OF-DATA-IDENTIFIER"
 
     # Triggered if data condition is met (e.g. RPM over 5000 1/min). Tags: atp.EnumerationLiteralIndex=8
-    ON_COMPARISON_OF_VALUES = "onComparisonOfValues"
+    ON_COMPARISON_OF_VALUES = "ON-COMPARISON-OF-VALUES"
 
     # Reports based on change of DTC status. Tags: atp.EnumerationLiteralIndex=7
-    ON_DTC_STATUS_CHANGE = "onDTCStatusChange"
+    ON_DTC_STATUS_CHANGE = "ON-DTC-STATUS-CHANGE"
 
     # Reports the activated events. Tags: atp.EnumerationLiteralIndex=3
-    REPORT = "report"
+    REPORT = "REPORT"
 
     # Reports the DTC record-related information based on a DTC status change. (Subfunction 0x09) Tags: atp.EnumerationLiteralIndex=5
-    REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE = "reportDTCRecordInformationOnDtcStatusChange"
+    REPORT_DTC_RECORD_INFORMATION_ON_DTC_STATUS_CHANGE = "REPORT-DTC-RECORD-INFORMATION-ON-DTC-STATUS-CHANGE"
 
     # Triggers the report of the most recent failed or confirmed DTC (Subfunction 0x08). Tags: atp.EnumerationLiteralIndex=4
-    REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE = "reportMostRecentDtcOnStatusChange"
+    REPORT_MOST_RECENT_DTC_ON_STATUS_CHANGE = "REPORT-MOST-RECENT-DTC-ON-STATUS-CHANGE"
 
     # Starts the response on event service. Tags: atp.EnumerationLiteralIndex=1
-    START = "start"
+    START = "START"
 
     # Stops the response on event service. Tags: atp.EnumerationLiteralIndex=0
-    STOP = "stop"
+    STOP = "STOP"
 
     def __init__(self):
         super().__init__(
@@ -2385,10 +2385,10 @@ class DiagnosticResponseToEcuResetEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Answer to EcuReset service should come after the reset. Tags: atp.EnumerationLiteralIndex=0
-    RESPOND_AFTER_RESET = "respondAfterReset"
+    RESPOND_AFTER_RESET = "RESPOND-AFTER-RESET"
 
     # Answer to EcuReset service should come before the reset. Tags: atp.EnumerationLiteralIndex=1
-    RESPOND_BEFORE_RESET = "respondBeforeReset"
+    RESPOND_BEFORE_RESET = "RESPOND-BEFORE-RESET"
 
     def __init__(self):
         super().__init__(
@@ -2411,10 +2411,10 @@ class DiagnosticSignificanceEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Failure, which affects the component/ECU itself. Tags: atp.EnumerationLiteralIndex=0
-    FAULT = "fault"
+    FAULT = "FAULT"
 
     # Issue, which indicates additional information concerning insufficient system behavior. Tags: atp.EnumerationLiteralIndex=1
-    OCCURENCE = "occurence"
+    OCCURENCE = "OCCURENCE"
 
     def __init__(self):
         super().__init__(
@@ -2437,10 +2437,10 @@ class DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The "TestFailedSinceLastClear" status bits are reset to 0, if aging or displacement applies. Tags: atp.EnumerationLiteralIndex=0
-    STATUS_BIT_AGING_AND_DISPLACEMENT = "statusBitAgingAndDisplacement"
+    STATUS_BIT_AGING_AND_DISPLACEMENT = "STATUS-BIT-AGING-AND-DISPLACEMENT"
 
     # Aging and displacement has no impact on the "TestFailedSinceLastClear" status bits. Tags: atp.EnumerationLiteralIndex=1
-    STATUS_BIT_NORMAL = "statusBitNormal"
+    STATUS_BIT_NORMAL = "STATUS-BIT-NORMAL"
 
     def __init__(self):
         super().__init__(
@@ -2463,10 +2463,10 @@ class DiagnosticTestResultUpdateEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Any DTR result reported by the monitor is used by the Dem. Tags: atp.EnumerationLiteralIndex=0
-    ALWAYS = "always"
+    ALWAYS = "ALWAYS"
 
     # The Dem accepts reported DTRs only when the configured debouncing mechanism is stable at the FAIL or PASS limit. Tags: atp.EnumerationLiteralIndex=1
-    STEADY = "steady"
+    STEADY = "STEADY"
 
     def __init__(self):
         super().__init__(
@@ -2489,10 +2489,10 @@ class DiagnosticTroubleCodeJ1939DtcKindEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # this represents a DTC that is only relevant for service in a garage, reported by e.g. DM53. Tags: atp.EnumerationLiteralIndex=0
-    SERVICE_ONLY = "serviceOnly"
+    SERVICE_ONLY = "SERVICE-ONLY"
 
     # This represents a non-specific DTC reported by e.g. DM1. Tags: atp.EnumerationLiteralIndex=1
-    STANDARD = "standard"
+    STANDARD = "STANDARD"
 
     def __init__(self):
         super().__init__(
@@ -2515,19 +2515,19 @@ class DiagnosticTypeOfDtcSupportedEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # ISO11992-4 DTC format Tags: atp.EnumerationLiteralIndex=0 xml.name=ISO-11992-4
-    ISO11992_4 = "iso11992_4"
+    ISO11992_4 = "ISO-11992--4"
 
     # ISO14229-1 DTC format (3 byte format) Tags: atp.EnumerationLiteralIndex=1 xml.name=ISO-14229-1
-    ISO14229_1 = "iso14229_1"
+    ISO14229_1 = "ISO-14229--1"
 
     # ISO15031-6 DTC format (2 byte format) Tags: atp.EnumerationLiteralIndex=2 xml.name=ISO-15031-6
-    ISO15031_6 = "iso15031_6"
+    ISO15031_6 = "ISO-15031--6"
 
     # SAEJ1939-73 DTC format Tags: atp.EnumerationLiteralIndex=3 xml.name=SAE-J-1939-73
-    SAEJ1939_73 = "saeJ1939_73"
+    SAEJ1939_73 = "SAE-J-1939--73"
 
     # SAE_J2012-DA_DTCFormat_00 (3 byte format) Tags: atp.EnumerationLiteralIndex=4 xml.name=SAE-J-2012-DA
-    SAEJ2012_DA = "saeJ2012_da"
+    SAEJ2012_DA = "SAE-J-2012--DA"
 
     def __init__(self):
         super().__init__(
@@ -2553,10 +2553,10 @@ class DiagnosticTypeOfFreezeFrameRecordNumerationEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Freeze frame records will be numbered consecutive starting by 1 in their chronological order. Tags: atp.EnumerationLiteralIndex=0
-    CALCULATED = "calculated"
+    CALCULATED = "CALCULATED"
 
     # Freeze frame records will be numbered based on the given configuration in their chronological order. Tags: atp.EnumerationLiteralIndex=1
-    CONFIGURED = "configured"
+    CONFIGURED = "CONFIGURED"
 
     def __init__(self):
         super().__init__(
@@ -2579,16 +2579,16 @@ class DiagnosticUdsSeverityEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Check at next halt. Tags: atp.EnumerationLiteralIndex=0
-    CHECK_AT_NEXT_HALT = "checkAtNextHalt"
+    CHECK_AT_NEXT_HALT = "CHECK-AT-NEXT-HALT"
 
     # Check immediately. Tags: atp.EnumerationLiteralIndex=1
-    IMMEDIATELY = "immediately"
+    IMMEDIATELY = "IMMEDIATELY"
 
     # Maintenance required. Tags: atp.EnumerationLiteralIndex=2
-    MAINTENANCE_ONLY = "maintenanceOnly"
+    MAINTENANCE_ONLY = "MAINTENANCE-ONLY"
 
     # No severity information available. Tags: atp.EnumerationLiteralIndex=3
-    NO_SEVERITY = "noSeverity"
+    NO_SEVERITY = "NO-SEVERITY"
 
     def __init__(self):
         super().__init__(
@@ -2613,19 +2613,19 @@ class DiagnosticWwhObdDtcClassEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This attribute represents the severity class A. Tags: atp.EnumerationLiteralIndex=0
-    DEM_DTC_WWH_OBD_CLASS_A = "demDtcWwhObdClassA"
+    DEM_DTC_WWH_OBD_CLASS_A = "DEM-DTC-WWH-OBD-CLASS-A"
 
     # This attribute represents the severity class B1. Tags: atp.EnumerationLiteralIndex=1
-    DEM_DTC_WWH_OBD_CLASS_B1 = "demDtcWwhObdClassB1"
+    DEM_DTC_WWH_OBD_CLASS_B1 = "DEM-DTC-WWH-OBD-CLASS-B-1"
 
     # This attribute represents the severity class B2. Tags: atp.EnumerationLiteralIndex=2
-    DEM_DTC_WWH_OBD_CLASS_B2 = "demDtcWwhObdClassB2"
+    DEM_DTC_WWH_OBD_CLASS_B2 = "DEM-DTC-WWH-OBD-CLASS-B-2"
 
     # This attribute represents the severity class C. Tags: atp.EnumerationLiteralIndex=3
-    DEM_DTC_WWH_OBD_CLASS_C = "demDtcWwhObdClassC"
+    DEM_DTC_WWH_OBD_CLASS_C = "DEM-DTC-WWH-OBD-CLASS-C"
 
     # This attribute represents the option to intentionally not describe a dedicated severity class of an WWH-OBD DTC. Tags: atp.EnumerationLiteralIndex=4
-    DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION = "demDtcWwhObdClassNoInformation"
+    DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION = "DEM-DTC-WWH-OBD-CLASS-NO-INFORMATION"
 
     def __init__(self):
         super().__init__(

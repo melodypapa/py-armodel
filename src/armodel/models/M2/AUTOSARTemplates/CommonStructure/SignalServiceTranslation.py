@@ -29,11 +29,11 @@ class SignalServiceTranslationControlEnum(AREnum):
     # (no methods; serialized as an enumeration literal on the consuming attribute serviceControl)
     """
 
-    ALL_PARTIAL_NETWORKS_ACTIVE = "allPartialNetworksActive"
-    ANY_PARTIAL_NETWORK_ACTIVE = "anyPartialNetworkActive"
-    PARTIAL_NETWORK = "partialNetwork"  # atp.Status=obsolete
-    SERVICE_DISCOVERY = "serviceDiscovery"
-    TRANSLATION_START = "translationStart"
+    ALL_PARTIAL_NETWORKS_ACTIVE = "ALL-PARTIAL-NETWORKS-ACTIVE"
+    ANY_PARTIAL_NETWORK_ACTIVE = "ANY-PARTIAL-NETWORK-ACTIVE"
+    PARTIAL_NETWORK = "PARTIAL-NETWORK"  # atp.Status=obsolete
+    SERVICE_DISCOVERY = "SERVICE-DISCOVERY"
+    TRANSLATION_START = "TRANSLATION-START"
 
     def __init__(self):
         super().__init__(

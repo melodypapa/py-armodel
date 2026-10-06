@@ -23,10 +23,10 @@ class ListEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the list is an numerated list. Tags: atp.EnumerationLiteralIndex=0
-    NUMBER = "number"
+    NUMBER = "NUMBER"
 
     # This indicates that it is an enumeration (bulleted list) Tags: atp.EnumerationLiteralIndex=1
-    UNNUMBER = "unnumber"
+    UNNUMBER = "UNNUMBER"
 
     def __init__(self):
         super().__init__([ListEnum.NUMBER, ListEnum.UNNUMBER])
@@ -138,11 +138,11 @@ class ItemLabelPosEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # The label is renders in a new line. Tags: atp.EnumerationLiteralIndex=0
-    NEWLINE = "newline"
+    NEWLINE = "NEWLINE"
     # The label is rendered in a new line if it is longer than the indentation. Tags: atp.EnumerationLiteralIndex=1
-    NEWLINE_IF_NECESSARY = "newlineIfNecessary"
+    NEWLINE_IF_NECESSARY = "NEWLINE-IF-NECESSARY"
     # The label is rendered in one line with the item even if it is longer than the indentation. Tags: atp.EnumerationLiteralIndex=2
-    NO_NEWLINE = "noNewline"
+    NO_NEWLINE = "NO-NEWLINE"
 
     def __init__(self):
         super().__init__(

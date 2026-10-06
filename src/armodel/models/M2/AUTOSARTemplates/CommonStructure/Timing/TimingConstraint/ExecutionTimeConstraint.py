@@ -36,11 +36,11 @@ class ExecutionTimeTypeEnum(AREnum):
 
     # Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITH external calls.
     # Tags: atp.EnumerationLiteralIndex=0
-    GROSS = "gross"
+    GROSS = "GROSS"
 
     # Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITHOUT any external calls.
     # Tags: atp.EnumerationLiteralIndex=1
-    NET = "net"
+    NET = "NET"
 
     def __init__(self):
         """

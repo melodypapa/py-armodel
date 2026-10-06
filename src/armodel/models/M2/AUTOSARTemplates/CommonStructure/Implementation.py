@@ -32,19 +32,19 @@ class DependencyUsageEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The object referred by the dependency is required during the build process. Tags: atp.EnumerationLiteralIndex=0
-    BUILD = "build"
+    BUILD = "BUILD"
 
     # The object referred by the dependency is required during code generation Tags: atp.EnumerationLiteralIndex=1
-    CODEGENERATION = "codegeneration"
+    CODEGENERATION = "CODEGENERATION"
 
     # The object referred by the dependency is required during compilation. Tags: atp.EnumerationLiteralIndex=2
-    COMPILE = "compile"
+    COMPILE = "COMPILE"
 
     # The object referred by the dependency is required at execution time. Tags: atp.EnumerationLiteralIndex=3
-    EXECUTE = "execute"
+    EXECUTE = "EXECUTE"
 
     # The object referred by the dependency is required during linking. Tags: atp.EnumerationLiteralIndex=4
-    LINK = "link"
+    LINK = "LINK"
 
     def __init__(self):
         super().__init__(
@@ -70,13 +70,13 @@ class ProgramminglanguageEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # C language. Tags: atp.EnumerationLiteralIndex=0
-    C = "c"
+    C = "C"
 
     # C++ language. Tags: atp.EnumerationLiteralIndex=1
-    CPP = "cpp"
+    CPP = "CPP"
 
     # Java language. Tags: atp.EnumerationLiteralIndex=2
-    JAVA = "java"
+    JAVA = "JAVA"
 
     def __init__(self):
         super().__init__(

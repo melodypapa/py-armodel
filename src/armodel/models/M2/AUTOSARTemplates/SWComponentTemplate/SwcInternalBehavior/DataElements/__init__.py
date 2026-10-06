@@ -122,13 +122,13 @@ class VariableAccessScopeEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This case is foreseen to express that the corresponding communication shall be considered inter-ECU, i.e. it will cross the ECU boundary. This is considered the default case. Tags: atp.EnumerationLiteralIndex=0
-    COMMUNICATION_INTER_ECU = "communicationInterEcu"
+    COMMUNICATION_INTER_ECU = "COMMUNICATION-INTER-ECU"
 
     # This case is foreseen to express that the corresponding communication shall not cross the boundary of a partition. Tags: atp.EnumerationLiteralIndex=1
-    COMMUNICATION_INTRA_PARTITION = "communicationIntraPartition"
+    COMMUNICATION_INTRA_PARTITION = "COMMUNICATION-INTRA-PARTITION"
 
     # In this case the communication shall cross the boundaries of partitions within one ECU but it shall not cross the boundaries of the ECU itself. Tags: atp.EnumerationLiteralIndex=2
-    INTER_PARTITION_INTRA_ECU = "interPartitionIntraEcu"
+    INTER_PARTITION_INTRA_ECU = "INTER-PARTITION-INTRA-ECU"
 
     def __init__(self):
         super().__init__([VariableAccessScopeEnum.COMMUNICATION_INTER_ECU, VariableAccessScopeEnum.COMMUNICATION_INTRA_PARTITION, VariableAccessScopeEnum.INTER_PARTITION_INTRA_ECU])

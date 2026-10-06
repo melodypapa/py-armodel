@@ -127,40 +127,40 @@ class CycleRepetitionType(AREnum):
     # (no methods)
 
     # Attribute cycleRepetition value="1" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=0
-    ENUM_CYCLE_REPETITION_1 = "cycleRepetition1"
+    ENUM_CYCLE_REPETITION_1 = "CYCLE-REPETITION-1"
 
     # Attribute cycleRepetition value="10" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=1
-    ENUM_CYCLE_REPETITION_10 = "cycleRepetition10"
+    ENUM_CYCLE_REPETITION_10 = "CYCLE-REPETITION-10"
 
     # Attribute cycleRepetition value="16" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=2
-    ENUM_CYCLE_REPETITION_16 = "cycleRepetition16"
+    ENUM_CYCLE_REPETITION_16 = "CYCLE-REPETITION-16"
 
     # Attribute cycleRepetition value="2" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=3
-    ENUM_CYCLE_REPETITION_2 = "cycleRepetition2"
+    ENUM_CYCLE_REPETITION_2 = "CYCLE-REPETITION-2"
 
     # Attribute cycleRepetition value="20" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=4
-    ENUM_CYCLE_REPETITION_20 = "cycleRepetition20"
+    ENUM_CYCLE_REPETITION_20 = "CYCLE-REPETITION-20"
 
     # Attribute cycleRepetition value="32" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=5
-    ENUM_CYCLE_REPETITION_32 = "cycleRepetition32"
+    ENUM_CYCLE_REPETITION_32 = "CYCLE-REPETITION-32"
 
     # Attribute cycleRepetition value="4" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=6
-    ENUM_CYCLE_REPETITION_4 = "cycleRepetition4"
+    ENUM_CYCLE_REPETITION_4 = "CYCLE-REPETITION-4"
 
     # Attribute cycleRepetition value="40" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=7
-    ENUM_CYCLE_REPETITION_40 = "cycleRepetition40"
+    ENUM_CYCLE_REPETITION_40 = "CYCLE-REPETITION-40"
 
     # Attribute cycleRepetition value="5" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=8
-    ENUM_CYCLE_REPETITION_5 = "cycleRepetition5"
+    ENUM_CYCLE_REPETITION_5 = "CYCLE-REPETITION-5"
 
     # Attribute cycleRepetition value="50" to support FlexRay 3.0 Tags: atp.EnumerationLiteralIndex=9
-    ENUM_CYCLE_REPETITION_50 = "cycleRepetition50"
+    ENUM_CYCLE_REPETITION_50 = "CYCLE-REPETITION-50"
 
     # Attribute cycleRepetition value="64" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=10
-    ENUM_CYCLE_REPETITION_64 = "cycleRepetition64"
+    ENUM_CYCLE_REPETITION_64 = "CYCLE-REPETITION-64"
 
     # Attribute cycleRepetition value="8" valid only for FlexRay Protocol 2.1 Rev A Tags: atp.EnumerationLiteralIndex=11
-    ENUM_CYCLE_REPETITION_8 = "cycleRepetition8"
+    ENUM_CYCLE_REPETITION_8 = "CYCLE-REPETITION-8"
 
     def __init__(self):
         super().__init__(
@@ -414,10 +414,10 @@ class FlexrayChannelName(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Channel A Tags: atp.EnumerationLiteralIndex=0
-    CHANNEL_A = "channelA"
+    CHANNEL_A = "CHANNEL-A"
 
     # Channel B Tags: atp.EnumerationLiteralIndex=1
-    CHANNEL_B = "channelB"
+    CHANNEL_B = "CHANNEL-B"
 
     def __init__(self):
         super().__init__([FlexrayChannelName.CHANNEL_A, FlexrayChannelName.CHANNEL_B])
@@ -740,13 +740,13 @@ class PncGatewayTypeEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The active PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=0
-    ACTIVE = "active"
+    ACTIVE = "ACTIVE"
 
     # No PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=1
-    NONE = "none"
+    NONE = "NONE"
 
     # The passive PncGateway functionality shall be performed Tags: atp.EnumerationLiteralIndex=2
-    PASSIVE = "passive"
+    PASSIVE = "PASSIVE"
 
     def __init__(self):
         super().__init__([PncGatewayTypeEnum.ACTIVE, PncGatewayTypeEnum.NONE, PncGatewayTypeEnum.PASSIVE])

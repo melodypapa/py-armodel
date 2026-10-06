@@ -22,10 +22,10 @@ class DltDefaultTraceStateEnum(AREnum):
     # (no methods) — enum value form serialized on DltLogChannel.defaultTraceState (Steps 5/6 N/A: standalone AREnum)
 
     # The default trace state is disabled Tags: atp.EnumerationLiteralIndex=1
-    DEFAULT_TRACE_STATE_DISABLED = "DefaultTraceStateDisabled"
+    DEFAULT_TRACE_STATE_DISABLED = "DEFAULT-TRACE-STATE-DISABLED"
 
     # The default trace state is enabled Tags: atp.EnumerationLiteralIndex=0
-    DEFAULT_TRACE_STATE_ENABLED = "DefaultTraceStateEnabled"
+    DEFAULT_TRACE_STATE_ENABLED = "DEFAULT-TRACE-STATE-ENABLED"
 
     def __init__(self):
         super().__init__(
@@ -48,25 +48,25 @@ class LogTraceDefaultLogLevelEnum(AREnum):
     # (no methods) — enum value form serialized on DltLogChannel.logTraceDefaultLogThreshold (Steps 5/6 N/A: standalone AREnum)
 
     # Detailed information for programmers Tags: atp.EnumerationLiteralIndex=4
-    DEBUG = "debug"
+    DEBUG = "DEBUG"
 
     # Error with impact to correct functionality Tags: atp.EnumerationLiteralIndex=1
-    ERROR = "error"
+    ERROR = "ERROR"
 
     # Fatal error Tags: atp.EnumerationLiteralIndex=0
-    FATAL = "fatal"
+    FATAL = "FATAL"
 
     # High level information Tags: atp.EnumerationLiteralIndex=3
-    INFO = "info"
+    INFO = "INFO"
 
     # logging is turned off Tags: atp.EnumerationLiteralIndex=6
-    OFF = "off"
+    OFF = "OFF"
 
     # Verbose debug message Tags: atp.EnumerationLiteralIndex=5
-    VERBOSE = "verbose"
+    VERBOSE = "VERBOSE"
 
     # Warning if correct behavior cannot be ensured Tags: atp.EnumerationLiteralIndex=2
-    WARN = "warn"
+    WARN = "WARN"
 
     def __init__(self):
         super().__init__(

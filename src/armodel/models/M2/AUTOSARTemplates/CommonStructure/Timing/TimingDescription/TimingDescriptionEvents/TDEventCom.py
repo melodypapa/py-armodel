@@ -32,10 +32,10 @@ class TDEventISignalTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time, where the COM module makes the contained signal / signal group available for the RTE and the corresponding Rx Indication callout is generated (if configured). Tags: atp.EnumerationLiteralIndex=0
-    ISIGNAL_AVAILABLE_FOR_RTE = "iSignalAvailableForRte"
+    ISIGNAL_AVAILABLE_FOR_RTE = "I-SIGNAL-AVAILABLE-FOR-RTE"
 
     # A point in time, where a transmission request call is issued by the RTE on a named COM signal / signal group and the new value is stored to the carrier COM I-PDU buffer. Tags: atp.EnumerationLiteralIndex=1
-    ISIGNAL_SENT_TO_COM = "iSignalSentToCom"
+    ISIGNAL_SENT_TO_COM = "I-SIGNAL-SENT-TO-COM"
 
     def __init__(self):
         """
@@ -62,10 +62,10 @@ class TDEventIPduTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the received frame is processed by the corresponding (FlexRay / CAN / LIN) Interface BSW module, routed through the PDUR and the contained PDUs are pushed to the COM module. Tags: atp.EnumerationLiteralIndex=0
-    IPDU_RECEIVED_BY_COM = "iPduReceivedByCom"
+    IPDU_RECEIVED_BY_COM = "I-PDU-RECEIVED-BY-COM"
 
     # A point in time where the carrier COM I-PDU is routed through the PDUR and is pushed to the bus specific (FlexRay / CAN / LIN) Interface BSW module. Tags: atp.EnumerationLiteralIndex=1
-    IPDU_SENT_TO_IF = "iPduSentToIf"
+    IPDU_SENT_TO_IF = "I-PDU-SENT-TO-IF"
 
     def __init__(self):
         """
@@ -92,13 +92,13 @@ class TDEventFrameTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the frame containing the named signal / I-PDU is queued for transmission within the related Communication Driver. Tags: atp.EnumerationLiteralIndex=0
-    FRAME_QUEUED_FOR_TRANSMISSION = "frameQueuedForTransmission"
+    FRAME_QUEUED_FOR_TRANSMISSION = "FRAME-QUEUED-FOR-TRANSMISSION"
 
     # A point in time where the frame is pushed from the subscriber's communication controller to the corresponding (FlexRay / CAN / LIN) Interface BSW module. Tags: atp.EnumerationLiteralIndex=1
-    FRAME_RECEIVED_BY_IF = "frameReceivedByIf"
+    FRAME_RECEIVED_BY_IF = "FRAME-RECEIVED-BY-IF"
 
     # A point in time where the transmission of the frame completes successfully, and the subscriber's communication controller receives the frame from the bus. Tags: atp.EnumerationLiteralIndex=2
-    FRAME_TRANSMITTED_ON_BUS = "frameTransmittedOnBus"
+    FRAME_TRANSMITTED_ON_BUS = "FRAME-TRANSMITTED-ON-BUS"
 
     def __init__(self):
         """
@@ -126,16 +126,16 @@ class TDEventFrameEthernetTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the Ethernet frame containing the specified PDUs is queued for transmission within the corresponding Ethernet Communication Driver. Tags: atp.EnumerationLiteralIndex=0
-    FRAME_ETHERNET_QUEUED_FOR_TRANSMISSION = "frameEthernetQueuedForTransmission"
+    FRAME_ETHERNET_QUEUED_FOR_TRANSMISSION = "FRAME-ETHERNET-QUEUED-FOR-TRANSMISSION"
 
     # A point in time where the frame is pushed from the corresponding Ethernet communication controller to the BSW Ethernet communication interface. Tags: atp.EnumerationLiteralIndex=1
-    FRAME_ETHERNET_RECEIVED_BY_IF = "frameEthernetReceivedByIf"
+    FRAME_ETHERNET_RECEIVED_BY_IF = "FRAME-ETHERNET-RECEIVED-BY-IF"
 
     # A point in time where the receipt of the Ethernet frame/packet completes successfully on the recipient's Ethernet communication controller. In other words, the Ethernet frame/packet has entered the recipient's Ethernet communication controller which means the last bit of the Ethernet frame/ packet has been received. Tags: atp.EnumerationLiteralIndex=2
-    FRAME_ETHERNET_RECEIVED_ON_BUS = "frameEthernetReceivedOnBus"
+    FRAME_ETHERNET_RECEIVED_ON_BUS = "FRAME-ETHERNET-RECEIVED-ON-BUS"
 
     # A point in time where the transmission of the Ethernet frame/packet completes successfully on the physical Ethernet communication network. In other words, the Ethernet frame/packet has left the sender's Ethernet communication controller, which means that the last bit of the Ethernet frame/ packet has been sent. Tags: atp.EnumerationLiteralIndex=3
-    FRAME_ETHERNET_SENT_ON_BUS = "frameEthernetSentOnBus"
+    FRAME_ETHERNET_SENT_ON_BUS = "FRAME-ETHERNET-SENT-ON-BUS"
 
     def __init__(self):
         """

@@ -34,10 +34,10 @@ class RuntimeAddressConfigurationEnum(AREnum):
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
 
     # Static configuration is used to obtain the address information. Tags: atp.EnumerationValue=0
-    NONE = "none"
+    NONE = "NONE"
 
     # AUTOSAR Service Discovery is used to obtain the address information. Tags: atp.EnumerationValue=1
-    SD = "sd"
+    SD = "SD"
 
     def __init__(self):
         super().__init__(

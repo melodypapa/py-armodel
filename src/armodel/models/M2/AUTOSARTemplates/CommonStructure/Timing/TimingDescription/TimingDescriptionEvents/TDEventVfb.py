@@ -30,10 +30,10 @@ class TDEventVariableDataPrototypeTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the referenced variable data prototype has been successfully transmitted and is available in the related communication buffer (of the RTE) for the receiving SWC. Tags: atp.EnumerationLiteralIndex=0
-    VARIABLE_DATA_PROTOTYPE_RECEIVED = "variableDataPrototypeReceived"
+    VARIABLE_DATA_PROTOTYPE_RECEIVED = "VARIABLE-DATA-PROTOTYPE-RECEIVED"
 
     # A point in time where the referenced variable data prototype has been successfully sent out by the sending SWC, so that it is available in the related communication buffer (of the RTE) for transmission. Tags: atp.EnumerationLiteralIndex=1
-    VARIABLE_DATA_PROTOTYPE_SENT = "variableDataPrototypeSent"
+    VARIABLE_DATA_PROTOTYPE_SENT = "VARIABLE-DATA-PROTOTYPE-SENT"
 
     def __init__(self):
         """
@@ -60,16 +60,16 @@ class TDEventOperationTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the referenced operation is called by the client SWC. Tags: atp.EnumerationLiteralIndex=0
-    OPERATION_CALLED = "operationCalled"
+    OPERATION_CALLED = "OPERATION-CALLED"
 
     # A point in time where the call of the referenced operation is received by the server SWC. Tags: atp.EnumerationLiteralIndex=1
-    OPERATION_CALL_RECEIVED = "operationCallReceived"
+    OPERATION_CALL_RECEIVED = "OPERATION-CALL-RECEIVED"
 
     # A point in time where the client SWC has received the response of the referenced operation call. Tags: atp.EnumerationLiteralIndex=2
-    OPERATION_CALL_RESPONSE_RECEIVED = "operationCallResponseReceived"
+    OPERATION_CALL_RESPONSE_RECEIVED = "OPERATION-CALL-RESPONSE-RECEIVED"
 
     # A point in time where the server SWC has terminated with the execution of the referenced operation, and has sent out a response. Tags: atp.EnumerationLiteralIndex=3
-    OPERATION_CALL_RESPONSE_SENT = "operationCallResponseSent"
+    OPERATION_CALL_RESPONSE_SENT = "OPERATION-CALL-RESPONSE-SENT"
 
     def __init__(self):
         """
@@ -98,10 +98,10 @@ class TDEventModeDeclarationTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been completed. Tags: atp.EnumerationLiteralIndex=0
-    MODE_DECLARATION_SWITCH_COMPLETED = "modeDeclarationSwitchCompleted"
+    MODE_DECLARATION_SWITCH_COMPLETED = "MODE-DECLARATION-SWITCH-COMPLETED"
 
     # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been initiated. Tags: atp.EnumerationLiteralIndex=1
-    MODE_DECLARATION_SWITCH_INITIATED = "modeDeclarationSwitchInitiated"
+    MODE_DECLARATION_SWITCH_INITIATED = "MODE-DECLARATION-SWITCH-INITIATED"
 
     def __init__(self):
         """
@@ -128,10 +128,10 @@ class TDEventTriggerTypeEnum(AREnum):
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # A point in time where the referenced trigger has been successfully released and is activating runnable entities of the receiving SW-C. Tags: atp.EnumerationLiteralIndex=0
-    TRIGGER_ACTIVATED = "triggerActivated"
+    TRIGGER_ACTIVATED = "TRIGGER-ACTIVATED"
 
     # A point in time where the referenced trigger has been successfully released by the emitting SW-C. Tags: atp.EnumerationLiteralIndex=1
-    TRIGGER_RELEASED = "triggerReleased"
+    TRIGGER_RELEASED = "TRIGGER-RELEASED"
 
     def __init__(self):
         """

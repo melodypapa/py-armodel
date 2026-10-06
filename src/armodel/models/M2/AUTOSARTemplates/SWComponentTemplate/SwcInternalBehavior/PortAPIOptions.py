@@ -24,10 +24,10 @@ class DataTransformationErrorHandlingEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # A runnable does not handle transformer errors. Tags: atp.EnumerationLiteralIndex=0
-    NO_TRANSFORMER_ERROR_HANDLING = "noTransformerErrorHandling"
+    NO_TRANSFORMER_ERROR_HANDLING = "NO-TRANSFORMER-ERROR-HANDLING"
 
     # The runnable implements the handling of transformer errors. Tags: atp.EnumerationLiteralIndex=1
-    TRANSFORMER_ERROR_HANDLING = "transformerErrorHandling"
+    TRANSFORMER_ERROR_HANDLING = "TRANSFORMER-ERROR-HANDLING"
 
     def __init__(self):
         super().__init__(
@@ -50,10 +50,10 @@ class DataTransformationStatusForwardingEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RunnableEntity is not able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=0
-    NO_TRANSFORMER_STATUS_FORWARDING = "noTransformerStatusForwarding"
+    NO_TRANSFORMER_STATUS_FORWARDING = "NO-TRANSFORMER-STATUS-FORWARDING"
 
     # The RunnableEntity is able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=1
-    TRANSFORMER_STATUS_FORWARDING = "transformerStatusForwarding"
+    TRANSFORMER_STATUS_FORWARDING = "TRANSFORMER-STATUS-FORWARDING"
 
     def __init__(self):
         super().__init__(
@@ -76,10 +76,10 @@ class SupportBufferLockingEnum(AREnum):
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Buffer locking is not supported. Tags: atp.EnumerationLiteralIndex=0
-    DOES_NOT_SUPPORT_BUFFER_LOCKING = "doesNotSupportBufferLocking"
+    DOES_NOT_SUPPORT_BUFFER_LOCKING = "DOES-NOT-SUPPORT-BUFFER-LOCKING"
 
     # Buffer locking is supported. Tags: atp.EnumerationLiteralIndex=1
-    SUPPORTS_BUFFER_LOCKING = "supportsBufferLocking"
+    SUPPORTS_BUFFER_LOCKING = "SUPPORTS-BUFFER-LOCKING"
 
     def __init__(self):
         super().__init__(
