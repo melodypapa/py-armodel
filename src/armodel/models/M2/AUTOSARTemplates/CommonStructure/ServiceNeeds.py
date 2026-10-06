@@ -3102,9 +3102,6 @@ class DiagnosticIndicatorTypeEnum(AREnum):
     WARNING = "WARNING"
 
     def __init__(self):
-        """
-        Initializes the DiagnosticIndicatorTypeEnum with all possible values.
-        """
         super().__init__(
             (
                 DiagnosticIndicatorTypeEnum.AMBER_WARNING,
