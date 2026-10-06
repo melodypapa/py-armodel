@@ -3903,6 +3903,33 @@ class TestIdsMgrNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves useSmartSensorApi (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createIdsMgrNeeds("IdsNeeds")
+        needs.setUseSmartSensorApi(Boolean().setValue(True))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "IdsNeeds"
+            assert isinstance(needs_2, IdsMgrNeeds)
+            assert needs_2.getUseSmartSensorApi().getValue() is True
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestNewServiceNeedsSwcRoundTrip:
     """Round-trip the newly synced ServiceNeeds classes through the SWC aggregator."""

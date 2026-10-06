@@ -2766,6 +2766,39 @@ class TestBswServiceDependencyHandlers:
         assert needs.getShortName() == "needs"
         assert needs.getVerificationStatusIndicationMode() is None
 
+    def test_readBswServiceDependency_ids_mgr_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<IDS-MGR-NEEDS><SHORT-NAME>needs</SHORT-NAME>" "<USE-SMART-SENSOR-API>true</USE-SMART-SENSOR-API>" "</IDS-MGR-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, IdsMgrNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getUseSmartSensorApi() is not None
+        assert needs.getUseSmartSensorApi().getValue() is True
+
+    def test_readBswServiceDependency_ids_mgr_needs_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<IDS-MGR-NEEDS><SHORT-NAME>needs</SHORT-NAME>" "</IDS-MGR-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, IdsMgrNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getUseSmartSensorApi() is None
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps

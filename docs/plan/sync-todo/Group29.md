@@ -473,15 +473,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IdsMgrNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.81, p.842
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 13.81, p.842; concrete Class; Base most-derived = `ServiceNeeds` (src base already correct). NOT attribute-less: one Attribute row `useSmartSensorApi` (Boolean, 0..1, attr) — field + accessors already present and spec-typed (`Optional[Boolean]`); XSD group `IDS-MGR-NEEDS` (AUTOSAR_00052.xsd line 69517) carries exactly `USE-SMART-SENSOR-API` 0..1, no `atp.Status="removed"` members, sequenceOffset = own element after SERVICE-NEEDS group (reader/writer already call readServiceNeeds/writeServiceNeeds once + leaf helper). Rule 0023 legacy checklist: stale `# Spec verified: R23-11` removed at session start; full re-sync from Step 1.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - Step 8 (2026-10-06): No deviations — single Attribute row `useSmartSensorApi` (Boolean, 0..1, attr) fully modeled (field + typed accessors, reader+writer); XSD group `IDS-MGR-NEEDS` holds no attribute beyond the PDF table (Rule 0015 nothing to drop) and no `atp.Status="removed"` members; no Rule 0001.10 referenced classes (only member type is the existing `Boolean` primitive). Rule 0023 re-sync observations: legacy 4-column block rebuilt in 6-column format; stale `# Spec verified: R23-11` removed (marker rewrite deferred to batch 9b per user instruction); reader/writer source needed NO edit — `readIdsMgrNeeds`/`writeIdsMgrNeeds` already call `readServiceNeeds`/`writeServiceNeeds` exactly once + the `USE-SMART-SENSOR-API` leaf, and both BSW/SWC dispatch branches exist (audit BASE clean); new model SWC-attribute round-trip + parser/writer dispatch tests (incl. empty-wrapper variants) passed on first run because the implementation pre-dated this pass — tests were written before any source change in this session.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (274 + 8683 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `RapidPrototypingScenario` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.1, p.846
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
