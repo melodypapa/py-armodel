@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CalibrationParameterValue,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsTopicData,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
@@ -3088,3 +3089,66 @@ class TestDdsCpServiceInstanceEvent:
         assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventTopicRef.__doc__) == (
             self.DDS_EVENT_TOPIC_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventTopicRef."
         )
+
+
+class TestDdsTopicData:
+    """
+    Test class for DdsTopicData functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.180, p.529
+    """
+
+    CLASS_NOTE = "Describes the DDS TOPIC_DATA QoS policy. Tags: atp.Status=candidate"
+    TOPIC_DATA_NOTE = 'See "TOPIC_DATA" chapter in DDS. Tags: atp.Status=candidate'
+
+    def _create_topic_data(self) -> DdsTopicData:
+        return DdsTopicData()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsTopicData initializes all attributes to their defaults.
+        """
+        obj = self._create_topic_data()
+
+        assert obj.getTopicData() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsTopicData derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsTopicData, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsTopicData.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsTopicData.__init__.__doc__ is None
+
+    def test_get_set_topic_data(self):
+        """
+        Test getTopicData and setTopicData round-trip and None no-op.
+        """
+        obj = self._create_topic_data()
+
+        value = String().setValue("topic-data-payload")
+        result = obj.setTopicData(value)
+        assert result is obj  # method chaining
+        assert obj.getTopicData() is value
+        assert obj.getTopicData().getValue() == "topic-data-payload"
+
+        result = obj.setTopicData(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTopicData() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsTopicData.getTopicData.__doc__) == self.TOPIC_DATA_NOTE
+        assert inspect.cleandoc(DdsTopicData.setTopicData.__doc__) == (self.TOPIC_DATA_NOTE + "\n\nA None value is a no-op and does not overwrite an existing topicData.")

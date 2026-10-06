@@ -558,6 +558,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTestIdentifier,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsTopicData,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -15655,6 +15656,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
+    def writeDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
+        child_element = ET.SubElement(element, "TOPIC-DATA")
+        self.writeARObject(child_element, topic_data)
+        self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
 
     def writeDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
         child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-EVENT")

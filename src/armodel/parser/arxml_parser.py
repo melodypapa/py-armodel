@@ -580,6 +580,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTestIdentifier,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsTopicData,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -11878,6 +11879,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
         self.logger.debug("Read DiagnosticParameterSupportInfo")
         support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
+    def readDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
+        self.logger.debug("Read DdsTopicData")
+        self.readARObject(element, topic_data)
+        topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
 
     def readDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
         self.logger.debug("Read DdsCpServiceInstanceEvent")

@@ -606,15 +606,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsTopicData` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.180, p.529
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced 5th in this subagent's batch (before its aggregator DdsCpQosProfile — dependency-first,
+    Rule 0016.5) so DdsCpQosProfile.topicData gets real child coverage, not identity-only. The object
+    element is <TOPIC-DATA> (per the DdsCpQosProfile.topicData aggregation, XSD
+    <element name="TOPIC-DATA" type="AR:DDS-TOPIC-DATA">) and carries the String member as a nested
+    same-name <TOPIC-DATA> child (XSD group DDS-TOPIC-DATA, AUTOSAR_00052.xsd l.30675). Base ARObject
+    confirmed; not VP-capable (no VARIATION-POINT in the group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDurability` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.181, p.530
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
