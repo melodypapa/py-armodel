@@ -2590,10 +2590,6 @@ class StreamFilterIpv6Address(ARObject):
     pass
 
 
-class StreamFilterMACAddress(ARObject):
-    pass
-
-
 class StreamFilterPortRange(ARObject):
     pass
 

@@ -1172,6 +1172,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     PlcaProps,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterMACAddress,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
@@ -11164,6 +11165,19 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             stream_filter_rule = stream_identification.createStreamFilterRule(self.getShortName(child_element))
             self.readIdentifiable(child_element, stream_filter_rule)
+
+    def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
+        self.readARObject(element, mac_address)
+        child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS")
+        if child_element is not None:
+            address = MacAddressString()
+            address.setValue(child_element.getValue())
+            mac_address.setMacAddress(address)
+        child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK")
+        if child_element is not None:
+            address = MacAddressString()
+            address.setValue(child_element.getValue())
+            mac_address.setMacAddressMask(address)
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)

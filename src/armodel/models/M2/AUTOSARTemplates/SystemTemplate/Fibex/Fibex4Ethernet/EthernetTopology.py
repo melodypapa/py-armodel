@@ -626,6 +626,62 @@ class SwitchStreamIdentification(Identifiable):
         return self.streamFilterRule
 
 
+class StreamFilterMACAddress(ARObject):
+    """
+    Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
+    """
+
+    # StreamFilterMACAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.87, p.137
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMacAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacAddress        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacAddressMask    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacAddressMask    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the MAC address. Tags: atp.Status=candidate
+        self.macAddress: Optional[MacAddressString] = None
+
+        # Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+        self.macAddressMask: Optional[MacAddressString] = None
+
+    def getMacAddress(self) -> Optional[MacAddressString]:
+        """
+        Filter to match packets with the MAC address. Tags: atp.Status=candidate
+        """
+        return self.macAddress
+
+    def setMacAddress(self, value: Optional[MacAddressString]) -> StreamFilterMACAddress:
+        """
+        Filter to match packets with the MAC address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing macAddress.
+        """
+        if value is not None:
+            self.macAddress = value
+        return self
+
+    def getMacAddressMask(self) -> Optional[MacAddressString]:
+        """
+        Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+        """
+        return self.macAddressMask
+
+    def setMacAddressMask(self, value: Optional[MacAddressString]) -> StreamFilterMACAddress:
+        """
+        Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing macAddressMask.
+        """
+        if value is not None:
+            self.macAddressMask = value
+        return self
+
+
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
     General class to define structural elements a CouplingPort may consist of.

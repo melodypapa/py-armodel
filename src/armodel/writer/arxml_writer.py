@@ -976,6 +976,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterMACAddress,
     SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
@@ -12021,6 +12022,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if stream_filter_rule is not None:
             stream_filter_rule_element = ET.SubElement(child_element, "STREAM-FILTER-RULE")
             self.writeIdentifiable(stream_filter_rule_element, stream_filter_rule)
+
+    def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
+        if mac_address is not None:
+            self.writeARObject(element, mac_address)
+            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS", mac_address.getMacAddress())
+            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK", mac_address.getMacAddressMask())
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)
