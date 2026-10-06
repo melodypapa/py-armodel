@@ -4,7 +4,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    Referrable,
+    SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
+    SwitchStreamFilterEntry,
+    SwitchStreamGateEntry,
+    SwitchStreamIdentification,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -329,7 +338,132 @@ class CouplingElementAbstractDetails(Identifiable, VariationPointCapable):
 
 
 class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
-    pass
+    """
+    Collection of specific details for the CouplingElement of couplingType switch. Tags: atp.Status=candidate atp.recommendedPackage=SwitchStreamIdentificationTables
+    """
+
+    # CouplingElementSwitchDetails method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.83, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFlowMetering                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowMeterings                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamFilter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamFilters                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamGate                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamGates                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSwitchStreamIdentification     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwitchStreamIdentifications       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTrafficShaperGroup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficShaperGroups               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        self.flowMeterings: List[SwitchFlowMeteringEntry] = []
+
+        # Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        self.streamFilters: List[SwitchStreamFilterEntry] = []
+
+        # Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        self.streamGates: List[SwitchStreamGateEntry] = []
+
+        # Collection of switch stream identification entries. Tags: atp.Status=candidate
+        self.switchStreamIdentifications: List[SwitchStreamIdentification] = []
+
+        # Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        self.trafficShaperGroups: List[SwitchAsynchronousTrafficShaperGroupEntry] = []
+
+    def createFlowMetering(self, short_name: str) -> SwitchFlowMeteringEntry:
+        """
+        Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.flowMeterings:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchFlowMeteringEntry(self, short_name)
+        self.flowMeterings.append(entry)
+        return entry
+
+    def getFlowMeterings(self) -> List[SwitchFlowMeteringEntry]:
+        """
+        Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        """
+        return self.flowMeterings
+
+    def createStreamFilter(self, short_name: str) -> SwitchStreamFilterEntry:
+        """
+        Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.streamFilters:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamFilterEntry(self, short_name)
+        self.streamFilters.append(entry)
+        return entry
+
+    def getStreamFilters(self) -> List[SwitchStreamFilterEntry]:
+        """
+        Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        """
+        return self.streamFilters
+
+    def createStreamGate(self, short_name: str) -> SwitchStreamGateEntry:
+        """
+        Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.streamGates:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamGateEntry(self, short_name)
+        self.streamGates.append(entry)
+        return entry
+
+    def getStreamGates(self) -> List[SwitchStreamGateEntry]:
+        """
+        Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        """
+        return self.streamGates
+
+    def createSwitchStreamIdentification(self, short_name: str) -> SwitchStreamIdentification:
+        """
+        Collection of switch stream identification entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.switchStreamIdentifications:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamIdentification(self, short_name)
+        self.switchStreamIdentifications.append(entry)
+        return entry
+
+    def getSwitchStreamIdentifications(self) -> List[SwitchStreamIdentification]:
+        """
+        Collection of switch stream identification entries. Tags: atp.Status=candidate
+        """
+        return self.switchStreamIdentifications
+
+    def createTrafficShaperGroup(self, short_name: str) -> SwitchAsynchronousTrafficShaperGroupEntry:
+        """
+        Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.trafficShaperGroups:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchAsynchronousTrafficShaperGroupEntry(self, short_name)
+        self.trafficShaperGroups.append(entry)
+        return entry
+
+    def getTrafficShaperGroups(self) -> List[SwitchAsynchronousTrafficShaperGroupEntry]:
+        """
+        Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        """
+        return self.trafficShaperGroups
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

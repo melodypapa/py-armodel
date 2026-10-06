@@ -1142,6 +1142,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
+    CouplingElementSwitchDetails,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
@@ -11145,12 +11146,50 @@ class ARXMLParser(AbstractARXMLParser):
     def readCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
         self.readIdentifiable(element, details)
 
+    def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
+        self.readCouplingElementAbstractDetails(element, details)
+        for child_element in self.findall(element, "FLOW-METERINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-FLOW-METERING-ENTRY":
+                flow_metering = details.createFlowMetering(self.getShortName(child_element))
+                self.readIdentifiable(child_element, flow_metering)
+            else:
+                self.notImplemented("Unsupported SwitchFlowMeteringEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "STREAM-FILTERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-FILTER-ENTRY":
+                stream_filter = details.createStreamFilter(self.getShortName(child_element))
+                self.readIdentifiable(child_element, stream_filter)
+            else:
+                self.notImplemented("Unsupported SwitchStreamFilterEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "STREAM-GATES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-GATE-ENTRY":
+                stream_gate = details.createStreamGate(self.getShortName(child_element))
+                self.readIdentifiable(child_element, stream_gate)
+            else:
+                self.notImplemented("Unsupported SwitchStreamGateEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "SWITCH-STREAM-IDENTIFICATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-IDENTIFICATION":
+                stream_identification = details.createSwitchStreamIdentification(self.getShortName(child_element))
+                self.readIdentifiable(child_element, stream_identification)
+            else:
+                self.notImplemented("Unsupported SwitchStreamIdentification <%s>" % tag_name)
+        for child_element in self.findall(element, "TRAFFIC-SHAPER-GROUPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY":
+                traffic_shaper_group = details.createTrafficShaperGroup(self.getShortName(child_element))
+                self.readIdentifiable(child_element, traffic_shaper_group)
+            else:
+                self.notImplemented("Unsupported SwitchAsynchronousTrafficShaperGroupEntry <%s>" % tag_name)
+
     def readCouplingElementCouplingElementDetails(self, element: ET.Element, coupling_element: CouplingElement):
         for child_element in self.findall(element, "COUPLING-ELEMENT-DETAILS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COUPLING-ELEMENT-SWITCH-DETAILS":
                 details = coupling_element.createCouplingElementSwitchDetails(self.getShortName(child_element))
-                self.readCouplingElementAbstractDetails(child_element, details)
+                self.readCouplingElementSwitchDetails(child_element, details)
             else:
                 self.notImplemented("Unsupported CouplingElementDetails <%s>" % tag_name)
 

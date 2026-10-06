@@ -11,6 +11,13 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
+    SwitchStreamFilterEntry,
+    SwitchStreamGateEntry,
+    SwitchStreamIdentification,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
     CouplingElementAbstractDetails,
@@ -220,3 +227,148 @@ class TestReadCouplingElementAbstractDetails:
         assert isinstance(details, CouplingElementSwitchDetails)
         assert details.getShortName() == "SwitchDetails"
         assert details.getVariationPoint() is None
+
+
+class TestReadCouplingElementSwitchDetails:
+    """Test readCouplingElementSwitchDetails (CouplingElementSwitchDetails, Table 3.83, p.133):
+    the five XSD group children of COUPLING-ELEMENT-SWITCH-DETAILS after the abstract level —
+    FLOW-METERINGS, STREAM-FILTERS, STREAM-GATES, SWITCH-STREAM-IDENTIFICATIONS,
+    TRAFFIC-SHAPER-GROUPS (XSD group COUPLING-ELEMENT-SWITCH-DETAILS)."""
+
+    def test_read_all_five_wrappers(self, parser):
+        """Every wrapper populates its model list field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <FLOW-METERINGS>
+                            <SWITCH-FLOW-METERING-ENTRY>
+                                <SHORT-NAME>Metering1</SHORT-NAME>
+                            </SWITCH-FLOW-METERING-ENTRY>
+                            <SWITCH-FLOW-METERING-ENTRY>
+                                <SHORT-NAME>Metering2</SHORT-NAME>
+                            </SWITCH-FLOW-METERING-ENTRY>
+                        </FLOW-METERINGS>
+                        <STREAM-FILTERS>
+                            <SWITCH-STREAM-FILTER-ENTRY>
+                                <SHORT-NAME>Filter1</SHORT-NAME>
+                            </SWITCH-STREAM-FILTER-ENTRY>
+                        </STREAM-FILTERS>
+                        <STREAM-GATES>
+                            <SWITCH-STREAM-GATE-ENTRY>
+                                <SHORT-NAME>Gate1</SHORT-NAME>
+                            </SWITCH-STREAM-GATE-ENTRY>
+                        </STREAM-GATES>
+                        <SWITCH-STREAM-IDENTIFICATIONS>
+                            <SWITCH-STREAM-IDENTIFICATION>
+                                <SHORT-NAME>Stream1</SHORT-NAME>
+                            </SWITCH-STREAM-IDENTIFICATION>
+                            <SWITCH-STREAM-IDENTIFICATION>
+                                <SHORT-NAME>Stream2</SHORT-NAME>
+                            </SWITCH-STREAM-IDENTIFICATION>
+                        </SWITCH-STREAM-IDENTIFICATIONS>
+                        <TRAFFIC-SHAPER-GROUPS>
+                            <SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                                <SHORT-NAME>Group1</SHORT-NAME>
+                            </SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                        </TRAFFIC-SHAPER-GROUPS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        assert isinstance(details, CouplingElementSwitchDetails)
+
+        flow_meterings = details.getFlowMeterings()
+        assert len(flow_meterings) == 2
+        assert isinstance(flow_meterings[0], SwitchFlowMeteringEntry)
+        assert flow_meterings[0].getShortName() == "Metering1"
+        assert flow_meterings[1].getShortName() == "Metering2"
+
+        stream_filters = details.getStreamFilters()
+        assert len(stream_filters) == 1
+        assert isinstance(stream_filters[0], SwitchStreamFilterEntry)
+        assert stream_filters[0].getShortName() == "Filter1"
+
+        stream_gates = details.getStreamGates()
+        assert len(stream_gates) == 1
+        assert isinstance(stream_gates[0], SwitchStreamGateEntry)
+        assert stream_gates[0].getShortName() == "Gate1"
+
+        stream_identifications = details.getSwitchStreamIdentifications()
+        assert len(stream_identifications) == 2
+        assert isinstance(stream_identifications[0], SwitchStreamIdentification)
+        assert stream_identifications[0].getShortName() == "Stream1"
+        assert stream_identifications[1].getShortName() == "Stream2"
+
+        traffic_shaper_groups = details.getTrafficShaperGroups()
+        assert len(traffic_shaper_groups) == 1
+        assert isinstance(traffic_shaper_groups[0], SwitchAsynchronousTrafficShaperGroupEntry)
+        assert traffic_shaper_groups[0].getShortName() == "Group1"
+
+    def test_read_wrappers_with_variation_point_and_category(self, parser):
+        """The abstract level (identity levels + VARIATION-POINT) and the switch-level wrappers
+        populate the same details object."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <CATEGORY>myCategory</CATEGORY>
+                        <VARIATION-POINT>
+                            <SHORT-LABEL>vpLabel</SHORT-LABEL>
+                        </VARIATION-POINT>
+                        <SWITCH-STREAM-IDENTIFICATIONS>
+                            <SWITCH-STREAM-IDENTIFICATION>
+                                <SHORT-NAME>Stream1</SHORT-NAME>
+                            </SWITCH-STREAM-IDENTIFICATION>
+                        </SWITCH-STREAM-IDENTIFICATIONS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        assert isinstance(details, CouplingElementSwitchDetails)
+        assert details.getCategory().getValue() == "myCategory"
+        assert details.getVariationPoint() is not None
+        assert details.getVariationPoint().getShortLabel().getValue() == "vpLabel"
+        assert [e.getShortName() for e in details.getSwitchStreamIdentifications()] == ["Stream1"]
+        assert details.getFlowMeterings() == []
+        assert details.getStreamFilters() == []
+        assert details.getStreamGates() == []
+        assert details.getTrafficShaperGroups() == []
+
+    def test_read_without_wrapper_children(self, parser):
+        """A details item without any switch-level wrapper leaves all list fields empty (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        assert isinstance(details, CouplingElementSwitchDetails)
+        assert details.getFlowMeterings() == []
+        assert details.getStreamFilters() == []
+        assert details.getStreamGates() == []
+        assert details.getSwitchStreamIdentifications() == []
+        assert details.getTrafficShaperGroups() == []

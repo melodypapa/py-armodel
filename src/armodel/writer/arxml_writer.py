@@ -11996,6 +11996,39 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
         self.writeIdentifiable(element, details)
 
+    def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
+        self.writeCouplingElementAbstractDetails(element, details)
+        flow_meterings = details.getFlowMeterings()
+        if len(flow_meterings) > 0:
+            flow_meterings_element = ET.SubElement(element, "FLOW-METERINGS")
+            for flow_metering in flow_meterings:
+                flow_metering_element = ET.SubElement(flow_meterings_element, "SWITCH-FLOW-METERING-ENTRY")
+                self.writeIdentifiable(flow_metering_element, flow_metering)
+        stream_filters = details.getStreamFilters()
+        if len(stream_filters) > 0:
+            stream_filters_element = ET.SubElement(element, "STREAM-FILTERS")
+            for stream_filter in stream_filters:
+                stream_filter_element = ET.SubElement(stream_filters_element, "SWITCH-STREAM-FILTER-ENTRY")
+                self.writeIdentifiable(stream_filter_element, stream_filter)
+        stream_gates = details.getStreamGates()
+        if len(stream_gates) > 0:
+            stream_gates_element = ET.SubElement(element, "STREAM-GATES")
+            for stream_gate in stream_gates:
+                stream_gate_element = ET.SubElement(stream_gates_element, "SWITCH-STREAM-GATE-ENTRY")
+                self.writeIdentifiable(stream_gate_element, stream_gate)
+        switch_stream_identifications = details.getSwitchStreamIdentifications()
+        if len(switch_stream_identifications) > 0:
+            switch_stream_identifications_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATIONS")
+            for switch_stream_identification in switch_stream_identifications:
+                switch_stream_identification_element = ET.SubElement(switch_stream_identifications_element, "SWITCH-STREAM-IDENTIFICATION")
+                self.writeIdentifiable(switch_stream_identification_element, switch_stream_identification)
+        traffic_shaper_groups = details.getTrafficShaperGroups()
+        if len(traffic_shaper_groups) > 0:
+            traffic_shaper_groups_element = ET.SubElement(element, "TRAFFIC-SHAPER-GROUPS")
+            for traffic_shaper_group in traffic_shaper_groups:
+                traffic_shaper_group_element = ET.SubElement(traffic_shaper_groups_element, "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
+                self.writeIdentifiable(traffic_shaper_group_element, traffic_shaper_group)
+
     def writeCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
         self.logger.debug("Set CouplingElement %s" % coupling_element.getShortName())
         child_element = ET.SubElement(element, "COUPLING-ELEMENT")
@@ -12006,7 +12039,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             details_element = ET.SubElement(child_element, "COUPLING-ELEMENT-DETAILS")
             if isinstance(details, CouplingElementSwitchDetails):
                 switch_details_element = ET.SubElement(details_element, "COUPLING-ELEMENT-SWITCH-DETAILS")
-                self.writeCouplingElementAbstractDetails(switch_details_element, details)
+                self.writeCouplingElementSwitchDetails(switch_details_element, details)
             else:
                 self.notImplemented("Unsupported CouplingElementDetails <%s>" % type(details))
         ports = coupling_element.getCouplingPorts()
