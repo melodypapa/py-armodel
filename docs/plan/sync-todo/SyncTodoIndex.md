@@ -791,27 +791,27 @@ Status: **26/26** completed
 
 ## Group18
 
-Status: **0/17** completed
+Status: **17/17** completed
 
-| Class Name                                  | Status       | Commit ID |
-| ------------------------------------------- | ------------ | --------- |
-| `NmEcu`                                     | [ ] Pending* | N/A       |
-| `CanNmCluster`                              | [ ] Pending* | N/A       |
-| `UdpNmCluster`                              | [ ] Pending* | N/A       |
-| `CanNmNode`                                 | [ ] Pending* | N/A       |
-| `UdpNmNode`                                 | [ ] Pending* | N/A       |
-| `CanNmClusterCoupling`                      | [ ] Pending* | N/A       |
-| `UdpNmClusterCoupling`                      | [ ] Pending* | N/A       |
-| `FlexrayNmClusterCoupling`                  | [ ] Pending* | N/A       |
-| `SecOcCryptoServiceMapping`                 | [ ] Pending* | N/A       |
-| `EndToEndTransformationISignalProps`        | [ ] Pending* | N/A       |
-| `TpAddress`                                 | [ ] Pending* | N/A       |
-| `LinTpConnection`                           | [ ] Pending* | N/A       |
-| `EndToEndProtectionISignalIPdu`             | [ ] Pending* | N/A       |
-| `SwcToEcuMapping`                           | [ ] Pending* | N/A       |
-| `ApplicationPartitionToEcuPartitionMapping` | [ ] Pending* | N/A       |
-| `SwcToImplMapping`                          | [ ] Pending* | N/A       |
-| `AppOsTaskProxyToEcuTaskProxyMapping`       | [ ] Pending* | N/A       |
+| Class Name                                  | Status   | Commit ID  |
+| ------------------------------------------- | -------- | ---------- |
+| `NmEcu`                                     | [x] Done | c5eafef533 |
+| `CanNmCluster`                              | [x] Done | 97b3ffb12e |
+| `UdpNmCluster`                              | [x] Done | c32d27a505 |
+| `CanNmNode`                                 | [x] Done | 3d406b5e98 |
+| `UdpNmNode`                                 | [x] Done | f933ce83ac |
+| `CanNmClusterCoupling`                      | [x] Done | 8561fbb806 |
+| `UdpNmClusterCoupling`                      | [x] Done | a1ffa0b85a |
+| `FlexrayNmClusterCoupling`                  | [x] Done | 50b09ee73b |
+| `SecOcCryptoServiceMapping`                 | [x] Done | eec98574a9 |
+| `EndToEndTransformationISignalProps`        | [x] Done | 4c91e36810 |
+| `TpAddress`                                 | [x] Done | cedb8f8498 |
+| `LinTpConnection`                           | [x] Done | fa26bba13a |
+| `EndToEndProtectionISignalIPdu`             | [x] Done | 7426eaaa52 |
+| `SwcToEcuMapping`                           | [x] Done | fc5c1e2c39 |
+| `ApplicationPartitionToEcuPartitionMapping` | [x] Done | baccb40d25 |
+| `SwcToImplMapping`                          | [x] Done | 7fbdba572b |
+| `AppOsTaskProxyToEcuTaskProxyMapping`       | [x] Done | 860f23a95c |
 
 ## Group19
 

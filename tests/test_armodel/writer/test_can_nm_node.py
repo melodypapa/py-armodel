@@ -4,7 +4,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmNode
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -34,6 +35,12 @@ def _time(value):
     time_value = TimeValue()
     time_value.setValue(value)
     return time_value
+
+
+def _vp(label):
+    vp = VariationPoint()
+    vp.setShortLabel(Identifier().setValue(label))
+    return vp
 
 
 def _new_node():
@@ -84,3 +91,25 @@ class TestWriteCanNmNode:
         assert node.getNmCarWakeUpRxEnabled().getValue() is False
         assert node.getNmMsgCycleOffset().getValue() == 0.02
         assert node.getNmMsgReducedTime().getValue() == 0.05
+
+    def test_write_can_nm_node_writes_variation_point_last(self):
+        node = _new_node()
+        node.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeCanNmNode(parent, node)
+        node_element = parent.find("CAN-NM-NODE")
+        tags = [child.tag for child in node_element if child.tag != "SHORT-NAME"]
+        assert tags == _XSD_ELEMENT_ORDER + ["VARIATION-POINT"]
+        assert node_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_can_nm_node_round_trips_variation_point(self):
+        node = _new_node()
+        node.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeCanNmNode(parent, node)
+        parent.set("xmlns", NS)
+        root = ET.fromstring(ET.tostring(parent, encoding="unicode")).find("{%s}CAN-NM-NODE" % NS)
+        parsed = CanNmNode(MockParent(), "CanNmNode")
+        ARXMLParser().readCanNmNode(root, parsed)
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "VP1"
