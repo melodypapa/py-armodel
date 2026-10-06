@@ -14,9 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
+    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
+    SwitchStreamFilterRule,
     SwitchStreamGateEntry,
-    SwitchStreamIdentification,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
@@ -24,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementEnum,
     CouplingElementSwitchDetails,
     CouplingPort,
+    SwitchStreamIdentification,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -372,3 +374,115 @@ class TestReadCouplingElementSwitchDetails:
         assert details.getStreamGates() == []
         assert details.getSwitchStreamIdentifications() == []
         assert details.getTrafficShaperGroups() == []
+
+
+class TestReadSwitchStreamIdentification:
+    """Test readSwitchStreamIdentification (SwitchStreamIdentification, Table 3.84, p.135):
+    the seven XSD group children of SWITCH-STREAM-IDENTIFICATION after the identifiable levels —
+    EGRESS-PORT-REFS, FILTER-ACTION-BLOCK-SOURCE, FILTER-ACTION-DEST-PORT-MODIFICATION,
+    FILTER-ACTION-DROP-FRAME, FILTER-ACTION-VLAN-MODIFICATION, INGRESS-PORT-REFS,
+    STREAM-FILTER-RULE (XSD group SWITCH-STREAM-IDENTIFICATION). The reader dispatch of
+    readCouplingElementSwitchDetails for the SWITCH-STREAM-IDENTIFICATION item calls this level."""
+
+    def test_read_all_members(self, parser):
+        """Every XSD group child populates its model field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <SWITCH-STREAM-IDENTIFICATIONS>
+                            <SWITCH-STREAM-IDENTIFICATION>
+                                <SHORT-NAME>Stream1</SHORT-NAME>
+                                <EGRESS-PORT-REFS>
+                                    <EGRESS-PORT-REF DEST="COUPLING-PORT">/AUTOSAR/Switch/Cport2</EGRESS-PORT-REF>
+                                    <EGRESS-PORT-REF DEST="COUPLING-PORT">/AUTOSAR/Switch/Cport3</EGRESS-PORT-REF>
+                                </EGRESS-PORT-REFS>
+                                <FILTER-ACTION-BLOCK-SOURCE>true</FILTER-ACTION-BLOCK-SOURCE>
+                                <FILTER-ACTION-DEST-PORT-MODIFICATION>
+                                    <SHORT-NAME>DestMod</SHORT-NAME>
+                                </FILTER-ACTION-DEST-PORT-MODIFICATION>
+                                <FILTER-ACTION-DROP-FRAME>false</FILTER-ACTION-DROP-FRAME>
+                                <FILTER-ACTION-VLAN-MODIFICATION>10</FILTER-ACTION-VLAN-MODIFICATION>
+                                <INGRESS-PORT-REFS>
+                                    <INGRESS-PORT-REF DEST="COUPLING-PORT">/AUTOSAR/Switch/Cport1</INGRESS-PORT-REF>
+                                </INGRESS-PORT-REFS>
+                                <STREAM-FILTER-RULE>
+                                    <SHORT-NAME>Rule1</SHORT-NAME>
+                                </STREAM-FILTER-RULE>
+                            </SWITCH-STREAM-IDENTIFICATION>
+                        </SWITCH-STREAM-IDENTIFICATIONS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        stream_identifications = details.getSwitchStreamIdentifications()
+        assert len(stream_identifications) == 1
+        stream_identification = stream_identifications[0]
+        assert isinstance(stream_identification, SwitchStreamIdentification)
+        assert stream_identification.getShortName() == "Stream1"
+
+        egress_port_refs = stream_identification.getEgressPortRefs()
+        assert len(egress_port_refs) == 2
+        assert egress_port_refs[0].getValue() == "/AUTOSAR/Switch/Cport2"
+        assert egress_port_refs[0].getDest() == "COUPLING-PORT"
+        assert egress_port_refs[1].getValue() == "/AUTOSAR/Switch/Cport3"
+
+        assert stream_identification.getFilterActionBlockSource() is not None
+        assert stream_identification.getFilterActionBlockSource().getValue() is True
+
+        modification = stream_identification.getFilterActionDestPortModification()
+        assert isinstance(modification, SwitchStreamFilterActionDestPortModification)
+        assert modification.getShortName() == "DestMod"
+
+        assert stream_identification.getFilterActionDropFrame() is not None
+        assert stream_identification.getFilterActionDropFrame().getValue() is False
+
+        assert stream_identification.getFilterActionVlanModification() is not None
+        assert stream_identification.getFilterActionVlanModification().getValue() == 10
+
+        ingress_port_refs = stream_identification.getIngressPortRefs()
+        assert len(ingress_port_refs) == 1
+        assert ingress_port_refs[0].getValue() == "/AUTOSAR/Switch/Cport1"
+        assert ingress_port_refs[0].getDest() == "COUPLING-PORT"
+
+        rule = stream_identification.getStreamFilterRule()
+        assert isinstance(rule, SwitchStreamFilterRule)
+        assert rule.getShortName() == "Rule1"
+
+    def test_read_absent_optional_members(self, parser):
+        """A bare SWITCH-STREAM-IDENTIFICATION item leaves all fields unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <SWITCH-STREAM-IDENTIFICATIONS>
+                            <SWITCH-STREAM-IDENTIFICATION>
+                                <SHORT-NAME>Stream1</SHORT-NAME>
+                            </SWITCH-STREAM-IDENTIFICATION>
+                        </SWITCH-STREAM-IDENTIFICATIONS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        stream_identification = coupling_element.getCouplingElementDetails().getSwitchStreamIdentifications()[0]
+        assert stream_identification.getShortName() == "Stream1"
+        assert stream_identification.getEgressPortRefs() == []
+        assert stream_identification.getFilterActionBlockSource() is None
+        assert stream_identification.getFilterActionDestPortModification() is None
+        assert stream_identification.getFilterActionDropFrame() is None
+        assert stream_identification.getFilterActionVlanModification() is None
+        assert stream_identification.getIngressPortRefs() == []
+        assert stream_identification.getStreamFilterRule() is None

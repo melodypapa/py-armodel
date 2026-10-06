@@ -17,11 +17,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SwitchFlowMeteringEntry,
     SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
-    SwitchStreamIdentification,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElementAbstractDetails,
     CouplingElementSwitchDetails,
+    SwitchStreamIdentification,
 )
 
 CLASS_NOTE = "Collection of specific details for the CouplingElement of couplingType switch. " "Tags: atp.Status=candidate atp.recommendedPackage=SwitchStreamIdentificationTables"

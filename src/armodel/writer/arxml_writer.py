@@ -976,6 +976,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
+    SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
     UdpProps,
@@ -11996,6 +11997,31 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
         self.writeIdentifiable(element, details)
 
+    def writeSwitchStreamIdentification(self, element: ET.Element, stream_identification: SwitchStreamIdentification):
+        child_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATION")
+        self.writeIdentifiable(child_element, stream_identification)
+        egress_port_refs = stream_identification.getEgressPortRefs()
+        if len(egress_port_refs) > 0:
+            egress_port_refs_element = ET.SubElement(child_element, "EGRESS-PORT-REFS")
+            for ref in egress_port_refs:
+                self.setChildElementOptionalRefType(egress_port_refs_element, "EGRESS-PORT-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "FILTER-ACTION-BLOCK-SOURCE", stream_identification.getFilterActionBlockSource())
+        modification = stream_identification.getFilterActionDestPortModification()
+        if modification is not None:
+            modification_element = ET.SubElement(child_element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
+            self.writeIdentifiable(modification_element, modification)
+        self.setChildElementOptionalBooleanValue(child_element, "FILTER-ACTION-DROP-FRAME", stream_identification.getFilterActionDropFrame())
+        self.setChildElementOptionalPositiveInteger(child_element, "FILTER-ACTION-VLAN-MODIFICATION", stream_identification.getFilterActionVlanModification())
+        ingress_port_refs = stream_identification.getIngressPortRefs()
+        if len(ingress_port_refs) > 0:
+            ingress_port_refs_element = ET.SubElement(child_element, "INGRESS-PORT-REFS")
+            for ref in ingress_port_refs:
+                self.setChildElementOptionalRefType(ingress_port_refs_element, "INGRESS-PORT-REF", ref)
+        stream_filter_rule = stream_identification.getStreamFilterRule()
+        if stream_filter_rule is not None:
+            stream_filter_rule_element = ET.SubElement(child_element, "STREAM-FILTER-RULE")
+            self.writeIdentifiable(stream_filter_rule_element, stream_filter_rule)
+
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)
         flow_meterings = details.getFlowMeterings()
@@ -12020,8 +12046,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(switch_stream_identifications) > 0:
             switch_stream_identifications_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATIONS")
             for switch_stream_identification in switch_stream_identifications:
-                switch_stream_identification_element = ET.SubElement(switch_stream_identifications_element, "SWITCH-STREAM-IDENTIFICATION")
-                self.writeIdentifiable(switch_stream_identification_element, switch_stream_identification)
+                if isinstance(switch_stream_identification, SwitchStreamIdentification):
+                    self.writeSwitchStreamIdentification(switch_stream_identifications_element, switch_stream_identification)
+                else:
+                    self.notImplemented("Unsupported SwitchStreamIdentification <%s>" % type(switch_stream_identification))
         traffic_shaper_groups = details.getTrafficShaperGroups()
         if len(traffic_shaper_groups) > 0:
             traffic_shaper_groups_element = ET.SubElement(element, "TRAFFIC-SHAPER-GROUPS")

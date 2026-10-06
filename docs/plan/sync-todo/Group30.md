@@ -307,18 +307,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — 9a passed 2026-10-06 (20442 passed / 0 failed); 9b deferred to batch stamp (user instruction)
+  - Follow-up resolved 2026-10-06: the identity-only placeholder for the SWITCH-STREAM-IDENTIFICATIONS
+    children (SwitchStreamIdentification was still a stub) is cleared — SwitchStreamIdentification
+    (Table 3.84) is synced and the reader dispatches `readSwitchStreamIdentification`, the writer
+    `writeSwitchStreamIdentification` (full population, XSD order), replacing the
+    readIdentifiable/writeIdentifiable placeholder.
 
 - [ ] `SwitchStreamIdentification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.84, p.135
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (sibling of its
+    `Aggregated by` parent CouplingElementSwitchDetails); stub-guard tuple + consumer imports
+    updated accordingly. Base chain's most-derived model class is `Identifiable`. Table has 7
+    Attribute rows in displayed order (egressPort `*` ref, filterActionBlockSource `0..1` attr,
+    filterActionDestPortModification `0..1` aggr, filterActionDropFrame `0..1` attr,
+    filterActionVlanModification `0..1` attr, ingressPort `*` ref, streamFilterRule `0..1` aggr);
+    XML child order per XSD group SWITCH-STREAM-IDENTIFICATION.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20463 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

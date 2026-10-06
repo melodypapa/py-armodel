@@ -1172,6 +1172,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     PlcaProps,
     SdClientConfig,
     SdServerConfig,
+    SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
     TcpProps,
@@ -11146,6 +11147,24 @@ class ARXMLParser(AbstractARXMLParser):
     def readCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
         self.readIdentifiable(element, details)
 
+    def readSwitchStreamIdentification(self, element: ET.Element, stream_identification: SwitchStreamIdentification):
+        self.readIdentifiable(element, stream_identification)
+        for ref in self.getChildElementRefTypeList(element, "EGRESS-PORT-REFS/EGRESS-PORT-REF"):
+            stream_identification.addEgressPortRef(ref)
+        stream_identification.setFilterActionBlockSource(self.getChildElementOptionalBooleanValue(element, "FILTER-ACTION-BLOCK-SOURCE"))
+        child_element = self.find(element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
+        if child_element is not None:
+            modification = stream_identification.createFilterActionDestPortModification(self.getShortName(child_element))
+            self.readIdentifiable(child_element, modification)
+        stream_identification.setFilterActionDropFrame(self.getChildElementOptionalBooleanValue(element, "FILTER-ACTION-DROP-FRAME"))
+        stream_identification.setFilterActionVlanModification(self.getChildElementOptionalPositiveInteger(element, "FILTER-ACTION-VLAN-MODIFICATION"))
+        for ref in self.getChildElementRefTypeList(element, "INGRESS-PORT-REFS/INGRESS-PORT-REF"):
+            stream_identification.addIngressPortRef(ref)
+        child_element = self.find(element, "STREAM-FILTER-RULE")
+        if child_element is not None:
+            stream_filter_rule = stream_identification.createStreamFilterRule(self.getShortName(child_element))
+            self.readIdentifiable(child_element, stream_filter_rule)
+
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)
         for child_element in self.findall(element, "FLOW-METERINGS/*"):
@@ -11173,7 +11192,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWITCH-STREAM-IDENTIFICATION":
                 stream_identification = details.createSwitchStreamIdentification(self.getShortName(child_element))
-                self.readIdentifiable(child_element, stream_identification)
+                self.readSwitchStreamIdentification(child_element, stream_identification)
             else:
                 self.notImplemented("Unsupported SwitchStreamIdentification <%s>" % tag_name)
         for child_element in self.findall(element, "TRAFFIC-SHAPER-GROUPS/*"):

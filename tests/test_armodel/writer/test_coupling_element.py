@@ -13,7 +13,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
@@ -357,3 +357,127 @@ class TestCouplingElementSwitchDetailsRoundTrip:
         assert reloaded_details.getStreamGates() == []
         assert reloaded_details.getSwitchStreamIdentifications() == []
         assert reloaded_details.getTrafficShaperGroups() == []
+
+
+class TestSwitchStreamIdentificationRoundTrip:
+    """SwitchStreamIdentification (Table 3.84, p.135) — the SWITCH-STREAM-IDENTIFICATION item of
+    COUPLING-ELEMENT-SWITCH-DETAILS round-trips its seven XSD group children after the identifiable
+    levels (XSD group SWITCH-STREAM-IDENTIFICATION). XML child order per XSD sequence: SHORT-NAME
+    (identifiable levels), then EGRESS-PORT-REFS, FILTER-ACTION-BLOCK-SOURCE,
+    FILTER-ACTION-DEST-PORT-MODIFICATION, FILTER-ACTION-DROP-FRAME,
+    FILTER-ACTION-VLAN-MODIFICATION, INGRESS-PORT-REFS, STREAM-FILTER-RULE. The ref wrappers
+    EGRESS-PORT-REFS/INGRESS-PORT-REFS are emitted only when non-empty."""
+
+    STREAM_XSD_ORDER = [
+        "EGRESS-PORT-REFS",
+        "FILTER-ACTION-BLOCK-SOURCE",
+        "FILTER-ACTION-DEST-PORT-MODIFICATION",
+        "FILTER-ACTION-DROP-FRAME",
+        "FILTER-ACTION-VLAN-MODIFICATION",
+        "INGRESS-PORT-REFS",
+        "STREAM-FILTER-RULE",
+    ]
+
+    def _coupling_element_with_full_stream_identification(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        stream_identification = details.createSwitchStreamIdentification("Stream1")
+        stream_identification.addEgressPortRef(_ref("/Pkg/Switch/Cport2", "COUPLING-PORT"))
+        stream_identification.addEgressPortRef(_ref("/Pkg/Switch/Cport3", "COUPLING-PORT"))
+        stream_identification.setFilterActionBlockSource(Boolean().setValue(True))
+        stream_identification.createFilterActionDestPortModification("DestMod")
+        stream_identification.setFilterActionDropFrame(Boolean().setValue(False))
+        stream_identification.setFilterActionVlanModification(PositiveInteger().setValue("10"))
+        stream_identification.addIngressPortRef(_ref("/Pkg/Switch/Cport1", "COUPLING-PORT"))
+        stream_identification.createStreamFilterRule("Rule1")
+        return coupling_element, details, stream_identification
+
+    def _switch_details_element(self, coupling_element):
+        parent = _write_coupling_element(coupling_element)
+        return parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+    def test_writes_children_in_xsd_order(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_identification()
+
+        stream_element = self._switch_details_element(coupling_element).find("SWITCH-STREAM-IDENTIFICATIONS/SWITCH-STREAM-IDENTIFICATION")
+
+        children = [child.tag for child in stream_element]
+        assert children == ["SHORT-NAME"] + self.STREAM_XSD_ORDER
+
+    def test_writes_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_identification()
+
+        stream_element = self._switch_details_element(coupling_element).find("SWITCH-STREAM-IDENTIFICATIONS/SWITCH-STREAM-IDENTIFICATION")
+
+        assert stream_element.find("SHORT-NAME").text == "Stream1"
+        egress_port_refs = stream_element.findall("EGRESS-PORT-REFS/EGRESS-PORT-REF")
+        assert len(egress_port_refs) == 2
+        assert egress_port_refs[0].text == "/Pkg/Switch/Cport2"
+        assert egress_port_refs[0].attrib["DEST"] == "COUPLING-PORT"
+        assert egress_port_refs[1].text == "/Pkg/Switch/Cport3"
+        assert stream_element.find("FILTER-ACTION-BLOCK-SOURCE").text == "true"
+        modification_element = stream_element.find("FILTER-ACTION-DEST-PORT-MODIFICATION")
+        assert modification_element is not None
+        assert modification_element.find("SHORT-NAME").text == "DestMod"
+        assert stream_element.find("FILTER-ACTION-DROP-FRAME").text == "false"
+        assert stream_element.find("FILTER-ACTION-VLAN-MODIFICATION").text == "10"
+        ingress_port_refs = stream_element.findall("INGRESS-PORT-REFS/INGRESS-PORT-REF")
+        assert len(ingress_port_refs) == 1
+        assert ingress_port_refs[0].text == "/Pkg/Switch/Cport1"
+        assert ingress_port_refs[0].attrib["DEST"] == "COUPLING-PORT"
+        rule_element = stream_element.find("STREAM-FILTER-RULE")
+        assert rule_element is not None
+        assert rule_element.find("SHORT-NAME").text == "Rule1"
+
+    def test_bare_stream_identification_emits_no_children(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createSwitchStreamIdentification("Stream1")
+
+        stream_element = self._switch_details_element(coupling_element).find("SWITCH-STREAM-IDENTIFICATIONS/SWITCH-STREAM-IDENTIFICATION")
+
+        assert stream_element.find("SHORT-NAME").text == "Stream1"
+        for tag in self.STREAM_XSD_ORDER:
+            assert stream_element.find(tag) is None, tag
+
+    def test_round_trip_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_identification()
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_stream = reloaded.getCouplingElementDetails().getSwitchStreamIdentifications()[0]
+        assert reloaded_stream.getShortName() == "Stream1"
+        egress_port_refs = reloaded_stream.getEgressPortRefs()
+        assert len(egress_port_refs) == 2
+        assert egress_port_refs[0].getValue() == "/Pkg/Switch/Cport2"
+        assert egress_port_refs[0].getDest() == "COUPLING-PORT"
+        assert egress_port_refs[1].getValue() == "/Pkg/Switch/Cport3"
+        assert reloaded_stream.getFilterActionBlockSource().getValue() is True
+        assert reloaded_stream.getFilterActionDestPortModification().getShortName() == "DestMod"
+        assert reloaded_stream.getFilterActionDropFrame().getValue() is False
+        assert reloaded_stream.getFilterActionVlanModification().getValue() == 10
+        ingress_port_refs = reloaded_stream.getIngressPortRefs()
+        assert len(ingress_port_refs) == 1
+        assert ingress_port_refs[0].getValue() == "/Pkg/Switch/Cport1"
+        assert reloaded_stream.getStreamFilterRule().getShortName() == "Rule1"
+
+    def test_round_trip_bare_stream_identification(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createSwitchStreamIdentification("Stream1")
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_stream = reloaded.getCouplingElementDetails().getSwitchStreamIdentifications()[0]
+        assert reloaded_stream.getShortName() == "Stream1"
+        assert reloaded_stream.getEgressPortRefs() == []
+        assert reloaded_stream.getFilterActionBlockSource() is None
+        assert reloaded_stream.getFilterActionDestPortModification() is None
+        assert reloaded_stream.getFilterActionDropFrame() is None
+        assert reloaded_stream.getFilterActionVlanModification() is None
+        assert reloaded_stream.getIngressPortRefs() == []
+        assert reloaded_stream.getStreamFilterRule() is None

@@ -10,9 +10,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
+    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
+    SwitchStreamFilterRule,
     SwitchStreamGateEntry,
-    SwitchStreamIdentification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -464,6 +465,165 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
         Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
         """
         return self.trafficShaperGroups
+
+
+class SwitchStreamIdentification(Identifiable):
+    """
+    SwitchStreamIdentification Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamIdentification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.84, p.135
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEgressPortRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEgressPortRefs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFilterActionBlockSource              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionBlockSource              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFilterActionDestPortModification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterActionDestPortModification     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFilterActionDropFrame                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionDropFrame                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterActionVlanModification         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionVlanModification         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addIngressPortRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIngressPortRefs                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamFilterRule                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamFilterRule                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.egressPortRefs: List[RefType] = []
+
+        # Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+        self.filterActionBlockSource: Optional[Boolean] = None
+
+        # Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        self.filterActionDestPortModification: Optional[SwitchStreamFilterActionDestPortModification] = None
+
+        # Enables Drop Frame action. Tags: atp.Status=candidate
+        self.filterActionDropFrame: Optional[Boolean] = None
+
+        # Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+        self.filterActionVlanModification: Optional[PositiveInteger] = None
+
+        # Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.ingressPortRefs: List[RefType] = []
+
+        # Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        self.streamFilterRule: Optional[SwitchStreamFilterRule] = None
+
+    def addEgressPortRef(self, value: Optional[RefType]) -> SwitchStreamIdentification:
+        """
+        Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a egressPortRef.
+        """
+        if value is not None:
+            self.egressPortRefs.append(value)
+        return self
+
+    def getEgressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.egressPortRefs
+
+    def getFilterActionBlockSource(self) -> Optional[Boolean]:
+        """
+        Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+        """
+        return self.filterActionBlockSource
+
+    def setFilterActionBlockSource(self, value: Optional[Boolean]) -> SwitchStreamIdentification:
+        """
+        Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionBlockSource.
+        """
+        if value is not None:
+            self.filterActionBlockSource = value
+        return self
+
+    def createFilterActionDestPortModification(self, short_name: str) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.filterActionDestPortModification is None or self.filterActionDestPortModification.getShortName() != short_name:
+            self.filterActionDestPortModification = SwitchStreamFilterActionDestPortModification(self, short_name)
+        return self.filterActionDestPortModification
+
+    def getFilterActionDestPortModification(self) -> Optional[SwitchStreamFilterActionDestPortModification]:
+        """
+        Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.filterActionDestPortModification
+
+    def getFilterActionDropFrame(self) -> Optional[Boolean]:
+        """
+        Enables Drop Frame action. Tags: atp.Status=candidate
+        """
+        return self.filterActionDropFrame
+
+    def setFilterActionDropFrame(self, value: Optional[Boolean]) -> SwitchStreamIdentification:
+        """
+        Enables Drop Frame action. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionDropFrame.
+        """
+        if value is not None:
+            self.filterActionDropFrame = value
+        return self
+
+    def getFilterActionVlanModification(self) -> Optional[PositiveInteger]:
+        """
+        Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.filterActionVlanModification
+
+    def setFilterActionVlanModification(self, value: Optional[PositiveInteger]) -> SwitchStreamIdentification:
+        """
+        Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionVlanModification.
+        """
+        if value is not None:
+            self.filterActionVlanModification = value
+        return self
+
+    def addIngressPortRef(self, value: Optional[RefType]) -> SwitchStreamIdentification:
+        """
+        Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a ingressPortRef.
+        """
+        if value is not None:
+            self.ingressPortRefs.append(value)
+        return self
+
+    def getIngressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.ingressPortRefs
+
+    def createStreamFilterRule(self, short_name: str) -> SwitchStreamFilterRule:
+        """
+        Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.streamFilterRule is None or self.streamFilterRule.getShortName() != short_name:
+            self.streamFilterRule = SwitchStreamFilterRule(self, short_name)
+        return self.streamFilterRule
+
+    def getStreamFilterRule(self) -> Optional[SwitchStreamFilterRule]:
+        """
+        Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        """
+        return self.streamFilterRule
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):
