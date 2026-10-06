@@ -591,7 +591,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       0 failed (integration round-trips incl.); npm run lint clean; black
       clean on all touched files; no marker in batch mode.
 
-- [ ] `EcucDestinationUriDefRefType` — RefType — XSD-only (resolved at Step 1; no own table in any corpus)
+- [x] `EcucDestinationUriDefRefType` — RefType — XSD-only (resolved at Step 1; no own table in any corpus) — commit 7047c575f (stamped 2026-10-06, # XSD verified: AUTOSAR_00052.xsd)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): XSD-only class — no PDF/markdown table in R23-11 or R4.3.1 markdown;
@@ -676,7 +676,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       stamped separately). v2 tracker lists the class only in its generated
       "classes without a spec attribute table" appendix — left to the script's
       next regen.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a runs in the batch verification
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a runs in the batch verification
     pass (2026-10-04); 9b deferred to batch confirmation (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS (single __init__ row), member-annotation gate PASS; 9b still deferred to batch confirmation.
 
