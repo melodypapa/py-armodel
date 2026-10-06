@@ -1175,25 +1175,24 @@ class EthernetCommunicationController(CommunicationController):
 
     # EthernetCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.61, p.116
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPorts                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCouplingPort                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacLayerType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacLayerType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPorts                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCouplingPort                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacLayerType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacLayerType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

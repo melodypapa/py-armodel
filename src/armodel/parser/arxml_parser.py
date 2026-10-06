@@ -14937,6 +14937,7 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
             controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
+            controller.setSlaveQualifiedUnexpectedLinkDownTime(self.getChildElementOptionalTimeValue(child_element, "SLAVE-QUALIFIED-UNEXPECTED-LINK-DOWN-TIME"))
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)

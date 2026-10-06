@@ -12628,6 +12628,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-RECEIVE-BUFFER-LENGTH", controller.getMaximumReceiveBufferLength())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-TRANSMIT-BUFFER-LENGTH", controller.getMaximumTransmitBufferLength())
         self.setChildElementOptionalBooleanValue(cond_tag, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE", controller.getSlaveActAsPassiveCommunicationSlave())
+        self.setChildElementOptionalTimeValue(cond_tag, "SLAVE-QUALIFIED-UNEXPECTED-LINK-DOWN-TIME", controller.getSlaveQualifiedUnexpectedLinkDownTime())
 
     def writeEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         controllers = instance.getCommControllers()
