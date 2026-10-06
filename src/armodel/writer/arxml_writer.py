@@ -1198,6 +1198,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmNode,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataPrototypeInPortInterfaceRef,
@@ -13394,6 +13395,69 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ResourceEstimation %s" % type(estimation))
 
+    def writePncMapping(self, element: ET.Element, mapping: PncMapping):
+        child_element = ET.SubElement(element, "PNC-MAPPING")
+        self.writeDescribable(child_element, mapping)
+        self.writeVariationPointCapable(child_element, mapping)
+        refs = mapping.getDynamicPncMappingPduGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DYNAMIC-PNC-MAPPING-PDU-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DYNAMIC-PNC-MAPPING-PDU-GROUP-REF", ref)
+        ident = mapping.getIdent()
+        if ident is not None:
+            ident_element = ET.SubElement(child_element, "IDENT")
+            self.writeReferrable(ident_element, ident)
+        refs = mapping.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        refs = mapping.getPncConsumedProvidedServiceInstanceGroupRefs()
+        if len(refs) > 0:
+            groups_tag = ET.SubElement(child_element, "PNC-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS")
+            for ref in refs:
+                conditional_tag = ET.SubElement(groups_tag, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF", ref)
+        refs = mapping.getPncGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PNC-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PNC-GROUP-REF", ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-IDENTIFIER", mapping.getPncIdentifier())
+        refs = mapping.getPncPdurGroupRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PNC-PDUR-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PNC-PDUR-GROUP-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "PNC-WAKEUP-ENABLE", mapping.getPncWakeupEnable())
+        refs = mapping.getRelevantForDynamicPncMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REF", ref)
+        self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", mapping.getShortLabel())
+        irefs = mapping.getVfcIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "VFC-IREFS")
+            for iref in irefs:
+                self.setPortGroupInSystemInstanceRef(irefs_tag, "VFC-IREF", iref)
+        refs = mapping.getWakeupFrameRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "WAKEUP-FRAME-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "WAKEUP-FRAME-REF", ref)
+
+    def writeSystemMappingPncMappings(self, element: ET.Element, mapping: SystemMapping):
+        pnc_mappings = mapping.getPncMappings()
+        if len(pnc_mappings) > 0:
+            pnc_mappings_tag = ET.SubElement(element, "PNC-MAPPINGS")
+            for pnc_mapping in pnc_mappings:
+                if isinstance(pnc_mapping, PncMapping):
+                    self.writePncMapping(pnc_mappings_tag, pnc_mapping)
+                else:
+                    self.notImplemented("Unsupported PncMapping %s" % type(pnc_mapping))
+
     def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         ecu_resource_mappings = mapping.getEcuResourceMappings()
         if len(ecu_resource_mappings) > 0:
@@ -13671,6 +13735,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingPncMappings(child_element, mapping)
         self.writeSystemMappingResourceEstimations(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)

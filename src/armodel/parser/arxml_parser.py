@@ -1440,6 +1440,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmNode,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -16235,21 +16236,21 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "SIGNAL-PATH-CONSTRAINTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COMMON-SIGNAL-PATH":
-                path = CommonSignalPath()
-                self.readCommonSignalPath(child_element, path)
-                mapping.addSignalPathConstraint(path)
+                common_signal_path = CommonSignalPath()
+                self.readCommonSignalPath(child_element, common_signal_path)
+                mapping.addSignalPathConstraint(common_signal_path)
             elif tag_name == "FORBIDDEN-SIGNAL-PATH":
-                path = ForbiddenSignalPath()
-                self.readForbiddenSignalPath(child_element, path)
-                mapping.addSignalPathConstraint(path)
+                forbidden_signal_path = ForbiddenSignalPath()
+                self.readForbiddenSignalPath(child_element, forbidden_signal_path)
+                mapping.addSignalPathConstraint(forbidden_signal_path)
             elif tag_name == "PERMISSIBLE-SIGNAL-PATH":
-                path = PermissibleSignalPath()
-                self.readPermissibleSignalPath(child_element, path)
-                mapping.addSignalPathConstraint(path)
+                permissible_signal_path = PermissibleSignalPath()
+                self.readPermissibleSignalPath(child_element, permissible_signal_path)
+                mapping.addSignalPathConstraint(permissible_signal_path)
             elif tag_name == "SEPARATE-SIGNAL-PATH":
-                path = SeparateSignalPath()
-                self.readSeparateSignalPath(child_element, path)
-                mapping.addSignalPathConstraint(path)
+                separate_signal_path = SeparateSignalPath()
+                self.readSeparateSignalPath(child_element, separate_signal_path)
+                mapping.addSignalPathConstraint(separate_signal_path)
             else:
                 self.notImplemented("Unsupported SignalPathConstraint %s" % tag_name)
 
@@ -16545,6 +16546,45 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ResourceEstimation %s" % tag_name)
 
+    def readPncMapping(self, element: ET.Element, mapping: PncMapping):
+        self.readDescribable(element, mapping)
+        self.readVariationPointCapable(element, mapping)
+        for ref in self.getChildElementRefTypeList(element, "DYNAMIC-PNC-MAPPING-PDU-GROUP-REFS/DYNAMIC-PNC-MAPPING-PDU-GROUP-REF"):
+            mapping.addDynamicPncMappingPduGroupRef(ref)
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            ident = mapping.createIdent(self.getShortName(ident_element))
+            self.readReferrable(ident_element, ident)
+        for ref in self.getChildElementRefTypeList(element, "PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF"):
+            mapping.addPhysicalChannelRef(ref)
+        for conditional_element in self.findall(element, "PNC-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUPS/CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF-CONDITIONAL"):
+            conditional_ref = self.getChildElementOptionalRefType(conditional_element, "CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF")
+            if conditional_ref is not None:
+                mapping.addPncConsumedProvidedServiceInstanceGroupRef(conditional_ref)
+        for ref in self.getChildElementRefTypeList(element, "PNC-GROUP-REFS/PNC-GROUP-REF"):
+            mapping.addPncGroupRef(ref)
+        mapping.setPncIdentifier(self.getChildElementOptionalPositiveInteger(element, "PNC-IDENTIFIER"))
+        for ref in self.getChildElementRefTypeList(element, "PNC-PDUR-GROUP-REFS/PNC-PDUR-GROUP-REF"):
+            mapping.addPncPdurGroupRef(ref)
+        mapping.setPncWakeupEnable(self.getChildElementOptionalBooleanValue(element, "PNC-WAKEUP-ENABLE"))
+        for ref in self.getChildElementRefTypeList(element, "RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REFS/RELEVANT-FOR-DYNAMIC-PNC-MAPPING-REF"):
+            mapping.addRelevantForDynamicPncMappingRef(ref)
+        mapping.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
+        for iref_element in self.findall(element, "VFC-IREFS/VFC-IREF"):
+            mapping.addVfcIRef(self.getPortGroupInSystemInstanceRef(iref_element))
+        for ref in self.getChildElementRefTypeList(element, "WAKEUP-FRAME-REFS/WAKEUP-FRAME-REF"):
+            mapping.addWakeupFrameRef(ref)
+
+    def readSystemMappingPncMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "PNC-MAPPINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PNC-MAPPING":
+                pnc_mapping = PncMapping()
+                self.readPncMapping(child_element, pnc_mapping)
+                mapping.addPncMapping(pnc_mapping)
+            else:
+                self.notImplemented("Unsupported PncMapping %s" % tag_name)
+
     def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -16810,6 +16850,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingPncMappings(element, mapping)
         self.readSystemMappingResourceEstimations(element, mapping)
         self.readSystemMappingRteEventSeparations(element, mapping)
         self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)

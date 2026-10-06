@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     TriggerInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping, PncMappingIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareCluster, SwComponentPrototypeAssignment
@@ -954,6 +955,8 @@ __all__ = [
     "OperationInSystemInstanceRef",
     "OsTaskPreemptabilityEnum",
     "OsTaskProxy",
+    "PncMapping",
+    "PncMappingIdent",
     "PortGroupInSystemInstanceRef",
     "PositiveInteger",
     "RefType",

@@ -2518,10 +2518,6 @@ class NetworkSegmentIdentification(ARObject):
     pass
 
 
-class PncMapping(ARObject):
-    pass
-
-
 class SecurityEventAggregationFilter(ARObject):
     pass
 
