@@ -1104,6 +1104,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     OsTaskProxy,
     RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -1395,6 +1396,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     RteEventInCompositionInstanceRef,
+    RteEventInSystemInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
@@ -2664,6 +2666,18 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = RteEventInCompositionInstanceRef()
             self.readARObject(element, instance_ref)
             instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-REF"):
+                instance_ref.addContextSwComponentRef(ref)
+            instance_ref.setTargetRteEventRef(self.getChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF"))
+        return instance_ref
+
+    def getRteEventInSystemInstanceRef(self, element: ET.Element) -> Optional[RteEventInSystemInstanceRef]:
+        instance_ref = None
+        if element is not None:
+            instance_ref = RteEventInSystemInstanceRef()
+            self.readARObject(element, instance_ref)
+            instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
+            instance_ref.setContextRootCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF"))
             for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-REF"):
                 instance_ref.addContextSwComponentRef(ref)
             instance_ref.setTargetRteEventRef(self.getChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF"))
@@ -16299,6 +16313,20 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "RTE-EVENT-IREFS/RTE-EVENT-IREF"):
             separation.addRteEventIRef(self.getRteEventInCompositionInstanceRef(child_element))
 
+    def readRteEventInSystemToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInSystemToOsTaskProxyMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setOffset(self.getChildElementOptionalIntegerValue(element, "OFFSET"))
+        mapping.setOsTaskProxyRef(self.getChildElementOptionalRefType(element, "OS-TASK-PROXY-REF"))
+        child_element = self.find(element, "RTE-EVENT-IREF")
+        if child_element is not None:
+            mapping.setRteEventIRef(self.getRteEventInSystemInstanceRef(child_element))
+
+    def readSystemMappingRteEventToOsTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "RTE-EVENT-TO-OS-TASK-PROXY-MAPPINGS/RTE-EVENT-IN-SYSTEM-TO-OS-TASK-PROXY-MAPPING"):
+            rte_event_mapping = RteEventInSystemToOsTaskProxyMapping(mapping, self.getShortName(child_element))
+            self.readRteEventInSystemToOsTaskProxyMapping(child_element, rte_event_mapping)
+            mapping.addRteEventToOsTaskProxyMapping(rte_event_mapping)
+
     def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):
             app_ecu_mapping = mapping.createAppOsTaskProxyToEcuTaskProxyMapping(self.getShortName(child_element))
@@ -16608,6 +16636,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
 

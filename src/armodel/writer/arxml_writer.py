@@ -915,6 +915,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     OsTaskProxy,
     RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
@@ -1156,6 +1157,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     RteEventInCompositionInstanceRef,
+    RteEventInSystemInstanceRef,
     OperationInSystemInstanceRef,
     PortGroupInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
@@ -5056,6 +5058,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, tag_name)
             self.writeARObject(child_element, ref)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            for component_ref in ref.getContextSwComponentRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-REF", component_ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RTE-EVENT-REF", ref.getTargetRteEventRef())
+
+    def setRteEventInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: Optional[RteEventInSystemInstanceRef]):
+        if ref is not None:
+            child_element = ET.SubElement(element, tag_name)
+            self.writeARObject(child_element, ref)
+            self.setChildElementOptionalRefType(child_element, "BASE-REF", ref.getBaseRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-ROOT-COMPOSITION-REF", ref.getContextRootCompositionRef())
             for component_ref in ref.getContextSwComponentRefs():
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-REF", component_ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-RTE-EVENT-REF", ref.getTargetRteEventRef())
@@ -13115,6 +13127,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             for iref in irefs:
                 self.setRteEventInCompositionInstanceRef(irefs_tag, "RTE-EVENT-IREF", iref)
 
+    def writeRteEventInSystemToOsTaskProxyMapping(self, element: ET.Element, mapping: RteEventInSystemToOsTaskProxyMapping):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-SYSTEM-TO-OS-TASK-PROXY-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalIntegerValue(child_element, "OFFSET", mapping.getOffset())
+        self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
+        self.setRteEventInSystemInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
+
+    def writeSystemMappingRteEventToOsTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
+        rte_event_mappings = mapping.getRteEventToOsTaskProxyMappings()
+        if len(rte_event_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "RTE-EVENT-TO-OS-TASK-PROXY-MAPPINGS")
+            for rte_event_mapping in rte_event_mappings:
+                self.writeRteEventInSystemToOsTaskProxyMapping(mappings_tag, rte_event_mapping)
+
     def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()
         if len(app_ecu_mappings) > 0:
@@ -13451,6 +13477,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
 

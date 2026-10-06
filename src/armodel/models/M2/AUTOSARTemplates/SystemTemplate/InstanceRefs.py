@@ -149,6 +149,84 @@ class RteEventInCompositionInstanceRef(AtpInstanceRef):
         return self
 
 
+class RteEventInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an RTEEvent in the context of a System.
+    """
+
+    # RteEventInSystemInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate (R23-11 XSD), class RteEventInSystemInstanceRef, AUTOSAR_00052.xsd line 100618 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextRootCompositionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextRootCompositionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextSwComponentRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextSwComponentRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRteEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetRteEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=20
+        self.contextRootCompositionRef: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.contextSwComponentRefs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=40
+        self.targetRteEventRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef."""
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextRootCompositionRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=20"""
+        return self.contextRootCompositionRef
+
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextRootCompositionRef."""
+        if value is not None:
+            self.contextRootCompositionRef = value
+        return self
+
+    def getContextSwComponentRefs(self) -> List[RefType]:
+        """Tags: xml.sequenceOffset=30"""
+        return self.contextSwComponentRefs
+
+    def addContextSwComponentRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextSwComponentRefs.append(value)
+        return self
+
+    def getTargetRteEventRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=40"""
+        return self.targetRteEventRef
+
+    def setTargetRteEventRef(self, value: Optional[RefType]) -> "RteEventInSystemInstanceRef":
+        """Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing targetRteEventRef."""
+        if value is not None:
+            self.targetRteEventRef = value
+        return self
+
+
 class ComponentInSystemInstanceRef(AtpInstanceRef):
     """
     If the referenced SwComponentPrototype is located within the RootSwCompositionPrototype of a System then the contextComposition to the RootSwCompositionPrototype shall be provided. In this scenario we have a System Extract where the RootSwComposition may contain other compositions. If the referenced SwComponentPrototype is the RootSwCompositionPrototype itself then contextComposition reference to the RootSwCompositionPrototype shall be skipped and only the targetComponent to the RootSwCompositionPrototype shall be used. In this scenario we have an Ecu Extract where the RootSwComposition contains PortPrototypes that describe the external communication.

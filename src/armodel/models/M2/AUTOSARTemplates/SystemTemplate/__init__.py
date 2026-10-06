@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     OsTaskProxy,
     RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
+    RteEventInSystemToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
@@ -930,6 +931,7 @@ __all__ = [
     "AppOsTaskProxyToEcuTaskProxyMapping",
     "RteEventInCompositionSeparation",
     "RteEventInCompositionToOsTaskProxyMapping",
+    "RteEventInSystemToOsTaskProxyMapping",
     "ARObject",
     "AtpPrototype",
     "AtpStructureElement",
