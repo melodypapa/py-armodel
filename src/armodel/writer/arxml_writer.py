@@ -870,6 +870,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
     OperationInvokedEvent,
+    OsTaskExecutionEvent,
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
@@ -4799,6 +4800,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(iref_element, "CONTEXT-R-PORT-REF", required_trigger_iref.getContextRPortRef())
                 self.setChildElementOptionalRefType(iref_element, "TARGET-TRIGGER-REF", required_trigger_iref.getTargetTriggerRef())
 
+    def writeOsTaskExecutionEvent(self, element: ET.Element, event: OsTaskExecutionEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "OS-TASK-EXECUTION-EVENT")
+            self.writeRTEEvent(child_element, event)
+
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -4833,6 +4839,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeExternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, TransformerHardErrorEvent):
                     self.writeTransformerHardErrorEvent(child_element, event)
+                elif isinstance(event, OsTaskExecutionEvent):
+                    self.writeOsTaskExecutionEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
 

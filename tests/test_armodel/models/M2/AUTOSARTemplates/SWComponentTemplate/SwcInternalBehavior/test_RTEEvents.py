@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataWriteCompletedEvent,
     ExternalTriggerOccurredEvent,
     InitEvent,
+    OsTaskExecutionEvent,
     TransformerHardErrorEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
@@ -863,6 +864,30 @@ class TestTransformerHardErrorEvent:
         assert typing.get_type_hints(event.getRequiredTriggerIRef).get("return") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
         assert typing.get_type_hints(event.setRequiredTriggerIRef).get("value") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
         assert typing.get_type_hints(event.setRequiredTriggerIRef).get("return") is TransformerHardErrorEvent
+
+
+class TestOsTaskExecutionEvent:
+    """Test class for OsTaskExecutionEvent class (Table 7.24)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.24 Note + constr_10016 verbatim."""
+        assert inspect.getdoc(OsTaskExecutionEvent) == (
+            "This RTEEvent is supposed to execute RunnableEntities which have to react on the execution of specific OsTasks. Therefore, this event is unconditionally raised whenever the OsTask on which it is mapped is executed. The main use case for this event is scheduling of Runnables of Complex Drivers which have to react on task executions."
+            "\n\n"
+            "[constr_10016] Applicability of OsTaskExecutionEvent: An OsTaskExecutionEvent is only applicable for a SwcInternalBehavior in the context of a ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, or ServiceSwComponentType at the time when the contract phase generation is executed."
+        )
+
+    def test_initialization(self):
+        """Test OsTaskExecutionEvent initialization defaults (own + inherited)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = OsTaskExecutionEvent(ar_root, "TestOsTaskExecutionEvent")
+
+        assert event.parent == ar_root
+        assert event.short_name == "TestOsTaskExecutionEvent"
+        assert event.disabledModeIRefs == []
+        assert event.startOnEventRef is None
+        assert isinstance(event, RTEEvent)
 
 
 class TestBackgroundEvent:

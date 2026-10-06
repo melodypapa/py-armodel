@@ -1058,6 +1058,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
     OperationInvokedEvent,
+    OsTaskExecutionEvent,
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
@@ -6738,6 +6739,10 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref.setTargetTriggerRef(self.getChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF"))
             event.setRequiredTriggerIRef(instance_ref)
 
+    def readOsTaskExecutionEvent(self, element: ET.Element, event: OsTaskExecutionEvent):
+        # self.logger.debug("Read OsTaskExecutionEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -6770,6 +6775,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readExternalTriggerOccurredEvent(child_element, parent.createExternalTriggerOccurredEvent(self.getShortName(child_element)))
             elif tag_name == "TRANSFORMER-HARD-ERROR-EVENT":
                 self.readTransformerHardErrorEvent(child_element, parent.createTransformerHardErrorEvent(self.getShortName(child_element)))
+            elif tag_name == "OS-TASK-EXECUTION-EVENT":
+                self.readOsTaskExecutionEvent(child_element, parent.createOsTaskExecutionEvent(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 

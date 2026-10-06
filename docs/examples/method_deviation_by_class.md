@@ -2654,6 +2654,13 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — *(missing)* | `—` | `maxSizeToFill` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `rule` | `Identifier` | — | missing |
 
+## `OsTaskExecutionEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 547
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+No deviations (2026-10-05 sync, Table 7.24, p.547): `pass` stub replaced with the attribute-less class — Note + [constr_10016] class docstring, 6-column checklist (`__init__` only), no stamp (batch 9b pending). XSD group OS-TASK-EXECUTION-EVENT has an empty sequence (AUTOSAR_00052.xsd L87225) — the element carries only the inherited ABSTRACT-EVENT/RTE-EVENT content. `createOsTaskExecutionEvent`/`getOsTaskExecutionEvents` added to SwcInternalBehavior (checklist rows added); `readOsTaskExecutionEvent`/`writeOsTaskExecutionEvent` (readRTEEvent/writeRTEEvent only) + EVENTS dispatch branches added both sides; schema-validated save→reload round-trip tests added.
+
 ## `TransformerHardErrorEvent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 546
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`

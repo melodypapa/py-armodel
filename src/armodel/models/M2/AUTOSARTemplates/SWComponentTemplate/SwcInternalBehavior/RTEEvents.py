@@ -640,7 +640,19 @@ class ExternalTriggerOccurredEvent(RTEEvent):
 
 
 class OsTaskExecutionEvent(RTEEvent):
-    pass
+    """
+    This RTEEvent is supposed to execute RunnableEntities which have to react on the execution of specific OsTasks. Therefore, this event is unconditionally raised whenever the OsTask on which it is mapped is executed. The main use case for this event is scheduling of Runnables of Complex Drivers which have to react on task executions.
+
+    [constr_10016] Applicability of OsTaskExecutionEvent: An OsTaskExecutionEvent is only applicable for a SwcInternalBehavior in the context of a ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, or ServiceSwComponentType at the time when the contract phase generation is executed.
+    """
+
+    # OsTaskExecutionEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.24, p.547
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class TransformerHardErrorEvent(RTEEvent):
