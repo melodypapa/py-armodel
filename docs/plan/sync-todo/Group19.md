@@ -680,7 +680,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
     pass (2026-10-04); 9b deferred to batch confirmation (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS (single __init__ row), member-annotation gate PASS; 9b still deferred to batch confirmation.
 
-- [ ] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15
+- [x] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15 — commit b40b99238 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.15 AUTOSAR_CP_TPS_ECUConfiguration.md l.1495
     (complete, not page-split; pdf_page.py: PDF p.58 caption hit). Concrete
@@ -763,7 +763,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       EcucBooleanParamDef section). No Rule 0001.10 missing referenced
       classes; no integration fixture carries elements beyond DEFAULT-VALUE
       (no Rule 0019 combine case).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
