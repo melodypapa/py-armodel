@@ -2577,6 +2577,32 @@ class TestBswServiceDependencyHandlers:
         assert needs.getShortName() == "needs"
         assert needs.getControlledFidRef().getValue() == "/Fim/Controlled"
 
+    def test_readBswServiceDependency_obd_ratio_service_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioServiceNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<OBD-RATIO-SERVICE-NEEDS><SHORT-NAME>needs</SHORT-NAME>"
+            "<CONNECTION-TYPE>observer</CONNECTION-TYPE>"
+            "<RATE-BASED-MONITORED-EVENT-REF DEST='DIAGNOSTIC-EVENT-NEEDS'>/Ratio/MonitoredEvent</RATE-BASED-MONITORED-EVENT-REF>"
+            "<USED-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Ratio/UsedFid</USED-FID-REF>"
+            "</OBD-RATIO-SERVICE-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, ObdRatioServiceNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getConnectionType().getValue() == "observer"
+        assert needs.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
+        assert needs.getRateBasedMonitoredEventRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
+        assert needs.getUsedFidRef().getValue() == "/Ratio/UsedFid"
+        assert needs.getUsedFidRef().getDest() == "FUNCTION-INHIBITION-NEEDS"
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps

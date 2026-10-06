@@ -3385,6 +3385,45 @@ class TestObdRatioServiceNeeds:
             if os.path.exists(file_path):
                 os.remove(file_path)
 
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdRatioServiceNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createObdRatioServiceNeeds("RatioNeeds")
+        needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.API_USE))
+        event_ref = RefType()
+        event_ref.setValue("/Ratio/MonitoredEvent")
+        event_ref.setDest("DIAGNOSTIC-EVENT-NEEDS")
+        needs.setRateBasedMonitoredEventRef(event_ref)
+        fid_ref = RefType()
+        fid_ref.setValue("/Ratio/UsedFid")
+        fid_ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setUsedFidRef(fid_ref)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "RatioNeeds"
+            assert isinstance(needs_2, ObdRatioServiceNeeds)
+            assert needs_2.getConnectionType().getValue() == "apiUse"
+            assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
+            assert needs_2.getRateBasedMonitoredEventRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
+            assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
+            assert needs_2.getUsedFidRef().getDest() == "FUNCTION-INHIBITION-NEEDS"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestObdRatioDenominatorNeeds:
     def test_initialization(self):

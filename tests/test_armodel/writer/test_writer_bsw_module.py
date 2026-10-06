@@ -2986,6 +2986,41 @@ class TestWriterBswServiceDependency:
         assert ref_element.text == "/Fim/Controlled"
         assert ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
 
+    def test_writeBswServiceDependency_obd_ratio_service_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioConnectionKindEnum, ObdRatioServiceNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioServiceNeeds(dependency, "needs")
+        needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER))
+        event_ref = RefType()
+        event_ref.setValue("/Ratio/MonitoredEvent")
+        event_ref.setDest("DIAGNOSTIC-EVENT-NEEDS")
+        needs.setRateBasedMonitoredEventRef(event_ref)
+        fid_ref = RefType()
+        fid_ref.setValue("/Ratio/UsedFid")
+        fid_ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setUsedFidRef(fid_ref)
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        ratio_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-SERVICE-NEEDS")
+        assert ratio_element is not None
+        assert ratio_element.find("SHORT-NAME").text == "needs"
+        assert ratio_element.find("CONNECTION-TYPE").text == "observer"
+        event_ref_element = ratio_element.find("RATE-BASED-MONITORED-EVENT-REF")
+        assert event_ref_element is not None
+        assert event_ref_element.text == "/Ratio/MonitoredEvent"
+        assert event_ref_element.get("DEST") == "DIAGNOSTIC-EVENT-NEEDS"
+        fid_ref_element = ratio_element.find("USED-FID-REF")
+        assert fid_ref_element is not None
+        assert fid_ref_element.text == "/Ratio/UsedFid"
+        assert fid_ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

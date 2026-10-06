@@ -3458,14 +3458,14 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdRatioServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.44, p.795
-    # Spec verified: R23-11
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectionType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectionType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsedFidRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsedFidRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionType              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionType              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateBasedMonitoredEventRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateBasedMonitoredEventRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedFidRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedFidRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -3482,9 +3482,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getConnectionType(self) -> Optional[ObdRatioConnectionKindEnum]:
         """
         Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
-
-        Returns:
-            ObdRatioConnectionKindEnum instance, or None if not set
         """
         return self.connectionType
 
@@ -3492,12 +3489,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
         A None value is a no-op and does not overwrite an existing connectionType.
-
-        Args:
-            value: The ObdRatioConnectionKindEnum instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.connectionType = value
@@ -3506,9 +3497,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getRateBasedMonitoredEventRef(self) -> Optional[RefType]:
         """
         The rate based monitored Diagnostic Event.
-
-        Returns:
-            RefType instance, or None if not set
         """
         return self.rateBasedMonitoredEventRef
 
@@ -3516,12 +3504,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         The rate based monitored Diagnostic Event.
         A None value is a no-op and does not overwrite an existing rateBasedMonitoredEventRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.rateBasedMonitoredEventRef = value
@@ -3530,9 +3512,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     def getUsedFidRef(self) -> Optional[RefType]:
         """
         This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
-
-        Returns:
-            RefType instance, or None if not set
         """
         return self.usedFidRef
 
@@ -3540,12 +3519,6 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
         A None value is a no-op and does not overwrite an existing usedFidRef.
-
-        Args:
-            value: The RefType instance to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.usedFidRef = value
