@@ -2374,93 +2374,61 @@ class TestWriterServiceNeeds:
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
-        behavior = _make_behavior()
-        dep = behavior.createSwcServiceDependency("dep1")
-        dep.createNvBlockNeeds("nv")
-        dep.createDiagnosticCommunicationManagerNeeds("dcm")
-        dep.createDiagnosticComponentNeeds("dcn")
-        dep.createDiagnosticUploadDownloadNeeds("dudn")
-        dep.createDiagnosticsCommunicationSecurityNeeds("dcsn")
-        dep.createDiagnosticRoutineNeeds("drn")
-        dep.createDiagnosticValueNeeds("dvn")
-        dep.createDiagnosticEventNeeds("den")
-        dep.createDiagnosticEventInfoNeeds("dei")
-        dep.createDiagnosticIoControlNeeds("io")
-        dep.createCryptoServiceNeeds("csn")
-        dep.createEcuStateMgrUserNeeds("esm")
-        dep.createDtcStatusChangeNotificationNeeds("dsc")
-        dep.createDltUserNeeds("dlt")
-        dep.createComMgrUserNeeds("com")
-        dep.createErrorTracerNeeds("etn")
-        dep.createFunctionInhibitionNeeds("fin")
-        dep.createGlobalSupervisionNeeds("gsn")
-        dep.createHardwareTestNeeds("htn")
-        dep.createSupervisedEntityCheckpointNeeds("secn")
-        dep.createSyncTimeBaseMgrUserNeeds("stbn")
-        dep.createCryptoKeyManagementNeeds("ckmn")
-        dep.createCryptoServiceJobNeeds("csjn")
-        dep.createDiagnosticControlNeeds("dcn")
-        dep.createDiagnosticEventManagerNeeds("demn")
-        dep.createDiagnosticRequestFileTransferNeeds("drfn")
-        dep.createDoIpActivationLineNeeds("daln")
-        dep.createDoIpGidNeeds("dgn")
-        dep.createDoIpGidSynchronizationNeeds("dgsn")
-        dep.createDoIpPowerModeStatusNeeds("dpmn")
-        dep.createFurtherActionByteNeeds("fbn")
-        dep.createIdsMgrCustomTimestampNeeds("imctn")
-        dep.createJ1939DcmDm19Support("jdcm19")
-        dep.createJ1939RmIncomingRequestServiceNeeds("jrmin")
-        dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
-        dep.createV2xDataManagerNeeds("v2xdm")
-        dep.createV2xFacUserNeeds("v2xfac")
-        dep.createV2xMUserNeeds("v2xm")
-        dep.createVendorSpecificServiceNeeds("vsn")
-        dep.createWarningIndicatorRequestedBitNeeds("wirbn")
-        parent = _parent()
-        writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
-        needs_tag = parent.find("SERVICE-NEEDS")
-        assert needs_tag is not None
-        tags = {c.tag for c in needs_tag}
-        assert "NV-BLOCK-NEEDS" in tags
-        assert "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS" in tags
-        assert "DIAGNOSTIC-COMPONENT-NEEDS" in tags
-        assert "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS" in tags
-        assert "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS" in tags
-        assert "DIAGNOSTIC-ROUTINE-NEEDS" in tags
-        assert "DIAGNOSTIC-VALUE-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-INFO-NEEDS" in tags
-        assert "DIAGNOSTIC-IO-CONTROL-NEEDS" in tags
-        assert "CRYPTO-SERVICE-NEEDS" in tags
-        assert "ECU-STATE-MGR-USER-NEEDS" in tags
-        assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags
-        assert "DLT-USER-NEEDS" in tags
-        assert "COM-MGR-USER-NEEDS" in tags
-        assert "ERROR-TRACER-NEEDS" in tags
-        assert "FUNCTION-INHIBITION-NEEDS" in tags
-        assert "GLOBAL-SUPERVISION-NEEDS" in tags
-        assert "HARDWARE-TEST-NEEDS" in tags
-        assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
-        assert "SYNC-TIME-BASE-MGR-USER-NEEDS" in tags
-        assert "CRYPTO-KEY-MANAGEMENT-NEEDS" in tags
-        assert "CRYPTO-SERVICE-JOB-NEEDS" in tags
-        assert "DIAGNOSTIC-CONTROL-NEEDS" in tags
-        assert "DIAGNOSTIC-EVENT-MANAGER-NEEDS" in tags
-        assert "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS" in tags
-        assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
-        assert "DO-IP-GID-NEEDS" in tags
-        assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
-        assert "DO-IP-POWER-MODE-STATUS-NEEDS" in tags
-        assert "FURTHER-ACTION-BYTE-NEEDS" in tags
-        assert "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS" in tags
-        assert "J-1939-DCM-DM-19-SUPPORT" in tags
-        assert "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS" in tags
-        assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
-        assert "V-2-X-DATA-MANAGER-NEEDS" in tags
-        assert "V-2-X-FAC-USER-NEEDS" in tags
-        assert "V-2-X-M-USER-NEEDS" in tags
-        assert "VENDOR-SPECIFIC-SERVICE-NEEDS" in tags
-        assert "WARNING-INDICATOR-REQUESTED-BIT-NEEDS" in tags
+        """Each concrete ServiceNeeds subtype dispatches to its own XSD element; one child per SERVICE-NEEDS (0..1 slot)."""
+        cases = [
+            ("createNvBlockNeeds", "NV-BLOCK-NEEDS"),
+            ("createDiagnosticCommunicationManagerNeeds", "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS"),
+            ("createDiagnosticComponentNeeds", "DIAGNOSTIC-COMPONENT-NEEDS"),
+            ("createDiagnosticUploadDownloadNeeds", "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS"),
+            ("createDiagnosticsCommunicationSecurityNeeds", "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS"),
+            ("createDiagnosticRoutineNeeds", "DIAGNOSTIC-ROUTINE-NEEDS"),
+            ("createDiagnosticValueNeeds", "DIAGNOSTIC-VALUE-NEEDS"),
+            ("createDiagnosticEventNeeds", "DIAGNOSTIC-EVENT-NEEDS"),
+            ("createDiagnosticEventInfoNeeds", "DIAGNOSTIC-EVENT-INFO-NEEDS"),
+            ("createDiagnosticIoControlNeeds", "DIAGNOSTIC-IO-CONTROL-NEEDS"),
+            ("createCryptoServiceNeeds", "CRYPTO-SERVICE-NEEDS"),
+            ("createEcuStateMgrUserNeeds", "ECU-STATE-MGR-USER-NEEDS"),
+            ("createDtcStatusChangeNotificationNeeds", "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS"),
+            ("createDltUserNeeds", "DLT-USER-NEEDS"),
+            ("createComMgrUserNeeds", "COM-MGR-USER-NEEDS"),
+            ("createErrorTracerNeeds", "ERROR-TRACER-NEEDS"),
+            ("createFunctionInhibitionNeeds", "FUNCTION-INHIBITION-NEEDS"),
+            ("createGlobalSupervisionNeeds", "GLOBAL-SUPERVISION-NEEDS"),
+            ("createHardwareTestNeeds", "HARDWARE-TEST-NEEDS"),
+            ("createSupervisedEntityCheckpointNeeds", "SUPERVISED-ENTITY-CHECKPOINT-NEEDS"),
+            ("createSyncTimeBaseMgrUserNeeds", "SYNC-TIME-BASE-MGR-USER-NEEDS"),
+            ("createCryptoKeyManagementNeeds", "CRYPTO-KEY-MANAGEMENT-NEEDS"),
+            ("createCryptoServiceJobNeeds", "CRYPTO-SERVICE-JOB-NEEDS"),
+            ("createDiagnosticControlNeeds", "DIAGNOSTIC-CONTROL-NEEDS"),
+            ("createDiagnosticEventManagerNeeds", "DIAGNOSTIC-EVENT-MANAGER-NEEDS"),
+            ("createDiagnosticRequestFileTransferNeeds", "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS"),
+            ("createDoIpActivationLineNeeds", "DO-IP-ACTIVATION-LINE-NEEDS"),
+            ("createDoIpGidNeeds", "DO-IP-GID-NEEDS"),
+            ("createDoIpGidSynchronizationNeeds", "DO-IP-GID-SYNCHRONIZATION-NEEDS"),
+            ("createDoIpPowerModeStatusNeeds", "DO-IP-POWER-MODE-STATUS-NEEDS"),
+            ("createFurtherActionByteNeeds", "FURTHER-ACTION-BYTE-NEEDS"),
+            ("createIdsMgrCustomTimestampNeeds", "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS"),
+            ("createJ1939DcmDm19Support", "J-1939-DCM-DM-19-SUPPORT"),
+            ("createJ1939RmIncomingRequestServiceNeeds", "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS"),
+            ("createJ1939RmOutgoingRequestServiceNeeds", "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS"),
+            ("createV2xDataManagerNeeds", "V-2-X-DATA-MANAGER-NEEDS"),
+            ("createV2xFacUserNeeds", "V-2-X-FAC-USER-NEEDS"),
+            ("createV2xMUserNeeds", "V-2-X-M-USER-NEEDS"),
+            ("createVendorSpecificServiceNeeds", "VENDOR-SPECIFIC-SERVICE-NEEDS"),
+            ("createWarningIndicatorRequestedBitNeeds", "WARNING-INDICATOR-REQUESTED-BIT-NEEDS"),
+        ]
+        for index, (factory, tag) in enumerate(cases):
+            behavior = _make_behavior()
+            dep = behavior.createSwcServiceDependency("dep%d" % index)
+            getattr(dep, factory)("need")
+            parent = _parent()
+            writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
+            needs_tag = parent.find("SERVICE-NEEDS")
+            assert needs_tag is not None, factory
+            children = list(needs_tag)
+            assert len(children) == 1, factory
+            assert children[0].tag == tag, factory
+            assert children[0].find("SHORT-NAME").text == "need", factory
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

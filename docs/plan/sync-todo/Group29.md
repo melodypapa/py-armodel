@@ -61,15 +61,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwcServiceDependency` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.56, p.609; also CP_TPS_DiagnosticExtractTemplate Table 5.2, p.225
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 7.56, p.609 (body at markdown lines 17237-17256; DEXT Table 5.2 is a reproduction). Concrete Class; Base row = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable, ServiceDependency — two parallel chains (the modeled AtpStructureElement closure + ServiceDependency whose spec Base is ARObject only, Table 7.57, carrying assignedDataType/diagnosticRelevance/symbolicNameProps the reader/writer round-trip via read/writeServiceDependency) → Python base arbitrated to `(AtpStructureElement, ServiceDependency)`, and `VariationPointCapable` DROPPED per Rule 0020: the XSD complexType SWC-SERVICE-DEPENDENCY (AUTOSAR_00052.xsd line 117598) and every ancestor group it refs (ATP-CLASSIFIER/ATP-FEATURE/ATP-STRUCTURE-ELEMENT/SERVICE-DEPENDENCY) carry NO VARIATION-POINT element — the atpVariation stereotype sits on the assignedData/assignedPort aggr rows, whose Type classes RoleBasedDataAssignment/RoleBasedPortAssignment already carry `(ARObject, VariationPointCapable)`. 4 own attrs in displayed order: assignedData (RoleBasedDataAssignment, *, aggr), assignedPort (RoleBasedPortAssignment, *, aggr), representedPortGroup (PortGroup, 0..1, ref → representedPortGroupRef Optional[RefType]), serviceNeeds (ServiceNeeds, 0..1, aggr — abstract type; concrete-subtype createXxx factories per Rule 0001.6 over the single Optional[ServiceNeeds] field). XSD group SWC-SERVICE-DEPENDENCY (line 117470) sequenceOffset = ASSIGNED-DATAS, ASSIGNED-PORTS, REPRESENTED-PORT-GROUP-REF, SERVICE-NEEDS — current reader/writer emit SERVICE-NEEDS before REPRESENTED-PORT-GROUP-REF (order drift to fix in Step 6); getServiceNeeds() currently returns a registry-filtered List (type spec-one-vs-py-list, to-fix to Optional[ServiceNeeds]).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — stale 4-row tracker entry (DEXT-cited naming/missing/type rows, all fixed in earlier passes) replaced with "No deviations" plus the re-sync summary in docs/examples/method_deviation_by_class.md. Report-only observations: (1) the ~55 concrete-subtype `createXxx` factories and 17 per-type getters are not Table 7.56 rows — they are the Rule 0001.6 polymorphic shape for the abstract 0..1 `serviceNeeds` aggr; their docstrings carry the owning row's Note ("The associated ServiceNeeds.") per the `SwcInternalBehavior.createSwcServiceDependency` precedent; (2) prior tests pinning the old list-shaped `getServiceNeeds()` / multi-child SERVICE-NEEDS emission (parser orchestrator branch tests, nv_block dispatch test, writer swc_behavior dispatch test) re-pointed to the spec-correct single-slot semantics — the old writer emitted ALL registry needs under one SERVICE-NEEDS wrapper, which the XSD choice (maxOccurs=1) forbids; (3) XSD group SWC-SERVICE-DEPENDENCY holds no member beyond the PDF table (Rule 0015 nothing to drop) and no `atp.Status="removed"` members; (4) no Rule 0001.10 missing member types (RoleBasedDataAssignment/RoleBasedPortAssignment/ServiceNeeds all exist; representedPortGroup is a ref → RefType).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11472 + 8688 + 13 passed / 0 failed: models full tree, parser+writer regression, integration round-trip); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `SymbolicNameProps` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.59, p.610
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py

@@ -6897,122 +6897,121 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported traced failure <%s>" % type(failure))
 
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
-        needs_list = parent.getServiceNeeds()
-        if len(needs_list) > 0:
+        needs = parent.getServiceNeeds()
+        if needs is not None:
             child_element = ET.SubElement(element, "SERVICE-NEEDS")
-            for needs in needs_list:
-                if isinstance(needs, NvBlockNeeds):
-                    self.writeNvBlockNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
-                    self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticComponentNeeds):
-                    self.writeDiagnosticComponentNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticControlNeeds):
-                    self.writeDiagnosticControlNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticUploadDownloadNeeds):
-                    self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
-                    self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticRoutineNeeds):
-                    self.writeDiagnosticRoutineNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticValueNeeds):
-                    self.writeDiagnosticValueNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventNeeds):
-                    self.writeDiagnosticEventNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventInfoNeeds):
-                    self.writeDiagnosticEventInfoNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticIoControlNeeds):
-                    self.writeDiagnosticIoControlNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEnableConditionNeeds):
-                    self.writeDiagnosticEnableConditionNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticEventManagerNeeds):
-                    self.writeDiagnosticEventManagerNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticOperationCycleNeeds):
-                    self.writeDiagnosticOperationCycleNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
-                    self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
-                elif isinstance(needs, DiagnosticStorageConditionNeeds):
-                    self.writeDiagnosticStorageConditionNeeds(child_element, needs)
-                elif isinstance(needs, IndicatorStatusNeeds):
-                    self.writeIndicatorStatusNeeds(child_element, needs)
-                elif isinstance(needs, J1939DcmDm19Support):
-                    self.writeJ1939DcmDm19Support(child_element, needs)
-                elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
-                    self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
-                elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
-                    self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
-                elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
-                    self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
-                elif isinstance(needs, FunctionInhibitionNeeds):
-                    self.writeFunctionInhibitionNeeds(child_element, needs)
-                elif isinstance(needs, FurtherActionByteNeeds):
-                    self.writeFurtherActionByteNeeds(child_element, needs)
-                elif isinstance(needs, GlobalSupervisionNeeds):
-                    self.writeGlobalSupervisionNeeds(child_element, needs)
-                elif isinstance(needs, HardwareTestNeeds):
-                    self.writeHardwareTestNeeds(child_element, needs)
-                elif isinstance(needs, SupervisedEntityCheckpointNeeds):
-                    self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
-                elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
-                    self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, V2xDataManagerNeeds):
-                    self.writeV2xDataManagerNeeds(child_element, needs)
-                elif isinstance(needs, V2xFacUserNeeds):
-                    self.writeV2xFacUserNeeds(child_element, needs)
-                elif isinstance(needs, V2xMUserNeeds):
-                    self.writeV2xMUserNeeds(child_element, needs)
-                elif isinstance(needs, VendorSpecificServiceNeeds):
-                    self.writeVendorSpecificServiceNeeds(child_element, needs)
-                elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
-                    self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
-                elif isinstance(needs, CryptoKeyManagementNeeds):
-                    self.writeCryptoKeyManagementNeeds(child_element, needs)
-                elif isinstance(needs, CryptoServiceJobNeeds):
-                    self.writeCryptoServiceJobNeeds(child_element, needs)
-                elif isinstance(needs, CryptoServiceNeeds):
-                    self.writeCryptoServiceNeeds(child_element, needs)
-                elif isinstance(needs, EcuStateMgrUserNeeds):
-                    self.writeEcuStateMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, DtcStatusChangeNotificationNeeds):
-                    self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
-                elif isinstance(needs, DltUserNeeds):
-                    self.writeDltUserNeeds(child_element, needs)
-                elif isinstance(needs, ComMgrUserNeeds):
-                    self.writeComMgrUserNeeds(child_element, needs)
-                elif isinstance(needs, ErrorTracerNeeds):
-                    self.writeErrorTracerNeeds(child_element, needs)
-                elif isinstance(needs, ObdInfoServiceNeeds):
-                    self.writeObdInfoServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdMonitorServiceNeeds):
-                    self.writeObdMonitorServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdPidServiceNeeds):
-                    self.writeObdPidServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdControlServiceNeeds):
-                    self.writeObdControlServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdRatioServiceNeeds):
-                    self.writeObdRatioServiceNeeds(child_element, needs)
-                elif isinstance(needs, ObdRatioDenominatorNeeds):
-                    self.writeObdRatioDenominatorNeeds(child_element, needs)
-                elif isinstance(needs, DoIpActivationLineNeeds):
-                    self.writeDoIpActivationLineNeeds(child_element, needs)
-                elif isinstance(needs, DoIpGidNeeds):
-                    self.writeDoIpGidNeeds(child_element, needs)
-                elif isinstance(needs, DoIpGidSynchronizationNeeds):
-                    self.writeDoIpGidSynchronizationNeeds(child_element, needs)
-                elif isinstance(needs, DoIpPowerModeStatusNeeds):
-                    self.writeDoIpPowerModeStatusNeeds(child_element, needs)
-                elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
-                    self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
-                elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
-                    self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
-                elif isinstance(needs, SecureOnBoardCommunicationNeeds):
-                    self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
-                elif isinstance(needs, IdsMgrCustomTimestampNeeds):
-                    self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
-                elif isinstance(needs, IdsMgrNeeds):
-                    self.writeIdsMgrNeeds(child_element, needs)
-                else:
-                    self.notImplemented("Unsupported service needs <%s>" % type(needs))
+            if isinstance(needs, NvBlockNeeds):
+                self.writeNvBlockNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
+                self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticComponentNeeds):
+                self.writeDiagnosticComponentNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticControlNeeds):
+                self.writeDiagnosticControlNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticUploadDownloadNeeds):
+                self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
+                self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticRoutineNeeds):
+                self.writeDiagnosticRoutineNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticValueNeeds):
+                self.writeDiagnosticValueNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventNeeds):
+                self.writeDiagnosticEventNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventInfoNeeds):
+                self.writeDiagnosticEventInfoNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticIoControlNeeds):
+                self.writeDiagnosticIoControlNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEnableConditionNeeds):
+                self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticEventManagerNeeds):
+                self.writeDiagnosticEventManagerNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticOperationCycleNeeds):
+                self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
+                self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
+            elif isinstance(needs, DiagnosticStorageConditionNeeds):
+                self.writeDiagnosticStorageConditionNeeds(child_element, needs)
+            elif isinstance(needs, IndicatorStatusNeeds):
+                self.writeIndicatorStatusNeeds(child_element, needs)
+            elif isinstance(needs, J1939DcmDm19Support):
+                self.writeJ1939DcmDm19Support(child_element, needs)
+            elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+                self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
+                self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
+            elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
+                self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif isinstance(needs, FunctionInhibitionNeeds):
+                self.writeFunctionInhibitionNeeds(child_element, needs)
+            elif isinstance(needs, FurtherActionByteNeeds):
+                self.writeFurtherActionByteNeeds(child_element, needs)
+            elif isinstance(needs, GlobalSupervisionNeeds):
+                self.writeGlobalSupervisionNeeds(child_element, needs)
+            elif isinstance(needs, HardwareTestNeeds):
+                self.writeHardwareTestNeeds(child_element, needs)
+            elif isinstance(needs, SupervisedEntityCheckpointNeeds):
+                self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
+            elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
+                self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, V2xDataManagerNeeds):
+                self.writeV2xDataManagerNeeds(child_element, needs)
+            elif isinstance(needs, V2xFacUserNeeds):
+                self.writeV2xFacUserNeeds(child_element, needs)
+            elif isinstance(needs, V2xMUserNeeds):
+                self.writeV2xMUserNeeds(child_element, needs)
+            elif isinstance(needs, VendorSpecificServiceNeeds):
+                self.writeVendorSpecificServiceNeeds(child_element, needs)
+            elif isinstance(needs, WarningIndicatorRequestedBitNeeds):
+                self.writeWarningIndicatorRequestedBitNeeds(child_element, needs)
+            elif isinstance(needs, CryptoKeyManagementNeeds):
+                self.writeCryptoKeyManagementNeeds(child_element, needs)
+            elif isinstance(needs, CryptoServiceJobNeeds):
+                self.writeCryptoServiceJobNeeds(child_element, needs)
+            elif isinstance(needs, CryptoServiceNeeds):
+                self.writeCryptoServiceNeeds(child_element, needs)
+            elif isinstance(needs, EcuStateMgrUserNeeds):
+                self.writeEcuStateMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, DtcStatusChangeNotificationNeeds):
+                self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
+            elif isinstance(needs, DltUserNeeds):
+                self.writeDltUserNeeds(child_element, needs)
+            elif isinstance(needs, ComMgrUserNeeds):
+                self.writeComMgrUserNeeds(child_element, needs)
+            elif isinstance(needs, ErrorTracerNeeds):
+                self.writeErrorTracerNeeds(child_element, needs)
+            elif isinstance(needs, ObdInfoServiceNeeds):
+                self.writeObdInfoServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdMonitorServiceNeeds):
+                self.writeObdMonitorServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdPidServiceNeeds):
+                self.writeObdPidServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdControlServiceNeeds):
+                self.writeObdControlServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdRatioServiceNeeds):
+                self.writeObdRatioServiceNeeds(child_element, needs)
+            elif isinstance(needs, ObdRatioDenominatorNeeds):
+                self.writeObdRatioDenominatorNeeds(child_element, needs)
+            elif isinstance(needs, DoIpActivationLineNeeds):
+                self.writeDoIpActivationLineNeeds(child_element, needs)
+            elif isinstance(needs, DoIpGidNeeds):
+                self.writeDoIpGidNeeds(child_element, needs)
+            elif isinstance(needs, DoIpGidSynchronizationNeeds):
+                self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+            elif isinstance(needs, DoIpPowerModeStatusNeeds):
+                self.writeDoIpPowerModeStatusNeeds(child_element, needs)
+            elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
+                self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
+            elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
+                self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
+            elif isinstance(needs, SecureOnBoardCommunicationNeeds):
+                self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+                self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
+            elif isinstance(needs, IdsMgrNeeds):
+                self.writeIdsMgrNeeds(child_element, needs)
+            else:
+                self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
     def writeSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
         self.setChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF", dependency.getRepresentedPortGroupRef())
@@ -7022,8 +7021,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceDependency(child_element, dependency)
         self.writeSwcServiceDependencyAssignedData(child_element, dependency)
         self.writeSwcServiceDependencyAssignedPorts(child_element, dependency)
-        self.writeSwcServiceDependencyServiceNeeds(child_element, dependency)
         self.writeSwcServiceDependencyRepresentedPortGroup(child_element, dependency)
+        self.writeSwcServiceDependencyServiceNeeds(child_element, dependency)
 
     def writeSwcInternalBehaviorServiceDependencies(self, element: ET.Element, behavior: SwcInternalBehavior):
         dependencies = behavior.getSwcServiceDependencies()

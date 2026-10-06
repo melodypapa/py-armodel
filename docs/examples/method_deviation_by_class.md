@@ -1645,16 +1645,11 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 - Aggregated 0..1 by `ServiceDependency.symbolicNameProps` (spec `Table 7.57`, Kind `aggr`) — verified against PDF; the aggregation is correct in the model.
 
 ## `SwcServiceDependency`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 224
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 609
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `assignedDataType` | `—` | `assignedData` | `RoleBasedDataAssignment` | — | naming |
-| — *(missing)* | `—` | `assignedPort` | `Ref (PortGroup)` | — | missing |
-| — *(missing)* | `—` | `representedPortGroupRef` | `Ref (PortGroup)` | Ref | missing |
-| `cryptoServiceNeeds` | `—` | `serviceNeeds` | `BswMgrNeeds` | — | type (spec one vs py list) |
+No deviations — Table 7.56 (p.609) fully modeled: `assignedData` / `assignedPort` as dedicated typed list fields (`*` aggr), `representedPortGroupRef` (`Ref` suffix, 0..1 ref), `serviceNeeds` as the single `Optional[ServiceNeeds]` slot with one `createXxx(short_name)` factory per concrete subtype (Rule 0001.6). 2026-10-06 re-sync (Rule 0023) replaced the four stale rows above (all fixed in earlier passes): base arbitrated to `(AtpStructureElement, ServiceDependency)` per the markdown Base row (Rule 0001.2) and `VariationPointCapable` dropped (Rule 0020 — the XSD complexType SWC-SERVICE-DEPENDENCY and every ancestor group it refs carry no VARIATION-POINT element); `getServiceNeeds()` converted from a registry-filtered list to the spec `0..1` Optional shape; reader/writer element order fixed to the XSD sequenceOffset (REPRESENTED-PORT-GROUP-REF before SERVICE-NEEDS).
 
 ## `ObdControlServiceNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 233

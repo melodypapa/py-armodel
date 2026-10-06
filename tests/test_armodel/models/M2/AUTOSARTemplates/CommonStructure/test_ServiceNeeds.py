@@ -3428,7 +3428,7 @@ class TestObdRatioServiceNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "RatioNeeds"
             assert isinstance(needs_2, ObdRatioServiceNeeds)
             assert needs_2.getConnectionType().getValue() == "API-USE"
@@ -3515,7 +3515,7 @@ class TestObdRatioDenominatorNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "DenomNeeds"
             assert isinstance(needs_2, ObdRatioDenominatorNeeds)
             assert needs_2.getDenominatorCondition().getValue() == "CSERS"
@@ -3634,7 +3634,7 @@ class TestDoIpRoutingActivationAuthenticationNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "AuthNeeds"
             assert isinstance(needs_2, DoIpRoutingActivationAuthenticationNeeds)
             assert needs_2.getDataLengthRequest().getValue() == 4
@@ -3755,7 +3755,7 @@ class TestDoIpRoutingActivationConfirmationNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "ConfNeeds"
             assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
             assert needs_2.getDataLengthRequest().getValue() == 4
@@ -3840,7 +3840,7 @@ class TestSecureOnBoardCommunicationNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
             assert needs_2.getVerificationStatusIndicationMode().getValue() == "FAILURE-AND-SUCCESS"
@@ -3922,7 +3922,7 @@ class TestIdsMgrNeeds:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "IdsNeeds"
             assert isinstance(needs_2, IdsMgrNeeds)
             assert needs_2.getUseSmartSensorApi().getValue() is True
@@ -3962,7 +3962,7 @@ class TestNewServiceNeedsSwcRoundTrip:
             document_2.clear()
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
-            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()
             return needs_2
         finally:
             if os.path.exists(file_path):

@@ -3923,8 +3923,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceDependency(element, dependency)
         self.readSwcServiceDependencyAssignedData(element, dependency)
         self.readSwcServiceDependencyAssignedPorts(element, dependency)
-        self.readSwcServiceDependencyServiceNeeds(element, dependency)
         self.readSwcServiceDependencyRepresentedPortGroup(element, dependency)
+        self.readSwcServiceDependencyServiceNeeds(element, dependency)
 
     def readSwcInternalBehaviorServiceDependencies(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):
