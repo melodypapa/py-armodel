@@ -628,6 +628,60 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         return self
 
 
+class CouplingPortShaper(CouplingPortStructuralElement):
+    """
+    Defines a shaper for the CouplingPort egress structure. Tags: atp.Status=obsolete
+    """
+
+    # CouplingPortShaper method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.67, p.123
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIdleSlope           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdleSlope           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPredecessorFifoRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPredecessorFifoRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        self.idleSlope: Optional[PositiveInteger] = None
+
+        # Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        self.predecessorFifoRef: Optional[RefType] = None
+
+    def getIdleSlope(self) -> Optional[PositiveInteger]:
+        """
+        Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        """
+        return self.idleSlope
+
+    def setIdleSlope(self, value: Optional[PositiveInteger]) -> CouplingPortShaper:
+        """
+        Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing idleSlope.
+        """
+        if value is not None:
+            self.idleSlope = value
+        return self
+
+    def getPredecessorFifoRef(self) -> Optional[RefType]:
+        """
+        Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        """
+        return self.predecessorFifoRef
+
+    def setPredecessorFifoRef(self, value: Optional[RefType]) -> CouplingPortShaper:
+        """
+        Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing predecessorFifoRef.
+        """
+        if value is not None:
+            self.predecessorFifoRef = value
+        return self
+
+
 class EthernetPriorityRegeneration(Referrable):
     """
     Defines a priority regeneration where the ingressPriority is replaced by regeneratedPriority. The ethernetPriorityRegeneration is optional in case no priority regeneration shall be performed. In case a ethernetPriorityRegeneration is defined it shall have 8 mappings, one for each priority.
@@ -695,6 +749,7 @@ class CouplingPortDetails(ARObject):
     # [x] getCouplingPortStructuralElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCouplingPortFifo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createCouplingPortScheduler         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCouplingPortShaper            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetPriorityRegeneration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEthernetPriorityRegenerations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addEthernetTrafficClassAssignment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -742,6 +797,12 @@ class CouplingPortDetails(ARObject):
         scheduler = CouplingPortScheduler(self, short_name)
         self.couplingPortStructuralElements.append(scheduler)
         return scheduler
+
+    def createCouplingPortShaper(self, short_name: str) -> CouplingPortShaper:
+        """Collects all the structural parts at which a CouplingPort may be configurable."""
+        shaper = CouplingPortShaper(self, short_name)
+        self.couplingPortStructuralElements.append(shaper)
+        return shaper
 
     def createEthernetPriorityRegeneration(self, short_name: str) -> EthernetPriorityRegeneration:
         """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
@@ -4840,10 +4901,6 @@ class EthTcpIpIcmpProps(ARElement):
         if value is not None:
             self.icmpV6Props = value
         return self
-
-
-class CouplingPortShaper(CouplingPortStructuralElement):
-    pass
 
 
 class HttpTp(TransportProtocolConfiguration):

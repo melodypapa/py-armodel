@@ -1150,6 +1150,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortRatePolicy,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
@@ -14581,6 +14582,13 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "PREDECESSOR-REFS/PREDECESSOR-REF"):
             scheduler.addPredecessorRef(ref)
 
+    def readCouplingPortShaper(self, element: ET.Element, shaper: CouplingPortShaper):
+        self.readIdentifiable(element, shaper)
+        shaper.setIdleSlope(self.getChildElementOptionalPositiveInteger(element, "IDLE-SLOPE"))
+        refs = self.getChildElementRefTypeList(element, "PREDECESSOR-FIFO-REF")
+        if len(refs) > 0:
+            shaper.setPredecessorFifoRef(refs[0])
+
     def readCouplingPortDetailsCouplingPortStructuralElements(self, item: ET.Element, details: CouplingPortDetails):
         for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -14590,6 +14598,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COUPLING-PORT-SCHEDULER":
                 scheduler_item = details.createCouplingPortScheduler(self.getShortName(child_element))
                 self.readCouplingPortScheduler(child_element, scheduler_item)
+            elif tag_name == "COUPLING-PORT-SHAPER":
+                shaper_item = details.createCouplingPortShaper(self.getShortName(child_element))
+                self.readCouplingPortShaper(child_element, shaper_item)
             else:
                 self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % tag_name)
 

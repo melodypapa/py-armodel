@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
@@ -2058,3 +2059,92 @@ class TestCouplingPortSpecSync:
         props = recovered.getMacSecProps()
         assert len(props) == 1
         assert props[0].getAutoStart().getValue() is True
+
+
+COUPLING_PORT_SHAPER_CLASS_NOTE = "Defines a shaper for the CouplingPort egress structure. Tags: atp.Status=obsolete"
+IDLE_SLOPE_NOTE = "Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete"
+PREDECESSOR_FIFO_NOTE = "Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete"
+
+
+class TestCouplingPortShaper:
+    """Test cases for CouplingPortShaper (Table 3.67, p.123)."""
+
+    MEMBERS = [
+        "idleSlope",
+        "predecessorFifoRef",
+    ]
+
+    def _make(self) -> CouplingPortShaper:
+        return CouplingPortShaper(MockParent(), "test_coupling_port_shaper")
+
+    def _assert_docstring(self, method, note, noop=None):
+        expected = note if noop is None else note + "\n" + noop
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_inheritance(self):
+        assert issubclass(CouplingPortShaper, CouplingPortStructuralElement)
+        assert issubclass(CouplingPortShaper, Identifiable)
+        assert issubclass(CouplingPortShaper, ARObject)
+
+    def test_concrete_instantiation(self):
+        shaper = self._make()
+
+        assert shaper.getShortName() == "test_coupling_port_shaper"
+
+    def test_initialization_defaults(self):
+        shaper = self._make()
+
+        assert shaper.getIdleSlope() is None
+        assert shaper.getPredecessorFifoRef() is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(CouplingPortShaper.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(CouplingPortShaper.__doc__).strip() == COUPLING_PORT_SHAPER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert CouplingPortShaper.__init__.__doc__ is None
+
+    def test_get_set_idle_slope(self):
+        shaper = self._make()
+        value = PositiveInteger().setValue("12500000")
+        assert shaper.setIdleSlope(value) is shaper
+        assert shaper.getIdleSlope() is value
+        shaper.setIdleSlope(None)
+        assert shaper.getIdleSlope().getValue() == 12500000
+        self._pin(CouplingPortShaper.getIdleSlope, CouplingPortShaper.setIdleSlope, Optional[PositiveInteger], CouplingPortShaper)
+
+    def test_idle_slope_docstrings_are_spec_note(self):
+        self._assert_docstring(CouplingPortShaper.getIdleSlope, IDLE_SLOPE_NOTE)
+        self._assert_docstring(CouplingPortShaper.setIdleSlope, IDLE_SLOPE_NOTE, "A None value is a no-op and does not overwrite an existing idleSlope.")
+
+    def test_get_set_predecessor_fifo_ref(self):
+        shaper = self._make()
+        ref = RefType().setValue("/Clusters/Switch/CouplingPort/Fifo1").setDest("COUPLING-PORT-FIFO")
+        assert shaper.setPredecessorFifoRef(ref) is shaper
+        assert shaper.getPredecessorFifoRef() is ref
+        shaper.setPredecessorFifoRef(None)
+        assert shaper.getPredecessorFifoRef() is ref
+        self._pin(CouplingPortShaper.getPredecessorFifoRef, CouplingPortShaper.setPredecessorFifoRef, Optional[RefType], CouplingPortShaper)
+
+    def test_predecessor_fifo_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(CouplingPortShaper.getPredecessorFifoRef, PREDECESSOR_FIFO_NOTE)
+        self._assert_docstring(CouplingPortShaper.setPredecessorFifoRef, PREDECESSOR_FIFO_NOTE, "A None value is a no-op and does not overwrite an existing predecessorFifoRef.")
+
+    def test_details_create_coupling_port_shaper_appends(self):
+        details = CouplingPortDetails()
+        shaper = details.createCouplingPortShaper("Shaper1")
+
+        assert shaper.getShortName() == "Shaper1"
+        assert details.getCouplingPortStructuralElements() == [shaper]

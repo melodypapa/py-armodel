@@ -960,6 +960,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortRatePolicy,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     EthernetCluster,
@@ -12320,6 +12321,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "PREDECESSOR-REF", ref)
 
+    def writeCouplingPortShaper(self, element: ET.Element, shaper: CouplingPortShaper):
+        if shaper is not None:
+            child_element = ET.SubElement(element, "COUPLING-PORT-SHAPER")
+            self.writeIdentifiable(child_element, shaper)
+            self.setChildElementOptionalPositiveInteger(child_element, "IDLE-SLOPE", cast(Integer, shaper.getIdleSlope()))
+            self.setChildElementOptionalRefType(child_element, "PREDECESSOR-FIFO-REF", shaper.getPredecessorFifoRef())
+
     def writeCouplingPortDetailsCouplingPortStructuralElements(self, element: ET.Element, details: CouplingPortDetails):
         items = details.getCouplingPortStructuralElements()
         if len(items) > 0:
@@ -12329,6 +12337,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCouplingPortFifo(child_element, item)
                 elif isinstance(item, CouplingPortScheduler):
                     self.writeCouplingPortScheduler(child_element, item)
+                elif isinstance(item, CouplingPortShaper):
+                    self.writeCouplingPortShaper(child_element, item)
                 else:
                     self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % type(item))
 
