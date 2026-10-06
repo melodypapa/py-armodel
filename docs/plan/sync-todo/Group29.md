@@ -38,15 +38,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ExternalTriggeringPoint` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.39, p.584
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/Trigger.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-07): the stale `# Spec verified: R23-11` marker sat on a legacy 5-column checklist (no release column, paraphrase docstrings with Returns: blocks, bare `ident` member annotation) — marker removed (re-stamp deferred to batch 9b per user instruction; row intentionally left `[ ]`), checklist rebuilt 6-column. Table 7.39 (p.584) Note + 2 attrs verbatim after wipe/rewrite — markdown wrap artifacts kept per Rule 0015/0001.4 (ident Note "ExternalTriggering Point", trigger Note "PTriggerInAtomicSwc TypeInstanceRef"); ident 0..1 → `Optional[ExternalTriggeringPointIdent]` PEP 526 (getter was bare-T, Rule 0001.4); member order = markdown row order.
+  - Step 6 (2026-10-07): XSD complexType EXTERNAL-TRIGGERING-POINT (AUTOSAR_00052.xsd line 58485) = AR-OBJECT group + own group + AR-OBJECT attributeGroup; group EXTERNAL-TRIGGERING-POINT (line 58447) = IDENT (sequenceOffset -100) → TRIGGER-IREF wrapper → VARIATION-POINT (10000, atpVariation present — VariationPointCapable kept per Rule 0020). Reader entry readRunnableEntityExternalTriggeringPoints gained readARObject + readReferrable on the IDENT (LinSlaveConfig precedent) + readVariationPointCapable; writer gained writeARObject + writeVariationPointCapable (VARIATION-POINT emitted last per XSD order) — inherited S/T, ident SHORT-NAME-FRAGMENTS and VP were all silently dropped before; new parser/writer tests pin S/T, fragments and the IDENT → TRIGGER-IREF → VARIATION-POINT element order; audit BASE now clean both directions.
+  - Step 8 (2026-10-07): no spec deviations. Member type ExternalTriggeringPointIdent is stamped R23-11 against its own Table 14.6, p.852 (RPTScenario-package caption class, RPTScenario.py home is per-spec). ident 0..1 aggr keeps the createIdent/getIdent shape (Referrable-derived child, Rule 0001.6).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (full battery 20503/0 incl. new S/T + VP round-trip tests); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `IncludedDataTypeSet` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.50, p.600
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py

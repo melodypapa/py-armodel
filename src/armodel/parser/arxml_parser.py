@@ -6401,14 +6401,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
         for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):
             point = ExternalTriggeringPoint()
+            self.readARObject(child_element, point)
             ident_element = self.find(child_element, "IDENT")
             if ident_element is not None:
-                point.createIdent(self.getShortName(ident_element))
+                ident = point.createIdent(self.getShortName(ident_element))
+                self.readReferrable(ident_element, ident)
             trigger_element = self.find(child_element, "TRIGGER-IREF")
             if trigger_element is not None:
                 trigger = PTriggerInAtomicSwcTypeInstanceRef()
                 self.readPTriggerInAtomicSwcTypeInstanceRef(trigger_element, trigger)
                 point.setTrigger(trigger)
+            self.readVariationPointCapable(child_element, point)
             parent.addExternalTriggeringPoint(point)
 
     def readModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
