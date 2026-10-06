@@ -815,26 +815,26 @@ Status: **17/17** completed
 
 ## Group19
 
-Status: **3/16** completed
+Status: **16/16** completed
 
-| Class Name                       | Status       | Commit ID  |
-| -------------------------------- | ------------ | ---------- |
-| `ConfigReferenceValue`           | [ ] Pending* | N/A        |
-| `EcucValueCollection`            | [ ] Pending* | N/A        |
-| `ModuleConfiguration`            | [ ] Pending* | N/A        |
-| `EcucConfigurationClassEnum`     | [ ] Pending* | N/A        |
-| `EcucScopeEnum`                  | [ ] Pending* | N/A        |
-| `EcucDestinationUriDefRefType`   | [ ] Pending* | N/A        |
-| `EcucBooleanParamDef`            | [ ] Pending* | N/A        |
-| `EcucFloatParamDef`              | [ ] Pending* | N/A        |
-| `EcucForeignReferenceDef`        | [ ] Pending* | N/A        |
-| `EcucLinkerSymbolDef`            | [ ] Pending* | N/A        |
-| `EcucReferenceDef`               | [x] Done     | 0d45067479 |
-| `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
-| `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
-| `EcucConditionFormula`           | [ ] Pending* | N/A        |
-| `EcucParameterDerivationFormula` | [ ] Pending* | N/A        |
-| `EcucQueryExpression`            | [ ] Pending* | N/A        |
+| Class Name                       | Status   | Commit ID  |
+| -------------------------------- | -------- | ---------- |
+| `ConfigReferenceValue`           | [x] Done | 7ed4c9a4a4 |
+| `EcucValueCollection`            | [x] Done | b65b2313a2 |
+| `ModuleConfiguration`            | [x] Done | 5cedb145b9 |
+| `EcucConfigurationClassEnum`     | [x] Done | eb890b899c |
+| `EcucScopeEnum`                  | [x] Done | 096c9544fc |
+| `EcucDestinationUriDefRefType`   | [x] Done | 7047c575f7 |
+| `EcucBooleanParamDef`            | [x] Done | b40b99238a |
+| `EcucFloatParamDef`              | [x] Done | 454e47206b |
+| `EcucForeignReferenceDef`        | [x] Done | 958007001d |
+| `EcucLinkerSymbolDef`            | [x] Done | 776f61b1df |
+| `EcucReferenceDef`               | [x] Done | 0d45067479 |
+| `EcucSymbolicNameReferenceDef`   | [x] Done | 0d45067479 |
+| `EcucUriReferenceDef`            | [x] Done | 0d45067479 |
+| `EcucConditionFormula`           | [x] Done | 86096857ad |
+| `EcucParameterDerivationFormula` | [x] Done | 16bd8cd3d0 |
+| `EcucQueryExpression`            | [x] Done | a6ca958629 |
 
 ## Group20
 
