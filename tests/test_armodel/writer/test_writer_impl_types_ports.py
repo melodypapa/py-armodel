@@ -1847,3 +1847,71 @@ class TestEcuAbstractionSwComponentTypeRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestComplexDeviceDriverSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ComplexDeviceDriverSwComponentType with hardware element refs (Table 10.3)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createComplexDeviceDriverSwComponentType("CddSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Cdd/Led", "HW-DESCRIPTION-ENTITY"))
+        swc.addHardwareElementRef(_make_ref("/Hw/Cdd/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, ComplexDeviceDriverSwComponentType))
+            assert isinstance(swc_2, ComplexDeviceDriverSwComponentType)
+            assert swc_2.getShortName() == "CddSwc"
+            refs = swc_2.getHardwareElementRefs()
+            assert len(refs) == 2
+            assert refs[0].getValue() == "/Hw/Cdd/Led"
+            assert refs[0].getDest() == "HW-DESCRIPTION-ENTITY"
+            assert refs[1].getValue() == "/Hw/Cdd/Sensor"
+            assert refs[1].getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a ComplexDeviceDriverSwComponentType without hardware element refs round-trips without the wrapper element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createComplexDeviceDriverSwComponentType("CddSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("HARDWARE-ELEMENT-REFS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert swc_2.getHardwareElementRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

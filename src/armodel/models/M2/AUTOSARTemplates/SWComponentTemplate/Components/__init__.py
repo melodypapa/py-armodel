@@ -980,14 +980,15 @@ class ApplicationSwComponentType(AtomicSwComponentType):
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     """
-    The ComplexDeviceDriverSwComponentType is a special AtomicSwComponentType that has direct access to hardware on an ECU and which is therefore linked to a specific ECU or specific hardware. The ComplexDeviceDriverSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template.
+    The ComplexDeviceDriverSwComponentType is a special AtomicSwComponentType that has direct access to hardware on an ECU and which is therefore linked to a specific ECU or specific hardware. The ComplexDeviceDriverSwComponentType introduces the possibility to link from the software representation to its hardware description provided by the ECU Resource Template. Tags: atp.recommendedPackage=SwComponentTypes
     """
 
+    # ComplexDeviceDriverSwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 10.3, p.648
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHardwareElementRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHardwareElementRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHardwareElementRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHardwareElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -995,33 +996,21 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
         # Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
         self.hardwareElementRefs: List[RefType] = []
 
-    def getHardwareElementRefs(self) -> List[RefType]:
-        """
-        Gets the references to the descriptions of the used hardware elements.
-
-        Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
-
-        Returns:
-            List[RefType]: The list of references to the used HwElements
-        """
-        return self.hardwareElementRefs
-
     def addHardwareElementRef(self, value: Optional[RefType]) -> ComplexDeviceDriverSwComponentType:
         """
-        Adds a reference to the description of a used hardware element.
-        A None value is a no-op and does not append anything.
-
         Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
 
-        Args:
-            value: The reference to the used HwElement
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.hardwareElementRefs.append(value)
         return self
+
+    def getHardwareElementRefs(self) -> List[RefType]:
+        """
+        Reference from the ComplexDeviceDriverSwComponentType to the description of the used HwElements.
+        """
+        return self.hardwareElementRefs
 
 
 class NvBlockSwComponentType(AtomicSwComponentType):

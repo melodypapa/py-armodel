@@ -461,7 +461,25 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         driver_sw_component = ComplexDeviceDriverSwComponentType(ar_root, "TestComplexDeviceDriverSwComponent")
 
+        assert driver_sw_component is not None
+        assert isinstance(driver_sw_component, AtomicSwComponentType)
         assert driver_sw_component.hardwareElementRefs == []
+
+    def test_ComplexDeviceDriverSwComponentType_add_get_hardwareElementRefs(self):
+        """Test addHardwareElementRef/getHardwareElementRefs round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        driver_sw_component = ComplexDeviceDriverSwComponentType(ar_root, "TestComplexDeviceDriverSwComponent")
+
+        ref = RefType().setValue("/HwTypes/HwElement")
+        ref.dest = "HW-DESCRIPTION-ENTITY"
+
+        assert driver_sw_component.addHardwareElementRef(ref) is driver_sw_component
+        assert driver_sw_component.getHardwareElementRefs() == [ref]
+        assert driver_sw_component.hardwareElementRefs == [ref]
+
+        driver_sw_component.addHardwareElementRef(None)
+        assert driver_sw_component.getHardwareElementRefs() == [ref]
 
     def test_NvBlockSwComponentType(self):
         """Test NvBlockSwComponentType class."""

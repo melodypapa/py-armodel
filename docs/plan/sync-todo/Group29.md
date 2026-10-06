@@ -166,15 +166,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ComplexDeviceDriverSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 10.3, p.648
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly one attribute — `hardwareElement` (ref, `*`, HwDescriptionEntity; markdown renders "hardware Element" — PDF line-break artifact, XSD appinfo mmt.qualifiedName confirms; XSD HARDWARE-ELEMENT-REFS wrapper + unbounded HARDWARE-ELEMENT-REF DEST=HW-DESCRIPTION-ENTITY--SUBTYPES-ENUM, AUTOSAR_00052.xsd L20554) → `hardwareElementRefs: List[RefType]` already matches (Rule 0001.4 `*`→List, Rule 0001.5 Refs suffix); most-derived base AtomicSwComponentType correct; ARPackage create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Rule 0001.11 defect found: source has getHardwareElementRefs BEFORE addHardwareElementRef — list shape requires mutator first (Step 3 fix). Attribute Note wrap-space joined ("ComplexDeviceDriverSwComponent Type" → "ComplexDeviceDriverSwComponentType"; XSD doc confirms, EcuAbstraction precedent). Class docstring missing the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3 fix). Stale `# Spec verified: R23-11` marker + Rule 0023 legacy 4-column checklist present → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) (no changes needed — ARPackage dispatch and readComplexDeviceDriverSwComponentType/writeComplexDeviceDriverSwComponentType pre-wired with base helpers called exactly once each direction)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — stale deviation rows none; sole attribute `hardwareElement` (ref, `*`, HwDescriptionEntity) matches `hardwareElementRefs: List[RefType]` both directions. Fixed in-pass: Rule 0001.11 accessor order (getHardwareElementRefs was before addHardwareElementRef → mutator first), Rule 0023 legacy checklist → 6-column, Rule 0001.4 paraphrased accessor docstrings → Note verbatim, missing class-docstring `Tags:` tail added (Rule 0012.2.5.3). Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: XSD group COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L20554) holds no member beyond the PDF table (Rule 0015), no `atp.Status="removed"` members, no Rule 0001.10 missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (199 + 8701 + 3 + 2154 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `ServiceSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 11.2, p.659
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
