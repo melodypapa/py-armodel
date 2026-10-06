@@ -364,10 +364,10 @@ STUBS = [
     ),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping", "ClientServerToSignalMapping", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping", "DataMapping"),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths",
         "CommonSignalPath",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths",
+        "SignalPathConstraint",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",

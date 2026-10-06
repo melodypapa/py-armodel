@@ -110,6 +110,62 @@ class SwcToSwcSignal(ARObject):
         return self.dataElementIRefs
 
 
+class CommonSignalPath(SignalPathConstraint):
+    """
+    The CommonSignalPath describes that two or more SwcToSwcSignals and/or SwcToSwcOperationArguments shall take the same way (Signal Path) in the topology.
+    """
+
+    # CommonSignalPath method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.36, p.253
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOperation    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignal       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignals      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The arguments sent in one direction (either from client to server or server to client) of the operations that shall take the same signal path.
+        self.operations: List[SwcToSwcOperationArguments] = []
+
+        # The SwcToSwcSignals that shall take the same way (Signal Path) in the topology.
+        self.signals: List[SwcToSwcSignal] = []
+
+    def addOperation(self, value: Optional[SwcToSwcOperationArguments]) -> CommonSignalPath:
+        """
+        The arguments sent in one direction (either from client to server or server to client) of the operations that shall take the same signal path.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.operations.append(value)
+        return self
+
+    def getOperations(self) -> List[SwcToSwcOperationArguments]:
+        """
+        The arguments sent in one direction (either from client to server or server to client) of the operations that shall take the same signal path.
+        """
+        return self.operations
+
+    def addSignal(self, value: Optional[SwcToSwcSignal]) -> CommonSignalPath:
+        """
+        The SwcToSwcSignals that shall take the same way (Signal Path) in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.signals.append(value)
+        return self
+
+    def getSignals(self) -> List[SwcToSwcSignal]:
+        """
+        The SwcToSwcSignals that shall take the same way (Signal Path) in the topology.
+        """
+        return self.signals
+
+
 class SwcToSwcOperationArguments(ARObject):
     """
     The SwcToSwcOperationArguments describes the information (client server operation arguments, plus the operation identification, if required) that are exchanged between two SW Components from exactly one client to one server, or from one server back to one client. The direction attribute defines which direction is described. If direction == IN, all arguments sent from the client to the server are described by the SwcToSwcOperationArguments, in direction == OUT, it's the arguments sent back from server to client.

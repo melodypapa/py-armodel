@@ -907,7 +907,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
@@ -12972,6 +12972,30 @@ class ARXMLWriter(AbstractARXMLWriter):
         if signalToReceiverTextTableMapping_value is not None:
             self.setTextTableMapping(child_element, signalToReceiverTextTableMapping_value, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeCommonSignalPath(self, element: ET.Element, path: CommonSignalPath):
+        child_element = ET.SubElement(element, "COMMON-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
+    def writeSystemMappingSignalPathConstraints(self, element: ET.Element, mapping: SystemMapping):
+        constraints = mapping.getSignalPathConstraints()
+        if len(constraints) > 0:
+            constraints_tag = ET.SubElement(element, "SIGNAL-PATH-CONSTRAINTS")
+            for constraint in constraints:
+                if isinstance(constraint, CommonSignalPath):
+                    self.writeCommonSignalPath(constraints_tag, constraint)
+                else:
+                    self.notImplemented("Unsupported SignalPathConstraint %s" % type(constraint))
 
     def writeSignalPathConstraint(self, element: ET.Element, constraint: SignalPathConstraint):
         self.writeARObject(element, constraint)

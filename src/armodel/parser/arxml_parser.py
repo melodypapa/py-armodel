@@ -1095,7 +1095,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArgumentsDirectionEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
@@ -16159,6 +16159,27 @@ class ARXMLParser(AbstractARXMLParser):
         if signal_to_receiver_element is not None:
             mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readCommonSignalPath(self, element: ET.Element, path: CommonSignalPath):
+        self.readSignalPathConstraint(element, path)
+        for child_element in self.findall(element, "OPERATIONS/SWC-TO-SWC-OPERATION-ARGUMENTS"):
+            operation = SwcToSwcOperationArguments()
+            self.readSwcToSwcOperationArguments(child_element, operation)
+            path.addOperation(operation)
+        for child_element in self.findall(element, "SIGNALS/SWC-TO-SWC-SIGNAL"):
+            signal = SwcToSwcSignal()
+            self.readSwcToSwcSignal(child_element, signal)
+            path.addSignal(signal)
+
+    def readSystemMappingSignalPathConstraints(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SIGNAL-PATH-CONSTRAINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COMMON-SIGNAL-PATH":
+                path = CommonSignalPath()
+                self.readCommonSignalPath(child_element, path)
+                mapping.addSignalPathConstraint(path)
+            else:
+                self.notImplemented("Unsupported SignalPathConstraint %s" % tag_name)
 
     def readSignalPathConstraint(self, element: ET.Element, constraint: SignalPathConstraint):
         self.readARObject(element, constraint)
