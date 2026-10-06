@@ -28,14 +28,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataWriteCompletedEvent,
     ExternalTriggerOccurredEvent,
     InitEvent,
-    OsTaskExecutionEvent,
-    TransformerHardErrorEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
     OperationInvokedEvent,
+    OsTaskExecutionEvent,
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
+    TransformerHardErrorEvent,
     WaitPoint,
 )
 
@@ -908,75 +908,84 @@ class TestBackgroundEvent:
 
 
 class TestWaitPoint:
-    """Test class for WaitPoint class."""
+    """Test class for WaitPoint class (Table 7.25)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.25 Note + constr_1951/constr_1952 verbatim."""
+        assert inspect.getdoc(WaitPoint) == (
+            "This defines a wait-point for which the RunnableEntity can wait."
+            "\n\n"
+            "[constr_1951] Existence of attribute WaitPoint.timeout: For each WaitPoint, attribute timeout shall exist at the time when the RTE is generated.\n"  # NOQA E501
+            "[constr_1952] Existence of reference WaitPoint.trigger: For each WaitPoint, the reference to RTEEvent in the role trigger shall exist at the time when the contract phase generation is executed."  # NOQA E501
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        timeout_note = "Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout."
+        trigger_note = "This is the RTEEvent this WaitPoint is waiting for."
+
+        assert inspect.getdoc(point.getTimeout) == timeout_note
+        assert inspect.getdoc(point.setTimeout) == timeout_note + "\n\nA None value is a no-op and does not overwrite an existing timeout."
+        assert inspect.getdoc(point.getTriggerRef) == trigger_note
+        assert inspect.getdoc(point.setTriggerRef) == trigger_note + "\n\nA None value is a no-op and does not overwrite an existing triggerRef."
 
     def test_wait_point_initialization(self):
-        """Test WaitPoint initialization."""
+        """Test WaitPoint initialization defaults and inheritance chain."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         point = WaitPoint(ar_root, "TestWaitPoint")
 
         assert point.parent == ar_root
         assert point.short_name == "TestWaitPoint"
-        assert point.getTimeout() is None
-        assert point.getTriggerRef() is None
+        assert point.timeout is None
+        assert point.triggerRef is None
+        assert isinstance(point, Identifiable)
 
     def test_get_set_timeout(self):
-        """Test setTimeout/getTimeout round-trip."""
+        """setTimeout returns self, the value round-trips, None is a no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         point = WaitPoint(ar_root, "TestWaitPoint")
 
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
-
         timeout = TimeValue()
-        timeout.setValue(5.0)
-        result = point.setTimeout(timeout)
-        assert result is point
-        assert point.getTimeout() == timeout
+        timeout.setValue(2.5)
+        assert point.setTimeout(timeout) is point
+        assert point.getTimeout() is timeout
+        assert point.getTimeout().getValue() == 2.5
 
-    def test_set_timeout_none_noop(self):
-        """Test setTimeout(None) is a no-op."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        point = WaitPoint(ar_root, "TestWaitPoint")
-
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
-
-        timeout = TimeValue()
-        timeout.setValue(5.0)
-        point.setTimeout(timeout)
-        result = point.setTimeout(None)
-        assert result is point
-        assert point.getTimeout() == timeout
+        point.setTimeout(None)
+        assert point.getTimeout() is timeout
 
     def test_get_set_trigger_ref(self):
-        """Test setTriggerRef/getTriggerRef round-trip."""
+        """setTriggerRef returns self, the value round-trips, None is a no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         point = WaitPoint(ar_root, "TestWaitPoint")
 
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        ref = RefType()
+        ref.setDest("DATA-RECEIVED-EVENT")
+        ref.setValue("/MyComponents/MySwc_IB/dre_1")
+        assert point.setTriggerRef(ref) is point
+        assert point.getTriggerRef() == ref
+        assert point.getTriggerRef().getDest() == "DATA-RECEIVED-EVENT"
+        assert point.getTriggerRef().getValue() == "/MyComponents/MySwc_IB/dre_1"
 
-        trigger_ref = RefType()
-        trigger_ref.setDest("RTEEvent")
-        trigger_ref.setValue("/Event")
-        result = point.setTriggerRef(trigger_ref)
-        assert result is point
-        assert point.getTriggerRef() == trigger_ref
+        point.setTriggerRef(None)
+        assert point.getTriggerRef() == ref
 
-    def test_set_trigger_ref_none_noop(self):
-        """Test setTriggerRef(None) is a no-op."""
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed annotations (Optional[TimeValue], Optional[RefType])."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         point = WaitPoint(ar_root, "TestWaitPoint")
 
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-        trigger_ref = RefType()
-        trigger_ref.setDest("RTEEvent")
-        trigger_ref.setValue("/Event")
-        point.setTriggerRef(trigger_ref)
-        result = point.setTriggerRef(None)
-        assert result is point
-        assert point.getTriggerRef() == trigger_ref
+        assert typing.get_type_hints(point.getTimeout).get("return") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(point.setTimeout).get("value") == typing.Optional[TimeValue]
+        assert typing.get_type_hints(point.setTimeout).get("return") is WaitPoint
+        assert typing.get_type_hints(point.getTriggerRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(point.setTriggerRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(point.setTriggerRef).get("return") is WaitPoint

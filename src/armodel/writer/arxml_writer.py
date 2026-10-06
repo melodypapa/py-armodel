@@ -5440,7 +5440,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     wp_element = ET.SubElement(child_element, "WAIT-POINT")
                     self.writeIdentifiable(wp_element, point)
                     self.setChildElementOptionalTimeValue(wp_element, "TIMEOUT", point.getTimeout())
-                    self.setChildElementOptionalRefType(wp_element, "TRIGGER", point.getTriggerRef())
+                    self.setChildElementOptionalRefType(wp_element, "TRIGGER-REF", point.getTriggerRef())
                 else:
                     self.notImplemented("Unsupported WaitPoint <%s>" % type(point))
 

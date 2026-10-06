@@ -1137,7 +1137,7 @@ class TestWriterRunnableEntity:
         assert wp_elem is not None
         assert wp_elem.find("SHORT-NAME").text == "wp1"
         assert wp_elem.find("TIMEOUT").text == "5.0"
-        assert wp_elem.find("TRIGGER").text == "/Event"
+        assert wp_elem.find("TRIGGER-REF").text == "/Event"
 
     def test_writeRunnableEntity_wait_point_empty_no_wrapper(self, writer):
         behavior = _make_behavior()
@@ -3483,6 +3483,105 @@ class TestOsTaskExecutionEventRoundTrip:
             assert isinstance(event_2, OsTaskExecutionEvent)
             assert event_2.getStartOnEventRef() is None
             assert event_2.getDisabledModeIRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestWaitPointRoundTrip:
+    def test_write_element_order_matches_xsd_group(self, writer):
+        """WAIT-POINT children follow the XSD group order: TIMEOUT, TRIGGER-REF."""
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("re")
+        point = runnable.createWaitPoint("wp1")
+        point.setTimeout(_time(2.5))
+        point.setTriggerRef(_ref("/Pkg/App/Behavior/dre1", "DATA-RECEIVED-EVENT"))
+        parent = _parent()
+        writer.writeRunnableEntityWaitPoints(parent, runnable)
+        wp = parent.find("WAIT-POINTS").find("WAIT-POINT")
+        expected = ["SHORT-NAME", "TIMEOUT", "TRIGGER-REF"]
+        children = [c.tag for c in wp if c.tag in expected]
+        assert children == ["SHORT-NAME", "TIMEOUT", "TRIGGER-REF"]
+
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a WaitPoint with timeout + triggerRef (Table 7.25)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import WaitPoint
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("re1")
+        point = runnable.createWaitPoint("wp1")
+        timeout = TimeValue()
+        timeout.setValue(2.5)
+        point.setTimeout(timeout)
+        point.setTriggerRef(_ref("/Pkg/App/Behavior/dre1", "DATA-RECEIVED-EVENT"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            runnable_2 = next(e for e in behavior_2.getRunnableEntities() if e.getShortName() == "re1")
+            points = runnable_2.getWaitPoints()
+            assert len(points) == 1
+            point_2 = points[0]
+            assert isinstance(point_2, WaitPoint)
+            assert point_2.getTimeout() is not None
+            assert point_2.getTimeout().getValue() == 2.5
+            ref = point_2.getTriggerRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Behavior/dre1"
+            assert ref.getDest() == "DATA-RECEIVED-EVENT"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a WaitPoint without timeout/triggerRef round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("re1")
+        runnable.createWaitPoint("wp1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            wp = next(e for e in saved.iter() if e.tag.endswith("WAIT-POINT"))
+            assert all(not c.tag.endswith("TIMEOUT") for c in wp)
+            assert all(not c.tag.endswith("TRIGGER-REF") for c in wp)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            runnable_2 = next(e for e in behavior_2.getRunnableEntities() if e.getShortName() == "re1")
+            points = runnable_2.getWaitPoints()
+            assert len(points) == 1
+            assert points[0].getTimeout() is None
+            assert points[0].getTriggerRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

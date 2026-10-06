@@ -6495,7 +6495,7 @@ class ARXMLParser(AbstractARXMLParser):
             point = entity.createWaitPoint(self.getShortName(child_element))
             self.readIdentifiable(child_element, point)
             point.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
-            point.setTriggerRef(self.getChildElementOptionalRefType(child_element, "TRIGGER"))
+            point.setTriggerRef(self.getChildElementOptionalRefType(child_element, "TRIGGER-REF"))
 
     def readRunnableEntity(self, element: ET.Element, entity: RunnableEntity):
         self.readExecutableEntity(element, entity)

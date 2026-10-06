@@ -1044,7 +1044,7 @@ class TestRunnableEntityOrchestrator:
             "<WAIT-POINT>"
             "<SHORT-NAME>wp1</SHORT-NAME>"
             "<TIMEOUT>5.0</TIMEOUT>"
-            "<TRIGGER DEST='RTEEVENT'>/pkg/Event</TRIGGER>"
+            "<TRIGGER-REF DEST='DATA-RECEIVED-EVENT'>/pkg/Event</TRIGGER-REF>"
             "</WAIT-POINT>"
             "</WAIT-POINTS>",
             root_tag="RUNNABLE-ENTITY",

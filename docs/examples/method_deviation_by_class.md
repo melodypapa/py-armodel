@@ -2654,6 +2654,13 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — *(missing)* | `—` | `maxSizeToFill` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `rule` | `Identifier` | — | missing |
 
+## `WaitPoint`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 550
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+No deviations (2026-10-05 re-sync, Table 7.25, p.550): Rule 0023 legacy 5-column checklist replaced with the 6-column format, stale `# Spec verified: R23-11` marker removed (stays withheld pending the batch 9b confirmation, user instruction); Google-style docstrings ("Returns: Optional[TimeValue]: The timeout…") wiped and rewritten verbatim from the markdown Note, class docstring Note + [constr_1951]/[constr_1952] appended; fields/accessors already matched the table (timeout 0..1 attr `Optional[TimeValue]`, trigger 0..1 ref `Optional[RefType]` as `triggerRef`). Base `Identifiable` confirmed most-derived (XSD complexType WAIT-POINT, AUTOSAR_00052.xsd L130819, refs AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE + WAIT-POINT groups; no VARIATION-POINT anchor — not VP-capable). Reader/writer element tag fixed `TRIGGER` → `TRIGGER-REF` both sides (XSD group L130790 names the element TRIGGER-REF; the old tag produced schema-invalid XML and failed the schema-validated save); RunnableEntity WAIT-POINTS wiring unchanged; schema-validated save→reload round-trip tests added.
+
 ## `OsTaskExecutionEvent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 547
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
