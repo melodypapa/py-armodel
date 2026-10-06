@@ -1134,4 +1134,11 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    own readUdpRule/writeUdpRule helpers added (delegating to the base
+    read/writeTransportLayerRule, which carry the readARObject/writeARObject
+    calls) and the readFirewallRule/writeFirewallRule UDP-RULE dispatch now
+    routes through them, so the 5 inherited TRANSPORT-LAYER-RULE members
+    round-trip on the identity-only subtype; parser/writer suites extended
+    with inherited-member round-trip tests.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12687 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)

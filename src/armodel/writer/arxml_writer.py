@@ -17814,6 +17814,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
         self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", cast(Integer, rule.getTimeoutCheck()))
 
+    def writeUdpRule(self, element: ET.Element, rule: UdpRule):
+        self.writeTransportLayerRule(element, rule)
+
     def writeIcmpRule(self, element: ET.Element, rule: Optional[IcmpRule]):
         if rule is not None:
             self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
@@ -17905,7 +17908,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeTcpRule(tcp_rule_tag, transport_rule)
             elif isinstance(transport_rule, UdpRule):
                 transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
-                ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
+                udp_rule_tag = ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
+                self.writeUdpRule(udp_rule_tag, transport_rule)
             else:
                 transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
                 self.writeTransportLayerRule(transport_layer_rule_tag, transport_rule)

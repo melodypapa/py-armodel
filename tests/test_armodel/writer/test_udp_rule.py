@@ -17,6 +17,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, UdpRule
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -48,6 +49,23 @@ class TestWriteFirewallRuleUdpRule:
         udp_rule_element = root.find("FIREWALL-RULE/TRANSPORT-LAYER-RULE/UDP-RULE")
         assert udp_rule_element is not None
         assert len(list(udp_rule_element)) == 0
+
+    def test_write_udp_rule_inherited_members(self):
+        writer = _make_writer()
+        rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
+        udp_rule = UdpRule()
+        udp_rule.setChecksumVerification(Boolean().setValue(True))
+        udp_rule.setMinDestinationPortNumber(PositiveInteger().setValue(1000))
+        rule.setTransportLayerRule(udp_rule)
+
+        root = ET.Element("AR-PACKAGE")
+        writer.writeFirewallRule(root, rule)
+
+        udp_rule_element = root.find("FIREWALL-RULE/TRANSPORT-LAYER-RULE/UDP-RULE")
+        assert udp_rule_element is not None
+        assert [child.tag for child in udp_rule_element] == ["CHECKSUM-VERIFICATION", "MIN-DESTINATION-PORT-NUMBER"]
+        assert udp_rule_element.find("CHECKSUM-VERIFICATION").text == "true"
+        assert udp_rule_element.find("MIN-DESTINATION-PORT-NUMBER").text == "1000"
 
     def test_write_no_rule_omits_element(self):
         writer = _make_writer()

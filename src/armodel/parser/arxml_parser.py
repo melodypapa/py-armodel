@@ -17786,6 +17786,9 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
         rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
 
+    def readUdpRule(self, element: ET.Element, rule: UdpRule):
+        self.readTransportLayerRule(element, rule)
+
     def readIcmpRule(self, element: ET.Element, rule: IcmpRule):
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
         rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
@@ -17912,7 +17915,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTcpRule(tcp_rule, rule_obj)
                 rule.setTransportLayerRule(rule_obj)
             elif self.find(child, "UDP-RULE") is not None:
-                rule.setTransportLayerRule(UdpRule())
+                udp_rule = UdpRule()
+                self.readUdpRule(cast(ET.Element, self.find(child, "UDP-RULE")), udp_rule)
+                rule.setTransportLayerRule(udp_rule)
             else:
                 transport_rule = TransportLayerRule()
                 self.readTransportLayerRule(child, transport_rule)

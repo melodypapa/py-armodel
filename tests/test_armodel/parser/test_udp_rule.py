@@ -47,6 +47,27 @@ class TestReadFirewallRuleUdpRule:
         assert isinstance(transport_rule, UdpRule)
         assert isinstance(transport_rule, TransportLayerRule)
 
+    def test_read_udp_rule_inherited_transport_layer_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "<SHORT-NAME>Rule1</SHORT-NAME>"
+            "<TRANSPORT-LAYER-RULE>"
+            "<UDP-RULE>"
+            "<CHECKSUM-VERIFICATION>false</CHECKSUM-VERIFICATION>"
+            "<MAX-SOURCE-PORT-NUMBER>9090</MAX-SOURCE-PORT-NUMBER>"
+            "<MIN-DESTINATION-PORT-NUMBER>1000</MIN-DESTINATION-PORT-NUMBER>"
+            "</UDP-RULE>"
+            "</TRANSPORT-LAYER-RULE>"
+        )
+        rule = _rule()
+        parser.readFirewallRule(element, rule)
+
+        transport_rule = rule.getTransportLayerRule()
+        assert isinstance(transport_rule, UdpRule)
+        assert transport_rule.getChecksumVerification().getValue() is False
+        assert transport_rule.getMaxSourcePortNumber().getValue() == 9090
+        assert transport_rule.getMinDestinationPortNumber().getValue() == 1000
+
     def test_read_no_transport_layer_rule_element(self):
         parser = ARXMLParser(options={"warning": True})
         element = _snip("<SHORT-NAME>Rule1</SHORT-NAME>")
