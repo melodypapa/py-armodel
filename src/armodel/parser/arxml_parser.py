@@ -3344,7 +3344,7 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setUsedFidRef(self.getChildElementOptionalRefType(element, "USED-FID-REF"))
 
     def readObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
-        self.readServiceNeeds(element, needs)
+        self.readDiagnosticCapabilityElement(element, needs)
         needs.setDenominatorCondition(cast(Optional[DiagnosticDenominatorConditionEnum], self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION")))
 
     def readDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):

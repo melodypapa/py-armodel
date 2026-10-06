@@ -2603,6 +2603,48 @@ class TestBswServiceDependencyHandlers:
         assert needs.getUsedFidRef().getValue() == "/Ratio/UsedFid"
         assert needs.getUsedFidRef().getDest() == "FUNCTION-INHIBITION-NEEDS"
 
+    def test_readBswServiceDependency_obd_ratio_denominator_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioDenominatorNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<OBD-RATIO-DENOMINATOR-NEEDS><SHORT-NAME>needs</SHORT-NAME>"
+            "<DIAG-REQUIREMENT>REQ-001</DIAG-REQUIREMENT>"
+            "<SECURITY-ACCESS-LEVEL>2</SECURITY-ACCESS-LEVEL>"
+            "<DENOMINATOR-CONDITION>evap</DENOMINATOR-CONDITION>"
+            "</OBD-RATIO-DENOMINATOR-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, ObdRatioDenominatorNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getDenominatorCondition().getValue() == "evap"
+        assert needs.getDiagRequirement().getValue() == "REQ-001"
+        assert needs.getSecurityAccessLevel().getValue() == 2
+
+    def test_readBswServiceDependency_obd_ratio_denominator_needs_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioDenominatorNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<OBD-RATIO-DENOMINATOR-NEEDS><SHORT-NAME>needs</SHORT-NAME>" "</OBD-RATIO-DENOMINATOR-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, ObdRatioDenominatorNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getDenominatorCondition() is None
+        assert needs.getDiagRequirement() is None
+        assert needs.getSecurityAccessLevel() is None
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps

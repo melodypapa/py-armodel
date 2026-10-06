@@ -6377,7 +6377,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
         child_element = ET.SubElement(element, "OBD-RATIO-DENOMINATOR-NEEDS")
         self.logger.debug("write ObdRatioDenominatorNeeds %s" % needs.getShortName())
-        self.writeServiceNeeds(child_element, needs)
+        self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DENOMINATOR-CONDITION", needs.getDenominatorCondition())
 
     def writeDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):

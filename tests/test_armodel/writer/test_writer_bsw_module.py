@@ -3021,6 +3021,48 @@ class TestWriterBswServiceDependency:
         assert fid_ref_element.text == "/Ratio/UsedFid"
         assert fid_ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
 
+    def test_writeBswServiceDependency_obd_ratio_denominator_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticDenominatorConditionEnum, ObdRatioDenominatorNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, PositiveInteger
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioDenominatorNeeds(dependency, "needs")
+        needs.setDenominatorCondition(DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.CSERS))
+        needs.setDiagRequirement(DiagRequirementIdString().setValue("REQ-042"))
+        needs.setSecurityAccessLevel(PositiveInteger().setValue("3"))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        denom_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-DENOMINATOR-NEEDS")
+        assert denom_element is not None
+        assert denom_element.find("SHORT-NAME").text == "needs"
+        assert denom_element.find("DENOMINATOR-CONDITION").text == "csers"
+        assert denom_element.find("DIAG-REQUIREMENT").text == "REQ-042"
+        assert denom_element.find("SECURITY-ACCESS-LEVEL").text == "3"
+
+    def test_writeBswServiceDependency_obd_ratio_denominator_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ObdRatioDenominatorNeeds
+
+        dependency = BswServiceDependency()
+        needs = ObdRatioDenominatorNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        denom_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-DENOMINATOR-NEEDS")
+        assert denom_element is not None
+        assert denom_element.find("SHORT-NAME").text == "needs"
+        assert denom_element.find("DENOMINATOR-CONDITION") is None
+        assert denom_element.find("DIAG-REQUIREMENT") is None
+        assert denom_element.find("SECURITY-ACCESS-LEVEL") is None
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()
