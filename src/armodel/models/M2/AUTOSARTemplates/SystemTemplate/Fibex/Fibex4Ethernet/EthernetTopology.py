@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5741,8 +5741,9 @@ class Ipv4Props(ARObject):
     # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Member types Ipv4ArpProps/Ipv4AutoIpProps/Ipv4FragmentationProps are queued next
-    # (Tables 3.102/3.103/3.104) — until their syncs land the ARP-PROPS/AUTO-IP-PROPS/
+    # ARP-PROPS fully round-trips via readIpv4ArpProps/writeIpv4ArpProps since the
+    # Ipv4ArpProps sync (Table 3.102). Member types Ipv4AutoIpProps/Ipv4FragmentationProps
+    # are still queued (Tables 3.103/3.104) — until their syncs land the AUTO-IP-PROPS/
     # FRAGMENTATION-PROPS children round-trip identity-only via the ARObject level
     # (readARObject/writeARObject on each child).
 
@@ -5798,6 +5799,94 @@ class Ipv4Props(ARObject):
         """
         if value is not None:
             self.fragmentationProps = value
+        return self
+
+
+class Ipv4ArpProps(ARObject):
+    """Specifies the configuration options for the ARP (Address Resolution Protocol)."""
+
+    # Ipv4ArpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.102, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpArpNumGratuitousArpOnStartup  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpNumGratuitousArpOnStartup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpPacketQueueEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpPacketQueueEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpRequestTimeout             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpRequestTimeout             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpTableEntryTimeout          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpTableEntryTimeout          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address.
+        self.tcpIpArpNumGratuitousArpOnStartup: Optional[PositiveInteger] = None
+
+        # This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2.
+        self.tcpIpArpPacketQueueEnabled: Optional[Boolean] = None
+
+        # This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1).
+        self.tcpIpArpRequestTimeout: Optional[TimeValue] = None
+
+        # This attribute specifies the timeout in seconds after which an unused ARP entry is removed.
+        self.tcpIpArpTableEntryTimeout: Optional[TimeValue] = None
+
+    def getTcpIpArpNumGratuitousArpOnStartup(self) -> Optional[PositiveInteger]:
+        """This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address."""
+        return self.tcpIpArpNumGratuitousArpOnStartup
+
+    def setTcpIpArpNumGratuitousArpOnStartup(self, value: Optional[PositiveInteger]) -> Ipv4ArpProps:
+        """
+        This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpNumGratuitousArpOnStartup.
+        """
+        if value is not None:
+            self.tcpIpArpNumGratuitousArpOnStartup = value
+        return self
+
+    def getTcpIpArpPacketQueueEnabled(self) -> Optional[Boolean]:
+        """This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2."""
+        return self.tcpIpArpPacketQueueEnabled
+
+    def setTcpIpArpPacketQueueEnabled(self, value: Optional[Boolean]) -> Ipv4ArpProps:
+        """
+        This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpPacketQueueEnabled.
+        """
+        if value is not None:
+            self.tcpIpArpPacketQueueEnabled = value
+        return self
+
+    def getTcpIpArpRequestTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1)."""
+        return self.tcpIpArpRequestTimeout
+
+    def setTcpIpArpRequestTimeout(self, value: Optional[TimeValue]) -> Ipv4ArpProps:
+        """
+        This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1).
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpRequestTimeout.
+        """
+        if value is not None:
+            self.tcpIpArpRequestTimeout = value
+        return self
+
+    def getTcpIpArpTableEntryTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies the timeout in seconds after which an unused ARP entry is removed."""
+        return self.tcpIpArpTableEntryTimeout
+
+    def setTcpIpArpTableEntryTimeout(self, value: Optional[TimeValue]) -> Ipv4ArpProps:
+        """
+        This attribute specifies the timeout in seconds after which an unused ARP entry is removed.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpTableEntryTimeout.
+        """
+        if value is not None:
+            self.tcpIpArpTableEntryTimeout = value
         return self
 
 

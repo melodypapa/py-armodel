@@ -8,8 +8,8 @@ and the verbatim class-level spec Note of the Ipv4Props model class.
 import inspect
 import typing
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4AutoIpProps, Ipv4FragmentationProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4Props
 
 CLASS_NOTE = "This meta-class specifies the configuration options for IPv4."
 

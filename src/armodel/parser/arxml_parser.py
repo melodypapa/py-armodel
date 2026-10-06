@@ -577,7 +577,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4FragmentationProps,
     Ipv6Props,
@@ -1172,6 +1171,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
+    Ipv4ArpProps,
     Ipv4DhcpServerConfiguration,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
@@ -11034,7 +11034,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ARP-PROPS")
         if child_element is not None:
             arp_props = Ipv4ArpProps()
-            self.readARObject(child_element, arp_props)
+            self.readIpv4ArpProps(child_element, arp_props)
             props.setArpProps(arp_props)
         child_element = self.find(element, "AUTO-IP-PROPS")
         if child_element is not None:
@@ -11046,6 +11046,14 @@ class ARXMLParser(AbstractARXMLParser):
             fragmentation_props = Ipv4FragmentationProps()
             self.readARObject(child_element, fragmentation_props)
             props.setFragmentationProps(fragmentation_props)
+
+    def readIpv4ArpProps(self, element: ET.Element, props: Ipv4ArpProps):
+        """Read an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpArpNumGratuitousArpOnStartup(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ARP-NUM-GRATUITOUS-ARP-ON-STARTUP"))
+        props.setTcpIpArpPacketQueueEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ARP-PACKET-QUEUE-ENABLED"))
+        props.setTcpIpArpRequestTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-REQUEST-TIMEOUT"))
+        props.setTcpIpArpTableEntryTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-TABLE-ENTRY-TIMEOUT"))
 
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""

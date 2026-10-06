@@ -2474,10 +2474,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class Ipv4ArpProps(ARObject):
-    pass
-
-
 class Ipv4AutoIpProps(ARObject):
     pass
 
