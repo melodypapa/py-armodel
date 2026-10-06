@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     CalibrationParameterValue,
+    DdsCpServiceInstanceOperation,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
@@ -2884,4 +2885,94 @@ class TestCalibrationParameterValue:
         assert inspect.cleandoc(CalibrationParameterValue.getInitializedParameterRef.__doc__) == self.INITIALIZED_PARAMETER_NOTE
         assert inspect.cleandoc(CalibrationParameterValue.setInitializedParameterRef.__doc__) == (
             self.INITIALIZED_PARAMETER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing initializedParameterRef."
+        )
+
+
+class TestDdsCpServiceInstanceOperation:
+    """
+    Test class for DdsCpServiceInstanceOperation functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.156, p.476
+    """
+
+    CLASS_NOTE = "This element represents an operation as part of the Provided Service Instance. Tags: atp.Status=candidate"
+    REQUEST_TRIGGERING_NOTE = "Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate"
+    RESPONSE_TRIGGERING_NOTE = "Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate"
+
+    def _create_operation(self) -> DdsCpServiceInstanceOperation:
+        return DdsCpServiceInstanceOperation()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstanceOperation initializes all attributes to their defaults.
+        """
+        obj = self._create_operation()
+
+        assert obj.getDdsOperationRequestTriggeringRef() is None
+        assert obj.getDdsOperationResponseTriggeringRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpServiceInstanceOperation derives from ARObject and is VP-capable (XSD group DDS-CP-SERVICE-INSTANCE-OPERATION carries VARIATION-POINT, Rule 0020).
+        """
+        assert issubclass(DdsCpServiceInstanceOperation, ARObject)
+        assert issubclass(DdsCpServiceInstanceOperation, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstanceOperation.__init__.__doc__ is None
+
+    def test_get_set_dds_operation_request_triggering_ref(self):
+        """
+        Test getDdsOperationRequestTriggeringRef and setDdsOperationRequestTriggeringRef round-trip and None no-op.
+        """
+        obj = self._create_operation()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/RequestTriggering")
+        result = obj.setDdsOperationRequestTriggeringRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsOperationRequestTriggeringRef() is value
+        assert obj.getDdsOperationRequestTriggeringRef().getValue() == "/Fibex/Ecu1/PduTriggerings/RequestTriggering"
+        assert obj.getDdsOperationRequestTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsOperationRequestTriggeringRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsOperationRequestTriggeringRef() is value  # None is a no-op
+
+    def test_get_set_dds_operation_response_triggering_ref(self):
+        """
+        Test getDdsOperationResponseTriggeringRef and setDdsOperationResponseTriggeringRef round-trip and None no-op.
+        """
+        obj = self._create_operation()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/ResponseTriggering")
+        result = obj.setDdsOperationResponseTriggeringRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsOperationResponseTriggeringRef() is value
+        assert obj.getDdsOperationResponseTriggeringRef().getValue() == "/Fibex/Ecu1/PduTriggerings/ResponseTriggering"
+        assert obj.getDdsOperationResponseTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsOperationResponseTriggeringRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsOperationResponseTriggeringRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.getDdsOperationRequestTriggeringRef.__doc__) == self.REQUEST_TRIGGERING_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.setDdsOperationRequestTriggeringRef.__doc__) == (
+            self.REQUEST_TRIGGERING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsOperationRequestTriggeringRef."
+        )
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.getDdsOperationResponseTriggeringRef.__doc__) == self.RESPONSE_TRIGGERING_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.setDdsOperationResponseTriggeringRef.__doc__) == (
+            self.RESPONSE_TRIGGERING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsOperationResponseTriggeringRef."
         )

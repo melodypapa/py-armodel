@@ -556,6 +556,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DdsCpServiceInstanceOperation,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -15653,6 +15654,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
+    def writeDdsCpServiceInstanceOperation(self, element: ET.Element, operation: DdsCpServiceInstanceOperation):
+        child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-OPERATION")
+        self.writeARObject(child_element, operation)
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-REQUEST-TRIGGERING-REF", operation.getDdsOperationRequestTriggeringRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-RESPONSE-TRIGGERING-REF", operation.getDdsOperationResponseTriggeringRef())
+        self.writeVariationPointCapable(child_element, operation)
 
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")

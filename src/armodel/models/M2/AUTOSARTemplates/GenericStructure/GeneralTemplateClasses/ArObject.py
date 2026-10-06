@@ -2338,8 +2338,63 @@ class DdsCpServiceInstanceEvent(ARObject):
     pass
 
 
-class DdsCpServiceInstanceOperation(ARObject):
-    pass
+class DdsCpServiceInstanceOperation(ARObject, VariationPointCapable):
+    """
+    This element represents an operation as part of the Provided Service Instance. Tags: atp.Status=candidate
+    """
+
+    # DdsCpServiceInstanceOperation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.156, p.476
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsOperationRequestTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsOperationRequestTriggeringRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsOperationResponseTriggeringRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsOperationResponseTriggeringRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) —
+    # no spec rows (XSD group DDS-CP-SERVICE-INSTANCE-OPERATION carries VARIATION-POINT, Rule 0020).
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+        self.ddsOperationRequestTriggeringRef: Optional[RefType] = None
+
+        # Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+        self.ddsOperationResponseTriggeringRef: Optional[RefType] = None
+
+    def getDdsOperationRequestTriggeringRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+        """
+        return self.ddsOperationRequestTriggeringRef
+
+    def setDdsOperationRequestTriggeringRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceOperation:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsOperationRequestTriggeringRef.
+        """
+        if value is not None:
+            self.ddsOperationRequestTriggeringRef = value
+        return self
+
+    def getDdsOperationResponseTriggeringRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+        """
+        return self.ddsOperationResponseTriggeringRef
+
+    def setDdsOperationResponseTriggeringRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceOperation:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsOperationResponseTriggeringRef.
+        """
+        if value is not None:
+            self.ddsOperationResponseTriggeringRef = value
+        return self
 
 
 class DdsCpTopic(ARObject):

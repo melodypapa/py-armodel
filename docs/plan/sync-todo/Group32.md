@@ -361,15 +361,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpServiceInstanceOperation` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.156, p.476
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the two attribute rows straddle the table caption (ddsOperationRequestTriggering in the
+    pre-caption header block, ddsOperationResponseTriggering after the image/glyph interruption); both
+    verified against XSD group DDS-CP-SERVICE-INSTANCE-OPERATION (AUTOSAR_00052.xsd l.29237: request ref,
+    response ref, VARIATION-POINT last per xml.sequenceOffset=10000). VP-capable per XSD → inherits
+    VariationPointCapable (Rule 0020). Base most-derived = ARObject (confirmed; XSD complexType carries only
+    the AR-OBJECT group). Nested helper read/writeDdsCpServiceInstanceOperation added; aggregator hook-in
+    (DdsCpConsumedServiceInstance.consumedDdsOperation — queued Table 6.154) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServiceInstanceCollectionSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.157, p.476
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
