@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Identifier,
     Integer,
     Numerical,
@@ -142,7 +143,7 @@ class TestWriteSegmentPosition:
 
     def test_with_all_attributes(self, writer):
         position = SegmentPosition()
-        position.setSegmentByteOrder(_literal("OPAQUE"))
+        position.setSegmentByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         position.setSegmentLength(_int("8"))
         position.setSegmentPosition(_int("0"))
         parent = _parent()
@@ -429,7 +430,7 @@ class TestWriteMultiplexedIPdu:
         pkg = _pkg()
         ipdu = MultiplexedIPdu(pkg, "muxIpdu")
         ipdu.setLength(_int("64"))
-        ipdu.setSelectorFieldByteOrder(_literal("OPAQUE"))
+        ipdu.setSelectorFieldByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         ipdu.setSelectorFieldLength(_int("4"))
         ipdu.setSelectorFieldStartPosition(_int("0"))
         ipdu.setTriggerMode(_literal("TRIGGERED"))

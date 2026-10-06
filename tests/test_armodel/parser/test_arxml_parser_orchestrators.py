@@ -1044,7 +1044,7 @@ class TestRunnableEntityOrchestrator:
             "<WAIT-POINT>"
             "<SHORT-NAME>wp1</SHORT-NAME>"
             "<TIMEOUT>5.0</TIMEOUT>"
-            "<TRIGGER DEST='RTEEVENT'>/pkg/Event</TRIGGER>"
+            "<TRIGGER-REF DEST='DATA-RECEIVED-EVENT'>/pkg/Event</TRIGGER-REF>"
             "</WAIT-POINT>"
             "</WAIT-POINTS>",
             root_tag="RUNNABLE-ENTITY",
@@ -1427,7 +1427,7 @@ class TestRunnableEntityOrchestrator:
             "<PARAMETER-ACCESS><SHORT-NAME>pa</SHORT-NAME>"
             "<ACCESSED-PARAMETER><LOCAL-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/Prm</LOCAL-PARAMETER-REF></ACCESSED-PARAMETER>"
             "<SW-DATA-DEF-PROPS><SW-DATA-DEF-PROPS-VARIANTS><SW-DATA-DEF-PROPS-CONDITIONAL>"
-            "<SW-CALIBRATION-ACCESS>notAccessible</SW-CALIBRATION-ACCESS>"
+            "<SW-CALIBRATION-ACCESS>NOT-ACCESSIBLE</SW-CALIBRATION-ACCESS>"
             "</SW-DATA-DEF-PROPS-CONDITIONAL></SW-DATA-DEF-PROPS-VARIANTS></SW-DATA-DEF-PROPS>"
             "</PARAMETER-ACCESS>"
             "</PARAMETER-ACCESSS>",
@@ -1614,7 +1614,7 @@ class TestRteEventHandlers:
         event = behavior.createSwcModeSwitchEvent("mse")
         element = _snip(
             "<SHORT-NAME>mse</SHORT-NAME>"
-            "<ACTIVATION>onEntry</ACTIVATION>"
+            "<ACTIVATION>ON-ENTRY</ACTIVATION>"
             "<MODE-IREFS>"
             "<MODE-IREF>"
             "<CONTEXT-PORT-REF DEST='R-PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
@@ -1635,7 +1635,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createSwcModeSwitchEvent("mse")
         element = _snip(
-            "<SHORT-NAME>mse</SHORT-NAME>" "<ACTIVATION>onExit</ACTIVATION>",
+            "<SHORT-NAME>mse</SHORT-NAME>" "<ACTIVATION>ON-EXIT</ACTIVATION>",
             root_tag="SWC-MODE-SWITCH-EVENT",
         )
         parser.readSwcModeSwitchEvent(element, event)
@@ -1995,7 +1995,7 @@ class TestPortInterfaceHandlers:
             "<MODE-GROUP>"
             "<SHORT-NAME>mg</SHORT-NAME>"
             "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mg</TYPE-TREF>"
-            "<SW-CALIBRATION-ACCESS>readOnly</SW-CALIBRATION-ACCESS>"
+            "<SW-CALIBRATION-ACCESS>READ-ONLY</SW-CALIBRATION-ACCESS>"
             "</MODE-GROUP>",
             root_tag="MODE-SWITCH-INTERFACE",
         )
@@ -2101,7 +2101,7 @@ class TestDataTypeAndCompuHandlers:
             "</SCALE-CONSTRS>"
             "<MAX-GRADIENT>1.5</MAX-GRADIENT>"
             "<MAX-DIFF>0.5</MAX-DIFF>"
-            "<MONOTONY>increasing</MONOTONY>"
+            "<MONOTONY>INCREASING</MONOTONY>"
             "</INTERNAL-CONSTRS>"
             "</DATA-CONSTR-RULE>"
             "</DATA-CONSTR-RULES>",
@@ -2138,7 +2138,7 @@ class TestDataTypeAndCompuHandlers:
             '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">150.0</UPPER-LIMIT>'
             "<MAX-DIFF>0.5</MAX-DIFF>"
             "<MAX-GRADIENT>1.0</MAX-GRADIENT>"
-            "<MONOTONY>increasing</MONOTONY>"
+            "<MONOTONY>INCREASING</MONOTONY>"
             "<SCALE-CONSTRS>"
             '<SCALE-CONSTR VALIDITY="VALID">'
             "<SHORT-LABEL>s1</SHORT-LABEL>"
@@ -2187,7 +2187,7 @@ class TestDataTypeAndCompuHandlers:
 
         base_type = SwBaseType(parent=_autosar_root(), short_name="bt")
         element = _snip(
-            "<SHORT-NAME>bt</SHORT-NAME>" "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>" "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>" "<BYTE-ORDER>LITTLE-ENDIAN</BYTE-ORDER>",
+            "<SHORT-NAME>bt</SHORT-NAME>" "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>" "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>" "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>",
             root_tag="SW-BASE-TYPE",
         )
         parser.readSwBaseType(element, base_type)

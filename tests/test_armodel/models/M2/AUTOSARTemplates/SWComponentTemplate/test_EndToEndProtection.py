@@ -211,36 +211,123 @@ class TestEndToEndProtectionVariablePrototype:
 
 
 class TestEndToEndProtection:
-    """Test class for EndToEndProtection class."""
+    """Test class for EndToEndProtection class (Swc TPS Table 4.97)."""
 
-    def test_end_to_end_protection_initialization(self):
-        """Test EndToEndProtection initialization and methods."""
+    def test_spec_base(self):
+        """Test the most-derived spec base and VP capability (Table 4.97 Base = Identifiable; XSD anchors VARIATION-POINT)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        protection = EndToEndProtection(ar_root, "TestProtection")
-
+        assert issubclass(EndToEndProtection, Identifiable)
+        assert issubclass(EndToEndProtection, VariationPointCapable)
+        protection = EndToEndProtection(ar_root, "BaseProtection")
         assert protection.parent == ar_root
-        assert protection.short_name == "TestProtection"
+        assert protection.short_name == "BaseProtection"
+
+    def test_initialization(self):
+        """Test all __init__ field defaults per Table 4.97."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection = EndToEndProtection(ar_root, "DefaultsProtection")
         assert protection.endToEndProfile is None
         assert protection.endToEndProtectionISignalIPdus == []
         assert protection.endToEndProtectionVariablePrototypes == []
+        assert protection.getVariationPoint() is None
 
-        # Test setters and getters
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription
+    def test_class_docstring_note_verbatim(self):
+        """Test the class docstring is the spec Note verbatim (Table 4.97)."""
+        expected = "This meta-class represents the ability to describe a particular end to end protection."
+        assert inspect.cleandoc(EndToEndProtection.__doc__) == expected
 
+    def test_init_docless(self):
+        """Test __init__ has no docstring (Rule 0012.2.4)."""
+        assert EndToEndProtection.__init__.__doc__ is None
+
+    def test_spec_notes_are_verbatim(self):
+        """Test per-attribute Note texts are verbatim in comments, getter and setter docstrings (Table 4.97)."""
+        expected_notes = {
+            "getEndToEndProfile": "This represents the particular EndToEndDescription.",
+            "getEndToEndProtectionISignalIPdus": "Defines to which ISignalIPdu - ISignalGroup pair this EndToEndProtection shall apply. In case several ISignalGroups are used to transport the data (e.g. fan-out in the RTE) there may exist several EndToEndProtectionISignalIPdu definitions.",
+            "getEndToEndProtectionVariablePrototypes": "Defines to which VariableDataPrototypes in the roles of one sender and one or more receivers this EndToEndprotection applies. It shall be possible to aggregate several EndToEndProtectionVariablePrototype in case additional hierarchical decompositions are introduced subsequently. In this case one particular PortPrototype is split into multiple PortPrototypes and connectors, all representing the same data entity. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.",
+        }
+        for getter, note in expected_notes.items():
+            assert getattr(EndToEndProtection, getter).__doc__.strip() == note
+        assert EndToEndProtection.setEndToEndProfile.__doc__.strip() == (expected_notes["getEndToEndProfile"] + " A None value is a no-op and does not overwrite an existing endToEndProfile.")
+        assert EndToEndProtection.addEndToEndProtectionISignalIPdu.__doc__.strip() == (
+            expected_notes["getEndToEndProtectionISignalIPdus"] + " A None value is a no-op and does not append to the endToEndProtectionISignalIPdus."
+        )
+        assert EndToEndProtection.addEndToEndProtectionVariablePrototype.__doc__.strip() == (
+            expected_notes["getEndToEndProtectionVariablePrototypes"] + " A None value is a no-op and does not append to the endToEndProtectionVariablePrototypes."
+        )
+        assert EndToEndProtection.getEndToEndProtectionISignalIPdus.__doc__.strip() == expected_notes["getEndToEndProtectionISignalIPdus"]
+        assert EndToEndProtection.getEndToEndProtectionVariablePrototypes.__doc__.strip() == expected_notes["getEndToEndProtectionVariablePrototypes"]
+
+    def test_type_hints_and_accessor_order(self):
+        """Test annotations match the spec multiplicity and accessors follow the spec row order (Rule 0001.11)."""
+        hints = typing.get_type_hints(EndToEndProtection.getEndToEndProfile)
+        assert hints.get("return") == Optional[EndToEndDescription]
+        hints = typing.get_type_hints(EndToEndProtection.setEndToEndProfile)
+        assert hints.get("value") == Optional[EndToEndDescription]
+        assert hints.get("return") is EndToEndProtection
+        hints = typing.get_type_hints(EndToEndProtection.addEndToEndProtectionISignalIPdu)
+        assert hints.get("value") == Optional[EndToEndProtectionISignalIPdu]
+        assert hints.get("return") is EndToEndProtection
+        hints = typing.get_type_hints(EndToEndProtection.getEndToEndProtectionISignalIPdus)
+        assert hints.get("return") == List[EndToEndProtectionISignalIPdu]
+        hints = typing.get_type_hints(EndToEndProtection.addEndToEndProtectionVariablePrototype)
+        assert hints.get("value") == Optional[EndToEndProtectionVariablePrototype]
+        assert hints.get("return") is EndToEndProtection
+        hints = typing.get_type_hints(EndToEndProtection.getEndToEndProtectionVariablePrototypes)
+        assert hints.get("return") == List[EndToEndProtectionVariablePrototype]
+        methods = [name for name in EndToEndProtection.__dict__ if not name.startswith("_")]
+        assert methods == [
+            "getEndToEndProfile",
+            "setEndToEndProfile",
+            "addEndToEndProtectionISignalIPdu",
+            "getEndToEndProtectionISignalIPdus",
+            "addEndToEndProtectionVariablePrototype",
+            "getEndToEndProtectionVariablePrototypes",
+        ]
+
+    def test_get_set_end_to_end_profile(self):
+        """Test get/setEndToEndProfile round-trip, chaining, and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection = EndToEndProtection(ar_root, "ProfileProtection")
+        assert protection.getEndToEndProfile() is None
         profile = EndToEndDescription()
-        protection.setEndToEndProfile(profile)
-        assert protection.getEndToEndProfile() == profile
+        assert protection.setEndToEndProfile(profile) is protection
+        assert protection.getEndToEndProfile() is profile
+        protection.setEndToEndProfile(None)
+        assert protection.getEndToEndProfile() is profile
 
-        # Test EndToEndProtectionISignalIPdu methods
-        pdu = EndToEndProtectionISignalIPdu()
-        protection.addEndToEndProtectionISignalIPdu(pdu)
-        assert pdu in protection.getEndToEndProtectionISignalIPdus()
+    def test_add_end_to_end_protection_i_signal_ipdu(self):
+        """Test addEndToEndProtectionISignalIPdu appends, returns self, and is a None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection = EndToEndProtection(ar_root, "IpduProtection")
+        first = EndToEndProtectionISignalIPdu()
+        second = EndToEndProtectionISignalIPdu()
+        assert protection.addEndToEndProtectionISignalIPdu(first) is protection
+        assert protection.addEndToEndProtectionISignalIPdu(second) is protection
+        assert protection.getEndToEndProtectionISignalIPdus() == [first, second]
+        protection.addEndToEndProtectionISignalIPdu(None)
+        assert protection.getEndToEndProtectionISignalIPdus() == [first, second]
 
-        # Test EndToEndProtectionVariablePrototype methods
-        var_prototype = EndToEndProtectionVariablePrototype()
-        protection.addEndToEndProtectionVariablePrototype(var_prototype)
-        assert var_prototype in protection.getEndToEndProtectionVariablePrototypes()
+    def test_add_end_to_end_protection_variable_prototype(self):
+        """Test addEndToEndProtectionVariablePrototype appends, returns self, and is a None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        protection = EndToEndProtection(ar_root, "VarProtection")
+        first = EndToEndProtectionVariablePrototype()
+        second = EndToEndProtectionVariablePrototype()
+        assert protection.addEndToEndProtectionVariablePrototype(first) is protection
+        assert protection.addEndToEndProtectionVariablePrototype(second) is protection
+        assert protection.getEndToEndProtectionVariablePrototypes() == [first, second]
+        protection.addEndToEndProtectionVariablePrototype(None)
+        assert protection.getEndToEndProtectionVariablePrototypes() == [first, second]
 
 
 class TestEndToEndProtectionSet:

@@ -474,8 +474,8 @@ class TestImplementationDataTypeWriter:
         pkg = autosar.createARPackage("Pkg")
         elem = ImplementationDataTypeElement(pkg, "Elem")
         elem.setArraySize(_make_float(4, "4"))
-        elem.setArraySizeHandling(_make_literal("handling"))
-        elem.setArraySizeSemantics(_make_literal("semantics"))
+        elem.setArraySizeHandling(_make_literal("allIndicesSameArraySize"))
+        elem.setArraySizeSemantics(_make_literal("variableSize"))
         elem.createImplementationDataTypeElement("Sub")
 
         parent = _parent()
@@ -486,8 +486,8 @@ class TestImplementationDataTypeWriter:
         assert child.tag == "IMPLEMENTATION-DATA-TYPE-ELEMENT"
         assert child.find("SHORT-NAME").text == "Elem"
         assert child.find("ARRAY-SIZE").text == "4"
-        assert child.find("ARRAY-SIZE-HANDLING").text == "handling"
-        assert child.find("ARRAY-SIZE-SEMANTICS").text == "semantics"
+        assert child.find("ARRAY-SIZE-HANDLING").text == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert child.find("ARRAY-SIZE-SEMANTICS").text == "VARIABLE-SIZE"
         assert child.find("SUB-ELEMENTS") is not None
 
     def test_write_impl_data_type_sub_elements(self, writer):
@@ -1059,8 +1059,8 @@ class TestSwComponentWriter:
         pkg = autosar.createARPackage("Pkg")
         array_type = pkg.createApplicationArrayDataType("ArrType")
         elem = array_type.createApplicationArrayElement("Elem")
-        elem.setArraySizeHandling(_make_literal("handling"))
-        elem.setArraySizeSemantics(_make_literal("semantics"))
+        elem.setArraySizeHandling(_make_literal("allIndicesSameArraySize"))
+        elem.setArraySizeSemantics(_make_literal("variableSize"))
         elem.setMaxNumberOfElements(_make_float(8, "8"))
 
         parent = _parent()
@@ -1070,8 +1070,8 @@ class TestSwComponentWriter:
         child = parent[0]
         assert child.tag == "ELEMENT"
         assert child.find("SHORT-NAME").text == "Elem"
-        assert child.find("ARRAY-SIZE-HANDLING").text == "handling"
-        assert child.find("ARRAY-SIZE-SEMANTICS").text == "semantics"
+        assert child.find("ARRAY-SIZE-HANDLING").text == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert child.find("ARRAY-SIZE-SEMANTICS").text == "VARIABLE-SIZE"
         assert child.find("MAX-NUMBER-OF-ELEMENTS").text == "8"
 
     def test_set_application_array_element_none(self, writer):
@@ -1545,7 +1545,7 @@ class TestModeDeclarationWriter:
         assert child.tag == "MODE-GROUP"
         assert child.find("SHORT-NAME").text == "ModeGroup"
         assert child.find("TYPE-TREF").text == "/ModeGrp"
-        assert child.find("SW-CALIBRATION-ACCESS").text == "readOnly"
+        assert child.find("SW-CALIBRATION-ACCESS").text == "READ-ONLY"
 
     def test_write_mode_switch_interface_mode_group_empty(self, writer):
         autosar = AUTOSAR.getInstance()

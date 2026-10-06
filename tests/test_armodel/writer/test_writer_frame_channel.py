@@ -656,7 +656,7 @@ class TestWritePduToFrameMapping:
         assert mappings is not None
         el = mappings.find("PDU-TO-FRAME-MAPPING")
         assert el is not None
-        assert el.find("PACKING-BYTE-ORDER").text == "mostSignificantByteFirst"
+        assert el.find("PACKING-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-FIRST"
         assert el.find("PDU-REF").text == "/NmPdu"
         assert el.find("START-POSITION").text == "8"
         assert el.find("UPDATE-INDICATION-BIT-POSITION").text == "15"

@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -172,41 +172,85 @@ class TestApplicationCompositeDataType:
 
 
 class TestApplicationArrayDataType:
-    """Test class for ApplicationArrayDataType class."""
+    """Heritage / API tests for the synced ApplicationArrayDataType (Table 5.8)."""
 
-    def test_application_array_data_type_initialization(self):
-        """Test ApplicationArrayDataType initialization and methods."""
+    def test_initialization(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
 
         assert array_type.parent == ar_root
         assert array_type.short_name == "TestApplicationArrayDataType"
-        assert array_type.swDataDefProps is None
         assert array_type.dynamicArraySizeProfile is None
+        assert array_type.element is None
+        assert array_type.getDynamicArraySizeProfile() is None
         assert array_type.getApplicationArrayElement() is None
+        assert array_type.getSwDataDefProps() is None
 
-        # Test swDataDefProps methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+    def test_base_shape(self):
+        assert ApplicationArrayDataType.__bases__[0] is ApplicationCompositeDataType
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+        assert isinstance(array_type, ApplicationDataType)
+        assert isinstance(array_type, AutosarDataType)
+        assert isinstance(array_type, ARElement)
+        assert isinstance(array_type, Identifiable)
+        assert isinstance(array_type, ARObject)
 
-        sw_data_def = SwDataDefProps()
-        array_type.setSwDataDefProps(sw_data_def)
-        assert array_type.getSwDataDefProps() == sw_data_def
+    def test_class_docstring_matches_spec_note(self):
+        assert inspect.cleandoc(ApplicationArrayDataType.__doc__) == inspect.cleandoc(
+            "An application data type which is an array, each element is of the same application data type.\n\n"
+            "    [constr_1907] Existence of attribute ApplicationArrayDataType.element: For each ApplicationArrayDataType, "
+            "the aggregation of ApplicationArrayElement in the role element shall exist at the time when the RTE is generated."
+        )
 
-        # Test dynamicArraySizeProfile methods
-        profile = "test_profile"
-        array_type.setDynamicArraySizeProfile(profile)
-        assert array_type.getDynamicArraySizeProfile() == profile
+    def test_get_set_dynamic_array_size_profile(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+        profile = String().setValue("FIXED_LENGTH")
 
-        # Test createApplicationArrayElement and related methods
+        assert array_type.setDynamicArraySizeProfile(profile) is array_type
+        assert array_type.getDynamicArraySizeProfile() is profile
+
+        array_type.setDynamicArraySizeProfile(None)
+        assert array_type.getDynamicArraySizeProfile() is profile
+
+    def test_get_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ApplicationArrayDataType.getDynamicArraySizeProfile.__doc__.strip() == ("Specifies the profile which the array will follow if it is a variable size array.")
+
+    def test_set_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ApplicationArrayDataType.setDynamicArraySizeProfile.__doc__.strip() == (
+            "Specifies the profile which the array will follow if it is a variable size array. " "A None value is a no-op and does not overwrite an existing dynamicArraySizeProfile."
+        )
+
+    def test_get_application_array_element_docstring_verbatim(self):
+        assert ApplicationArrayDataType.getApplicationArrayElement.__doc__.strip() == (
+            "This association implements the concept of an array element. That is, in some cases it is necessary to be "
+            "able to identify single array elements, e.g. as input values for an interpolation routine."
+        )
+
+    def test_create_application_array_element_docstring_verbatim(self):
+        assert ApplicationArrayDataType.createApplicationArrayElement.__doc__.strip() == (
+            "This association implements the concept of an array element. That is, in some cases it is necessary to be "
+            "able to identify single array elements, e.g. as input values for an interpolation routine."
+        )
+
+    def test_create_application_array_element(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_type = ApplicationArrayDataType(ar_root, "TestApplicationArrayDataType")
+
         array_element = array_type.createApplicationArrayElement("TestArrayElement")
         assert array_element is not None
         assert array_element.short_name == "TestArrayElement"
         assert array_element.parent == array_type
-        assert array_type.element == array_element
+        assert array_type.element is array_element
+        assert array_type.getApplicationArrayElement() is array_element
 
-        # Test getApplicationArrayElement accessor for the element aggregation
-        assert array_type.getApplicationArrayElement() == array_element
+        duplicate = array_type.createApplicationArrayElement("TestArrayElement")
+        assert duplicate is array_element
 
 
 class TestApplicationRecordDataType:
@@ -348,16 +392,51 @@ class TestDataTypeMappingSet:
 
 
 class TestArraySizeHandlingEnum:
-    """
-    Test class for ArraySizeHandlingEnum functionality.
-    """
+    """Test class for ArraySizeHandlingEnum functionality (Table 5.11, p.254)."""
 
     def test_initialization(self):
+        """Test enum instantiability per Rule 0011"""
         enum = ArraySizeHandlingEnum()
-        enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
-        assert enum.getValue() == "allIndicesDifferentArraySize"
+        assert enum is not None
+        assert isinstance(enum, AREnum)
 
-    def test_enum_values(self):
+    def test_literal_values(self):
+        """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.11"""
         assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "allIndicesDifferentArraySize"
         assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "allIndicesSameArraySize"
         assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "inheritedFromArrayElementTypeSize"
+        enum = ArraySizeHandlingEnum()
+        assert list(enum.getEnumValues()) == ["allIndicesDifferentArraySize", "allIndicesSameArraySize", "inheritedFromArrayElementTypeSize"]
+
+    def test_set_value_round_trip(self):
+        """Test instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ArraySizeHandlingEnum()
+        assert enum == enum.setValue(None)
+        assert enum.getValue() == ""
+        assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
+        assert enum.getValue() == "allIndicesDifferentArraySize"
+        assert enum == enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE)
+        assert enum.getValue() == "allIndicesSameArraySize"
+        assert enum == enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
+        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ArraySizeHandlingEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""
+        enum.setValue(ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE)
+        enum.setValue(None)
+        assert enum.getValue() == "inheritedFromArrayElementTypeSize"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ArraySizeHandlingEnum()
+        assert enum.validateEnumValue("allIndicesDifferentArraySize") is True
+        assert enum.validateEnumValue("allIndicesSameArraySize") is True
+        assert enum.validateEnumValue("inheritedFromArrayElementTypeSize") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.11 class note."""
+        assert ArraySizeHandlingEnum.__doc__.strip() == "This enumeration defines different ways to handle the sizes of variable size arrays."

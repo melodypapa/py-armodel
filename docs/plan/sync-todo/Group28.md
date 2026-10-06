@@ -13,901 +13,1216 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BufferProperties` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.88, p.199; also CP_TPS_SystemTemplate Table 7.5, p.767
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (10 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_BufferProperties.py, tests/test_armodel/parser/test_BufferProperties.py, tests/test_armodel/writer/test_writer_BufferProperties.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransformationDescription` — Describable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.89, p.199; also CP_TPS_SystemTemplate Table 7.6, p.771
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (17 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_TransformationDescription.py, tests/test_armodel/parser/test_TransformationDescription.py, tests/test_armodel/writer/test_writer_TransformationDescription.py, tests/test_armodel/models/test_member_annotations.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransformerClassEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.90, p.200; also CP_TPS_SystemTemplate Table 7.4, p.765
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-trips as the TRANSFORMER-CLASS value on TransformationTechnology, reader test test_arxml_parser_handlers.py test_readTransformationTechnology_with_properties + writer test_writer_hw_lin_flexray_transform.py test_writeTransformationTechnology_full verified, no consumer gap)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — value form via generic literal helpers, parser arxml_parser.py:12807 setTransformerClass / writer arxml_writer.py:16312 getTransformerClass; no enum-specific token map to fix)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (387 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_TransformerClassEnum.py, tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/ (neighbors), tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/writer/test_writer_hw_lin_flexray_transform.py, tests/test_armodel/models/test_member_annotations.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EndToEndTransformationComSpecProps` — TransformationComSpecProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.92, p.201
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at session start, full re-sync. Base `TransformationComSpecProps` already stamped R23-11 (Table 4.86, no own attrs). XSD ref element is `E-2-E-PROFILE-COMPATIBILITY-PROPS-REF` (reader/writer used `E2E-…`); XSD `WINDOW-SIZE` is `atp.Status="removed"` → not modeled; writer `writeReceiverComSpec` inline dispatch drops the 16 E2E attrs (calls base helper).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (17 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_EndToEndTransformationComSpecProps.py, 4 passed / 0 failed tests/test_armodel/parser/test_EndToEndTransformationComSpecProps.py, 6 passed / 0 failed tests/test_armodel/writer/test_writer_EndToEndTransformationComSpecProps.py; neighbors: 331 passed Transformer dir + test_arxml_parser_comspec + test_writer_sw_component + member_annotations, 11 passed integration round-trip; black/ruff/flake8/mypy clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `E2EProfileCompatibilityProps` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.93, p.202; also CP_TPS_SystemTemplate Table 7.25, p.808
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (2 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/test_E2EProfileCompatibilityProps.py, 3 passed / 0 failed tests/test_armodel/parser/test_E2EProfileCompatibilityProps.py, 7 passed / 0 failed tests/test_armodel/writer/test_writer_E2EProfileCompatibilityProps.py; neighbors: 394 passed Transformer dir + test_arxml_parser_comspec + test_writer_sw_component + test_writer_hw_lin_flexray_transform, 3 passed member_annotations; black/ruff clean, checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EndToEndProtection` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.97, p.215; also CP_TPS_SystemTemplate Table 6.55, p.384
   - module: M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (rows end at `test`, no `# Spec:` line) — full re-sync, stamp WITHHELD this batch. Both renderings (SWCT 4.97 / SystemTemplate 6.55) identical. XSD complexType END-TO-END-PROTECTION (AUTOSAR_00052.xsd L54284) refs AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups → base `Identifiable` (not ARElement); group END-TO-END-PROTECTION (L54229) anchors VARIATION-POINT ("Applicable for: EndToEndProtectionSet.endToEndProtection") → VP-capable mixin kept. 3 attrs: endToEndProfile (0..1 aggr), endToEndProtectionISignalIPdu (* aggr, wrapper), endToEndProtectionVariablePrototype (* aggr, wrapper). Reader/writer pre-exist; VARIATION-POINT handling missing both sides.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (27 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/test_EndToEndProtection.py, 3 passed / 0 failed tests/test_armodel/parser/test_EndToEndProtection.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_EndToEndProtection.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 1473 passed SWComponentTemplate model dir + test_arxml_parser_e2e + test_end_to_end_protection_i_signal_i_pdu + test_end_to_end_description + test_variation_point_capable_arobject (parser+writer) + test_arxml_parser_comspec + test_writer_sw_component + test_arxml_parser_dispatch + test_writer_arpackage_dispatch, 1 passed integration round-trip incl. SoftwareComponents.arxml; black/ruff/mypy clean, checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsistencyNeeds` — AtpBlueprint — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.99, p.222
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Base FIXED AtpBlueprintable -> AtpBlueprint
+    (Rule 0001.2; XSD complexType L22071 refs ATP-BLUEPRINT group before ATP-BLUEPRINTABLE; AtpBlueprint
+    already stamped R23-11 — no base sync needed). 4 attrs, all `*` aggr, singular spec names -> plural
+    fields (Rule 0001.4). XSD group L22004 anchors VARIATION-POINT (sequenceOffset 10000, last) ->
+    VP-capable kept; writer fix needed (write_variation_point=False + writeVariationPointCapable after
+    wrappers, EndToEndProtection precedent); reader VP already covered inside readIdentifiable.
+    Inherited placeholder: AtpBlueprint.blueprintPolicys reader/writer rows [ ] (accepted 2026-09-26
+    deviation on the base; concrete BlueprintPolicy subtypes unsynced) — BLUEPRINT-POLICYS not
+    round-tripped.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (10 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_ConsistencyNeeds.py, 3 passed / 0 failed tests/test_armodel/parser/test_ConsistencyNeeds.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_consistency_needs.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 3033 passed SWComponentTemplate + CommonStructure model dirs + ImplicitCommunicationBehavior dir + test_writer_sw_component + Components test___init__; black/ruff clean, checklist==methods verified, docstrings verbatim-diffed vs markdown Notes, mypy 1 pre-existing error only (writer L7524, prior EndToEndProtection commit)); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RunnableEntityGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.100, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Page-split table (p.223→224): Class/Package/
+    Note/Base/Aggregated-by + runnableEntity row render before the caption, runnableEntityGroup row after.
+    Base most-derived = AtpStructureElement (stamped R23-11, Table 5.5 — not a stub, no base sync needed).
+    2 attrs, both `*` iref: runnableEntity (RunnableEntityInCompositionInstanceRef, Table D.21),
+    runnableEntityGroup (InnerRunnableEntityGroupInCompositionInstanceRef, Table D.20) — both member types
+    stamped R23-11. XSD group L101393: XML order = RUNNABLE-ENTITY-GROUP-IREFS, RUNNABLE-ENTITY-IREFS,
+    VARIATION-POINT (sequenceOffset 10000, last; "Applicable for: ConsistencyNeeds.regRequiresStability/
+    regDoesNotRequireStability") → VP-capable kept; writer writes VP via writeIdentifiable default BEFORE
+    the wrappers → order fix needed (write_variation_point=False + writeVariationPointCapable after
+    wrappers, ConsistencyNeeds precedent); reader VP already covered inside readIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 8 passed incl. new VP-capability pin
+  - [x] Step 3 — Implement model class (Green) — module adopted PEP 563 + bare self-ref returns (4 quoted returns unquoted, 2 on DataPrototypeGroup forced by the same-change rule, Rule 0022/0003); 42 passed dir + 4 gate tests
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — RunnableEntityGroup block wiped (class docstring, __init__ docstring removed, Args/Returns blocks dropped), rewritten verbatim from markdown Notes
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_variation_point_last failed (VP before wrapper); parser reader tests passed (vacuous Red, readIdentifiable already covers VP)
+  - [x] Step 6 — Update parser & writer (Green) — writer: writeRunnableEntityGroup now write_variation_point=False + writeVariationPointCapable after wrappers (ConsistencyNeeds precedent); parser unchanged (readIdentifiable covers VP, wrappers already in XSD order); 16 passed incl. ConsistencyNeeds neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md), no stale rows
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (16 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_RunnableEntityGroup.py, tests/test_armodel/parser/test_RunnableEntityGroup.py, tests/test_armodel/writer/test_writer_runnable_entity_group.py + 3 passed member_annotations; neighbors: 64 passed ImplicitCommunicationBehavior dir + parser/writer test_ConsistencyNeeds + test_writer_instance_refs + pep563 gates; black/ruff clean, mypy 1 pre-existing error only (writer L7525), checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DataPrototypeGroup` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.101, p.223
   - module: M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified:` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Base most-derived = AtpStructureElement
+    (stamped R23-11, Table 5.5 — not a stub, no base sync needed). 2 attrs, both `*` iref:
+    dataPrototypeGroup (InnerDataPrototypeGroupInCompositionInstanceRef, Table D.19),
+    implicitDataAccess (VariableDataPrototypeInCompositionInstanceRef, Table D.22) — both member types
+    stamped R23-11. XSD group L27368: XML order = DATA-PROTOTYPE-GROUP-IREFS,
+    IMPLICIT-DATA-ACCESS-IREFS, VARIATION-POINT (sequenceOffset 10000, last; "Applicable for:
+    ConsistencyNeeds.dpgRequiresCoherency/dpgDoesNotRequireCoherency") → VP-capable kept; writer writes
+    VP via writeIdentifiable default BEFORE the wrappers → order fix needed (write_variation_point=False
+    + writeVariationPointCapable after wrappers, RunnableEntityGroup precedent); reader VP already
+    covered inside readIdentifiable.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 8 passed incl. new VP-capability pin
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (base, plural IRef fields, guarded adds, PEP 526 members, VP mixin all in place; AtpInstanceRef is ARObject-derived → addXxx shape correct)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — DataPrototypeGroup block wiped (class docstring reflow removed, __init__ docstring removed, Args/Returns blocks dropped), rewritten verbatim from markdown Notes
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_variation_point_last failed (VP before wrapper: ['SHORT-NAME', 'VARIATION-POINT', 'DATA-PROTOTYPE-GROUP-IREFS']); parser reader tests passed (vacuous Red, readIdentifiable already covers VP); pre-existing wrapper round-trip tests (2) passed unmodified
+  - [x] Step 6 — Update parser & writer (Green) — writer: writeDataPrototypeGroup now write_variation_point=False + writeVariationPointCapable after wrappers (RunnableEntityGroup/ConsistencyNeeds precedent); parser unchanged (readIdentifiable covers VP, wrappers already in XSD order); 8 passed new files + 61 passed ImplicitCommunicationBehavior dir + ConsistencyNeeds/instance-refs neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md), RunnableEntityGroup pass's forward-flag of the latent VP bug resolved in its Note
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (8 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior/test_DataPrototypeGroup.py, 3 passed / 0 failed tests/test_armodel/parser/test_DataPrototypeGroup.py, 5 passed / 0 failed tests/test_armodel/writer/test_writer_data_prototype_group.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 273 passed ImplicitCommunicationBehavior dir + parser/writer test_ConsistencyNeeds + test_writer_instance_refs + test_data_prototype + parser/writer dispatch tests; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified, docstrings verbatim-diffed vs markdown Notes); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwTextProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.7, p.250
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column; cited BSWModuleDescriptionTemplate
+    Table D.72) — stale `# Spec verified: R23-11` marker removed at session start, full
+    re-sync, stamp WITHHELD this batch. Defining table = SWCT Table 5.7, p.250 (page-split:
+    Class/Package/Note/Base + arraySizeSemantics/baseType/swFillCharacter render before the
+    caption, swMaxTextSize after). Base ARObject confirmed (XSD complexType SW-TEXT-PROPS
+    L116546 refs AR-OBJECT group only). 4 attrs, all 0..1: arraySizeSemantics (attr,
+    ArraySizeSemanticsEnum — stamped R23-11), baseType (ref SwBaseType → baseTypeRef),
+    swFillCharacter/swMaxTextSize (attr Integer). swMaxTextSize row carries atpVariation but
+    Kind=attr → attribute-value variation only; XSD group L116499 anchors NO VARIATION-POINT →
+    not VP-capable. XSD group XML order = ARRAY-SIZE-SEMANTICS, SW-MAX-TEXT-SIZE (20),
+    BASE-TYPE-REF (30), SW-FILL-CHARACTER (40); reader/writer emit BASE-TYPE-REF and
+    SW-FILL-CHARACTER before SW-MAX-TEXT-SIZE → order fix needed (Step 6). Model impl +
+    docstrings already conform (vacuous model Red expected).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 5 passed tests/test_armodel/models/M2/MSR/DataDictionary/test_DataDefProperties.py::TestSwTextProps (init defaults + 4 get/set round-trip + None no-op)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (base ARObject, 4 Optional[T] PEP 526 members in markdown order, guarded self-returning setters, baseTypeRef kind suffix all in place; field-to-spec cross-check both directions clean)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwTextProps block wiped and rewritten verbatim from the markdown Notes; every docstring (class + 4 inline comments + 8 accessor docstrings) diffed character-for-character against the Notes — text already verbatim, rewrite is content-identical (no stale wording found)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — genuine Red: writer test_write_element_order_matches_xsd_group failed (writer emits ARRAY-SIZE-SEMANTICS, BASE-TYPE-REF, SW-FILL-CHARACTER, SW-MAX-TEXT-SIZE — markdown order, not XSD); reader tests passed (vacuous Red, find-based read is order-independent); 6 passed / 1 failed across the two new files
+  - [x] Step 6 — Update parser & writer (Green) — parser getSwTextProps + writer setSwTextProps reordered to XSD group order (ARRAY-SIZE-SEMANTICS, SW-MAX-TEXT-SIZE, BASE-TYPE-REF, SW-FILL-CHARACTER); 7 passed
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, citation FIXED to defining SWCT Table 5.7 p.250 (was legacy BSWModuleDescriptionTemplate Table D.72), stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry updated (docs/examples/method_deviation_by_class.md): citation moved D.72→Table 5.7, stale no-deviation table row replaced with summary + batch Note
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (3 passed / 0 failed tests/test_armodel/parser/test_SwTextProps.py, 4 passed / 0 failed tests/test_armodel/writer/test_writer_SwTextProps.py, 5 passed / 0 failed tests/test_armodel/models/M2/MSR/DataDictionary/test_DataDefProperties.py::TestSwTextProps, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 175 passed DataDictionary model dir, 46 passed test_LogAndTraceExtract (only other test referencing SwTextProps), 59 passed parser/writer test_instantiation_data_def_props + test_implementation_data_type_element + test_data_prototype + test_abstract_arxml_writer, 4 passed test_autosar_data_type; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified; no integration fixture carries SW-TEXT-PROPS — order fix cannot affect the integration round-trip); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationArrayDataType` — ApplicationCompositeDataType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.8, p.252; also FO_TPS_AbstractPlatformSpecification Table 3.16, p.35
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: concrete Class (not Enumeration); Base most-derived = `ApplicationCompositeDataType` (Table 5.6, p.241 — already stamped, not a stub; skipped per 16.5). Attributes: dynamicArraySizeProfile (String 0..1 attr), element (ApplicationArrayElement 0..1 aggr); XSD group order DYNAMIC-ARRAY-SIZE-PROFILE, ELEMENT matches existing parser/writer. FO_TPS Table 3.16 rendering identical — SWCT defining doc cited. Stale pre-release-column `# Spec verified: R23-11` marker found and removed (stamp withheld this batch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 5 failed / 4 passed: genuine Red on class + 4 accessor docstring-verbatim tests (stale `Tags:` tail, Args/Returns blocks, extra "Named getApplicationArrayElement…" sentence); behavioral tests passed (impl already conforms — vacuous model Red portion, noted). Bare-str setter call in the legacy test replaced with typed `String` primitive (Rule 0006)
+  - [x] Step 3 — Implement model class (Green) — field-to-spec cross-check both directions clean (dynamicArraySizeProfile Optional[String] 0..1 attr, element Optional[ApplicationArrayElement] 0..1 aggr, no fabricated fields; create+get shape correct for the Referrable child). One Rule 0001.11 fix: element accessor pair reordered mutator-first (createApplicationArrayElement before getApplicationArrayElement), matching sibling ApplicationRecordDataType; docstring Green lands with Step 4
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + all 4 accessor docstrings + 2 inline __init__ comments wiped and rewritten verbatim from the markdown Notes: class docstring = Note (Tags tail dropped per ApplicationRecordDataType/SwTextProps convention) + constr_1907 appended; accessor docstrings = Note verbatim, guarded setter carries the None-no-op sentence; Args/Returns blocks and the "Named getApplicationArrayElement…" sentence removed; 36 passed test_Datatypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_ApplicationArrayDataType.py (2 reader tests: field values incl. one-level-down element typeTRef/maxNumberOfElements + empty-wrapper no-op) and tests/test_armodel/writer/test_writer_ApplicationArrayDataType.py (XSD-order + unset-omits + 2 full save→reload round-trips through the ARPackage dispatch). First run: 1 failed / 5 passed — the failure was the test harness passing the AR-PACKAGE wrapper instead of the concrete element to readApplicationArrayDataType; corrected to exercise the concrete element as the XSD specifies. No implementation defect surfaced
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: reader mutator-driven (setDynamicArraySizeProfile / createApplicationArrayElement via readApplicationArrayElement), writer getter-driven (getDynamicArraySizeProfile / getApplicationArrayElement), element order DYNAMIC-ARRAY-SIZE-PROFILE → ELEMENT matches the XSD group, dispatch branches present (parser APPLICATION-ARRAY-DATA-TYPE branch, writer isinstance branch), no chained mutators; 6 passed. Note: reader readApplicationArrayElement ↔ writer setApplicationArrayElement are suffix-matched but read/set-prefixed (writer-side structure helpers get/set-named is the codebase convention kept by the SwTextProps sync) — flagged for 9b review, no rename applied
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; rows in source order (element pair mutator-first after the 0001.11 fix); reader/writer columns match the actual mutator/getter call sites; citation `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.8, p.252` (markdown caption + pdf_page.py); stale `# Spec verified: R23-11` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none remaining; stale tracker row removed (`applicationArrayElement` / `type (spec one vs py list)` — superseded shape; field is spec-named `element`, `Optional[ApplicationArrayElement]`, matching PDF 0..1); tracker entry rewritten as No-deviations summary + batch Note (docs/examples/method_deviation_by_class.md); no missing referenced classes (ApplicationArrayElement queued separately in Group28)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (36 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/test_Datatypes.py, 2 passed / 0 failed tests/test_armodel/parser/test_ApplicationArrayDataType.py, 4 passed / 0 failed tests/test_armodel/writer/test_writer_ApplicationArrayDataType.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 1152 passed (Datatype model dir + test_ARPackage + test_DataMapping + parser test_arxml_parser_dispatch/test_sender_rec_array_type_mapping/test_indexed_array_element + writer test_writer_impl_types_ports/test_writer_arpackage_dispatch/test_writer_data_types/test_sender_rec_array_type_mapping/test_indexed_array_element); black/ruff clean on all 4 changed files; mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit); checklist==methods + coverage verified via set-based script; targeted lossless round-trip over AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml (the one fixture with real APPLICATION-ARRAY-DATA-TYPE elements): 42 array types identical before/after); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ApplicationArrayElement` — ApplicationCompositeElementDataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.9, p.252
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (reader/writer columns but no release column) — stale
+    `# Spec verified: R23-11` marker removed at session start, full re-sync, stamp WITHHELD
+    this batch. Concrete Class (not Enumeration); Base most-derived =
+    `ApplicationCompositeElementDataPrototype` — already stamped R23-11 (Table 5.30, p.306,
+    6-column with release) — not a stub, no base sync needed. 4 attrs, all 0..1:
+    arraySizeHandling (attr ArraySizeHandlingEnum — stamped R23-11 Table 5.11),
+    arraySizeSemantics (attr ArraySizeSemanticsEnum — stamped R23-11 Table 5.10),
+    indexDataType (ref → indexDataTypeRef, RefType), maxNumberOfElements (attr
+    PositiveInteger). maxNumberOfElements carries atpVariation but Kind=attr → attribute-value
+    variation only; XSD group L2846 anchors NO VARIATION-POINT → not VP-capable. XSD group
+    XML order = ARRAY-SIZE-HANDLING, ARRAY-SIZE-SEMANTICS, INDEX-DATA-TYPE-REF,
+    MAX-NUMBER-OF-ELEMENTS — matches markdown displayed order and existing reader/writer.
+    Rule 0001.3 gap: reader uses getChildElementOptionalNumericalValue (looser Numerical)
+    where the spec-typed getChildElementOptionalPositiveInteger exists (writer
+    setChildElementOptionalPositiveInteger already a one-line delegation) → Step 6 upgrade.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 8 failed / 7 passed: genuine Red on the 8
+    accessor docstring-verbatim pins (stale `Args:`/`Returns:` blocks); behavioral tests passed
+    (impl already conforms — vacuous behavioral Red portion, noted). Bare-str enum setter calls
+    and int-valued PositiveInteger in the legacy test replaced with typed primitives (Rule 0006)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec
+    cross-check both directions clean: 4 own attrs all 0..1 → Optional[T] PEP 526 members in
+    markdown order with blank-line blocks, guarded self-returning setters, indexDataTypeRef
+    kind suffix, most-derived base ApplicationCompositeElementDataPrototype; no createXxx —
+    no Referrable children; behavioral subset 6 passed; docstring Green lands with Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — ApplicationArrayElement block wiped (class
+    docstring, 8 accessor docstrings' `Args:`/`Returns:` blocks, 4 inline `__init__` comments)
+    and rewritten verbatim from the markdown Notes; maxNumberOfElements inline comment dropped
+    the `Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime` tail (Rule
+    0012.2.5.2); guarded setters carry the None-no-op sentence; 31 passed test_DataPrototypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_ApplicationArrayElement.py (3 reader tests: field values incl. enums/index ref dest +
+    empty-wrapper + no-ELEMENT cases) and tests/test_armodel/writer/test_writer_ApplicationArrayElement.py
+    (XSD-order + unset-omits + 2 save→reload round-trips through the ARPackage dispatch).
+    First run: 2 failed / 5 passed — both failures the genuine Red
+    `isinstance(getMaxNumberOfElements(), PositiveInteger)` (reader's looser Numerical, Rule
+    0001.3); writer-side tests passed
+  - [x] Step 6 — Update parser & writer (Green) — parser: readApplicationArrayElement
+    MAX-NUMBER-OF-ELEMENTS upgraded getChildElementOptionalNumericalValue → spec-typed
+    getChildElementOptionalPositiveInteger (Rule 0001.3; cast dropped); writer:
+    setApplicationArrayElement upgraded setChildElementOptionalNumericalValue →
+    setChildElementOptionalPositiveInteger (matched leaf pair, one-line delegation, identical
+    serialization); element order unchanged (ARRAY-SIZE-HANDLING, ARRAY-SIZE-SEMANTICS,
+    INDEX-DATA-TYPE-REF, MAX-NUMBER-OF-ELEMENTS = XSD group order); no chained mutators;
+    13 passed incl. ApplicationArrayDataType reader/writer neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column added (was
+    Rule 0023 legacy: reader/writer columns but no release tokens); rows in source order;
+    stale `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md,
+    `## ApplicationArrayElement`, No-deviations summary + batch Note); no stale rows (none existed);
+    the Rule 0001.3 Numerical→PositiveInteger reader/writer upgrade was a to-fix, fixed in Step 6
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (41 passed / 0 failed
+    tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/test_DataPrototypes.py,
+    tests/test_armodel/parser/test_ApplicationArrayElement.py,
+    tests/test_armodel/writer/test_writer_ApplicationArrayElement.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 590 passed Datatype model dir +
+    parser/writer test_sender_rec_array_type_mapping + test_arxml_parser_orchestrators +
+    test_indexed_array_element + test_writer_impl_types_ports + test_writer_data_types;
+    black/ruff/flake8 clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection
+    commit); checklist==methods + coverage verified via set-based script; targeted lossless round-trip
+    over AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml: 42/42 ApplicationArrayDataType
+    entries identical, maxNumberOfElements materializes as PositiveInteger); 9b deferred to batch
+    confirmation (user instruction)
 
 - [ ] `ArraySizeSemanticsEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.10, p.253; also CP_TPS_DiagnosticExtractTemplate Table 4.10, p.43
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (5-column, no release column) — stale `# Spec verified:
+    R23-11` marker removed at session start, full re-sync, stamp WITHHELD this batch.
+    Placement KEPT in CommonStructure/ImplementationDataTypes.py — the spec's own Package
+    row (SWCT Table 5.10 and DEXT Table 4.10 alike) is
+    M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes, so the module hint IS
+    the spec package. DEXT Table 4.10 rendering is split (header pre-caption, literals
+    post-caption) but content-identical to SWCT — defining doc SWCT wins, no conflict.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 6 passed
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (AREnum base, literals FIXED_SIZE="fixedSize" / VARIABLE_SIZE="variableSize" exactly as spec, __init__ passes values; field-to-spec cross-check both directions clean); 43 passed test_ImplementationDataTypes.py
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum block's doc-bearing surfaces (class docstring + 2 literal inline comments) diffed character-for-character against the SWCT markdown Notes — already verbatim, rewrite is content-identical (no stale wording); no other docstrings in the block (enum __init__ has none)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-trips as the ARRAY-SIZE-SEMANTICS value on consuming classes, all 4 synced earlier/elsewhere: reader test_ApplicationArrayElement.py + test_SwTextProps.py, writer test_writer_ApplicationArrayElement.py + test_writer_SwTextProps.py verified this batch, no consumer gap)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — value form via generic literal helpers; parser sites arxml_parser.py:6499 SwTextProps / 7406 ImplementationDataTypeElement / 9183 ApplicationArrayElement (getChildElementOptionalLiteral + cast) and 11145 DiagnosticDataElement (typed ArraySizeSemanticsEnum().setValue), writer sites arxml_writer.py:3915/8640/8787/14791 (setChildElementOptionalLiteral on getArraySizeSemantics); literals "fixedSize"/"variableSize" round-trip, no enum-specific token map to fix; typed-vs-cast materialization on the reader side is the consumer pattern shared with sibling ArraySizeHandlingEnum, not an enum value-mapping gap — flagged for 9b, no fix)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; `(no methods)` line naming the 4 consuming attributes with (R23-11); stale `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md, `## ArraySizeSemanticsEnum`, No-deviations summary + batch Note); no stale rows (none existed for this class)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (43 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_ImplementationDataTypes.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 2141 passed CommonStructure + SWComponentTemplate/Datatype + MSR/DataDictionary model dirs, 14 passed consumer reader/writer test_ApplicationArrayElement + test_SwTextProps + test_writer_ApplicationArrayElement + test_writer_SwTextProps; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), `(no methods)` checklist convention + literal values + Spec line + stamp-WITHHELD verified via set-based script); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ArraySizeHandlingEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.11, p.254
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Enumeration header confirmed (page-split table: body Package/Note/Aggregated-by + literals 0-1 render before the Table 5.11 caption, p.254 continuation carries repeated Enumeration header + literal 2 inheritedFromArrayElementTypeSize; spaces in literal names are word-wrap artifacts, XSD mmt.qualifiedName confirms camelCase); 3 literals, Package row = SWComponentTemplate::Datatype::Datatypes → Datatypes.py (no relocation); class Note "This enumeration defines different ways to handle the sizes of variable size arrays."; Aggregated by ApplicationArrayElement.arraySizeHandling + ImplementationDataTypeElement.arraySizeHandling; pre-existing block carries legacy 5-column checklist (no release column) + stale `# Spec verified: R23-11` + p.253 citation → stale marker removed at session start per Rule 0023, p.254 per pdf_page.py
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 6 passed test_Datatypes.py::TestArraySizeHandlingEnum (replaced the minimal 2-test block with the full TestArraySizeSemanticsEnum-pattern battery: instantiability+AREnum isinstance, literal values+getEnumValues spec order, setValue round-trip all 3 literals, None no-op, validateEnumValue, spec-note docstring; added AREnum import)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (AREnum base, literals ALL_INDICES_DIFFERENT_ARRAY_SIZE="allIndicesDifferentArraySize" / ALL_INDICES_SAME_ARRAY_SIZE="allIndicesSameArraySize" / INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE="inheritedFromArrayElementTypeSize" exactly as spec + XSD mmt.qualifiedName, __init__ passes the 3 literals in spec row order; field-to-spec cross-check both directions clean — 3 Literal rows ↔ 3 members, no extra/missing; top-level export `armodel.ArraySizeHandlingEnum` resolves); 6 passed test_Datatypes.py::TestArraySizeHandlingEnum
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum block's doc-bearing surfaces (class docstring + 3 literal inline comments) diffed character-for-character against the SWCT markdown Notes — already verbatim, rewrite is content-identical (no stale wording); no other docstrings in the block (enum __init__ has none, per house style)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; round-trips as the ARRAY-SIZE-HANDLING value on its 2 consuming classes, both "Aggregated by" rows covered with value-asserting tests: reader test_ApplicationArrayElement.py (asserts getArraySizeHandling().getValue(), incl. UPPERCASE XSD form) + test_implementation_data_type_element.py (camelCase form), writer test_writer_ApplicationArrayElement.py (asserts ARRAY-SIZE-HANDLING text "allIndicesSameArraySize" + XSD order + unset-omission) + test_implementation_data_type_element.py (element order + unset-omission); no consumer gap)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — value form via generic literal helpers; parser sites arxml_parser.py:7405 ImplementationDataTypeElement / 9182 ApplicationArrayElement (getChildElementOptionalLiteral + cast(Optional[ArraySizeHandlingEnum], ...)), writer sites arxml_writer.py:8639 / 8786 (setChildElementOptionalLiteral on getArraySizeHandling); literal values "allIndicesDifferentArraySize"/"allIndicesSameArraySize"/"inheritedFromArrayElementTypeSize" round-trip, no enum-specific token map to fix; typed-vs-cast materialization on the reader side is the consumer pattern shared with sibling ArraySizeSemanticsEnum — flagged for 9b, no fix)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; `(no methods)` line naming the 2 consuming attributes with (R23-11) — used the batch-sibling ArraySizeSemanticsEnum form (release token appended to the `(no methods)` line; TransformerClassEnum's older form carries no release token, but the task requires the release recorded); stale legacy `# Spec verified: R23-11` (5-column block, p.253) removed at session start per Rule 0023, stamp WITHHELD; `# Spec:` page corrected p.253 → p.254 per pdf_page.py; stray `# [x] __init__` row dropped (sibling enum convention: `(no methods)` line only)
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md, `## ArraySizeHandlingEnum`, No-deviations summary + batch Note incl. page-split-table + p.253→p.254 correction); no stale rows (no prior entry existed for this class)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (40 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/test_Datatypes.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 71 passed SWComponentTemplate/Datatype model dir, 18 passed ARRAY-SIZE-HANDLING consumer tests test_ApplicationArrayElement + test_ApplicationArrayDataType + test_implementation_data_type_element + test_writer_ApplicationArrayElement + test_implementation_data_type_element; black/ruff clean, mypy clean on Datatypes.py (1 pre-existing error only at arxml_writer.py L7526, prior EndToEndProtection commit), `(no methods)` checklist convention + literal order + Spec line p.254 + stamp-WITHHELD verified via set-based script); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ImplementationDataType` — AbstractImplementationDataType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.15, p.268; also CP_TPS_DiagnosticExtractTemplate Table 5.7, p.231
   - module: M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) + stale `# Spec verified: R23-11` with wrong
+    citation (BSWModuleDescriptionTemplate Table D.37, p.321 — a reproduction; defining doc SWCT wins)
+    removed at session start, full re-sync, stamp WITHHELD this batch. Placement KEPT in
+    CommonStructure/ImplementationDataTypes.py — spec Package row is
+    M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (the InstanceRef.py misplacement
+    hint was stale; only ImplementationDataTypeElementInPortInterfaceRef lives there). Base
+    AbstractImplementationDataType already stamped R23-11 (Table 5.14, no own attrs) — not a stub, no
+    base sync. 5 attrs: dynamicArraySizeProfile (String 0..1 attr), isStructWithOptionalElement
+    (Boolean 0..1 attr), subElement (ImplementationDataTypeElement * aggr → wrapper SUB-ELEMENTS),
+    symbolProps (SymbolProps 0..1 aggr), typeEmitter (NameToken 0..1 attr). XSD group order =
+    DYNAMIC-ARRAY-SIZE-PROFILE, IS-STRUCT-WITH-OPTIONAL-ELEMENT, SUB-ELEMENTS, SYMBOL-PROPS,
+    TYPE-EMITTER; writer emits SYMBOL-PROPS before SUB-ELEMENTS → order fix needed (Step 6). No
+    VARIATION-POINT in the class's XSD group → not VP-capable (subElement atpVariation lands on
+    ImplementationDataTypeElement, already VP-capable). DEXT Table 5.7 rendering is page-split,
+    content-identical. Pre-existing CATEGORY_* class constants kept (consumed by
+    AutosarTopLevelStructure.getDataType) — recorded as added convenience constants.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 11 failed / 8 passed: genuine Red on the class
+    docstring pin + 10 accessor docstring-verbatim pins (stale reflowed/paraphrased docstrings,
+    Args/Returns blocks, wrong None-no-op wording); behavioral tests passed (impl already conforms —
+    vacuous behavioral Red portion, noted)
+  - [x] Step 3 — Implement model class (Green) — no behavioral model changes needed (field-to-spec
+    cross-check both directions clean: 5 own attrs all Optional[T]/List[T] 0..1/0..* → PEP 526
+    members, guarded self-returning setters, create+get shape for the two Referrable children
+    subElement/symbolProps, most-derived base AbstractImplementationDataType; behavioral subset
+    8 passed; one Rule 0008 fix — blank lines inserted between the 5 glued __init__ member blocks;
+    docstring Green lands with Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — ImplementationDataType block wiped (class
+    docstring reflow removed, __init__ Args/Returns docstring removed, 10 accessor docstrings'
+    paraphrases/Args/Returns blocks dropped, 5 inline __init__ comments rewritten) and rewritten
+    verbatim from the markdown Notes (Stereotypes/Tags tails dropped per 0012.2.5.2; subElement Note
+    keeps the spec's "ImplementionDataTypeElement"/"Implementation DataType" spellings; guarded
+    setters carry the None-no-op sentence naming the attribute); stale `# Spec verified: R23-11`
+    removed per Rule 0023 (session start); 48 passed test_ImplementationDataTypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_ImplementationDataType.py (2 reader tests: field values incl. one-level-down sub-elements
+    arraySize/arraySizeSemantics/isOptional + symbolProps + empty-wrapper no-element case) and
+    tests/test_armodel/writer/test_writer_ImplementationDataType.py (XSD-order + unset-omits + 2
+    save→reload round-trips through the ARPackage dispatch incl. empty-wrapper-list). First run:
+    1 failed / 5 passed — the failure is the genuine Red `SUB-ELEMENTS < SYMBOL-PROPS` order
+    assertion (writer emits SYMBOL-PROPS before SUB-ELEMENTS); reader tests passed (vacuous Red,
+    find-based read is order-independent)
+  - [x] Step 6 — Update parser & writer (Green) — writer only: writeImplementationDataType reordered
+    to the XSD group order (DYNAMIC-ARRAY-SIZE-PROFILE, IS-STRUCT-WITH-OPTIONAL-ELEMENT,
+    SUB-ELEMENTS, SYMBOL-PROPS, TYPE-EMITTER — SUB-ELEMENTS moved before SYMBOL-PROPS); parser
+    unchanged (readImplementationDataType/readImplementationDataTypeSubElements/
+    readImplementationDataTypeSymbolProps already call all 5 mutators, find-based order-independent);
+    no chained mutators; 14 passed incl. test_implementation_data_type +
+    test_implementation_data_type_element neighbors
+  - [x] Step 7 — Update checklist comment — 6-column format with release column added (was Rule
+    0023 legacy 5-column); rows in source order; citation FIXED to defining SWCT Table 5.15 p.268
+    (was BSWModuleDescriptionTemplate Table D.37 p.321); stale `# Spec verified: R23-11` removed at
+    session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry rewritten (docs/examples/method_deviation_by_class.md):
+    citation moved D.37 p.320 → SWCT Table 5.15 p.268, stale row `symbolProps / type (spec one vs
+    py list)` removed (field is the spec-shaped Optional[SymbolProps] single), No-deviations summary
+    + batch Note (placement kept, writer order fix, CATEGORY_* kept as added convenience constants,
+    DEXT cross-check, not VP-capable); no missing referenced classes
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (48 passed / 0 failed tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/test_ImplementationDataTypes.py, 2 passed / 0 failed tests/test_armodel/parser/test_ImplementationDataType.py, 4 passed / 0 failed tests/test_armodel/writer/test_writer_ImplementationDataType.py, 3 passed / 0 failed tests/test_armodel/models/test_member_annotations.py; neighbors: 2710 passed CommonStructure + SWComponentTemplate/Datatype model dirs + parser/writer test_implementation_data_type + test_implementation_data_type_element + test_arxml_parser_dispatch + test_arxml_parser_orchestrators + test_writer_impl_types_ports + test_writer_arpackage_dispatch + test_writer_data_types + test_writer_implementation; black/ruff clean on all 5 changed files, mypy model clean + 1 pre-existing error only (writer L7526, prior EndToEndProtection commit); checklist==methods verified via set-based script + stamp WITHHELD + Rule 0008 spacing verified via AST audit; targeted lossless round-trip over AUTOSAR_Datatypes.arxml: 15 ImplementationDataType elements identical (model-compare + byte file-compare, TYPE-EMITTER values intact); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwBaseType` — BaseType — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.22, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified: R23-11` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Concrete Class, zero Attribute rows (empty table);
+    Base most-derived = BaseType (parallel AtpBlueprint/AtpBlueprintable chain → role-matching branch selects
+    BaseType, Rule 0001.2). Base `BaseType` (Table 5.26) was itself a Rule 0023 legacy block (stale marker) →
+    synced ahead of SwBaseType in the same pass per Rule 0001.10/0016.5 (its own Group28 row below remains for
+    its own near-no-op re-verification pass). §5.2.6.2 constr_1011/1422/1012 reference `SwBaseType.category` —
+    no Attribute row in Table 5.22, no element in the XSD group (removed upstream) → not modeled (Rule
+    0015/0001.3). XSD group SW-BASE-TYPE empty → no own XML elements; not VP-capable; ARPackage dispatch
+    (parser SW-BASE-TYPE branch / writer isinstance branch) pre-existed and conforms.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 4 passed incl. base-shape/defaults/docstring pins
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec cross-check both directions clean: zero own attrs, most-derived base BaseType, verbatim class docstring)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwBaseType block's single doc-bearing surface (class docstring) wiped and rewritten verbatim from the markdown Note (Tags tail dropped); content-identical, no stale wording
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — vacuous Red (parser/writer coverage pre-existed and conforms; noted): extended tests/test_armodel/parser/test_SwBaseType.py (field values incl. one-level-down definition + empty-element case) and tests/test_armodel/writer/test_writer_SwBaseType.py (XSD-order assertion + unset-omits + populated/empty save→reload round-trips through the ARPackage dispatch)
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: reader mutator-driven via readBaseTypeDirectDefinition (BASE-TYPE-SIZE/ENCODING/MEM-ALIGNMENT/BYTE-ORDER/NATIVE-DECLARATION = XSD sequenceOffset order, MAX-BASE-TYPE-SIZE atp.Status=removed not modeled), writer getter-driven via setBaseTypeDirectDefinition, dispatch branches present both sides, no chained mutators
+  - [x] Step 7 — Update checklist comment — 6-column format with release column, stale legacy `# Spec verified:` removed, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md, `## SwBaseType`, No-deviations summary + batch Note incl. the category removed-attribute finding and the BaseType sub-sync)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (25 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py + 3 passed member_annotations; neighbors: 2249 passed / 0 failed across all 33 test files referencing SwBaseType/SW-BASE-TYPE; targeted lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml + AUTOSAR_Datatypes.arxml: 16 SwBaseType elements field-identical; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseTypeDefinition` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.23, p.290
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column) — stale `# Spec verified: R23-11` marker removed at
+    session start, full re-sync, stamp WITHHELD this batch. Abstract Class confirmed (header "BaseTypeDefinition
+    (abstract)"); zero Attribute rows (empty table); Base = ARObject only (impl `(ARObject, ABC)` matches);
+    Subclasses row names BaseTypeDirectDefinition (own Group28 row follows later — untouched). XSD group
+    BASE-TYPE-DEFINITION (AUTOSAR_00052.xsd L8395) is EMPTY (`<xsd:sequence/>`) → no own XML element, no own
+    XML-bearing attributes → Steps 5/6 N/A; not VP-capable. Aggregation realized through the concrete subclass:
+    readSwBaseType/writeSwBaseType → readBaseTypeDirectDefinition/setBaseTypeDirectDefinition (SwBaseType pass).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — vacuous Red (impl already conforms; noted): 4 passed
+    test_BaseTypes.py::TestBaseTypeDefinition (abstract-instantiation guard, base-shape pin ARObject+ABC,
+    concrete-subclass relationship, verbatim class-docstring pin; no own attrs/accessors exist to pin)
+  - [x] Step 3 — Implement model class (Green) — no model changes needed (field-to-spec cross-check both
+    directions clean: zero own attrs, Base ARObject → `(ARObject, ABC)`, `__init__(self)` signature per
+    ARObject-only base, abstract instantiation guard in place; 20 passed test_BaseTypes.py)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — BaseTypeDefinition block's single doc-bearing surface
+    (class docstring) wiped and rewritten verbatim from the markdown Note — content-identical, no stale
+    wording; no method docstrings or inline `__init__` member comments exist in the block (zero own attrs)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: abstract class, XSD group BASE-TYPE-DEFINITION
+    is EMPTY — `<xsd:sequence/>`, AUTOSAR_00052.xsd L8395 — no own XML element, no own XML-bearing attributes;
+    serialized through the concrete subclass BaseTypeDirectDefinition whose round-trip is covered by the
+    SwBaseType pass: tests/test_armodel/parser/test_SwBaseType.py + tests/test_armodel/writer/test_writer_SwBaseType.py
+    field-value assertions incl. one-level-down definition, 7 passed re-run this step)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: no readBaseTypeDefinition/writeBaseTypeDefinition helpers
+    exist or are needed — the abstract class owns no XML group content; concrete-subclass helpers
+    readBaseTypeDirectDefinition (arxml_parser.py:7428) / setBaseTypeDirectDefinition (arxml_writer.py:3979)
+    pre-exist and are called from readSwBaseType/writeSwBaseType, no parser/writer edit)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column (`__init__` row only, reader/
+    writer `[—]`); citation `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.23, p.290` (markdown caption
+    + pdf_page.py); stale legacy `# Spec verified: R23-11` (5-column block) removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — none; tracker entry added (docs/examples/method_deviation_by_class.md,
+    `## BaseTypeDefinition`, No-deviations summary + batch Note); no stale rows for this class (no prior entry
+    existed; the legacy `## BaseType`/`## BaseTypeDirectDefinition` entries are other classes' rows, owned by
+    their own queued Group28 passes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (767 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py, tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/parser/test_arxml_parser_orchestrators.py, tests/test_armodel/writer/test_writer_data_types.py + AsamHdo dir + tests/test_armodel/models/test_member_annotations.py; black/ruff clean, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods verified, targeted lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml + AUTOSAR_Datatypes.arxml byte-identical); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseTypeDirectDefinition` — BaseTypeDefinition — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.24, p.291
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (no release column, stale p.290 citation) — stale `# Spec verified:
+    R23-11` marker removed at session start, full re-sync, stamp WITHHELD this batch. Concrete Class
+    (no "(abstract)" marker); Base most-derived = BaseTypeDefinition (stamped R23-11, Table 5.23 —
+    synced in the prior commit, not a stub). Page-split table (p.291): Class/Package/Note/Base/
+    Aggregated-by + baseTypeEncoding row render before the caption; baseTypeSize/byteOrder/
+    memAlignment/nativeDeclaration rows after (displayed order = concatenation, Rule 0001.11).
+    5 attrs, all 0..1 attr → Optional[T]: baseTypeEncoding (BaseTypeEncodingString),
+    baseTypeSize (PositiveInteger), byteOrder (ByteOrderEnum), memAlignment (PositiveInteger),
+    nativeDeclaration (NativeDeclarationString). XSD group BASE-TYPE-DIRECT-DEFINITION
+    (AUTOSAR_00052.xsd L8402) XML order = BASE-TYPE-SIZE (70), BASE-TYPE-ENCODING (90),
+    MEM-ALIGNMENT (100), BYTE-ORDER (110), NATIVE-DECLARATION (120); MAX-BASE-TYPE-SIZE (80) is
+    atp.Status="removed" and absent from the PDF table → not modeled (Rule 0015/0001.3).
+    nativeDeclaration markdown Note carries a stray leading "Tags: xml.sequenceOffset=100" rendering
+    artifact + trailing Tags tail — dropped per 0012.2.5.2. Reader/writer helpers
+    readBaseTypeDirectDefinition (parser L7428) / setBaseTypeDirectDefinition (writer L3979)
+    pre-exist in XSD order and are called from readSwBaseType/writeSwBaseType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — genuine Red on the accessor-docstring pin (all 5 setters carry the stale two-paragraph None-no-op form; batch convention is the inline form, BaseType/SwTextProps precedent); behavioral + base-shape + class-docstring + type-hints pins passed (impl already conforms — vacuous behavioral Red portion, noted): 1 failed / 8 passed
+  - [x] Step 3 — Implement model class (Green) — structural change only: module adopted PEP 563 (`from __future__ import annotations`) + 6 quoted self-ref returns unquoted (5 on BaseTypeDirectDefinition setters + 1 on BaseType.setBaseTypeDefinition, same-change rule, RunnableEntityGroup precedent, Rule 0003); field-to-spec cross-check both directions clean (5 attrs ↔ 5 Optional[T] PEP 526 members in markdown order, guarded self-returning setters, most-derived base BaseTypeDefinition, no fabricated fields, no createXxx — no Referrable children); behavioral subset passed (23 passed / 1 docstring pin pending — Green lands with Step 4); MAX-BASE-TYPE-SIZE (atp.Status=removed, absent from PDF) stays not modeled
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — BaseTypeDirectDefinition block wiped and rewritten verbatim from the markdown Notes: class docstring + 5 inline `__init__` comments + 5 getter docstrings diffed character-for-character against the Notes — already verbatim (content-identical; nativeDeclaration's stray leading `Tags: xml.sequenceOffset=100` rendering artifact + trailing Tags tail stay dropped per 0012.2.5.2); the 5 setter docstrings converted from the stale two-paragraph None-no-op form to the inline batch convention (Note + ` A None value is a no-op and does not overwrite an existing <attr>.`, BaseType/SwTextProps form); 24 passed test_BaseTypes.py
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — vacuous Red (parser/writer coverage pre-existed and conforms; noted): extended tests/test_armodel/parser/test_SwBaseType.py (`TestBaseTypeDirectDefinitionReader`: 5 per-attribute isolated reads — one element present, other four unset — incl. the UPPERCASE XSD BYTE-ORDER value form read verbatim) and tests/test_armodel/writer/test_writer_SwBaseType.py (`TestBaseTypeDirectDefinitionWriter`: 5 per-attribute emissions — one field set, only its element emitted — incl. the camelCase member-value BYTE-ORDER form); 17 passed across both files
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed: reader readBaseTypeDirectDefinition (arxml_parser.py:7428) mutator-driven — BASE-TYPE-SIZE, BASE-TYPE-ENCODING, MEM-ALIGNMENT, BYTE-ORDER, NATIVE-DECLARATION = XSD sequenceOffset order (70, 90, 100, 110, 120; MAX-BASE-TYPE-SIZE 80 atp.Status=removed not read); writer setBaseTypeDirectDefinition (arxml_writer.py:3979) getter-driven in the same XSD order (order pinned by test_write_element_order_matches_xsd_group); both called from readSwBaseType/writeSwBaseType; matched pairs (readX ↔ setX structure helpers per codebase convention, spec-typed PositiveInteger leaf pair, generic literal leaf pair + cast for the string/enum attrs — shared sibling consumer pattern, flagged for 9b, no fix); no chained mutators on the class path
+  - [x] Step 7 — Update checklist comment — 6-column format with release column (was Rule 0023 legacy: no release tokens); rows in source order; citation page corrected p.290 → p.291 per pdf_page.py; stale legacy `# Spec verified: R23-11` removed at session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — tracker entry updated (docs/examples/method_deviation_by_class.md, `## BaseTypeDirectDefinition`): page citation corrected 290 → 291, accepted `maxBaseTypeSize` row retained (`atp.Status=removed`, Rule 0001.3/0015 — stays not modeled), No-deviations-among-modeled-members summary + batch Note added; no stale rows (no naming/type/missing rows existed); the `## BaseType` entry's superseded row is BaseType's own row — untouched here; no missing referenced classes (BaseTypeDefinition synced this batch; BaseTypeEncodingString Table 5.25, ByteOrderEnum Table 5.27 exist and are queued for their own passes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (41 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/test_BaseTypes.py, tests/test_armodel/parser/test_SwBaseType.py, tests/test_armodel/writer/test_writer_SwBaseType.py; neighbors: 3 passed tests/test_armodel/models/test_member_annotations.py, 189 passed AsamHdo model dir + parser/writer BaseTypes tests + test_pep563_annotations + lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml (TestSWComponents byte-compare), 295 passed test_arxml_parser_handlers + test_writer_data_types (the two other files referencing BaseTypeDirectDefinition); black/ruff clean on all 4 changed files, mypy 1 pre-existing error only (writer L7526, prior EndToEndProtection commit), checklist==methods + coverage + stamp-WITHHELD verified via set-based script, Rule 0008 blank-line spacing verified by eye); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `BaseType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.26, p.292
   - module: M2/MSR/AsamHdo/BaseTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — re-verified: Table 5.26 (markdown L8477-8496, page-split render) = abstract Class, Package M2::MSR::AsamHdo::BaseTypes, exactly 1 attr (baseTypeDefinition / BaseTypeDefinition / 1 / aggr); XSD group BASE-TYPE (AUTOSAR_00052.xsd L8384) flattens a 0..1 choice of BASE-TYPE-DIRECT-DEFINITION; p.292 per pdf_page.py
+  - [x] Step 2 — Write model class unit test (Red) — re-verified: TestBaseType covers abstract-instantiation guard, base shape (ARElement most-derived), defaults via concrete subclass SwBaseType, class-docstring pin incl. constr_1910, accessor-docstring pins, get/set round-trip + None no-op, one-level-down definition values; no gaps found
+  - [x] Step 3 — Implement model class (Green) — re-verified: ABC instantiation guard, PEP 526 member `self.baseTypeDefinition: BaseTypeDirectDefinition = BaseTypeDirectDefinition()` (Mult 1 plain T, matches getter return), blank line between member blocks, setter returns self, `(parent, short_name)` per ARElement base
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — re-verified: class docstring = Note verbatim with constr_1910 appended; inline comment/getter/setter = "This is the actual definition of the base type." verbatim (Tags tail dropped), setter appends only the None-no-op sentence; no __init__ docstring; no stale wording
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — re-verified: parser test_SwBaseType.py asserts field values incl. per-attribute isolation and empty-element case; writer test_writer_SwBaseType.py asserts element order vs the XSD group, unset-omits, and populated/empty save→reload round-trips
+  - [x] Step 6 — Update parser & writer (Green) — re-verified: reader readSwBaseType → readIdentifiable + readBaseTypeDirectDefinition(getBaseTypeDefinition()) — flattened XML, never calls setBaseTypeDefinition; writer writeSwBaseType → writeIdentifiable + setBaseTypeDirectDefinition; element order = XSD sequenceOffset 70/90/100/110/120 (MAX-BASE-TYPE-SIZE 80 atp.Status=removed, not modeled); matched name pairs, no chained mutators
+  - [x] Step 7 — Update checklist comment — re-verified: 6-column rows in source order (getter first for the scalar pair), # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.26, p.292, every row R23-11, reader [—] on both accessors / writer [x] on the getter per the flattened-XML split; stamp correctly withheld
+  - [x] Step 8 — Deviations — tracker reconciled: superseded legacy `## BaseType` entry (stale p.291 citation + stale `type` deviation row, resolved by the new-style entry as a spec-type refinement) removed from docs/examples/method_deviation_by_class.md; single current No-deviations section kept
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (187 passed / 0 failed tests/test_armodel/models/M2/MSR/AsamHdo/ + tests/test_armodel/parser/test_SwBaseType.py + tests/test_armodel/writer/test_writer_SwBaseType.py; 3 passed tests/test_armodel/models/test_member_annotations.py; black/ruff clean; checklist==methods verified; lossless round-trip over AUTOSAR_MOD_AISpecification_BaseTypes_Standard.arxml); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ByteOrderEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.27, p.297; also CP_TPS_SystemTemplate Table 7.12, p.779; also CP_TPS_DiagnosticExtractTemplate Table 4.22, p.67
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Enumeration header confirmed (3 Literal rows, identical across all three renderings; SWCT defining doc wins; XSD AUTOSAR_00052.xsd line 132015 `BYTE-ORDER-ENUM` / `BYTE-ORDER-ENUM--SIMPLE` tokens are UPPERCASE kebab, mmt.qualifiedName camelCase)
+  - [x] Step 2 — Write model class unit test (Red) — test_set_value_round_trip + test_set_value_none_no_op added to TestByteOrderEnum (test_PrimitiveTypes.py); Red vacuous — enum already spec-complete from a prior pass, new tests pass immediately (176 passed) and stay as regression guards
+  - [x] Step 3 — Implement model class (Green) — no code change needed: AREnum base, 3 literals exactly per Table 5.27 (mostSignificantByteFirst/mostSignificantByteLast/opaque, EnumerationLiteralIndex 0/1/2); stale `# Spec verified: R23-11` marker removed per Rule 0023 re-sync
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring (Note) + 3 literal comments rewritten verbatim from SWCT markdown; text confirmed character-identical to the wipe result
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — value form serialized on consumers; token-question Red instead) — updated 15 consumer tests to the canonical XSD-token expectations (parser reads map token→camelCase member; writer emits XSD token via BYTE_ORDER_XML_MAP); Red seen: 14 failed / 1190 passed before the parser/writer flip
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum; BYTE-ORDER token decision applied to consumers) — repo convention IS the literal→XSD-token map (`_readEnumToken`/`_writeEnumToken` + `*_XML_MAP`; 17 diagnostic consumers; `BYTE_ORDER_XML_MAP` already defined in both files for DEFAULT-ENDIANNESS); applied it to the 7 remaining consumer site pairs (BaseTypeDirectDefinition BYTE-ORDER, SegmentPosition SEGMENT-BYTE-ORDER, MultiplexedIPdu SELECTOR-FIELD-BYTE-ORDER, ISignalToIPduMapping PACKING-BYTE-ORDER ×2 incl. ISignalToPduMappings, PduToFrameMapping PACKING-BYTE-ORDER, System CONTAINER-I-PDU-HEADER-BYTE-ORDER); only fixture carrying the family (CanSystem.arxml, `<PACKING-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</PACKING-BYTE-ORDER>` ×4) round-trips byte-identically; Green: 1391 passed / 0 failed
+  - [x] Step 7 — Update checklist comment — release-suffixed `(no methods)` form per the ArraySizeSemanticsEnum/ArraySizeHandlingEnum precedent: `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297` + Columns line + `# (no methods) — enum value form serialized on <7 wired consumer attrs> (R23-11)`; stale `# Spec verified:` NOT rewritten (stamp WITHHELD this batch)
+  - [x] Step 8 — Deviations — tracker entry added (`## ByteOrderEnum` in docs/examples/method_deviation_by_class.md): No deviations among members; BYTE-ORDER XML-token decision documented with evidence (repo convention = literal→token map, XSD tokens UPPERCASE, fixture check); BaseTypeDirectDefinition entry's superseded test-form sentence amended with a pointer; no stale rows (no naming/type/missing rows existed)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1401 passed / 0 failed test_PrimitiveTypes.py + test_BaseTypes.py + test_member_annotations.py + test_SwBaseType.py + test_writer_SwBaseType.py + test_writer_data_types.py + test_arxml_parser_multiplexed.py + test_arxml_parser_handlers.py + test_arxml_parser_orchestrators.py + test_system.py + test_writer_frame_channel.py + test_writer_system_mapping.py + test_writer_pdu_secure_soad.py + test_writer_pdu_tp.py + test_writer_nm.py + test_writer_hw_lin_flexray_transform.py; black/ruff clean on all 17 changed files; mypy 1 pre-existing error only (writer:7526, EndToEndProtection commit — not chased); adapted checklist battery OK (no stale marker, __init__ covered); CanSystem.arxml BYTE-ORDER round-trip lossless 4/4 tokens); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AutosarDataPrototype` — DataPrototype — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.29, p.306
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — abstract Class; single own attr `type` (AutosarDataType, 0..1, tref) → `typeTRef: Optional[TRefType]`; Base most-derived = `DataPrototype` (already stamped R23-11 — no stub sync); XSD group AUTOSAR-DATA-PROTOTYPE (00052.xsd line 7919) = TYPE-TREF only; Rule 0023: legacy 5-column checklist + stale `# Spec verified: R23-11` marker removed at session start
+  - [x] Step 2 — Write model class unit test (Red) — TestAutosarDataPrototype rewritten to the current-bar contract (abstract guard, field default, chaining + None no-op via VariableDataPrototype, class/getter/setter docstring verbatim); Red seen: 2 failed (getter/setter docstrings carry stale google-style Args/Returns blocks) / 4 passed
+  - [x] Step 3 — Implement model class (Green) — no code change needed: ABC + instantiation guard, most-derived base DataPrototype (stamped), PEP 526 `typeTRef: Optional[TRefType]`, guarded chaining setter, tref→TRef suffix all already conform; 33 behavior tests passed, `armodel.AutosarDataPrototype` resolves, `get_type_hints` resolves `Optional[TRefType]`; the 2 docstring tests stay Red until Step 4 by design
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — all AutosarDataPrototype docstrings/member comments wiped then rewritten verbatim from SWCT Table 5.29: class docstring = Note; inline comment + getter/setter docstrings = "This represents the corresponding data type." (Stereotypes: isOfType tail dropped per Rule 0012.2.5.2); setter keeps appended None-no-op sentence; stale `# Spec verified: R23-11` marker line removed (Rule 0023); 35/35 model tests green
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_autosar_data_prototype.py (TYPE-TREF field values + absent→None via VariableDataPrototype) + tests/test_armodel/writer/test_autosar_data_prototype.py (TRefType text/DEST via ParameterDataPrototype, absent→no element, group order TYPE-TREF<INIT-VALUE, full write→parse round-trip); Red vacuous — helper pair readAutosarDataPrototype/writeAutosarDataPrototype (Rule 0001.7) already existed and conforms (Rule 0023 re-sync of covered helpers, not new coverage); 6/6 green
+  - [x] Step 6 — Update parser & writer (Green) — no code change needed: readAutosarDataPrototype (parser 6339: readDataPrototype + TYPE-TREF, no double readReferrable) / writeAutosarDataPrototype (writer 7545: writeDataPrototype + setChildElementOptionalRefType TYPE-TREF) already exist; called by all 3 concrete subclasses (readVariableDataPrototype 6308 / readParameterDataPrototype 6343 / readArgumentDataPrototype 8545; writeVariableDataPrototype 7549 / writeParameterDataPrototype 7550 / writeArgumentDataPrototype 8677); XSD group order verified (TYPE-TREF only group element, emitted before INIT-VALUE — order test locks it); neighboring suites 11/11 + full integration round-trip lossless (SoftwareComponents.arxml carries TYPE-TREF)
+  - [x] Step 7 — Update checklist comment — rewritten in the 6-column format with per-row R23-11 release column (`# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.29, p.306`); `# Spec verified:` stamp WITHHELD this batch (9b deferred per user instruction); no stale legacy marker remains
+  - [x] Step 8 — Deviations — tracker entry added (`## AutosarDataPrototype` in docs/examples/method_deviation_by_class.md): No deviations; documents the Rule 0023 re-sync evidence (stale marker removed, docstring convention change incl. the dropped `Stereotypes: isOfType` tail flagged for 9b), vacuous behavioral/reader-writer Red portions, and referenced types (DataPrototype stamped, AutosarDataType/TRefType exist — no missing classes); no stale rows existed
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (138 passed / 0 failed: test_DataPrototypes.py + test_autosar_data_prototype.py [parser] + test_autosar_data_prototype.py [writer] + test_variable_data_prototype.py [parser+writer] + test_data_prototype.py + test_ApplicationArrayElement.py + test_writer_ApplicationArrayElement.py + test_member_annotations.py + Datatype dir battery; integration test_roundtrip.py lossless incl. SoftwareComponents.arxml TYPE-TREF); black clean / ruff clean on all 4 changed files; mypy 1 pre-existing error only (writer:7526, EndToEndProtection commit — not chased); set-based checklist==methods check OK, no stale `# Spec verified:` in the block; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ParameterInAtomicSWCTypeInstanceRef` — AtpInstanceRef — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.36, p.319
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/InstanceRefsUsage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (767 passed / 0 failed: test_InstanceRefsUsage.py + test_parameter_in_atomic_swc_type_instance_ref.py [parser] + test_parameter_in_atomic_swc_type_instance_ref.py [writer] + test_autosar_parameter_ref.py [parser+writer] + test_arxml_parser_orchestrators.py + test_arxml_parser_handlers.py + test_writer_swc_behavior.py + test_member_annotations.py); black clean / ruff clean on all 6 changed files; mypy 1 pre-existing error only (writer:7526, EndToEndProtection commit — not chased); set-based checklist==methods OK, no stale `# Spec verified:` in the block; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ArParameterInImplementationDataInstanceRef` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.38, p.324
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements/__init__.py (was stub in GenericStructure/GeneralTemplateClasses/ArObject.py — moved to the spec Package module per Rule 0007, sibling ArVariableInImplementationDataInstanceRef precedent)
+  - [x] Step 1 — Sync members & description from spec — concrete Class ✓ (not Enumeration); Base = ARObject → no-arg __init__; 4 attrs displayed order: contextDataPrototype (ordered) (AbstractImplementationDataTypeElement, *, ref) / portPrototype (PortPrototype, 0..1, ref) / rootParameterDataPrototype (ParameterDataPrototype, 0..1, ref) / targetDataPrototype (AbstractImplementationDataTypeElement, 0..1, ref) — inner refs of an <name>InstanceRef → Optional[RefType]/List[RefType] + Ref suffix (Rule 0001.5, sibling Table 5.37 precedent); XSD group AR-PARAMETER-IN-IMPLEMENTATION-DATA-INSTANCE-REF (00052.xsd l.5576, complexType l.5648) = 4↔4 match, CONTEXT-DATA-PROTOTYPE-REFS wrapper for the * ref, sequence order CONTEXT→PORT→ROOT→TARGET = markdown order; aggregated ONLY by ImplementationDataTypeSubElementRef.parameterImplementationDataTypeElement (PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT, XSD l.71876) — parent is an unsynced stub queued at Group1.md:954-955 → named reusable reader/writer helpers, parent dispatch wiring stays with the parent's sync; not VP-capable (no VARIATION-POINT in complexType)
+  - [x] Step 2 — Write model class unit test (Red) — TestArParameterInImplementationDataInstanceRef added to tests/.../DataElements/test___init__.py (mirror of DataElements/__init__.py): verbatim-Note docstring test (class + 4 accessor pairs), base shape + get_type_hints pins, initialization defaults, get/set round-trip + None no-ops; Red seen: ImportError — the class does not exist in the spec-package module (stub still in GenericStructure/.../ArObject.py)
+  - [x] Step 3 — Implement model class (Green) — stub block removed from GenericStructure/GeneralTemplateClasses/ArObject.py (only that class's block; PhysicalDimensionMapping/SwAxisCont stubs untouched); class implemented in the spec Package module DataElements/__init__.py next to the Table 5.37 sibling: ARObject base, no-arg __init__, PEP 526 annotated members in spec row order (List[RefType] / Optional[RefType] quota shapes), guarded chaining setters returning self, Ref-suffix naming per Rule 0001.5; stub-test row module updated in test_group21_36_stub_classes.py; armodel.ArParameterInImplementationDataInstanceRef resolves; 1215 passed (new model tests + full stub battery)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — stub carried no docstrings (wipe trivially satisfied — nothing stale survived); all docstrings + inline __init__ comments written fresh from SWCT Table 5.38 and diff-verified verbatim by script: class docstring = class Note; per-attribute inline comment + getter docstring + setter docstring = attribute Note, setters append the None-no-op sentence, add appends the no-append sentence; wrap artifacts normalised per XSD doc text (providing/receiving, ImplementationDataTypeElement joined)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/test_ar_parameter_in_implementation_data_instance_ref.py (field values incl. DEST + ordered context list, empty wrapper → [], absent → defaults) + tests/test_armodel/writer/test_ar_parameter_in_implementation_data_instance_ref.py (field values + XSD group order wrapper<PORT<ROOT<TARGET, empty context list emits no wrapper, all-absent emits nothing, full write→parse round-trip); Red seen: 7 failed (AttributeError — reusable helpers readArParameterInImplementationDataInstanceRef/writeArParameterInImplementationDataInstanceRef do not exist yet)
+  - [x] Step 6 — Update parser & writer (Green) — named reusable helpers added (parent dispatch stays with ImplementationDataTypeSubElementRef's own sync, Group1.md:954-955): parser readArParameterInImplementationDataInstanceRef (after getAutosarVariableRef; readARObject + CONTEXT-DATA-PROTOTYPE-REFS/CONTEXT-DATA-PROTOTYPE-REF wrapper list + 3× getChildElementOptionalRefType in XSD order) / writer writeArParameterInImplementationDataInstanceRef (after setAutosarVariableRef; writeARObject + wrapper only when non-empty + optional refs, XSD order); DataElements import lines extended in both files (no import reordering); accessor pair reordered to mutator-first per Rule 0001.11 (addContextDataPrototypeRef before getContextDataPrototypeRefs — Table 5.37 sibling is get-first, a prior deviation, not a template); Green: 7/7 new + 7629 parser+writer battery + 2391 affected model tests + integration test_roundtrip.py lossless
+  - [x] Step 7 — Update checklist comment — 6-column block written above the class in source order with per-row R23-11 release column (`# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.38, p.324`); reader [x] on mutator rows / writer [x] on getter rows / `[—]` for __init__; `# Spec verified:` stamp WITHHELD this batch (9b deferred per user instruction); note documents the nested-only serialization and the pending parent dispatch
+  - [x] Step 8 — Deviations — tracker entry appended (`## ArParameterInImplementationDataInstanceRef` in docs/examples/method_deviation_by_class.md): No deviations — documents the Rule 0007 placement (stub removed from ArObject.py, stub-battery row re-pointed), XSD 4↔4 cross-check, nested-only serialization with reusable helper pair + parent dispatch deferred to Group1.md:954-955, no fixtures carrying the family (no Rule 0019 constraint), referenced types exist (RefType stamped; ref targets carry DEST only — no missing classes); no stale rows existed (class had no tracker entry)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (1225 passed / 0 failed: test_ar_parameter_in_implementation_data_instance_ref.py [parser] + test_ar_parameter_in_implementation_data_instance_ref.py [writer] + test___init__.py [DataElements] + test_group21_36_stub_classes.py + test_member_annotations.py; plus 7629 parser+writer battery, 2391 SWComponentTemplate+GenericStructure model dirs, integration test_roundtrip.py lossless); black clean / ruff clean on all 8 changed files; mypy 1 pre-existing error only (writer:7537, EndToEndProtection commit — not chased); set-based checklist==methods OK, class block carries `# Spec:` with the stamp correctly WITHHELD; Rule 0013 chained-call greps clean (no new violations); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwDataDefProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.39, p.332; also CP_TPS_DiagnosticExtractTemplate Table 4.11, p.49; also FO_TPS_AbstractPlatformSpecification Table 3.11, p.32
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: concrete Class (`<<atpVariation>>` class-row stereotype — NOT a VP indicator, Rule 0020; no fixture carries VARIATION-POINT in the conditional); Base = ARObject. All 30 spec attrs already modeled with correct types/multiplicity; fixes this pass = member order → markdown displayed order (Rule 0001.11), list accessor pairs mutator-first, writer emission → XSD sequenceOffset order, bottom-of-module runtime imports for SwCalprmAxisSet/ValueSpecification (Rule 0003), legacy 5-column checklist → 6-column + stale stamp removed (Rule 0023). XSD-only MC-FUNCTION not modeled (Rule 0015).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (94 passed / 0 failed: test_DataDefProperties.py [74] + test_sw_data_def_props.py [parser, 14] + test_sw_data_def_props.py [writer, 6]; plus test_member_annotations.py gate, DataDictionary dir 183, parser+writer battery 7649, 4 SW-DATA-DEF-PROPS fixtures lossless byte-identical, set-based checklist==methods 61, black/ruff/flake8 clean on all changed files, mypy 1 pre-existing error only [writer:7537, EndToEndProtection commit — not chased]); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwBitRepresentation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.41, p.333
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: concrete Class; Base = ARObject. Both spec attrs (bitPosition, numberOfBits — Integer 0..1 attr) already modeled with correct shape; fixes this pass = legacy checklist → 6-column + stale stamp removed (Rule 0023), inline `__init__` comments drop stale `Tags:` tails (Rule 0012.2.5.2), model tests upgraded to the current bar. XSD group SW-BIT-REPRESENTATION (AUTOSAR_00052.xsd L114714/L114736) holds exactly the 2 elements, markdown order = XSD sequence order (20/30); reader/writer already covered via the SwDataDefProps call sites.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (102 passed / 0 failed: test_DataDefProperties.py [79] + test_sw_data_def_props.py [parser, 15] + test_sw_data_def_props.py [writer, 8]; plus test_member_annotations.py gate 3, DataDictionary dir 188, black/ruff clean on all 4 changed py files, mypy 1 pre-existing error only [writer:7537, EndToEndProtection commit — not chased], set-based checklist==methods 5, stamp correctly WITHHELD); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwCalibrationAccessEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.44, p.335
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — consumer value-form tests written instead; 5 Red confirmed)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer token-map conversion applied: SW_CALIBRATION_ACCESS_XML_MAP + _readEnumToken/_writeEnumToken at 3 parser / 4 writer sites; 642 passed)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (902 passed / 0 failed: test_DataDefProperties.py + DataDictionary dir + test_ModeDeclaration.py + 6 parser/writer files touched by the token-map conversion; plus test_member_annotations.py gate 3, black/ruff clean on all 9 changed py files, mypy 1 pre-existing error only [writer:7545, EndToEndProtection commit — not chased], enum-adapted checklist check [(no methods) form, __init__ only, stamp WITHHELD, 3 literals in spec order]); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwCalprmAxis` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.47, p.352
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule 0023 legacy checklist (reader/writer columns but no per-row release column; reader [x]
+    also misplaces on getter rows) — stale `# Spec verified: R23-11` marker removed at session start,
+    full re-sync, stamp WITHHELD this batch. Concrete Class; Base most-derived = ARObject (XSD
+    complexType L114802 refs AR-OBJECT group only → `__init__(self)`); page-split table (body renders
+    before the caption). 5 attrs, all 0..1 (category/displayFormat/swAxisIndex/swCalibrationAccess/
+    swCalprmAxisTypeProps aggr polymorphic choice) in markdown order = current member order; XSD group
+    L114749 XML order = SW-AXIS-INDEX(20), CATEGORY(30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL(40),
+    SW-CALIBRATION-ACCESS(90), DISPLAY-FORMAT(100) = current reader/writer order (token map for
+    swCalibrationAccess already applied by the SwCalibrationAccessEnum pass). BASE-TYPE-REF(110)
+    atp.Status="removed" → not modeled (accepted deviation; tracker has 2 stale rows to clean:
+    swAxisIndex "missing" — actually implemented; baseTypeRef "missing" — actually spec-removed).
+    No VARIATION-POINT → not VP-capable. TYPE_CHECKING-only AxisIndexType/SwCalibrationAccessEnum
+    imports → get_type_hints NameError (Rule 0001.8) → genuine model Red planned.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — genuine Red: test_sw_calprm_axis_type_hints_resolve
+    NameError 'AxisIndexType' (TYPE_CHECKING-only, Rule 0001.8); behavioral + docstring/order pins passed
+    (vacuous behavioral Red portion — impl already conforms; noted)
+  - [x] Step 3 — Implement model class (Green) — structural change only: AxisIndexType moved to a
+    top-level import (RecordLayout has no back-import) and SwCalibrationAccessEnum to a
+    bottom-of-module cycle-breaker import (DataDefProperties imports SwCalprmAxisSet back);
+    CommonStructure/Constants moved its CalprmAxisCategoryEnum/AxisIndexType imports below the
+    ValueSpecification definition into the existing bottom cycle-breaker section (Rule 0005;
+    ValueList precedent from the SwDataDefProps commit) — the new CalibrationParameter→DataDefProperties
+    edge closed Constants→CalibrationParameter→DataDefProperties→Constants mid-initialization;
+    field-to-spec cross-check both directions clean (5 attrs ↔ 5 Optional[T] PEP 526 members,
+    no fabricated fields); 21 passed test_CalibrationParameter.py + 201 DataDictionary dir +
+    1904 CommonStructure dir + import-order probes all-OK
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — SwCalprmAxis block's 16 doc-bearing surfaces
+    (class docstring + 5 inline __init__ comments + 5 getter docstrings + 5 setter docstrings)
+    diffed character-for-character against the markdown Notes — already verbatim, rewrite is
+    content-identical (no stale wording found); guarded setters carry the None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new tests/test_armodel/parser/
+    test_SwCalprmAxis.py (3 reader tests: full field values incl. typed AxisIndexType/
+    SwCalibrationAccessEnum/DisplayFormatString + one-level-down grouped/individual choice +
+    empty-element case) and tests/test_armodel/writer/test_writer_SwCalprmAxis.py (XSD-order +
+    unset-omits + empty-set wrapper omission + 2 full save→reload round-trips through the
+    ARPackage dispatch). First run: 2 reader failures — one was a test-authoring bug (inner
+    content double-wrapped in SW-CALPRM-AXIS; fixed), the remaining failure is the genuine Red
+    `isinstance(getSwAxisIndex(), AxisIndexType)` (reader's cast materializes plain ARLiteral,
+    Rule 0001.3); writer tests passed (vacuous Red — writer already conforms; noted). Pre-existing
+    test_arxml_parser_internals.py::test_getSwCalprmAxis_access_and_display_format also failing
+    (feeds the non-XSD camelCase SW-CALIBRATION-ACCESS form the SwCalibrationAccessEnum pass
+    converted away from — its sibling test files were aligned, this file was missed)
+  - [x] Step 6 — Update parser & writer (Green) — parser getSwCalprmAxis only: swAxisIndex/displayFormat
+    upgraded from cast-ARLiteral to typed materialization (AxisIndexType()/DisplayFormatString() +
+    setValue, Rule 0001.3, ApplicationArrayElement precedent); writer unchanged (already conforms —
+    XSD order + SW_CALIBRATION_ACCESS_XML_MAP from the SwCalibrationAccessEnum pass); 2 missed consumer
+    tests from that pass aligned to the XSD wire form (both failing at committed HEAD):
+    test_arxml_parser_internals.py camelCase SW-CALIBRATION-ACCESS input, test_arxml_writer.py
+    camelCase emission assertion; 117 passed new + neighbor files
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; reader [x] moved to
+    the mutator rows and writer [x] onto the getter rows (legacy block had both misplaced on getters);
+    XSD order + BASE-TYPE-REF removed-status note updated; stale legacy `# Spec verified:` removed at
+    session start, stamp WITHHELD
+  - [x] Step 8 — Deviations — tracker entry rewritten (docs/examples/method_deviation_by_class.md):
+    2 stale rows removed (swAxisIndex "missing" — implemented with full reader/writer coverage;
+    baseTypeRef "missing" — actually spec-removed: XSD BASE-TYPE-REF seq 110 atp.Status="removed",
+    replaced by the accepted `deprecated (atp.Status="removed"), not implemented` row for baseType);
+    batch Note carries the out-of-scope 9b observations (getSwAxisGrouped L7239 / getRuleBasedAxisCont
+    L8862 AxisIndexType cast — SwAxisCont/RuleBasedAxisCont are queued Group28 rows)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (189 passed / 0 failed
+    tests/test_armodel/models/M2/MSR/DataDictionary/test_CalibrationParameter.py,
+    tests/test_armodel/parser/test_SwCalprmAxis.py, tests/test_armodel/writer/test_writer_SwCalprmAxis.py,
+    tests/test_armodel/parser/test_arxml_parser_internals.py, tests/test_armodel/writer/test_arxml_writer.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 2270 passed DataDictionary +
+    CommonStructure model dirs, 100 passed parser/writer -k SwCalprmAxis/SwAxis/SwTextProps/SwDataDefProps
+    selection; no integration fixture carries SW-CALPRM-AXIS — document-level save→reload round-trips
+    covered by the new writer tests; black/ruff clean on all 8 changed py files (flake8 not installed in
+    .venv — ruff E/F covers the E9/F63/F7/F82 syntax gate), mypy 1 pre-existing error only (writer L7545,
+    EndToEndProtection commit); checklist==methods==source-order via set-based script; Rule 0008 spacing +
+    PEP 526 form + no `# type:` via AST audit; docstrings re-diffed verbatim post-format); 9b deferred to
+    batch confirmation (user instruction)
 
 - [ ] `CalprmAxisCategoryEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.48, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy-format checklist + stale `# Spec verified: R23-11` removed at session start (Rule 0023);
+    member values were UPPERCASE wire forms (Rule 0011 placeholder shape) → re-sync to camelCase spec
+    literals; XSD CALPRM-AXIS-CATEGORY-ENUM--SIMPLE tokens are UPPERCASE ≠ member values → token-map
+    precedent applies (SW_CALIBRATION_ACCESS_XML_MAP pattern) for the SwCalprmAxis/RuleBasedAxisCont
+    consumers.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — consumer
+    round-trip tests written instead: parser test_SwCalprmAxis.py + writer test_writer_SwCalprmAxis.py +
+    test_writer_rule_based_axis_cont.py assert the UPPERCASE wire token ↔ camelCase member mapping)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — consumer value form migrated
+    instead: CALPRM_AXIS_CATEGORY_XML_MAP added to parser + writer; getSwCalprmAxis/getRuleBasedAxisCont
+    → _readEnumToken, setSwCalprmAxis/writeRuleBasedAxisCont → _writeEnumToken)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (440 passed / 0 failed
+    tests/test_armodel/models/M2/MSR/DataDictionary/test_CalibrationParameter.py,
+    tests/test_armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/test_RuleBasedAxisCont.py,
+    tests/test_armodel/parser/test_SwCalprmAxis.py, tests/test_armodel/writer/test_writer_SwCalprmAxis.py,
+    tests/test_armodel/writer/test_writer_rule_based_axis_cont.py, tests/test_armodel/writer/test_writer_data_types.py,
+    tests/test_armodel/parser/test_arxml_parser_handlers.py, tests/test_armodel/parser/test_arxml_parser_internals.py,
+    tests/test_armodel/models/test_member_annotations.py; neighbors: 2741 passed MSR + CommonStructure
+    model dirs, 181 passed parser/writer -k Calprm/Axis/DataDef/RuleBased/Constant selection;
+    black/ruff clean on all 10 changed py files, mypy 1 pre-existing error only (writer L7554,
+    EndToEndProtection commit); no integration fixture carries SW-CALPRM-AXIS or RULE-BASED-AXIS-CONT —
+    document-level round-trips covered by TestSwCalprmAxisRoundTrip; 9b deferred to batch confirmation
+    (user instruction))
 
 - [ ] `SwCalprmAxisTypeProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.49, p.353
   - module: M2/MSR/DataDictionary/CalibrationParameter.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (206 passed / 0 failed test_CalibrationParameter.py + test_SwCalprmAxis.py + test_arxml_parser_internals.py + test_writer_SwCalprmAxis.py + test_arxml_writer.py + test_member_annotations.py; neighbors: DataDictionary model dir 210, parser/writer -k "Calprm or Axis or Monotony or DataDef or RuleBased or Constant or RecordLayout" 205, 2 pre-existing HEAD failures in test_arxml_parser_orchestrators.py unrelated); 9b deferred to batch confirmation (user instruction)
+  - Note: abstract Class confirmed (`SwCalprmAxisTypeProps (abstract)`, Base ARObject); subclasses SwAxisGrouped (Table 5.55) / SwAxisIndividual (Table 5.50) exist in Axis.py — not touched. Rule 0023 legacy checklist (reader/writer columns, no release column, stale `# Spec verified: R23-11`) — marker removed, 6-column rewrite, stamp WITHHELD (9b batch). Model Red vacuous (impl conformed); reader/writer Red genuine: reusable readSwCalprmAxisTypeProps/writeSwCalprmAxisTypeProps extracted from the four inline duplicate handlers (Rule 0001.7), MONOTONY upgraded from cast-ARLiteral/camelCase emission to typed `_readEnumToken`/UPPERCASE `MONOTONY_XML_MAP` wire form (no fixture carries MONOTONY); 3 stale consumer tests aligned; `getSwAxisGrouped` also gained the missing `readARObject` call (S/T round-trip asymmetry — flagged for 9b). Details in method_deviation_by_class.md `## SwCalprmAxisTypeProps`.
 
 - [ ] `SwAxisGeneric` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.51, p.355
   - module: M2/MSR/DataDictionary/Axis.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Class confirmed (Base ARObject → `__init__(self)`); placement Axis.py unchanged. Rule 0023 legacy checklist (reader/writer columns, no release column, stale `# Spec verified: R23-11`) — marker removed, 6-column rewrite, stamp WITHHELD (9b batch). Model Red genuine: list-attr accessor pair order fixed to mutator-first (`addSwGenericAxisParam` before `getSwGenericAxisParams`, Rule 0001.11) and setter docstrings rewritten single-line (stale two-line form). Reader/writer Red vacuous (dispatch already conformed — noted); new direct reader/writer tests + empty-wrapper cases genuinely exercise the pair. XSD's SW-NUMBER-OF-AXIS-POINTS (atp.Status="removed", absent from the PDF table) not modeled — tracker row corrected from stale `missing` to accepted `deprecated (atp.Status=removed)`. Ref target `SwAxisType` exists as an ARElement stub, own sync = next queue row (Table 5.52); member type `SwGenericAxisParam` = later queue row (Table 5.53). Details in method_deviation_by_class.md `## SwAxisGeneric`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (243 passed / 0 failed: test_Axis.py, test_CalibrationParameter.py, test_SwCalprmAxis.py, test_writer_SwCalprmAxis.py, test_member_annotations.py, test_arxml_parser_internals.py, test_arxml_writer.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwAxisType` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.52, p.356
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/MSR/DataDictionary/Axis.py (moved from ARPackage.py stub per Rule 0007 — spec Package row `M2::MSR::DataDictionary::Axis`)
+  - [x] Step 1 — Sync members & description from spec — 2 attrs (swGenericAxisDesc DocumentationBlock 0..1,
+    swGenericAxisParamType SwGenericAxisParamType * aggr → swGenericAxisParamTypes dedicated list +
+    create/get pair; child is Referrable → createXxx shape); base ARElement; XSD group SW-AXIS-TYPE
+    (00052.xsd L114621: DESC offset 20, PARAM-TYPES wrapper offset 30; no VARIATION-POINT — not VP-capable)
+  - [x] Step 2 — Write model class unit test (Red) — TestSwAxisType battery in test_Axis.py (verbatim
+    class Note pin, AST member-order, accessor-order, get/set + None no-op, create duplicate-returns-existing)
+  - [x] Step 3 — Implement model class (Green) — moved from the ARPackage.py 5-line stub to Axis.py
+    (Rule 0007; stub battery row re-pointed); ARPackage.createSwAxisType factory + lazy import added;
+    PEP 526 members, blank-line blocks, chaining setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note + both member Notes verbatim from the
+    markdown (Table 5.52 is page-split: body renders before the caption; pdf_page.py p.356)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_SwAxisType.py
+    (3 reader tests) + tests/test_armodel/writer/test_writer_SwAxisType.py (4 writer incl. ARPackage
+    dispatch + 4-parametrized save→reload round-trips). TDD-order note: the reader/writer implementation
+    landed before the RW tests ran (session was resumed mid-class after the prior agent hit its usage
+    limit — Steps 5/6 order inverted for the RW pair; the tests genuinely exercise the new dispatch and
+    all pass first-run)
+  - [x] Step 6 — Update parser & writer (Green) — parser: readARPackageElementsRest SW-AXIS-TYPE dispatch +
+    new readSwAxisType (getDocumentationBlock + readIdentifiable + DATA-CONSTR-REF leaf pair, children
+    registered via createSwGenericAxisParamType); writer: writeARPackageElementRest SwAxisType dispatch +
+    new writeSwAxisType (writeIdentifiable + writeDocumentationBlock + existing setSwGenericAxisParamType
+    child helper; wrapper only when non-empty; XSD group order)
+  - [x] Step 7 — Update checklist comment — 6-column format with release column; citation
+    AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.52, p.356; stamp WITHHELD (9b deferred)
+  - [x] Step 8 — Deviations — none; tracker entry appended (## SwAxisType: no deviations, placement
+    move, new reader/writer wiring, no fixture carries SW-AXIS-TYPE)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1242 passed / 0 failed: test_SwAxisType.py
+    parser+writer, test_Axis.py, test_group21_36_stub_classes.py); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwGenericAxisParam` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.53, p.356
   - module: M2/MSR/DataDictionary/Axis.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `13be19a5b`
 
 - [ ] `SwCalprmRefProxy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.56, p.370
   - module: M2/MSR/DataDictionary/DatadictionaryProxies.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `3e551e767`
 
 - [ ] `SwVariableRefProxy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.57, p.370
   - module: M2/MSR/DataDictionary/DatadictionaryProxies.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `7664cf625`
 
 - [ ] `SwDataDependency` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.58, p.374
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `31a72c8fa`
 
 - [ ] `SwDataDependencyArgs` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.59, p.374
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `31a339668`
 
 - [ ] `PhysicalDimension` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.76, p.398
   - module: M2/MSR/AsamHdo/Units.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `995b22a85`
 
 - [ ] `PhysicalDimensionMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.77, p.399
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `e8c89613f`
 
 - [ ] `PhysicalDimensionMappingSet` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.78, p.399
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `262eb0db3`
 
 - [ ] `Unit` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.79, p.400
   - module: M2/MSR/AsamHdo/Units.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `f801a63d1`
 
 - [ ] `PhysConstrs` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.84, p.406
   - module: M2/MSR/AsamHdo/Constraints/GlobalConstraints.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `cad9e2a34`
 
 - [ ] `InternalConstrs` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.85, p.407
   - module: M2/MSR/AsamHdo/Constraints/GlobalConstraints.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `146982298`
 
 - [ ] `Limit` — ARLiteral — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.86, p.408
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `953b4ee68`
 
 - [ ] `MonotonyEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.87, p.408
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `2386d1878`
 
 - [ ] `IntervalTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.88, p.409
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `016c698ca`
 
 - [ ] `DisplayPresentationEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.107, p.432
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `c6c6c85d8`
 
 - [ ] `ValueSpecification` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.109, p.433
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ac709a6d4`
 
 - [ ] `ReferenceValueSpecification` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.115, p.437
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `818602956`
 
 - [ ] `NotAvailableValueSpecification` — ValueSpecification — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.116, p.440
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `83ab0d13f`
 
 - [ ] `ConstantSpecificationMapping` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.118, p.443
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `3c11d9087`
 
 - [ ] `ApplicationValueSpecification` — CompositeRuleBasedValueArgument — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.122, p.455
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `a53eb77d9`
 
 - [ ] `NumericalOrText` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.123, p.456
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `0388290c0`
 
 - [ ] `SwAxisCont` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.124, p.457
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ea8b13a1b`
 
 - [ ] `SwValues` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.125, p.458
   - module: M2/MSR/CalibrationData/CalibrationValue.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `42073daa2`
 
 - [ ] `ValueGroup` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.126, p.459
   - module: M2/MSR/CalibrationData/CalibrationValue.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `c247077e8`
 
 - [ ] `ValueList` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.127, p.459
   - module: M2/MSR/DataDictionary/DataDefProperties.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `bc05b153d`
 
 - [ ] `AbstractRuleBasedValueSpecification` — ValueSpecification — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.128, p.462
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `a9f7a7887`
 
 - [ ] `ApplicationRuleBasedValueSpecification` — AbstractRuleBasedValueSpecification — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.129, p.463
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `1e72f8e31`
 
 - [ ] `RuleBasedAxisCont` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.130, p.464
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ebe56c922`
 
 - [ ] `RuleBasedValueCont` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.131, p.465
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `1c8cba3d4`
 
 - [ ] `NumericalRuleBasedValueSpecification` — AbstractRuleBasedValueSpecification — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.132, p.467
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `0448eee2d`
 
 - [ ] `RuleBasedValueSpecification` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.133, p.469
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `01d5ffb42`
 
 - [ ] `RuleArguments` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.134, p.470
   - module: M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `571398195`
 
 - [ ] `CalibrationParameterValueSet` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.137, p.477
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `92d3b3131`
 
 - [ ] `CalibrationParameterValue` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 5.138, p.478
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `253d938ab`
 
 - [ ] `RunnableEntity` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.3, p.528
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ba3d6ff8b`
 
 - [ ] `TimingEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.4, p.532
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `da8bfb1cf`
 
 - [ ] `ExecutableEntityActivationReason` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.7, p.539
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `12b2493a2`
 
 - [ ] `AbstractEvent` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.8, p.541
   - module: M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `7d8fb2e20`
 
 - [ ] `SwcModeSwitchEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.17, p.544
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `8ea809a12`
 
 - [ ] `ModeSwitchedAckEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.19, p.545
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `d3d54a566`
 
 - [ ] `ExternalTriggerOccurredEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.20, p.545
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `84453723a`
 
 - [ ] `TransformerHardErrorEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.23, p.546
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `8f21cc967`
 
 - [ ] `OsTaskExecutionEvent` — RTEEvent — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.24, p.547
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `5958e809f`
 
 - [ ] `WaitPoint` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.25, p.550
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (audit_class.py BLOCK/ROWS clean, touched suites + full battery + black/ruff/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `ce4966a54`
 

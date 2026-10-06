@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataTypeElement,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, NameToken, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, NameToken, PositiveInteger, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ArraySizeHandlingEnum, AutosarDataType
@@ -223,9 +223,8 @@ class TestAbstractImplementationDataType:
 
 class TestImplementationDataType:
     def test_initialization(self):
-        """Test ImplementationDataType initialization"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
 
         assert data_type is not None
@@ -235,152 +234,199 @@ class TestImplementationDataType:
         assert data_type.subElements == []
         assert data_type.symbolProps is None
         assert data_type.typeEmitter is None
-        assert ImplementationDataType.CATEGORY_TYPE_REFERENCE == "TYPE_REFERENCE"
-        assert ImplementationDataType.CATEGORY_TYPE_VALUE == "VALUE"
-        assert ImplementationDataType.CATEGORY_TYPE_STRUCTURE == "STRUCTURE"
-        assert ImplementationDataType.CATEGORY_DATA_REFERENCE == "DATA_REFERENCE"
-        assert ImplementationDataType.CATEGORY_ARRAY == "ARRAY"
+
+    def test_inheritance_chain(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
+
+        assert isinstance(data_type, AbstractImplementationDataType)
+        assert isinstance(data_type, AutosarDataType)
+        assert ImplementationDataType.__bases__[0] is AbstractImplementationDataType
 
     def test_category_constants(self):
-        """Test category constants"""
         assert ImplementationDataType.CATEGORY_TYPE_REFERENCE == "TYPE_REFERENCE"
         assert ImplementationDataType.CATEGORY_TYPE_VALUE == "VALUE"
         assert ImplementationDataType.CATEGORY_TYPE_STRUCTURE == "STRUCTURE"
         assert ImplementationDataType.CATEGORY_DATA_REFERENCE == "DATA_REFERENCE"
         assert ImplementationDataType.CATEGORY_ARRAY == "ARRAY"
 
-    def test_get_dynamic_array_size_profile(self):
-        """Test getDynamicArraySizeProfile method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+    def test_class_docstring_matches_spec_note(self):
+        assert ImplementationDataType.__doc__.strip() == ("Describes a reusable data type on the implementation level. This will typically correspond to a typedef in C-code.")
+
+    def test_get_set_dynamic_array_size_profile(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getDynamicArraySizeProfile() is None
 
-    def test_set_dynamic_array_size_profile(self):
-        """Test setDynamicArraySizeProfile method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        test_value = String().setValue("TEST_PROFILE")
-        result = data_type.setDynamicArraySizeProfile(test_value)
-        assert result is data_type
-        assert data_type.getDynamicArraySizeProfile() == test_value
+        profile = String().setValue("VARIABLE_LENGTH_PROFILE")
+        assert data_type.setDynamicArraySizeProfile(profile) is data_type
+        assert data_type.getDynamicArraySizeProfile() is profile
 
-    def test_set_dynamic_array_size_profile_none(self):
-        """Test setDynamicArraySizeProfile with None value"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        result = data_type.setDynamicArraySizeProfile(None)
-        assert result is data_type
-        assert data_type.getDynamicArraySizeProfile() is None
+        data_type.setDynamicArraySizeProfile(None)
+        assert data_type.getDynamicArraySizeProfile() is profile
 
-    def test_get_is_struct_with_optional_element(self):
-        """Test getIsStructWithOptionalElement method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+    def test_get_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ImplementationDataType.getDynamicArraySizeProfile.__doc__.strip() == ("Specifies the profile which the array will follow in case this data type is a variable size array.")
+
+    def test_set_dynamic_array_size_profile_docstring_verbatim(self):
+        assert ImplementationDataType.setDynamicArraySizeProfile.__doc__.strip() == (
+            "Specifies the profile which the array will follow in case this data type is a variable size array. " "A None value is a no-op and does not overwrite an existing dynamicArraySizeProfile."
+        )
+
+    def test_get_set_is_struct_with_optional_element(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getIsStructWithOptionalElement() is None
 
-    def test_set_is_struct_with_optional_element(self):
-        """Test setIsStructWithOptionalElement method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        test_value = Boolean().setValue(True)
-        result = data_type.setIsStructWithOptionalElement(test_value)
-        assert result is data_type
-        assert data_type.getIsStructWithOptionalElement() == test_value
+        flag = Boolean().setValue(True)
+        assert data_type.setIsStructWithOptionalElement(flag) is data_type
+        assert data_type.getIsStructWithOptionalElement() is flag
+        assert data_type.getIsStructWithOptionalElement().getValue() is True
 
-    def test_set_is_struct_with_optional_element_none(self):
-        """Test setIsStructWithOptionalElement with None value"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        result = data_type.setIsStructWithOptionalElement(None)
-        assert result is data_type
-        assert data_type.getIsStructWithOptionalElement() is None
+        data_type.setIsStructWithOptionalElement(None)
+        assert data_type.getIsStructWithOptionalElement() is flag
+
+    def test_get_is_struct_with_optional_element_docstring_verbatim(self):
+        assert ImplementationDataType.getIsStructWithOptionalElement.__doc__.strip() == (
+            "This attribute is only valid if the attribute category is set to STRUCTURE. "
+            "If set to true, this attribute indicates that the ImplementationDataType has been created "
+            "with the intention to define at least one element of the structure as optional."
+        )
+
+    def test_set_is_struct_with_optional_element_docstring_verbatim(self):
+        assert ImplementationDataType.setIsStructWithOptionalElement.__doc__.strip() == (
+            "This attribute is only valid if the attribute category is set to STRUCTURE. "
+            "If set to true, this attribute indicates that the ImplementationDataType has been created "
+            "with the intention to define at least one element of the structure as optional. "
+            "A None value is a no-op and does not overwrite an existing isStructWithOptionalElement."
+        )
 
     def test_create_implementation_data_type_element(self):
-        """Test createImplementationDataTypeElement method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-
-        element = data_type.createImplementationDataTypeElement("Element")
-        assert isinstance(element, ImplementationDataTypeElement)
-        assert element.getShortName() == "Element"
-        assert element in data_type.getSubElements()
-        assert len(data_type.getSubElements()) == 1
-
-    def test_get_sub_elements(self):
-        """Test getSubElements method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getSubElements() == []
 
-    def test_get_set_type_emitter(self):
-        """Test setTypeEmitter/getTypeEmitter methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        assert data_type.getTypeEmitter() is None
+        element = data_type.createImplementationDataTypeElement("Elem")
+        assert isinstance(element, ImplementationDataTypeElement)
+        assert element.getShortName() == "Elem"
+        assert element.parent is data_type
+        assert data_type.getSubElements() == [element]
+        assert len(data_type.getSubElements()) == 1
 
-        value = NameToken().setValue("test_emitter")
-        result = data_type.setTypeEmitter(value)
-        assert result is data_type
-        assert data_type.getTypeEmitter().getValue() == "test_emitter"
+        duplicate = data_type.createImplementationDataTypeElement("Elem")
+        assert duplicate is element
+        assert len(data_type.getSubElements()) == 1
 
-        data_type.setTypeEmitter(None)
-        assert data_type.getTypeEmitter().getValue() == "test_emitter"
+    def test_create_implementation_data_type_element_docstring_verbatim(self):
+        assert ImplementationDataType.createImplementationDataTypeElement.__doc__.strip() == (
+            "Specifies an element of an array, struct, or union data type. "
+            "The aggregation of ImplementionDataTypeElement is subject to variability with the purpose "
+            "to support the conditional existence of elements inside a Implementation DataType "
+            "representing a structure."
+        )
+
+    def test_get_sub_elements_docstring_verbatim(self):
+        assert ImplementationDataType.getSubElements.__doc__.strip() == (
+            "Specifies an element of an array, struct, or union data type. "
+            "The aggregation of ImplementionDataTypeElement is subject to variability with the purpose "
+            "to support the conditional existence of elements inside a Implementation DataType "
+            "representing a structure."
+        )
 
     def test_create_symbol_props(self):
-        """Test createSymbolProps method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-
-        symbol_props = data_type.createSymbolProps("SymbolProps")
-        assert isinstance(symbol_props, SymbolProps)
-        assert symbol_props.getShortName() == "SymbolProps"
-        assert data_type.getSymbolProps() is symbol_props
-
-    def test_get_symbol_props(self):
-        """Test getSymbolProps method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getSymbolProps() is None
 
-    def test_all_properties(self):
-        """Test setting all properties"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        symbol_props = data_type.createSymbolProps("Sym")
+        assert isinstance(symbol_props, SymbolProps)
+        assert symbol_props.getShortName() == "Sym"
+        assert symbol_props.parent is data_type
+        assert data_type.getSymbolProps() is symbol_props
+
+        duplicate = data_type.createSymbolProps("Sym")
+        assert duplicate is symbol_props
+
+    def test_create_symbol_props_docstring_verbatim(self):
+        assert ImplementationDataType.createSymbolProps.__doc__.strip() == ("This represents the SymbolProps for the Implementation DataType.")
+
+    def test_get_symbol_props_docstring_verbatim(self):
+        assert ImplementationDataType.getSymbolProps.__doc__.strip() == ("This represents the SymbolProps for the Implementation DataType.")
+
+    def test_get_set_type_emitter(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
+        assert data_type.getTypeEmitter() is None
 
-        # Set all properties
-        data_type.setDynamicArraySizeProfile(String().setValue("PROFILE"))
-        data_type.setIsStructWithOptionalElement(Boolean().setValue(True))
-        data_type.setTypeEmitter(NameToken().setValue("EMITTER"))
+        emitter = NameToken().setValue("RTE")
+        assert data_type.setTypeEmitter(emitter) is data_type
+        assert data_type.getTypeEmitter() is emitter
+        assert data_type.getTypeEmitter().getValue() == "RTE"
 
-        # Verify all properties are set
-        assert data_type.getDynamicArraySizeProfile().getValue() == "PROFILE"
-        assert data_type.getIsStructWithOptionalElement().getValue() is True
-        assert data_type.getTypeEmitter().getValue() == "EMITTER"
+        data_type.setTypeEmitter(None)
+        assert data_type.getTypeEmitter() is emitter
+
+    def test_get_type_emitter_docstring_verbatim(self):
+        assert ImplementationDataType.getTypeEmitter.__doc__.strip() == ("This attribute is used to control which part of the AUTOSAR toolchain is supposed to trigger data type definitions.")
+
+    def test_set_type_emitter_docstring_verbatim(self):
+        assert ImplementationDataType.setTypeEmitter.__doc__.strip() == (
+            "This attribute is used to control which part of the AUTOSAR toolchain is supposed to trigger data type definitions. "
+            "A None value is a no-op and does not overwrite an existing typeEmitter."
+        )
 
 
 class TestArraySizeSemanticsEnum:
     """Test class for ArraySizeSemanticsEnum functionality (Table 5.10, p.253)."""
 
     def test_initialization(self):
+        """Test enum instantiability per Rule 0011"""
         enum = ArraySizeSemanticsEnum()
-        enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
-        assert enum.getValue() == "fixedSize"
+        assert enum is not None
+        assert isinstance(enum, AREnum)
 
-    def test_enum_values(self):
+    def test_literal_values(self):
+        """Test literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.10"""
         assert ArraySizeSemanticsEnum.FIXED_SIZE == "fixedSize"
         assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "variableSize"
+        enum = ArraySizeSemanticsEnum()
+        assert list(enum.getEnumValues()) == ["fixedSize", "variableSize"]
+
+    def test_set_value_round_trip(self):
+        """Test instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum == enum.setValue(None)
+        assert enum.getValue() == ""
+        assert enum == enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+        assert enum.getValue() == "fixedSize"
+        assert enum == enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
+        assert enum.getValue() == "variableSize"
+
+    def test_set_value_none_noop(self):
+        """Test setValue(None) is a no-op"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum.setValue(None) is enum
+        assert enum.getValue() == ""
+        enum.setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
+        enum.setValue(None)
+        assert enum.getValue() == "variableSize"
+
+    def test_validate_enum_value(self):
+        """Test validateEnumValue accepts spec literals and rejects others"""
+        enum = ArraySizeSemanticsEnum()
+        assert enum.validateEnumValue("fixedSize") is True
+        assert enum.validateEnumValue("variableSize") is True
+        assert enum.validateEnumValue("bogus") is False
+
+    def test_spec_note(self):
+        """Test the Table 5.10 class note."""
+        assert ArraySizeSemanticsEnum.__doc__.strip() == "This type controls how the information about the number of elements in an ApplicationArrayDataType is to be interpreted."
 
 
 class TestArrayImplPolicyEnum:

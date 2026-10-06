@@ -50,7 +50,7 @@ class TestImplementationDataTypeSubElementRef:
         assert sub_element_ref.getImplementationDataTypeElement() is iref
 
     def test_get_set_parameter_implementation_data_type_element(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
             ArParameterInImplementationDataInstanceRef,
         )
 
@@ -77,10 +77,8 @@ class TestImplementationDataTypeSubElementRef:
         )
 
     def test_get_type_hints_pins(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-            ArParameterInImplementationDataInstanceRef,
-        )
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+            ArParameterInImplementationDataInstanceRef,
             ArVariableInImplementationDataInstanceRef,
         )
 

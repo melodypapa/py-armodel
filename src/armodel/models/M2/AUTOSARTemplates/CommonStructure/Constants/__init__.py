@@ -14,16 +14,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     AREnum as AREnum,
     Identifier,
     Integer,
     PositiveInteger,
+    String,
     VerbatimString,
 )
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class ValueSpecification(ARObject, VariationPointCapable, ABC):
@@ -33,11 +30,10 @@ class ValueSpecification(ARObject, VariationPointCapable, ABC):
 
     # ValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.109, p.433
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getShortLabel  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is ValueSpecification:
@@ -84,13 +80,14 @@ class CompositeValueSpecification(ValueSpecification, ABC):
 class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
     """
     This represents an abstract base class for all rule-based value specifications.
+
+    [constr_1779] Scope of the definition of an AbstractRuleBasedValueSpecification: An AbstractRuleBasedValueSpecification shall only be defined in the context of an ArrayValueSpecification or a ConstantSpecification. If the AbstractRuleBasedValueSpecification is defined in the context of a ConstantSpecification then a reference to this ConstantSpecification shall only be created in the context of an ArrayValueSpecification.
     """
 
     # AbstractRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.128, p.462
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is AbstractRuleBasedValueSpecification:
@@ -117,19 +114,30 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
 class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
     This meta-class represents values for DataPrototypes typed by ApplicationDataTypes (this includes in particular compound primitives). For further details refer to ASAM CDF 2.0. This meta-class corresponds to some extent with SW-INSTANCE in ASAM CDF 2.0.
+
+    [constr_10503] ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 and ROW_DIR SwRecordLayout: In the context of an ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 that is applied to a DataPrototype typed by an ApplicationPrimitiveDataType where the swDataDefProps.swRecordLayout refers to a SwRecordLayout with a ROW_DIR approach, the value of ApplicationValueSpecification.swValueCont.swArraysize.v[i] (i.e., counting up from the first element of swArraysize.v) shall be identical to the number of axis points of the respective SwCalprmAxisSet.swCalprmAxis where attribute swAxisIndex is set to i.
+
+    [constr_10504] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists for ROW_DIR SwRecordLayout: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize can be identical to the value of ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult if the referenced ApplicationPrimitiveDataType.swDataDefProps.swRecordLayout defines a rowfirst ROW_DIR layout at the time when the ValueSpecification is applied.
+
+    [constr_10505] ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 and COLUMN_DIR SwRecordLayout: In the context of an ApplicationValueSpecification where attribute category is set to MAP, CUBOID, CUBE_4, or CUBE_5 that is applied to a DataPrototype typed by an ApplicationPrimitiveDataType where the swDataDefProps.swRecordLayout refers to a SwRecordLayout with a COLUMN_DIR approach, the value of ApplicationValueSpecification.swValueCont.swArraysize.v[-i] (i.e., counting down from the last element of swArraysize.v) shall be identical to the number of axis points of the respective SwCalprmAxisSet.swCalprmAxis where attribute swAxisIndex is set to i.
+
+    [constr_10506] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists for COLUMN_DIR SwRecordLayout: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize can be taken over from the reversed values of ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSizeMult if the referenced ApplicationPrimitiveDataType.swDataDefProps.swRecordLayout defines a column-first COLUMN_DIR layout at the time when the ValueSpecification is applied.
+
+    [constr_10507] ApplicationValueSpecification where attribute category is set to VAL_BLK and ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSize exists: If the attribute ApplicationPrimitiveDataType.swDataDefProps.swValueBlockSize exists, then the value of ApplicationValueSpecification.swValueCont.swArraysize shall contain a single v and the value of v shall be identical to the value of attribute swValueBlockSize at the time when the ValueSpecification is applied.
+
+    [constr_2052] Values of swArraysize and the number of values provided by swValuesPhys shall be consistent: swValuesPhys shall define as many values as the attribute swArraysize (if this attribute exists) defines.
     """
 
     # ApplicationValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.122, p.455
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.122, p.455
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwAxisCont               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwAxisCont   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisConts  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwValueCont  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValueCont  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         CompositeRuleBasedValueArgument.__init__(self)
@@ -137,48 +145,56 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
 
         # Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         self.category: Optional[Identifier] = None
-        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
-        self.swAxisCont: List[RuleBasedAxisCont] = []
-        # This represents the values of a Compound Primitive Data Type.
-        self.swValueCont: Optional[RuleBasedValueCont] = None
 
-    def getCategory(self):
+        # This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
+        self.swAxisConts: List[SwAxisCont] = []
+
+        # This represents the values of a Compound Primitive Data Type.
+        self.swValueCont: Optional[SwValueCont] = None
+
+    def getCategory(self) -> Optional[Identifier]:
         """
         Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
         """
         return self.category
 
-    def setCategory(self, value):
+    def setCategory(self, value: Optional[Identifier]) -> ApplicationValueSpecification:
         """
         Specifies to which category of ApplicationDataType this ApplicationValueSpecification can be applied (e.g. as an initial value), thus imposing constraints on the structure and semantics of the contained values, see [constr_1006] and [constr_2051].
+        A None value is a no-op and does not overwrite an existing category.
         """
-        self.category = value
+        if value is not None:
+            self.category = value
         return self
 
-    def getSwAxisCont(self):
+    def addSwAxisCont(self, value: Optional[SwAxisCont]) -> ApplicationValueSpecification:
+        """
+        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
+        A None value is a no-op and does not append to swAxisConts.
+        """
+        if value is not None:
+            self.swAxisConts.append(value)
+        return self
+
+    def getSwAxisConts(self) -> List[SwAxisCont]:
         """
         This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
         """
-        return self.swAxisCont
+        return self.swAxisConts
 
-    def setSwAxisCont(self, value):
-        """
-        This represents the axis values of a Compound Primitive Data Type (curve or map). The first swAxisCont describes the x-axis, the second sw AxisCont describes the y-axis, the third swAxisCont describes the z-axis. In addition to this, the axis can be denoted in swAxisIndex.
-        """
-        self.swAxisCont = value
-        return self
-
-    def getSwValueCont(self):
+    def getSwValueCont(self) -> Optional[SwValueCont]:
         """
         This represents the values of a Compound Primitive Data Type.
         """
         return self.swValueCont
 
-    def setSwValueCont(self, value):
+    def setSwValueCont(self, value: Optional[SwValueCont]) -> ApplicationValueSpecification:
         """
         This represents the values of a Compound Primitive Data Type.
+        A None value is a no-op and does not overwrite an existing swValueCont.
         """
-        self.swValueCont = value
+        if value is not None:
+            self.swValueCont = value
         return self
 
 
@@ -406,25 +422,27 @@ class ConstantReference(ValueSpecification):
         return self
 
 
-class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
+class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, AbstractRuleBasedValueSpecification):
     """
     This meta-class represents rule based values for DataPrototypes typed by ApplicationDataTypes (ApplicationArrayDataType or a compound ApplicationPrimitiveDataType which also boils down to an array-nature).
+
+    [constr_1922] Existence of ApplicationRuleBasedValueSpecification.category: For each ApplicationRuleBasedValueSpecification, attribute category shall exist at the time when the RTE is generated.
     """
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.302
-    # Spec verified: R23-11
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.129, p.463
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwAxisConts              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] addSwAxisCont               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] getSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
-    # [x] setSwValueCont              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwAxisCont   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisConts  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwValueCont  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValueCont  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        super().__init__()
+        CompositeRuleBasedValueArgument.__init__(self)
+        AbstractRuleBasedValueSpecification.__init__(self)
 
         # This represents the category of the RuleBasedValue Specification Tags: xml.sequenceOffset=-20
         self.category: Optional[Identifier] = None
@@ -581,13 +599,12 @@ class ConstantSpecificationMapping(ARObject):
 
     # ConstantSpecificationMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.118, p.443
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getApplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setApplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplConstantRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplConstantRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplConstantRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplConstantRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -601,9 +618,6 @@ class ConstantSpecificationMapping(ARObject):
     def getApplConstantRef(self) -> Optional[RefType]:
         """
         A ConstantSpecification defined in the application domain.
-
-        Returns:
-            Optional[RefType]: A ConstantSpecification defined in the application domain., or None if not set
         """
         return self.applConstantRef
 
@@ -611,12 +625,6 @@ class ConstantSpecificationMapping(ARObject):
         """
         A ConstantSpecification defined in the application domain.
         A None value is a no-op and does not overwrite an existing applConstantRef.
-
-        Args:
-            value: A ConstantSpecification defined in the application domain. to set
-
-        Returns:
-            ConstantSpecificationMapping: self for method chaining
         """
         if value is not None:
             self.applConstantRef = value
@@ -625,9 +633,6 @@ class ConstantSpecificationMapping(ARObject):
     def getImplConstantRef(self) -> Optional[RefType]:
         """
         A ConstantSpecification defined in the implementation domain.
-
-        Returns:
-            Optional[RefType]: A ConstantSpecification defined in the implementation domain., or None if not set
         """
         return self.implConstantRef
 
@@ -635,12 +640,6 @@ class ConstantSpecificationMapping(ARObject):
         """
         A ConstantSpecification defined in the implementation domain.
         A None value is a no-op and does not overwrite an existing implConstantRef.
-
-        Args:
-            value: A ConstantSpecification defined in the implementation domain. to set
-
-        Returns:
-            ConstantSpecificationMapping: self for method chaining
         """
         if value is not None:
             self.implConstantRef = value
@@ -698,11 +697,10 @@ class NotAvailableValueSpecification(ValueSpecification):
 
     # NotAvailableValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.116, p.440
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefaultPattern  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultPattern  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -713,9 +711,6 @@ class NotAvailableValueSpecification(ValueSpecification):
     def getDefaultPattern(self) -> Optional[PositiveInteger]:
         """
         The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
-
-        Returns:
-            Optional[PositiveInteger]: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used., or None if not set
         """
         return self.defaultPattern
 
@@ -723,12 +718,6 @@ class NotAvailableValueSpecification(ValueSpecification):
         """
         The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
         A None value is a no-op and does not overwrite an existing defaultPattern.
-
-        Args:
-            value: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. to set
-
-        Returns:
-            NotAvailableValueSpecification: self for method chaining
         """
         if value is not None:
             self.defaultPattern = value
@@ -737,78 +726,54 @@ class NotAvailableValueSpecification(ValueSpecification):
 
 class NumericalOrText(ARObject, VariationPointCapable):
     """
-    This meta-class represents the ability to yield either a numerical or a string. A typical use case is that
-    two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield
-    strings while other instances yield numerical depending on the resolution of the binding expression.
-    Within the context of one NumericalOrText, either the attribute vf or the attribute vt shall be defined.
-    The existence of both attributes at the same time is not permitted. [constr_1243]
+    This meta-class represents the ability to yield either a numerical or a string. A typical use case is that two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield strings while other instances yield numerical depending on the resolution of the binding expression.
+
+    [constr_1243] NumericalOrText shall either define vf or vt: Within the context of one NumericalOrText, either the attribute vf or the attribute vt shall be defined. The existence of both attributes at the same time is not permitted.
     """
 
     # NumericalOrText method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.42, p.323
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.123, p.456
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVf      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute represents the ability to provide a numerical value.
-        # The latest binding time of the VariationPoint shall be preCompileTime.
+        # This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         self.vf: Optional[Numerical] = None
 
-        # This attribute represents the ability to provide a textual value.
-        self.vt: Optional[ARLiteral] = None
+        # This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
+        self.vt: Optional[String] = None
 
     def getVf(self) -> Optional[Numerical]:
         """
-        This attribute represents the ability to provide a numerical value.
-        The latest binding time of the VariationPoint shall be preCompileTime.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
+        This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         """
         return self.vf
 
     def setVf(self, value: Optional[Numerical]) -> NumericalOrText:
         """
-        This attribute represents the ability to provide a numerical value.
-        The latest binding time of the VariationPoint shall be preCompileTime.
+        This attribute represents the ability to provide a numerical value. The latest binding time of the VariationPoint shall be preCompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=10
         A None value is a no-op and does not overwrite an existing vf.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            NumericalOrText: self for method chaining
         """
         if value is not None:
             self.vf = value
         return self
 
-    def getVt(self) -> Optional[ARLiteral]:
+    def getVt(self) -> Optional[String]:
         """
-        This attribute represents the ability to provide a textual value.
-
-        Returns:
-            Optional[ARLiteral]: The textual value, or None if not set
+        This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
         """
         return self.vt
 
-    def setVt(self, value: Optional[ARLiteral]) -> NumericalOrText:
+    def setVt(self, value: Optional[String]) -> NumericalOrText:
         """
-        This attribute represents the ability to provide a textual value.
+        This attribute represents the ability to provide a textual value. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing vt.
-
-        Args:
-            value: The textual value to set
-
-        Returns:
-            NumericalOrText: self for method chaining
         """
         if value is not None:
             self.vt = value
@@ -818,41 +783,33 @@ class NumericalOrText(ARObject, VariationPointCapable):
 class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ImplementationDataType of category ARRAY).
+
+    [constr_1925] Existence of NumericalRuleBasedValueSpecification.ruleBasedValues: For each NumericalRuleBasedValueSpecification, attribute ruleBasedValues shall exist at the time when the contract phase generation is executed.
     """
 
     # NumericalRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.132, p.467
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the rule based value specification for the array.
+        # This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
     def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
         """
-        This represents the rule based value specification for the array.
-
-        Returns:
-            Optional[RuleBasedValueSpecification]: The rule based value specification, or None if not set
+        This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         """
         return self.ruleBasedValues
 
     def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> NumericalRuleBasedValueSpecification:
         """
-        This represents the rule based value specification for the array.
+        This represents the rule based value specification for the array. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
-
-        Args:
-            value: The rule based value specification to set
-
-        Returns:
-            NumericalRuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.ruleBasedValues = value
@@ -866,11 +823,10 @@ class ReferenceValueSpecification(ValueSpecification):
 
     # ReferenceValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.115, p.437
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReferenceValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReferenceValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReferenceValueRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferenceValueRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -881,9 +837,6 @@ class ReferenceValueSpecification(ValueSpecification):
     def getReferenceValueRef(self) -> Optional[RefType]:
         """
         The referenced data prototype.
-
-        Returns:
-            Optional[RefType]: The referenced data prototype, or None if not set
         """
         return self.referenceValueRef
 
@@ -891,12 +844,6 @@ class ReferenceValueSpecification(ValueSpecification):
         """
         The referenced data prototype.
         A None value is a no-op and does not overwrite an existing referenceValueRef.
-
-        Args:
-            value: The referenced data prototype to set
-
-        Returns:
-            ReferenceValueSpecification: self for method chaining
         """
         if value is not None:
             self.referenceValueRef = value
@@ -909,18 +856,17 @@ class RuleArguments(ARObject, VariationPointCapable):
     """
 
     # RuleArguments method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.57, p.329
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getV                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setV                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVtf                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVtf                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.134, p.470
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getV       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVf      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVt      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVt      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVtf     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVtf     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -928,22 +874,18 @@ class RuleArguments(ARObject, VariationPointCapable):
         # This represents a numerical value for the RuleBased ValueSpecification.
         self.v: Optional[Numerical] = None
 
-        # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        # The latest binding time of the VariationPoint shall be pre CompileTime.
+        # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         self.vf: Optional[Numerical] = None
 
         # This represents a textual value for the RuleBasedValue Specification.
         self.vt: Optional[VerbatimString] = None
 
-        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.vtf: Optional[NumericalOrText] = None
 
     def getV(self) -> Optional[Numerical]:
         """
         This represents a numerical value for the RuleBased ValueSpecification.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
         """
         return self.v
 
@@ -951,12 +893,6 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         This represents a numerical value for the RuleBased ValueSpecification.
         A None value is a no-op and does not overwrite an existing v.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.v = value
@@ -964,25 +900,14 @@ class RuleArguments(ARObject, VariationPointCapable):
 
     def getVf(self) -> Optional[Numerical]:
         """
-        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        The latest binding time of the VariationPoint shall be pre CompileTime.
-
-        Returns:
-            Optional[Numerical]: The numerical value, or None if not set
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         """
         return self.vf
 
     def setVf(self, value: Optional[Numerical]) -> RuleArguments:
         """
-        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
-        The latest binding time of the VariationPoint shall be pre CompileTime.
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability. The latest binding time of the VariationPoint shall be pre CompileTime. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing vf.
-
-        Args:
-            value: The numerical value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vf = value
@@ -991,9 +916,6 @@ class RuleArguments(ARObject, VariationPointCapable):
     def getVt(self) -> Optional[VerbatimString]:
         """
         This represents a textual value for the RuleBasedValue Specification.
-
-        Returns:
-            Optional[VerbatimString]: The textual value, or None if not set
         """
         return self.vt
 
@@ -1001,12 +923,6 @@ class RuleArguments(ARObject, VariationPointCapable):
         """
         This represents a textual value for the RuleBasedValue Specification.
         A None value is a no-op and does not overwrite an existing vt.
-
-        Args:
-            value: The textual value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vt = value
@@ -1014,23 +930,14 @@ class RuleArguments(ARObject, VariationPointCapable):
 
     def getVtf(self) -> Optional[NumericalOrText]:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
-
-        Returns:
-            Optional[NumericalOrText]: The value, or None if not set
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         """
         return self.vtf
 
     def setVtf(self, value: Optional[NumericalOrText]) -> RuleArguments:
         """
-        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=vtf, vtf.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing vtf.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            RuleArguments: self for method chaining
         """
         if value is not None:
             self.vtf = value
@@ -1040,61 +947,55 @@ class RuleArguments(ARObject, VariationPointCapable):
 class RuleBasedAxisCont(ARObject):
     """
     This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related GroupAxis are binding.
+
+    [constr_1923] Existence of RuleBasedAxisCont.ruleBasedValues: For each RuleBasedAxisCont, attribute ruleBasedValues shall exist at the time when the contract phase generation is executed.
+
+    [constr_2057] Mandatory information of a RuleBasedAxisCont: If the attribute swAxisCont is defined for an ApplicationRuleBasedValueSpecification the RuleBasedAxisCont shall define one swAxisIndex value and one swArraysize value per dimension, even in the case when the owning ApplicationRuleBasedValueSpecification defines only the content of a single dimensional object like a CURVE.
     """
 
     # RuleBasedAxisCont method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.130, p.464
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRuleBasedValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuleBasedValues           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAxisIndex               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setSwAxisIndex               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwArraysize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
+        # This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
         self.category: Optional[CalprmAxisCategoryEnum] = None
 
-        # This represents the rule based value specification for the axis of a compound primitive (curve, map).
+        # This represents the rule based value specification for the axis of a compound primitive (curve, map). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
-        # For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
+        # For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. Tags: xml.sequenceOffset=40
         self.swArraysize: Optional[ValueList] = None
 
-        # This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
+        # This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
         self.swAxisIndex: Optional[AxisIndexType] = None
 
-        # This represents the physical unit of the provided values.
+        # This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         self.unitRef: Optional[RefType] = None
 
     def getCategory(self) -> Optional[CalprmAxisCategoryEnum]:
         """
-        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
-
-        Returns:
-            Optional[CalprmAxisCategoryEnum]: The axis category, or None if not set
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
         """
         return self.category
 
     def setCategory(self, value: Optional[CalprmAxisCategoryEnum]) -> RuleBasedAxisCont:
         """
-        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary) Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing category.
-
-        Args:
-            value: The axis category to set
-
-        Returns:
-            RuleBasedAxisCont: self for method chaining
         """
         if value is not None:
             self.category = value
@@ -1102,23 +1003,14 @@ class RuleBasedAxisCont(ARObject):
 
     def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
         """
-        This represents the rule based value specification for the axis of a compound primitive (curve, map).
-
-        Returns:
-            Optional[RuleBasedValueSpecification]: The value specification, or None if not set
+        This represents the rule based value specification for the axis of a compound primitive (curve, map). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         """
         return self.ruleBasedValues
 
     def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> RuleBasedAxisCont:
         """
-        This represents the rule based value specification for the axis of a compound primitive (curve, map).
+        This represents the rule based value specification for the axis of a compound primitive (curve, map). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
-
-        Args:
-            value: The value specification to set
-
-        Returns:
-            RuleBasedAxisCont: self for method chaining
         """
         if value is not None:
             self.ruleBasedValues = value
@@ -1126,23 +1018,14 @@ class RuleBasedAxisCont(ARObject):
 
     def getSwArraysize(self) -> Optional[ValueList]:
         """
-        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
-
-        Returns:
-            Optional[ValueList]: The array size, or None if not set
+        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. Tags: xml.sequenceOffset=40
         """
         return self.swArraysize
 
     def setSwArraysize(self, value: Optional[ValueList]) -> RuleBasedAxisCont:
         """
-        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
+        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing swArraysize.
-
-        Args:
-            value: The array size to set
-
-        Returns:
-            RuleBasedAxisCont: self for method chaining
         """
         if value is not None:
             self.swArraysize = value
@@ -1150,23 +1033,14 @@ class RuleBasedAxisCont(ARObject):
 
     def getSwAxisIndex(self) -> Optional[AxisIndexType]:
         """
-        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
-
-        Returns:
-            Optional[AxisIndexType]: The axis index, or None if not set
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
         """
         return self.swAxisIndex
 
     def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> RuleBasedAxisCont:
         """
-        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent. Tags: xml.sequenceOffset=50
         A None value is a no-op and does not overwrite an existing swAxisIndex.
-
-        Args:
-            value: The axis index to set
-
-        Returns:
-            RuleBasedAxisCont: self for method chaining
         """
         if value is not None:
             self.swAxisIndex = value
@@ -1174,23 +1048,14 @@ class RuleBasedAxisCont(ARObject):
 
     def getUnitRef(self) -> Optional[RefType]:
         """
-        This represents the physical unit of the provided values.
-
-        Returns:
-            Optional[RefType]: The unit reference, or None if not set
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         """
         return self.unitRef
 
     def setUnitRef(self, value: Optional[RefType]) -> RuleBasedAxisCont:
         """
-        This represents the physical unit of the provided values.
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing unitRef.
-
-        Args:
-            value: The unit reference to set
-
-        Returns:
-            RuleBasedAxisCont: self for method chaining
         """
         if value is not None:
             self.unitRef = value
@@ -1199,53 +1064,46 @@ class RuleBasedAxisCont(ARObject):
 
 class RuleBasedValueCont(ARObject):
     """
-    This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK) or an array.
+    This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, BLK) or an array.
+
+    [constr_1924] Existence of RuleBasedValueCont.ruleBasedValues: For each RuleBasedValueCont, attribute ruleBasedValues shall exist at the time when the contract phase generation is executed.
+
+    [constr_2058] Mandatory information of a RuleBasedValueCont: If the attribute swValueCont is defined for an ApplicationRuleBasedValueSpecification the RuleBasedValueCont shall always define the attribute swArraysize if the ApplicationRuleBasedValueSpecification is of category CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, or VAL_BLK.
     """
 
     # RuleBasedValueCont method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.58, p.330
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRuleBasedValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuleBasedValues           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.131, p.465
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwArraysize      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwArraysize      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        # This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
-        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        # For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         self.swArraysize: Optional[ValueList] = None
 
-        # This represents the physical unit of the provided values.
+        # This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         self.unitRef: Optional[RefType] = None
 
     def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
         """
-        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
-
-        Returns:
-            Optional[RuleBasedValueSpecification]: The value specification, or None if not set
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         """
         return self.ruleBasedValues
 
     def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> RuleBasedValueCont:
         """
-        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK). Stereotypes: atpSplitable Tags: atp.Splitkey=ruleBasedValues xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=80 xml.typeWrapperElement=false
         A None value is a no-op and does not overwrite an existing ruleBasedValues.
-
-        Args:
-            value: The value specification to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.ruleBasedValues = value
@@ -1253,25 +1111,14 @@ class RuleBasedValueCont(ARObject):
 
     def getSwArraysize(self) -> Optional[ValueList]:
         """
-        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
-
-        Returns:
-            Optional[ValueList]: The array size, or None if not set
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         """
         return self.swArraysize
 
     def setSwArraysize(self, value: Optional[ValueList]) -> RuleBasedValueCont:
         """
-        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
-        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK. For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing swArraysize.
-
-        Args:
-            value: The array size to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.swArraysize = value
@@ -1279,23 +1126,14 @@ class RuleBasedValueCont(ARObject):
 
     def getUnitRef(self) -> Optional[RefType]:
         """
-        This represents the physical unit of the provided values.
-
-        Returns:
-            Optional[RefType]: The unit reference, or None if not set
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         """
         return self.unitRef
 
     def setUnitRef(self, value: Optional[RefType]) -> RuleBasedValueCont:
         """
-        This represents the physical unit of the provided values.
+        This represents the physical unit of the provided values. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing unitRef.
-
-        Args:
-            value: The unit reference to set
-
-        Returns:
-            RuleBasedValueCont: self for method chaining
         """
         if value is not None:
             self.unitRef = value
@@ -1305,42 +1143,39 @@ class RuleBasedValueCont(ARObject):
 class RuleBasedValueSpecification(ARObject):
     """
     This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ApplicationArrayDataType and ImplementationDataType of category ARRAY) or a compound Application PrimitiveDataType (which also boils down to an array-nature).
+
+    [constr_1926] Existence of RuleBasedValueSpecification.rule: For each RuleBasedValueSpecification, attribute rule shall exist at the time when the contract phase generation is executed.
+
+    [constr_1927] Existence of RuleBasedValueSpecification.arguments: For each RuleBasedValueSpecification, the aggregation of RuleArguments in the role arguments shall exist at the time when the contract phase generation is executed.
     """
 
     # RuleBasedValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.59, p.331
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addArgument                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxSizeToFill             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSizeToFill             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRule                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRule                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.133, p.469
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArgument       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxSizeToFill  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSizeToFill  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRule           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the arguments for the RuleBasedValue Specification.
+        # This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         self.arguments: List[RuleArguments] = []
 
-        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         self.maxSizeToFill: Optional[Integer] = None
 
-        # This denotes the name of the rule of the RuleBasedValue Specification.
-        # The rule determines the calculation specification according which the arguments are used to calculated the values.
+        # This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         self.rule: Optional[Identifier] = None
 
     def addArgument(self, argument: RuleArguments) -> RuleBasedValueSpecification:
         """
-        This represents the arguments for the RuleBasedValue Specification.
-
-        Args:
-            argument: The argument to add
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
+        This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
+        A None value is a no-op and does not append to arguments.
         """
         if argument is not None:
             self.arguments.append(argument)
@@ -1348,32 +1183,20 @@ class RuleBasedValueSpecification(ARObject):
 
     def getArguments(self) -> List[RuleArguments]:
         """
-        This represents the arguments for the RuleBasedValue Specification.
-
-        Returns:
-            List[RuleArguments]: The list of arguments
+        This represents the arguments for the RuleBasedValue Specification. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arguments, arguments.variationPoint.short Label vh.latestBindingTime=preCompileTime xml.sequenceOffset=30
         """
         return self.arguments
 
     def getMaxSizeToFill(self) -> Optional[Integer]:
         """
-        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
-
-        Returns:
-            Optional[Integer]: The max size to fill, or None if not set
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         """
         return self.maxSizeToFill
 
     def setMaxSizeToFill(self, value: Optional[Integer]) -> RuleBasedValueSpecification:
         """
-        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
         A None value is a no-op and does not overwrite an existing maxSizeToFill.
-
-        Args:
-            value: The max size to fill
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.maxSizeToFill = value
@@ -1381,26 +1204,25 @@ class RuleBasedValueSpecification(ARObject):
 
     def getRule(self) -> Optional[Identifier]:
         """
-        This denotes the name of the rule of the RuleBasedValue Specification.
-        The rule determines the calculation specification according which the arguments are used to calculated the values.
-
-        Returns:
-            Optional[Identifier]: The rule name, or None if not set
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         """
         return self.rule
 
     def setRule(self, value: Optional[Identifier]) -> RuleBasedValueSpecification:
         """
-        This denotes the name of the rule of the RuleBasedValue Specification.
-        The rule determines the calculation specification according which the arguments are used to calculated the values.
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
         A None value is a no-op and does not overwrite an existing rule.
-
-        Args:
-            value: The rule name
-
-        Returns:
-            RuleBasedValueSpecification: self for method chaining
         """
         if value is not None:
             self.rule = value
         return self
+
+
+# Cycle-breaker imports: DataDefProperties needs ValueSpecification (defined above) at runtime for
+# its annotations, and the DataDictionary imports below are annotation targets consumed through the
+# CalibrationParameter/DataDefProperties import chains, so they must run after this module's class
+# definitions; placed at the bottom so both sides of each cycle are fully initialized (Rule 0005).
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwAxisCont, SwValueCont  # noqa: E402
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum  # noqa: E402
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType  # noqa: E402
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList  # noqa: E402

@@ -11,7 +11,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
-    ApplicationValueSpecification,
     ArrayValueSpecification,
     CompositeRuleBasedValueArgument,
     CompositeValueSpecification,
@@ -154,77 +153,6 @@ class TestCompositeRuleBasedValueArgument:
 
         arg = ConcreteCompositeRuleBasedValueArgument()
         assert arg is not None
-
-
-class TestApplicationValueSpecification:
-    def test_initialization(self):
-        """Test ApplicationValueSpecification initialization"""
-        spec = ApplicationValueSpecification()
-
-        assert spec is not None
-        assert spec.category is None
-        assert spec.swAxisCont == []
-        assert spec.swValueCont is None
-
-    def test_get_category(self):
-        """Test getCategory method"""
-        spec = ApplicationValueSpecification()
-        assert spec.getCategory() is None
-
-    def test_set_category(self):
-        """Test setCategory method"""
-        spec = ApplicationValueSpecification()
-        test_category = "test_category"
-        result = spec.setCategory(test_category)
-        assert result is spec
-        assert spec.getCategory() == test_category
-
-    def test_set_category_none(self):
-        """Test setCategory with None value"""
-        spec = ApplicationValueSpecification()
-        result = spec.setCategory(None)
-        assert result is spec
-        assert spec.getCategory() is None
-
-    def test_get_sw_axis_cont(self):
-        """Test getSwAxisCont method"""
-        spec = ApplicationValueSpecification()
-        assert spec.getSwAxisCont() == []
-
-    def test_set_sw_axis_cont(self):
-        """Test setSwAxisCont method"""
-        spec = ApplicationValueSpecification()
-        test_cont = ["axis1", "axis2"]
-        result = spec.setSwAxisCont(test_cont)
-        assert result is spec
-        assert spec.getSwAxisCont() == test_cont
-
-    def test_set_sw_axis_cont_none(self):
-        """Test setSwAxisCont with None value"""
-        spec = ApplicationValueSpecification()
-        result = spec.setSwAxisCont(None)
-        assert result is spec
-        assert spec.getSwAxisCont() is None
-
-    def test_get_sw_value_cont(self):
-        """Test getSwValueCont method"""
-        spec = ApplicationValueSpecification()
-        assert spec.getSwValueCont() is None
-
-    def test_set_sw_value_cont(self):
-        """Test setSwValueCont method"""
-        spec = ApplicationValueSpecification()
-        test_value = "test_value"
-        result = spec.setSwValueCont(test_value)
-        assert result is spec
-        assert spec.getSwValueCont() == test_value
-
-    def test_set_sw_value_cont_none(self):
-        """Test setSwValueCont with None value"""
-        spec = ApplicationValueSpecification()
-        result = spec.setSwValueCont(None)
-        assert result is spec
-        assert spec.getSwValueCont() is None
 
 
 class TestApplicationRuleBasedValueSpecification:

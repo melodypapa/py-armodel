@@ -2,7 +2,10 @@
 This module contains tests for the DataDefProperties module in MSR.DataDictionary.
 """
 
-from inspect import cleandoc
+import ast
+import os
+import typing
+from inspect import cleandoc, getsource
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
@@ -119,6 +122,49 @@ class TestSwCalibrationAccessEnum:
         assert SwCalibrationAccessEnum.READ_ONLY == "readOnly"
         assert SwCalibrationAccessEnum.READ_WRITE == "readWrite"
 
+    def test_sw_calibration_access_enum_has_spec_note(self):
+        """The class docstring carries the Table 5.44 Note verbatim."""
+        assert cleandoc(SwCalibrationAccessEnum.__doc__) == "Determines the access rights to a data object w.r.t. measurement and calibration."
+
+    def test_sw_calibration_access_enum_spec_literals(self):
+        """SwCalibrationAccessEnum shall expose the 3 spec literals in Table 5.44 order."""
+        enum_obj = SwCalibrationAccessEnum()
+        expected = {
+            SwCalibrationAccessEnum.NOT_ACCESSIBLE: "notAccessible",
+            SwCalibrationAccessEnum.READ_ONLY: "readOnly",
+            SwCalibrationAccessEnum.READ_WRITE: "readWrite",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert enum_obj.getEnumValues() == ["notAccessible", "readOnly", "readWrite"]
+
+    def test_sw_calibration_access_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd SW-CALIBRATION-ACCESS-ENUM--SIMPLE (L143641) carries no
+        atp.Status="removed" literals, so no legacy forms are valid; the uppercase
+        wire forms (NOT-ACCESSIBLE, READ-ONLY, READ-WRITE) live only in the
+        consumer-side SW_CALIBRATION_ACCESS_XML_MAP and are not model values.
+        """
+        enum_obj = SwCalibrationAccessEnum()
+        assert enum_obj.validateEnumValue("notAccessible") is True
+        assert enum_obj.validateEnumValue("readOnly") is True
+        assert enum_obj.validateEnumValue("readWrite") is True
+        assert enum_obj.validateEnumValue("NOT-ACCESSIBLE") is False
+        assert enum_obj.validateEnumValue("READ-ONLY") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_sw_calibration_access_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY)
+        assert enum_obj.getValue() == "readOnly"
+
+    def test_sw_calibration_access_enum_set_value_none_noop(self):
+        """setValue(None) is a no-op and does not overwrite an existing value."""
+        enum_obj = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)
+        enum_obj.setValue(None)
+        assert enum_obj.getValue() == "readWrite"
+
 
 class TestDisplayPresentationEnum:
     """Test class for DisplayPresentationEnum class."""
@@ -134,34 +180,197 @@ class TestDisplayPresentationEnum:
         assert DisplayPresentationEnum.PRESENTATION_CONTINUOUS == "presentationContinuous"
         assert DisplayPresentationEnum.PRESENTATION_DISCRETE == "presentationDiscrete"
 
+    def test_display_presentation_enum_set_value_round_trip(self):
+        """The enum is instantiable and setValue round-trips each Table 5.107 literal (Rule 0011)."""
+        continuous = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_CONTINUOUS)
+        assert continuous.getValue() == "presentationContinuous"
+
+        discrete = DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_DISCRETE)
+        assert discrete.getValue() == "presentationDiscrete"
+
 
 class TestSwBitRepresentation:
-    """Test class for SwBitRepresentation class."""
+    """Test class for SwBitRepresentation class (SWCT Table 5.41, p.333, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.41 (R23-11).
+    SPEC_MEMBER_ORDER = [
+        "bitPosition",
+        "numberOfBits",
+    ]
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwBitRepresentation")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_bit_representation_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.41 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_bit_representation_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getBitPosition",
+            "setBitPosition",
+            "getNumberOfBits",
+            "setNumberOfBits",
+        ]
+        for name in expected:
+            assert hasattr(SwBitRepresentation, name), f"missing accessor {name}"
+
+    def test_sw_bit_representation_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getBitPosition", "setBitPosition", "getNumberOfBits", "setNumberOfBits"):
+            hints = typing.get_type_hints(getattr(SwBitRepresentation, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_bit_representation_class_note_verbatim(self):
+        """The class docstring carries the Table 5.41 Note verbatim (Tags/Stereotypes tails dropped)."""
+        expected = (
+            "Description of the structure of a bit variable: Comprises of the bitPosition in a memory object "
+            "(e.g. sw HostVariable, which stands parallel to swBitRepresentation) and the numberOfBits . "
+            "In this way, interrelated memory areas can be described. Non-related memory areas are not supported."
+        )
+        assert cleandoc(SwBitRepresentation.__doc__) == expected
 
     def test_sw_bit_representation_initialization(self):
         sw_bit_representation = SwBitRepresentation()
         assert sw_bit_representation.getBitPosition() is None
         assert sw_bit_representation.getNumberOfBits() is None
 
-    def test_sw_bit_representation_methods(self):
+    def test_sw_bit_representation_get_set_bit_position(self):
         sw_bit_representation = SwBitRepresentation()
         bit_position = Integer().setValue("3")
-        number_of_bits = Integer().setValue("5")
 
         assert sw_bit_representation.setBitPosition(bit_position) == sw_bit_representation
         assert sw_bit_representation.getBitPosition() == bit_position
+
+    def test_sw_bit_representation_get_set_number_of_bits(self):
+        sw_bit_representation = SwBitRepresentation()
+        number_of_bits = Integer().setValue("5")
+
         assert sw_bit_representation.setNumberOfBits(number_of_bits) == sw_bit_representation
         assert sw_bit_representation.getNumberOfBits() == number_of_bits
 
     def test_sw_bit_representation_none_noop(self):
+        """Every scalar setter is a no-op on None and keeps the previously set value (Rule 0004)."""
         sw_bit_representation = SwBitRepresentation()
-        sw_bit_representation.setBitPosition(Integer().setValue("3"))
+        bit_position = Integer().setValue("3")
+        number_of_bits = Integer().setValue("5")
+        sw_bit_representation.setBitPosition(bit_position)
+        sw_bit_representation.setNumberOfBits(number_of_bits)
+
         sw_bit_representation.setBitPosition(None)
-        assert sw_bit_representation.getBitPosition().getValue() == 3
+        sw_bit_representation.setNumberOfBits(None)
+        assert sw_bit_representation.getBitPosition() == bit_position
+        assert sw_bit_representation.getNumberOfBits() == number_of_bits
 
 
 class TestSwDataDependencyArgs:
-    """Test class for SwDataDependencyArgs class."""
+    """Test class for SwDataDependencyArgs class (SWCT Table 5.59, p.374, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.59 (R23-11).
+    SPEC_MEMBER_ORDER = [
+        "swCalprmRef",
+        "swVariable",
+    ]
+
+    CLASS_NOTE = "This element specifies the elements used in a SwDataDependency."
+    SW_CALPRM_REF_NOTE = "Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false"
+    SW_VARIABLE_NOTE = (
+        "Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false"
+    )
+    SW_CALPRM_REF_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swCalprmRef."
+    SW_VARIABLE_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swVariable."
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependencyArgs")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_data_dependency_args_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.59 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_dependency_args_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getSwCalprmRef",
+            "setSwCalprmRef",
+            "getSwVariable",
+            "setSwVariable",
+        ]
+        for name in expected:
+            assert hasattr(SwDataDependencyArgs, name), f"missing accessor {name}"
+
+    def test_sw_data_dependency_args_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwCalprmRef", "setSwCalprmRef", "getSwVariable", "setSwVariable"):
+            hints = typing.get_type_hints(getattr(SwDataDependencyArgs, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_data_dependency_args_has_spec_note(self):
+        assert cleandoc(SwDataDependencyArgs.__doc__) == self.CLASS_NOTE
+
+    def test_sw_data_dependency_args_init_has_no_docstring(self):
+        assert SwDataDependencyArgs.__init__.__doc__ is None
+
+    def test_sw_data_dependency_args_members_are_pep526_annotated(self):
+        source = getsource(SwDataDependencyArgs.__init__)
+        assert "self.swCalprmRef: Optional[SwCalprmRefProxy] = None" in source
+        assert "self.swVariable: Optional[SwVariableRefProxy] = None" in source
+        assert "# type:" not in source
+
+    def test_sw_data_dependency_args_inline_comments_match_spec_notes(self):
+        source = getsource(SwDataDependencyArgs.__init__)
+        assert "# " + self.SW_CALPRM_REF_NOTE in source
+        assert "# " + self.SW_VARIABLE_NOTE in source
+
+    def test_sw_data_dependency_args_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependencyArgs.getSwCalprmRef.__doc__) == self.SW_CALPRM_REF_NOTE
+        assert cleandoc(SwDataDependencyArgs.getSwVariable.__doc__) == self.SW_VARIABLE_NOTE
+
+    def test_sw_data_dependency_args_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependencyArgs.setSwCalprmRef.__doc__) == self.SW_CALPRM_REF_NOTE + self.SW_CALPRM_REF_NONE_NOOP
+        assert cleandoc(SwDataDependencyArgs.setSwVariable.__doc__) == self.SW_VARIABLE_NOTE + self.SW_VARIABLE_NONE_NOOP
 
     def test_sw_data_dependency_args_initialization(self):
         args = SwDataDependencyArgs()
@@ -181,39 +390,375 @@ class TestSwDataDependencyArgs:
     def test_sw_data_dependency_args_none_noop(self):
         args = SwDataDependencyArgs()
         sw_calprm_ref = SwCalprmRefProxy()
+        sw_variable = SwVariableRefProxy()
         args.setSwCalprmRef(sw_calprm_ref)
+        args.setSwVariable(sw_variable)
+
         args.setSwCalprmRef(None)
+        args.setSwVariable(None)
         assert args.getSwCalprmRef() == sw_calprm_ref
+        assert args.getSwVariable() == sw_variable
 
 
 class TestSwDataDependency:
-    """Test class for SwDataDependency class."""
+    """Test class for SwDataDependency class (SWCT Table 5.58, p.374, R23-11)."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.58 (R23-11) — swDataDependencyArgs (offset 40) is displayed
+    # BEFORE swDataDependencyFormula (offset 30); the XSD element order is
+    # independent and stays FORMULA-then-ARGS in the reader/writer.
+    SPEC_MEMBER_ORDER = [
+        "swDataDependencyArgs",
+        "swDataDependencyFormula",
+    ]
+
+    CLASS_NOTE = (
+        "This element describes the interdependencies of data objects, e.g. variables and parameters. "
+        "Use cases: • Calculate the value of a calibration parameter (by the MCD system) from the value(s) "
+        "of other calibration parameters. • Virtual data - that means the data object is not directly in the "
+        'ecu and this property describes how the "virtual variable" can be computed from the real ones '
+        "(by the MCD system)."
+    )
+    SW_DATA_DEPENDENCY_ARGS_NOTE = "Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40"
+    SW_DATA_DEPENDENCY_FORMULA_NOTE = "This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30"
+    SW_DATA_DEPENDENCY_ARGS_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swDataDependencyArgs."
+    SW_DATA_DEPENDENCY_FORMULA_NONE_NOOP = " A None value is a no-op and does not overwrite an existing swDataDependencyFormula."
+
+    def _class_source(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        return open(src, encoding="utf-8").read()
+
+    def _init_field_order(self):
+        tree = ast.parse(self._class_source())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependency")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def _method_source_order(self):
+        tree = ast.parse(self._class_source())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDependency")
+        return [n.name for n in cls.body if isinstance(n, ast.FunctionDef)]
+
+    def test_sw_data_dependency_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.58 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_dependency_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first (Rule 0001.11)."""
+        assert self._method_source_order() == [
+            "__init__",
+            "getSwDataDependencyArgs",
+            "setSwDataDependencyArgs",
+            "getSwDataDependencyFormula",
+            "setSwDataDependencyFormula",
+        ]
+
+    def test_sw_data_dependency_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwDataDependencyArgs", "setSwDataDependencyArgs", "getSwDataDependencyFormula", "setSwDataDependencyFormula"):
+            hints = typing.get_type_hints(getattr(SwDataDependency, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+
+    def test_sw_data_dependency_has_spec_note(self):
+        assert cleandoc(SwDataDependency.__doc__) == self.CLASS_NOTE
+
+    def test_sw_data_dependency_init_has_no_docstring(self):
+        assert SwDataDependency.__init__.__doc__ is None
+
+    def test_sw_data_dependency_members_are_pep526_annotated(self):
+        source = getsource(SwDataDependency.__init__)
+        assert "self.swDataDependencyArgs: Optional[SwDataDependencyArgs] = None" in source
+        assert "self.swDataDependencyFormula: Optional[CompuGenericMath] = None" in source
+        assert "# type:" not in source
+
+    def test_sw_data_dependency_inline_comments_match_spec_notes(self):
+        source = getsource(SwDataDependency.__init__)
+        assert "# " + self.SW_DATA_DEPENDENCY_ARGS_NOTE in source
+        assert "# " + self.SW_DATA_DEPENDENCY_FORMULA_NOTE in source
+
+    def test_sw_data_dependency_getter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependency.getSwDataDependencyArgs.__doc__) == self.SW_DATA_DEPENDENCY_ARGS_NOTE
+        assert cleandoc(SwDataDependency.getSwDataDependencyFormula.__doc__) == self.SW_DATA_DEPENDENCY_FORMULA_NOTE
+
+    def test_sw_data_dependency_setter_docstrings_match_spec_notes(self):
+        assert cleandoc(SwDataDependency.setSwDataDependencyArgs.__doc__) == self.SW_DATA_DEPENDENCY_ARGS_NOTE + self.SW_DATA_DEPENDENCY_ARGS_NONE_NOOP
+        assert cleandoc(SwDataDependency.setSwDataDependencyFormula.__doc__) == self.SW_DATA_DEPENDENCY_FORMULA_NOTE + self.SW_DATA_DEPENDENCY_FORMULA_NONE_NOOP
 
     def test_sw_data_dependency_initialization(self):
         dependency = SwDataDependency()
-        assert dependency.getSwDataDependencyFormula() is None
         assert dependency.getSwDataDependencyArgs() is None
+        assert dependency.getSwDataDependencyFormula() is None
 
     def test_sw_data_dependency_methods(self):
         dependency = SwDataDependency()
-        formula = CompuGenericMath()
         args = SwDataDependencyArgs()
+        formula = CompuGenericMath()
 
-        assert dependency.setSwDataDependencyFormula(formula) == dependency
-        assert dependency.getSwDataDependencyFormula() == formula
         assert dependency.setSwDataDependencyArgs(args) == dependency
         assert dependency.getSwDataDependencyArgs() == args
+        assert dependency.setSwDataDependencyFormula(formula) == dependency
+        assert dependency.getSwDataDependencyFormula() == formula
 
     def test_sw_data_dependency_none_noop(self):
         dependency = SwDataDependency()
+        args = SwDataDependencyArgs()
         formula = CompuGenericMath()
+        dependency.setSwDataDependencyArgs(args)
         dependency.setSwDataDependencyFormula(formula)
+
+        dependency.setSwDataDependencyArgs(None)
         dependency.setSwDataDependencyFormula(None)
+        assert dependency.getSwDataDependencyArgs() == args
         assert dependency.getSwDataDependencyFormula() == formula
 
 
 class TestSwDataDefProps:
     """Test class for SwDataDefProps class."""
+
+    # Member order per Rule 0001.11: the markdown/PDF displayed row order of
+    # SWCT Table 5.39 (R23-11), page-split tables concatenated as rendered.
+    SPEC_MEMBER_ORDER = [
+        "additionalNativeTypeQualifier",
+        "annotations",
+        "baseTypeRef",
+        "compuMethodRef",
+        "dataConstrRef",
+        "displayFormat",
+        "displayPresentation",
+        "implementationDataTypeRef",
+        "invalidValue",
+        "stepSize",
+        "swAddrMethodRef",
+        "swAlignment",
+        "swBitRepresentation",
+        "swCalibrationAccess",
+        "swCalprmAxisSet",
+        "swComparisonVariables",
+        "swDataDependency",
+        "swHostVariable",
+        "swImplPolicy",
+        "swIntendedResolution",
+        "swInterpolationMethod",
+        "swIsVirtual",
+        "swPointerTargetProps",
+        "swRecordLayoutRef",
+        "swRefreshTiming",
+        "swTextProps",
+        "swValueBlockSize",
+        "swValueBlockSizeMults",
+        "unitRef",
+        "valueAxisDataTypeRef",
+    ]
+
+    def _init_field_order(self):
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "DataDefProperties.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwDataDefProps")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_data_def_props_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.39 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_data_def_props_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; lists mutator-first, scalars getter-first."""
+        expected = [
+            "getAdditionalNativeTypeQualifier",
+            "setAdditionalNativeTypeQualifier",
+            "getAnnotations",
+            "addAnnotation",
+            "getBaseTypeRef",
+            "setBaseTypeRef",
+            "getCompuMethodRef",
+            "setCompuMethodRef",
+            "getDataConstrRef",
+            "setDataConstrRef",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getDisplayPresentation",
+            "setDisplayPresentation",
+            "getImplementationDataTypeRef",
+            "setImplementationDataTypeRef",
+            "getInvalidValue",
+            "setInvalidValue",
+            "getStepSize",
+            "setStepSize",
+            "getSwAddrMethodRef",
+            "setSwAddrMethodRef",
+            "getSwAlignment",
+            "setSwAlignment",
+            "getSwBitRepresentation",
+            "setSwBitRepresentation",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisSet",
+            "setSwCalprmAxisSet",
+            "addSwComparisonVariable",
+            "getSwComparisonVariables",
+            "getSwDataDependency",
+            "setSwDataDependency",
+            "getSwHostVariable",
+            "setSwHostVariable",
+            "getSwImplPolicy",
+            "setSwImplPolicy",
+            "getSwIntendedResolution",
+            "setSwIntendedResolution",
+            "getSwInterpolationMethod",
+            "setSwInterpolationMethod",
+            "getSwIsVirtual",
+            "setSwIsVirtual",
+            "getSwPointerTargetProps",
+            "setSwPointerTargetProps",
+            "getSwRecordLayoutRef",
+            "setSwRecordLayoutRef",
+            "getSwRefreshTiming",
+            "setSwRefreshTiming",
+            "getSwTextProps",
+            "setSwTextProps",
+            "getSwValueBlockSize",
+            "setSwValueBlockSize",
+            "addSwValueBlockSizeMult",
+            "getSwValueBlockSizeMults",
+            "getUnitRef",
+            "setUnitRef",
+            "getValueAxisDataTypeRef",
+            "setValueAxisDataTypeRef",
+        ]
+        for name in expected:
+            assert hasattr(SwDataDefProps, name), f"missing accessor {name}"
+
+    def test_sw_data_def_props_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getSwCalprmAxisSet", "setSwCalprmAxisSet", "getInvalidValue", "setInvalidValue"):
+            hints = typing.get_type_hints(getattr(SwDataDefProps, name))
+            assert hints, f"no annotations resolved for {name}"
+
+    def test_sw_data_def_props_class_note_verbatim(self):
+        """The class docstring carries the Table 5.39 Note verbatim (Tags/Stereotypes tails dropped)."""
+        expected = (
+            "This class is a collection of properties relevant for data objects under various aspects. "
+            'One could consider this class as a "pattern of inheritance by aggregation". '
+            "The properties can be applied to all objects of all classes in which SwDataDefProps is aggregated. "
+            "Note that not all of the attributes or associated elements are useful all of the time. "
+            "Hence, the process definition (e.g. expressed with an OCL or a Document Control Instance MSR-DCI) "
+            "has the task of implementing limitations. SwDataDefProps covers various aspects: "
+            "• Structure of the data element for calibration use cases: is it a single value, a curve, or a map, "
+            "but also the recordLayouts which specify how such elements are mapped/converted to the DataTypes "
+            "in the programming language (or in AUTOSAR). This is mainly expressed by properties like "
+            "swRecordLayout and swCalprmAxisSet "
+            "• Implementation aspects, mainly expressed by swImplPolicy, swVariableAccessImplPolicy, "
+            "swAddr Method, swPointerTagetProps, baseType, implementationDataType and additionalNativeTypeQualifier "
+            "• Access policy for the MCD system, mainly expressed by swCalibrationAccess "
+            "• Semantics of the data element, mainly expressed by compuMethod and/or unit, dataConstr, invalid Value "
+            "• Code generation policy provided by swRecordLayout"
+        )
+        assert cleandoc(SwDataDefProps.__doc__) == expected
+
+    def test_sw_data_def_props_nested_recursion(self):
+        """SwDataDefProps → swPointerTargetProps → swDataDefProps (spec self-reference via SwPointerTargetProps)."""
+        props = SwDataDefProps()
+        nested = SwDataDefProps()
+        pointer = SwPointerTargetProps()
+        pointer.setSwDataDefProps(nested)
+        props.setSwPointerTargetProps(pointer)
+        assert props.getSwPointerTargetProps().getSwDataDefProps() is nested
+
+    def test_sw_data_def_props_none_noop_all_scalar_members(self):
+        """Every scalar setter is a no-op on None and keeps the previously set value (Rule 0004)."""
+        cases = [
+            ("setAdditionalNativeTypeQualifier", "getAdditionalNativeTypeQualifier", NativeDeclarationString().setValue("volatile")),
+            ("setBaseTypeRef", "getBaseTypeRef", RefType().setValue("/BaseTypes/uint8")),
+            ("setCompuMethodRef", "getCompuMethodRef", RefType().setValue("/CompuMethods/cm")),
+            ("setDataConstrRef", "getDataConstrRef", RefType().setValue("/DataConstrs/dc")),
+            ("setDisplayFormat", "getDisplayFormat", DisplayFormatString().setValue("%5.2f")),
+            ("setDisplayPresentation", "getDisplayPresentation", DisplayPresentationEnum().setValue(DisplayPresentationEnum.PRESENTATION_CONTINUOUS)),
+            ("setImplementationDataTypeRef", "getImplementationDataTypeRef", RefType().setValue("/ImplementationDataTypes/idt")),
+            ("setInvalidValue", "getInvalidValue", NumericalValueSpecification()),
+            ("setStepSize", "getStepSize", Float().setValue("0.5")),
+            ("setSwAddrMethodRef", "getSwAddrMethodRef", RefType().setValue("/SwAddrMethods/ram")),
+            ("setSwAlignment", "getSwAlignment", AlignmentType().setValue("8")),
+            ("setSwBitRepresentation", "getSwBitRepresentation", SwBitRepresentation()),
+            ("setSwCalibrationAccess", "getSwCalibrationAccess", SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)),
+            ("setSwCalprmAxisSet", "getSwCalprmAxisSet", SwCalprmAxisSet()),
+            ("setSwDataDependency", "getSwDataDependency", SwDataDependency()),
+            ("setSwHostVariable", "getSwHostVariable", SwVariableRefProxy()),
+            ("setSwImplPolicy", "getSwImplPolicy", SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD)),
+            ("setSwIntendedResolution", "getSwIntendedResolution", Numerical().setValue("0.01")),
+            ("setSwInterpolationMethod", "getSwInterpolationMethod", Identifier().setValue("linear")),
+            ("setSwIsVirtual", "getSwIsVirtual", Boolean().setValue("true")),
+            ("setSwPointerTargetProps", "getSwPointerTargetProps", SwPointerTargetProps()),
+            ("setSwRecordLayoutRef", "getSwRecordLayoutRef", RefType().setValue("/RecordLayouts/rl")),
+            ("setSwRefreshTiming", "getSwRefreshTiming", MultidimensionalTime()),
+            ("setSwTextProps", "getSwTextProps", SwTextProps()),
+            ("setSwValueBlockSize", "getSwValueBlockSize", Numerical().setValue("10")),
+            ("setUnitRef", "getUnitRef", RefType().setValue("/Units/second")),
+            ("setValueAxisDataTypeRef", "getValueAxisDataTypeRef", RefType().setValue("/ApplicationDataTypes/adt")),
+        ]
+        for setter_name, getter_name, value in cases:
+            props = SwDataDefProps()
+            setter = getattr(props, setter_name)
+            getter = getattr(props, getter_name)
+            assert setter(value) is props, f"{setter_name} must return self"
+            assert getter() is value or getter() == value, f"{setter_name} did not round-trip"
+            setter(None)
+            assert getter() == value, f"{setter_name}(None) overwrote the value"
+
+    def test_sw_data_def_props_none_noop_list_members(self):
+        """List mutators are no-ops on None (Rule 0004)."""
+        props = SwDataDefProps()
+        annotation = Annotation()
+        comparison = SwVariableRefProxy()
+        mult = Numerical().setValue("2")
+        props.addAnnotation(annotation)
+        props.addAnnotation(None)
+        props.addSwComparisonVariable(comparison)
+        props.addSwComparisonVariable(None)
+        props.addSwValueBlockSizeMult(mult)
+        props.addSwValueBlockSizeMult(None)
+        assert props.getAnnotations() == [annotation]
+        assert props.getSwComparisonVariables() == [comparison]
+        assert props.getSwValueBlockSizeMults() == [mult]
+
+    def test_sw_data_def_props_sw_value_block_size_mults_preserves_order(self):
+        """swValueBlockSizeMult is (ordered): first entry = first dimension."""
+        props = SwDataDefProps()
+        first = Numerical().setValue("3")
+        second = Numerical().setValue("5")
+        props.addSwValueBlockSizeMult(first)
+        props.addSwValueBlockSizeMult(second)
+        assert props.getSwValueBlockSizeMults() == [first, second]
 
     def test_sw_data_def_props_initialization(self):
         sw_data_def_props = SwDataDefProps()
@@ -505,7 +1050,7 @@ class TestValueList:
     def test_value_list_initialization(self):
         value_list = ValueList()
         assert value_list.v is None
-        assert value_list._vf == []
+        assert value_list.vfs == []
 
     def test_value_list_v_methods(self):
         value_list = ValueList()
@@ -591,3 +1136,50 @@ class TestSwTextProps:
         assert result == sw_text_props
         sw_text_props.setSwMaxTextSize(None)
         assert sw_text_props.getSwMaxTextSize() == max_text_size
+
+
+VALUE_LIST_CLASS_NOTE = "This is a generic list of numerical values."
+
+VALUE_LIST_V_NOTE = "This is a particular numerical value without variation. Tags: xml.sequenceOffset=30"
+
+VALUE_LIST_VF_NOTE = (
+    "This is one entry in the list of numerical values Stereotypes: atpVariation Tags: "
+    "vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false "
+    "xml.typeElement=false xml.typeWrapperElement=false"
+)
+
+
+class TestValueListSpecSync:
+    def test_class_docstring_verbatim(self):
+        docstring = (ValueList.__doc__ or "").strip()
+        assert docstring == VALUE_LIST_CLASS_NOTE
+
+    def test_field_names_spec_verbatim(self):
+        value_list = ValueList()
+        assert value_list.v is None
+        assert value_list.vfs == []
+        assert not hasattr(value_list, "_vf")
+
+    def test_member_docstrings_verbatim(self):
+        value_list = ValueList()
+        assert (value_list.getV.__doc__ or "").strip() == VALUE_LIST_V_NOTE
+        assert (value_list.setV.__doc__ or "").strip().split("\n")[0] == VALUE_LIST_V_NOTE
+        assert (value_list.addVf.__doc__ or "").strip().split("\n")[0] == VALUE_LIST_VF_NOTE
+        assert (value_list.getVfs.__doc__ or "").strip() == VALUE_LIST_VF_NOTE
+
+    def test_add_vf_appends_and_none_noop(self):
+        value_list = ValueList()
+        first = Numerical().setValue("1")
+        second = Numerical().setValue("2")
+        assert value_list.addVf(first) is value_list
+        value_list.addVf(second)
+        assert value_list.vfs == [first, second]
+        value_list.addVf(None)
+        assert value_list.vfs == [first, second]
+
+    def test_get_set_v_none_noop(self):
+        value_list = ValueList()
+        value = Numerical().setValue("1.5")
+        assert value_list.setV(value) is value_list
+        value_list.setV(None)
+        assert value_list.getV() is value

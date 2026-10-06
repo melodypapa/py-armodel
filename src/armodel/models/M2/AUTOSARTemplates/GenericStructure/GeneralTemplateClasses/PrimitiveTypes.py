@@ -250,17 +250,18 @@ class Float(Numerical):
 
 class TimeValue(Float):
     """
-    This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
-    in the physical unit second.
+    This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted in the physical unit second.
 
     Tags:
-
-    * xml.xsd.customType=TIME-VALUE
-    * xml.xsd.type=double
+        * xml.xsd.customType=TIME-VALUE
+        * xml.xsd.type=double
     """
 
     # TimeValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.66, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no own XML element) — value form serialized on consuming elements via the shared leaf helpers setChildElementOptionalTimeValue/getChildElementOptionalTimeValue (ExecutableEntity.minimumStartInterval, BswTimingEvent.period, ReceptionComSpecProps.timeout, NvBlockNeeds.cyclicWritingPeriod); round-trip: tests/test_armodel/writer/test_reception_com_spec_props.py::TestReceptionPropsRoundTrip (R23-11)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -892,10 +893,13 @@ class IntervalTypeEnum(AREnum):
 
     # IntervalTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.88, p.409
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType;
+    # the XSD wire tokens (AR:INTERVAL-TYPE-ENUM--SIMPLE: CLOSED|INFINITE|OPEN — INFINITE carries
+    # atp.Status="removed" in the XSD and is absent from the Table 5.88 Literal rows, so not modeled)
+    # differ from the camelCase spec literals and ride INTERVAL_TYPE_XML_MAP + _readEnumToken/
+    # _writeEnumToken in BOTH arxml_parser.py and arxml_writer.py (round-trip pinned on Limit)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The area is limited by the value given. The value itself is included. Tags: atp.EnumerationLiteralIndex=0
     CLOSED = "closed"
@@ -912,31 +916,33 @@ class IntervalTypeEnum(AREnum):
         )
 
 
-class Limit(ARObject):
+class Limit(ARLiteral):
     """
     This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariation Point but has the additional attribute intervalType.
 
-    [constr_1191] Value of Limit shall yield a numerical value: After all variability is bound, the content obtained from a limit shall yield a numerical value at the time when the RTE is generated.
+    Tags:
+        * xml.xsd.customType=LIMIT-VALUE
+        * xml.xsd.pattern=(0[xX][0-9a-fA-F]+)|(0[0-7]+)|(0[bB][0-1]+)|(([+\\-]?[1-9][0-9]+(\\.[0-9]+)?|[+\\-]?[0-9](\\.[0-9]+)?)([eE]([+\\-]?)[0-9]+)?)|\\.0|INF|-INF|NaN
+        * xml.xsd.type=string
     """
 
     # Limit method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.86, p.408
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIntervalType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIntervalType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntervalType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntervalType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # value (the limit content) rides ARLiteral/ARType — no spec row (primitive content);
+    # the class serializes on the consuming element (LOWER-LIMIT, UPPER-LIMIT, ...) via the shared
+    # parser getChildLimitElement / writer setChildLimitElement helpers (abstract_arxml_parser.py /
+    # arxml_writer.py); reader [x] = getChildLimitElement calls setIntervalType, writer [x] =
+    # setChildLimitElement reads getIntervalType
 
     def __init__(self):
         super().__init__()
 
-        # This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
+        # This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED". Tags: xml.attribute=true
         self.intervalType: Optional[IntervalTypeEnum] = None
-
-        # This represents the value of the numerical limit.
-        self.value: Optional[str] = None
 
     def getIntervalType(self) -> Optional[IntervalTypeEnum]:
         """
@@ -958,28 +964,6 @@ class Limit(ARObject):
         """
         if value is not None:
             self.intervalType = value
-        return self
-
-    def getValue(self) -> Optional[str]:
-        """
-        This represents the value of the numerical limit.
-
-        Returns:
-            The limit value, or None if not set
-        """
-        return self.value
-
-    def setValue(self, value: Optional[str]) -> "Limit":
-        """
-        This represents the value of the numerical limit.
-
-        A None value is a no-op and does not overwrite an existing value.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.value = value
         return self
 
 
@@ -1345,10 +1329,8 @@ class ByteOrderEnum(AREnum):
 
     # ByteOrderEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # (no methods) — serialized as an attribute value on the consuming class
+    # (no methods) — enum value form serialized on BaseTypeDirectDefinition.byteOrder, DiagnosticCommonProps.defaultEndianness, ISignalToIPduMapping.packingByteOrder, MultiplexedIPdu.selectorFieldByteOrder, PduToFrameMapping.packingByteOrder, SegmentPosition.segmentByteOrder, System.containerIPduHeaderByteOrder (R23-11)
 
     # Most significant byte shall come at the lowest address (also known as BigEndian or as Motorola-Format) Tags: atp.EnumerationLiteralIndex=0
     MOST_SIGNIFICANT_BYTE_FIRST = "mostSignificantByteFirst"
@@ -1376,10 +1358,13 @@ class MonotonyEnum(AREnum):
 
     # MonotonyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.87, p.408
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on InternalConstrs.monotony, PhysConstrs.monotony, SwCalprmAxisTypeProps.monotony
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on InternalConstrs.monotony, PhysConstrs.monotony,
+    # SwCalprmAxisTypeProps.monotony; the XSD wire tokens (AR:MONOTONY-ENUM--SIMPLE: DECREASING,
+    # INCREASING, MONOTONOUS, NO-MONOTONY, STRICT-MONOTONOUS, STRICTLY-DECREASING, STRICTLY-INCREASING)
+    # differ from the camelCase spec literals and ride MONOTONY_XML_MAP + _readEnumToken/_writeEnumToken
+    # in BOTH arxml_parser.py and arxml_writer.py (round-trip pinned on the consuming classes)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the related curve needs to be monotony decreasing. Tags: atp.EnumerationLiteralIndex=0
     DECREASING = "decreasing"

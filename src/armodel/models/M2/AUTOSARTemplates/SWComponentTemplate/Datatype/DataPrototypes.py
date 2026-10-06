@@ -82,11 +82,10 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
     # AutosarDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.29, p.306
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTypeTRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTypeTRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeTRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeTRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataPrototype:
@@ -94,27 +93,18 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
         super().__init__(parent, short_name)
 
-        # This represents the corresponding data type. Stereotypes: isOfType
+        # This represents the corresponding data type.
         self.typeTRef: Optional[TRefType] = None
 
     def getTypeTRef(self) -> Optional[TRefType]:
         """
         This represents the corresponding data type.
-
-        Returns:
-            Optional[TRefType]: The typeTRef
         """
         return self.typeTRef
 
     def setTypeTRef(self, value: Optional[TRefType]) -> AutosarDataPrototype:
         """
         This represents the corresponding data type. A None value is a no-op and does not overwrite an existing typeTRef.
-
-        Args:
-            value: The typeTRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.typeTRef = value
@@ -209,17 +199,16 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
 
     # ApplicationArrayElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.9, p.252
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArraySizeHandling    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArraySizeHandling    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArraySizeSemantics   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArraySizeSemantics   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySizeHandling    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeHandling    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArraySizeSemantics   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeSemantics   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -233,27 +222,18 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         # This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name.
         self.indexDataTypeRef: Optional[RefType] = None
 
-        # The maximum number of elements that the array can contain. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        # The maximum number of elements that the array can contain.
         self.maxNumberOfElements: Optional[PositiveInteger] = None
 
     def getArraySizeHandling(self) -> Optional[ArraySizeHandlingEnum]:
         """
         The way how the size of the array is handled.
-
-        Returns:
-            Optional[ArraySizeHandlingEnum]: The arraySizeHandling
         """
         return self.arraySizeHandling
 
     def setArraySizeHandling(self, value: Optional[ArraySizeHandlingEnum]) -> ApplicationArrayElement:
         """
         The way how the size of the array is handled. A None value is a no-op and does not overwrite an existing arraySizeHandling.
-
-        Args:
-            value: The arraySizeHandling to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.arraySizeHandling = value
@@ -262,21 +242,12 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
         """
         This attribute controls how the information about the array size shall be interpreted.
-
-        Returns:
-            Optional[ArraySizeSemanticsEnum]: The arraySizeSemantics
         """
         return self.arraySizeSemantics
 
     def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> ApplicationArrayElement:
         """
         This attribute controls how the information about the array size shall be interpreted. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
-
-        Args:
-            value: The arraySizeSemantics to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.arraySizeSemantics = value
@@ -285,21 +256,12 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getIndexDataTypeRef(self) -> Optional[RefType]:
         """
         This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name.
-
-        Returns:
-            Optional[RefType]: The indexDataType reference
         """
         return self.indexDataTypeRef
 
     def setIndexDataTypeRef(self, value: Optional[RefType]) -> ApplicationArrayElement:
         """
         This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name. A None value is a no-op and does not overwrite an existing indexDataTypeRef.
-
-        Args:
-            value: The indexDataType reference to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.indexDataTypeRef = value
@@ -308,21 +270,12 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     def getMaxNumberOfElements(self) -> Optional[PositiveInteger]:
         """
         The maximum number of elements that the array can contain.
-
-        Returns:
-            Optional[PositiveInteger]: The maxNumberOfElements
         """
         return self.maxNumberOfElements
 
     def setMaxNumberOfElements(self, value: Optional[PositiveInteger]) -> ApplicationArrayElement:
         """
         The maximum number of elements that the array can contain. A None value is a no-op and does not overwrite an existing maxNumberOfElements.
-
-        Args:
-            value: The maxNumberOfElements to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.maxNumberOfElements = value

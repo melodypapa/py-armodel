@@ -16,10 +16,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARLiteral,
     Boolean,
+    DateTime,
     Identifier,
     Integer,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501  # noqa E501
@@ -61,7 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
     ExternalTriggeringPoint,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps, SwImplPolicyEnum
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -196,7 +198,7 @@ class TestWriterRteEvents:
         writer.writeSwcModeSwitchEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "SWC-MODE-SWITCH-EVENT"
-        assert evt.find("ACTIVATION").text == "onEntry"
+        assert evt.find("ACTIVATION").text == "ON-ENTRY"
         mode_irefs_tag = evt.find("MODE-IREFS")
         assert mode_irefs_tag is not None
         mode_iref_tag = mode_irefs_tag.find("MODE-IREF")
@@ -213,7 +215,7 @@ class TestWriterRteEvents:
         writer.writeSwcModeSwitchEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "SWC-MODE-SWITCH-EVENT"
-        assert evt.find("ACTIVATION").text == "onExit"
+        assert evt.find("ACTIVATION").text == "ON-EXIT"
         assert evt.find("MODE-IREFS") is None
 
     def test_writeSwcModeSwitchEvent_none(self, writer):
@@ -437,6 +439,9 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         behavior.createAsynchronousServerCallReturnsEvent("ascr")
         behavior.createInternalTriggerOccurredEvent("ito")
         behavior.createDataWriteCompletedEvent("dwc")
+        behavior.createExternalTriggerOccurredEvent("eto")
+        behavior.createTransformerHardErrorEvent("the")
+        behavior.createOsTaskExecutionEvent("ote")
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         events_tag = parent.find("EVENTS")
@@ -450,6 +455,9 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         assert "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
         assert "INTERNAL-TRIGGER-OCCURRED-EVENT" in tags
         assert "DATA-WRITE-COMPLETED-EVENT" in tags
+        assert "EXTERNAL-TRIGGER-OCCURRED-EVENT" in tags
+        assert "TRANSFORMER-HARD-ERROR-EVENT" in tags
+        assert "OS-TASK-EXECUTION-EVENT" in tags
 
     def test_dispatches_operation_and_data_events(self, writer):
         behavior = _make_behavior()
@@ -461,8 +469,10 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         dref = RVariableInAtomicSwcInstanceRef()
         dref.setContextRPortRef(_ref("/rp"))
         e2.setDataIRef(dref)
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+
         e3 = behavior.createSwcModeSwitchEvent("mse")
-        e3.setActivation(_literal("enable"))
+        e3.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY))
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         tags = {c.tag for c in parent.find("EVENTS")}
@@ -755,7 +765,7 @@ class TestWriterParameterAccess:
         pref.setLocalParameterRef(_ref("/lp", "PARAMETER-DATA-PROTOTYPE"))
         pa.setAccessedParameter(pref)
         props = SwDataDefProps()
-        props.setSwCalibrationAccess(_literal("notAccessible"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.NOT_ACCESSIBLE))
         pa.setSwDataDefProps(props)
         parent = _parent()
         writer.writeParameterAccess(parent, pa)
@@ -765,7 +775,7 @@ class TestWriterParameterAccess:
         assert elem.find("ACCESSED-PARAMETER/LOCAL-PARAMETER-REF").text == "/lp"
         props_elem = elem.find("SW-DATA-DEF-PROPS")
         assert props_elem is not None
-        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "notAccessible"
+        assert props_elem.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/SW-CALIBRATION-ACCESS").text == "NOT-ACCESSIBLE"
         children = [child.tag for child in elem]
         assert children.index("ACCESSED-PARAMETER") < children.index("SW-DATA-DEF-PROPS")
 
@@ -804,7 +814,7 @@ class TestParameterAccessRoundTrip:
         pref.setAutosarParameterIRef(iref)
         pa.setAccessedParameter(pref)
         props = SwDataDefProps()
-        props.setSwCalibrationAccess(_literal("notAccessible"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.NOT_ACCESSIBLE))
         pa.setSwDataDefProps(props)
 
         file_path = tempfile.mktemp(suffix=".arxml")
@@ -1127,7 +1137,7 @@ class TestWriterRunnableEntity:
         assert wp_elem is not None
         assert wp_elem.find("SHORT-NAME").text == "wp1"
         assert wp_elem.find("TIMEOUT").text == "5.0"
-        assert wp_elem.find("TRIGGER").text == "/Event"
+        assert wp_elem.find("TRIGGER-REF").text == "/Event"
 
     def test_writeRunnableEntity_wait_point_empty_no_wrapper(self, writer):
         behavior = _make_behavior()
@@ -3058,6 +3068,520 @@ class TestDataWriteCompletedEventRoundTrip:
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "dwc1")
             assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwcModeSwitchEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SwcModeSwitchEvent with activation + mode IRefs (Table 7.17)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createSwcModeSwitchEvent("mse1")
+        event.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_TRANSITION))
+        mode_iref = RModeInAtomicSwcInstanceRef()
+        mode_iref.setContextPortRef(_ref("/Pkg/App/rp", "R-PORT-PROTOTYPE"))
+        mode_iref.setTargetModeDeclarationRef(_ref("/Pkg/ModeDcl/On", "MODE-DECLARATION"))
+        event.addModeIRef(mode_iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mse1")
+            assert isinstance(event_2, SwcModeSwitchEvent)
+            assert event_2.getActivation() is not None
+            assert event_2.getActivation().getValue() == "onTransition"
+            irefs = event_2.getModeIRefs()
+            assert len(irefs) == 1
+            ctx = irefs[0].getContextPortRef()
+            assert ctx.getValue() == "/Pkg/App/rp"
+            assert ctx.getDest() == "R-PORT-PROTOTYPE"
+            tgt = irefs[0].getTargetModeDeclarationRef()
+            assert tgt.getValue() == "/Pkg/ModeDcl/On"
+            assert tgt.getDest() == "MODE-DECLARATION"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SwcModeSwitchEvent without activation/mode IRefs round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createSwcModeSwitchEvent("mse1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("SWC-MODE-SWITCH-EVENT"))
+            assert all(not c.tag.endswith("ACTIVATION") for c in evt)
+            assert all(not c.tag.endswith("MODE-IREFS") for c in evt)
+            document.clear()
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mse1")
+            assert event_2.getActivation() is None
+            assert event_2.getModeIRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestModeSwitchedAckEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ModeSwitchedAckEvent with eventSourceRef (Table 7.19)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createModeSwitchedAckEvent("msa1")
+        event.setEventSourceRef(_ref("/Pkg/App/Behavior/msp1", "MODE-SWITCH-POINT"))
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "msa1")
+            assert isinstance(event_2, ModeSwitchedAckEvent)
+            ref = event_2.getEventSourceRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Behavior/msp1"
+            assert ref.getDest() == "MODE-SWITCH-POINT"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a ModeSwitchedAckEvent without eventSourceRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createModeSwitchedAckEvent("msa1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("MODE-SWITCHED-ACK-EVENT"))
+            assert all(not c.tag.endswith("EVENT-SOURCE-REF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "msa1")
+            assert event_2.getEventSourceRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestExternalTriggerOccurredEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an ExternalTriggerOccurredEvent with triggerIRef (Table 7.20)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RTriggerInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ExternalTriggerOccurredEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createExternalTriggerOccurredEvent("eto1")
+        iref = RTriggerInAtomicSwcInstanceRef()
+        iref.setChecksum(String().setValue("csum"))
+        iref.setTimestamp(DateTime().setValue("2024-11-01T09:39:52+02:00"))
+        iref.setContextRPortRef(_ref("/Pkg/App/rp_trig", "R-PORT-PROTOTYPE"))
+        iref.setTargetTriggerRef(_ref("/Pkg/App/trigger1", "TRIGGER"))
+        event.setTriggerIRef(iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "eto1")
+            assert isinstance(event_2, ExternalTriggerOccurredEvent)
+            got = event_2.getTriggerIRef()
+            assert got is not None
+            assert got.getChecksum() is not None
+            assert got.getChecksum().getValue() == "csum"
+            assert got.getTimestamp() is not None
+            ctx = got.getContextRPortRef()
+            assert ctx.getValue() == "/Pkg/App/rp_trig"
+            assert ctx.getDest() == "R-PORT-PROTOTYPE"
+            tgt = got.getTargetTriggerRef()
+            assert tgt.getValue() == "/Pkg/App/trigger1"
+            assert tgt.getDest() == "TRIGGER"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an ExternalTriggerOccurredEvent without triggerIRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createExternalTriggerOccurredEvent("eto1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("EXTERNAL-TRIGGER-OCCURRED-EVENT"))
+            assert all(not c.tag.endswith("TRIGGER-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "eto1")
+            assert event_2.getTriggerIRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestTransformerHardErrorEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a TransformerHardErrorEvent with both IRefs (Table 7.23)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef, RTriggerInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import TransformerHardErrorEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createTransformerHardErrorEvent("the1")
+        op_iref = POperationInAtomicSwcInstanceRef()
+        op_iref.setContextPPortRef(_ref("/Pkg/App/pp", "P-PORT-PROTOTYPE"))
+        op_iref.setTargetProvidedOperationRef(_ref("/Pkg/If/op", "CLIENT-SERVER-OPERATION"))
+        event.setOperationIRef(op_iref)
+        trig_iref = RTriggerInAtomicSwcInstanceRef()
+        trig_iref.setContextRPortRef(_ref("/Pkg/App/rp", "R-PORT-PROTOTYPE"))
+        trig_iref.setTargetTriggerRef(_ref("/Pkg/App/trigger1", "TRIGGER"))
+        event.setRequiredTriggerIRef(trig_iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "the1")
+            assert isinstance(event_2, TransformerHardErrorEvent)
+            got_op = event_2.getOperationIRef()
+            assert got_op is not None
+            assert got_op.getContextPPortRef().getValue() == "/Pkg/App/pp"
+            assert got_op.getTargetProvidedOperationRef().getValue() == "/Pkg/If/op"
+            got_trig = event_2.getRequiredTriggerIRef()
+            assert got_trig is not None
+            assert got_trig.getContextRPortRef().getValue() == "/Pkg/App/rp"
+            assert got_trig.getTargetTriggerRef().getValue() == "/Pkg/App/trigger1"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a TransformerHardErrorEvent without IRefs round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createTransformerHardErrorEvent("the1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("TRANSFORMER-HARD-ERROR-EVENT"))
+            assert all(not c.tag.endswith("OPERATION-IREF") for c in evt)
+            assert all(not c.tag.endswith("REQUIRED-TRIGGER-IREF") for c in evt)
+            assert all(not c.tag.endswith("TRIGGER-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "the1")
+            assert event_2.getOperationIRef() is None
+            assert event_2.getRequiredTriggerIRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestOsTaskExecutionEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an OsTaskExecutionEvent with inherited RTE fields (Table 7.24)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import OsTaskExecutionEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createOsTaskExecutionEvent("ote1")
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ote1")
+            assert isinstance(event_2, OsTaskExecutionEvent)
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an OsTaskExecutionEvent round-trips without own elements (attribute-less class)."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import OsTaskExecutionEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createOsTaskExecutionEvent("ote1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("OS-TASK-EXECUTION-EVENT"))
+            assert all(not c.tag.endswith(("OFFSET", "PERIOD", "EVENT-SOURCE-REF")) for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "ote1")
+            assert isinstance(event_2, OsTaskExecutionEvent)
+            assert event_2.getStartOnEventRef() is None
+            assert event_2.getDisabledModeIRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestWaitPointRoundTrip:
+    def test_write_element_order_matches_xsd_group(self, writer):
+        """WAIT-POINT children follow the XSD group order: TIMEOUT, TRIGGER-REF."""
+        behavior = _make_behavior()
+        runnable = behavior.createRunnableEntity("re")
+        point = runnable.createWaitPoint("wp1")
+        point.setTimeout(_time(2.5))
+        point.setTriggerRef(_ref("/Pkg/App/Behavior/dre1", "DATA-RECEIVED-EVENT"))
+        parent = _parent()
+        writer.writeRunnableEntityWaitPoints(parent, runnable)
+        wp = parent.find("WAIT-POINTS").find("WAIT-POINT")
+        expected = ["SHORT-NAME", "TIMEOUT", "TRIGGER-REF"]
+        children = [c.tag for c in wp if c.tag in expected]
+        assert children == ["SHORT-NAME", "TIMEOUT", "TRIGGER-REF"]
+
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a WaitPoint with timeout + triggerRef (Table 7.25)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import WaitPoint
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("re1")
+        point = runnable.createWaitPoint("wp1")
+        timeout = TimeValue()
+        timeout.setValue(2.5)
+        point.setTimeout(timeout)
+        point.setTriggerRef(_ref("/Pkg/App/Behavior/dre1", "DATA-RECEIVED-EVENT"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            runnable_2 = next(e for e in behavior_2.getRunnableEntities() if e.getShortName() == "re1")
+            points = runnable_2.getWaitPoints()
+            assert len(points) == 1
+            point_2 = points[0]
+            assert isinstance(point_2, WaitPoint)
+            assert point_2.getTimeout() is not None
+            assert point_2.getTimeout().getValue() == 2.5
+            ref = point_2.getTriggerRef()
+            assert ref is not None
+            assert ref.getValue() == "/Pkg/App/Behavior/dre1"
+            assert ref.getDest() == "DATA-RECEIVED-EVENT"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a WaitPoint without timeout/triggerRef round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        runnable = behavior.createRunnableEntity("re1")
+        runnable.createWaitPoint("wp1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            wp = next(e for e in saved.iter() if e.tag.endswith("WAIT-POINT"))
+            assert all(not c.tag.endswith("TIMEOUT") for c in wp)
+            assert all(not c.tag.endswith("TRIGGER-REF") for c in wp)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            runnable_2 = next(e for e in behavior_2.getRunnableEntities() if e.getShortName() == "re1")
+            points = runnable_2.getWaitPoints()
+            assert len(points) == 1
+            assert points[0].getTimeout() is None
+            assert points[0].getTriggerRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

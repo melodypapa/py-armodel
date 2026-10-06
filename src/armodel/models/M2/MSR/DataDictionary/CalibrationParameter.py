@@ -1,13 +1,10 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, DisplayFormatString, MonotonyEnum
-
-if TYPE_CHECKING:
-    from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
-    from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class CalprmAxisCategoryEnum(AREnum):
@@ -17,22 +14,20 @@ class CalprmAxisCategoryEnum(AREnum):
 
     # CalprmAxisCategoryEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.48, p.353
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwCalprmAxis.category
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on RuleBasedAxisCont.category, SwAxisCont.category (via RuleBasedAxisCont), SwCalprmAxis.category (R23-11)
 
     # COM_AXIS is equal to an STD_AXIS, the difference is, that a COM_AXIS is an shared axis, that means this axis can be used multiple times by different CURVEs, MAPs, CUBOIDs, CUBE_4s, and CUBE_5s. Tags: atp.EnumerationLiteralIndex=0 xml.name=COM_AXIS
-    COM_AXIS = "COM_AXIS"
+    COM_AXIS = "comAxis"
 
     # FIX_AXIS means that the input axis is not stored. The axis is calculated using parameters and so on it is also not possible to modify the axis points. Tags: atp.EnumerationLiteralIndex=4 xml.name=FIX_AXIS
-    FIX_AXIS = "FIX_AXIS"
+    FIX_AXIS = "fixAXIS"
 
     # RES_AXIS is also an shared axis like COM_AXIS, the difference is that this kind of axis can be used for rescaling. Tags: atp.EnumerationLiteralIndex=6 xml.name=RES_AXIS
-    RES_AXIS = "RES_AXIS"
+    RES_AXIS = "resAxis"
 
     # STD_AXIS means that input and output axis definition are stored within this CURVE, MAP, CUBOID, CUBE_4, and CUBE_5. There is no shared or calculated axis. Tags: atp.EnumerationLiteralIndex=8 xml.name=STD_AXIS
-    STD_AXIS = "STD_AXIS"
+    STD_AXIS = "stdAxis"
 
     def __init__(self):
         super().__init__([CalprmAxisCategoryEnum.COM_AXIS, CalprmAxisCategoryEnum.FIX_AXIS, CalprmAxisCategoryEnum.RES_AXIS, CalprmAxisCategoryEnum.STD_AXIS])
@@ -45,14 +40,16 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
     # SwCalprmAxisTypeProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.49, p.353
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # XML: element group SW-CALPRM-AXIS-TYPE-PROPS inlined into SW-AXIS-INDIVIDUAL / SW-AXIS-GROUPED
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMaxGradient  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  (xml.name=MAX-GRADIENT)
-    # [x] setMaxGradient  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMonotony     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  (xml.name=MONOTONY)
-    # [x] setMonotony     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # XML: element group SW-CALPRM-AXIS-TYPE-PROPS (AUTOSAR_00052.xsd L114844) inlined into SW-AXIS-GROUPED (L114493)
+    # and SW-AXIS-INDIVIDUAL (L114607); MAX-GRADIENT then MONOTONY lead both concrete branches and are serialized
+    # through the reusable readSwCalprmAxisTypeProps/writeSwCalprmAxisTypeProps helpers (Rule 0001.7); MONOTONY
+    # carries the UPPERCASE MONOTONY-ENUM--SIMPLE wire token via MONOTONY_XML_MAP
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxGradient  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=MAX-GRADIENT)
+    # [x] setMaxGradient  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMonotony     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=MONOTONY, UPPERCASE wire token)
+    # [x] setMonotony     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SwCalprmAxisTypeProps:
@@ -102,20 +99,21 @@ class SwCalprmAxis(ARObject):
 
     # SwCalprmAxis method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.47, p.352
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # XML: element group SW-CALPRM-AXIS; BASE-TYPE-REF (baseType) has atp.Status="removed" — not mapped
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCategory              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=CATEGORY, xml.sequenceOffset=30)
-    # [x] setCategory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDisplayFormat         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=DISPLAY-FORMAT, xml.sequenceOffset=100)
-    # [x] setDisplayFormat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAxisIndex           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-AXIS-INDEX, xml.sequenceOffset=20)
-    # [x] setSwAxisIndex           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-CALIBRATION-ACCESS, xml.sequenceOffset=90)
-    # [x] setSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalprmAxisTypeProps  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (xml.name=SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL, xml.sequenceOffset=40)
-    # [x] setSwCalprmAxisTypeProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # XML: element group SW-CALPRM-AXIS (AUTOSAR_00052.xsd L114749); reader/writer order
+    # SW-AXIS-INDEX(20), CATEGORY(30), SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL(40), SW-CALIBRATION-ACCESS(90),
+    # DISPLAY-FORMAT(100); BASE-TYPE-REF (baseType, 110) has atp.Status="removed" — not modeled (Rule 0001.3)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=CATEGORY, xml.sequenceOffset=30)
+    # [x] setCategory                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisplayFormat            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=DISPLAY-FORMAT, xml.sequenceOffset=100)
+    # [x] setDisplayFormat            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisIndex              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-AXIS-INDEX, xml.sequenceOffset=20)
+    # [x] setSwAxisIndex              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalibrationAccess      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-CALIBRATION-ACCESS, xml.sequenceOffset=90; UPPERCASE wire token via SW_CALIBRATION_ACCESS_XML_MAP)
+    # [x] setSwCalibrationAccess      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalprmAxisTypeProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (xml.name=SW-AXIS-GROUPED|SW-AXIS-INDIVIDUAL, xml.sequenceOffset=40; polymorphic choice)
+    # [x] setSwCalprmAxisTypeProps    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -237,3 +235,10 @@ class SwCalprmAxisSet(ARObject):
         One axis belonging to this SwCalprmAxisSet. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swCalprmAxis
+
+
+# Cycle-breaker import: DataDefProperties imports SwCalprmAxisSet from this module at its own
+# bottom-of-module imports, so a top-level import here would be circular; it is placed at the
+# bottom so this module is fully defined first and get_type_hints can resolve the name at
+# runtime on Python 3.8 (bpo-39291).
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum  # noqa: E402

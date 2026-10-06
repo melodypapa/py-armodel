@@ -825,7 +825,7 @@ class TestDataTypeAndValueSpecHandlers:
             "<SHORT-NAME>bt</SHORT-NAME>"
             "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>"
             "<BASE-TYPE-ENCODING>IEEE754</BASE-TYPE-ENCODING>"
-            "<BYTE-ORDER>BIG-ENDIAN</BYTE-ORDER>"
+            "<BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>"
             "<MEM-ALIGNMENT>4</MEM-ALIGNMENT>"
             "<NATIVE-DECLARATION>float</NATIVE-DECLARATION>",
             root_tag="SW-BASE-TYPE",
@@ -835,7 +835,7 @@ class TestDataTypeAndValueSpecHandlers:
         assert definition.getBaseTypeSize().getValue() == 32
         assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
         assert definition.getNativeDeclaration().getValue() == "float"
-        assert definition.getByteOrder().getValue() == "BIG-ENDIAN"
+        assert definition.getByteOrder().getValue() == "mostSignificantByteFirst"
 
     def test_readBaseTypeDirectDefinition_empty(self, parser):
         from armodel.models import BaseTypeDirectDefinition
@@ -922,7 +922,7 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getValueList_with_vf_list(self, parser):
         element = _snip(
-            "<SW-ARRAYSIZE>" "<VF><V>1.5</V></VF>" "<VF><V>2.5</V></VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
+            "<SW-ARRAYSIZE>" "<VF>1.5</VF>" "<VF>2.5</VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
             root_tag="PARENT",
         )
         value_list = parser.getValueList(element, "SW-ARRAYSIZE")
@@ -1176,7 +1176,7 @@ class TestRuleBasedValueSpecHandlers:
         )
         cont = parser.getRuleBasedAxisCont(element)
         assert cont is not None
-        assert cont.getCategory().getValue() == "STD_AXIS"
+        assert cont.getCategory().getValue() == "stdAxis"
         assert cont.getUnitRef().getValue() == "/p/u"
         assert cont.getSwArraysize() is not None
         assert cont.getSwAxisIndex().getValue() == "1"
@@ -1217,7 +1217,7 @@ class TestRuleBasedValueSpecHandlers:
         assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
         assert value_spec.getCategory().getValue() == "ARRAY"
         assert len(value_spec.getSwAxisConts()) == 1
-        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "STD_AXIS"
+        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "stdAxis"
         assert value_spec.getSwValueCont() is not None
 
     def test_getValueSpecification_dispatch_application_rule_based(self, parser):

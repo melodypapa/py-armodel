@@ -109,24 +109,23 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
 
     # ParameterInAtomicSWCTypeInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.36, p.319
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addContextDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getContextDataPrototypeRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPortPrototypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPortPrototypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootParameterDataPrototypeRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getRootParameterDataPrototypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTargetDataPrototypeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextDataPrototypeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPortPrototypeRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootParameterDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootParameterDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Stereotypes: atpDerived
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
         self.baseRef: Optional[RefType] = None
 
         # This ist the context in a compositeDataType.
@@ -141,112 +140,52 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         # This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
         self.targetDataPrototypeRef: Optional[RefType] = None
 
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
+        return self.baseRef
+
     def setBaseRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
-        """
-        Stereotypes: atpDerived
-
-        A None value is a no-op and does not overwrite an existing baseRef.
-
-        Returns:
-            self for method chaining
-        """
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10. A None value is a no-op and does not overwrite an existing baseRef."""
         if value is not None:
             self.baseRef = value
         return self
 
-    def getBaseRef(self) -> Optional[RefType]:
-        """
-        Stereotypes: atpDerived
-
-        Returns:
-            The base reference, or None if not set
-        """
-        return self.baseRef
-
     def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
-        """
-        This ist the context in a compositeDataType.
-
-        A None value is a no-op and does not add a contextDataPrototypeRef.
-
-        Returns:
-            self for method chaining
-        """
+        """This ist the context in a compositeDataType. A None value is a no-op and does not append anything."""
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
         return self
 
     def getContextDataPrototypeRefs(self) -> List[RefType]:
-        """
-        This ist the context in a compositeDataType.
-
-        Returns:
-            The ordered list of context data prototype references
-        """
+        """This ist the context in a compositeDataType."""
         return self.contextDataPrototypeRefs
 
+    def getPortPrototypeRef(self) -> Optional[RefType]:
+        """This is the port providing the variable or the entry point to the variable structure."""
+        return self.portPrototypeRef
+
     def setPortPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
-        """
-        This is the port providing the variable or the entry point to the variable structure.
-
-        A None value is a no-op and does not overwrite an existing portPrototypeRef.
-
-        Returns:
-            self for method chaining
-        """
+        """This is the port providing the variable or the entry point to the variable structure. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
         if value is not None:
             self.portPrototypeRef = value
         return self
 
-    def getPortPrototypeRef(self) -> Optional[RefType]:
-        """
-        This is the port providing the variable or the entry point to the variable structure.
-
-        Returns:
-            The port prototype reference, or None if not set
-        """
-        return self.portPrototypeRef
+    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
+        """This represents the entry point for references into a CompositeDataType."""
+        return self.rootParameterDataPrototypeRef
 
     def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
-        """
-        This represents the entry point for references into a CompositeDataType.
-
-        A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef.
-
-        Returns:
-            self for method chaining
-        """
+        """This represents the entry point for references into a CompositeDataType. A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef."""
         if value is not None:
             self.rootParameterDataPrototypeRef = value
         return self
 
-    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
-        """
-        This represents the entry point for references into a CompositeDataType.
-
-        Returns:
-            The root parameter data prototype reference, or None if not set
-        """
-        return self.rootParameterDataPrototypeRef
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
+        """This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype."""
+        return self.targetDataPrototypeRef
 
     def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
-        """
-        This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
-
-        A None value is a no-op and does not overwrite an existing targetDataPrototypeRef.
-
-        Returns:
-            self for method chaining
-        """
+        """This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
         if value is not None:
             self.targetDataPrototypeRef = value
         return self
-
-    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
-        """
-        This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
-
-        Returns:
-            The target data prototype reference, or None if not set
-        """
-        return self.targetDataPrototypeRef

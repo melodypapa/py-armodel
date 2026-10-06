@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Integer,
     PositiveInteger,
     RefType,
@@ -110,7 +111,7 @@ class TestWriteISignalToIPduMapping:
         mapping = ISignalToIPduMapping(pkg, "Map")
         mapping.setISignalRef(_ref("I-SIGNAL", "/sigs/s"))
         mapping.setISignalGroupRef(_ref("I-SIGNAL-GROUP", "/sigs/sg"))
-        mapping.setPackingByteOrder(_literal("MOST-SIGNIFICANT-BYTE-LAST"))
+        mapping.setPackingByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST))
         mapping.setStartPosition(_int("0"))
         mapping.setTransferProperty(_literal("TRIGGERED"))
         mapping.setUpdateIndicationBitPosition(_int("7"))

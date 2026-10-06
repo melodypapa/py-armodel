@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ClientComSpec,
     CompositeNetworkRepresentation,
     HandleOutOfRangeEnum,
+    HandleTimeoutEnum,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -248,7 +249,7 @@ class TestWriteSenderComSpec:
         assert transmission_props is not None
         assert transmission_props.find("DATA-UPDATE-PERIOD") is not None
         assert transmission_props.find("MINIMUM-SEND-INTERVAL") is not None
-        assert transmission_props.find("TRANSMISSION-MODE").text == "triggered"
+        assert transmission_props.find("TRANSMISSION-MODE").text == "TRIGGERED"
 
     def test_write_nonqueued_sender_comspec_with_data_filter(self, writer):
         com_spec = NonqueuedSenderComSpec()
@@ -295,7 +296,7 @@ class TestWriteTransformationComSpec:
         prop.setClearFromValidToInvalid(_boolean(True))
         prop.setDisableEndToEndCheck(_boolean(True))
         prop.setDisableEndToEndStateMachine(_boolean(True))
-        prop.setE2eProfileCompatibilityPropsRef(_ref(value="/Pkg/Props", dest="E2E-PROFILE-COMPATIBILITY-PROPS"))
+        prop.setE2eProfileCompatibilityPropsRef(_ref(value="/Pkg/Props", dest="E-2-E-PROFILE-COMPATIBILITY-PROPS"))
         prop.setMaxDeltaCounter(_positive_int("3"))
         prop.setMaxErrorStateInit(_positive_int("2"))
         prop.setMaxErrorStateInvalid(_positive_int("2"))
@@ -315,7 +316,7 @@ class TestWriteTransformationComSpec:
         assert child.find("CLEAR-FROM-VALID-TO-INVALID").text == "true"
         assert child.find("DISABLE-END-TO-END-CHECK").text == "true"
         assert child.find("DISABLE-END-TO-END-STATE-MACHINE").text == "true"
-        assert child.find("E2E-PROFILE-COMPATIBILITY-PROPS-REF").text == "/Pkg/Props"
+        assert child.find("E-2-E-PROFILE-COMPATIBILITY-PROPS-REF").text == "/Pkg/Props"
         assert child.find("MAX-DELTA-COUNTER").text == "3"
         assert child.find("MAX-ERROR-STATE-INIT").text == "2"
         assert child.find("MAX-ERROR-STATE-INVALID").text == "2"
@@ -505,7 +506,7 @@ class TestWritePPortComSpec:
         assert queued_tag is not None
         assert queued_tag.find("DATA-ELEMENT-REF").text == "/vdp/QueuedElem"
         assert queued_tag.find("DATA-ELEMENT-REF").get("DEST") == "VARIABLE-DATA-PROTOTYPE"
-        assert queued_tag.find("HANDLE-OUT-OF-RANGE").text == "saturate"
+        assert queued_tag.find("HANDLE-OUT-OF-RANGE").text == "SATURATE"
         assert queued_tag.find("USES-END-TO-END-PROTECTION").text == "true"
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -581,7 +582,7 @@ class TestWriteReceiverComSpec:
         props = SwDataDefProps()
         props.setSwCalprmAxisSet(SwCalprmAxisSet())
         com_spec.setNetworkRepresentation(props)
-        com_spec.setHandleOutOfRange(_literal("keep"))
+        com_spec.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.IGNORE))
         com_spec.setHandleOutOfRangeStatus(_literal("set-status"))
         com_spec.setMaxDeltaCounterInit(_positive_int(1))
         com_spec.setMaxNoNewOrRepeatedData(_positive_int(2))
@@ -611,7 +612,7 @@ class TestWriteReceiverComSpec:
         com_spec.setFilter(DataFilter())
         com_spec.setHandleDataStatus(_boolean(True))
         com_spec.setHandleNeverReceived(_boolean(False))
-        com_spec.setHandleTimeoutType(_literal("keep-old-value"))
+        com_spec.setHandleTimeoutType(HandleTimeoutEnum().setValue(HandleTimeoutEnum.NONE))
         com_spec.setInitValue(TextValueSpecification())
         parent = _parent()
         writer.writeNonqueuedReceiverComSpec(parent, com_spec)

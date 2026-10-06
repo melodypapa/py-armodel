@@ -455,8 +455,8 @@ class TestWriterEcucFloatParamDef:
         container = _make_container()
         param = container.createEcucFloatParamDef("P")
         param.setDefaultValue(_float(1.5))
-        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue("CLOSED")))
-        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue("CLOSED")))
+        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED)))
+        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED)))
         parent = _parent()
         writer.writeEcucFloatParamDef(parent, param)
         assert parent[0].tag == "ECUC-FLOAT-PARAM-DEF"
@@ -479,8 +479,8 @@ class TestWriterEcucFloatParamDef:
         container = _make_container()
         param = container.createEcucFloatParamDef("P")
         param.setDefaultValue(_float(1.5))
-        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue("CLOSED")))
-        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue("OPEN")))
+        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED)))
+        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue(IntervalTypeEnum.OPEN)))
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
@@ -497,10 +497,10 @@ class TestWriterEcucFloatParamDef:
             assert reloaded_param.getDefaultValue().getValue() == 1.5
             assert reloaded_param.getMax() is not None
             assert reloaded_param.getMax().getValue() == "99.5"
-            assert reloaded_param.getMax().getIntervalType().getValue() == "CLOSED"
+            assert reloaded_param.getMax().getIntervalType().getValue() == "closed"
             assert reloaded_param.getMin() is not None
             assert reloaded_param.getMin().getValue() == "0.0"
-            assert reloaded_param.getMin().getIntervalType().getValue() == "OPEN"
+            assert reloaded_param.getMin().getIntervalType().getValue() == "open"
         finally:
             os.unlink(tmp_path)
 

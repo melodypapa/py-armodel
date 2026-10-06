@@ -94,8 +94,8 @@ class TestReadImplementationDataTypeElement:
             f"""<IMPLEMENTATION-DATA-TYPE-ELEMENT xmlns='{NS}'>
                 <SHORT-NAME>Elem</SHORT-NAME>
                 <ARRAY-SIZE>8</ARRAY-SIZE>
-                <ARRAY-SIZE-HANDLING>allIndicesSameArraySize</ARRAY-SIZE-HANDLING>
-                <ARRAY-SIZE-SEMANTICS>fixedSize</ARRAY-SIZE-SEMANTICS>
+                <ARRAY-SIZE-HANDLING>ALL-INDICES-SAME-ARRAY-SIZE</ARRAY-SIZE-HANDLING>
+                <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
             </IMPLEMENTATION-DATA-TYPE-ELEMENT>"""
         )
 

@@ -291,6 +291,42 @@ class TestTimeValue:
         assert time_val._text is None
         assert time_val._value is None
 
+    def test_value_semantics_double(self):
+        """
+        Test TimeValue value semantics (Table 4.66: numerical value interpreted in the physical unit second, xml.xsd.type=double).
+        """
+        time_val = TimeValue()
+
+        time_val.setValue("2.5")
+        assert time_val.getValue() == 2.5
+        assert str(time_val) == "2.5"
+
+        time_val.setValue(0.02)
+        assert time_val.getValue() == 0.02
+
+        time_val.setValue("1.23e-5")
+        assert time_val.getValue() == 1.23e-5
+        assert str(time_val) == "1.23e-5"
+
+    def test_set_value_none_noop(self):
+        """
+        Test that setValue(None) is a no-op on a TimeValue.
+        """
+        time_val = TimeValue()
+        time_val.setValue("2.5")
+
+        time_val.setValue(None)
+        assert time_val.getValue() == 2.5
+
+    def test_is_a_arliteral(self):
+        """
+        Test that TimeValue derives from the ARLiteral hierarchy (Primitive table, no own attributes).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
+        time_val = TimeValue()
+        assert isinstance(time_val, ARLiteral)
+
 
 class TestARLiteral:
     """
@@ -767,7 +803,7 @@ class TestNameToken:
 
 class TestIntervalTypeEnum:
     """
-    Test class for IntervalTypeEnum functionality.
+    Test class for IntervalTypeEnum functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.88, p.409).
     """
 
     def test_initialization(self):
@@ -785,11 +821,27 @@ class TestIntervalTypeEnum:
         assert enum.validateEnumValue("open") is True
         assert enum.validateEnumValue("invalid") is False
 
+    def test_literal_display_order(self):
+        """Members appear in the markdown Table 5.88 display order (EnumerationLiteralIndex 0, 2)."""
+        enum = IntervalTypeEnum()
+
+        assert enum.getEnumValues() == ["closed", "open"]
+
+    def test_set_value_round_trip(self):
+        """Instantiability and setValue/getValue round-trip."""
+        enum = IntervalTypeEnum()
+        assert enum.setValue(IntervalTypeEnum.CLOSED) is enum
+        assert enum.getValue() == "closed"
+
 
 class TestLimit:
     """
-    Test class for Limit functionality.
+    Test class for Limit functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.86, p.408).
     """
+
+    def test_is_ar_literal_subclass(self):
+        assert issubclass(Limit, ARLiteral)
+        assert isinstance(Limit(), ARLiteral)
 
     def test_initialization(self):
         """
@@ -797,10 +849,9 @@ class TestLimit:
         """
         limit = Limit()
 
-        # Verify basic properties
         assert limit is not None
         assert limit.getIntervalType() is None
-        assert limit.getValue() is None
+        assert limit.getValue() == ""
 
     def test_interval_type_methods(self):
         """
@@ -811,8 +862,12 @@ class TestLimit:
         # Test get/set interval type
         assert limit.getIntervalType() is None
 
-        result = limit.setIntervalType(IntervalTypeEnum().setValue("closed"))
+        result = limit.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         assert result is limit  # Verify method chaining
+        assert isinstance(limit.getIntervalType(), IntervalTypeEnum)
+        assert limit.getIntervalType().getValue() == "closed"
+
+        limit.setIntervalType(None)
         assert limit.getIntervalType().getValue() == "closed"
 
     def test_value_methods(self):
@@ -822,10 +877,13 @@ class TestLimit:
         limit = Limit()
 
         # Test get/set value
-        assert limit.getValue() is None
+        assert limit.getValue() == ""
 
         result = limit.setValue("10")
         assert result is limit  # Verify method chaining
+        assert limit.getValue() == "10"
+
+        limit.setValue(None)
         assert limit.getValue() == "10"
 
 
@@ -1090,10 +1148,33 @@ class TestByteOrderEnum:
         assert enum.validateEnumValue("opaque") is True
         assert enum.validateEnumValue("invalid") is False
 
+    def test_set_value_round_trip(self):
+        """
+        Test ByteOrderEnum instantiability and setValue/getValue round-trip (Swc TPS Table 5.27).
+        """
+        enum = ByteOrderEnum()
+        assert enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST) is enum
+        assert enum.getValue() == "mostSignificantByteFirst"
+
+        enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)
+        assert enum.getValue() == "mostSignificantByteLast"
+
+        enum.setValue(ByteOrderEnum.OPAQUE)
+        assert enum.getValue() == "opaque"
+
+    def test_set_value_none_no_op(self):
+        """
+        Test that setting None does not overwrite an existing ByteOrderEnum value.
+        """
+        enum = ByteOrderEnum()
+        enum.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        enum.setValue(None)
+        assert enum.getValue() == "mostSignificantByteFirst"
+
 
 class TestMonotonyEnum:
     """
-    Test class for MonotonyEnum functionality.
+    Test class for MonotonyEnum functionality (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.87, p.408).
     """
 
     def test_initialization(self):
@@ -1115,6 +1196,26 @@ class TestMonotonyEnum:
         assert enum.validateEnumValue("decreasing") is True
         assert enum.validateEnumValue("strictMonotonous") is True
         assert enum.validateEnumValue("invalid") is False
+
+    def test_literal_display_order(self):
+        """Members appear in the markdown Table 5.87 display order (EnumerationLiteralIndex 0-6)."""
+        enum = MonotonyEnum()
+
+        assert enum.getEnumValues() == [
+            "decreasing",
+            "increasing",
+            "monotonous",
+            "noMonotony",
+            "strictlyDecreasing",
+            "strictlyIncreasing",
+            "strictMonotonous",
+        ]
+
+    def test_set_value_round_trip(self):
+        """Instantiability and setValue/getValue round-trip."""
+        enum = MonotonyEnum()
+        assert enum.setValue(MonotonyEnum.NO_MONOTONY) is enum
+        assert enum.getValue() == "noMonotony"
 
 
 class TestCIdentifier:

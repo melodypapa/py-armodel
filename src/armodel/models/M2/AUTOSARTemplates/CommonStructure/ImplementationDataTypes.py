@@ -196,83 +196,66 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
 
 class ImplementationDataType(AbstractImplementationDataType):
     """
-    Describes a reusable data type on the implementation level. This will
-    typically correspond to a typedef in C-code.
+    Describes a reusable data type on the implementation level. This will typically correspond to a typedef in C-code.
     """
 
     # ImplementationDataType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.37, p.321
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubElements                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createSymbolProps                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSymbolProps                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTypeEmitter                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTypeEmitter                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.15, p.268
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubElements                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSymbolProps                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbolProps                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTypeEmitter                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeEmitter                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     # Category constant for type reference implementation data types
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
+
     # Category constant for value implementation data types
     CATEGORY_TYPE_VALUE = "VALUE"
+
     # Category constant for structure implementation data types
     CATEGORY_TYPE_STRUCTURE = "STRUCTURE"
+
     # Category constant for data reference implementation data types
     CATEGORY_DATA_REFERENCE = "DATA_REFERENCE"
+
     # Category constant for array implementation data types
     CATEGORY_ARRAY = "ARRAY"
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ImplementationDataType with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this implementation data type
-            short_name: The unique short name of this implementation data type
-        """
         super().__init__(parent, short_name)
 
-        # Specifies the profile which the array will follow in case this data
-        # type is a variable size array.
+        # Specifies the profile which the array will follow in case this data type is a variable size array.
         self.dynamicArraySizeProfile: Optional[String] = None
-        # Indicates that the ImplementationDataType has been created with the
-        # intention to define at least one element of the structure as
-        # optional.
+
+        # This attribute is only valid if the attribute category is set to STRUCTURE. If set to true, this attribute indicates that the ImplementationDataType has been created with the intention to define at least one element of the structure as optional.
         self.isStructWithOptionalElement: Optional[Boolean] = None
-        # Specifies an element of an array, struct, or union data type.
+
+        # Specifies an element of an array, struct, or union data type. The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a Implementation DataType representing a structure.
         self.subElements: List[ImplementationDataTypeElement] = []
-        # The SymbolProps for the ImplementationDataType.
+
+        # This represents the SymbolProps for the Implementation DataType.
         self.symbolProps: Optional[SymbolProps] = None
-        # Controls which part of the AUTOSAR toolchain is supposed to trigger
-        # data type definitions.
+
+        # This attribute is used to control which part of the AUTOSAR toolchain is supposed to trigger data type definitions.
         self.typeEmitter: Optional[NameToken] = None
 
     def getDynamicArraySizeProfile(self) -> Optional[String]:
         """
-        Gets the profile which the array will follow in case this data type is
-        a variable size array.
-
-        Returns:
-            String: The dynamic array size profile
+        Specifies the profile which the array will follow in case this data type is a variable size array.
         """
         return self.dynamicArraySizeProfile
 
     def setDynamicArraySizeProfile(self, value: Optional[String]) -> ImplementationDataType:
         """
-        Sets the profile which the array will follow in case this data type is
-        a variable size array. A None value is a no-op and does not overwrite
-        an existing profile.
-
-        Args:
-            value: The dynamic array size profile to set
-
-        Returns:
-            self for method chaining
+        Specifies the profile which the array will follow in case this data type is a variable size array. A None value is a no-op and does not overwrite an existing dynamicArraySizeProfile.
         """
         if value is not None:
             self.dynamicArraySizeProfile = value
@@ -280,27 +263,13 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def getIsStructWithOptionalElement(self) -> Optional[Boolean]:
         """
-        Gets the flag indicating whether the ImplementationDataType has been
-        created with the intention to define at least one element of the
-        structure as optional.
-
-        Returns:
-            Boolean: The flag for optional elements in the structure
+        This attribute is only valid if the attribute category is set to STRUCTURE. If set to true, this attribute indicates that the ImplementationDataType has been created with the intention to define at least one element of the structure as optional.
         """
         return self.isStructWithOptionalElement
 
     def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> ImplementationDataType:
         """
-        Sets the flag indicating whether the ImplementationDataType has been
-        created with the intention to define at least one element of the
-        structure as optional. A None value is a no-op and does not overwrite
-        an existing flag.
-
-        Args:
-            value: The flag for optional elements in the structure to set
-
-        Returns:
-            self for method chaining
+        This attribute is only valid if the attribute category is set to STRUCTURE. If set to true, this attribute indicates that the ImplementationDataType has been created with the intention to define at least one element of the structure as optional. A None value is a no-op and does not overwrite an existing isStructWithOptionalElement.
         """
         if value is not None:
             self.isStructWithOptionalElement = value
@@ -308,16 +277,7 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:
         """
-        Creates and adds an ImplementationDataTypeElement to this
-        ImplementationDataType's sub-elements, or returns the existing element
-        with the same short name.
-
-        Args:
-            short_name: The short name for the new implementation data type
-                element
-
-        Returns:
-            The created ImplementationDataTypeElement instance
+        Specifies an element of an array, struct, or union data type. The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a Implementation DataType representing a structure.
         """
         if not self.IsReferrableElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
@@ -327,23 +287,13 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
-        Gets the list of sub-elements of this ImplementationDataType.
-
-        Returns:
-            List of ImplementationDataTypeElement instances
+        Specifies an element of an array, struct, or union data type. The aggregation of ImplementionDataTypeElement is subject to variability with the purpose to support the conditional existence of elements inside a Implementation DataType representing a structure.
         """
         return self.subElements
 
     def createSymbolProps(self, short_name: str) -> SymbolProps:
         """
-        Creates and adds the SymbolProps for this ImplementationDataType, or
-        returns the existing SymbolProps.
-
-        Args:
-            short_name: The short name for the new SymbolProps
-
-        Returns:
-            The created SymbolProps instance
+        This represents the SymbolProps for the Implementation DataType.
         """
         if not self.IsReferrableElementExists(short_name, SymbolProps):
             symbol_props = SymbolProps(self, short_name)
@@ -353,31 +303,19 @@ class ImplementationDataType(AbstractImplementationDataType):
 
     def getSymbolProps(self) -> Optional[SymbolProps]:
         """
-        Gets the SymbolProps for this ImplementationDataType.
-
-        Returns:
-            SymbolProps: The symbol properties
+        This represents the SymbolProps for the Implementation DataType.
         """
         return self.symbolProps
 
     def getTypeEmitter(self) -> Optional[NameToken]:
         """
-        Gets the type emitter that controls which part of the AUTOSAR
-        toolchain is supposed to trigger data type definitions.
-
-        Returns:
-            NameToken: The type emitter
+        This attribute is used to control which part of the AUTOSAR toolchain is supposed to trigger data type definitions.
         """
         return self.typeEmitter
 
     def setTypeEmitter(self, value: Optional[NameToken]) -> ImplementationDataType:
         """
-        Sets the type emitter that controls which part of the AUTOSAR
-        toolchain is supposed to trigger data type definitions. A None value is
-        a no-op and does not overwrite an existing type emitter.
-
-        Returns:
-            self for method chaining
+        This attribute is used to control which part of the AUTOSAR toolchain is supposed to trigger data type definitions. A None value is a no-op and does not overwrite an existing typeEmitter.
         """
         if value is not None:
             self.typeEmitter = value
@@ -417,10 +355,8 @@ class ArraySizeSemanticsEnum(AREnum):
 
     # ArraySizeSemanticsEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.10, p.253
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeSemantics, DiagnosticDataElement.arraySizeSemantics, ImplementationDataTypeElement.arraySizeSemantics, SwTextProps.arraySizeSemantics
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeSemantics, DiagnosticDataElement.arraySizeSemantics, ImplementationDataTypeElement.arraySizeSemantics, SwTextProps.arraySizeSemantics (R23-11)
 
     # This means that the ApplicationArrayDataType will always have a fixed number of elements. Tags: atp.EnumerationLiteralIndex=0
     FIXED_SIZE = "fixedSize"

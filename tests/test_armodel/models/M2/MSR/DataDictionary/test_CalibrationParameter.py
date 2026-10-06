@@ -2,6 +2,11 @@
 This module contains tests for the CalibrationParameter module in MSR.DataDictionary.
 """
 
+import ast
+import os
+import typing
+from inspect import cleandoc
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -17,29 +22,140 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class TestCalprmAxisCategoryEnum:
-    """Test class for CalprmAxisCategoryEnum class."""
+    """Test class for CalprmAxisCategoryEnum class (SWCT Table 5.48, p.353, R23-11)."""
 
     def test_calprm_axis_category_enum_initialization(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
         enum = CalprmAxisCategoryEnum()
         enum.setValue(CalprmAxisCategoryEnum.STD_AXIS)
-        assert enum.getValue() == "STD_AXIS"
+        assert enum.getValue() == "stdAxis"
 
     def test_calprm_axis_category_enum_values(self):
-        assert CalprmAxisCategoryEnum.COM_AXIS == "COM_AXIS"
-        assert CalprmAxisCategoryEnum.FIX_AXIS == "FIX_AXIS"
-        assert CalprmAxisCategoryEnum.RES_AXIS == "RES_AXIS"
-        assert CalprmAxisCategoryEnum.STD_AXIS == "STD_AXIS"
-        assert CalprmAxisCategoryEnum().getEnumValues() == ["COM_AXIS", "FIX_AXIS", "RES_AXIS", "STD_AXIS"]
+        """CalprmAxisCategoryEnum shall expose the 4 spec literals in Table 5.48 order.
+
+        Member values are the camelCase mmt.qualifiedName literals; the UPPERCASE
+        XSD wire forms (CALPRM-AXIS-CATEGORY-ENUM--SIMPLE) live only in the
+        consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
+        """
+        assert CalprmAxisCategoryEnum.COM_AXIS == "comAxis"
+        assert CalprmAxisCategoryEnum.FIX_AXIS == "fixAXIS"
+        assert CalprmAxisCategoryEnum.RES_AXIS == "resAxis"
+        assert CalprmAxisCategoryEnum.STD_AXIS == "stdAxis"
+        assert CalprmAxisCategoryEnum().getEnumValues() == ["comAxis", "fixAXIS", "resAxis", "stdAxis"]
+
+    def test_calprm_axis_category_enum_has_spec_note(self):
+        """The class docstring carries the Table 5.48 Note verbatim."""
+        assert cleandoc(CalprmAxisCategoryEnum.__doc__) == "This enum specifies the possible values of the category property within SwCalprmAxis."
+
+    def test_calprm_axis_category_enum_validate_enum_value(self):
+        """validateEnumValue accepts the model literal values and rejects non-wire forms.
+
+        R23-11 AUTOSAR_00052.xsd CALPRM-AXIS-CATEGORY-ENUM--SIMPLE (L132080) additionally
+        carries six atp.Status="removed" literals (COM-AXIS, CURVE-AXIS, CURVE_AXIS,
+        FIX-AXIS, RES-AXIS, STD-AXIS) which map to no member (Rule 0001.3); the UPPERCASE
+        wire forms (COM_AXIS, FIX_AXIS, RES_AXIS, STD_AXIS) live only in the
+        consumer-side CALPRM_AXIS_CATEGORY_XML_MAP and are not model values.
+        """
+        enum_obj = CalprmAxisCategoryEnum()
+        assert enum_obj.validateEnumValue("comAxis") is True
+        assert enum_obj.validateEnumValue("fixAXIS") is True
+        assert enum_obj.validateEnumValue("resAxis") is True
+        assert enum_obj.validateEnumValue("stdAxis") is True
+        assert enum_obj.validateEnumValue("COM_AXIS") is False
+        assert enum_obj.validateEnumValue("COM-AXIS") is False
+        assert enum_obj.validateEnumValue("CURVE_AXIS") is False
+        assert enum_obj.validateEnumValue("unknown") is False
+
+    def test_calprm_axis_category_enum_set_value_with_member(self):
+        """The enum is instantiable and its literal value can be set from a member constant."""
+        enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
+        assert enum_obj.getValue() == "fixAXIS"
+
+    def test_calprm_axis_category_enum_set_value_none_noop(self):
+        """setValue(None) is a no-op and does not overwrite an existing value."""
+        enum_obj = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.RES_AXIS)
+        enum_obj.setValue(None)
+        assert enum_obj.getValue() == "resAxis"
 
 
 class TestSwCalprmAxisTypeProps:
-    """Test class for SwCalprmAxisTypeProps abstract class."""
+    """Test class for SwCalprmAxisTypeProps abstract class (SWCT Table 5.49, p.353, R23-11)."""
+
+    SPEC_MEMBER_ORDER = ["maxGradient", "monotony"]
+
+    SPEC_NOTES = {
+        "maxGradient": "This attribute defines the maximum permissible gradient for an adjustable object (curve, map or cuboid) with respect to a specific axis. MaxGrad = maximum( absolute((Value i,k - Value i-1,k)/(Axis Point i - Axis Point i-1)) )",
+        "monotony": "This attribute specifies the monotony constraint for an adjustable object (curve, map or cuboid) with respect to a specific axis. This information can be used by MCD system to verify whether the monotony constraint is fulfilled and to prevent from changes violating the constraint.",
+    }
+
+    def _init_field_order(self) -> list:
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "CalibrationParameter.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwCalprmAxisTypeProps")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
 
     def test_sw_calprm_axis_type_props_abstract_class(self):
         """Test that SwCalprmAxisTypeProps cannot be instantiated directly."""
         # This should raise NotImplementedError
         with pytest.raises(TypeError):
             SwCalprmAxisTypeProps()
+
+    def test_sw_calprm_axis_type_props_class_note_verbatim(self):
+        """The class docstring carries the Table 5.49 Note verbatim."""
+        assert (
+            cleandoc(SwCalprmAxisTypeProps.__doc__)
+            == "Base class for the type of the calibration axis. This provides the particular model of the specialization. If the specialization would be the directly from SwCalPrmAxis, the sequence of common properties and the specializes ones would be different."
+        )
+
+    def test_sw_calprm_axis_type_props_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.49 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_calprm_axis_type_props_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getMaxGradient",
+            "setMaxGradient",
+            "getMonotony",
+            "setMonotony",
+        ]
+        for name in expected:
+            assert hasattr(SwCalprmAxisTypeProps, name), f"missing accessor {name}"
+
+    def test_sw_calprm_axis_type_props_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in ("getMaxGradient", "setMaxGradient", "getMonotony", "setMonotony"):
+            hints = typing.get_type_hints(getattr(SwCalprmAxisTypeProps, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.setMaxGradient)["value"] == typing.Optional[Float]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.setMonotony)["value"] == typing.Optional[MonotonyEnum]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.getMaxGradient)["return"] == typing.Optional[Float]
+        assert typing.get_type_hints(SwCalprmAxisTypeProps.getMonotony)["return"] == typing.Optional[MonotonyEnum]
+
+    def test_sw_calprm_axis_type_props_accessor_docstrings_verbatim(self):
+        """Getter docstrings carry the Table 5.49 Notes verbatim; setters append the None-no-op sentence."""
+        for attr, note in self.SPEC_NOTES.items():
+            getter = "get" + attr[0].upper() + attr[1:]
+            setter = "set" + attr[0].upper() + attr[1:]
+            assert cleandoc(getattr(SwCalprmAxisTypeProps, getter).__doc__) == note
+            assert cleandoc(getattr(SwCalprmAxisTypeProps, setter).__doc__) == (note + " A None value is a no-op and does not overwrite an existing %s." % attr)
 
     def test_sw_calprm_axis_type_props_initialization(self):
         """Test that a concrete subclass can be initialized with default values."""
@@ -105,6 +221,93 @@ class TestSwCalprmAxisTypeProps:
 class TestSwCalprmAxis:
     """Test class for SwCalprmAxis class."""
 
+    SPEC_MEMBER_ORDER = ["category", "displayFormat", "swAxisIndex", "swCalibrationAccess", "swCalprmAxisTypeProps"]
+
+    SPEC_NOTES = {
+        "category": "This property specifies the category of a particular axis.",
+        "displayFormat": "This property specifies how the axis values shall be displayed e.g. in documents or in measurement and calibration tools.",
+        "swAxisIndex": 'This attribute specifies which axis is specified by the containing SwCalprmAxis. For example in a curve this is usually "1". In a map this is "1" or "2".',
+        "swCalibrationAccess": "Describes the applicability of parameters and variables.",
+        "swCalprmAxisTypeProps": "specific properties depending on the type of the axis.",
+    }
+
+    def _init_field_order(self) -> list:
+        src = os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "..",
+            "src",
+            "armodel",
+            "models",
+            "M2",
+            "MSR",
+            "DataDictionary",
+            "CalibrationParameter.py",
+        )
+        tree = ast.parse(open(src, encoding="utf-8").read())
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "SwCalprmAxis")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        return [t.target.attr for t in init.body if isinstance(t, ast.AnnAssign) and isinstance(t.target, ast.Attribute)]
+
+    def test_sw_calprm_axis_class_note_verbatim(self):
+        """The class docstring carries the Table 5.47 Note verbatim."""
+        assert cleandoc(SwCalprmAxis.__doc__) == "This element specifies an individual input parameter axis (abscissa)."
+
+    def test_sw_calprm_axis_member_order(self):
+        """Fields in __init__ follow the SWCT Table 5.47 displayed row order (Rule 0001.11)."""
+        assert self._init_field_order() == self.SPEC_MEMBER_ORDER
+
+    def test_sw_calprm_axis_accessors_follow_member_order(self):
+        """Accessor groups per attribute, in spec row order; scalars getter-first."""
+        expected = [
+            "getCategory",
+            "setCategory",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getSwAxisIndex",
+            "setSwAxisIndex",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisTypeProps",
+            "setSwCalprmAxisTypeProps",
+        ]
+        for name in expected:
+            assert hasattr(SwCalprmAxis, name), f"missing accessor {name}"
+
+    def test_sw_calprm_axis_type_hints_resolve(self):
+        """Every accessor annotation resolves at runtime (Rule 0003 — no TYPE_CHECKING-only names)."""
+        for name in (
+            "getCategory",
+            "setCategory",
+            "getDisplayFormat",
+            "setDisplayFormat",
+            "getSwAxisIndex",
+            "setSwAxisIndex",
+            "getSwCalibrationAccess",
+            "setSwCalibrationAccess",
+            "getSwCalprmAxisTypeProps",
+            "setSwCalprmAxisTypeProps",
+        ):
+            hints = typing.get_type_hints(getattr(SwCalprmAxis, name))
+            assert hints, f"no annotations resolved for {name}"
+            assert "return" in hints
+        assert typing.get_type_hints(SwCalprmAxis.setSwAxisIndex)["value"] == typing.Optional[AxisIndexType]
+        assert typing.get_type_hints(SwCalprmAxis.setSwCalibrationAccess)["value"] == typing.Optional[SwCalibrationAccessEnum]
+        assert typing.get_type_hints(SwCalprmAxis.setCategory)["value"] == typing.Optional[CalprmAxisCategoryEnum]
+        assert typing.get_type_hints(SwCalprmAxis.getSwCalprmAxisTypeProps)["return"] == typing.Optional[SwCalprmAxisTypeProps]
+
+    def test_sw_calprm_axis_accessor_docstrings_verbatim(self):
+        """Getter docstrings carry the Table 5.47 Notes verbatim; setters append the None-no-op sentence."""
+        for attr, note in self.SPEC_NOTES.items():
+            getter = "get" + attr[0].upper() + attr[1:]
+            setter = "set" + attr[0].upper() + attr[1:]
+            assert cleandoc(getattr(SwCalprmAxis, getter).__doc__) == note
+            assert cleandoc(getattr(SwCalprmAxis, setter).__doc__) == (note + " A None value is a no-op and does not overwrite an existing %s." % attr)
+
     def test_sw_calprm_axis_initialization(self):
         """Test that a SwCalprmAxis object can be initialized with default values."""
         sw_calprm_axis = SwCalprmAxis()
@@ -121,7 +324,7 @@ class TestSwCalprmAxis:
         category.setValue(CalprmAxisCategoryEnum.STD_AXIS)
         assert axis.setCategory(category) is axis
         assert axis.getCategory() is category
-        assert axis.getCategory().getValue() == "STD_AXIS"
+        assert axis.getCategory().getValue() == "stdAxis"
 
     def test_sw_calprm_axis_display_format(self):
         """Test getDisplayFormat/setDisplayFormat (spec Table 5.47, displayFormat: DisplayFormatString 0..1 attr)."""

@@ -54,7 +54,7 @@ def _event_with_members(with_members=True):
 
 class TestWriteRTEEvent:
     """
-    Test setRTEEvent → DISABLED-MODE-IREFS + START-ON-EVENT-REF (Table 7.9).
+    Test writeRTEEvent → DISABLED-MODE-IREFS + START-ON-EVENT-REF (Table 7.9).
     """
 
     def test_write_field_values(self):
@@ -62,7 +62,7 @@ class TestWriteRTEEvent:
 
         writer = ARXMLWriter()
         element = ET.Element("DATA-SEND-COMPLETED-EVENT")
-        writer.setRTEEvent(element, event)
+        writer.writeRTEEvent(element, event)
 
         wrapper = element.find("DISABLED-MODE-IREFS")
         assert wrapper is not None
@@ -98,7 +98,7 @@ class TestWriteRTEEvent:
 
         writer = ARXMLWriter()
         element = ET.Element("DATA-SEND-COMPLETED-EVENT")
-        writer.setRTEEvent(element, event)
+        writer.writeRTEEvent(element, event)
 
         assert element.find("DISABLED-MODE-IREFS") is None
         assert element.find("START-ON-EVENT-REF") is None

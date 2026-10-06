@@ -13,62 +13,61 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class PhysicalDimension(ARElement):
     """
-    This class represents a physical dimension. If the physical dimension of two units is identical, then a conversion between them is possible. The conversion between units is related to the definition of the physical dimension. Note that the equivalence of the exponents does not per se define the convertibility. For example Energy and Torque share the same exponents (Nm). Please note further the value of an exponent does not necessarily have to be an integer number. It is also possible that the value yields a rational number, e.g. to compute the square root of a given physical quantity. In this case the exponent value would be a rational number where the numerator value is 1 and the denominator value is 2.
+    This class represents a physical dimension. If the physical dimension of two units is identical, then a conversion between them is possible. The conversion between units is related to the definition of the physical dimension. Note that the equivalence of the exponents does not per se define the convertibility. For example Energy and Torque share the same exponents (Nm). Please note further the value of an exponent does not necessarily have to be an integer number. It is also possible that the value yields a rational number, e.g. to compute the square root of a given physical quantity. In this case the exponent value would be a rational number where the numerator value is 1 and the denominator value is 2. Tags: atp.recommendedPackage=PhysicalDimensions
     """
 
     # PhysicalDimension method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.76, p.398
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCurrentExp             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCurrentExp             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLengthExp              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLengthExp              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLuminousIntensityExp   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLuminousIntensityExp   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMassExp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMassExp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMolarAmountExp         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMolarAmountExp         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTemperatureExp         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTemperatureExp         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeExp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeExp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCurrentExp             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCurrentExp             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLengthExp              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLengthExp              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLuminousIntensityExp   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLuminousIntensityExp   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMassExp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMassExp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMolarAmountExp         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMolarAmountExp         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTemperatureExp         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTemperatureExp         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeExp                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeExp                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This attribute represents the exponent of the physical dimension "electric current".
+        # This attribute represents the exponent of the physical dimension "electric current". Tags: xml.sequenceOffset=50
         self.currentExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "length".
+        # The exponent of the physical dimension "length". Tags: xml.sequenceOffset=20
         self.lengthExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "luminous intensity".
+        # The exponent of the physical dimension "luminous intensity". Tags: xml.sequenceOffset=80
         self.luminousIntensityExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "mass".
+        # The exponent of the physical dimension "mass". Tags: xml.sequenceOffset=30
         self.massExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "quantity of substance".
+        # The exponent of the physical dimension "quantity of substance". Tags: xml.sequenceOffset=70
         self.molarAmountExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "temperature".
+        # The exponent of the physical dimension "temperature". Tags: xml.sequenceOffset=60
         self.temperatureExp: Optional[Numerical] = None
 
-        # The exponent of the physical dimension "time".
+        # The exponent of the physical dimension "time". Tags: xml.sequenceOffset=40
         self.timeExp: Optional[Numerical] = None
 
     def getCurrentExp(self) -> Optional[Numerical]:
         """
-        This attribute represents the exponent of the physical dimension "electric current".
+        This attribute represents the exponent of the physical dimension "electric current". Tags: xml.sequenceOffset=50
         """
         return self.currentExp
 
     def setCurrentExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        This attribute represents the exponent of the physical dimension "electric current". A None value is a no-op and does not overwrite an existing currentExp.
+        This attribute represents the exponent of the physical dimension "electric current". Tags: xml.sequenceOffset=50 A None value is a no-op and does not overwrite an existing currentExp.
         """
         if value is not None:
             self.currentExp = value
@@ -76,13 +75,13 @@ class PhysicalDimension(ARElement):
 
     def getLengthExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "length".
+        The exponent of the physical dimension "length". Tags: xml.sequenceOffset=20
         """
         return self.lengthExp
 
     def setLengthExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "length". A None value is a no-op and does not overwrite an existing lengthExp.
+        The exponent of the physical dimension "length". Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing lengthExp.
         """
         if value is not None:
             self.lengthExp = value
@@ -90,13 +89,13 @@ class PhysicalDimension(ARElement):
 
     def getLuminousIntensityExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "luminous intensity".
+        The exponent of the physical dimension "luminous intensity". Tags: xml.sequenceOffset=80
         """
         return self.luminousIntensityExp
 
     def setLuminousIntensityExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "luminous intensity". A None value is a no-op and does not overwrite an existing luminousIntensityExp.
+        The exponent of the physical dimension "luminous intensity". Tags: xml.sequenceOffset=80 A None value is a no-op and does not overwrite an existing luminousIntensityExp.
         """
         if value is not None:
             self.luminousIntensityExp = value
@@ -104,13 +103,13 @@ class PhysicalDimension(ARElement):
 
     def getMassExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "mass".
+        The exponent of the physical dimension "mass". Tags: xml.sequenceOffset=30
         """
         return self.massExp
 
     def setMassExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "mass". A None value is a no-op and does not overwrite an existing massExp.
+        The exponent of the physical dimension "mass". Tags: xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing massExp.
         """
         if value is not None:
             self.massExp = value
@@ -118,13 +117,13 @@ class PhysicalDimension(ARElement):
 
     def getMolarAmountExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "quantity of substance".
+        The exponent of the physical dimension "quantity of substance". Tags: xml.sequenceOffset=70
         """
         return self.molarAmountExp
 
     def setMolarAmountExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "quantity of substance". A None value is a no-op and does not overwrite an existing molarAmountExp.
+        The exponent of the physical dimension "quantity of substance". Tags: xml.sequenceOffset=70 A None value is a no-op and does not overwrite an existing molarAmountExp.
         """
         if value is not None:
             self.molarAmountExp = value
@@ -132,13 +131,13 @@ class PhysicalDimension(ARElement):
 
     def getTemperatureExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "temperature".
+        The exponent of the physical dimension "temperature". Tags: xml.sequenceOffset=60
         """
         return self.temperatureExp
 
     def setTemperatureExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "temperature". A None value is a no-op and does not overwrite an existing temperatureExp.
+        The exponent of the physical dimension "temperature". Tags: xml.sequenceOffset=60 A None value is a no-op and does not overwrite an existing temperatureExp.
         """
         if value is not None:
             self.temperatureExp = value
@@ -146,13 +145,13 @@ class PhysicalDimension(ARElement):
 
     def getTimeExp(self) -> Optional[Numerical]:
         """
-        The exponent of the physical dimension "time".
+        The exponent of the physical dimension "time". Tags: xml.sequenceOffset=40
         """
         return self.timeExp
 
     def setTimeExp(self, value: Optional[Numerical]) -> "PhysicalDimension":
         """
-        The exponent of the physical dimension "time". A None value is a no-op and does not overwrite an existing timeExp.
+        The exponent of the physical dimension "time". Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing timeExp.
         """
         if value is not None:
             self.timeExp = value
@@ -182,47 +181,46 @@ class SingleLanguageUnitNames(MixedContentForUnitNames):
 
 class Unit(ARElement):
     """
-    This is a physical measurement unit. All units that might be defined should stem from SI units. In order to convert one unit into another factor and offset are defined. For the calculation from SI-unit to the defined unit the factor (factorSiToUnit ) and the offset (offsetSiTo Unit ) are applied as follows: x [{unit}] := y * [{siUnit}] * factorSiToUnit [[unit]/{siUnit}] + offsetSiToUnit [{unit}] For the calculation from a unit to SI-unit the reciprocal of the factor (factorSiToUnit ) and the negation of the offset (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit [{unit}]) / (factorSiToUnit [[unit]/{siUnit}]
+    This is a physical measurement unit. All units that might be defined should stem from SI units. In order to convert one unit into another factor and offset are defined. For the calculation from SI-unit to the defined unit the factor (factorSiToUnit ) and the offset (offsetSiTo Unit ) are applied as follows: x [{unit}] := y * [{siUnit}] * factorSiToUnit [[unit]/{siUnit}] + offsetSiToUnit [{unit}] For the calculation from a unit to SI-unit the reciprocal of the factor (factorSiToUnit ) and the negation of the offset (offsetSiToUnit ) are applied. y {siUnit} := (x*{unit} - offsetSiToUnit [{unit}]) / (factorSiToUnit [[unit]/{siUnit}] Tags: atp.recommendedPackage=Units
     """
 
     # Unit method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.79, p.400
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDisplayName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDisplayName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFactorSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFactorSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDisplayName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisplayName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFactorSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFactorSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetSiToUnit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file.
+        # This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20
         self.displayName: Optional[SingleLanguageUnitNames] = None
 
-        # This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
+        # This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30
         self.factorSiToUnit: Optional[Float] = None
 
-        # This is the offset for the conversion from and to siUnits.
+        # This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40
         self.offsetSiToUnit: Optional[Float] = None
 
-        # This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted.
+        # This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50
         self.physicalDimensionRef: Optional[RefType] = None
 
     def getDisplayName(self) -> Optional[SingleLanguageUnitNames]:
         """
-        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file.
+        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20
         """
         return self.displayName
 
     def setDisplayName(self, value: Optional[SingleLanguageUnitNames]) -> "Unit":
         """
-        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. A None value is a no-op and does not overwrite an existing displayName.
+        This specifies how the unit shall be displayed in documents or in user interfaces of tools.The displayName corresponds to the Unit.Display in an ASAM MCD-2MC file. Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing displayName.
         """
         if value is not None:
             self.displayName = value
@@ -230,13 +228,13 @@ class Unit(ARElement):
 
     def getFactorSiToUnit(self) -> Optional[Float]:
         """
-        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
+        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30
         """
         return self.factorSiToUnit
 
     def setFactorSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
-        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. A None value is a no-op and does not overwrite an existing factorSiToUnit.
+        This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. Tags: xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing factorSiToUnit.
         """
         if value is not None:
             self.factorSiToUnit = value
@@ -244,13 +242,13 @@ class Unit(ARElement):
 
     def getOffsetSiToUnit(self) -> Optional[Float]:
         """
-        This is the offset for the conversion from and to siUnits.
+        This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40
         """
         return self.offsetSiToUnit
 
     def setOffsetSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
-        This is the offset for the conversion from and to siUnits. A None value is a no-op and does not overwrite an existing offsetSiToUnit.
+        This is the offset for the conversion from and to siUnits. Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing offsetSiToUnit.
         """
         if value is not None:
             self.offsetSiToUnit = value
@@ -258,13 +256,13 @@ class Unit(ARElement):
 
     def getPhysicalDimensionRef(self) -> Optional[RefType]:
         """
-        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted.
+        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50
         """
         return self.physicalDimensionRef
 
     def setPhysicalDimensionRef(self, value: Optional[RefType]) -> "Unit":
         """
-        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. A None value is a no-op and does not overwrite an existing physicalDimensionRef.
+        This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted. Tags: xml.sequenceOffset=50 A None value is a no-op and does not overwrite an existing physicalDimensionRef.
         """
         if value is not None:
             self.physicalDimensionRef = value

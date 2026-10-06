@@ -120,6 +120,31 @@ class TestReceptionPropsRoundTrip:
         assert reloaded_props.getTimeout() is not None
         assert reloaded_props.getTimeout().getValue() == 2.5
 
+    def test_round_trip_timestamp_attribute(self, writer):
+        """Test that the T attribute on a TIME-VALUE element survives a write/read cycle (readARType base level, Rule 0025)."""
+        com_spec = NonqueuedReceiverComSpec()
+        props = ReceptionComSpecProps()
+        timeout = _time_value(2.5)
+        timeout.timestamp = "5"
+        props.setTimeout(timeout)
+        com_spec.setReceptionProps(props)
+
+        parent = ET.Element("PARENT")
+        writer.writeNonqueuedReceiverComSpec(parent, com_spec)
+        com_spec_element = parent.find("NONQUEUED-RECEIVER-COM-SPEC")
+
+        timeout_element = com_spec_element.find("RECEPTION-PROPS").find("TIMEOUT")
+        assert timeout_element.attrib.get("T") == "5"
+
+        xml_text = ET.tostring(com_spec_element, encoding="unicode")
+        reloaded_element = ET.fromstring(xml_text.replace("NONQUEUED-RECEIVER-COM-SPEC", "NONQUEUED-RECEIVER-COM-SPEC xmlns='http://autosar.org/schema/r4.0'", 1))
+        reloaded = ARXMLParser().getNonqueuedReceiverComSpec(reloaded_element)
+        reloaded_props = reloaded.getReceptionProps()
+        assert reloaded_props is not None
+        assert reloaded_props.getTimeout() is not None
+        assert reloaded_props.getTimeout().getValue() == 2.5
+        assert reloaded_props.getTimeout().timestamp == "5"
+
     def test_round_trip_absent_props(self, writer):
         """Test that an unset receptionProps emits no RECEPTION-PROPS and reloads as None."""
         com_spec = NonqueuedReceiverComSpec()

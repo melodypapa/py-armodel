@@ -165,7 +165,7 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements",
         "ArParameterInImplementationDataInstanceRef",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
@@ -3242,13 +3242,13 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.MSR.CalibrationData.CalibrationValue",
         "SwAxisCont",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.MSR.DataDictionary.Axis",
         "SwAxisType",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",

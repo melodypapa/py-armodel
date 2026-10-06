@@ -117,3 +117,51 @@ def test_sw_values_round_trip_with_vg(writer):
     assert reloaded.getVg() is not None
     assert reloaded.getVg().getVgContents() is not None
     assert [float(v.getValue()) for v in reloaded.getVg().getVgContents().getVs()] == [9.5]
+
+
+class TestSwValuesSchemaValidatedRoundTrip:
+    def test_full_shape_round_trip_through_save(self):
+        """All five members populated; save() validates against the bundled XSD."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ApplicationValueSpecification
+        from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont
+
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        constant = pkg.createConstantSpecification("Const")
+
+        sw_values = _build_sw_values()
+        vg = ValueGroup()
+        vg.setVgContents(SwValues().addV(Numerical().setValue("9.5")))
+        sw_values.setVg(vg)
+        cont = SwValueCont()
+        cont.setSwValuesPhys(sw_values)
+        spec = ApplicationValueSpecification()
+        spec.setSwValueCont(cont)
+        constant.setValueSpec(spec)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            reloaded = AUTOSAR.getInstance()
+            reloaded.clear()
+            ARXMLParser().load(file_path, reloaded)
+            constant2 = reloaded.getARPackages()[0].getConstantSpecifications()[0]
+            values = constant2.getValueSpec().getSwValueCont().getSwValuesPhys()
+            assert [float(v.getValue()) for v in values.getVs()] == [1.5, 2.5]
+            assert [float(vf.getValue()) for vf in values.getVfs()] == [0.25]
+            assert values.getVt() is not None
+            assert values.getVt().getValue() == "a|b"
+            assert values.getVg() is not None
+            assert [float(v.getValue()) for v in values.getVg().getVgContents().getVs()] == [9.5]
+            assert len(values.getVtfs()) == 1
+            assert float(values.getVtfs()[0].getVf().getValue()) == 7
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

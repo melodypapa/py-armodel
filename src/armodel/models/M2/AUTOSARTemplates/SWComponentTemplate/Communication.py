@@ -193,10 +193,9 @@ class TransmissionModeDefinitionEnum(AREnum):
 
     # TransmissionModeDefinitionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.73, p.181
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on TransmissionComSpecProps.transmissionMode
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod. Tags: atp.EnumerationLiteralIndex=0
     CYCLIC = "cyclic"
@@ -223,16 +222,15 @@ class TransmissionComSpecProps(ARObject):
     """
 
     # TransmissionComSpecProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.179
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.180
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -254,8 +252,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
-        This attribute defines the period in which the application is assumed to transmit the respective data.
-        A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
+        This attribute defines the period in which the application is assumed to transmit the respective data. A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
         """
         if value is not None:
             self.dataUpdatePeriod = value
@@ -269,8 +266,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setMinimumSendInterval(self, value: Optional[TimeValue]) -> TransmissionComSpecProps:
         """
-        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
-        A None value is a no-op and does not overwrite an existing minimumSendInterval.
+        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure. A None value is a no-op and does not overwrite an existing minimumSendInterval.
         """
         if value is not None:
             self.minimumSendInterval = value
@@ -284,8 +280,7 @@ class TransmissionComSpecProps(ARObject):
 
     def setTransmissionMode(self, value: Optional[TransmissionModeDefinitionEnum]) -> TransmissionComSpecProps:
         """
-        The attribute defines the mode in which the application is assumed to transmit the respective data.
-        A None value is a no-op and does not overwrite an existing transmissionMode.
+        The attribute defines the mode in which the application is assumed to transmit the respective data. A None value is a no-op and does not overwrite an existing transmissionMode.
         """
         if value is not None:
             self.transmissionMode = value
@@ -295,15 +290,16 @@ class TransmissionComSpecProps(ARObject):
 class TransmissionAcknowledgementRequest(ARObject):
     """
     Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity.
+
+    [constr_1892] Existence of attribute TransmissionAcknowledgementRequest . timeout: For each TransmissionAcknowledgementRequest, attribute timeout shall exist at the time when the contract phase generation is executed. ()
     """
 
     # TransmissionAcknowledgementRequest method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.71, p.180
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -319,8 +315,7 @@ class TransmissionAcknowledgementRequest(ARObject):
 
     def setTimeout(self, value: Optional[TimeValue]) -> TransmissionAcknowledgementRequest:
         """
-        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
-        A None value is a no-op and does not overwrite an existing timeout.
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again. A None value is a no-op and does not overwrite an existing timeout.
         """
         if value is not None:
             self.timeout = value
@@ -333,24 +328,23 @@ class SenderComSpec(PPortComSpec, ABC):
     """
 
     # SenderComSpec method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.178
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.179
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is SenderComSpec:
@@ -381,8 +375,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def addCompositeNetworkRepresentation(self, representation: Optional[CompositeNetworkRepresentation]) -> SenderComSpec:
         """
-        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
-        A None value is a no-op and does not append anything.
+        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation A None value is a no-op and does not append anything.
         """
         if representation is not None:
             self.compositeNetworkRepresentations.append(representation)
@@ -402,8 +395,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setDataElementRef(self, value: Optional[RefType]) -> SenderComSpec:
         """
-        Data element these quality of service attributes apply to.
-        A None value is a no-op and does not overwrite an existing dataElementRef.
+        Data element these quality of service attributes apply to. A None value is a no-op and does not overwrite an existing dataElementRef.
         """
         if value is not None:
             self.dataElementRef = value
@@ -417,8 +409,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> SenderComSpec:
         """
-        This attribute controls how out-of-range values shall be dealt with.
-        A None value is a no-op and does not overwrite an existing handleOutOfRange.
+        This attribute controls how out-of-range values shall be dealt with. A None value is a no-op and does not overwrite an existing handleOutOfRange.
         """
         if value is not None:
             self.handleOutOfRange = value
@@ -432,8 +423,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> SenderComSpec:
         """
-        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
-        A None value is a no-op and does not overwrite an existing networkRepresentation.
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation A None value is a no-op and does not overwrite an existing networkRepresentation.
         """
         if value is not None:
             self.networkRepresentation = value
@@ -447,8 +437,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setTransmissionAcknowledge(self, value: Optional[TransmissionAcknowledgementRequest]) -> SenderComSpec:
         """
-        Requested transmission acknowledgement for data element.
-        A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
+        Requested transmission acknowledgement for data element. A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
         """
         if value is not None:
             self.transmissionAcknowledge = value
@@ -462,8 +451,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setTransmissionProps(self, value: Optional[TransmissionComSpecProps]) -> SenderComSpec:
         """
-        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
-        A None value is a no-op and does not overwrite an existing transmissionProps.
+        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec. A None value is a no-op and does not overwrite an existing transmissionProps.
         """
         if value is not None:
             self.transmissionProps = value
@@ -477,8 +465,7 @@ class SenderComSpec(PPortComSpec, ABC):
 
     def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> SenderComSpec:
         """
-        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
-        A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
         """
         if value is not None:
             self.usesEndToEndProtection = value
@@ -507,13 +494,12 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     # NonqueuedSenderComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.69, p.179
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -532,8 +518,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     def setDataFilter(self, value: Optional[DataFilter]) -> NonqueuedSenderComSpec:
         """
-        The applicable filter algorithm for filtering the value of the corresponding dataElement.
-        A None value is a no-op and does not overwrite an existing dataFilter.
+        The applicable filter algorithm for filtering the value of the corresponding dataElement. A None value is a no-op and does not overwrite an existing dataFilter.
         """
         if value is not None:
             self.dataFilter = value
@@ -547,8 +532,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> NonqueuedSenderComSpec:
         """
-        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
-        A None value is a no-op and does not overwrite an existing initValue.
+        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already. A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value
@@ -562,15 +546,14 @@ class ClientComSpec(RPortComSpec):
 
     # ClientComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.77, p.187
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEndToEndCallResponseTimeout [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEndToEndCallResponseTimeout [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -592,8 +575,7 @@ class ClientComSpec(RPortComSpec):
 
     def setEndToEndCallResponseTimeout(self, value: Optional[TimeValue]) -> ClientComSpec:
         """
-        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
-        A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
+        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response). A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
         """
         if value is not None:
             self.endToEndCallResponseTimeout = value
@@ -607,8 +589,7 @@ class ClientComSpec(RPortComSpec):
 
     def setOperationRef(self, value: Optional[RefType]) -> ClientComSpec:
         """
-        This represents the corresponding ClientServerOperation.
-        A None value is a no-op and does not overwrite an existing operationRef.
+        This represents the corresponding ClientServerOperation. A None value is a no-op and does not overwrite an existing operationRef.
         """
         if value is not None:
             self.operationRef = value
@@ -616,8 +597,7 @@ class ClientComSpec(RPortComSpec):
 
     def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ClientComSpec:
         """
-        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
-        A None value is a no-op and does not append anything.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation. A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.transformationComSpecProps.append(value)
@@ -1184,13 +1164,12 @@ class ParameterProvideComSpec(PPortComSpec):
 
     # ParameterProvideComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.82, p.192
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1209,8 +1188,7 @@ class ParameterProvideComSpec(PPortComSpec):
 
     def setInitValue(self, value: Optional[ValueSpecification]) -> ParameterProvideComSpec:
         """
-        The initial value applicable for the corresponding ParameterDataPrototype.
-        A None value is a no-op and does not overwrite an existing initValue.
+        The initial value applicable for the corresponding ParameterDataPrototype. A None value is a no-op and does not overwrite an existing initValue.
         """
         if value is not None:
             self.initValue = value
@@ -1224,8 +1202,7 @@ class ParameterProvideComSpec(PPortComSpec):
 
     def setParameterRef(self, value: Optional[RefType]) -> ParameterProvideComSpec:
         """
-        The ParameterDataPrototype to which the Parameter ComSpec applies.
-        A None value is a no-op and does not overwrite an existing parameterRef.
+        The ParameterDataPrototype to which the Parameter ComSpec applies. A None value is a no-op and does not overwrite an existing parameterRef.
         """
         if value is not None:
             self.parameterRef = value
@@ -1239,9 +1216,8 @@ class TransformationComSpecProps(Describable, ABC):
 
     # TransformationComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.86, p.197
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is TransformationComSpecProps:
@@ -1272,15 +1248,14 @@ class ServerComSpec(PPortComSpec):
 
     # ServerComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.78, p.188
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getQueueLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setQueueLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1302,8 +1277,7 @@ class ServerComSpec(PPortComSpec):
 
     def setOperationRef(self, value: Optional[RefType]) -> ServerComSpec:
         """
-        Operation these communication attributes apply to.
-        A None value is a no-op and does not overwrite an existing operationRef.
+        Operation these communication attributes apply to. A None value is a no-op and does not overwrite an existing operationRef.
         """
         if value is not None:
             self.operationRef = value
@@ -1317,8 +1291,7 @@ class ServerComSpec(PPortComSpec):
 
     def setQueueLength(self, value: Optional[PositiveInteger]) -> ServerComSpec:
         """
-        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
-        A None value is a no-op and does not overwrite an existing queueLength.
+        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed. A None value is a no-op and does not overwrite an existing queueLength.
         """
         if value is not None:
             self.queueLength = value
@@ -1326,8 +1299,7 @@ class ServerComSpec(PPortComSpec):
 
     def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> ServerComSpec:
         """
-        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
-        A None value is a no-op and does not append anything.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation. A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.transformationComSpecProps.append(value)
@@ -1419,25 +1391,24 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
 
     # NonqueuedReceiverComSpec method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.62, p.173
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAliveTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAliveTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEnableUpdate              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEnableUpdate              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFilter                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFilter                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleDataStatus          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleDataStatus          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleNeverReceived       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleNeverReceived       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHandleTimeoutType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHandleTimeoutType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAliveTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAliveTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEnableUpdate              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableUpdate              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilter                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilter                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleDataStatus          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleDataStatus          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleNeverReceived       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleNeverReceived       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleTimeoutType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleTimeoutType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitValue                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutSubstitutionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1620,8 +1591,9 @@ class HandleOutOfRangeEnum(AREnum):
 
     # HandleOutOfRangeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.72, p.180
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ISignalProps.handleOutOfRange, ReceiverComSpec.handleOutOfRange, SenderComSpec.handleOutOfRange
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The RTE will use the initValue if the actual value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=0
     DEFAULT = "default"
@@ -1687,10 +1659,9 @@ class HandleTimeoutEnum(AREnum):
 
     # HandleTimeoutEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.65, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on NonqueuedReceiverComSpec.handleTimeoutType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If set to none no replacement shall take place. Tags: atp.EnumerationLiteralIndex=0
     NONE = "none"
