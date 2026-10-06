@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     CalibrationParameterValue,
+    DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsTopicData,
@@ -3152,3 +3153,204 @@ class TestDdsTopicData:
         """
         assert inspect.cleandoc(DdsTopicData.getTopicData.__doc__) == self.TOPIC_DATA_NOTE
         assert inspect.cleandoc(DdsTopicData.setTopicData.__doc__) == (self.TOPIC_DATA_NOTE + "\n\nA None value is a no-op and does not overwrite an existing topicData.")
+
+
+class TestDdsCpProvidedServiceInstance:
+    """
+    Test class for DdsCpProvidedServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.153, p.473
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to describe the existence and configuration of a provided service instance in a concrete implementation on top of DDS."
+    LOCAL_UNICAST_ADDRESS_NOTE = (
+        "The local address over which the Service is provided. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES"
+    )
+    MINOR_VERSION_NOTE = "Minor Version of the Service that is provided by this Dds CpProvidedServiceInstance."
+    PROVIDED_DDS_OPERATION_NOTE = (
+        "Collection of provided operations. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=providedDdsOperation, providedDds Operation.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime"
+    )
+    PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE = (
+        "Collection of provided events. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=providedDdsServiceInstanceEvent, provided DdsServiceInstanceEvent.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime"
+    )
+    STATIC_REMOTE_MULTICAST_ADDRESS_NOTE = (
+        "This reference defines the remote multicast address of Service consumers. This reference shall ONLY be used "
+        "if the remote multicast address of the clients is determined from the configuration and not at runtime. "
+        "Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation "
+        "Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime "
+        "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES"
+    )
+    STATIC_REMOTE_UNICAST_ADDRESS_NOTE = (
+        "This reference defines the remote unicast addresses of Service consumers. This reference shall ONLY be used "
+        "if the remote unicast address of the clients is determined from the configuration and not at runtime. "
+        "Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteMulticastAddress.variation "
+        "Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime "
+        "xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES"
+    )
+
+    def _create_instance(self) -> DdsCpProvidedServiceInstance:
+        return DdsCpProvidedServiceInstance()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpProvidedServiceInstance initializes all attributes to their defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getLocalUnicastAddressRef() is None
+        assert obj.getMinorVersion() is None
+        assert obj.getProvidedDdsOperations() == []
+        assert obj.getProvidedDdsServiceInstanceEvents() == []
+        assert obj.getStaticRemoteMulticastAddressRef() is None
+        assert obj.getStaticRemoteUnicastAddressRefs() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpProvidedServiceInstance derives from ARObject (the Base row's AbstractServiceInstance/DdsCpServiceInstance branch is unsynced — queued Table 6.152/6.158).
+        """
+        assert issubclass(DdsCpProvidedServiceInstance, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpProvidedServiceInstance.__init__.__doc__ is None
+
+    def test_get_set_local_unicast_address_ref(self):
+        """
+        Test getLocalUnicastAddressRef and setLocalUnicastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/LocalEp")
+        result = obj.setLocalUnicastAddressRef(value)
+        assert result is obj  # method chaining
+        assert obj.getLocalUnicastAddressRef() is value
+        assert obj.getLocalUnicastAddressRef().getValue() == "/Cluster/Ethernet/Endpoints/LocalEp"
+        assert obj.getLocalUnicastAddressRef().getDest() == "APPLICATION-ENDPOINT"
+
+        result = obj.setLocalUnicastAddressRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLocalUnicastAddressRef() is value  # None is a no-op
+
+    def test_get_set_minor_version(self):
+        """
+        Test getMinorVersion and setMinorVersion round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setMinorVersion(value)
+        assert result is obj  # method chaining
+        assert obj.getMinorVersion() is value
+        assert obj.getMinorVersion().getValue() == 4
+
+        result = obj.setMinorVersion(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMinorVersion() is value  # None is a no-op
+
+    def test_add_get_provided_dds_operations(self):
+        """
+        Test addProvidedDdsOperation and getProvidedDdsOperations appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getProvidedDdsOperations() == []
+
+        operation = DdsCpServiceInstanceOperation()
+        result = obj.addProvidedDdsOperation(operation)
+        assert result is obj  # method chaining
+        assert obj.getProvidedDdsOperations() == [operation]
+
+        assert obj.addProvidedDdsOperation(None) is obj  # None is a no-op
+        assert obj.getProvidedDdsOperations() == [operation]
+
+    def test_add_get_provided_dds_service_instance_events(self):
+        """
+        Test addProvidedDdsServiceInstanceEvent and getProvidedDdsServiceInstanceEvents appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getProvidedDdsServiceInstanceEvents() == []
+
+        event = DdsCpServiceInstanceEvent()
+        result = obj.addProvidedDdsServiceInstanceEvent(event)
+        assert result is obj  # method chaining
+        assert obj.getProvidedDdsServiceInstanceEvents() == [event]
+
+        assert obj.addProvidedDdsServiceInstanceEvent(None) is obj  # None is a no-op
+        assert obj.getProvidedDdsServiceInstanceEvents() == [event]
+
+    def test_get_set_static_remote_multicast_address_ref(self):
+        """
+        Test getStaticRemoteMulticastAddressRef and setStaticRemoteMulticastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/MulticastEp")
+        result = obj.setStaticRemoteMulticastAddressRef(value)
+        assert result is obj  # method chaining
+        assert obj.getStaticRemoteMulticastAddressRef() is value
+        assert obj.getStaticRemoteMulticastAddressRef().getValue() == "/Cluster/Ethernet/Endpoints/MulticastEp"
+        assert obj.getStaticRemoteMulticastAddressRef().getDest() == "APPLICATION-ENDPOINT"
+
+        result = obj.setStaticRemoteMulticastAddressRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStaticRemoteMulticastAddressRef() is value  # None is a no-op
+
+    def test_add_get_static_remote_unicast_address_refs(self):
+        """
+        Test addStaticRemoteUnicastAddressRef and getStaticRemoteUnicastAddressRefs appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getStaticRemoteUnicastAddressRefs() == []
+
+        ref = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/UnicastEp1")
+        result = obj.addStaticRemoteUnicastAddressRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getStaticRemoteUnicastAddressRefs() == [ref]
+
+        assert obj.addStaticRemoteUnicastAddressRef(None) is obj  # None is a no-op
+        assert obj.getStaticRemoteUnicastAddressRefs() == [ref]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getLocalUnicastAddressRef.__doc__) == self.LOCAL_UNICAST_ADDRESS_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setLocalUnicastAddressRef.__doc__) == (
+            self.LOCAL_UNICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing localUnicastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getMinorVersion.__doc__) == self.MINOR_VERSION_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setMinorVersion.__doc__) == (self.MINOR_VERSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing minorVersion.")
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addProvidedDdsOperation.__doc__) == (
+            self.PROVIDED_DDS_OPERATION_NOTE + "\n\nA None value is a no-op and does not extend the providedDdsOperations list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getProvidedDdsOperations.__doc__) == self.PROVIDED_DDS_OPERATION_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addProvidedDdsServiceInstanceEvent.__doc__) == (
+            self.PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE + "\n\nA None value is a no-op and does not extend the providedDdsServiceInstanceEvents list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getProvidedDdsServiceInstanceEvents.__doc__) == self.PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getStaticRemoteMulticastAddressRef.__doc__) == self.STATIC_REMOTE_MULTICAST_ADDRESS_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setStaticRemoteMulticastAddressRef.__doc__) == (
+            self.STATIC_REMOTE_MULTICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addStaticRemoteUnicastAddressRef.__doc__) == (
+            self.STATIC_REMOTE_UNICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not extend the staticRemoteUnicastAddressRefs list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getStaticRemoteUnicastAddressRefs.__doc__) == self.STATIC_REMOTE_UNICAST_ADDRESS_NOTE

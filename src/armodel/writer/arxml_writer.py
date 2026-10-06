@@ -556,6 +556,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsTopicData,
@@ -15668,6 +15669,37 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
+        child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")
+        self.writeARObject(child_element, instance)
+        local_unicast_address_ref = instance.getLocalUnicastAddressRef()
+        if local_unicast_address_ref is not None:
+            local_unicast_addresses_tag = ET.SubElement(child_element, "LOCAL-UNICAST-ADDRESSES")
+            conditional_tag = ET.SubElement(local_unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", local_unicast_address_ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", cast(Integer, instance.getMinorVersion()))
+        operations = instance.getProvidedDdsOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "PROVIDED-DDS-OPERATIONS")
+            for operation in operations:
+                self.writeDdsCpServiceInstanceOperation(operations_tag, operation)
+        events = instance.getProvidedDdsServiceInstanceEvents()
+        if len(events) > 0:
+            events_tag = ET.SubElement(child_element, "PROVIDED-DDS-SERVICE-INSTANCE-EVENTS")
+            for event in events:
+                self.writeDdsCpServiceInstanceEvent(events_tag, event)
+        static_remote_multicast_address_ref = instance.getStaticRemoteMulticastAddressRef()
+        if static_remote_multicast_address_ref is not None:
+            multicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+            multicast_conditional_tag = ET.SubElement(multicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(multicast_conditional_tag, "APPLICATION-ENDPOINT-REF", static_remote_multicast_address_ref)
+        unicast_address_refs = instance.getStaticRemoteUnicastAddressRefs()
+        if len(unicast_address_refs) > 0:
+            unicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-UNICAST-ADDRESSES")
+            for ref in unicast_address_refs:
+                conditional_tag = ET.SubElement(unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", ref)
 
     def writeDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
         child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-EVENT")

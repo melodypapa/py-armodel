@@ -578,6 +578,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsTopicData,
@@ -11891,6 +11892,31 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
+        self.logger.debug("Read DdsCpProvidedServiceInstance")
+        self.readARObject(element, instance)
+        local_unicast_addresses_element = self.find(element, "LOCAL-UNICAST-ADDRESSES")
+        if local_unicast_addresses_element is not None:
+            conditional_element = self.find(local_unicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setLocalUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        instance.setMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MINOR-VERSION"))
+        for child_element in self.findall(element, "PROVIDED-DDS-OPERATIONS/DDS-CP-SERVICE-INSTANCE-OPERATION"):
+            operation = DdsCpServiceInstanceOperation()
+            self.readDdsCpServiceInstanceOperation(child_element, operation)
+            instance.addProvidedDdsOperation(operation)
+        for child_element in self.findall(element, "PROVIDED-DDS-SERVICE-INSTANCE-EVENTS/DDS-CP-SERVICE-INSTANCE-EVENT"):
+            event = DdsCpServiceInstanceEvent()
+            self.readDdsCpServiceInstanceEvent(child_element, event)
+            instance.addProvidedDdsServiceInstanceEvent(event)
+        static_remote_multicast_addresses_element = self.find(element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+        if static_remote_multicast_addresses_element is not None:
+            conditional_element = self.find(static_remote_multicast_addresses_element, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            if conditional_element is not None:
+                instance.setStaticRemoteMulticastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
+        for conditional_element in self.findall(element, "STATIC-REMOTE-UNICAST-ADDRESSES/APPLICATION-ENDPOINT-REF-CONDITIONAL"):
+            instance.addStaticRemoteUnicastAddressRef(self.getChildElementOptionalRefType(conditional_element, "APPLICATION-ENDPOINT-REF"))
 
     def readDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
         self.logger.debug("Read DdsCpServiceInstanceEvent")

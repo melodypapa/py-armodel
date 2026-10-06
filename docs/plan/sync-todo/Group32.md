@@ -325,15 +325,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.153, p.473
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the attribute rows render after the caption while the header (Class/Package/Note/Base)
+    renders before it (image/glyph interruption); rows verified line-by-line against XSD group
+    DDS-CP-PROVIDED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.28861). Note-cell rendering artefacts resolved
+    against the XSD appinfo (DdsDestinationOrderKindEnum precedent): the staticRemoteMulticastAddress cell's
+    tail is split mid-token ("xml.name" + "Plural=STATIC-REMOTE-MULTICAST-ADDRESSES" spilling into the next
+    row's cell) — the multicast Note tail is restored to
+    "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES" and the same fragment removed from the front of the
+    staticRemoteUnicastAddress Note (XSD appinfo l.28917/l.28932 confirms both namePlural tags). Member
+    order = displayed row order; writer XML order = sequenceOffset (LOCAL-UNICAST-ADDRESSES, MINOR-VERSION,
+    PROVIDED-DDS-OPERATIONS, PROVIDED-DDS-SERVICE-INSTANCE-EVENTS, STATIC-REMOTE-MULTICAST-ADDRESSES,
+    STATIC-REMOTE-UNICAST-ADDRESSES). Base row names AbstractServiceInstance/DdsCpServiceInstance (both
+    unsynced — queued Table 6.158/6.152): kept ARObject as the most-derived reachable base; ref fields
+    RefType-typed so ApplicationEndpoint (stamped, Table 6.124) needs no import. Child aggregations
+    providedDdsOperation/providedDdsServiceInstanceEvent serialize fully — their classes synced earlier in
+    this batch (bc2e14d58/2feb0a347). Nested helper read/writeDdsCpProvidedServiceInstance added;
+    aggregator hook-in (ServiceInstanceCollectionSet.serviceInstance — queued Table 6.157) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpConsumedServiceInstance` — DdsCpServiceInstance — R23-11 CP_TPS_SystemTemplate Table 6.154, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
