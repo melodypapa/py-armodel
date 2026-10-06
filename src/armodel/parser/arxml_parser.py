@@ -11122,6 +11122,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
     def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
+        self.readARObject(element, connection)
         connection.setFirstPortRef(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
         for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
             connection.addNodePortRef(ref)

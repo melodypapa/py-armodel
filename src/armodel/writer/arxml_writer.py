@@ -12038,6 +12038,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
         child_element = ET.SubElement(element, "COUPLING-PORT-CONNECTION")
+        self.writeARObject(child_element, connection)
         self.setChildElementOptionalRefType(child_element, "FIRST-PORT-REF", connection.getFirstPortRef())
         node_ports = connection.getNodePortRefs()
         if len(node_ports) > 0:

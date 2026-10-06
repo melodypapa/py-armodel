@@ -3504,19 +3504,18 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
 
     # CouplingPortConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.60, p.113
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPlcaLocalNodeCount             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaLocalNodeCount             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaTransmitOpportunityTimer   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaTransmitOpportunityTimer   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -3549,10 +3548,6 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
             self.firstPortRef = value
         return self
 
-    def getNodePortRefs(self) -> List[RefType]:
-        """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        return self.nodePortRefs
-
     def addNodePortRef(self, value: Optional[RefType]) -> CouplingPortConnection:
         """
         Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
@@ -3561,6 +3556,10 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         if value is not None:
             self.nodePortRefs.append(value)
         return self
+
+    def getNodePortRefs(self) -> List[RefType]:
+        """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        return self.nodePortRefs
 
     def getPlcaLocalNodeCount(self) -> Optional[PositiveInteger]:
         """Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used."""
