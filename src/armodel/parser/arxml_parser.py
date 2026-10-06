@@ -14648,6 +14648,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported CouplingPortRatePolicy <%s>" % tag_name)
 
     def readCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
+        self.readARObject(element, policy)
         policy.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
         literal = self.getChildElementOptionalLiteral(element, "POLICY-ACTION")
         if literal is not None:

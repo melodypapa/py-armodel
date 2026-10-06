@@ -147,6 +147,31 @@ class TestCouplingPortRatePolicyRoundTrip:
         assert second.getDataLength() is None
         assert second.getVlanRefs() == []
 
+    def test_round_trip_preserves_checksum_and_timestamp(self, writer, parser):
+        details = CouplingPortDetails()
+        details.addRatePolicy(_full_policy())
+
+        parent = ET.Element("PARENT")
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
+        node = parent.find("COUPLING-PORT-DETAILS/RATE-POLICYS/COUPLING-PORT-RATE-POLICY")
+        assert node is not None
+        node.attrib["S"] = "4321"
+        node.attrib["T"] = "2024-06-01T12:00:00Z"
+
+        root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, ET.tostring(parent).decode("utf-8")))
+        parsed = parser.getCouplingPortDetails(root[0], "COUPLING-PORT-DETAILS")
+
+        first = parsed.getRatePolicies()[0]
+        assert first.getChecksum().getValue() == "4321"
+        assert first.getTimestamp().getValue() == "2024-06-01T12:00:00Z"
+        assert first.getDataLength().getValue() == 1500
+
+        written = ET.Element("PARENT")
+        writer.setCouplingPortDetails(written, "COUPLING-PORT-DETAILS", parsed)
+        written_node = written.find("COUPLING-PORT-DETAILS/RATE-POLICYS/COUPLING-PORT-RATE-POLICY")
+        assert written_node.get("S") == "4321"
+        assert written_node.get("T") == "2024-06-01T12:00:00Z"
+
     def test_reader_empty_fields(self, parser):
         parent = ET.fromstring("<PARENT xmlns='%s'><COUPLING-PORT-DETAILS/></PARENT>" % NS)
         parsed = parser.getCouplingPortDetails(parent, "COUPLING-PORT-DETAILS")

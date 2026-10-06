@@ -12388,6 +12388,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
         child_element = ET.SubElement(element, "COUPLING-PORT-RATE-POLICY")
+        self.writeARObject(child_element, policy)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, policy.getDataLength()))
         self.setChildElementOptionalLiteral(child_element, "POLICY-ACTION", policy.getPolicyAction())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, policy.getPriority()))

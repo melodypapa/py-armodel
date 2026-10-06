@@ -3730,19 +3730,18 @@ class CouplingPortRatePolicy(ARObject):
 
     # CouplingPortRatePolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.69, p.124
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
