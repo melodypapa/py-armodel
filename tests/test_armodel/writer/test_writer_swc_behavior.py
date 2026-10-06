@@ -33,8 +33,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum  # noqa E501
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (  # noqa E501
     RunnableEntityArgument,
+    SwcExclusiveAreaPolicy,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (  # noqa E501
     AutosarParameterRef,  # noqa E501
@@ -516,6 +518,31 @@ class TestWriterInternalBehavior:
         parent = _parent()
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_s_t(self, writer):
+        behavior = _make_behavior()
+        policy = SwcExclusiveAreaPolicy()
+        policy.setChecksum(String().setValue("9001"))
+        policy.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))
+        policy.setExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        wrapper = parent.find("EXCLUSIVE-AREA-POLICYS")
+        assert wrapper is not None
+        policy_element = wrapper.find("SWC-EXCLUSIVE-AREA-POLICY")
+        assert policy_element is not None
+        assert policy_element.attrib["S"] == "9001"
+        assert policy_element.attrib["T"] == "2024-01-01T00:00:00Z"
+        assert policy_element.find("API-PRINCIPLE").text == "PER-EXECUTABLE"
+        assert policy_element.find("EXCLUSIVE-AREA-REF").text == "/ea1"
+
+    def test_writeSwcInternalBehaviorExclusiveAreaPolicies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeSwcInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        assert parent.find("EXCLUSIVE-AREA-POLICYS") is None
 
     def test_writeConstantValueMappingRefs(self, writer):
         behavior = _make_behavior()

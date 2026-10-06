@@ -11,17 +11,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
+- [x] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `95119649a`); audit_class.py initially FAILed on Rule 0025 — the SWC-EXCLUSIVE-AREA-POLICY reader/writer skipped readARObject/writeARObject (XSD complexType line 117026 chains the AR-OBJECT groups), so inherited S/T were silently dropped; both added + S/T round-trip pinned by new parser/writer tests; audit now PASS; queue row flipped citing the existing stamp.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `RteApiReturnValueProvisionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.32, p.562
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py

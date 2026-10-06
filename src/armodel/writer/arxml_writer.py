@@ -7097,6 +7097,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for policy in policies:
                 if isinstance(policy, SwcExclusiveAreaPolicy):
                     policy_element = ET.SubElement(policies_tag, "SWC-EXCLUSIVE-AREA-POLICY")
+                    self.writeARObject(policy_element, policy)
                     self.setChildElementOptionalLiteral(policy_element, "API-PRINCIPLE", policy.getApiPrinciple())
                     self.setChildElementOptionalRefType(policy_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
 

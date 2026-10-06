@@ -4765,6 +4765,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/SWC-EXCLUSIVE-AREA-POLICY"):
             policy = SwcExclusiveAreaPolicy()
+            self.readARObject(child_element, policy)
             policy.setApiPrinciple(cast(Optional[ApiPrincipleEnum], self.getChildElementOptionalLiteral(child_element, "API-PRINCIPLE")))
             policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF"))
             behavior.addExclusiveAreaPolicy(policy)
