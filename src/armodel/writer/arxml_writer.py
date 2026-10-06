@@ -17756,6 +17756,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 
     def writePayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        self.writeARObject(element, payload_rule)
         parts = payload_rule.getPayloadBytePatternRuleParts()
         if len(parts) > 0:
             parts_tag = ET.SubElement(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")

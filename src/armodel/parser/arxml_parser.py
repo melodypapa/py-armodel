@@ -17731,6 +17731,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 
     def readPayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        self.readARObject(element, payload_rule)
         parts = self.find(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
         if parts is not None:
             for child in self.findall(parts, "PAYLOAD-BYTE-PATTERN-RULE-PART"):
