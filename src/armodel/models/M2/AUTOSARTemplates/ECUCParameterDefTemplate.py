@@ -903,6 +903,7 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     # EcucBooleanParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
