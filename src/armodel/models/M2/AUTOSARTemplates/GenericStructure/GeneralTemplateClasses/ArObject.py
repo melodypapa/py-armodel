@@ -2606,10 +2606,6 @@ class SwcToSwcOperationArguments(ARObject):
     pass
 
 
-class SwcToSwcSignal(ARObject):
-    pass
-
-
 class SystemTiming(ARObject):
     pass
 
