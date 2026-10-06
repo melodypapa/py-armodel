@@ -37,13 +37,13 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 HW_CLASS_NOTE = "Describes in which mode the hardware is operating while needing this resource consumption."
-HW_ADDITIONAL_INFORMATION_NOTE = "Specifies additional information on the Hardware Configuration."
+HW_ADDITIONAL_INFORMATION_NOTE = "Specifies additional information on the HardwareConfiguration."
 HW_PROCESSOR_MODE_NOTE = "Specifies in which mode the processor is operating."
 HW_PROCESSOR_SPEED_NOTE = "Specifies the speed the processor is operating."
 
 SW_CLASS_NOTE = "Specifies the context of the software for this resource consumption."
 SW_INPUT_NOTE = "Specifies the input vector which is used to provide the ExecutionTime."
-SW_STATE_NOTE = "Specifies the state the software is in when the Execution Time is provided."
+SW_STATE_NOTE = "Specifies the state the software is in when the ExecutionTime is provided."
 
 
 def _setter_tail(name):

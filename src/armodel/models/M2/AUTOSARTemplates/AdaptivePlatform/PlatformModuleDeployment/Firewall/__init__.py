@@ -1120,16 +1120,115 @@ class TransportLayerRule(ARObject):
 
     # TransportLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class TransportLayerRule, AUTOSAR_00052.xsd line 126190 (XSD-only; no own table in repo corpus)
-    # (abstract class: the TRANSPORT-LAYER-RULE group is an empty sequence with no
-    #  complexType; the FirewallRule.transportLayerRule element carries a choice of
-    #  the concrete subtypes TcpRule/UdpRule, which are not yet implemented —
-    #  the class stays instantiable as the aggregation placeholder per Rule
-    #  0001.10 and gains the abstract guard + five-place dispatch when they sync)
+    # (abstract class: the TRANSPORT-LAYER-RULE group has no own complexType; the
+    #  5 group members below are inherited by the concrete subtypes TcpRule/UdpRule
+    #  per the XSD group composition; the class stays instantiable as the bare
+    #  TRANSPORT-LAYER-RULE aggregation placeholder in read/writeFirewallRule)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getChecksumVerification       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setChecksumVerification       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDestinationPortNumber   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDestinationPortNumber   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSourcePortNumber        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSourcePortNumber        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinDestinationPortNumber   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinDestinationPortNumber   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinSourcePortNumber        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinSourcePortNumber        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # Defines whether checksum verification is performed or not.
+        self.checksumVerification: Optional[Boolean] = None
+
+        # Filter to match packets with the maximum destination UDP/TCP port  number.
+        self.maxDestinationPortNumber: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the maximum source UDP/TCP port  number.
+        self.maxSourcePortNumber: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the minimum destination UDP/TCP port  number.
+        self.minDestinationPortNumber: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the minimum source UDP/TCP port  number.
+        self.minSourcePortNumber: Optional[PositiveInteger] = None
+
+    def getChecksumVerification(self) -> Optional[Boolean]:
+        """
+        Defines whether checksum verification is performed or not.
+        """
+        return self.checksumVerification
+
+    def setChecksumVerification(self, value: Optional[Boolean]) -> "TransportLayerRule":
+        """
+        Defines whether checksum verification is performed or not.
+        A None value is a no-op and does not overwrite an existing checksumVerification.
+        """
+        if value is not None:
+            self.checksumVerification = value
+        return self
+
+    def getMaxDestinationPortNumber(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the maximum destination UDP/TCP port  number.
+        """
+        return self.maxDestinationPortNumber
+
+    def setMaxDestinationPortNumber(self, value: Optional[PositiveInteger]) -> "TransportLayerRule":
+        """
+        Filter to match packets with the maximum destination UDP/TCP port  number.
+        A None value is a no-op and does not overwrite an existing maxDestinationPortNumber.
+        """
+        if value is not None:
+            self.maxDestinationPortNumber = value
+        return self
+
+    def getMaxSourcePortNumber(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the maximum source UDP/TCP port  number.
+        """
+        return self.maxSourcePortNumber
+
+    def setMaxSourcePortNumber(self, value: Optional[PositiveInteger]) -> "TransportLayerRule":
+        """
+        Filter to match packets with the maximum source UDP/TCP port  number.
+        A None value is a no-op and does not overwrite an existing maxSourcePortNumber.
+        """
+        if value is not None:
+            self.maxSourcePortNumber = value
+        return self
+
+    def getMinDestinationPortNumber(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the minimum destination UDP/TCP port  number.
+        """
+        return self.minDestinationPortNumber
+
+    def setMinDestinationPortNumber(self, value: Optional[PositiveInteger]) -> "TransportLayerRule":
+        """
+        Filter to match packets with the minimum destination UDP/TCP port  number.
+        A None value is a no-op and does not overwrite an existing minDestinationPortNumber.
+        """
+        if value is not None:
+            self.minDestinationPortNumber = value
+        return self
+
+    def getMinSourcePortNumber(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the minimum source UDP/TCP port  number.
+        """
+        return self.minSourcePortNumber
+
+    def setMinSourcePortNumber(self, value: Optional[PositiveInteger]) -> "TransportLayerRule":
+        """
+        Filter to match packets with the minimum source UDP/TCP port  number.
+        A None value is a no-op and does not overwrite an existing minSourcePortNumber.
+        """
+        if value is not None:
+            self.minSourcePortNumber = value
+        return self
 
 
 class TcpRule(TransportLayerRule):

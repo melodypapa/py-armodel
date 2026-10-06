@@ -70,6 +70,24 @@ class TestWriteFirewallRuleTcpRule:
         assert tcp_rule_element.find("STATE-MANAGEMENT-BASED-ON-TCP-FLAGS").text == "true"
         assert tcp_rule_element.find("TIMEOUT-CHECK").text == "30"
 
+    def test_write_tcp_rule_inherited_members_in_xsd_order(self):
+        writer = _make_writer()
+        rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
+        tcp_rule = TcpRule()
+        tcp_rule.setChecksumVerification(_boolean(True))
+        tcp_rule.setMaxDestinationPortNumber(_pos_int(8080))
+        tcp_rule.setTimeoutCheck(_pos_int(30))
+        rule.setTransportLayerRule(tcp_rule)
+
+        root = ET.Element("AR-PACKAGE")
+        writer.writeFirewallRule(root, rule)
+
+        tcp_rule_element = root.find("FIREWALL-RULE/TRANSPORT-LAYER-RULE/TCP-RULE")
+        assert tcp_rule_element is not None
+        assert [child.tag for child in tcp_rule_element] == ["CHECKSUM-VERIFICATION", "MAX-DESTINATION-PORT-NUMBER", "TIMEOUT-CHECK"]
+        assert tcp_rule_element.find("CHECKSUM-VERIFICATION").text == "true"
+        assert tcp_rule_element.find("MAX-DESTINATION-PORT-NUMBER").text == "8080"
+
     def test_write_partial_tcp_rule_omits_absent_elements(self):
         writer = _make_writer()
         rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")

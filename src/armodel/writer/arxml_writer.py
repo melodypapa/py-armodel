@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SomeipSdRule,
     StateDependentFirewall,
     TcpRule,
+    TransportLayerRule,
     UdpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
@@ -7218,6 +7219,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setHardwareConfiguration(self, element: ET.Element, config):
         if config is not None:
             child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
+            self.writeARObject(child_element, config)
             self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", config.getAdditionalInformation())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
@@ -7225,6 +7227,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSoftwareContext(self, element: ET.Element, context):
         if context is not None:
             child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
+            self.writeARObject(child_element, context)
             self.setChildElementOptionalLiteral(child_element, "INPUT", context.getInput())
             self.setChildElementOptionalLiteral(child_element, "STATE", context.getState())
 
@@ -18040,6 +18043,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDataLinkLayerRule(self, element: ET.Element, rule: Optional[DataLinkLayerRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
             self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
@@ -18049,6 +18053,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 
     def writePayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        self.writeARObject(element, payload_rule)
         parts = payload_rule.getPayloadBytePatternRuleParts()
         if len(parts) > 0:
             parts_tag = ET.SubElement(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
@@ -18057,11 +18062,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writePayloadBytePatternRulePart(part_tag, part)
 
     def writePayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.writeARObject(element, part)
         self.setChildElementOptionalPositiveInteger(element, "OFFSET", cast(Integer, part.getOffset()))
         self.setChildElementOptionalPositiveInteger(element, "VALUE", cast(Integer, part.getValue()))
 
     def writeSomeipProtocolRule(self, element: ET.Element, rule: Optional[SomeipProtocolRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "CLIENT-ID", rule.getClientId())
             self.setChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION", rule.getLengthVerification())
             self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", rule.getMajorVersion())
@@ -18073,6 +18080,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipSdRule(self, element: ET.Element, rule: Optional[SomeipSdRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", rule.getEntryType())
             self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", rule.getEventGroupId())
             self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", rule.getMaxMajorVersion())
@@ -18084,6 +18092,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDoIpRule(self, element: ET.Element, rule: Optional[DoIpRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", rule.getDestinationMaxAddress())
             self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", rule.getDestinationMinAddress())
             self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", rule.getInverseProtocolVersion())
@@ -18094,18 +18103,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
             self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
 
+    def writeTransportLayerRule(self, element: ET.Element, rule: TransportLayerRule):
+        self.writeARObject(element, rule)
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-DESTINATION-PORT-NUMBER", cast(Integer, rule.getMaxDestinationPortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-SOURCE-PORT-NUMBER", cast(Integer, rule.getMaxSourcePortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-DESTINATION-PORT-NUMBER", cast(Integer, rule.getMinDestinationPortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER", cast(Integer, rule.getMinSourcePortNumber()))
+
     def writeTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.writeTransportLayerRule(element, rule)
         self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", cast(Integer, rule.getNumberOfParallelTcpSessions()))
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
         self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", cast(Integer, rule.getTimeoutCheck()))
 
+    def writeUdpRule(self, element: ET.Element, rule: UdpRule):
+        self.writeTransportLayerRule(element, rule)
+
     def writeIcmpRule(self, element: ET.Element, rule: Optional[IcmpRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
             self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
             self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
 
     def writeIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.writeARObject(element, rule)
         self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
@@ -18125,6 +18148,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", cast(Integer, rule.getTtlMin()))
 
     def writeIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.writeARObject(element, rule)
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
         self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", rule.getFlowLabel())
@@ -18165,7 +18189,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 ipv6_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-6-RULE")
                 self.writeIpv6Rule(ipv6_rule_tag, network_layer_rule)
             else:
-                ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                self.writeARObject(network_layer_rule_tag, network_layer_rule)
         payload_rules = rule.getPayloadBytePatternRules()
         if len(payload_rules) > 0:
             rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")
@@ -18190,9 +18215,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeTcpRule(tcp_rule_tag, transport_rule)
             elif isinstance(transport_rule, UdpRule):
                 transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
-                ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
+                udp_rule_tag = ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
+                self.writeUdpRule(udp_rule_tag, transport_rule)
             else:
-                ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                self.writeTransportLayerRule(transport_layer_rule_tag, transport_rule)
 
     def writeBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.logger.debug("Write BlueprintMappingSet %s" % blueprint_mapping_set.getShortName())

@@ -71,6 +71,26 @@ def _consumption():
 
 
 class TestReadMemorySections:
+    def test_read_child_element_order_matches_xsd_group(self):
+        """readMemorySections child lookups follow the XSD MEMORY-SECTION group sequence (Rule 0001.11).
+
+        XSD 00052 group MEMORY-SECTION: ALIGNMENT, EXECUTABLE-ENTITY-REFS, MEM-CLASS-SYMBOL,
+        OPTIONS, PREFIX-REF, SIZE, SW-ADDRMETHOD-REF, SYMBOL (VARIATION-POINT is read inside
+        readIdentifiable; the OPTIONS items are read by the readMemorySectionOptions helper,
+        so its call position is pinned between MEM-CLASS-SYMBOL and PREFIX-REF).
+        """
+        import inspect
+        import re
+
+        source = inspect.getsource(ARXMLParser.readMemorySections)
+        xsd_order = ["ALIGNMENT", "EXECUTABLE-ENTITY-REFS", "MEM-CLASS-SYMBOL", "PREFIX-REF", "SIZE", "SW-ADDRMETHOD-REF", "SYMBOL"]
+        tokens = []
+        for raw in re.findall(r'"([A-Z][A-Z0-9-/]+)"', source):
+            tokens.extend(raw.split("/"))
+        seen = [t for t in dict.fromkeys(tokens) if t in xsd_order]
+        assert seen == xsd_order
+        assert source.index('"MEM-CLASS-SYMBOL"') < source.index("self.readMemorySectionOptions") < source.index('"PREFIX-REF"')
+
     def test_read_typed_members(self, parser):
         """ALIGNMENT, MEM-CLASS-SYMBOL, OPTIONS items and SYMBOL read into their spec-typed instances."""
         consumption = _consumption()

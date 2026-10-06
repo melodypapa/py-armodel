@@ -5563,14 +5563,14 @@ class ARXMLParser(AbstractARXMLParser):
             memory_section = consumption.createMemorySection(self.getShortName(child_element))
             self.readIdentifiable(child_element, memory_section)
             memory_section.setAlignment(self.getChildElementOptionalAlignmentType(child_element, "ALIGNMENT"))
+            for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
+                memory_section.addExecutableEntityRef(ref)
             memory_section.setMemClassSymbol(self.getChildElementOptionalCIdentifier(child_element, "MEM-CLASS-SYMBOL"))
             self.readMemorySectionOptions(child_element, memory_section)
+            memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
             memory_section.setSize(self.getChildElementOptionalPositiveInteger(child_element, "SIZE"))
             memory_section.setSwAddrMethodRef(self.getChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF"))
             memory_section.setSymbol(self.getChildElementOptionalIdentifier(child_element, "SYMBOL"))
-            memory_section.setPrefixRef(self.getChildElementOptionalRefType(child_element, "PREFIX-REF"))
-            for ref in self.getChildElementRefTypeList(child_element, "EXECUTABLE-ENTITY-REFS/EXECUTABLE-ENTITY-REF"):
-                memory_section.addExecutableEntityRef(ref)
             # self.logger.debug("read MemorySections %s" % memory_section.getShortName())
 
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
@@ -5592,11 +5592,13 @@ class ARXMLParser(AbstractARXMLParser):
             interval.setUpperBound(upper_bound)
 
     def readHardwareConfiguration(self, element: ET.Element, config: HardwareConfiguration):
+        self.readARObject(element, config)
         config.setAdditionalInformation(cast(Optional[String], self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION")))
         config.setProcessorMode(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-MODE")))
         config.setProcessorSpeed(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-SPEED")))
 
     def readSoftwareContext(self, element: ET.Element, context: SoftwareContext):
+        self.readARObject(element, context)
         context.setInput(cast(Optional[String], self.getChildElementOptionalLiteral(element, "INPUT")))
         context.setState(cast(Optional[String], self.getChildElementOptionalLiteral(element, "STATE")))
 
@@ -18025,6 +18027,7 @@ class ARXMLParser(AbstractARXMLParser):
         return False
 
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
+        self.readARObject(element, rule)
         destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
         if destination_mac is not None:
             mac_address = MacAddressString()
@@ -18050,6 +18053,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 
     def readPayloadBytePatternRule(self, element: ET.Element, payload_rule: PayloadBytePatternRule):
+        self.readARObject(element, payload_rule)
         parts = self.find(element, "PAYLOAD-BYTE-PATTERN-RULE-PARTS")
         if parts is not None:
             for child in self.findall(parts, "PAYLOAD-BYTE-PATTERN-RULE-PART"):
@@ -18058,10 +18062,12 @@ class ARXMLParser(AbstractARXMLParser):
                 payload_rule.addPayloadBytePatternRulePart(part)
 
     def readPayloadBytePatternRulePart(self, element: ET.Element, part: PayloadBytePatternRulePart):
+        self.readARObject(element, part)
         part.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
         part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
 
     def readSomeipProtocolRule(self, element: ET.Element, rule: SomeipProtocolRule):
+        self.readARObject(element, rule)
         rule.setClientId(self.getChildElementOptionalPositiveInteger(element, "CLIENT-ID"))
         rule.setLengthVerification(self.getChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION"))
         rule.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
@@ -18072,6 +18078,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
     def readSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        self.readARObject(element, rule)
         rule.setEntryType(self.getChildElementOptionalPositiveInteger(element, "ENTRY-TYPE"))
         rule.setEventGroupId(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID"))
         rule.setMaxMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION"))
@@ -18082,6 +18089,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
     def readDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        self.readARObject(element, rule)
         rule.setDestinationMaxAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS"))
         rule.setDestinationMinAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS"))
         rule.setInverseProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION"))
@@ -18092,17 +18100,31 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setSourceMinAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS"))
         rule.setUdsService(self.getChildElementOptionalPositiveInteger(element, "UDS-SERVICE"))
 
+    def readTransportLayerRule(self, element: ET.Element, rule: TransportLayerRule):
+        self.readARObject(element, rule)
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        rule.setMaxDestinationPortNumber(self.getChildElementOptionalPositiveInteger(element, "MAX-DESTINATION-PORT-NUMBER"))
+        rule.setMaxSourcePortNumber(self.getChildElementOptionalPositiveInteger(element, "MAX-SOURCE-PORT-NUMBER"))
+        rule.setMinDestinationPortNumber(self.getChildElementOptionalPositiveInteger(element, "MIN-DESTINATION-PORT-NUMBER"))
+        rule.setMinSourcePortNumber(self.getChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER"))
+
     def readTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.readTransportLayerRule(element, rule)
         rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
         rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
         rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
 
+    def readUdpRule(self, element: ET.Element, rule: UdpRule):
+        self.readTransportLayerRule(element, rule)
+
     def readIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        self.readARObject(element, rule)
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
         rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
         rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
 
     def readIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.readARObject(element, rule)
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
         destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
         if destination_ip_address is not None:
@@ -18139,6 +18161,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
 
     def readIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.readARObject(element, rule)
         destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
         if destination_ip_address is not None:
             ip6_address = Ip6AddressString()
@@ -18197,7 +18220,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIpv6Rule(cast(ET.Element, self.find(child, "IPV-6-RULE")), rule_obj)
                 rule.setNetworkLayerRule(rule_obj)
             else:
-                rule.setNetworkLayerRule(NetworkLayerRule())
+                network_rule = NetworkLayerRule()
+                self.readARObject(child, network_rule)
+                rule.setNetworkLayerRule(network_rule)
         payload_rules = self.find(element, "PAYLOAD-BYTE-PATTERN-RULES")
         if payload_rules is not None:
             for child in self.findall(payload_rules, "PAYLOAD-BYTE-PATTERN-RULE"):
@@ -18223,9 +18248,13 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTcpRule(tcp_rule, rule_obj)
                 rule.setTransportLayerRule(rule_obj)
             elif self.find(child, "UDP-RULE") is not None:
-                rule.setTransportLayerRule(UdpRule())
+                udp_rule = UdpRule()
+                self.readUdpRule(cast(ET.Element, self.find(child, "UDP-RULE")), udp_rule)
+                rule.setTransportLayerRule(udp_rule)
             else:
-                rule.setTransportLayerRule(TransportLayerRule())
+                transport_rule = TransportLayerRule()
+                self.readTransportLayerRule(child, transport_rule)
+                rule.setTransportLayerRule(transport_rule)
 
     def readBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.readIdentifiable(element, blueprint_mapping_set)
