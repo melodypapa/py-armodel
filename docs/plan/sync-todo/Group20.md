@@ -296,6 +296,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     missing` row in the `FirewallRule` tracker section was removed per Rule
     0014. Reader/writer coverage note: referenced member types
     MacAddressString/PositiveInteger already exist in PrimitiveTypes.
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readDataLinkLayerRule/writeDataLinkLayerRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12470 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `NetworkLayerRule` — ARObject — source TBC (locate table at Step 1)
@@ -341,6 +344,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     subtype Ipv4Rule, which is still not implemented (missing referenced
     classes: Ipv4Rule, Ipv6Rule, reported per Rule 0001.10).
     Resolved 2026-09-27: Ipv4Rule/Ipv6Rule synced — see the addendum rows.
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed — the bare
+    NETWORK-LAYER-RULE placeholder branch in read/writeFirewallRule now routes through
+    readARObject/writeARObject (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12479 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TransportLayerRule` — ARObject — source TBC (locate table at Step 1)
@@ -430,6 +436,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
     verbatim XSD docstrings restored, Optional[T] annotations, 6-col checklists written
     for both classes (no stamp markers per batch mode).
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readPayloadBytePatternRule/writePayloadBytePatternRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (77 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipProtocolRule` — ARObject — source TBC (locate table at Step 1)
@@ -461,6 +470,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
     verbatim XSD docstrings restored (incl. double-space quirks), Optional[T]
     annotations, 6-col checklist written (no stamp markers per batch mode).
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readSomeipProtocolRule/writeSomeipProtocolRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (90 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdRule` — ARObject — source TBC (locate table at Step 1)
@@ -490,6 +502,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
     verbatim XSD docstrings restored, Optional[T] annotations, 6-col checklist written
     (no stamp markers per batch mode).
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readSomeipSdRule/writeSomeipSdRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (95 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DoIpRule` — ARObject — source TBC (locate table at Step 1)
@@ -522,6 +537,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     method_deviation_by_class.md FirewallRule section (Rule 0014); no open deviations —
     verbatim XSD docstrings restored (incl. whitespace quirks), Optional[T] annotations,
     6-col checklist written (no stamp markers per batch mode).
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readDoIpRule/writeDoIpRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (108 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MemorySection` — Identifiable — source TBC (locate table at Step 1)
@@ -564,6 +582,9 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     6-column member table, page corrected 143→144, memClassSymbol recorded as accepted
     legacy (R4.3.1 Table 9.2, p.145) Rule 0019 deviation; swAddrMethodRef naming kept for
     cross-class consistency with stamped siblings (flagged decision).
+  - note (Step 7 re-run 2026-10-06, batch-9b review): Rule 0019 checklist citation
+    completed — the second `# Spec:` line (R4.3.1 Table 9.2, p.145) added for the
+    legacy memClassSymbol combine case; per-row release values were already correct.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12579 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)
@@ -639,6 +660,12 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): method_deviation_by_class.md HardwareConfiguration section rewritten —
     6-column member table (all ok), source path corrected from the nonexistent
     HardwareConfiguration.py to the package __init__.py; no open deviations.
+  - note (Steps 4/5/6 re-run 2026-10-06, batch-9b review): (1) Rule 0025 BASE fixed —
+    readHardwareConfiguration/setHardwareConfiguration carry the readARObject/
+    writeARObject base calls; (2) Rule 0012 verbatim — the additionalInformation Note
+    now uses the joined XSD spelling "HardwareConfiguration" (was the markdown
+    line-wrap artifact "Hardware Configuration") in the __init__ comment, getter and
+    setter docstrings + the test Note constant.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12589 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
@@ -678,6 +705,11 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): method_deviation_by_class.md SoftwareContext section rewritten —
     6-column member table (all ok), source path corrected from the nonexistent
     SoftwareContext.py to the package __init__.py; no open deviations.
+  - note (Steps 4/5/6 re-run 2026-10-06, batch-9b review): (1) Rule 0025 BASE fixed —
+    readSoftwareContext/setSoftwareContext carry the readARObject/writeARObject base
+    calls; (2) Rule 0012 verbatim — the state Note now uses the joined XSD spelling
+    "ExecutionTime" (was the markdown line-wrap artifact "Execution Time") in the
+    __init__ comment, getter and setter docstrings + the test Note constant.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12600 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
@@ -990,6 +1022,9 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readPayloadBytePatternRulePart/writePayloadBytePatternRulePart now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `TcpRule` — TransportLayerRule — XSD-only (00052 complexType L120644)
@@ -1048,6 +1083,9 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readIcmpRule/writeIcmpRule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12698 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `Ipv4Rule` — NetworkLayerRule — XSD-only (00052 complexType L74485)
@@ -1082,6 +1120,9 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readIpv4Rule/writeIpv4Rule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12713 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `Ipv6Rule` — NetworkLayerRule — XSD-only (00052 complexType L75007)
@@ -1115,6 +1156,9 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readIpv6Rule/writeIpv6Rule now open with the readARObject/writeARObject base calls
+    (S/T checksum/timestamp attributes round-trip).
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12728 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `UdpRule` — TransportLayerRule — XSD-only (00052 complexType L127875)
