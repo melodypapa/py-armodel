@@ -8,7 +8,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Describable,
     Identifiable,
     Referrable,
-    SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
     SwitchStreamGateEntry,
 )
@@ -463,6 +462,41 @@ class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
         Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
         """
         return self.trafficShaperGroups
+
+
+class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
+    """
+    Defines an Asynchronous Traffic Shapter (ATS) Group for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchAsynchronousTrafficShaperGroupEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.96, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaximumResidenceTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumResidenceTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+        self.maximumResidenceTime: Optional[PositiveInteger] = None
+
+    def getMaximumResidenceTime(self) -> Optional[PositiveInteger]:
+        """
+        Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+        """
+        return self.maximumResidenceTime
+
+    def setMaximumResidenceTime(self, value: Optional[PositiveInteger]) -> SwitchAsynchronousTrafficShaperGroupEntry:
+        """
+        Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maximumResidenceTime.
+        """
+        if value is not None:
+            self.maximumResidenceTime = value
+        return self
 
 
 class SwitchStreamIdentification(Identifiable):

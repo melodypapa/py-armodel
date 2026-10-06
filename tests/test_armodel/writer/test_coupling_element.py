@@ -607,3 +607,76 @@ class TestSwitchStreamIdentificationRoundTrip:
         assert reloaded_stream.getFilterActionVlanModification() is None
         assert reloaded_stream.getIngressPortRefs() == []
         assert reloaded_stream.getStreamFilterRule() is None
+
+
+class TestSwitchAsynchronousTrafficShaperGroupEntryRoundTrip:
+    """SwitchAsynchronousTrafficShaperGroupEntry (Table 3.96, p.142) — the SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY
+    item of COUPLING-ELEMENT-SWITCH-DETAILS round-trips its single XSD group child after the identifiable levels
+    (XSD group SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY). XML child order per XSD sequence: SHORT-NAME
+    (identifiable levels), then MAXIMUM-RESIDENCE-TIME."""
+
+    GROUP_XSD_ORDER = [
+        "MAXIMUM-RESIDENCE-TIME",
+    ]
+
+    def _coupling_element_with_full_traffic_shaper_group(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        traffic_shaper_group = details.createTrafficShaperGroup("AtsGroup1")
+        traffic_shaper_group.setMaximumResidenceTime(PositiveInteger().setValue("10"))
+        return coupling_element, details, traffic_shaper_group
+
+    def _switch_details_element(self, coupling_element):
+        parent = _write_coupling_element(coupling_element)
+        return parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+    def test_writes_children_in_xsd_order(self):
+        coupling_element, _, _ = self._coupling_element_with_full_traffic_shaper_group()
+
+        traffic_shaper_group_element = self._switch_details_element(coupling_element).find("TRAFFIC-SHAPER-GROUPS/SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
+
+        children = [child.tag for child in traffic_shaper_group_element]
+        assert children == ["SHORT-NAME"] + self.GROUP_XSD_ORDER
+
+    def test_writes_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_traffic_shaper_group()
+
+        traffic_shaper_group_element = self._switch_details_element(coupling_element).find("TRAFFIC-SHAPER-GROUPS/SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
+
+        assert traffic_shaper_group_element.find("SHORT-NAME").text == "AtsGroup1"
+        assert traffic_shaper_group_element.find("MAXIMUM-RESIDENCE-TIME").text == "10"
+
+    def test_bare_traffic_shaper_group_emits_no_children(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createTrafficShaperGroup("AtsGroup1")
+
+        traffic_shaper_group_element = self._switch_details_element(coupling_element).find("TRAFFIC-SHAPER-GROUPS/SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
+
+        assert traffic_shaper_group_element.find("SHORT-NAME").text == "AtsGroup1"
+        for tag in self.GROUP_XSD_ORDER:
+            assert traffic_shaper_group_element.find(tag) is None, tag
+
+    def test_round_trip_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_traffic_shaper_group()
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_group = reloaded.getCouplingElementDetails().getTrafficShaperGroups()[0]
+        assert reloaded_group.getShortName() == "AtsGroup1"
+        assert reloaded_group.getMaximumResidenceTime().getValue() == 10
+
+    def test_round_trip_bare_traffic_shaper_group(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createTrafficShaperGroup("AtsGroup1")
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_group = reloaded.getCouplingElementDetails().getTrafficShaperGroups()[0]
+        assert reloaded_group.getShortName() == "AtsGroup1"
+        assert reloaded_group.getMaximumResidenceTime() is None

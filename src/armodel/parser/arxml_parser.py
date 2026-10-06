@@ -1179,6 +1179,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterActionPortModificationEnum,
     SwitchStreamFilterEntry,
@@ -11197,6 +11198,10 @@ class ARXMLParser(AbstractARXMLParser):
             stream_filter.addStreamIdentificationHandleRef(ref)
         stream_filter.setStreamIdentificationWildcard(self.getChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD"))
 
+    def readSwitchAsynchronousTrafficShaperGroupEntry(self, element: ET.Element, traffic_shaper_group: SwitchAsynchronousTrafficShaperGroupEntry):
+        self.readIdentifiable(element, traffic_shaper_group)
+        traffic_shaper_group.setMaximumResidenceTime(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME"))
+
     def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
         self.readARObject(element, mac_address)
         child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS")
@@ -11348,7 +11353,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY":
                 traffic_shaper_group = details.createTrafficShaperGroup(self.getShortName(child_element))
-                self.readIdentifiable(child_element, traffic_shaper_group)
+                self.readSwitchAsynchronousTrafficShaperGroupEntry(child_element, traffic_shaper_group)
             else:
                 self.notImplemented("Unsupported SwitchAsynchronousTrafficShaperGroupEntry <%s>" % tag_name)
 

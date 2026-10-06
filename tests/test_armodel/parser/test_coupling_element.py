@@ -12,7 +12,6 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
     SwitchStreamGateEntry,
 )
@@ -22,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementEnum,
     CouplingElementSwitchDetails,
     CouplingPort,
+    SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
@@ -590,3 +590,65 @@ class TestReadSwitchStreamIdentification:
         assert stream_identification.getFilterActionVlanModification() is None
         assert stream_identification.getIngressPortRefs() == []
         assert stream_identification.getStreamFilterRule() is None
+
+
+class TestReadSwitchAsynchronousTrafficShaperGroupEntry:
+    """Test readSwitchAsynchronousTrafficShaperGroupEntry (SwitchAsynchronousTrafficShaperGroupEntry, Table 3.96, p.142):
+    the single XSD group child of SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY after the identifiable levels —
+    MAXIMUM-RESIDENCE-TIME (XSD group SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY). The reader dispatch of
+    readCouplingElementSwitchDetails for the SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY item calls this level."""
+
+    def test_read_all_members(self, parser):
+        """Every XSD group child populates its model field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <TRAFFIC-SHAPER-GROUPS>
+                            <SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                                <SHORT-NAME>AtsGroup1</SHORT-NAME>
+                                <MAXIMUM-RESIDENCE-TIME>10</MAXIMUM-RESIDENCE-TIME>
+                            </SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                        </TRAFFIC-SHAPER-GROUPS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        traffic_shaper_groups = coupling_element.getCouplingElementDetails().getTrafficShaperGroups()
+        assert len(traffic_shaper_groups) == 1
+        traffic_shaper_group = traffic_shaper_groups[0]
+        assert isinstance(traffic_shaper_group, SwitchAsynchronousTrafficShaperGroupEntry)
+        assert traffic_shaper_group.getShortName() == "AtsGroup1"
+        assert traffic_shaper_group.getMaximumResidenceTime() is not None
+        assert traffic_shaper_group.getMaximumResidenceTime().getValue() == 10
+
+    def test_read_absent_optional_members(self, parser):
+        """A bare SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY item leaves all fields unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <TRAFFIC-SHAPER-GROUPS>
+                            <SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                                <SHORT-NAME>AtsGroup1</SHORT-NAME>
+                            </SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY>
+                        </TRAFFIC-SHAPER-GROUPS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        traffic_shaper_group = coupling_element.getCouplingElementDetails().getTrafficShaperGroups()[0]
+        assert traffic_shaper_group.getShortName() == "AtsGroup1"
+        assert traffic_shaper_group.getMaximumResidenceTime() is None

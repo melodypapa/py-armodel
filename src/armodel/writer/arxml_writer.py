@@ -983,6 +983,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
@@ -12057,6 +12058,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(stream_identification_handle_refs_element, "STREAM-IDENTIFICATION-HANDLE-REF", ref)
             self.setChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD", stream_filter.getStreamIdentificationWildcard())
 
+    def writeSwitchAsynchronousTrafficShaperGroupEntry(self, element: ET.Element, traffic_shaper_group: Optional[SwitchAsynchronousTrafficShaperGroupEntry]):
+        if traffic_shaper_group is not None:
+            self.writeIdentifiable(element, traffic_shaper_group)
+            self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME", traffic_shaper_group.getMaximumResidenceTime())
+
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:
             self.writeARObject(element, mac_address)
@@ -12182,7 +12188,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             traffic_shaper_groups_element = ET.SubElement(element, "TRAFFIC-SHAPER-GROUPS")
             for traffic_shaper_group in traffic_shaper_groups:
                 traffic_shaper_group_element = ET.SubElement(traffic_shaper_groups_element, "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
-                self.writeIdentifiable(traffic_shaper_group_element, traffic_shaper_group)
+                self.writeSwitchAsynchronousTrafficShaperGroupEntry(traffic_shaper_group_element, traffic_shaper_group)
 
     def writeCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
         self.logger.debug("Set CouplingElement %s" % coupling_element.getShortName())

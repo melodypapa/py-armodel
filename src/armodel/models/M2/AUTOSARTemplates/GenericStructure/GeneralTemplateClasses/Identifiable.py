@@ -1563,10 +1563,6 @@ class SwcToApplicationPartitionMapping(Identifiable):
     pass
 
 
-class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
-    pass
-
-
 class SwitchFlowMeteringEntry(Identifiable):
     pass
 
