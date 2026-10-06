@@ -1459,10 +1459,6 @@ class BinaryManifestResourceDefinition(Identifiable):
     pass
 
 
-class CouplingElementAbstractDetails(Identifiable, ABC):
-    pass
-
-
 class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
     pass
 
@@ -1608,10 +1604,6 @@ class UserDefinedGlobalTimeSlave(Identifiable):
 
 
 class UserDefinedTransformationProps(Identifiable):
-    pass
-
-
-class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     pass
 
 

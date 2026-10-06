@@ -13,9 +13,11 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
+    CouplingElementAbstractDetails,
     CouplingElementEnum,
     EthernetConnectionNegotiationEnum,
 )
@@ -184,3 +186,62 @@ class TestCouplingElementRoundTrip:
         assert reloaded.getCouplingType().getValue() == CouplingElementEnum.SWITCH
         assert reloaded.getEcuInstanceRef().getValue() == "/Pkg/Ecus/Ecu1"
         assert reloaded.getFirewallRuleRefs()[0].getValue() == "/Pkg/Firewalls/Rule1"
+
+
+class TestCouplingElementAbstractDetailsRoundTrip:
+    """CouplingElementAbstractDetails (Table 3.82, p.133) — the COUPLING-ELEMENT-SWITCH-DETAILS
+    item round-trips its identity levels and the abstract-level VARIATION-POINT group child
+    (XSD group COUPLING-ELEMENT-ABSTRACT-DETAILS, sequenceOffset=10000 → last)."""
+
+    def _coupling_element_with_details(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        return coupling_element, details
+
+    def test_details_writes_identity_levels_and_variation_point(self):
+        coupling_element, details = self._coupling_element_with_details()
+        details.setUuid(String().setValue("DCE:2fac1234-31f8-11b4-a222-08002b34c003"))
+        details.setCategory(CategoryString().setValue("myCategory"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("vpLabel"))
+        details.setVariationPoint(variation_point)
+
+        parent = _write_coupling_element(coupling_element)
+        details_element = parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+        assert details_element is not None
+        assert details_element.find("SHORT-NAME").text == "SwitchDetails"
+        assert details_element.attrib["UUID"] == "DCE:2fac1234-31f8-11b4-a222-08002b34c003"
+        assert details_element.find("CATEGORY").text == "myCategory"
+        children = [child.tag for child in details_element]
+        assert children[-1] == "VARIATION-POINT"
+        assert details_element.find("VARIATION-POINT/SHORT-LABEL").text == "vpLabel"
+
+    def test_details_without_variation_point_writes_no_vp_element(self):
+        coupling_element, _ = self._coupling_element_with_details()
+
+        parent = _write_coupling_element(coupling_element)
+        details_element = parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+        assert details_element.find("SHORT-NAME").text == "SwitchDetails"
+        assert details_element.find("VARIATION-POINT") is None
+
+    def test_round_trip_details_field_values(self):
+        coupling_element, details = self._coupling_element_with_details()
+        details.setUuid(String().setValue("DCE:2fac1234-31f8-11b4-a222-08002b34c003"))
+        details.setCategory(CategoryString().setValue("myCategory"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("vpLabel"))
+        details.setVariationPoint(variation_point)
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_details = reloaded.getCouplingElementDetails()
+        assert isinstance(reloaded_details, CouplingElementAbstractDetails)
+        assert reloaded_details.getShortName() == "SwitchDetails"
+        assert reloaded_details.getUuid().getValue() == "DCE:2fac1234-31f8-11b4-a222-08002b34c003"
+        assert reloaded_details.getCategory().getValue() == "myCategory"
+        assert reloaded_details.getVariationPoint() is not None
+        assert reloaded_details.getVariationPoint().getShortLabel().getValue() == "vpLabel"

@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CouplingElementAbstractDetails, CouplingElementSwitchDetails, Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -184,11 +184,6 @@ class CouplingElement(FibexElement):
     # [x] setEcuInstanceRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] addFirewallRuleRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getFirewallRuleRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    #
-    # Member types CouplingElementAbstractDetails/CouplingElementSwitchDetails are
-    # queued separately in this group (Table 3.82/3.83) — until their sync lands the
-    # COUPLING-ELEMENT-DETAILS child round-trips identity-only (SHORT-NAME +
-    # identifiable levels) via the create/writeIdentifiable placeholders above.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -306,6 +301,35 @@ class CouplingElement(FibexElement):
         Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
         """
         return self.firewallRuleRefs
+
+
+class CouplingElementAbstractDetails(Identifiable, VariationPointCapable):
+    """
+    Collection of specific details for the CouplingElement.
+    """
+
+    # CouplingElementAbstractDetails method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.82, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the spec table defines no Attribute rows; Base = ARObject, Identifiable, MultilanguageReferrable,
+    #  Referrable → Identifiable is the most-derived model class. The XSD models the class as the
+    #  xsd:group COUPLING-ELEMENT-ABSTRACT-DETAILS (AUTOSAR_00052.xsd l.23155, atp.Status="candidate")
+    #  whose only child is VARIATION-POINT (atpVariation, xml.sequenceOffset=10000) — carried by the
+    #  VariationPointCapable mixin (getVariationPoint/setVariationPoint have no spec rows,
+    #  stereotype-inherent) and round-tripped through the shared readIdentifiable/writeIdentifiable
+    #  helpers via the named readCouplingElementAbstractDetails/writeCouplingElementAbstractDetails
+    #  dispatch level the concrete subclass calls)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is CouplingElementAbstractDetails:
+            raise TypeError("CouplingElementAbstractDetails is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
+    pass
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

@@ -562,7 +562,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
-    CouplingElementSwitchDetails,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -950,6 +949,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
+    CouplingElementAbstractDetails,
+    CouplingElementSwitchDetails,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
@@ -11992,6 +11993,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
 
+    def writeCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
+        self.writeIdentifiable(element, details)
+
     def writeCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
         self.logger.debug("Set CouplingElement %s" % coupling_element.getShortName())
         child_element = ET.SubElement(element, "COUPLING-ELEMENT")
@@ -12002,7 +12006,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             details_element = ET.SubElement(child_element, "COUPLING-ELEMENT-DETAILS")
             if isinstance(details, CouplingElementSwitchDetails):
                 switch_details_element = ET.SubElement(details_element, "COUPLING-ELEMENT-SWITCH-DETAILS")
-                self.writeIdentifiable(switch_details_element, details)
+                self.writeCouplingElementAbstractDetails(switch_details_element, details)
             else:
                 self.notImplemented("Unsupported CouplingElementDetails <%s>" % type(details))
         ports = coupling_element.getCouplingPorts()

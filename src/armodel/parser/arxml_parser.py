@@ -1141,6 +1141,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
+    CouplingElementAbstractDetails,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
@@ -11141,12 +11142,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CouplingPortConnection <%s>" % tag_name)
 
+    def readCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
+        self.readIdentifiable(element, details)
+
     def readCouplingElementCouplingElementDetails(self, element: ET.Element, coupling_element: CouplingElement):
         for child_element in self.findall(element, "COUPLING-ELEMENT-DETAILS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COUPLING-ELEMENT-SWITCH-DETAILS":
                 details = coupling_element.createCouplingElementSwitchDetails(self.getShortName(child_element))
-                self.readIdentifiable(child_element, details)
+                self.readCouplingElementAbstractDetails(child_element, details)
             else:
                 self.notImplemented("Unsupported CouplingElementDetails <%s>" % tag_name)
 

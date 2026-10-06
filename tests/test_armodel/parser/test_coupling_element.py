@@ -11,13 +11,11 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    CouplingElementAbstractDetails,
-    CouplingElementSwitchDetails,
-)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
+    CouplingElementAbstractDetails,
     CouplingElementEnum,
+    CouplingElementSwitchDetails,
     CouplingPort,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -166,3 +164,59 @@ class TestReadCouplingElement:
             assert coupling_elements[0].getFirewallRuleRefs() == []
         finally:
             os.remove(file_path)
+
+
+class TestReadCouplingElementAbstractDetails:
+    """Test the CouplingElementAbstractDetails abstract level inside COUPLING-ELEMENT-DETAILS
+    (CouplingElementAbstractDetails, Table 3.82, p.133): the identifiable levels plus the
+    VARIATION-POINT group child of COUPLING-ELEMENT-ABSTRACT-DETAILS."""
+
+    def test_read_identifiable_levels_and_variation_point(self, parser):
+        """Identity levels and the abstract-level VARIATION-POINT populate the details object."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS UUID="DCE:2fac1234-31f8-11b4-a222-08002b34c003">
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <CATEGORY>myCategory</CATEGORY>
+                        <VARIATION-POINT>
+                            <SHORT-LABEL>vpLabel</SHORT-LABEL>
+                        </VARIATION-POINT>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        assert isinstance(details, CouplingElementSwitchDetails)
+        assert isinstance(details, CouplingElementAbstractDetails)
+        assert details.getShortName() == "SwitchDetails"
+        assert details.getUuid().getValue() == "DCE:2fac1234-31f8-11b4-a222-08002b34c003"
+        assert details.getCategory().getValue() == "myCategory"
+        assert details.getVariationPoint() is not None
+        assert details.getVariationPoint().getShortLabel().getValue() == "vpLabel"
+
+    def test_read_details_without_variation_point(self, parser):
+        """A details item without a VARIATION-POINT child leaves the variation point unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        details = coupling_element.getCouplingElementDetails()
+        assert isinstance(details, CouplingElementSwitchDetails)
+        assert details.getShortName() == "SwitchDetails"
+        assert details.getVariationPoint() is None

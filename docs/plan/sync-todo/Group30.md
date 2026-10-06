@@ -19,6 +19,12 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
     `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
     `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`; Base chain's most-derived
     model class is `FibexElement` (markdown Base row: ARObject, CollectableElement, FibexElement, …).
+  - Follow-up resolved 2026-10-06: the Rule 0001.10 placeholder noted in the CouplingElement checklist
+    (COUPLING-ELEMENT-DETAILS child round-tripping identity-only until CouplingElementAbstractDetails
+    synced) is cleared — CouplingElementAbstractDetails (Table 3.82) is synced and the dispatcher calls
+    the full `readCouplingElementAbstractDetails`/`writeCouplingElementAbstractDetails` level
+    (identity levels + the abstract-level VARIATION-POINT group child); the placeholder note was
+    removed from the CouplingElement checklist comment.
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -271,15 +277,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CouplingElementAbstractDetails` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.82, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.82 defines no Attribute rows (abstract class; attribute row renders as
+    `-`). Placement per Rule 0007 (spec Package row `…Fibex4Ethernet::EthernetTopology`): class moved
+    from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`; the queued
+    CouplingElementSwitchDetails stub moved with it (its Base is this class — keeping it in
+    Identifiable.py would need a GenericStructure→SystemTemplate import edge that deadlocks against
+    EthernetTopology's own import of Identifiable). Base chain's most-derived model class is
+    `Identifiable`; the XSD group COUPLING-ELEMENT-ABSTRACT-DETAILS carries only VARIATION-POINT
+    (atpVariation, sequenceOffset=10000) → `VariationPointCapable` mixin, per vp_anchors.txt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20421 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `CouplingElementSwitchDetails` — CouplingElementAbstractDetails — R23-11 CP_TPS_SystemTemplate Table 3.83, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
