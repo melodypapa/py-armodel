@@ -17796,6 +17796,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
 
     def readIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.readARObject(element, rule)
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
         destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
         if destination_ip_address is not None:

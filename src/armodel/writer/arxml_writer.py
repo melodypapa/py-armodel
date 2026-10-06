@@ -17825,6 +17825,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())
 
     def writeIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
+        self.writeARObject(element, rule)
         self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
