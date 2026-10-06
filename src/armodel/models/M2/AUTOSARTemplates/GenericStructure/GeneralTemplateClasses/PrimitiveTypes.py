@@ -1722,7 +1722,37 @@ class DdsDestinationOrderKindEnum(AREnum):
 
 
 class DdsDurabilityKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS DURABILITY kind. Tags: atp.Status=candidate
+    """
+
+    # DdsDurabilityKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.182, p.530
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsDurability.durabilityKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=3 atp.Status=candidate
+    PERSISTENT = "PERSISTENT"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    TRANSIENT = "TRANSIENT"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    TRANSIENT_LOCAL = "TRANSIENT-LOCAL"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    VOLATILE = "VOLATILE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsDurabilityKindEnum.PERSISTENT,
+                DdsDurabilityKindEnum.TRANSIENT,
+                DdsDurabilityKindEnum.TRANSIENT_LOCAL,
+                DdsDurabilityKindEnum.VOLATILE,
+            ]
+        )
 
 
 class DdsDurabilityServiceHistoryKindEnum(AREnum):

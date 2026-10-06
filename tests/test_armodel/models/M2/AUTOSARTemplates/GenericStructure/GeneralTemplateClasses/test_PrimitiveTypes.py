@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DdsDurabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3221,3 +3222,52 @@ class TestDiagnosticWwhObdDtcClassEnum:
         enum.setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION)
 
         assert enum.getValue() == DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION
+
+
+class TestDdsDurabilityKindEnum:
+    """
+    Test class for DdsDurabilityKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.182, p.530
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDurabilityKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDurabilityKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDurabilityKindEnum.PERSISTENT,
+            DdsDurabilityKindEnum.TRANSIENT,
+            DdsDurabilityKindEnum.TRANSIENT_LOCAL,
+            DdsDurabilityKindEnum.VOLATILE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDurabilityKindEnum member values.
+        """
+        enum = DdsDurabilityKindEnum()
+
+        assert DdsDurabilityKindEnum.PERSISTENT == "PERSISTENT"
+        assert DdsDurabilityKindEnum.TRANSIENT == "TRANSIENT"
+        assert DdsDurabilityKindEnum.TRANSIENT_LOCAL == "TRANSIENT-LOCAL"
+        assert DdsDurabilityKindEnum.VOLATILE == "VOLATILE"
+
+        assert enum.validateEnumValue("PERSISTENT") is True
+        assert enum.validateEnumValue("TRANSIENT") is True
+        assert enum.validateEnumValue("TRANSIENT-LOCAL") is True
+        assert enum.validateEnumValue("VOLATILE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDurabilityKindEnum instantiability and getValue.
+        """
+        enum = DdsDurabilityKindEnum()
+        enum.setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL)
+
+        assert enum.getValue() == DdsDurabilityKindEnum.TRANSIENT_LOCAL
