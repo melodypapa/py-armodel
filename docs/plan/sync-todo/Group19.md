@@ -1279,7 +1279,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       test classes pin behavior only — no test change needed.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)
 
-- [ ] `EcucQueryExpression` (input · R23-11 PDF · Table 2.41) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+- [x] `EcucQueryExpression` (input · R23-11 PDF · Table 2.41) — REOPENED 2026-10-05 (batch 9b audit, Group B) — commit a6ca95862 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.41 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.90. Class
     `<<atpMixedString>>` pure-text formula; Package
@@ -1344,4 +1344,4 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (configElementDefGlobalRef/LocalRef) removed from
       method_deviation_by_class.md (Rule 0014). Mirrored test class pins
       behavior only — no test change needed.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)
