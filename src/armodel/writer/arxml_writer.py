@@ -873,6 +873,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
+    TransformerHardErrorEvent,
     WaitPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
@@ -4786,6 +4787,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRTEEvent(child_element, event)
             self.writeRTriggerInAtomicSwcInstanceRef(child_element, "TRIGGER-IREF", event.getTriggerIRef())
 
+    def writeTransformerHardErrorEvent(self, element: ET.Element, event: TransformerHardErrorEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "TRANSFORMER-HARD-ERROR-EVENT")
+            self.writeRTEEvent(child_element, event)
+            self.setPOperationInAtomicSwcInstanceRef(child_element, "OPERATION-IREF", event.getOperationIRef())
+            required_trigger_iref = event.getRequiredTriggerIRef()
+            if required_trigger_iref is not None:
+                iref_element = ET.SubElement(child_element, "REQUIRED-TRIGGER-IREF")
+                self.writeARObject(iref_element, required_trigger_iref)
+                self.setChildElementOptionalRefType(iref_element, "CONTEXT-R-PORT-REF", required_trigger_iref.getContextRPortRef())
+                self.setChildElementOptionalRefType(iref_element, "TARGET-TRIGGER-REF", required_trigger_iref.getTargetTriggerRef())
+
     def writeSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         events = parent.getRteEvents()
         if len(events) > 0:
@@ -4818,6 +4831,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDataWriteCompletedEvent(child_element, event)
                 elif isinstance(event, ExternalTriggerOccurredEvent):
                     self.writeExternalTriggerOccurredEvent(child_element, event)
+                elif isinstance(event, TransformerHardErrorEvent):
+                    self.writeTransformerHardErrorEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported Event <%s>" % type(event))
 

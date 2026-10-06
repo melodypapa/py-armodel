@@ -2654,6 +2654,17 @@ No deviations — both Table 5.126 attributes are modeled with spec shapes: `lab
 | — *(missing)* | `—` | `maxSizeToFill` | `PositiveInteger` | — | missing |
 | — *(missing)* | `—` | `rule` | `Identifier` | — | missing |
 
+## `TransformerHardErrorEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 546
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(missing)* | `—` | `trigger` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | deprecated (atp.Status="removed"), not implemented — XSD group TRANSFORMER-HARD-ERROR-EVENT keeps TRIGGER-IREF (AUTOSAR_00052.xsd L125878) with `atp.Status="removed"`; absent from the R23-11 Table 7.23 attribute rows |
+
+2026-10-05 sync (Table 7.23, p.546): `pass` stub replaced with the full class — Note + [constr_1397] class docstring, `operationIRef` (0..1 iref → `POperationInAtomicSwcInstanceRef`) and `requiredTriggerIRef` (0..1 iref → `RTriggerInAtomicSwcInstanceRef`) in markdown row order with get/set pairs, 6-column checklist, no stamp (batch 9b pending). Reader reads OPERATION-IREF via the existing `readPOperationIRef` + REQUIRED-TRIGGER-IREF via a new inline branch (readARObject + both refs); writer emits OPERATION-IREF via `setPOperationInAtomicSwcInstanceRef` + REQUIRED-TRIGGER-IREF with `writeARObject` (Rule 0025). `createTransformerHardErrorEvent`/`getTransformerHardErrorEvents` added to SwcInternalBehavior (checklist rows added); EVENTS dispatch branches added both sides; schema-validated save→reload round-trip tests added.
+
 ## `ExternalTriggerOccurredEvent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 545
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`

@@ -149,6 +149,59 @@ class TestRteEVent:
         assert iref.getTargetTriggerRef().getDest() == "TRIGGER"
         assert iref.getTargetTriggerRef().getValue() == "/MyComponents/trigger_1"
 
+    def test_transformer_hard_error_events(self):
+        xml_content = """
+            <APPLICATION-SW-COMPONENT-TYPE>
+              <SHORT-NAME>MyComponents</SHORT-NAME>
+              <INTERNAL-BEHAVIORS>
+                <SWC-INTERNAL-BEHAVIOR T="2024-11-01T09:39:52+02:00" UUID="0c573b8e-57a1-4bc5-b815-07b6e0094060">
+                  <SHORT-NAME>MyInternalBehavior</SHORT-NAME>
+                  <EVENTS>
+                    <TRANSFORMER-HARD-ERROR-EVENT>
+                      <SHORT-NAME>the_event1</SHORT-NAME>
+                      <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/MyComponents/MySwc_IB/re_the_1</START-ON-EVENT-REF>
+                      <OPERATION-IREF>
+                        <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/MyComponents/pp_cs</CONTEXT-P-PORT-REF>
+                        <TARGET-PROVIDED-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/MyComponents/If/op1</TARGET-PROVIDED-OPERATION-REF>
+                      </OPERATION-IREF>
+                      <REQUIRED-TRIGGER-IREF>
+                        <CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/MyComponents/rp_trig</CONTEXT-R-PORT-REF>
+                        <TARGET-TRIGGER-REF DEST="TRIGGER">/MyComponents/trigger_1</TARGET-TRIGGER-REF>
+                      </REQUIRED-TRIGGER-IREF>
+                    </TRANSFORMER-HARD-ERROR-EVENT>
+                  </EVENTS>
+                </SWC-INTERNAL-BEHAVIOR>
+              </INTERNAL-BEHAVIORS>
+            </APPLICATION-SW-COMPONENT-TYPE>
+        """  # noqa E501
+
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": ""}
+
+        sw_component = ApplicationSwComponentType(document, "MyComponents")
+        parser.readAtomicSwComponentType(element, sw_component)
+
+        internal_behavior = sw_component.getInternalBehavior()
+        assert internal_behavior is not None
+        events = internal_behavior.getTransformerHardErrorEvents()
+        assert len(events) == 1
+
+        event = events[0]
+        assert event.getShortName() == "the_event1"
+        assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_the_1"
+        op_iref = event.getOperationIRef()
+        assert op_iref is not None
+        assert op_iref.getContextPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert op_iref.getContextPPortRef().getValue() == "/MyComponents/pp_cs"
+        assert op_iref.getTargetProvidedOperationRef().getValue() == "/MyComponents/If/op1"
+        trig_iref = event.getRequiredTriggerIRef()
+        assert trig_iref is not None
+        assert trig_iref.getContextRPortRef().getValue() == "/MyComponents/rp_trig"
+        assert trig_iref.getTargetTriggerRef().getValue() == "/MyComponents/trigger_1"
+
     def test_data_send_completed_events(self):
         xml_content = """
             <APPLICATION-SW-COMPONENT-TYPE>

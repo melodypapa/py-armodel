@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataWriteCompletedEvent,
     ExternalTriggerOccurredEvent,
     InitEvent,
+    TransformerHardErrorEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
     OperationInvokedEvent,
@@ -775,6 +776,93 @@ class TestExternalTriggerOccurredEvent:
         assert typing.get_type_hints(event.getTriggerIRef).get("return") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
         assert typing.get_type_hints(event.setTriggerIRef).get("value") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
         assert typing.get_type_hints(event.setTriggerIRef).get("return") is ExternalTriggerOccurredEvent
+
+
+class TestTransformerHardErrorEvent:
+    """Test class for TransformerHardErrorEvent class (Table 7.23)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 7.23 Note + constr_1397 verbatim."""
+        assert inspect.getdoc(TransformerHardErrorEvent) == (
+            "This event is raised when data are received which should trigger a Client/Server operation or an external Trigger but during transformation of the data a hard transformer error occurred."
+            "\n\n"
+            "[constr_1397] Existence of attributes of TransformerHardErrorEvent: For any given TransformerHardErrorEvent, either the attribute TransformerHardErrorEvent.operation or TransformerHardErrorEvent.requiredTrigger shall exist at the time when the contract phase generation is executed."
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
+
+        operation_note = "This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef"
+        trigger_note = "This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef"
+
+        assert inspect.getdoc(event.getOperationIRef) == operation_note
+        assert inspect.getdoc(event.setOperationIRef) == operation_note + "\n\nA None value is a no-op and does not overwrite an existing operationIRef."
+        assert inspect.getdoc(event.getRequiredTriggerIRef) == trigger_note
+        assert inspect.getdoc(event.setRequiredTriggerIRef) == trigger_note + "\n\nA None value is a no-op and does not overwrite an existing requiredTriggerIRef."
+
+    def test_initialization(self):
+        """Test TransformerHardErrorEvent initialization defaults (own + inherited)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
+
+        assert event.parent == ar_root
+        assert event.short_name == "TestTransformerHardErrorEvent"
+        assert event.disabledModeIRefs == []
+        assert event.startOnEventRef is None
+        assert event.operationIRef is None
+        assert event.requiredTriggerIRef is None
+        assert isinstance(event, RTEEvent)
+
+    def test_get_set_operation_iref(self):
+        """setOperationIRef returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
+
+        iref = POperationInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(RefType().setValue("/MyComponents/pp"))
+        iref.setTargetProvidedOperationRef(RefType().setValue("/MyComponents/if/op"))
+        assert event.setOperationIRef(iref) is event
+        assert event.getOperationIRef() == iref
+        assert event.getOperationIRef().getContextPPortRef().getValue() == "/MyComponents/pp"
+        assert event.getOperationIRef().getTargetProvidedOperationRef().getValue() == "/MyComponents/if/op"
+
+        event.setOperationIRef(None)
+        assert event.getOperationIRef() == iref
+
+    def test_get_set_required_trigger_iref(self):
+        """setRequiredTriggerIRef returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
+
+        iref = RTriggerInAtomicSwcInstanceRef()
+        iref.setContextRPortRef(RefType().setValue("/MyComponents/rp"))
+        iref.setTargetTriggerRef(RefType().setValue("/MyComponents/trigger_1"))
+        assert event.setRequiredTriggerIRef(iref) is event
+        assert event.getRequiredTriggerIRef() == iref
+        assert event.getRequiredTriggerIRef().getContextRPortRef().getValue() == "/MyComponents/rp"
+        assert event.getRequiredTriggerIRef().getTargetTriggerRef().getValue() == "/MyComponents/trigger_1"
+
+        event.setRequiredTriggerIRef(None)
+        assert event.getRequiredTriggerIRef() == iref
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed Optional[...] iref annotations."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = TransformerHardErrorEvent(ar_root, "TestTransformerHardErrorEvent")
+
+        assert typing.get_type_hints(event.getOperationIRef).get("return") == typing.Optional[POperationInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setOperationIRef).get("value") == typing.Optional[POperationInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setOperationIRef).get("return") is TransformerHardErrorEvent
+        assert typing.get_type_hints(event.getRequiredTriggerIRef).get("return") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setRequiredTriggerIRef).get("value") == typing.Optional[RTriggerInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setRequiredTriggerIRef).get("return") is TransformerHardErrorEvent
 
 
 class TestBackgroundEvent:

@@ -1061,6 +1061,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
+    TransformerHardErrorEvent,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
@@ -6725,6 +6726,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRTEEvent(element, event)
         self.readRTriggerInAtomicSwcInstanceRef(element, event)
 
+    def readTransformerHardErrorEvent(self, element: ET.Element, event: TransformerHardErrorEvent):
+        # self.logger.debug("Read TransformerHardErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        self.readPOperationIRef(element, "OPERATION-IREF", event)
+        child_element = self.find(element, "REQUIRED-TRIGGER-IREF")
+        if child_element is not None:
+            instance_ref = RTriggerInAtomicSwcInstanceRef()
+            self.readARObject(child_element, instance_ref)
+            instance_ref.setContextRPortRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-R-PORT-REF"))
+            instance_ref.setTargetTriggerRef(self.getChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF"))
+            event.setRequiredTriggerIRef(instance_ref)
+
     def readSwcInternalBehaviorEvents(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "EVENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -6755,6 +6768,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readDataWriteCompletedEvent(child_element, parent.createDataWriteCompletedEvent(self.getShortName(child_element)))
             elif tag_name == "EXTERNAL-TRIGGER-OCCURRED-EVENT":
                 self.readExternalTriggerOccurredEvent(child_element, parent.createExternalTriggerOccurredEvent(self.getShortName(child_element)))
+            elif tag_name == "TRANSFORMER-HARD-ERROR-EVENT":
+                self.readTransformerHardErrorEvent(child_element, parent.createTransformerHardErrorEvent(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported SwcInternalBehavior Event <%s>" % tag_name)
 

@@ -644,4 +644,58 @@ class OsTaskExecutionEvent(RTEEvent):
 
 
 class TransformerHardErrorEvent(RTEEvent):
-    pass
+    """
+    This event is raised when data are received which should trigger a Client/Server operation or an external Trigger but during transformation of the data a hard transformer error occurred.
+
+    [constr_1397] Existence of attributes of TransformerHardErrorEvent: For any given TransformerHardErrorEvent, either the attribute TransformerHardErrorEvent.operation or TransformerHardErrorEvent.requiredTrigger shall exist at the time when the contract phase generation is executed.
+    """
+
+    # TransformerHardErrorEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.23, p.546
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredTriggerIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredTriggerIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+        self.operationIRef: Optional[POperationInAtomicSwcInstanceRef] = None
+
+        # This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        self.requiredTriggerIRef: Optional[RTriggerInAtomicSwcInstanceRef] = None
+
+    def getOperationIRef(self) -> Optional[POperationInAtomicSwcInstanceRef]:
+        """
+        This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+        """
+        return self.operationIRef
+
+    def setOperationIRef(self, value: Optional[POperationInAtomicSwcInstanceRef]) -> TransformerHardErrorEvent:
+        """
+        This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing operationIRef.
+        """
+        if value is not None:
+            self.operationIRef = value
+        return self
+
+    def getRequiredTriggerIRef(self) -> Optional[RTriggerInAtomicSwcInstanceRef]:
+        """
+        This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        """
+        return self.requiredTriggerIRef
+
+    def setRequiredTriggerIRef(self, value: Optional[RTriggerInAtomicSwcInstanceRef]) -> TransformerHardErrorEvent:
+        """
+        This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing requiredTriggerIRef.
+        """
+        if value is not None:
+            self.requiredTriggerIRef = value
+        return self

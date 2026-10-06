@@ -440,6 +440,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         behavior.createInternalTriggerOccurredEvent("ito")
         behavior.createDataWriteCompletedEvent("dwc")
         behavior.createExternalTriggerOccurredEvent("eto")
+        behavior.createTransformerHardErrorEvent("the")
         parent = _parent()
         writer.writeSwcInternalBehaviorEvents(parent, behavior)
         events_tag = parent.find("EVENTS")
@@ -454,6 +455,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         assert "INTERNAL-TRIGGER-OCCURRED-EVENT" in tags
         assert "DATA-WRITE-COMPLETED-EVENT" in tags
         assert "EXTERNAL-TRIGGER-OCCURRED-EVENT" in tags
+        assert "TRANSFORMER-HARD-ERROR-EVENT" in tags
 
     def test_dispatches_operation_and_data_events(self, writer):
         behavior = _make_behavior()
@@ -3315,6 +3317,96 @@ class TestExternalTriggerOccurredEventRoundTrip:
             behavior_2 = app_2.getInternalBehavior()
             event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "eto1")
             assert event_2.getTriggerIRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestTransformerHardErrorEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a TransformerHardErrorEvent with both IRefs (Table 7.23)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef, RTriggerInAtomicSwcInstanceRef
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import TransformerHardErrorEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createTransformerHardErrorEvent("the1")
+        op_iref = POperationInAtomicSwcInstanceRef()
+        op_iref.setContextPPortRef(_ref("/Pkg/App/pp", "P-PORT-PROTOTYPE"))
+        op_iref.setTargetProvidedOperationRef(_ref("/Pkg/If/op", "CLIENT-SERVER-OPERATION"))
+        event.setOperationIRef(op_iref)
+        trig_iref = RTriggerInAtomicSwcInstanceRef()
+        trig_iref.setContextRPortRef(_ref("/Pkg/App/rp", "R-PORT-PROTOTYPE"))
+        trig_iref.setTargetTriggerRef(_ref("/Pkg/App/trigger1", "TRIGGER"))
+        event.setRequiredTriggerIRef(trig_iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "the1")
+            assert isinstance(event_2, TransformerHardErrorEvent)
+            got_op = event_2.getOperationIRef()
+            assert got_op is not None
+            assert got_op.getContextPPortRef().getValue() == "/Pkg/App/pp"
+            assert got_op.getTargetProvidedOperationRef().getValue() == "/Pkg/If/op"
+            got_trig = event_2.getRequiredTriggerIRef()
+            assert got_trig is not None
+            assert got_trig.getContextRPortRef().getValue() == "/Pkg/App/rp"
+            assert got_trig.getTargetTriggerRef().getValue() == "/Pkg/App/trigger1"
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a TransformerHardErrorEvent without IRefs round-trips without the elements."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createTransformerHardErrorEvent("the1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("TRANSFORMER-HARD-ERROR-EVENT"))
+            assert all(not c.tag.endswith("OPERATION-IREF") for c in evt)
+            assert all(not c.tag.endswith("REQUIRED-TRIGGER-IREF") for c in evt)
+            assert all(not c.tag.endswith("TRIGGER-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "the1")
+            assert event_2.getOperationIRef() is None
+            assert event_2.getRequiredTriggerIRef() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

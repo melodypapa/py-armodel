@@ -604,6 +604,8 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     # [x] getBackgroundEvents                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDataSendCompletedEvents                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExternalTriggerOccurredEvents             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTransformerHardErrorEvent              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerHardErrorEvents                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getSwcServiceDependencies                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getEvent                                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getVariableDataPrototypes                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -967,6 +969,16 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
             self.events.append(event)
         return cast(ExternalTriggerOccurredEvent, self.getReferrableElement(short_name, ExternalTriggerOccurredEvent))
 
+    def createTransformerHardErrorEvent(self, short_name: str) -> TransformerHardErrorEvent:
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        if not self.IsReferrableElementExists(short_name, TransformerHardErrorEvent):
+            event = TransformerHardErrorEvent(self, short_name)
+            self.addReferrableElement(event)
+            self.events.append(event)
+        return cast(TransformerHardErrorEvent, self.getReferrableElement(short_name, TransformerHardErrorEvent))
+
     def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
         """
         Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
@@ -1042,6 +1054,12 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         """
         return sorted([c for c in self.events if isinstance(c, ExternalTriggerOccurredEvent)], key=lambda e: e.short_name)
+
+    def getTransformerHardErrorEvents(self) -> List[TransformerHardErrorEvent]:
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted([c for c in self.events if isinstance(c, TransformerHardErrorEvent)], key=lambda e: e.short_name)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
         """
