@@ -983,6 +983,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
     VlanMembership,
@@ -12017,7 +12018,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         modification = stream_identification.getFilterActionDestPortModification()
         if modification is not None:
             modification_element = ET.SubElement(child_element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
-            self.writeIdentifiable(modification_element, modification)
+            self.writeSwitchStreamFilterActionDestPortModification(modification_element, modification)
         self.setChildElementOptionalBooleanValue(child_element, "FILTER-ACTION-DROP-FRAME", stream_identification.getFilterActionDropFrame())
         self.setChildElementOptionalPositiveInteger(child_element, "FILTER-ACTION-VLAN-MODIFICATION", stream_identification.getFilterActionVlanModification())
         ingress_port_refs = stream_identification.getIngressPortRefs()
@@ -12029,6 +12030,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if stream_filter_rule is not None:
             stream_filter_rule_element = ET.SubElement(child_element, "STREAM-FILTER-RULE")
             self.writeSwitchStreamFilterRule(stream_filter_rule_element, stream_filter_rule)
+
+    def writeSwitchStreamFilterActionDestPortModification(self, element: ET.Element, modification: Optional[SwitchStreamFilterActionDestPortModification]):
+        if modification is not None:
+            self.writeIdentifiable(element, modification)
+            egress_port_refs = modification.getEgressPortRefs()
+            if len(egress_port_refs) > 0:
+                egress_port_refs_element = ET.SubElement(element, "EGRESS-PORT-REFS")
+                for ref in egress_port_refs:
+                    self.setChildElementOptionalRefType(egress_port_refs_element, "EGRESS-PORT-REF", ref)
+            self.setChildElementOptionalLiteral(element, "MODIFICATION", modification.getModification())
 
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:

@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
-    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
 )
@@ -722,6 +721,62 @@ class SwitchStreamFilterActionPortModificationEnum(AREnum):
 
     def __init__(self):
         super().__init__([SwitchStreamFilterActionPortModificationEnum.EXTEND, SwitchStreamFilterActionPortModificationEnum.OVERWRITE])
+
+
+class SwitchStreamFilterActionDestPortModification(Identifiable):
+    """
+    Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Either the egress destination of an Ethernet frame is extended or overwritten. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterActionDestPortModification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.93, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEgressPortRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEgressPortRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getModification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+        self.egressPortRefs: List[RefType] = []
+
+        # Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+        self.modification: Optional[SwitchStreamFilterActionPortModificationEnum] = None
+
+    def addEgressPortRef(self, value: Optional[RefType]) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a egressPortRef.
+        """
+        if value is not None:
+            self.egressPortRefs.append(value)
+        return self
+
+    def getEgressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+        """
+        return self.egressPortRefs
+
+    def getModification(self) -> Optional[SwitchStreamFilterActionPortModificationEnum]:
+        """
+        Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+        """
+        return self.modification
+
+    def setModification(self, value: Optional[SwitchStreamFilterActionPortModificationEnum]) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing modification.
+        """
+        if value is not None:
+            self.modification = value
+        return self
 
 
 class StreamFilterMACAddress(ARObject):

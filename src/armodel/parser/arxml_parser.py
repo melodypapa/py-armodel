@@ -1179,6 +1179,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
+    SwitchStreamFilterActionDestPortModification,
+    SwitchStreamFilterActionPortModificationEnum,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
@@ -11163,7 +11165,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
         if child_element is not None:
             modification = stream_identification.createFilterActionDestPortModification(self.getShortName(child_element))
-            self.readIdentifiable(child_element, modification)
+            self.readSwitchStreamFilterActionDestPortModification(child_element, modification)
         stream_identification.setFilterActionDropFrame(self.getChildElementOptionalBooleanValue(element, "FILTER-ACTION-DROP-FRAME"))
         stream_identification.setFilterActionVlanModification(self.getChildElementOptionalPositiveInteger(element, "FILTER-ACTION-VLAN-MODIFICATION"))
         for ref in self.getChildElementRefTypeList(element, "INGRESS-PORT-REFS/INGRESS-PORT-REF"):
@@ -11172,6 +11174,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             stream_filter_rule = stream_identification.createStreamFilterRule(self.getShortName(child_element))
             self.readSwitchStreamFilterRule(child_element, stream_filter_rule)
+
+    def readSwitchStreamFilterActionDestPortModification(self, element: ET.Element, modification: SwitchStreamFilterActionDestPortModification):
+        self.readIdentifiable(element, modification)
+        for ref in self.getChildElementRefTypeList(element, "EGRESS-PORT-REFS/EGRESS-PORT-REF"):
+            modification.addEgressPortRef(ref)
+        modification_literal = self.getChildElementOptionalLiteral(element, "MODIFICATION")
+        if modification_literal is not None:
+            value = SwitchStreamFilterActionPortModificationEnum()
+            value.setValue(modification_literal.getValue())
+            modification.setModification(value)
 
     def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
         self.readARObject(element, mac_address)

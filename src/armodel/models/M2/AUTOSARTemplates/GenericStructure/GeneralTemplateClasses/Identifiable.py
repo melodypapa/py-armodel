@@ -1571,10 +1571,6 @@ class SwitchFlowMeteringEntry(Identifiable):
     pass
 
 
-class SwitchStreamFilterActionDestPortModification(Identifiable):
-    pass
-
-
 class SwitchStreamFilterEntry(Identifiable):
     pass
 

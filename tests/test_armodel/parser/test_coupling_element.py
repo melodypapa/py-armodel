@@ -14,7 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
-    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
 )
@@ -24,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementEnum,
     CouplingElementSwitchDetails,
     CouplingPort,
+    SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
 )
