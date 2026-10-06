@@ -871,33 +871,37 @@ collapses a signature that fits within 200 chars, so do not hand-break one that 
 ## Rule 0010 — Enums Inherit `AREnum` *(formerly Rule 11)*
 
 Every enum inherits `AREnum` (not `Enum`, `str`+`Enum`, `IntEnum`, …), imported from
-`…GenericStructure.GeneralTemplateClasses.PrimitiveTypes`. The body has members with
-string values (`MEMBER = "member_value"`).
+`…GenericTemplateClasses.PrimitiveTypes`. The body has members with string values, each
+value being the **exact XSD enumeration-facet spelling** (see Rule 0011).
 
 ---
 
 ## Rule 0011 — Enum Specification Sync *(formerly Rule 12)*
 
 - Locate the enum's spec `Enumeration` table; members 1:1 with the `Literal` rows — no
-  extra, no missing. Placeholder shapes keep the right count with wrong values (hyphenated
-  `full-communication` for spec `full`, paraphrased names) — verify each value against the
-  `Literal` column (`mmt.qualifiedName`) and the name against the literal's UPPER_CASE.
-- Member name: spec literal → UPPER_CASE (`derivedFrom` → `DERIVED_FROM`). Member value:
-  **exactly** the spec literal (`DERIVED_FROM = "derivedFrom"`).
-- **Member value vs XML form:** the member value is the camelCase `mmt.qualifiedName`
-  (`DependencyUsageEnum.BUILD = "build"`); the **XSD** serializes enum literals in
-  **UPPERCASE**. Keep the member matching the spec; write UPPERCASE only in test XML
-  fixtures/XSD-valid fragments.
-- Class docstring: the spec `Note` **verbatim from the markdown** (do not paraphrase). Each
-  member has an inline comment citing the literal's description + Tags
+  extra, no missing. Placeholder shapes keep the right count with wrong values — verify
+  each value against the `Literal` column (`mmt.qualifiedName`).
+- Member **name**: spec literal → UPPER_SNAKE (`derivedFrom` → `DERIVED_FROM`).
+- Member **value**: the **exact enumeration facet of the XSD `--SIMPLE` simpleType**
+  (`src/armodel/validation/schemas/R23-11/AUTOSAR_00052.xsd`) — for R23-11 classes this
+  is UPPER-KEBAB (`DERIVED_FROM = "DERIVED-FROM"`, `NoteTypeEnum.CAUTION = "CAUTION"`).
+  The spec PDF/markdown literal (often camelCase) is the source for the member **name**,
+  never the value. Find the simpleType by converting the class name to kebab-case with
+  digit-boundary rules (`J1939` → `J-1939`, `Aes3` → `AES-3`), then try `<NAME>` and
+  `<NAME>--SIMPLE`. Reproduce XSD spelling quirks verbatim — double-hyphen tokens
+  (`J-1939-NM--AAC`, `AUTO-IP--DOIP`) and merged tokens (`AUTO-IPDHCPV-4`) are what
+  XSD-valid arxml contains. The writer serializes the member value **verbatim** — there
+  is no camelCase↔token translation step.
+- Class docstring: the spec `Note` **verbatim from the markdown** (do not paraphrase).
+  Each member has an inline comment citing the literal's description + Tags
   (`atp.EnumerationLiteralIndex=N`).
-- Tests reference members like `MyEnum.MEMBER_NAME` for reading; to **set** an enum
-  attribute construct `MyEnum().setValue(MyEnum.MEMBER_NAME)`; assert round-tripped values
-  with `.getValue() == "memberName"` (the parser returns a generic `ARLiteral`). A
-  synced enum defines `__init__(self)` passing the tuple to `AREnum`, so `MyEnum()` is
-  instantiable.
-
----
+- **Tests use enum constants, not strings:** read and set via members
+  (`MyEnum().setValue(MyEnum.MEMBER_NAME)`, assert `getValue() == MyEnum.MEMBER_NAME`).
+  Plain strings are reserved for (a) XML wire-format fixtures in parser/writer tests,
+  (b) constant↔literal pin-tests (`assert MyEnum.MEMBER == "<facet>"`), and (c)
+  intentionally invalid values in leniency tests.
+- A synced enum defines `__init__(self)` passing the tuple to `AREnum` in XSD facet
+  order, so `MyEnum()` is instantiable.
 
 ## Rule 0012 — Docstring & Comment Sync *(formerly Rule 13)*
 
