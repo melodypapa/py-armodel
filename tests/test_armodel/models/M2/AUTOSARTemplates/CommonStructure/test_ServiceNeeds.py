@@ -3431,7 +3431,7 @@ class TestObdRatioServiceNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "RatioNeeds"
             assert isinstance(needs_2, ObdRatioServiceNeeds)
-            assert needs_2.getConnectionType().getValue() == "apiUse"
+            assert needs_2.getConnectionType().getValue() == "API-USE"
             assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
             assert needs_2.getRateBasedMonitoredEventRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS"
             assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
@@ -3518,7 +3518,7 @@ class TestObdRatioDenominatorNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "DenomNeeds"
             assert isinstance(needs_2, ObdRatioDenominatorNeeds)
-            assert needs_2.getDenominatorCondition().getValue() == "csers"
+            assert needs_2.getDenominatorCondition().getValue() == "CSERS"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -3843,7 +3843,7 @@ class TestSecureOnBoardCommunicationNeeds:
             needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
-            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureAndSuccess"
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == "FAILURE-AND-SUCCESS"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

@@ -109,7 +109,7 @@ class TestWriteAbstractCanCommunicationConnector:
         assert ref.get("DEST") == "CAN-COMMUNICATION-CONTROLLER"
         assert ref.text == "/can/ctrl"
         assert connector_tag.find("CREATE-ECU-WAKEUP-SOURCE").text == "true"
-        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "active"
+        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "ACTIVE"
         assert connector_tag.find("PNC-WAKEUP-CAN-ID").text == "401"
 
     def test_write_empty_connector_emits_no_abstract_level_elements(self):
@@ -138,10 +138,10 @@ class TestWriteAbstractCanCommunicationConnector:
         ports = connector.getEcuCommPortInstances()
         assert len(ports) == 1
         assert ports[0].getShortName() == "fp"
-        assert ports[0].getCommunicationDirection().getValue() == "in"
+        assert ports[0].getCommunicationDirection().getValue() == "IN"
 
         assert [mask.getValue() for mask in connector.getPncFilterArrayMasks()] == [255, 1]
-        assert connector.getPncGatewayType().getValue() == "active"
+        assert connector.getPncGatewayType().getValue() == "ACTIVE"
         assert connector.getPncWakeupCanId().getValue() == 401
 
     def test_round_trip_empty(self):

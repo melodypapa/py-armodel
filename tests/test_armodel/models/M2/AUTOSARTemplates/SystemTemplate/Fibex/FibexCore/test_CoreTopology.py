@@ -763,7 +763,7 @@ class TestCommunicationConnector:
 
         assert connector == connector.setPncGatewayType(gateway_type)
         assert connector.getPncGatewayType() is gateway_type
-        assert connector.getPncGatewayType().getValue() == "active"
+        assert connector.getPncGatewayType().getValue() == "ACTIVE"
 
         assert connector == connector.setPncGatewayType(None)  # None no-op
         assert connector.getPncGatewayType() is gateway_type  # unchanged

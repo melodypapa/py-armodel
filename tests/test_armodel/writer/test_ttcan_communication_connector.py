@@ -118,7 +118,7 @@ class TestWriteTtcanCommunicationConnector:
         assert connector_tag.find("ECU-COMM-PORT-INSTANCES/FRAME-PORT/SHORT-NAME").text == "fp"
         masks = connector_tag.findall("PNC-FILTER-ARRAY-MASKS/PNC-FILTER-ARRAY-MASK")
         assert [mask.text for mask in masks] == ["255", "1"]
-        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "active"
+        assert connector_tag.find("PNC-GATEWAY-TYPE").text == "ACTIVE"
 
     def test_bare_connector_emits_short_name_only(self):
         connector = _new_instance_with_connector(full=False).getConnectors()[0]
@@ -169,10 +169,10 @@ class TestWriteTtcanCommunicationConnector:
         ports = connector.getEcuCommPortInstances()
         assert len(ports) == 1
         assert ports[0].getShortName() == "fp"
-        assert ports[0].getCommunicationDirection().getValue() == "in"
+        assert ports[0].getCommunicationDirection().getValue() == "IN"
 
         assert [mask.getValue() for mask in connector.getPncFilterArrayMasks()] == [255, 1]
-        assert connector.getPncGatewayType().getValue() == "active"
+        assert connector.getPncGatewayType().getValue() == "ACTIVE"
 
     def test_round_trip_empty(self):
         instance = _new_instance_with_connector(full=False)

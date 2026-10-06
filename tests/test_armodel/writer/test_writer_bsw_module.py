@@ -3011,7 +3011,7 @@ class TestWriterBswServiceDependency:
         ratio_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-SERVICE-NEEDS")
         assert ratio_element is not None
         assert ratio_element.find("SHORT-NAME").text == "needs"
-        assert ratio_element.find("CONNECTION-TYPE").text == "observer"
+        assert ratio_element.find("CONNECTION-TYPE").text == "OBSERVER"
         event_ref_element = ratio_element.find("RATE-BASED-MONITORED-EVENT-REF")
         assert event_ref_element is not None
         assert event_ref_element.text == "/Ratio/MonitoredEvent"
@@ -3040,7 +3040,7 @@ class TestWriterBswServiceDependency:
         denom_element = dep_element.find("SERVICE-NEEDS/OBD-RATIO-DENOMINATOR-NEEDS")
         assert denom_element is not None
         assert denom_element.find("SHORT-NAME").text == "needs"
-        assert denom_element.find("DENOMINATOR-CONDITION").text == "csers"
+        assert denom_element.find("DENOMINATOR-CONDITION").text == "CSERS"
         assert denom_element.find("DIAG-REQUIREMENT").text == "REQ-042"
         assert denom_element.find("SECURITY-ACCESS-LEVEL").text == "3"
 
@@ -3163,7 +3163,7 @@ class TestWriterBswServiceDependency:
         secoc_element = dep_element.find("SERVICE-NEEDS/SECURE-ON-BOARD-COMMUNICATION-NEEDS")
         assert secoc_element is not None
         assert secoc_element.find("SHORT-NAME").text == "needs"
-        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE").text == "failureOnly"
+        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE").text == "FAILURE-ONLY"
 
     def test_writeBswServiceDependency_secure_on_board_communication_needs_empty_wrapper(self, writer):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds
