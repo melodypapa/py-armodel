@@ -3037,7 +3037,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if documentation is None:
             return
         child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
+        self.writeVariationPointCapable(child_element, documentation)
 
     def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
         child_element = ET.SubElement(element, tag_name)
@@ -8864,7 +8866,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return
         container = ET.SubElement(element, "BSW-MODULE-DOCUMENTATIONS")
         child_element = ET.SubElement(container, "SW-COMPONENT-DOCUMENTATION")
+        self.writeARObject(child_element, documentation)
         self.writeSwComponentDocumentationElement(child_element, documentation)
+        self.writeVariationPointCapable(child_element, documentation)
 
     def setSwServiceArg(self, element: ET.Element, key: str, arg: Optional[SwServiceArg]):
         if arg is not None:

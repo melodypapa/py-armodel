@@ -8374,6 +8374,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentDocumentationElement(self, child_element: ET.Element) -> SwComponentDocumentation:
         documentation = SwComponentDocumentation()
+        self.readARObject(child_element, documentation)
         predefined_chapter_map = [
             ("SW-FEATURE-DEF", documentation.createSwFeatureDef),
             ("SW-FEATURE-DESC", documentation.createSwFeatureDesc),
@@ -8391,6 +8392,7 @@ class ARXMLParser(AbstractARXMLParser):
         for chapter_element in self.findall(child_element, "CHAPTER"):
             chapter = documentation.createChapter(self.getShortName(chapter_element))
             self.readChapterBody(chapter_element, chapter)
+        self.readVariationPointCapable(child_element, documentation)
         return documentation
 
     def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
