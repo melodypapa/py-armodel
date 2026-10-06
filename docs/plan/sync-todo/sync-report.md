@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 813 | 42.7% |
+| [x] Done | 814 | 42.8% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 400 | 21.0% |
+| [ ] Deferred | 399 | 21.0% |
 | [ ] Implemented | 346 | 18.2% |
 | [ ] Created | 334 | 17.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -850,7 +850,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucTextualParamValue`                                 | [ ] Deferred| b4a24a5d87                               | Group27          |
 | `EcucUriReferenceDef`                                   | [x] Done    | 0d45067479                               | Group19          |
 | `EcucValidationCondition`                               | [ ] Deferred| 401e19fd2d                               | Group27          |
-| `EcucValueCollection`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucValueCollection`                                   | [x] Done    | b65b2313a2                               | Group19          |
 | `EcucValueConfigurationClass`                           | [ ] Deferred| 6549a18aee                               | Group26          |
 | `EmphasisText`                                          | [x] Done    | N/A                                      | Group21          |
 | `EndToEndDescription`                                   | [x] Done    | d3db89bb98                               | Group10          |

@@ -156,7 +156,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       __init__.py — outside this class's scope, left for their owning rows); this
       row's files are black-clean and the full suite + npm run lint pass.
 
-- [ ] `EcucValueCollection` (input · R23-11 markdown · Table 2.45)
+- [x] `EcucValueCollection` (input · R23-11 markdown · Table 2.45) — commit b65b2313a (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): Table 2.45 AUTOSAR_CP_TPS_ECUConfiguration.md l.2949
     (pdf_page.py: no caption hit → direct pypdf caption scan → PDF p.108).
@@ -256,7 +256,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       appended to docs/examples/method_deviation_by_class.md; v2 tracker
       is script-generated — left to its next regen (ConfigReferenceValue
       precedent).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.

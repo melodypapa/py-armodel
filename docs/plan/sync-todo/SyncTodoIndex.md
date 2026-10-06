@@ -815,12 +815,12 @@ Status: **17/17** completed
 
 ## Group19
 
-Status: **4/16** completed
+Status: **5/16** completed
 
 | Class Name                       | Status       | Commit ID  |
 | -------------------------------- | ------------ | ---------- |
 | `ConfigReferenceValue`           | [x] Done     | 7ed4c9a4a4 |
-| `EcucValueCollection`            | [ ] Pending* | N/A        |
+| `EcucValueCollection`            | [x] Done     | b65b2313a2 |
 | `ModuleConfiguration`            | [ ] Pending* | N/A        |
 | `EcucConfigurationClassEnum`     | [ ] Pending* | N/A        |
 | `EcucScopeEnum`                  | [ ] Pending* | N/A        |
