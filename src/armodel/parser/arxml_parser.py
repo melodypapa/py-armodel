@@ -14765,6 +14765,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             details = CouplingPortDetails()
+            self.readARObject(child_element, details)
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)

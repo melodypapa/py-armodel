@@ -111,6 +111,34 @@ class TestCouplingPortDetailsRoundTrip:
         assert assignments[0].getTrafficClass().getValue() == 2
         assert parsed.getLastEgressSchedulerRef().getValue() == "/Ecu/CouplingPort/Sched9"
 
+    def test_round_trip_ar_object_attributes(self, writer, parser):
+        """Test that the ARObject base attributes (S checksum, T timestamp) survive the write/read cycle."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, String
+
+        details = _new_details()
+        checksum = String()
+        checksum.setValue("abc123")
+        details.setChecksum(checksum)
+        timestamp = DateTime()
+        timestamp.setValue("2024-01-01T12:00:00+00:00")
+        details.setTimestamp(timestamp)
+
+        parent = ET.Element("PARENT")
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
+        node = parent.find("COUPLING-PORT-DETAILS")
+        assert node is not None
+        assert node.attrib.get("S") == "abc123"
+        assert node.attrib.get("T") == "2024-01-01T12:00:00+00:00"
+
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
+        parsed = parser.getCouplingPortDetails(root[0], "COUPLING-PORT-DETAILS")
+        assert parsed is not None
+        assert parsed.getChecksum() is not None
+        assert parsed.getChecksum().getValue() == "abc123"
+        assert parsed.getTimestamp() is not None
+        assert parsed.getTimestamp().getValue() == "2024-01-01T12:00:00+00:00"
+
     def test_reader_empty_fields(self, parser):
         parent = ET.fromstring("<PARENT xmlns='%s'><COUPLING-PORT-DETAILS/></PARENT>" % NS)
         parsed = parser.getCouplingPortDetails(parent, "COUPLING-PORT-DETAILS")

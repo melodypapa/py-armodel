@@ -12475,6 +12475,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: Optional[CouplingPortDetails]):
         if details is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, details)
             self.writeCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
