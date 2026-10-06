@@ -1421,9 +1421,15 @@ class Test_Fibex4EthernetNetworkEndpoint:
 
 
 class TestEthernetPhysicalLayerTypeEnum:
-    """Test cases for EthernetPhysicalLayerTypeEnum (Table 3.57, p.111)."""
+    """Test cases for EthernetPhysicalLayerTypeEnum (Table 3.57, p.111, R23-11)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T == "1000BASE-T"
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T1 == "1000BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_T1 == "100BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
+        assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
+        assert EthernetPhysicalLayerTypeEnum.IEEE802_11P == "IEEE802-11P"
         assert list(EthernetPhysicalLayerTypeEnum().getEnumValues()) == [
             "1000BASE-T",
             "1000BASE-T1",
@@ -1432,12 +1438,19 @@ class TestEthernetPhysicalLayerTypeEnum:
             "10BASE-T1S",
             "IEEE802-11P",
         ]
-        assert EthernetPhysicalLayerTypeEnum._1000BASE_T == "1000BASE-T"
-        assert EthernetPhysicalLayerTypeEnum._1000BASE_T1 == "1000BASE-T1"
-        assert EthernetPhysicalLayerTypeEnum._100BASE_T1 == "100BASE-T1"
-        assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
-        assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
-        assert EthernetPhysicalLayerTypeEnum.I_EEE802_11P == "IEEE802-11P"
+
+    def test_instantiability_round_trip(self):
+        t1 = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum._1000BASE_T)
+        assert t1.getValue() == EthernetPhysicalLayerTypeEnum._1000BASE_T
+
+        t1s = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum._10BASE_T1S)
+        assert t1s.getValue() == EthernetPhysicalLayerTypeEnum._10BASE_T1S
+
+        ieee = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum.IEEE802_11P)
+        assert ieee.getValue() == EthernetPhysicalLayerTypeEnum.IEEE802_11P
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetPhysicalLayerTypeEnum.__doc__) == "Specifies physical layer types of Ethernet transceiver links."
 
 
 class TestEthernetSwitchVlanIngressTagEnum:

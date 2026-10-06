@@ -3305,9 +3305,9 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
 
     # EthernetPhysicalLayerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.57, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.physicalLayerType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Ethernet Standard (IEEE 802.3ab) to support 1Gbit/s over 4 twisted pairs. Tags: atp.EnumerationLiteralIndex=6 xml.name=1000BASE-T
     _1000BASE_T = "1000BASE-T"
@@ -3325,7 +3325,7 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
     _10BASE_T1S = "10BASE-T1S"
 
     # Ethernet Standard (IEEE 802.11p) to support wireless communication in vehicular environments. Tags: atp.EnumerationLiteralIndex=9 xml.name=IEEE802-11P
-    I_EEE802_11P = "IEEE802-11P"
+    IEEE802_11P = "IEEE802-11P"
 
     def __init__(self):
         super().__init__(
@@ -3335,7 +3335,7 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
                 EthernetPhysicalLayerTypeEnum._100BASE_T1,
                 EthernetPhysicalLayerTypeEnum._100BASE_TX,
                 EthernetPhysicalLayerTypeEnum._10BASE_T1S,
-                EthernetPhysicalLayerTypeEnum.I_EEE802_11P,
+                EthernetPhysicalLayerTypeEnum.IEEE802_11P,
             ]
         )
 
