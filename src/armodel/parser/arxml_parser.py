@@ -578,6 +578,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     PhysicalDimensionMapping,
+    StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
+    StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -1174,6 +1177,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdServerConfig,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
+    StreamFilterRuleIpTp,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
@@ -11195,6 +11199,41 @@ class ARXMLParser(AbstractARXMLParser):
             rule.setSourceMacAddress(mac_address)
         rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
         rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
+    def readStreamFilterRuleIpTp(self, element: ET.Element, rule: StreamFilterRuleIpTp):
+        self.readARObject(element, rule)
+        child_element = self.find(element, "DESTINATION-IPV-4-ADDRESS")
+        if child_element is not None:
+            ipv4_address = StreamFilterIpv4Address()
+            self.readARObject(child_element, ipv4_address)
+            rule.setDestinationIpv4Address(ipv4_address)
+        child_element = self.find(element, "DESTINATION-IPV-6-ADDRESS")
+        if child_element is not None:
+            ipv6_address = StreamFilterIpv6Address()
+            self.readARObject(child_element, ipv6_address)
+            rule.setDestinationIpv6Address(ipv6_address)
+        ports_element = self.find(element, "DESTINATION-PORTS")
+        if ports_element is not None:
+            for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
+                port_range = StreamFilterPortRange()
+                self.readARObject(child_element, port_range)
+                rule.addDestinationPort(port_range)
+        child_element = self.find(element, "SOURCE-IPV-4-ADDRESS")
+        if child_element is not None:
+            ipv4_address = StreamFilterIpv4Address()
+            self.readARObject(child_element, ipv4_address)
+            rule.setSourceIpv4Address(ipv4_address)
+        child_element = self.find(element, "SOURCE-IPV-6-ADDRESS")
+        if child_element is not None:
+            ipv6_address = StreamFilterIpv6Address()
+            self.readARObject(child_element, ipv6_address)
+            rule.setSourceIpv6Address(ipv6_address)
+        ports_element = self.find(element, "SOURCE-PORTS")
+        if ports_element is not None:
+            for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
+                port_range = StreamFilterPortRange()
+                self.readARObject(child_element, port_range)
+                rule.addSourcePort(port_range)
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)

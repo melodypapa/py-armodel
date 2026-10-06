@@ -978,6 +978,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdServerConfig,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
+    StreamFilterRuleIpTp,
     SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
@@ -12044,6 +12045,38 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeStreamFilterMACAddress(source_mac_address_element, source_mac_address)
             self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
             self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
+
+    def writeStreamFilterRuleIpTp(self, element: ET.Element, rule: Optional[StreamFilterRuleIpTp]):
+        if rule is not None:
+            self.writeARObject(element, rule)
+            destination_ipv4_address = rule.getDestinationIpv4Address()
+            if destination_ipv4_address is not None:
+                destination_ipv4_address_element = ET.SubElement(element, "DESTINATION-IPV-4-ADDRESS")
+                self.writeARObject(destination_ipv4_address_element, destination_ipv4_address)
+            destination_ipv6_address = rule.getDestinationIpv6Address()
+            if destination_ipv6_address is not None:
+                destination_ipv6_address_element = ET.SubElement(element, "DESTINATION-IPV-6-ADDRESS")
+                self.writeARObject(destination_ipv6_address_element, destination_ipv6_address)
+            destination_ports = rule.getDestinationPorts()
+            if len(destination_ports) > 0:
+                destination_ports_element = ET.SubElement(element, "DESTINATION-PORTS")
+                for port_range in destination_ports:
+                    port_range_element = ET.SubElement(destination_ports_element, "STREAM-FILTER-PORT-RANGE")
+                    self.writeARObject(port_range_element, port_range)
+            source_ipv4_address = rule.getSourceIpv4Address()
+            if source_ipv4_address is not None:
+                source_ipv4_address_element = ET.SubElement(element, "SOURCE-IPV-4-ADDRESS")
+                self.writeARObject(source_ipv4_address_element, source_ipv4_address)
+            source_ipv6_address = rule.getSourceIpv6Address()
+            if source_ipv6_address is not None:
+                source_ipv6_address_element = ET.SubElement(element, "SOURCE-IPV-6-ADDRESS")
+                self.writeARObject(source_ipv6_address_element, source_ipv6_address)
+            source_ports = rule.getSourcePorts()
+            if len(source_ports) > 0:
+                source_ports_element = ET.SubElement(element, "SOURCE-PORTS")
+                for port_range in source_ports:
+                    port_range_element = ET.SubElement(source_ports_element, "STREAM-FILTER-PORT-RANGE")
+                    self.writeARObject(port_range_element, port_range)
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)

@@ -16,7 +16,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
+    StreamFilterPortRange,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -799,6 +804,146 @@ class StreamFilterRuleDataLinkLayer(ARObject):
         if value is not None:
             self.vlanPriority = value
         return self
+
+
+class StreamFilterRuleIpTp(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterRuleIpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.88, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationIpv4Address  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpv4Address  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationIpv6Address  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpv6Address  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDestinationPort         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationPorts        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSourceIpv4Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpv4Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceIpv6Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpv6Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSourcePort              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourcePorts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+        self.destinationIpv4Address: Optional[StreamFilterIpv4Address] = None
+
+        # Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+        self.destinationIpv6Address: Optional[StreamFilterIpv6Address] = None
+
+        # Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+        self.destinationPorts: List[StreamFilterPortRange] = []
+
+        # Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+        self.sourceIpv4Address: Optional[StreamFilterIpv4Address] = None
+
+        # Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+        self.sourceIpv6Address: Optional[StreamFilterIpv6Address] = None
+
+        # Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+        self.sourcePorts: List[StreamFilterPortRange] = []
+
+    def getDestinationIpv4Address(self) -> Optional[StreamFilterIpv4Address]:
+        """
+        Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.destinationIpv4Address
+
+    def setDestinationIpv4Address(self, value: Optional[StreamFilterIpv4Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationIpv4Address.
+        """
+        if value is not None:
+            self.destinationIpv4Address = value
+        return self
+
+    def getDestinationIpv6Address(self) -> Optional[StreamFilterIpv6Address]:
+        """
+        Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.destinationIpv6Address
+
+    def setDestinationIpv6Address(self, value: Optional[StreamFilterIpv6Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationIpv6Address.
+        """
+        if value is not None:
+            self.destinationIpv6Address = value
+        return self
+
+    def addDestinationPort(self, value: Optional[StreamFilterPortRange]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not add to destinationPorts.
+        """
+        if value is not None:
+            self.destinationPorts.append(value)
+        return self
+
+    def getDestinationPorts(self) -> List[StreamFilterPortRange]:
+        """
+        Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+        """
+        return self.destinationPorts
+
+    def getSourceIpv4Address(self) -> Optional[StreamFilterIpv4Address]:
+        """
+        Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.sourceIpv4Address
+
+    def setSourceIpv4Address(self, value: Optional[StreamFilterIpv4Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceIpv4Address.
+        """
+        if value is not None:
+            self.sourceIpv4Address = value
+        return self
+
+    def getSourceIpv6Address(self) -> Optional[StreamFilterIpv6Address]:
+        """
+        Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.sourceIpv6Address
+
+    def setSourceIpv6Address(self, value: Optional[StreamFilterIpv6Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceIpv6Address.
+        """
+        if value is not None:
+            self.sourceIpv6Address = value
+        return self
+
+    def addSourcePort(self, value: Optional[StreamFilterPortRange]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not add to sourcePorts.
+        """
+        if value is not None:
+            self.sourcePorts.append(value)
+        return self
+
+    def getSourcePorts(self) -> List[StreamFilterPortRange]:
+        """
+        Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+        """
+        return self.sourcePorts
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

@@ -396,16 +396,33 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-06 (20479 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterRuleIpTp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.88, p.138
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its sibling StreamFilterRuleDataLinkLayer); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 6 Attribute rows
+    in displayed order (destinationIpv4Address `0..1` aggr StreamFilterIpv4Address,
+    destinationIpv6Address `0..1` aggr StreamFilterIpv6Address, destinationPort `*` aggr
+    StreamFilterPortRange, sourceIpv4Address `0..1` aggr StreamFilterIpv4Address,
+    sourceIpv6Address `0..1` aggr StreamFilterIpv6Address, sourcePort `*` aggr
+    StreamFilterPortRange); XML child order per XSD group STREAM-FILTER-RULE-IP-TP
+    (DESTINATION-IPV-4-ADDRESS, DESTINATION-IPV-6-ADDRESS, DESTINATION-PORTS,
+    SOURCE-IPV-4-ADDRESS, SOURCE-IPV-6-ADDRESS, SOURCE-PORTS). The member types
+    StreamFilterIpv4Address/StreamFilterIpv6Address/StreamFilterPortRange are still ArObject.py
+    stubs (queued Tables 3.89/3.90/…), so fields are typed with the stub classes and the
+    reader/writer dispatch their children through readARObject/writeARObject directly — ready to
+    upgrade to the dedicated readers/writers when those classes sync (the aggregator
+    SwitchStreamFilterRule is also still a stub; nothing to wire there yet).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20518 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterIpv4Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.89, p.138
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
