@@ -3758,6 +3758,7 @@ class TestSecureOnBoardCommunicationNeeds:
         needs = SecureOnBoardCommunicationNeeds(ar_root, "TestSecureOnBoardCommunicationNeeds")
 
         assert needs is not None
+        assert isinstance(needs, ServiceNeeds)
         assert needs.getShortName() == "TestSecureOnBoardCommunicationNeeds"
         assert needs.getVerificationStatusIndicationMode() is None
 
@@ -3800,6 +3801,33 @@ class TestSecureOnBoardCommunicationNeeds:
             assert needs_2.getShortName() == "SecOcNeeds"
             assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
             assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureOnly"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves SecureOnBoardCommunicationNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createSecureOnBoardCommunicationNeeds("SecOcNeeds")
+        needs.setVerificationStatusIndicationMode(VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            assert needs_2.getShortName() == "SecOcNeeds"
+            assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureAndSuccess"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

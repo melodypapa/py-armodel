@@ -3147,6 +3147,41 @@ class TestWriterBswServiceDependency:
         assert conf_element.find("DATA-LENGTH-RESPONSE") is None
         assert conf_element.find("ROUTING-ACTIVATION-TYPE") is None
 
+    def test_writeBswServiceDependency_secure_on_board_communication_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds, VerificationStatusIndicationModeEnum
+
+        dependency = BswServiceDependency()
+        needs = SecureOnBoardCommunicationNeeds(dependency, "needs")
+        needs.setVerificationStatusIndicationMode(VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        secoc_element = dep_element.find("SERVICE-NEEDS/SECURE-ON-BOARD-COMMUNICATION-NEEDS")
+        assert secoc_element is not None
+        assert secoc_element.find("SHORT-NAME").text == "needs"
+        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE").text == "failureOnly"
+
+    def test_writeBswServiceDependency_secure_on_board_communication_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds
+
+        dependency = BswServiceDependency()
+        needs = SecureOnBoardCommunicationNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        secoc_element = dep_element.find("SERVICE-NEEDS/SECURE-ON-BOARD-COMMUNICATION-NEEDS")
+        assert secoc_element is not None
+        assert secoc_element.find("SHORT-NAME").text == "needs"
+        assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE") is None
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

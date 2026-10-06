@@ -445,15 +445,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SecureOnBoardCommunicationNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.68, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-06): removed the stale R23-11 spec-verified marker and rebuilt the checklist in the 6-column format (release column, `[—]` glyphs); re-stamp deferred to batch 9b per user instruction. Implementation already conformed to Table 13.68 (most-derived base ServiceNeeds; single own attr verificationStatusIndicationMode `Optional[VerificationStatusIndicationModeEnum]` 0..1, PEP 526, blank-line block; class/attribute docstrings byte-identical to the markdown Notes — mechanical diff 0 deltas, no backtick artifacts), so model + reader/writer tests were written first and born GREEN; no model source change beyond the checklist. Reader/writer verified conformant, no changes needed: entry helpers read/writeSecureOnBoardCommunicationNeeds call read/writeServiceNeeds exactly once each (audit BASE clean), dispatch wired on both BSW (parser 3219 / writer 6165) and SWC (parser 3798 / writer 6818) paths, enum-typed leaf uses the getChildElementOptionalLiteral/setChildElementOptionalLiteral pair matching the sibling convention (RamBlockStatusControl/Reliability/MaxCommMode); new parser/writer tests pin the contract (field values + empty wrapper on the BSW aggregator, SWC dispatch round-trip with field values at model level). XSD group SECURE-ON-BOARD-COMMUNICATION-NEEDS (AUTOSAR_00052.xsd line 103179) has the single own element VERIFICATION-STATUS-INDICATION-MODE — writer emits it as the only own child in sequenceOffset order.
+  - Step 8 (2026-10-06): no spec deviations. Report-only observations: (1) member type VerificationStatusIndicationModeEnum (Table 13.69) is its own queued row — already 6-column synced + stamped from a prior pass, untouched here; (2) C5-shaped enum-token gap sits in that enum's row, not this class: model constants `failureOnly`/`failureAndSuccess` vs XSD `FAILURE-ONLY`/`FAILURE-AND-SUCCESS` (AUTOSAR_00052.xsd line 145337) — tracked proactively by docs/plan/xsd-validation-known-writer-defects.md (C5 group, fix belongs to the Table 13.69 pass); test documents carry no xsi:schemaLocation so the writer gate skips validation with a warning, same as every sibling row.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1901 + 8206 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py

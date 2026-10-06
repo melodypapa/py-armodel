@@ -2729,6 +2729,43 @@ class TestBswServiceDependencyHandlers:
         assert needs.getDataLengthResponse() is None
         assert needs.getRoutingActivationType() is None
 
+    def test_readBswServiceDependency_secure_on_board_communication_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<SECURE-ON-BOARD-COMMUNICATION-NEEDS><SHORT-NAME>needs</SHORT-NAME>"
+            "<VERIFICATION-STATUS-INDICATION-MODE>failureOnly</VERIFICATION-STATUS-INDICATION-MODE>"
+            "</SECURE-ON-BOARD-COMMUNICATION-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, SecureOnBoardCommunicationNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getVerificationStatusIndicationMode() is not None
+        assert needs.getVerificationStatusIndicationMode().getValue() == "failureOnly"
+
+    def test_readBswServiceDependency_secure_on_board_communication_needs_empty_wrapper(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SecureOnBoardCommunicationNeeds
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<SECURE-ON-BOARD-COMMUNICATION-NEEDS><SHORT-NAME>needs</SHORT-NAME>" "</SECURE-ON-BOARD-COMMUNICATION-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert isinstance(needs, SecureOnBoardCommunicationNeeds)
+        assert needs.getShortName() == "needs"
+        assert needs.getVerificationStatusIndicationMode() is None
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps
