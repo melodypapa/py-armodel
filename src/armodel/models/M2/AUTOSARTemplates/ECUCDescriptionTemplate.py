@@ -1083,6 +1083,7 @@ class ModuleConfiguration(ARElement):
 
     # ModuleConfiguration method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.30, l.1916 (R3.2.3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3
