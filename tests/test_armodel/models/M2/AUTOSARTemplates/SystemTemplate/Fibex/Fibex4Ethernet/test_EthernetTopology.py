@@ -1044,13 +1044,26 @@ class TestSdClientConfigSpecSync:
 
 
 class TestEthernetConnectionNegotiationEnum:
-    """Test cases for EthernetConnectionNegotiationEnum (Table 3.55, p.110)."""
+    """Test cases for EthernetConnectionNegotiationEnum (CP_TPS_SystemTemplate Table 3.55, p.110, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["AUTO", "MASTER", "SLAVE"]
+    def test_member_presence_and_values(self):
         assert EthernetConnectionNegotiationEnum.AUTO == "AUTO"
         assert EthernetConnectionNegotiationEnum.MASTER == "MASTER"
         assert EthernetConnectionNegotiationEnum.SLAVE == "SLAVE"
+        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["AUTO", "MASTER", "SLAVE"]
+
+    def test_instantiability_round_trip(self):
+        auto = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.AUTO)
+        assert auto.getValue() == EthernetConnectionNegotiationEnum.AUTO
+
+        master = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.MASTER)
+        assert master.getValue() == EthernetConnectionNegotiationEnum.MASTER
+
+        slave = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.SLAVE)
+        assert slave.getValue() == EthernetConnectionNegotiationEnum.SLAVE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetConnectionNegotiationEnum.__doc__) == "Specifies connection negotiation types of Ethernet transceiver links."
 
 
 class TestCouplingPortRoleEnum:
