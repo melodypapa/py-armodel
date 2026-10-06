@@ -3105,6 +3105,48 @@ class TestWriterBswServiceDependency:
         assert auth_element.find("DATA-LENGTH-RESPONSE") is None
         assert auth_element.find("ROUTING-ACTIVATION-TYPE") is None
 
+    def test_writeBswServiceDependency_do_ip_routing_activation_confirmation_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationConfirmationNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationConfirmationNeeds(dependency, "needs")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        conf_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
+        assert conf_element is not None
+        assert conf_element.find("SHORT-NAME").text == "needs"
+        assert conf_element.find("DATA-LENGTH-REQUEST").text == "4"
+        assert conf_element.find("DATA-LENGTH-RESPONSE").text == "8"
+        assert conf_element.find("ROUTING-ACTIVATION-TYPE").text == "RA_0xE1"
+
+    def test_writeBswServiceDependency_do_ip_routing_activation_confirmation_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpRoutingActivationConfirmationNeeds
+
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationConfirmationNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        conf_element = dep_element.find("SERVICE-NEEDS/DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS")
+        assert conf_element is not None
+        assert conf_element.find("SHORT-NAME").text == "needs"
+        assert conf_element.find("DATA-LENGTH-REQUEST") is None
+        assert conf_element.find("DATA-LENGTH-RESPONSE") is None
+        assert conf_element.find("ROUTING-ACTIVATION-TYPE") is None
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

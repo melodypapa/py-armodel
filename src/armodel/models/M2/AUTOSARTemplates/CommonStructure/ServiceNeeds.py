@@ -2738,14 +2738,14 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     # DoIpRoutingActivationConfirmationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.59, p.807
-    # Spec verified: R23-11
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLengthRequest         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthRequest         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLengthResponse        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLengthResponse        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutingActivationType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRoutingActivationType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2809,7 +2809,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def getRoutingActivationType(self) -> Optional[NameToken]:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
 
         Returns:
             NameToken instance, or None if not set
@@ -2818,7 +2818,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     def setRoutingActivationType(self, value: Optional[NameToken]) -> DoIpRoutingActivationConfirmationNeeds:
         """
-        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain ``RA_`` + hex value representation of the integer value shall be used (i.e: ``RA_0xE1``).
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
         A None value is a no-op and does not overwrite an existing routingActivationType.
 
         Args:

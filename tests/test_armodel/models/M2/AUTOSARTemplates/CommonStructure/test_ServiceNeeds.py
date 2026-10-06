@@ -3637,6 +3637,7 @@ class TestDoIpRoutingActivationConfirmationNeeds:
         needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
 
         assert needs is not None
+        assert isinstance(needs, DoIpServiceNeeds)
         assert needs.getShortName() == "TestDoIpRoutingActivationConfirmationNeeds"
         assert needs.getDataLengthRequest() is None
         assert needs.getDataLengthResponse() is None
@@ -3708,6 +3709,37 @@ class TestDoIpRoutingActivationConfirmationNeeds:
             ARXMLParser().load(file_path, document_2)
             behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ConfNeeds"
+            assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
+            assert needs_2.getDataLengthRequest().getValue() == 4
+            assert needs_2.getDataLengthResponse().getValue() == 8
+            assert needs_2.getRoutingActivationType().getValue() == "RA_0xE1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves DoIpRoutingActivationConfirmationNeeds fields (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createDoIpRoutingActivationConfirmationNeeds("ConfNeeds")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getReferrableElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
             assert needs_2.getShortName() == "ConfNeeds"
             assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
             assert needs_2.getDataLengthRequest().getValue() == 4

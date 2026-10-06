@@ -3369,9 +3369,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
         needs.setDataLengthResponse(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-RESPONSE"))
-        child_element = self.find(element, "ROUTING-ACTIVATION-TYPE")
-        if child_element is not None:
-            needs.setRoutingActivationType(NameToken().setValue(child_element.text or ""))
+        needs.setRoutingActivationType(self.getChildElementOptionalNameToken(element, "ROUTING-ACTIVATION-TYPE"))
 
     def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
         self.readServiceNeeds(element, needs)
