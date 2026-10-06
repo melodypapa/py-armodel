@@ -1842,7 +1842,29 @@ class DdsOwnershipKindEnum(AREnum):
 
 
 class DdsReliabilityKindEnum(AREnum):
-    pass
+    """
+    See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+    """
+
+    # DdsReliabilityKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.193, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsReliability.reliabilityKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "RELIABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BEST_EFFORT = "BEST-EFFORT"
+
+    # See "RELIABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    RELIABLE = "RELIABLE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsReliabilityKindEnum.BEST_EFFORT,
+                DdsReliabilityKindEnum.RELIABLE,
+            ]
+        )
 
 
 class DefaultValueApplicationStrategyEnum(AREnum):

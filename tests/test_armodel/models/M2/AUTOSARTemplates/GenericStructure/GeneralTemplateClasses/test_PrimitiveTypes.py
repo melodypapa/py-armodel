@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3406,3 +3407,46 @@ class TestDdsLivenessKindEnum:
         enum.setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC)
 
         assert enum.getValue() == DdsLivenessKindEnum.MANUAL_BY_TOPIC
+
+
+class TestDdsReliabilityKindEnum:
+    """
+    Test class for DdsReliabilityKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.193, p.535
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsReliabilityKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsReliabilityKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsReliabilityKindEnum.BEST_EFFORT,
+            DdsReliabilityKindEnum.RELIABLE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsReliabilityKindEnum member values.
+        """
+        enum = DdsReliabilityKindEnum()
+
+        assert DdsReliabilityKindEnum.BEST_EFFORT == "BEST-EFFORT"
+        assert DdsReliabilityKindEnum.RELIABLE == "RELIABLE"
+
+        assert enum.validateEnumValue("BEST-EFFORT") is True
+        assert enum.validateEnumValue("RELIABLE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsReliabilityKindEnum instantiability and getValue.
+        """
+        enum = DdsReliabilityKindEnum()
+        enum.setValue(DdsReliabilityKindEnum.RELIABLE)
+
+        assert enum.getValue() == DdsReliabilityKindEnum.RELIABLE
