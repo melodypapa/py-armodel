@@ -909,37 +909,36 @@ class CouplingPort(Identifiable, VariationPointCapable):
 
     # CouplingPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.54, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortDetails               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortDetails               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacLayerType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacLayerType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMacMulticastAddressRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacMulticastAddressRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMacSecProps                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacSecProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaProps                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaProps                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addPncMappingRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncMappingRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getReceiveActivity                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReceiveActivity                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVlanMembership                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVlanMemberships                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getVlanModifierRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVlanModifierRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortDetails               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortDetails               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacLayerType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacLayerType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMacMulticastAddressRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacMulticastAddressRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMacSecProps                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacSecProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaProps                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaProps                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPncMappingRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncMappingRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getReceiveActivity                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceiveActivity                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVlanMembership                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanMemberships                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getVlanModifierRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanModifierRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -953,7 +952,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         # Defines the role this CouplingPort takes in the context of the CouplingElement.
         self.couplingPortRole: Optional[CouplingPortRoleEnum] = None
 
-        # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity).
         self.defaultVlanRef: Optional[RefType] = None
 
         # Specifies the mac layer type of the CouplingPort.
@@ -971,7 +970,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         # Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
         self.plcaProps: Optional[PlcaProps] = None
 
-        # Reference to the partial networks this CouplingPort participates in.
+        # Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping
         self.pncMappingRefs: List[RefType] = []
 
         # Defines the handling of frames at the ingress port.
@@ -1026,12 +1025,12 @@ class CouplingPort(Identifiable, VariationPointCapable):
         return self
 
     def getDefaultVlanRef(self) -> Optional[RefType]:
-        """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan"""
+        """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity)."""
         return self.defaultVlanRef
 
     def setDefaultVlanRef(self, value: Optional[RefType]) -> CouplingPort:
         """
-        The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity).
         A None value is a no-op and does not overwrite an existing defaultVlanRef.
         """
         if value is not None:
@@ -1105,7 +1104,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
 
     def addPncMappingRef(self, ref: Optional[RefType]) -> CouplingPort:
         """
-        Reference to the partial networks this CouplingPort participates in.
+        Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping
         A None value is a no-op and does not append to pncMappingRefs.
         """
         if ref is not None:
@@ -1113,7 +1112,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         return self
 
     def getPncMappingRefs(self) -> List[RefType]:
-        """Reference to the partial networks this CouplingPort participates in."""
+        """Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping"""
         return self.pncMappingRefs
 
     def getReceiveActivity(self) -> Optional[EthernetSwitchVlanIngressTagEnum]:

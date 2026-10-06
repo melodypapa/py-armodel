@@ -1917,3 +1917,81 @@ class TestEthernetCluster:
     def test_mac_multicast_group_docstrings_are_spec_note(self):
         self._assert_docstring(EthernetCluster.createMacMulticastGroup, MAC_MULTICAST_GROUP_NOTE)
         self._assert_docstring(EthernetCluster.getMacMulticastGroups, MAC_MULTICAST_GROUP_NOTE)
+
+
+COUPLING_PORT_CLASS_NOTE = "A CouplingPort is used to connect a CouplingElement with an EcuInstance or two CouplingElements with each other via a CouplingPortConnection. Optionally, the CouplingPort may also have a reference to a macMulticastGroup and a defaultVLAN."
+DEFAULT_VLAN_NOTE = "The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity)."
+PNC_MAPPING_NOTE = "Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping"
+
+
+class TestCouplingPortSpecSync:
+    """Spec-sync checks for CouplingPort (R23-11 CP_TPS_SystemTemplate, Table 3.54, p.110)."""
+
+    MEMBERS = [
+        "connectionNegotiationBehavior",
+        "couplingPortDetails",
+        "couplingPortRole",
+        "defaultVlanRef",
+        "macLayerType",
+        "macMulticastAddressRefs",
+        "macSecProps",
+        "physicalLayerType",
+        "plcaProps",
+        "pncMappingRefs",
+        "receiveActivity",
+        "vlanMemberships",
+        "vlanModifierRef",
+        "wakeupSleepOnDatalineConfigRef",
+    ]
+
+    def _make(self) -> CouplingPort:
+        return CouplingPort(MockParent(), "test_coupling_port")
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert issubclass(CouplingPort, Identifiable)
+        assert issubclass(CouplingPort, VariationPointCapable)
+        assert issubclass(CouplingPort, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        assert CouplingPort.__doc__.strip() == COUPLING_PORT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert CouplingPort.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(CouplingPort.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_coupling_port_speed_removed_not_modelled(self):
+        port = self._make()
+        assert not hasattr(port, "couplingPortSpeed")
+
+    def test_default_vlan_docstrings_are_spec_note(self):
+        noop = "A None value is a no-op and does not overwrite an existing defaultVlanRef."
+        assert CouplingPort.getDefaultVlanRef.__doc__.strip() == DEFAULT_VLAN_NOTE
+        assert inspect.cleandoc(CouplingPort.setDefaultVlanRef.__doc__).strip() == DEFAULT_VLAN_NOTE + "\n" + noop
+
+    def test_pnc_mapping_docstrings_carry_stereotype_tail(self):
+        noop = "A None value is a no-op and does not append to pncMappingRefs."
+        assert inspect.cleandoc(CouplingPort.addPncMappingRef.__doc__).strip() == PNC_MAPPING_NOTE + "\n" + noop
+        assert CouplingPort.getPncMappingRefs.__doc__.strip() == PNC_MAPPING_NOTE
+
+    def test_reader_round_trips_mac_sec_props_wrapper(self, tmp_path):
+        import xml.etree.cElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        element = ET.fromstring(
+            "<COUPLING-PORT xmlns='http://autosar.org/schema/r4.0'>"
+            "<SHORT-NAME>CP1</SHORT-NAME>"
+            "<MAC-SEC-PROPSS><MAC-SEC-PROPS><AUTO-START>true</AUTO-START></MAC-SEC-PROPS></MAC-SEC-PROPSS>"
+            "</COUPLING-PORT>"
+        )
+        recovered = CouplingPort(MockParent(), "CP1")
+        ARXMLParser().readCouplingPort(element, recovered)
+        props = recovered.getMacSecProps()
+        assert len(props) == 1
+        assert props[0].getAutoStart().getValue() is True

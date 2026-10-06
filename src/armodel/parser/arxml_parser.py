@@ -14873,7 +14873,7 @@ class ARXMLParser(AbstractARXMLParser):
             port.setConnectionNegotiationBehavior(cast(Optional[EthernetConnectionNegotiationEnum], e))
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
         port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
-        for child_element in self.findall(element, "MAC-SEC-PROPS"):
+        for child_element in self.findall(element, "MAC-SEC-PROPSS/MAC-SEC-PROPS"):
             props = self.getMacSecProps(child_element)
             if props is not None:
                 port.addMacSecProps(props)

@@ -12569,7 +12569,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPort(self, element: ET.Element, port: CouplingPort):
         child_element = ET.SubElement(element, "COUPLING-PORT")
-        self.writeIdentifiable(child_element, port)
+        # VARIATION-POINT is emitted after the COUPLING-PORT group attributes
+        # (xml.sequenceOffset="10000" in AUTOSAR_00052.xsd group COUPLING-PORT).
+        self.writeIdentifiable(child_element, port, write_variation_point=False)
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
@@ -12582,8 +12584,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_element, "MAC-MULTICAST-ADDRESS-REF", ref)
 
-        for props in port.getMacSecProps():
-            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
+        props_list = port.getMacSecProps()
+        if len(props_list) > 0:
+            props_element = ET.SubElement(child_element, "MAC-SEC-PROPSS")
+            for props in props_list:
+                self.setMacSecProps(props_element, "MAC-SEC-PROPS", props)
         self.setChildElementOptionalLiteral(child_element, "PHYSICAL-LAYER-TYPE", port.getPhysicalLayerType())
         self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
 
@@ -12596,6 +12601,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCouplingPortVlanMemberships(child_element, port)
         self.setChildElementOptionalRefType(child_element, "VLAN-MODIFIER-REF", port.getVlanModifierRef())
         self.setChildElementOptionalRefType(child_element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF", port.getWakeupSleepOnDatalineConfigRef())
+        self.writeVariationPointCapable(child_element, port)
 
     def writeEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
         ports = controller.getCouplingPorts()
