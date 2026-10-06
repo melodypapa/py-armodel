@@ -881,7 +881,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (integration round-trips incl.); npm run lint clean; black clean on
       all touched files; no marker in batch mode.
 
-- [ ] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 markdown · Table 2.31
+- [x] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 markdown · Table 2.31 — commit 958007001 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.31 AUTOSAR_CP_TPS_ECUConfiguration.md l.2009-2016
     (caption l.2007; pdf_page.py: PDF p.75 caption hit). Concrete Class;
@@ -1000,7 +1000,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       integration fixture carries ECUC-FOREIGN-REFERENCE-DEF (no Rule 0019
       combine case). v2 tracker has no EcucForeignReferenceDef entry
       (nothing to reconcile there).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
