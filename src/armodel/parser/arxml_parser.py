@@ -581,7 +581,20 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsResourceLimits,
     DdsTopicData,
+    DdsTransportPriority,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -728,6 +741,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -11881,6 +11895,41 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
         self.logger.debug("Read DiagnosticParameterSupportInfo")
         support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
+    def readDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
+        self.logger.debug("Read DdsCpQosProfile")
+        self.readIdentifiable(element, profile)
+        if self.find(element, "DEADLINE") is not None:
+            profile.setDeadline(DdsDeadline())
+        if self.find(element, "DESTINATION-ORDER") is not None:
+            profile.setDestinationOrder(DdsDestinationOrder())
+        if self.find(element, "DURABILITY") is not None:
+            profile.setDurability(DdsDurability())
+        if self.find(element, "DURABILITY-SERVICE") is not None:
+            profile.setDurabilityService(DdsDurabilityService())
+        if self.find(element, "HISTORY") is not None:
+            profile.setHistory(DdsHistory())
+        if self.find(element, "LATENCY-BUDGET") is not None:
+            profile.setLatencyBudget(DdsLatencyBudget())
+        if self.find(element, "LIFESPAN") is not None:
+            profile.setLifespan(DdsLifespan())
+        if self.find(element, "LIVELINESS") is not None:
+            profile.setLiveliness(DdsLiveliness())
+        if self.find(element, "OWNERSHIP") is not None:
+            profile.setOwnership(DdsOwnership())
+        if self.find(element, "OWNERSHIP-STRENGTH") is not None:
+            profile.setOwnershipStrength(DdsOwnershipStrength())
+        if self.find(element, "RELIABILITY") is not None:
+            profile.setReliability(DdsReliability())
+        if self.find(element, "RESOURCE-LIMITS") is not None:
+            profile.setResourceLimits(DdsResourceLimits())
+        topic_data_element = self.find(element, "TOPIC-DATA")
+        if topic_data_element is not None:
+            topic_data = DdsTopicData()
+            self.readDdsTopicData(topic_data_element, topic_data)
+            profile.setTopicData(topic_data)
+        if self.find(element, "TRANSPORT-PRIORITY") is not None:
+            profile.setTransportPriority(DdsTransportPriority())
 
     def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         self.logger.debug("Read DdsCpTopic")

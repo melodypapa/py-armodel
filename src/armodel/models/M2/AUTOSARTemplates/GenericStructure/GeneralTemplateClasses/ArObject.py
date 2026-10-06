@@ -2466,10 +2466,6 @@ class DdsCpProvidedServiceInstance(ARObject):
         return self.staticRemoteUnicastAddressRefs
 
 
-class DdsCpQosProfile(ARObject):
-    pass
-
-
 class DdsCpServiceInstanceEvent(ARObject, VariationPointCapable):
     """
     This element represents an event as part of the Provided Service Instance. Tags: atp.Status=candidate

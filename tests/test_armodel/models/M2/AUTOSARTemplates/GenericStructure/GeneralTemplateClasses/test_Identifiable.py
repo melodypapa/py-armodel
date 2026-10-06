@@ -12,9 +12,28 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticParameter, RoleBasedResourceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsResourceLimits,
+    DdsTopicData,
+    DdsTransportPriority,
+    DiagnosticParameter,
+    RoleBasedResourceDependency,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -1987,3 +2006,171 @@ class TestDdsCpTopic:
         assert inspect.cleandoc(DdsCpTopic.setDdsPartitionRef.__doc__) == (self.DDS_PARTITION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsPartitionRef.")
         assert inspect.cleandoc(DdsCpTopic.getTopicName.__doc__) == self.TOPIC_NAME_NOTE
         assert inspect.cleandoc(DdsCpTopic.setTopicName.__doc__) == (self.TOPIC_NAME_NOTE + "\n\nA None value is a no-op and does not overwrite an existing topicName.")
+
+
+class TestDdsCpQosProfile:
+    """
+    Test class for DdsCpQosProfile functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.179, p.529
+    """
+
+    CLASS_NOTE = "Definition of a DDS QOS Profile. Tags: atp.Status=candidate"
+
+    # Attribute Note cells verbatim, in the displayed row order of Table 6.179.
+    NOTES = {
+        "Deadline": "Defines the DDS DEADLINE QoS policy. Tags: atp.Status=candidate",
+        "DestinationOrder": "Defines the DDS DESTINATION_ORDER QoS policy.",
+        "Durability": "Defines the DDS DURABILITY QoS policy. Tags: atp.Status=candidate",
+        "DurabilityService": "Defines the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate",
+        "History": "Defines the DDS HISTORY QoS policy.",
+        "LatencyBudget": "Defines the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate",
+        "Lifespan": "Defines the DDS LIFESPAN QoS policy.",
+        "Liveliness": "Defines the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate",
+        "Ownership": "Defines the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate",
+        "OwnershipStrength": "Defines the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate",
+        "Reliability": "Defines the DDS RELIABILITY QoS policy.",
+        "ResourceLimits": "Defines the DDS RESOURCE_LIMITS QoS policy.",
+        "TopicData": "Defines the DDS TOPIC_DATA QoS policy.",
+        "TransportPriority": "Defines the DDS TRANSPORT_PRIORITY QoS policy.",
+    }
+
+    FIELD_NAMES = [
+        "Deadline",
+        "DestinationOrder",
+        "Durability",
+        "DurabilityService",
+        "History",
+        "LatencyBudget",
+        "Lifespan",
+        "Liveliness",
+        "Ownership",
+        "OwnershipStrength",
+        "Reliability",
+        "ResourceLimits",
+        "TopicData",
+        "TransportPriority",
+    ]
+
+    def _create_profile(self) -> DdsCpQosProfile:
+        return DdsCpQosProfile(AUTOSAR.getInstance(), "QosProfile1")
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpQosProfile initializes all attributes to their defaults.
+        """
+        obj = self._create_profile()
+
+        assert obj.getShortName() == "QosProfile1"
+        assert obj.getDeadline() is None
+        assert obj.getDestinationOrder() is None
+        assert obj.getDurability() is None
+        assert obj.getDurabilityService() is None
+        assert obj.getHistory() is None
+        assert obj.getLatencyBudget() is None
+        assert obj.getLifespan() is None
+        assert obj.getLiveliness() is None
+        assert obj.getOwnership() is None
+        assert obj.getOwnershipStrength() is None
+        assert obj.getReliability() is None
+        assert obj.getResourceLimits() is None
+        assert obj.getTopicData() is None
+        assert obj.getTransportPriority() is None
+
+    def test_is_identifiable_subclass(self):
+        """
+        Test that DdsCpQosProfile derives from Identifiable (Base column most-derived synced class).
+        """
+        assert issubclass(DdsCpQosProfile, Identifiable)
+        assert issubclass(DdsCpQosProfile, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpQosProfile.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpQosProfile.__init__.__doc__ is None
+
+    def test_accessor_names(self):
+        """
+        Test that the 14 spec accessor pairs exist under their spec-derived names (Table 6.179 row order).
+        """
+        for name in (
+            "getDeadline",
+            "setDeadline",
+            "getDestinationOrder",
+            "setDestinationOrder",
+            "getDurability",
+            "setDurability",
+            "getDurabilityService",
+            "setDurabilityService",
+            "getHistory",
+            "setHistory",
+            "getLatencyBudget",
+            "setLatencyBudget",
+            "getLifespan",
+            "setLifespan",
+            "getLiveliness",
+            "setLiveliness",
+            "getOwnership",
+            "setOwnership",
+            "getOwnershipStrength",
+            "setOwnershipStrength",
+            "getReliability",
+            "setReliability",
+            "getResourceLimits",
+            "setResourceLimits",
+            "getTopicData",
+            "setTopicData",
+            "getTransportPriority",
+            "setTransportPriority",
+        ):
+            assert hasattr(DdsCpQosProfile, name), name
+
+    def test_get_set_pairs_round_trip_and_none_no_op(self):
+        """
+        Every 0..1 aggr attribute: setter returns self, value round-trips, setXxx(None) is a no-op.
+        """
+        obj = self._create_profile()
+
+        values = {
+            "Deadline": DdsDeadline(),
+            "DestinationOrder": DdsDestinationOrder(),
+            "Durability": DdsDurability(),
+            "DurabilityService": DdsDurabilityService(),
+            "History": DdsHistory(),
+            "LatencyBudget": DdsLatencyBudget(),
+            "Lifespan": DdsLifespan(),
+            "Liveliness": DdsLiveliness(),
+            "Ownership": DdsOwnership(),
+            "OwnershipStrength": DdsOwnershipStrength(),
+            "Reliability": DdsReliability(),
+            "ResourceLimits": DdsResourceLimits(),
+            "TopicData": DdsTopicData(),
+            "TransportPriority": DdsTransportPriority(),
+        }
+        for name in self.FIELD_NAMES:
+            getter = getattr(obj, f"get{name}")
+            setter = getattr(obj, f"set{name}")
+            value = values[name]
+            assert setter(value) is obj  # method chaining
+            assert getter() is value
+
+            assert setter(None) is obj  # None is a no-op
+            assert getter() is value
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        for name in self.FIELD_NAMES:
+            getter = getattr(DdsCpQosProfile, f"get{name}")
+            setter = getattr(DdsCpQosProfile, f"set{name}")
+            field_name = name[0].lower() + name[1:]
+            assert inspect.cleandoc(getter.__doc__) == self.NOTES[name], name
+            assert inspect.cleandoc(setter.__doc__) == (self.NOTES[name] + f"\n\nA None value is a no-op and does not overwrite an existing {field_name}."), name

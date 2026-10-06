@@ -616,17 +616,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DdsCpQosProfile` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DdsCpQosProfile` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2, same rehousing as DdsCpTopic 0babf1fb0; stub-batch test tuple rehoused.)
+  - Note: synced last in this subagent's batch (after DdsTopicData 614d80ce8 — dependency-first, Rule 0016.5)
+    so the topicData child gets real read/write coverage, not identity-only. 14 aggr children 0..1 in
+    displayed row order (= XSD sequenceOffset order, group DDS-CP-QOS-PROFILE AUTOSAR_00052.xsd l.28963);
+    all non-Identifiable (Base=ARObject) children → set/get shape (Rule 0001.6). Identity-only child
+    serialization debt (Rule 0001.7): deadline, destinationOrder, durability, durabilityService, history,
+    latencyBudget, lifespan, liveliness, ownership, ownershipStrength, reliability, resourceLimits,
+    transportPriority aggregate still-unsynced Dds* QoS policy classes (queued Table 6.181-6.200) — reader
+    constructs the child, writer emits the empty element; those children's own syncs replace the
+    placeholders. Not VP-capable (no VARIATION-POINT in group). Nested helper read/writeDdsCpQosProfile
+    added; aggregator hook-in (DdsCpConfig.ddsQosProfile — queued Table 6.175) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsTopicData` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.180, p.529
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

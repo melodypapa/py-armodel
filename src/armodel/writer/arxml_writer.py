@@ -568,6 +568,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -15658,6 +15659,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
+    def writeDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
+        child_element = ET.SubElement(element, "DDS-CP-QOS-PROFILE")
+        self.writeIdentifiable(child_element, profile)
+        if profile.getDeadline() is not None:
+            ET.SubElement(child_element, "DEADLINE")
+        if profile.getDestinationOrder() is not None:
+            ET.SubElement(child_element, "DESTINATION-ORDER")
+        if profile.getDurability() is not None:
+            ET.SubElement(child_element, "DURABILITY")
+        if profile.getDurabilityService() is not None:
+            ET.SubElement(child_element, "DURABILITY-SERVICE")
+        if profile.getHistory() is not None:
+            ET.SubElement(child_element, "HISTORY")
+        if profile.getLatencyBudget() is not None:
+            ET.SubElement(child_element, "LATENCY-BUDGET")
+        if profile.getLifespan() is not None:
+            ET.SubElement(child_element, "LIFESPAN")
+        if profile.getLiveliness() is not None:
+            ET.SubElement(child_element, "LIVELINESS")
+        if profile.getOwnership() is not None:
+            ET.SubElement(child_element, "OWNERSHIP")
+        if profile.getOwnershipStrength() is not None:
+            ET.SubElement(child_element, "OWNERSHIP-STRENGTH")
+        if profile.getReliability() is not None:
+            ET.SubElement(child_element, "RELIABILITY")
+        if profile.getResourceLimits() is not None:
+            ET.SubElement(child_element, "RESOURCE-LIMITS")
+        if profile.getTopicData() is not None:
+            self.writeDdsTopicData(child_element, profile.getTopicData())
+        if profile.getTransportPriority() is not None:
+            ET.SubElement(child_element, "TRANSPORT-PRIORITY")
 
     def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         child_element = ET.SubElement(element, "DDS-CP-TOPIC")
