@@ -1077,13 +1077,26 @@ class TestCouplingPortRoleEnum:
 
 
 class TestEthernetMacLayerTypeEnum:
-    """Test cases for EthernetMacLayerTypeEnum (Table 3.56, p.110)."""
+    """Test cases for EthernetMacLayerTypeEnum (CP_TPS_SystemTemplate Table 3.56, p.110, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["X-MII", "XG-MII", "XXG-MII"]
-        assert EthernetMacLayerTypeEnum.XGMII == "XG-MII"
+    def test_member_presence_and_values(self):
         assert EthernetMacLayerTypeEnum.XMII == "X-MII"
+        assert EthernetMacLayerTypeEnum.XGMII == "XG-MII"
         assert EthernetMacLayerTypeEnum.XXGMII == "XXG-MII"
+        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["X-MII", "XG-MII", "XXG-MII"]
+
+    def test_instantiability_round_trip(self):
+        xmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XMII)
+        assert xmii.getValue() == EthernetMacLayerTypeEnum.XMII
+
+        xgmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XGMII)
+        assert xgmii.getValue() == EthernetMacLayerTypeEnum.XGMII
+
+        xxgmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XXGMII)
+        assert xxgmii.getValue() == EthernetMacLayerTypeEnum.XXGMII
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetMacLayerTypeEnum.__doc__) == "Specifies MAC (Media Access Control) Layer types."
 
 
 class Test_Fibex4EthernetNetworkEndpoint:
