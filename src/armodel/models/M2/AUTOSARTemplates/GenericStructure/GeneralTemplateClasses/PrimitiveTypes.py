@@ -1679,10 +1679,6 @@ class ContainerIPduTriggerEnum(AREnum):
     pass
 
 
-class CouplingElementEnum(AREnum):
-    pass
-
-
 class CryptoServiceKeyGenerationEnum(AREnum):
     pass
 

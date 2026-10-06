@@ -2340,6 +2340,36 @@ class Ipv6AddressSourceEnum(AREnum):
         )
 
 
+class CouplingElementEnum(AREnum):
+    """
+    Identifies the Coupling type.
+    """
+
+    # CouplingElementEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.53, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingElement.couplingType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # A device that is used to connect segments of a LAN. In Hubs frames are "broadcasted" to every one of its ports. Tags: atp.EnumerationLiteralIndex=0
+    HUB = "HUB"
+
+    # A device that routes frames between different networks. Tags: atp.EnumerationLiteralIndex=1
+    ROUTER = "ROUTER"
+
+    # A device that filters and forwards frames between different LAN segments. Tags: atp.EnumerationLiteralIndex=2
+    SWITCH = "SWITCH"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CouplingElementEnum.HUB,
+                CouplingElementEnum.ROUTER,
+                CouplingElementEnum.SWITCH,
+            ]
+        )
+
+
 class EthernetConnectionNegotiationEnum(AREnum):
     """
     Specifies connection negotiation types of Ethernet transceiver links.
