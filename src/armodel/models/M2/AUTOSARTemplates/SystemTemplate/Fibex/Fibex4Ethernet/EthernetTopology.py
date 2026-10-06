@@ -511,15 +511,14 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
     # CouplingPortFifo method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.68, p.124
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -530,7 +529,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         # FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
         self.minimumFifoLength: Optional[PositiveInteger] = None
 
-        # Definition of the shaper to be used for the processing of this FIFO.
+        # Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
         self.shaper: Optional[CouplingPortAbstractShaper] = None
 
     def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
@@ -543,11 +542,15 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         return self
 
     def getAssignedTrafficClasses(self) -> List[PositiveInteger]:
-        """Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7"""
+        """
+        Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7
+        """
         return self.assignedTrafficClasses
 
     def getMinimumFifoLength(self) -> Optional[PositiveInteger]:
-        """FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."""
+        """
+        FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
+        """
         return self.minimumFifoLength
 
     def setMinimumFifoLength(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
@@ -560,12 +563,14 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         return self
 
     def getShaper(self) -> Optional[CouplingPortAbstractShaper]:
-        """Definition of the shaper to be used for the processing of this FIFO."""
+        """
+        Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
+        """
         return self.shaper
 
     def setShaper(self, value: Optional[CouplingPortAbstractShaper]) -> CouplingPortFifo:
         """
-        Definition of the shaper to be used for the processing of this FIFO.
+        Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing shaper.
         """
         if value is not None:

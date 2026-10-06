@@ -14535,7 +14535,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, item)
 
     def readCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
-        self.readCouplingPortSchedulerCouplingPortStructuralElement(element, fifo)
+        self.readIdentifiable(element, fifo)
         for item in self.findall(element, "ASSIGNED-TRAFFIC-CLASSS/ASSIGNED-TRAFFIC-CLASS"):
             value = PositiveInteger()
             value.setValue(item.text)

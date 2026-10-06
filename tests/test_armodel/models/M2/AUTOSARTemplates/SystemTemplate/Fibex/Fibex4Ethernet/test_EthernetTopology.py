@@ -217,6 +217,26 @@ class TestEthernetTopology:
         fifo = CouplingPortFifo(MockParent(), "TestFifo")
         assert not hasattr(fifo, "trafficClassPreemptionSupport")
 
+    def test_coupling_port_fifo_docstrings_are_spec_notes(self):
+        """Accessors carry the Table 3.68 (p.124) Notes verbatim, incl. the shaper Tags tail."""
+        class_note = "Defines a FIFO for the CouplingPort egress structure."
+        assigned_note = "Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7"
+        minimum_note = "FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."
+        shaper_note = "Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(CouplingPortFifo.__doc__).strip() == class_note
+        assert inspect.cleandoc(CouplingPortFifo.addAssignedTrafficClass.__doc__).strip() == assigned_note + "\nA None value is a no-op and does not append to assignedTrafficClasses."
+        assert inspect.cleandoc(CouplingPortFifo.getAssignedTrafficClasses.__doc__).strip() == assigned_note
+        assert inspect.cleandoc(CouplingPortFifo.getMinimumFifoLength.__doc__).strip() == minimum_note
+        assert inspect.cleandoc(CouplingPortFifo.setMinimumFifoLength.__doc__).strip() == minimum_note + "\nA None value is a no-op and does not overwrite an existing minimumFifoLength."
+        assert inspect.cleandoc(CouplingPortFifo.getShaper.__doc__).strip() == shaper_note
+        assert inspect.cleandoc(CouplingPortFifo.setShaper.__doc__).strip() == shaper_note + "\nA None value is a no-op and does not overwrite an existing shaper."
+
+    def test_coupling_port_fifo_member_order_matches_spec(self):
+        """Member order matches the Table 3.68 (p.124) displayed order."""
+        source = inspect.getsource(CouplingPortFifo.__init__)
+        indexes = [source.index("self.%s:" % member) for member in ("assignedTrafficClasses", "minimumFifoLength", "shaper")]
+        assert indexes == sorted(indexes)
+
     def test_coupling_port_scheduler(self):
         """
         Test the CouplingPortScheduler class initialization and methods (Table 3.65, p.123).

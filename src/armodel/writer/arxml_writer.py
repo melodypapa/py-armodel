@@ -12273,7 +12273,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
         if fifo is not None:
             child_element = ET.SubElement(element, "COUPLING-PORT-FIFO")
-            self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, fifo)
+            self.writeIdentifiable(child_element, fifo)
             classes = fifo.getAssignedTrafficClasses()
             if len(classes) > 0:
                 classes_element = ET.SubElement(child_element, "ASSIGNED-TRAFFIC-CLASSS")
