@@ -951,6 +951,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElement,
     CouplingElementAbstractDetails,
     CouplingElementSwitchDetails,
+    EthIpProps,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
@@ -11289,6 +11290,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-PROPS")
             self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", cast(Integer, props.getUdpTtl()))
 
+    def writeEthIpProps(self, element: ET.Element, props: EthIpProps):
+        """Write an R23-11 <ETH-IP-PROPS> element (Table 3.100, p.146): SHORT-NAME, IPV-4-PROPS, IPV-6-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ETH-IP-PROPS")
+            self.writeIdentifiable(child_element, props)
+            ipv4Props_value = props.getIpv4Props()
+            if ipv4Props_value is not None:
+                ET.SubElement(child_element, "IPV-4-PROPS")
+            ipv6Props_value = props.getIpv6Props()
+            if ipv6Props_value is not None:
+                ET.SubElement(child_element, "IPV-6-PROPS")
+
     def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
         if props is not None:
@@ -17974,6 +17987,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModuleConfiguration(element, ar_element)
         elif isinstance(ar_element, EcucValueCollection):
             self.writeEcucValueCollection(element, ar_element)
+        elif isinstance(ar_element, EthIpProps):
+            self.writeEthIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpIcmpProps):

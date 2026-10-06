@@ -674,16 +674,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-06 (20697 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `EthIpProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.100, p.146
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ARPackage.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly before
+    its spec-section sibling EthTcpIpProps). 2 aggr members (ipv4Props/ipv6Props, 0..1) typed with
+    the real leaf classes Ipv4Props/Ipv6Props, which are queued separately in this group (Tables
+    3.101/3.105) — until their sync lands the IPV-4-PROPS/IPV-6-PROPS children round-trip
+    presence-only (empty ARObject-level elements; XSD sequence IPV-4-PROPS, IPV-6-PROPS).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20717 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

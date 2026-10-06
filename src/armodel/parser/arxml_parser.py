@@ -577,6 +577,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    Ipv4Props,
+    Ipv6Props,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1156,6 +1158,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
+    EthIpProps,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     EthernetCluster,
@@ -11010,6 +11013,16 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
 
+    def readEthIpProps(self, element: ET.Element, props: EthIpProps):
+        """Read an R23-11 <ETH-IP-PROPS> element (Table 3.100, p.146): SHORT-NAME, IPV-4-PROPS, IPV-6-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "IPV-4-PROPS")
+        if child_element is not None:
+            props.setIpv4Props(Ipv4Props())
+        child_element = self.find(element, "IPV-6-PROPS")
+        if child_element is not None:
+            props.setIpv6Props(Ipv6Props())
+
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
         self.readIdentifiable(element, props)
@@ -17475,6 +17488,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSignalServiceTranslationPropsSet(child_element, props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
+            elif tag_name == "ETH-IP-PROPS":
+                self.readEthIpProps(child_element, parent.createEthIpProps(self.getShortName(child_element)))
             elif tag_name == "ETH-TCP-IP-PROPS":
                 props = parent.createEthTcpIpProps(self.getShortName(child_element))
                 self.readEthTcpIpProps(child_element, props)

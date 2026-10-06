@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4Props, Ipv6Props
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5666,6 +5666,64 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getVlan(self) -> Optional[VlanConfig]:
         """VLAN Configuration."""
         return self.vlan
+
+
+class EthIpProps(ARElement):
+    """This meta-class is used to configure the EcuInstance specific IP attributes. Tags: atp.recommendedPackage=EthIpProps"""
+
+    # EthIpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.100, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv4Props    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6Props    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Member types Ipv4Props/Ipv6Props are queued separately in this group (Tables
+    # 3.101/3.105) — until their sync lands the IPV-4-PROPS/IPV-6-PROPS children
+    # round-trip presence-only (empty ARObject-level elements).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Configuration options for IPv4.
+        self.ipv4Props: Optional[Ipv4Props] = None
+
+        # Configuration options for IPv6.
+        self.ipv6Props: Optional[Ipv6Props] = None
+
+    def getIpv4Props(self) -> Optional[Ipv4Props]:
+        """
+        Configuration options for IPv4.
+        """
+        return self.ipv4Props
+
+    def setIpv4Props(self, value: Optional[Ipv4Props]) -> EthIpProps:
+        """
+        Configuration options for IPv4.
+
+        A None value is a no-op and does not overwrite an existing ipv4Props.
+        """
+        if value is not None:
+            self.ipv4Props = value
+        return self
+
+    def getIpv6Props(self) -> Optional[Ipv6Props]:
+        """
+        Configuration options for IPv6.
+        """
+        return self.ipv6Props
+
+    def setIpv6Props(self, value: Optional[Ipv6Props]) -> EthIpProps:
+        """
+        Configuration options for IPv6.
+
+        A None value is a no-op and does not overwrite an existing ipv6Props.
+        """
+        if value is not None:
+            self.ipv6Props = value
+        return self
 
 
 class EthTcpIpProps(ARElement):
