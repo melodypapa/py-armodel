@@ -3553,3 +3553,84 @@ class TestWaitPointRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestIncludedDataTypeSetRoundTrip:
+    def test_round_trip_populated(self):
+        """Test that IncludedDataTypeSet round-trips field values through the SwcInternalBehavior path (Table 7.50)."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        data_type_set = IncludedDataTypeSet()
+        prefix = Identifier()
+        prefix.setValue("CalVal_")
+        data_type_set.setLiteralPrefix(prefix)
+        data_type_set.addDataTypeRef(_ref("/dt/Type1", "APPLICATION-PRIMITIVE-DATA-TYPE"))
+        behavior.addIncludedDataTypeSet(data_type_set)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            idts = next(e for e in saved.iter() if e.tag.endswith("INCLUDED-DATA-TYPE-SET"))
+            children = [c.tag for c in idts]
+            refs_pos = next(i for i, t in enumerate(children) if t.endswith("DATA-TYPE-REFS"))
+            prefix_pos = next(i for i, t in enumerate(children) if t.endswith("LITERAL-PREFIX"))
+            assert refs_pos < prefix_pos
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            sets = behavior_2.getIncludedDataTypeSets()
+            assert len(sets) == 1
+            assert sets[0].getLiteralPrefix() is not None
+            assert sets[0].getLiteralPrefix().getValue() == "CalVal_"
+            refs = sets[0].getDataTypeRefs()
+            assert len(refs) == 1
+            assert refs[0].getValue() == "/dt/Type1"
+            assert refs[0].getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a behavior without included data type sets writes no INCLUDED-DATA-TYPE-SETS wrapper."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        app.createSwcInternalBehavior("Behavior")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            assert next((e for e in saved.iter() if e.tag.endswith("INCLUDED-DATA-TYPE-SETS")), None) is None
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            assert behavior_2.getIncludedDataTypeSets() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

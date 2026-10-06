@@ -2647,9 +2647,7 @@ No deviations (2026-10-05 re-sync, Table 7.17, p.544): Rule 0023 legacy 5-column
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `literalPrefix` | `Identifier` | — | missing |
+No deviations (2026-10-06 re-sync, Table 7.50, p.600): Rule 0023 release-column-less checklist replaced with the 6-column format and the stale `# Spec verified: R23-11` marker removed (stays withheld pending the batch 9b confirmation, user instruction); class docstring Note and member docstrings rewritten verbatim (spec quirks kept: "upper Limit" and "AutosarData Types" with the markdown's space, dataType Note without trailing period). Stale deviation row removed: `missing` for `literalPrefix` — implemented and now spec-typed `Optional[Identifier]` (was `Optional[ARLiteral]`, Rule 0001.3 upgrade; Identifier is stamped). Prior-state drift fixed in the same pass: `readSwcInternalBehavior` never read INCLUDED-DATA-TYPE-SETS (only the Bsw path did) — added `readSwcInternalBehaviorIncludedDataTypeSets` in XSD sequence position; both writer paths (`setIncludedDataTypeSets`, `writeBswInternalBehaviorIncludedDataTypeSets`) emitted LITERAL-PREFIX before the DATA-TYPE-REFS wrapper against XSD group order (the Red round-trip failed schema validation) — reordered to DATA-TYPE-REFS, LITERAL-PREFIX. Report-only: XSD group INCLUDED-DATA-TYPE-SET (AUTOSAR_00052.xsd line 72057) holds no member beyond the PDF table (Rule 0015) and no `atp.Status="removed"` members; dataType is a `*` `ref` row → `dataTypeRefs: List[RefType]` via RefType (no Rule 0001.10 missing member types).
 
 ## `SensorActuatorSwComponentType`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 646

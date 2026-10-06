@@ -3939,9 +3939,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "INCLUDED-DATA-TYPE-SETS/INCLUDED-DATA-TYPE-SET"):
             include_data_type_set = IncludedDataTypeSet()
             self.readARObject(child_element, include_data_type_set)
-            include_data_type_set.setLiteralPrefix(self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX"))
             for ref_type in self.getChildElementRefTypeList(child_element, "DATA-TYPE-REFS/DATA-TYPE-REF"):
                 include_data_type_set.addDataTypeRef(ref_type)
+            include_data_type_set.setLiteralPrefix(cast(Optional[Identifier], self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX")))
             include_data_type_sets.append(include_data_type_set)
         return include_data_type_sets
 
@@ -4766,6 +4766,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
         self.readSwcInternalBehaviorImplicitInterRunnableVariables(element, behavior)
+        self.readSwcInternalBehaviorIncludedDataTypeSets(element, behavior)
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
         self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
@@ -4795,6 +4796,10 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSwcInternalBehavior(child_element, behavior)
             else:
                 self.notImplemented("Unsupported Internal Behaviors <%s>" % tag_name)
+
+    def readSwcInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for data_type_set in self.getIncludedDataTypeSets(element):
+            behavior.addIncludedDataTypeSet(data_type_set)
 
     def getIncludedModeDeclarationGroupSets(self, element: ET.Element) -> List[IncludedModeDeclarationGroupSet]:
         group_sets = []

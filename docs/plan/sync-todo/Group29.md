@@ -49,15 +49,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IncludedDataTypeSet` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.50, p.600
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table confirmed = CP_SWC TPS Table 7.50, p.600 (pdf_page.py). Concrete Class; Base = ARObject (most-derived, no Referrable/Identifiable) → `__init__(self)` — current base and leaf-package file shape `IncludedDataTypes.py` correct (Rule 0007). 2 own attrs in displayed order: dataType (AutosarDataType, *, ref → `dataTypeRefs: List[RefType]` + addDataTypeRef/getDataTypeRefs — shape correct), literalPrefix (Identifier, 0..1, attr — source typed `Optional[ARLiteral]` = Rule 0001.3 type drift; `Identifier` exists in PrimitiveTypes → retype in Step 3). CODE-NOCHECKLIST state confirmed: stale `# Spec verified: R23-11` + release-column-less checklist removed at session start (Rule 0023); 6-col checklist rebuilt at Step 7. Reader gap: `readSwcInternalBehavior` never reads INCLUDED-DATA-TYPE-SETS (only the Bsw path does) — fix in Step 6; both writer paths emit LITERAL-PREFIX before the DATA-TYPE-REFS wrapper while XSD group INCLUDED-DATA-TYPE-SET (AUTOSAR_00052.xsd line 72057) sequences DATA-TYPE-REFS first — order drift to fix in Step 6. Verbatim quirks to preserve: class Note "upper Limit" (spaced), literalPrefix Note "AutosarData Types" (spaced), dataType Note without trailing period.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — stale `missing` tracker row for `literalPrefix` (implemented, now spec-typed `Optional[Identifier]`, Rule 0001.3 upgrade from `Optional[ARLiteral]`) replaced with the "No deviations" re-sync summary in docs/examples/method_deviation_by_class.md. Prior-state drift fixed in the same pass: `readSwcInternalBehavior` never read INCLUDED-DATA-TYPE-SETS (only the Bsw path did) → added `readSwcInternalBehaviorIncludedDataTypeSets` in XSD sequence position; both writer paths emitted LITERAL-PREFIX before the DATA-TYPE-REFS wrapper against XSD group order (Red round-trip failed schema validation) → reordered to DATA-TYPE-REFS, LITERAL-PREFIX; stale `# Spec verified: R23-11` marker + release-column-less checklist removed per Rule 0023 (marker stays withheld pending batch 9b, user instruction). Report-only: XSD group INCLUDED-DATA-TYPE-SET (line 72057) holds no member beyond the PDF table (Rule 0015) and no `atp.Status="removed"` members; no Rule 0001.10 missing member types (dataType `*` ref → RefType; literalPrefix → Identifier, stamped).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11473 + 8692 + 3 passed / 0 failed: models full tree, parser+writer regression, member-annotation gate); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `SwcServiceDependency` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.56, p.609; also CP_TPS_DiagnosticExtractTemplate Table 5.2, p.225
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py

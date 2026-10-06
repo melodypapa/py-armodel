@@ -7040,12 +7040,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for set in sets:
                 child_element = ET.SubElement(include_data_type_sets_tag, "INCLUDED-DATA-TYPE-SET")
                 self.writeARObject(child_element, set)
-                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
                 type_refs = set.getDataTypeRefs()
                 if len(type_refs) > 0:
                     data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
                     for type_ref in type_refs:
                         self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
+                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
 
     def writeIncludedModeDeclarationGroupSet(self, element: ET.Element, set: IncludedModeDeclarationGroupSet):
         if set is not None:
@@ -8580,12 +8580,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(data_type_set, IncludedDataTypeSet):
                     child_element = ET.SubElement(sets_tag, "INCLUDED-DATA-TYPE-SET")
                     self.writeARObject(child_element, data_type_set)
-                    self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", data_type_set.getLiteralPrefix())
                     type_refs = data_type_set.getDataTypeRefs()
                     if len(type_refs) > 0:
                         data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
                         for type_ref in type_refs:
                             self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
+                    self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", data_type_set.getLiteralPrefix())
                 else:
                     self.notImplemented("Unsupported IncludedDataTypeSet <%s>" % type(data_type_set))
 
