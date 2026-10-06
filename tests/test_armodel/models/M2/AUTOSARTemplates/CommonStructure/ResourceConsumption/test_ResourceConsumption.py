@@ -43,7 +43,7 @@ HW_PROCESSOR_SPEED_NOTE = "Specifies the speed the processor is operating."
 
 SW_CLASS_NOTE = "Specifies the context of the software for this resource consumption."
 SW_INPUT_NOTE = "Specifies the input vector which is used to provide the ExecutionTime."
-SW_STATE_NOTE = "Specifies the state the software is in when the Execution Time is provided."
+SW_STATE_NOTE = "Specifies the state the software is in when the ExecutionTime is provided."
 
 
 def _setter_tail(name):

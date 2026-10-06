@@ -7033,6 +7033,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSoftwareContext(self, element: ET.Element, context):
         if context is not None:
             child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
+            self.writeARObject(child_element, context)
             self.setChildElementOptionalLiteral(child_element, "INPUT", context.getInput())
             self.setChildElementOptionalLiteral(child_element, "STATE", context.getState())
 

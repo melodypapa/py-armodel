@@ -5492,6 +5492,7 @@ class ARXMLParser(AbstractARXMLParser):
         config.setProcessorSpeed(cast(Optional[String], self.getChildElementOptionalLiteral(element, "PROCESSOR-SPEED")))
 
     def readSoftwareContext(self, element: ET.Element, context: SoftwareContext):
+        self.readARObject(element, context)
         context.setInput(cast(Optional[String], self.getChildElementOptionalLiteral(element, "INPUT")))
         context.setState(cast(Optional[String], self.getChildElementOptionalLiteral(element, "STATE")))
 

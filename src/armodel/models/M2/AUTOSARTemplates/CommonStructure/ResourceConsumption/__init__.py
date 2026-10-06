@@ -119,7 +119,7 @@ class SoftwareContext(ARObject):
         # Specifies the input vector which is used to provide the ExecutionTime.
         self.input: Optional[String] = None
 
-        # Specifies the state the software is in when the Execution Time is provided.
+        # Specifies the state the software is in when the ExecutionTime is provided.
         self.state: Optional[String] = None
 
     def getInput(self) -> Optional[String]:
@@ -139,13 +139,13 @@ class SoftwareContext(ARObject):
 
     def getState(self) -> Optional[String]:
         """
-        Specifies the state the software is in when the Execution Time is provided.
+        Specifies the state the software is in when the ExecutionTime is provided.
         """
         return self.state
 
     def setState(self, value: Optional[String]) -> SoftwareContext:
         """
-        Specifies the state the software is in when the Execution Time is provided.
+        Specifies the state the software is in when the ExecutionTime is provided.
         A None value is a no-op and does not overwrite an existing state.
         """
         if value is not None:
