@@ -2414,10 +2414,6 @@ class Dhcpv6Props(ARObject):
     pass
 
 
-class EcuResourceEstimation(ARObject):
-    pass
-
-
 class EthGlobalTimeManagedCouplingPort(ARObject):
     pass
 

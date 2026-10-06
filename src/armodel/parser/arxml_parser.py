@@ -1439,7 +1439,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -16508,6 +16508,43 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "HW-PORT-MAPPINGS/HW-PORT-MAPPING"):
             mapping.addHwPortMapping(self.readHwPortMapping(child_element))
 
+    def readEcuResourceEstimation(self, element: ET.Element, estimation: EcuResourceEstimation):
+        self.readARObject(element, estimation)
+        estimation.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        bsw_element = self.find(element, "BSW-RESOURCE-ESTIMATION")
+        if bsw_element is not None:
+            consumption = estimation.createBswResourceEstimation(self.getShortName(bsw_element))
+            self.readIdentifiable(bsw_element, consumption)
+            self.readAccessCountSets(bsw_element, consumption)
+            self.readExecutionTimes(bsw_element, consumption)
+            self.readHeapUsages(bsw_element, consumption)
+            self.readMemorySections(bsw_element, consumption)
+            self.readSectionNamePrefixes(bsw_element, consumption)
+            self.readStackUsages(bsw_element, consumption)
+        estimation.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        rte_element = self.find(element, "RTE-RESOURCE-ESTIMATION")
+        if rte_element is not None:
+            consumption = estimation.createRteResourceEstimation(self.getShortName(rte_element))
+            self.readIdentifiable(rte_element, consumption)
+            self.readAccessCountSets(rte_element, consumption)
+            self.readExecutionTimes(rte_element, consumption)
+            self.readHeapUsages(rte_element, consumption)
+            self.readMemorySections(rte_element, consumption)
+            self.readSectionNamePrefixes(rte_element, consumption)
+            self.readStackUsages(rte_element, consumption)
+        for ref in self.getChildElementRefTypeList(element, "SW-COMP-TO-ECU-MAPPING-REFS/SW-COMP-TO-ECU-MAPPING-REF"):
+            estimation.addSwCompToEcuMappingRef(ref)
+
+    def readSystemMappingResourceEstimations(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "RESOURCE-ESTIMATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ECU-RESOURCE-ESTIMATION":
+                estimation = EcuResourceEstimation()
+                self.readEcuResourceEstimation(child_element, estimation)
+                mapping.addResourceEstimation(estimation)
+            else:
+                self.notImplemented("Unsupported ResourceEstimation %s" % tag_name)
+
     def readSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "ECU-RESOURCE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -16773,6 +16810,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingResourceEstimations(element, mapping)
         self.readSystemMappingRteEventSeparations(element, mapping)
         self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)
         self.readSystemMappingSignalPathConstraints(element, mapping)

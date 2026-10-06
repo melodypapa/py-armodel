@@ -1197,7 +1197,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataPrototypeInPortInterfaceRef,
@@ -13353,6 +13353,47 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeHwPortMapping(mappings_tag, hw_port_mapping)
             self.writeVariationPoint(child_element, mapping.getVariationPoint())
 
+    def writeEcuResourceEstimation(self, element: ET.Element, estimation: EcuResourceEstimation):
+        child_element = ET.SubElement(element, "ECU-RESOURCE-ESTIMATION")
+        self.writeARObject(child_element, estimation)
+        self.writeDocumentationBlock(child_element, "INTRODUCTION", estimation.getIntroduction())
+        bsw = estimation.getBswResourceEstimation()
+        if bsw is not None:
+            bsw_element = ET.SubElement(child_element, "BSW-RESOURCE-ESTIMATION")
+            self.writeIdentifiable(bsw_element, bsw)
+            self.writeAccessCountSets(bsw_element, bsw.getAccessCountSets())
+            self.writeExecutionTimes(bsw_element, bsw.getExecutionTimes())
+            self.writeHeapUsages(bsw_element, bsw.getHeapUsages())
+            self.writeMemorySections(bsw_element, bsw)
+            self.writeSectionNamePrefixes(bsw_element, bsw.getSectionNamePrefixes())
+            self.writeStackUsages(bsw_element, bsw.getStackUsages())
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", estimation.getEcuInstanceRef())
+        rte = estimation.getRteResourceEstimation()
+        if rte is not None:
+            rte_element = ET.SubElement(child_element, "RTE-RESOURCE-ESTIMATION")
+            self.writeIdentifiable(rte_element, rte)
+            self.writeAccessCountSets(rte_element, rte.getAccessCountSets())
+            self.writeExecutionTimes(rte_element, rte.getExecutionTimes())
+            self.writeHeapUsages(rte_element, rte.getHeapUsages())
+            self.writeMemorySections(rte_element, rte)
+            self.writeSectionNamePrefixes(rte_element, rte.getSectionNamePrefixes())
+            self.writeStackUsages(rte_element, rte.getStackUsages())
+        refs = estimation.getSwCompToEcuMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "SW-COMP-TO-ECU-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SW-COMP-TO-ECU-MAPPING-REF", ref)
+
+    def writeSystemMappingResourceEstimations(self, element: ET.Element, mapping: SystemMapping):
+        estimations = mapping.getResourceEstimations()
+        if len(estimations) > 0:
+            estimations_tag = ET.SubElement(element, "RESOURCE-ESTIMATIONS")
+            for estimation in estimations:
+                if isinstance(estimation, EcuResourceEstimation):
+                    self.writeEcuResourceEstimation(estimations_tag, estimation)
+                else:
+                    self.notImplemented("Unsupported ResourceEstimation %s" % type(estimation))
+
     def writeSystemMappingEcuResourceMappings(self, element: ET.Element, mapping: SystemMapping):
         ecu_resource_mappings = mapping.getEcuResourceMappings()
         if len(ecu_resource_mappings) > 0:
@@ -13630,6 +13671,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingResourceEstimations(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSignalPathConstraints(child_element, mapping)
