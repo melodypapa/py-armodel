@@ -200,6 +200,27 @@ class ContainedIPduCollectionSemanticsEnum(AREnum):
         super().__init__([ContainedIPduCollectionSemanticsEnum.LAST_IS_BEST, ContainedIPduCollectionSemanticsEnum.QUEUED])
 
 
+class ContainerIPduTriggerEnum(AREnum):
+    """
+    Defines when the transmission of the ContainerIPdu shall be requested.
+    """
+
+    # ContainerIPduTriggerEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.36, p.354 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainerIPdu.containerTrigger
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Defines that the transmission of the ContainerIPdu shall be requested when the default trigger conditions apply (e.g. timeout of threshold). Tags: atp.EnumerationLiteralIndex=0
+    DEFAULT_TRIGGER = "DEFAULT-TRIGGER"
+
+    # Defines that the transmission of the ContainerIPdu shall be requested right after the first Contained IPdu was put into the ContainerIPdu. Tags: atp.EnumerationLiteralIndex=1
+    FIRST_CONTAINED_TRIGGER = "FIRST-CONTAINED-TRIGGER"
+
+    def __init__(self):
+        super().__init__([ContainerIPduTriggerEnum.DEFAULT_TRIGGER, ContainerIPduTriggerEnum.FIRST_CONTAINED_TRIGGER])
+
+
 class ContainedIPduProps(ARObject):
     """
     Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.

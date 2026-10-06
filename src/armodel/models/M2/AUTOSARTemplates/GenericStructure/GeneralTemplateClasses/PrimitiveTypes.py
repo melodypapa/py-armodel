@@ -1675,10 +1675,6 @@ class ContainerIPduHeaderTypeEnum(AREnum):
     pass
 
 
-class ContainerIPduTriggerEnum(AREnum):
-    pass
-
-
 class CouplingElementEnum(AREnum):
     pass
 
