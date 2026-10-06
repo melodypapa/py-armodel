@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetConnectionNegotiationEnum,
+    EthernetCouplingPortSchedulerEnum,
     EthernetMacLayerTypeEnum,
     EthernetPhysicalChannel,
     EthernetPhysicalLayerTypeEnum,
@@ -279,16 +280,6 @@ class TestEthernetTopology:
         scheduler.addPredecessorRef(ref1)
         scheduler.addPredecessorRef(None)
         assert len(scheduler.getPredecessorRefs()) == 1
-
-    def test_ethernet_coupling_port_scheduler_enum(self):
-        """EthernetCouplingPortSchedulerEnum members and wire values (Table 3.66, p.123)."""
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
-
-        value = EthernetCouplingPortSchedulerEnum()
-        value.setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
-        assert value.getValue() == "DEFICIT-ROUND-ROBIN"
-        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
-        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
 
     def test_ethernet_priority_regeneration(self):
         """
@@ -1097,6 +1088,29 @@ class TestEthernetMacLayerTypeEnum:
 
     def test_class_docstring_note(self):
         assert inspect.cleandoc(EthernetMacLayerTypeEnum.__doc__) == "Specifies MAC (Media Access Control) Layer types."
+
+
+class TestEthernetCouplingPortSchedulerEnum:
+    """Test cases for EthernetCouplingPortSchedulerEnum (CP_TPS_SystemTemplate Table 3.66, p.123, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        assert EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN == "DEFICIT-ROUND-ROBIN"
+        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
+        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
+        assert list(EthernetCouplingPortSchedulerEnum().getEnumValues()) == ["DEFICIT-ROUND-ROBIN", "STRICT-PRIORITY", "WEIGHTED-ROUND-ROBIN"]
+
+    def test_instantiability_round_trip(self):
+        deficit_round_robin = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
+        assert deficit_round_robin.getValue() == EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN
+
+        strict_priority = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY)
+        assert strict_priority.getValue() == EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY
+
+        weighted_round_robin = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN)
+        assert weighted_round_robin.getValue() == EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetCouplingPortSchedulerEnum.__doc__) == "Defines the schedule algorithm to be used."
 
 
 class Test_Fibex4EthernetNetworkEndpoint:

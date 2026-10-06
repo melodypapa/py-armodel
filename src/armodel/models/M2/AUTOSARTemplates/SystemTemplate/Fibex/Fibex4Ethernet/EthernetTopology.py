@@ -2609,9 +2609,9 @@ class EthernetCouplingPortSchedulerEnum(AREnum):
 
     # EthernetCouplingPortSchedulerEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.66, p.123
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPortScheduler.portScheduler
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Schedule algorithm "deficit round robin" Tags: atp.EnumerationLiteralIndex=0
     DEFICIT_ROUND_ROBIN = "DEFICIT-ROUND-ROBIN"
