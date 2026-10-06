@@ -384,6 +384,17 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     subtype TcpRule, which is still not implemented (missing referenced
     classes: TcpRule, UdpRule, reported per Rule 0001.10).
     Resolved 2026-09-27: TcpRule/UdpRule synced — see the addendum rows.
+  - note (Steps 1/3/5/6 re-run 2026-10-06, batch-9b review): Rule 0001.3
+    flattening-omission fixed — the TRANSPORT-LAYER-RULE group's 5 members
+    (checksumVerification BOOLEAN + maxDestinationPortNumber, maxSourcePortNumber,
+    minDestinationPortNumber, minSourcePortNumber POSITIVE-INTEGER, all 0..1)
+    are now modeled on the class with verbatim XSD Notes (double-space
+    "port  number" quirks kept), get/set accessors, and own
+    read/writeTransportLayerRule helpers carrying the readARObject/writeARObject
+    base calls (Rule 0025); the bare TRANSPORT-LAYER-RULE placeholder branch in
+    read/writeFirewallRule routes through them; model/parser/writer tests
+    extended (defaults, verbatim docstrings, round-trip, XSD order); the stale
+    "subtypes not yet implemented" checklist comment rewritten.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12488 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `PayloadBytePatternRule` — ARObject — source TBC (locate table at Step 1)

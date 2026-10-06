@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     SomeipSdRule,
     StateDependentFirewall,
     TcpRule,
+    TransportLayerRule,
     UdpRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.AdaptiveModuleImplementation import (
@@ -17799,6 +17800,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS", rule.getSourceMinAddress())
             self.setChildElementOptionalPositiveInteger(element, "UDS-SERVICE", rule.getUdsService())
 
+    def writeTransportLayerRule(self, element: ET.Element, rule: TransportLayerRule):
+        self.writeARObject(element, rule)
+        self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
+        self.setChildElementOptionalPositiveInteger(element, "MAX-DESTINATION-PORT-NUMBER", cast(Integer, rule.getMaxDestinationPortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MAX-SOURCE-PORT-NUMBER", cast(Integer, rule.getMaxSourcePortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-DESTINATION-PORT-NUMBER", cast(Integer, rule.getMinDestinationPortNumber()))
+        self.setChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER", cast(Integer, rule.getMinSourcePortNumber()))
+
     def writeTcpRule(self, element: ET.Element, rule: TcpRule):
         self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", cast(Integer, rule.getNumberOfParallelTcpSessions()))
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
@@ -17897,7 +17906,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
                 ET.SubElement(transport_layer_rule_tag, "UDP-RULE")
             else:
-                ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                transport_layer_rule_tag = ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+                self.writeTransportLayerRule(transport_layer_rule_tag, transport_rule)
 
     def writeBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.logger.debug("Write BlueprintMappingSet %s" % blueprint_mapping_set.getShortName())

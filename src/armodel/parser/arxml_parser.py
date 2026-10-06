@@ -17772,6 +17772,14 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setSourceMinAddress(self.getChildElementOptionalPositiveInteger(element, "SOURCE-MIN-ADDRESS"))
         rule.setUdsService(self.getChildElementOptionalPositiveInteger(element, "UDS-SERVICE"))
 
+    def readTransportLayerRule(self, element: ET.Element, rule: TransportLayerRule):
+        self.readARObject(element, rule)
+        rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
+        rule.setMaxDestinationPortNumber(self.getChildElementOptionalPositiveInteger(element, "MAX-DESTINATION-PORT-NUMBER"))
+        rule.setMaxSourcePortNumber(self.getChildElementOptionalPositiveInteger(element, "MAX-SOURCE-PORT-NUMBER"))
+        rule.setMinDestinationPortNumber(self.getChildElementOptionalPositiveInteger(element, "MIN-DESTINATION-PORT-NUMBER"))
+        rule.setMinSourcePortNumber(self.getChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER"))
+
     def readTcpRule(self, element: ET.Element, rule: TcpRule):
         rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
         rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
@@ -17905,7 +17913,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif self.find(child, "UDP-RULE") is not None:
                 rule.setTransportLayerRule(UdpRule())
             else:
-                rule.setTransportLayerRule(TransportLayerRule())
+                transport_rule = TransportLayerRule()
+                self.readTransportLayerRule(child, transport_rule)
+                rule.setTransportLayerRule(transport_rule)
 
     def readBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
         self.readIdentifiable(element, blueprint_mapping_set)
