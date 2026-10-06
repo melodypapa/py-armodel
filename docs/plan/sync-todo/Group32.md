@@ -721,15 +721,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsLivenessKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.191, p.534
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown Table 6.191 body renders empty (caption only); the class Note and
+    literal descriptions were recovered verbatim from the XSD `DDS-LIVENESS-KIND-ENUM`
+    documentation/appinfo in `AUTOSAR_00052.xsd`, same shape as the sibling DDS QoS enum tables
+    (facets AUTOMATIC / MANUAL-BY-PARTICIPANT / MANUAL-BY-TOPIC; consumer
+    `DdsLiveliness.livenessKind`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsReliability` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.192, p.535
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

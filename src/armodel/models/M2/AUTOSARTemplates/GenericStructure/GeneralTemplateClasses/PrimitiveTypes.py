@@ -1786,7 +1786,33 @@ class DdsHistoryKindEnum(AREnum):
 
 
 class DdsLivenessKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS LIVELINESS kind. Tags: atp.Status=candidate
+    """
+
+    # DdsLivenessKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.191, p.534
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsLiveliness.livenessKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    AUTOMATIC = "AUTOMATIC"
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    MANUAL_BY_PARTICIPANT = "MANUAL-BY-PARTICIPANT"
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    MANUAL_BY_TOPIC = "MANUAL-BY-TOPIC"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsLivenessKindEnum.AUTOMATIC,
+                DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT,
+                DdsLivenessKindEnum.MANUAL_BY_TOPIC,
+            ]
+        )
 
 
 class DdsOwnershipKindEnum(AREnum):

@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
@@ -3359,3 +3360,49 @@ class TestDdsOwnershipKindEnum:
         enum.setValue(DdsOwnershipKindEnum.SHARED)
 
         assert enum.getValue() == DdsOwnershipKindEnum.SHARED
+
+
+class TestDdsLivenessKindEnum:
+    """
+    Test class for DdsLivenessKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.191, p.534
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsLivenessKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsLivenessKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsLivenessKindEnum.AUTOMATIC,
+            DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT,
+            DdsLivenessKindEnum.MANUAL_BY_TOPIC,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsLivenessKindEnum member values.
+        """
+        enum = DdsLivenessKindEnum()
+
+        assert DdsLivenessKindEnum.AUTOMATIC == "AUTOMATIC"
+        assert DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT == "MANUAL-BY-PARTICIPANT"
+        assert DdsLivenessKindEnum.MANUAL_BY_TOPIC == "MANUAL-BY-TOPIC"
+
+        assert enum.validateEnumValue("AUTOMATIC") is True
+        assert enum.validateEnumValue("MANUAL-BY-PARTICIPANT") is True
+        assert enum.validateEnumValue("MANUAL-BY-TOPIC") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsLivenessKindEnum instantiability and getValue.
+        """
+        enum = DdsLivenessKindEnum()
+        enum.setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC)
+
+        assert enum.getValue() == DdsLivenessKindEnum.MANUAL_BY_TOPIC
