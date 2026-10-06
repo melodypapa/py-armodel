@@ -17893,7 +17893,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readIpv6Rule(cast(ET.Element, self.find(child, "IPV-6-RULE")), rule_obj)
                 rule.setNetworkLayerRule(rule_obj)
             else:
-                rule.setNetworkLayerRule(NetworkLayerRule())
+                network_rule = NetworkLayerRule()
+                self.readARObject(child, network_rule)
+                rule.setNetworkLayerRule(network_rule)
         payload_rules = self.find(element, "PAYLOAD-BYTE-PATTERN-RULES")
         if payload_rules is not None:
             for child in self.findall(payload_rules, "PAYLOAD-BYTE-PATTERN-RULE"):

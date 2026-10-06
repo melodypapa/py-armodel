@@ -17887,7 +17887,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 ipv6_rule_tag = ET.SubElement(network_layer_rule_tag, "IPV-6-RULE")
                 self.writeIpv6Rule(ipv6_rule_tag, network_layer_rule)
             else:
-                ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                network_layer_rule_tag = ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+                self.writeARObject(network_layer_rule_tag, network_layer_rule)
         payload_rules = rule.getPayloadBytePatternRules()
         if len(payload_rules) > 0:
             rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")
