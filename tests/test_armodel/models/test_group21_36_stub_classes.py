@@ -3272,7 +3272,7 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths",
         "SwcToSwcOperationArgumentsDirectionEnum",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
         "AREnum",

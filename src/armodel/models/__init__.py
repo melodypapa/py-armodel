@@ -86,6 +86,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import *  # noqa: F403
