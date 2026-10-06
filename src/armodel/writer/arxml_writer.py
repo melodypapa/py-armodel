@@ -907,7 +907,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
@@ -12972,6 +12972,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if signalToReceiverTextTableMapping_value is not None:
             self.setTextTableMapping(child_element, signalToReceiverTextTableMapping_value, "SIGNAL-TO-RECEIVER-TEXT-TABLE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSignalPathConstraint(self, element: ET.Element, constraint: SignalPathConstraint):
+        self.writeARObject(element, constraint)
+        self.writeDocumentationBlock(element, "INTRODUCTION", constraint.getIntroduction())
+        self.writeVariationPoint(element, constraint.getVariationPoint())
 
     def writeSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
         child_element = ET.SubElement(element, "SWC-TO-SWC-SIGNAL")

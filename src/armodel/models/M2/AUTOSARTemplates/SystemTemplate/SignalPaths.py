@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import OperationInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
@@ -31,6 +34,45 @@ class SwcToSwcOperationArgumentsDirectionEnum(AREnum):
                 SwcToSwcOperationArgumentsDirectionEnum.OUT,
             )
         )
+
+
+class SignalPathConstraint(ARObject, VariationPointCapable, ABC):
+    """
+    Additional guidelines for the System Generator, which specific way a signal between two Software Components should take in the network without defining in which frame and with which timing it is transmitted.
+    """
+
+    # SignalPathConstraint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table F.114 (R23-11 markdown appendix; page not extractable from the R23-11 PDF)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        if type(self) is SignalPathConstraint:
+            raise TypeError("SignalPathConstraint is an abstract class.")
+
+        super().__init__()
+
+        # This represents introductory documentation about the signal path constraint.
+        self.introduction: Optional[DocumentationBlock] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the signal path constraint.
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> SignalPathConstraint:
+        """
+        This represents introductory documentation about the signal path constraint.
+
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
+        return self
 
 
 class SwcToSwcSignal(ARObject):

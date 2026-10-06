@@ -1095,7 +1095,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArgumentsDirectionEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
@@ -16159,6 +16159,16 @@ class ARXMLParser(AbstractARXMLParser):
         if signal_to_receiver_element is not None:
             mapping.setSignalToReceiverTextTableMapping(self.getTextTableMapping(signal_to_receiver_element))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+
+    def readSignalPathConstraint(self, element: ET.Element, constraint: SignalPathConstraint):
+        self.readARObject(element, constraint)
+        constraint.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(constraint, VariationPointCapable):
+                constraint.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
     def readSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
         self.readARObject(element, signal)
