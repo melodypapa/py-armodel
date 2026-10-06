@@ -531,8 +531,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         service_sw_component = ServiceSwComponentType(ar_root, "TestServiceSwComponent")
 
-        # Just check instantiation
         assert service_sw_component is not None
+        assert isinstance(service_sw_component, AtomicSwComponentType)
 
     def test_CompositionSwComponentType(self):
         """Test CompositionSwComponentType class."""
@@ -1512,6 +1512,54 @@ class Test_ApplicationSwComponentType_Spec:
         swc = self._make()
         swc.createPPortPrototype("P1")
         assert [p.short_name for p in swc.getPorts()] == ["P1"]
+        behavior = swc.createSwcInternalBehavior("B")
+        assert swc.getInternalBehavior() is behavior
+        assert swc.createSymbolProps("S") is swc.getSymbolProps()
+
+
+SERVICE_SW_COMPONENT_TYPE_CLASS_NOTE = (
+    "ServiceSwComponentType is used for configuring services for a given ECU."
+    " Instances of this class are only to be created in ECU Configuration phase for the specific purpose of the service configuration."
+    " Tags: atp.recommendedPackage=SwComponentTypes"
+)
+
+
+class Test_ServiceSwComponentType_Spec:
+    """Spec pins for ServiceSwComponentType (CP_TPS_SoftwareComponentTemplate Table 11.2, p.659)."""
+
+    def _make(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        return document.createARPackage("AUTOSAR").createServiceSwComponentType("Svc")
+
+    def test_inheritance(self):
+        assert issubclass(ServiceSwComponentType, AtomicSwComponentType)
+        assert issubclass(ServiceSwComponentType, SwComponentType)
+
+    def test_concrete(self):
+        assert self._make() is not None
+
+    def test_class_docstring_note(self):
+        import inspect
+
+        assert inspect.cleandoc(ServiceSwComponentType.__doc__) == SERVICE_SW_COMPONENT_TYPE_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert ServiceSwComponentType.__init__.__doc__ is None
+
+    def test_no_own_spec_attributes(self):
+        swc = self._make()
+
+        class ConcreteAtomicProbeSwComponentType(AtomicSwComponentType):
+            pass
+
+        probe = ConcreteAtomicProbeSwComponentType(swc.parent, "Probe")
+        assert set(vars(swc)) == set(vars(probe))
+
+    def test_inherited_accessors_via_concrete_class(self):
+        swc = self._make()
+        swc.createRPortPrototype("R1")
+        assert [p.short_name for p in swc.getPorts()] == ["R1"]
         behavior = swc.createSwcInternalBehavior("B")
         assert swc.getInternalBehavior() is behavior
         assert swc.createSymbolProps("S") is swc.getSymbolProps()

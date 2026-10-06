@@ -180,15 +180,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ServiceSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 11.2, p.659
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has ZERO attribute rows — attribute-less concrete class; XSD group SERVICE-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L106527) is `<xsd:sequence/>` (empty), complexType refs only the base groups (AR-OBJECT…ATOMIC-SW-COMPONENT-TYPE), no `atp.Status="removed"` members (Rule 0015 cross-check). Base chain most-derived = AtomicSwComponentType — current base correct. Aggregated by ARPackage.element; create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Class docstring missing the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3 fix). Stale `# Spec verified: R23-11` marker + Rule 0023 legacy checklist (no header/Columns/release columns) present → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) (no changes needed — ARPackage dispatch and readServiceSwComponentType/writeServiceSwComponentType pre-wired with base helpers called exactly once each direction)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — attribute-less concrete class (Table 11.2 zero Attribute rows; XSD group `<xsd:sequence/>` empty), field-to-spec cross-check trivially clean both directions (pinned by test_no_own_spec_attributes). Fixed in-pass: Rule 0012.2.5.3 missing class-docstring `Tags: atp.recommendedPackage=SwComponentTypes` tail added, Rule 0023 legacy checklist → 6-column, stale `# Spec verified: R23-11` marker removed (rewritten only at batch 9b). Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: no `atp.Status="removed"` members, no Rule 0001.10 missing member types (no own members).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (205 + 8703 + 3 + 2160 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `NvBlockSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 11.4, p.664
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py

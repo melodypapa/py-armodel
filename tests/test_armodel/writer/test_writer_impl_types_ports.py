@@ -1915,3 +1915,67 @@ class TestComplexDeviceDriverSwComponentTypeRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestServiceSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a ServiceSwComponentType with an inherited port (Table 11.2 — no own attributes)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createServiceSwComponentType("SvcSwc")
+        swc.createRPortPrototype("ModeRequest")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, ServiceSwComponentType))
+            assert isinstance(swc_2, ServiceSwComponentType)
+            assert swc_2.getShortName() == "SvcSwc"
+            assert [p.short_name for p in swc_2.getPorts()] == ["ModeRequest"]
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a bare ServiceSwComponentType round-trips without the PORTS wrapper."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createServiceSwComponentType("SvcSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("SERVICE-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("PORTS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert isinstance(swc_2, ServiceSwComponentType)
+            assert swc_2.getPorts() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
