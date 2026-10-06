@@ -14791,6 +14791,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = DhcpServerConfiguration()
+            self.readARObject(child_element, config)
             config.setIpv4DhcpServerConfiguration(self.getIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION"))
             config.setIpv6DhcpServerConfiguration(self.getIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION"))
         return config

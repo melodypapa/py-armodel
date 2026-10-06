@@ -11,7 +11,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, Ip4AddressString, Ip6AddressString, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     DhcpServerConfiguration,
     Ipv4DhcpServerConfiguration,
@@ -99,6 +99,28 @@ class TestDhcpServerConfigurationRoundTrip:
         parsed = VlanMembership()
         parser.readVlanMembership(element, parsed)
         assert parsed.getDhcpAddressAssignment() is None
+
+    def test_round_trip_preserves_s_t_attributes(self, writer, parser):
+        config = _new_config()
+        checksum = String().setValue("42")
+        timestamp = DateTime().setValue("2024-01-01T00:00:00")
+        config.setChecksum(checksum)
+        config.setTimestamp(timestamp)
+        membership = VlanMembership()
+        membership.setDhcpAddressAssignment(config)
+        parent = ET.Element("PARENT")
+        writer.writeVlanMembership(parent, membership)
+        vm_element = _serialize_and_wrap(parent)
+        dhcp_element = vm_element.find("{%s}DHCP-ADDRESS-ASSIGNMENT" % NS)
+        assert dhcp_element is not None
+        assert dhcp_element.attrib["S"] == "42"
+        assert dhcp_element.attrib["T"] == "2024-01-01T00:00:00"
+        parsed = VlanMembership()
+        parser.readVlanMembership(vm_element, parsed)
+        round_tripped = parsed.getDhcpAddressAssignment()
+        assert isinstance(round_tripped, DhcpServerConfiguration)
+        assert round_tripped.getChecksum().getValue() == "42"
+        assert round_tripped.getTimestamp().getValue() == "2024-01-01T00:00:00"
 
 
 def _new_ipv4_config():

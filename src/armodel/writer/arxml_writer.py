@@ -12500,6 +12500,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: Optional[DhcpServerConfiguration]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.setIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION", config.getIpv4DhcpServerConfiguration())
             self.setIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION", config.getIpv6DhcpServerConfiguration())
 
