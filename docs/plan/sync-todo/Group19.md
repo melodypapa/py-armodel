@@ -54,7 +54,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
 
 ## Queue (dependency-first)
 
-- [ ] `ConfigReferenceValue` (input · R3.2.3 markdown · Table 3.40)
+- [x] `ConfigReferenceValue` (input · R3.2.3 markdown · Table 3.40) — commit 7ed4c9a4a (stamped 2026-10-06, # Spec verified: R3.2.3)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): R3.2.3-only class — no table in R23-11 or R4.3.1 markdown;
     Table 3.40 AUTOSAR_ECU_Configuration.md l.2284 (pdf_page.py: no caption
@@ -144,7 +144,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       left to its next regen. No missing referenced classes (RefType covers
       the kind-ref target; ConfigReference is the definition-side class, not
       a field type). No placeholder remains.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14951 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14951 passed / 0
     failed, lint clean, black clean on touched files); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
