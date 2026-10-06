@@ -773,7 +773,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       round-trips incl.); npm run lint clean; black clean on all touched
       files; no marker in batch mode.
 
-- [ ] `EcucFloatParamDef` — EcucParameterDef — R23-11 markdown · Table 2.17
+- [x] `EcucFloatParamDef` — EcucParameterDef — R23-11 markdown · Table 2.17 — commit 454e47206 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.17 AUTOSAR_CP_TPS_ECUConfiguration.md — PAGE-
     SPLIT render: body rows (Class/Package/Note/Base/Aggregated-by/
@@ -871,7 +871,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       displayed-row-order finding). No Rule 0001.10 missing referenced
       classes; no Rule 0019 combine case (no fixture carries anything
       beyond DEFAULT-VALUE/MAX/MIN).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
