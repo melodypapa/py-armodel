@@ -840,6 +840,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     DiagnosticParameterIdent,
     ModeAccessPointIdent,
+    RapidPrototypingScenario,
     RptContainer,
     RptExecutableEntityProperties,
     RptHook,
@@ -7636,6 +7637,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-POST", profile.getServicePointSymbolPost())
             self.setChildElementOptionalCIdentifier(child_element, "SERVICE-POINT-SYMBOL-PRE", profile.getServicePointSymbolPre())
             self.setChildElementOptionalLiteral(child_element, "STIM-ENABLER", profile.getStimEnabler())
+
+    def writeRapidPrototypingScenario(self, element: ET.Element, scenario: Optional[RapidPrototypingScenario]):
+        if scenario is not None:
+            self.logger.debug("Write RapidPrototypingScenario <%s>" % scenario.getShortName())
+            child_element = ET.SubElement(element, "RAPID-PROTOTYPING-SCENARIO")
+            self.writeIdentifiable(child_element, scenario)
+            self.setChildElementOptionalRefType(child_element, "HOST-SYSTEM-REF", scenario.getHostSystemRef())
+            containers = scenario.getRptContainers()
+            if len(containers) > 0:
+                containers_element = ET.SubElement(child_element, "RPT-CONTAINERS")
+                for container in containers:
+                    self.writeRptContainer(containers_element, container)
+            profiles = scenario.getRptProfiles()
+            if len(profiles) > 0:
+                profiles_element = ET.SubElement(child_element, "RPT-PROFILES")
+                for profile in profiles:
+                    self.writeRptProfile(profiles_element, profile)
+            self.setChildElementOptionalRefType(child_element, "RPT-SYSTEM-REF", scenario.getRptSystemRef())
 
     def writeRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         self.writeIdentifiable(element, service_point)
@@ -17387,6 +17406,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLifeCycleStateDefinitionGroup(element, ar_element)
         elif isinstance(ar_element, ViewMapSet):
             self.writeViewMapSet(element, ar_element)
+        elif isinstance(ar_element, RapidPrototypingScenario):
+            self.writeRapidPrototypingScenario(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):

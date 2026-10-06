@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, NameToken, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -14,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     ExternalTriggeringPointIdent,
     IdentCaption,
     ModeAccessPointIdent,
+    RapidPrototypingScenario,
     RptContainer,
     RptExecutableEntityProperties,
     RptHook,
@@ -673,3 +675,116 @@ class TestRptContainer:
 
         assert typing.get_type_hints(RptContainer.getRptSwPrototypingAccess).get("return") == typing.Optional[RptSwPrototypingAccess]
         assert typing.get_type_hints(RptContainer.setRptSwPrototypingAccess).get("value") == typing.Optional[RptSwPrototypingAccess]
+
+
+class TestRapidPrototypingScenario:
+    """Test class for RapidPrototypingScenario class (Table 14.1, p.846)."""
+
+    SPEC_NOTE = "This meta-class provides the ability to describe a Rapid Prototyping Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects, the description of the byPassPoints and the relation to an rpt Hook. Tags: atp.recommendedPackage=RapidPrototypingScenarios"
+
+    def test_rapid_prototyping_scenario_concrete(self):
+        """RapidPrototypingScenario is concrete (Table 14.1 header, XSD RAPID-PROTOTYPING-SCENARIO abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert isinstance(scenario, RapidPrototypingScenario)
+        assert scenario.getShortName() == "RapidPrototypingScenario1"
+
+    def test_rapid_prototyping_scenario_heritage(self):
+        """Most-derived base is ARElement (Table 14.1 Base: ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable — Rule 0001.2)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert type(scenario).__bases__ == (ARElement,)
+        for ancestor in (ARElement, Identifiable, Referrable, ARObject):
+            assert isinstance(scenario, ancestor)
+
+    def test_rapid_prototyping_scenario_not_vp_capable(self):
+        """RapidPrototypingScenario declares NO own variationPoint rows (Rule 0020: XSD group RAPID-PROTOTYPING-SCENARIO declares no VARIATION-POINT — the anchor lives on RptContainer; the mixin accessors arrive via the PackageableElement base chain like every ARElement)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert "getVariationPoint" not in RapidPrototypingScenario.__dict__
+        assert "setVariationPoint" not in RapidPrototypingScenario.__dict__
+        assert scenario.getVariationPoint() is None
+
+    def test_rapid_prototyping_scenario_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.1)."""
+        assert RapidPrototypingScenario.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RapidPrototypingScenario initialization defaults (all Table 14.1 attributes unset)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert scenario is not None
+        assert scenario.getHostSystemRef() is None
+        assert scenario.getRptContainers() == []
+        assert scenario.getRptProfiles() == []
+        assert scenario.getRptSystemRef() is None
+
+    def test_get_set_host_system_ref(self):
+        """Test hostSystemRef setter and getter (System ref, 0..1, HOST-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+        test_value = RefType().setValue("/System/HostSystem").setDest("SYSTEM")
+        result = scenario.setHostSystemRef(test_value)
+
+        assert result is scenario
+        assert scenario.getHostSystemRef() == test_value
+
+        scenario.setHostSystemRef(None)
+        assert scenario.getHostSystemRef() == test_value
+
+    def test_get_set_rpt_system_ref(self):
+        """Test rptSystemRef setter and getter (System ref, 0..1, RPT-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+        test_value = RefType().setValue("/System/RptSystem").setDest("SYSTEM")
+        result = scenario.setRptSystemRef(test_value)
+
+        assert result is scenario
+        assert scenario.getRptSystemRef() == test_value
+
+        scenario.setRptSystemRef(None)
+        assert scenario.getRptSystemRef() == test_value
+
+    def test_create_rpt_container(self):
+        """Test createRptContainer appends and returns the existing element on duplicate short name (Identifiable child, Rule 0004)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        container = scenario.createRptContainer("ByPass")
+        assert isinstance(container, RptContainer)
+        assert container.getShortName() == "ByPass"
+        assert scenario.getRptContainers() == [container]
+
+        duplicate = scenario.createRptContainer("ByPass")
+        assert duplicate is container
+        assert scenario.getRptContainers() == [container]
+
+    def test_create_rpt_profile(self):
+        """Test createRptProfile appends and returns the existing element on duplicate short name (Identifiable child, Rule 0004)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        profile = scenario.createRptProfile("RptProfile1")
+        assert isinstance(profile, RptProfile)
+        assert profile.getShortName() == "RptProfile1"
+        assert scenario.getRptProfiles() == [profile]
+
+        duplicate = scenario.createRptProfile("RptProfile1")
+        assert duplicate is profile
+        assert scenario.getRptProfiles() == [profile]
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getHostSystemRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setHostSystemRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setHostSystemRef).get("return") is RapidPrototypingScenario
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptContainers).get("return") == typing.List[RptContainer]
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptContainer).get("short_name") is str
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptContainer).get("return") is RptContainer
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptProfiles).get("return") == typing.List[RptProfile]
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptProfile).get("short_name") is str
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptProfile).get("return") is RptProfile
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptSystemRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setRptSystemRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setRptSystemRef).get("return") is RapidPrototypingScenario

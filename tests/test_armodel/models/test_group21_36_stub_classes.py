@@ -2856,12 +2856,6 @@ STUBS = [
         "AttributeTailoring",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "RapidPrototypingScenario",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes.__init__",
         "ReceiverAnnotation",
         "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes.__init__",

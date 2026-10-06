@@ -1019,6 +1019,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     DiagnosticParameterIdent,
     ModeAccessPointIdent,
+    RapidPrototypingScenario,
     RptContainer,
     RptExecutableEntityProperties,
     RptHook,
@@ -6028,6 +6029,22 @@ class ARXMLParser(AbstractARXMLParser):
         profile.setServicePointSymbolPost(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-POST"))
         profile.setServicePointSymbolPre(self.getChildElementOptionalCIdentifier(element, "SERVICE-POINT-SYMBOL-PRE"))
         profile.setStimEnabler(cast(Optional[RptEnablerImplTypeEnum], self.getChildElementOptionalLiteral(element, "STIM-ENABLER")))
+
+    def readRapidPrototypingScenario(self, element: ET.Element, scenario: RapidPrototypingScenario):
+        self.logger.debug("Read RapidPrototypingScenario <%s>" % scenario.getShortName())
+        self.readIdentifiable(element, scenario)
+        scenario.setHostSystemRef(self.getChildElementOptionalRefType(element, "HOST-SYSTEM-REF"))
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                container = scenario.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, container)
+        profiles_element = self.find(element, "RPT-PROFILES")
+        if profiles_element is not None:
+            for child_element in self.findall(profiles_element, "RPT-PROFILE"):
+                profile = scenario.createRptProfile(self.getShortName(child_element))
+                self.readRptProfile(child_element, profile)
+        scenario.setRptSystemRef(self.getChildElementOptionalRefType(element, "RPT-SYSTEM-REF"))
 
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))
@@ -17757,6 +17774,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "VIEW-MAP-SET":
             view_map_set = parent.createViewMapSet(self.getShortName(child_element))
             self.readViewMapSet(child_element, view_map_set)
+        elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
+            scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
+            self.readRapidPrototypingScenario(child_element, scenario)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

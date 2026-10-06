@@ -5,6 +5,7 @@ and access point identification elements in software component templates.
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum, RptSwPrototypingAccess
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable
@@ -613,6 +614,112 @@ class RptContainer(Identifiable, VariationPointCapable):
         """
         if value is not None:
             self.rptSwPrototypingAccess = value
+        return self
+
+
+class RapidPrototypingScenario(ARElement):
+    """
+    This meta-class provides the ability to describe a Rapid Prototyping Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects, the description of the byPassPoints and the relation to an rpt Hook. Tags: atp.recommendedPackage=RapidPrototypingScenarios
+    """
+
+    # RapidPrototypingScenario method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.1, p.846
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHostSystemRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHostSystemRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRptContainer  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptContainers    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRptProfile    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptProfiles      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRptSystemRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptSystemRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRapidPrototypingScenario/writeRapidPrototypingScenario
+    # (readIdentifiable/writeIdentifiable once each, Rule 0025; element
+    # <RAPID-PROTOTYPING-SCENARIO>, group RAPID-PROTOTYPING-SCENARIO XSD AUTOSAR_00052.xsd
+    # l.95550, sequenceOffset order HOST-SYSTEM-REF, RPT-CONTAINERS, RPT-PROFILES,
+    # RPT-SYSTEM-REF). Aggregated by ARPackage.element — ELEMENTS dispatch branches in
+    # readARPackageElementsRest/writeARPackageElementRest via the ARPackage
+    # createRapidPrototypingScenario factory (RptContainer items via the sibling
+    # readRptContainer/writeRptContainer, RptProfile items via readRptProfile/writeRptProfile).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        self.hostSystemRef: Optional[RefType] = None
+
+        # Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptContainers: List[RptContainer] = []
+
+        # Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        self.rptProfiles: List[RptProfile] = []
+
+        # System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        self.rptSystemRef: Optional[RefType] = None
+
+    def getHostSystemRef(self) -> Optional[RefType]:
+        """
+        System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        """
+        return self.hostSystemRef
+
+    def setHostSystemRef(self, value: Optional[RefType]) -> "RapidPrototypingScenario":
+        """
+        System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing hostSystemRef.
+        """
+        if value is not None:
+            self.hostSystemRef = value
+        return self
+
+    def createRptContainer(self, short_name: str) -> "RptContainer":
+        """
+        Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        The existing container is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptContainer):
+            container = RptContainer(self, short_name)
+            self.addReferrableElement(container)
+            self.rptContainers.append(container)
+        return cast(RptContainer, self.getReferrableElement(short_name, RptContainer))
+
+    def getRptContainers(self) -> List[RptContainer]:
+        """
+        Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptContainers
+
+    def createRptProfile(self, short_name: str) -> "RptProfile":
+        """
+        Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        The existing profile is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptProfile):
+            profile = RptProfile(self, short_name)
+            self.addReferrableElement(profile)
+            self.rptProfiles.append(profile)
+        return cast(RptProfile, self.getReferrableElement(short_name, RptProfile))
+
+    def getRptProfiles(self) -> List[RptProfile]:
+        """
+        Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        """
+        return self.rptProfiles
+
+    def getRptSystemRef(self) -> Optional[RefType]:
+        """
+        System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        """
+        return self.rptSystemRef
+
+    def setRptSystemRef(self, value: Optional[RefType]) -> "RapidPrototypingScenario":
+        """
+        System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        A None value is a no-op and does not overwrite an existing rptSystemRef.
+        """
+        if value is not None:
+            self.rptSystemRef = value
         return self
 
 

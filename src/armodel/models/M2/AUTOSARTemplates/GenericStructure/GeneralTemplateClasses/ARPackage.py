@@ -117,7 +117,6 @@ __all__ = [
     "SecurityEventContextMappingBswModule",
     "SecurityEventContextMappingApplication",
     "SdgDef",
-    "RapidPrototypingScenario",
     "PostBuildVariantCriterionValueSet",
     "PhysicalDimensionMappingSet",
     "LifeCycleStateDefinitionGroup",
@@ -4523,6 +4522,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(view_map_set)
         return cast(ViewMapSet, self.getReferrableElement(short_name, ViewMapSet))
 
+    def createRapidPrototypingScenario(self, short_name: str) -> RapidPrototypingScenario:
+
+        if not self.IsReferrableElementExists(short_name, RapidPrototypingScenario):
+            scenario = RapidPrototypingScenario(self, short_name)
+            self.addReferrableElement(scenario)
+        return cast(RapidPrototypingScenario, self.getReferrableElement(short_name, RapidPrototypingScenario))
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.short_name))
@@ -4854,6 +4860,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.short_name))
 
+    def getRapidPrototypingScenarios(self) -> List[RapidPrototypingScenario]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, RapidPrototypingScenario)), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -5069,6 +5079,7 @@ AclOperation.__bases__ = (ARElement,)
 AclPermission.__bases__ = (ARElement,)
 AclRole.__bases__ = (ARElement,)
 ViewMapSet.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RapidPrototypingScenario  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
@@ -11374,10 +11385,6 @@ class PhysicalDimensionMappingSet(ARElement):
 
 
 class PostBuildVariantCriterionValueSet(ARElement):
-    pass
-
-
-class RapidPrototypingScenario(ARElement):
     pass
 
 
