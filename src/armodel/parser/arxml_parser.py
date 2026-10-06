@@ -578,7 +578,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     PhysicalDimensionMapping,
-    StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
@@ -1176,6 +1175,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterMACAddress,
+    StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
     SwitchStreamIdentification,
@@ -11216,7 +11216,7 @@ class ARXMLParser(AbstractARXMLParser):
         if ports_element is not None:
             for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
                 port_range = StreamFilterPortRange()
-                self.readARObject(child_element, port_range)
+                self.readStreamFilterPortRange(child_element, port_range)
                 rule.addDestinationPort(port_range)
         child_element = self.find(element, "SOURCE-IPV-4-ADDRESS")
         if child_element is not None:
@@ -11232,8 +11232,13 @@ class ARXMLParser(AbstractARXMLParser):
         if ports_element is not None:
             for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
                 port_range = StreamFilterPortRange()
-                self.readARObject(child_element, port_range)
+                self.readStreamFilterPortRange(child_element, port_range)
                 rule.addSourcePort(port_range)
+
+    def readStreamFilterPortRange(self, element: ET.Element, port_range: StreamFilterPortRange):
+        self.readARObject(element, port_range)
+        port_range.setMax(self.getChildElementOptionalPositiveInteger(element, "MAX"))
+        port_range.setMin(self.getChildElementOptionalPositiveInteger(element, "MIN"))
 
     def readStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: StreamFilterIpv4Address):
         self.readARObject(element, ipv4_address)

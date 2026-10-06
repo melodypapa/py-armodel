@@ -16,10 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-    StreamFilterPortRange,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -1053,6 +1050,62 @@ class StreamFilterIpv6Address(ARObject):
         """
         if value is not None:
             self.ipv6AddressMask = value
+        return self
+
+
+class StreamFilterPortRange(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterPortRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.91, p.139
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMax      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+        self.max: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+        self.min: Optional[PositiveInteger] = None
+
+    def getMax(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+        """
+        return self.max
+
+    def setMax(self, value: Optional[PositiveInteger]) -> StreamFilterPortRange:
+        """
+        Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+        """
+        return self.min
+
+    def setMin(self, value: Optional[PositiveInteger]) -> StreamFilterPortRange:
+        """
+        Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
         return self
 
 

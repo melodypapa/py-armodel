@@ -478,16 +478,26 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-06 (20550 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterPortRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.91, p.139
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Placement moved per Rule 0007 (spec Package row tail `…::Fibex4Ethernet::EthernetTopology`):
+    the class left the ArObject.py stub file for EthernetTopology.py beside its StreamFilter
+    siblings (after StreamFilterIpv6Address, spec table order); stub-guard tuple updated in
+    tests/test_armodel/models/test_group21_36_stub_classes.py + consumer imports. Members synced:
+    max `0..1` attr PositiveInteger, min `0..1` attr PositiveInteger (markdown displayed order);
+    XML child order per XSD group STREAM-FILTER-PORT-RANGE (MAX, MIN). Aggregator
+    StreamFilterRuleIpTp's DESTINATION-PORTS / SOURCE-PORTS STREAM-FILTER-PORT-RANGE children
+    upgraded from identity-only readARObject/writeARObject to the dedicated
+    readStreamFilterPortRange/writeStreamFilterPortRange; its tests now assert the children's
+    MAX/MIN field values.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20566 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `StreamFilterIEEE1722Tp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.92, p.139
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

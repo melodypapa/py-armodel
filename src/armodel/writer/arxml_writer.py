@@ -979,6 +979,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterMACAddress,
+    StreamFilterPortRange,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
     SwitchStreamIdentification,
@@ -12064,7 +12065,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 destination_ports_element = ET.SubElement(element, "DESTINATION-PORTS")
                 for port_range in destination_ports:
                     port_range_element = ET.SubElement(destination_ports_element, "STREAM-FILTER-PORT-RANGE")
-                    self.writeARObject(port_range_element, port_range)
+                    self.writeStreamFilterPortRange(port_range_element, port_range)
             source_ipv4_address = rule.getSourceIpv4Address()
             if source_ipv4_address is not None:
                 source_ipv4_address_element = ET.SubElement(element, "SOURCE-IPV-4-ADDRESS")
@@ -12078,7 +12079,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 source_ports_element = ET.SubElement(element, "SOURCE-PORTS")
                 for port_range in source_ports:
                     port_range_element = ET.SubElement(source_ports_element, "STREAM-FILTER-PORT-RANGE")
-                    self.writeARObject(port_range_element, port_range)
+                    self.writeStreamFilterPortRange(port_range_element, port_range)
+
+    def writeStreamFilterPortRange(self, element: ET.Element, port_range: Optional[StreamFilterPortRange]):
+        if port_range is not None:
+            self.writeARObject(element, port_range)
+            self.setChildElementOptionalPositiveInteger(element, "MAX", port_range.getMax())
+            self.setChildElementOptionalPositiveInteger(element, "MIN", port_range.getMin())
 
     def writeStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: Optional[StreamFilterIpv4Address]):
         if ipv4_address is not None:
