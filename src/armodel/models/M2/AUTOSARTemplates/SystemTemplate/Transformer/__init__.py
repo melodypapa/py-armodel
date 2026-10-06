@@ -130,14 +130,13 @@ class BufferProperties(ARObject):
     """
 
     # BufferProperties method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.5, p.767
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.88, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -185,10 +184,12 @@ class TransformationDescription(Describable, VariationPointCapable, ABC):
     """
 
     # TransformationDescription method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.6, p.771
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.89, p.199
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent);
+    # the class's XML group (VARIATION-POINT) is covered by the reusable readTransformationDescription / writeTransformationDescription helpers
+    # (parser/writer call readVariationPointCapable / writeVariationPointCapable at this level; concrete subclasses inherit the coverage).
 
     def __init__(self):
         if type(self) is TransformationDescription:
@@ -260,12 +261,11 @@ class E2EProfileCompatibilityProps(ARElement):
     """
 
     # E2EProfileCompatibilityProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.25, p.808
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.93, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -773,9 +773,9 @@ class TransformerClassEnum(AREnum):
     """
 
     # TransformerClassEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.4, p.765
-    # Spec verified: R23-11
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.90, p.200
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TransformationTechnology.transformerClass (TRANSFORMER-CLASS element)
 
     # The transformer is a custom transformer. Tags: atp.EnumerationLiteralIndex=0
     CUSTOM = "custom"
@@ -1410,6 +1410,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
 
     # EndToEndTransformationISignalProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.27, p.809
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addDataId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1725,41 +1726,40 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # EndToEndTransformationComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.92, p.201
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [ ] __init__                              [x] impl  [ ] docstring  [ ] test
-    # [ ] getClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMinOkStateInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMinOkStateInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getMinOkStateValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setMinOkStateValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getSyncCounterInit                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setSyncCounterInit                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getWindowSizeInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setWindowSizeInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] getWindowSizeValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [ ] setWindowSizeValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInit                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInit                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateValid                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateValid                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInit                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInit                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeValid                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeValid                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1776,16 +1776,16 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         # Reference to additional settings for the E2E state machine.
         self.e2eProfileCompatibilityPropsRef: Optional[RefType] = None
 
-        # Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        # Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and MaxDeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
         self.maxDeltaCounter: Optional[PositiveInteger] = None
 
-        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 0.
         self.maxErrorStateInit: Optional[PositiveInteger] = None
 
-        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 0.
         self.maxErrorStateInvalid: Optional[PositiveInteger] = None
 
-        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 0.
         self.maxErrorStateValid: Optional[PositiveInteger] = None
 
         # EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
@@ -1874,13 +1874,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     def getMaxDeltaCounter(self) -> Optional[PositiveInteger]:
         """
-        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and MaxDeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
         """
         return self.maxDeltaCounter
 
     def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
-        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and MaxDeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
         A None value is a no-op and does not overwrite an existing maxDeltaCounter.
         """
         if value is not None:
@@ -1889,13 +1889,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     def getMaxErrorStateInit(self) -> Optional[PositiveInteger]:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 0.
         """
         return self.maxErrorStateInit
 
     def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateInit.
         """
         if value is not None:
@@ -1904,13 +1904,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     def getMaxErrorStateInvalid(self) -> Optional[PositiveInteger]:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 0.
         """
         return self.maxErrorStateInvalid
 
     def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateInvalid.
         """
         if value is not None:
@@ -1919,13 +1919,13 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     def getMaxErrorStateValid(self) -> Optional[PositiveInteger]:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 0.
         """
         return self.maxErrorStateValid
 
     def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
-        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 0.
         A None value is a no-op and does not overwrite an existing maxErrorStateValid.
         """
         if value is not None:

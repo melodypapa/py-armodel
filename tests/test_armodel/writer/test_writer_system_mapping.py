@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
     Identifier,
     Numerical,
     PositiveInteger,
@@ -25,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import (
     InterpolationRoutine,
     InterpolationRoutineMapping,
@@ -590,7 +592,7 @@ class TestWriterSystem:
         system = _make_system()
         system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
         system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
-        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setContainerIPduHeaderByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST))
         system.setEcuExtractVersion(_revision("1.0.0"))
         system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
         system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
@@ -666,7 +668,7 @@ class TestSystemFullRoundTrip:
         system = document.createARPackage("Systems").createSystem("FullSystem")
         system.createSystemDocumentation("Doc1").setHelpEntry(String().setValue("help-topic-1"))
         system.addClientIdDefinitionSetRef(_ref("/Systems/ClientIds", "CLIENT-ID-DEFINITION-SET"))
-        system.setContainerIPduHeaderByteOrder(_literal("MOST-SIGNIFICANT-BYTE-FIRST"))
+        system.setContainerIPduHeaderByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST))
         system.setEcuExtractVersion(_revision("1.0.0"))
         system.addFibexElementRef(_ref("/CanSystem/CLUSTERS/CanNetwork", "CAN-CLUSTER"))
         system.addInterpolationRoutineMappingSetRef(_ref("/Systems/InterpMapping", "INTERPOLATION-ROUTINE-MAPPING-SET"))
@@ -691,7 +693,7 @@ class TestSystemFullRoundTrip:
         assert [c.getShortName() for c in chapters] == ["Doc1"]
         assert chapters[0].getHelpEntry().getValue() == "help-topic-1"
         assert system_2.getClientIdDefinitionSetRefs()[0].getValue() == "/Systems/ClientIds"
-        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-FIRST"
+        assert system_2.getContainerIPduHeaderByteOrder().getValue() == "mostSignificantByteFirst"
         assert system_2.getEcuExtractVersion().getValue() == "1.0.0"
         assert system_2.getFibexElementRefs()[0].getValue() == "/CanSystem/CLUSTERS/CanNetwork"
         assert system_2.getInterpolationRoutineMappingSetRefs()[0].getValue() == "/Systems/InterpMapping"
@@ -1254,7 +1256,7 @@ class TestWriterISignal:
 
         sig = _make_isignal()
         props = ISignalProps()
-        props.setHandleOutOfRange(_literal("DEFAULT"))
+        props.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.DEFAULT))
         sig.setISignalProps(props)
         parent = _parent()
         writer.writeISignal(parent, sig)

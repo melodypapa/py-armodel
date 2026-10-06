@@ -6,11 +6,12 @@ Tests cover all classes and methods in the DataPrototypes.py file to achieve 100
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationArrayElement,
     ApplicationCompositeElementDataPrototype,
@@ -20,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ParameterDataPrototype,
     VariableDataPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ArraySizeHandlingEnum
 
 
 class TestAtpPrototype:
@@ -95,7 +97,7 @@ class TestDataPrototypeHeritage:
 
 
 class TestAutosarDataPrototype:
-    """Test class for AutosarDataPrototype abstract class."""
+    """Test class for AutosarDataPrototype abstract class (R23-11 Table 5.29)."""
 
     def test_autosar_data_prototype_abstract(self):
         """Test that AutosarDataPrototype is an abstract class."""
@@ -104,23 +106,43 @@ class TestAutosarDataPrototype:
         with pytest.raises(TypeError):
             AutosarDataPrototype(ar_root, "TestAutosarDataPrototype")
 
-    def test_autosar_data_prototype_type_t_ref_via_concrete_subclass(self):
-        """Test typeTRef accessors through a concrete subclass."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-
+    def test_autosar_data_prototype_initialization_defaults(self):
+        """typeTRef (tref, 0..1) defaults to None on a concrete subclass."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         prototype = VariableDataPrototype(ar_root, "TestAutosarDataPrototype")
 
+        assert isinstance(prototype, AutosarDataPrototype)
+        assert prototype.typeTRef is None
         assert prototype.getTypeTRef() is None
 
+    def test_get_set_type_t_ref(self):
+        """setTypeTRef chains, round-trips the TRefType, and None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = VariableDataPrototype(ar_root, "TestAutosarDataPrototype")
+
         type_ref = TRefType()
-        type_ref.setValue("/Type/Ref")
-        prototype.setTypeTRef(type_ref)
-        assert prototype.getTypeTRef() == type_ref
+        type_ref.setValue("/DataTypes/UInt8")
+        type_ref.setDest("IMPLEMENTATION-DATA-TYPE")
+
+        assert prototype.setTypeTRef(type_ref) is prototype
+        assert prototype.getTypeTRef() is type_ref
+        assert prototype.getTypeTRef().getValue() == "/DataTypes/UInt8"
+        assert prototype.getTypeTRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
 
         prototype.setTypeTRef(None)
-        assert prototype.getTypeTRef() == type_ref
+        assert prototype.getTypeTRef() is type_ref
+
+    def test_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 5.29)."""
+        assert AutosarDataPrototype.__doc__.strip() == "Base class for prototypical roles of an AutosarDataType."
+
+    def test_get_type_t_ref_docstring_verbatim(self):
+        assert AutosarDataPrototype.getTypeTRef.__doc__.strip() == "This represents the corresponding data type."
+
+    def test_set_type_t_ref_docstring_verbatim(self):
+        assert AutosarDataPrototype.setTypeTRef.__doc__.strip() == ("This represents the corresponding data type. " "A None value is a no-op and does not overwrite an existing typeTRef.")
 
 
 class TestVariableDataPrototype:
@@ -202,12 +224,12 @@ class TestApplicationCompositeElementDataPrototype:
 class TestApplicationArrayElement:
     """Test class for ApplicationArrayElement class."""
 
-    def test_application_array_element_initialization(self):
-        """Test ApplicationArrayElement initialization and methods."""
+    def test_application_array_element_spec_contract(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
 
+        assert isinstance(array_element, ApplicationCompositeElementDataPrototype)
         assert array_element.parent == ar_root
         assert array_element.short_name == "TestApplicationArrayElement"
         assert array_element.swDataDefProps is None
@@ -217,44 +239,123 @@ class TestApplicationArrayElement:
         assert array_element.indexDataTypeRef is None
         assert array_element.maxNumberOfElements is None
 
-        # Test swDataDefProps methods
+    def test_get_set_array_size_handling(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+        handling = ArraySizeHandlingEnum().setValue(ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE)
+
+        assert array_element.setArraySizeHandling(handling) is array_element
+        assert array_element.getArraySizeHandling() is handling
+        assert array_element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+
+        array_element.setArraySizeHandling(None)
+        assert array_element.getArraySizeHandling() is handling
+
+    def test_get_set_array_size_semantics(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+        semantics = ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.VARIABLE_SIZE)
+
+        assert array_element.setArraySizeSemantics(semantics) is array_element
+        assert array_element.getArraySizeSemantics() is semantics
+        assert array_element.getArraySizeSemantics().getValue() == "variableSize"
+
+        array_element.setArraySizeSemantics(None)
+        assert array_element.getArraySizeSemantics() is semantics
+
+    def test_get_set_index_data_type_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+        index_ref = RefType()
+        index_ref.setValue("/DataTypes/IndexPrimitiveDataType")
+        index_ref.setDest("APPLICATION-PRIMITIVE-DATA-TYPE")
+
+        assert array_element.setIndexDataTypeRef(index_ref) is array_element
+        assert array_element.getIndexDataTypeRef() is index_ref
+        assert array_element.getIndexDataTypeRef().getValue() == "/DataTypes/IndexPrimitiveDataType"
+        assert array_element.getIndexDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+
+        array_element.setIndexDataTypeRef(None)
+        assert array_element.getIndexDataTypeRef() is index_ref
+
+    def test_get_set_max_number_of_elements(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+        max_num = PositiveInteger().setValue("4")
+
+        assert array_element.setMaxNumberOfElements(max_num) is array_element
+        assert array_element.getMaxNumberOfElements() is max_num
+        assert array_element.getMaxNumberOfElements().getValue() == 4
+
+        array_element.setMaxNumberOfElements(None)
+        assert array_element.getMaxNumberOfElements() is max_num
+
+    def test_inherited_base_accessors_via_concrete_subclass(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
         sw_data_def = SwDataDefProps()
-        array_element.setSwDataDefProps(sw_data_def)
-        assert array_element.getSwDataDefProps() == sw_data_def
+        assert array_element.setSwDataDefProps(sw_data_def) is array_element
+        assert array_element.getSwDataDefProps() is sw_data_def
+        array_element.setSwDataDefProps(None)
+        assert array_element.getSwDataDefProps() is sw_data_def
 
-        # Test typeTRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        type_ref = TRefType()
+        type_ref.setValue("/Types/Application")
+        type_ref.setDest("APPLICATION-DATA-TYPE")
+        assert array_element.setTypeTRef(type_ref) is array_element
+        assert array_element.getTypeTRef() is type_ref
+        array_element.setTypeTRef(None)
+        assert array_element.getTypeTRef() is type_ref
 
-        type_ref = RefType()
-        type_ref.setValue("/Type/Ref")
-        array_element.setTypeTRef(type_ref)
-        assert array_element.getTypeTRef() == type_ref
+    def test_class_docstring_matches_spec_note(self):
+        assert ApplicationArrayElement.__doc__.strip() == "Describes the properties of the elements of an application array data type."
 
-        # Test arraySizeHandling methods
-        array_size_handling = "test_handling"
-        array_element.setArraySizeHandling(array_size_handling)
-        assert array_element.getArraySizeHandling() == array_size_handling
+    def test_get_array_size_handling_docstring_verbatim(self):
+        assert ApplicationArrayElement.getArraySizeHandling.__doc__.strip() == "The way how the size of the array is handled."
 
-        # Test arraySizeSemantics methods
-        array_size_semantics = "test_semantics"
-        array_element.setArraySizeSemantics(array_size_semantics)
-        assert array_element.getArraySizeSemantics() == array_size_semantics
+    def test_set_array_size_handling_docstring_verbatim(self):
+        assert ApplicationArrayElement.setArraySizeHandling.__doc__.strip() == (
+            "The way how the size of the array is handled. " "A None value is a no-op and does not overwrite an existing arraySizeHandling."
+        )
 
-        # Test indexDataTypeRef methods
-        index_ref = RefType()
-        index_ref.setValue("/Index/Type")
-        array_element.setIndexDataTypeRef(index_ref)
-        assert array_element.getIndexDataTypeRef() == index_ref
+    def test_get_array_size_semantics_docstring_verbatim(self):
+        assert ApplicationArrayElement.getArraySizeSemantics.__doc__.strip() == "This attribute controls how the information about the array size shall be interpreted."
 
-        # Test maxNumberOfElements methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+    def test_set_array_size_semantics_docstring_verbatim(self):
+        assert ApplicationArrayElement.setArraySizeSemantics.__doc__.strip() == (
+            "This attribute controls how the information about the array size shall be interpreted. " "A None value is a no-op and does not overwrite an existing arraySizeSemantics."
+        )
 
-        max_num = PositiveInteger()
-        max_num.setValue(100)
-        array_element.setMaxNumberOfElements(max_num)
-        assert array_element.getMaxNumberOfElements() == max_num
+    def test_get_index_data_type_ref_docstring_verbatim(self):
+        assert ApplicationArrayElement.getIndexDataTypeRef.__doc__.strip() == (
+            "This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. "
+            "The texttable entries associate a textual value to an index number such that the element "
+            "with that index number is represented by a symbolic name."
+        )
+
+    def test_set_index_data_type_ref_docstring_verbatim(self):
+        assert ApplicationArrayElement.setIndexDataTypeRef.__doc__.strip() == (
+            "This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. "
+            "The texttable entries associate a textual value to an index number such that the element "
+            "with that index number is represented by a symbolic name. "
+            "A None value is a no-op and does not overwrite an existing indexDataTypeRef."
+        )
+
+    def test_get_max_number_of_elements_docstring_verbatim(self):
+        assert ApplicationArrayElement.getMaxNumberOfElements.__doc__.strip() == "The maximum number of elements that the array can contain."
+
+    def test_set_max_number_of_elements_docstring_verbatim(self):
+        assert ApplicationArrayElement.setMaxNumberOfElements.__doc__.strip() == (
+            "The maximum number of elements that the array can contain. " "A None value is a no-op and does not overwrite an existing maxNumberOfElements."
+        )
 
 
 class TestApplicationRecordElement:

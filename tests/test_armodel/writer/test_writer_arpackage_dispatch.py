@@ -105,6 +105,8 @@ ELEMENT_TYPES_AND_TAGS = [
     ("GenericEthernetFrame", "GENERIC-ETHERNET-FRAME"),
     ("LifeCycleInfoSet", "LIFE-CYCLE-INFO-SET"),
     ("PhysicalDimension", "PHYSICAL-DIMENSION"),
+    ("PhysicalDimensionMappingSet", "PHYSICAL-DIMENSION-MAPPING-SET"),
+    ("CalibrationParameterValueSet", "CALIBRATION-PARAMETER-VALUE-SET"),
     ("FlatMap", "FLAT-MAP"),
     ("PortInterfaceMappingSet", "PORT-INTERFACE-MAPPING-SET"),
     ("EthernetCluster", "ETHERNET-CLUSTER"),

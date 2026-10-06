@@ -104,11 +104,9 @@ class ArraySizeHandlingEnum(AREnum):
     """
 
     # ArraySizeHandlingEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.11, p.253
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.11, p.254
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling (R23-11)
 
     # All elements of the variable size array may have different sizes. Tags: atp.EnumerationLiteralIndex=0
     ALL_INDICES_DIFFERENT_ARRAY_SIZE = "allIndicesDifferentArraySize"
@@ -131,18 +129,19 @@ class ArraySizeHandlingEnum(AREnum):
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
     """
-    An application data type which is an array, each element is of the same application data type. Tags: atp.recommendedPackage=ApplicationDataTypes
+    An application data type which is an array, each element is of the same application data type.
+
+    [constr_1907] Existence of attribute ApplicationArrayDataType.element: For each ApplicationArrayDataType, the aggregation of ApplicationArrayElement in the role element shall exist at the time when the RTE is generated.
     """
 
     # ApplicationArrayDataType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.8, p.252
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDynamicArraySizeProfile       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDynamicArraySizeProfile       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getApplicationArrayElement       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createApplicationArrayElement    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDynamicArraySizeProfile    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDynamicArraySizeProfile    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createApplicationArrayElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationArrayElement    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -156,50 +155,32 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     def getDynamicArraySizeProfile(self) -> Optional[String]:
         """
         Specifies the profile which the array will follow if it is a variable size array.
-
-        Returns:
-            Optional[String]: The dynamicArraySizeProfile
         """
         return self.dynamicArraySizeProfile
 
     def setDynamicArraySizeProfile(self, value: Optional[String]) -> "ApplicationArrayDataType":
         """
         Specifies the profile which the array will follow if it is a variable size array. A None value is a no-op and does not overwrite an existing dynamicArraySizeProfile.
-
-        Args:
-            value: The dynamicArraySizeProfile to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.dynamicArraySizeProfile = value
         return self
 
-    def getApplicationArrayElement(self) -> Optional[ApplicationArrayElement]:
-        """
-        This association implements the concept of an array element. That is, in some cases it is necessary to be able to identify single array elements, e.g. as input values for an interpolation routine. Named getApplicationArrayElement instead of getElement to avoid clashing with the ARObject element registry lookup.
-
-        Returns:
-            Optional[ApplicationArrayElement]: The element aggregation
-        """
-        return self.element
-
     def createApplicationArrayElement(self, short_name: str) -> ApplicationArrayElement:
         """
         This association implements the concept of an array element. That is, in some cases it is necessary to be able to identify single array elements, e.g. as input values for an interpolation routine.
-
-        Args:
-            short_name: The short name of the ApplicationArrayElement to create
-
-        Returns:
-            The newly created or existing ApplicationArrayElement instance
         """
         if not self.IsReferrableElementExists(short_name, ApplicationArrayElement):
             array_element = ApplicationArrayElement(self, short_name)
             self.addReferrableElement(array_element)
             self.element = array_element
         return cast(ApplicationArrayElement, self.getReferrableElement(short_name, ApplicationArrayElement))
+
+    def getApplicationArrayElement(self) -> Optional[ApplicationArrayElement]:
+        """
+        This association implements the concept of an array element. That is, in some cases it is necessary to be able to identify single array elements, e.g. as input values for an interpolation routine.
+        """
+        return self.element
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):

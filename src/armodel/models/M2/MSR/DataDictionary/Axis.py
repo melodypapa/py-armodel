@@ -1,10 +1,12 @@
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class SwGenericAxisParam(ARObject):
@@ -14,52 +16,49 @@ class SwGenericAxisParam(ARObject):
 
     # SwGenericAxisParam method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.53, p.356
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVfs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVfs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        # Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20
         self.swGenericAxisParamTypeRef: Optional[RefType] = None
 
-        # This attribute represents the value of the generic axis parameter.
+        # This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false
         self.vfs: List[Numerical] = []
 
     def getSwGenericAxisParamTypeRef(self) -> Optional[RefType]:
         """
-        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20
         """
         return self.swGenericAxisParamTypeRef
 
     def setSwGenericAxisParamTypeRef(self, value: Optional[RefType]) -> "SwGenericAxisParam":
         """
-        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
-        A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef.
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type. Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef.
         """
         if value is not None:
             self.swGenericAxisParamTypeRef = value
         return self
 
-    def getVfs(self) -> List[Numerical]:
-        """
-        This attribute represents the value of the generic axis parameter.
-        """
-        return self.vfs
-
     def addVf(self, value: Optional[Numerical]) -> "SwGenericAxisParam":
         """
-        This attribute represents the value of the generic axis parameter.
-        A None value is a no-op and is not appended to vfs.
+        This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false A None value is a no-op and is not appended to vfs.
         """
         if value is not None:
             self.vfs.append(value)
         return self
+
+    def getVfs(self) -> List[Numerical]:
+        """
+        This attribute represents the value of the generic axis parameter. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false
+        """
+        return self.vfs
 
 
 class SwAxisGeneric(ARObject):
@@ -69,13 +68,12 @@ class SwAxisGeneric(ARObject):
 
     # SwAxisGeneric method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.51, p.355
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwGenericAxisParams   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwGenericAxisParam    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwGenericAxisParam    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParams   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -87,34 +85,24 @@ class SwAxisGeneric(ARObject):
         self.swGenericAxisParams: List[SwGenericAxisParam] = []
 
     def getSwAxisTypeRef(self) -> Optional[RefType]:
-        """
-        Associated axis calculation strategy.
-        """
+        """Associated axis calculation strategy."""
         return self.swAxisTypeRef
 
     def setSwAxisTypeRef(self, value: Optional[RefType]) -> "SwAxisGeneric":
-        """
-        Associated axis calculation strategy.
-        A None value is a no-op and does not overwrite an existing swAxisTypeRef.
-        """
+        """Associated axis calculation strategy. A None value is a no-op and does not overwrite an existing swAxisTypeRef."""
         if value is not None:
             self.swAxisTypeRef = value
         return self
 
-    def getSwGenericAxisParams(self) -> List[SwGenericAxisParam]:
-        """
-        Specific parameter of a generic axis.
-        """
-        return self.swGenericAxisParams
-
     def addSwGenericAxisParam(self, value: Optional[SwGenericAxisParam]) -> "SwAxisGeneric":
-        """
-        Specific parameter of a generic axis.
-        A None value is a no-op and is not appended to swGenericAxisParams.
-        """
+        """Specific parameter of a generic axis. A None value is a no-op and is not appended to swGenericAxisParams."""
         if value is not None:
             self.swGenericAxisParams.append(value)
         return self
+
+    def getSwGenericAxisParams(self) -> List[SwGenericAxisParam]:
+        """Specific parameter of a generic axis."""
+        return self.swGenericAxisParams
 
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
@@ -340,3 +328,49 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
         if value is not None:
             self.swCalprmRef = value
         return self
+
+
+class SwAxisType(ARElement):
+    """
+    This meta-class represents a specific axis calculation strategy. No formal specification is given, due to the fact that it is possible to use arbitrary algorithms for calculating axis-points. Instead, the algorithm is described verbally but the parameters are specified formally with respect to their names and constraints. As a result, SwAxisType mainly reserves appropriate keywords.
+    """
+
+    # SwAxisType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.52, p.356
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisDesc           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwGenericAxisDesc           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwGenericAxisParamType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwGenericAxisParamTypes     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Associated axis description in textual form.
+        self.swGenericAxisDesc: Optional[DocumentationBlock] = None
+
+        # Parameters for this calculation algorithm.
+        self.swGenericAxisParamTypes: List[SwGenericAxisParamType] = []
+
+    def getSwGenericAxisDesc(self) -> Optional[DocumentationBlock]:
+        """Associated axis description in textual form."""
+        return self.swGenericAxisDesc
+
+    def setSwGenericAxisDesc(self, value: Optional[DocumentationBlock]) -> "SwAxisType":
+        """Associated axis description in textual form. A None value is a no-op and does not overwrite an existing swGenericAxisDesc."""
+        if value is not None:
+            self.swGenericAxisDesc = value
+        return self
+
+    def createSwGenericAxisParamType(self, short_name: str) -> SwGenericAxisParamType:
+        """Parameters for this calculation algorithm."""
+        if not self.IsReferrableElementExists(short_name, SwGenericAxisParamType):
+            param_type = SwGenericAxisParamType(self, short_name)
+            self.addReferrableElement(param_type)
+            self.swGenericAxisParamTypes.append(param_type)
+        return cast(SwGenericAxisParamType, self.getReferrableElement(short_name, SwGenericAxisParamType))
+
+    def getSwGenericAxisParamTypes(self) -> List[SwGenericAxisParamType]:
+        """Parameters for this calculation algorithm."""
+        return self.swGenericAxisParamTypes

@@ -199,7 +199,7 @@ class TestModeSwitchInterfaceRoundTrip:
         mode_group_element = element.find("{%s}MODE-GROUP" % NS)
         assert mode_group_element.find("{%s}SHORT-NAME" % NS).text == "ModeGrp"
         assert mode_group_element.find("{%s}TYPE-TREF" % NS).text == "/Pkg/ModeDclGrp"
-        assert mode_group_element.find("{%s}SW-CALIBRATION-ACCESS" % NS).text == "readOnly"
+        assert mode_group_element.find("{%s}SW-CALIBRATION-ACCESS" % NS).text == "READ-ONLY"
 
         parsed = _reparse(root)
         parsed_interface = parsed.getModeSwitchInterfaces()[0]
@@ -361,13 +361,11 @@ class TestImplementationDataTypeSubElementRefRoundTrip:
         return ref
 
     def test_implementation_data_type_sub_element_ref_field_values(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-            ArParameterInImplementationDataInstanceRef,
-        )
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
             ImplementationDataTypeSubElementRef,
         )
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
+            ArParameterInImplementationDataInstanceRef,
             ArVariableInImplementationDataInstanceRef,
         )
 

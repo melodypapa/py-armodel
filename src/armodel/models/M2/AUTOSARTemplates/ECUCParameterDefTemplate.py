@@ -150,6 +150,7 @@ class EcucScopeEnum(AREnum):
 
     # EcucScopeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.7, p.46
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -328,6 +329,7 @@ class EcucDestinationUriDefRefType(RefType):
 
     # EcucDestinationUriDefRefType method parity checklist:
     # Spec: R23-11/AUTOSAR_00052.xsd, DESTINATION-URI-REF nested type (group ECUC-CONTAINER-DEF), line 51614 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own accessors — the DESTINATION-URI-REF element round-trips via the consuming class EcucContainerDef.destinationUriRefs reader/writer helpers)
@@ -343,6 +345,7 @@ class EcucConfigurationClassEnum(AREnum):
 
     # EcucConfigurationClassEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.12, p.52
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -900,6 +903,7 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     # EcucBooleanParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1189,6 +1193,7 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
     # EcucForeignReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.31, p.75
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1571,6 +1576,7 @@ class EcucFloatParamDef(EcucParameterDef):
 
     # EcucFloatParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.17, p.62
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDefaultValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1937,6 +1943,7 @@ class EcucConditionFormula(FormulaExpression):
 
     # EcucConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2386,6 +2393,7 @@ class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
 
     # EcucLinkerSymbolDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.21, p.65
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2407,12 +2415,12 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
 
 class EcucParameterDerivationFormula(FormulaExpression):
     """
-    This formula is intended to specify how an ecu parameter can be derived
-    from other information in the Autosar Templates.
+    This formula is intended to specify how an ecu parameter can be derived from other information in the Autosar Templates.
     """
 
     # EcucParameterDerivationFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39, p.88
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2435,7 +2443,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryRef
 
-    def setEcucQueryRef(self, value: RefType) -> EcucParameterDerivationFormula:
+    def setEcucQueryRef(self, value: Optional[RefType]) -> EcucParameterDerivationFormula:
         """
         This is one particular EcucQuery used in the calculation formula.
         A None value is a no-op.
@@ -2450,7 +2458,7 @@ class EcucParameterDerivationFormula(FormulaExpression):
         """
         return self.ecucQueryStringRef
 
-    def setEcucQueryStringRef(self, value: RefType) -> EcucParameterDerivationFormula:
+    def setEcucQueryStringRef(self, value: Optional[RefType]) -> EcucParameterDerivationFormula:
         """
         This indicates that the referenced query shall return a string.
         A None value is a no-op.
@@ -2499,6 +2507,7 @@ class EcucQueryExpression(ARObject):
 
     # EcucQueryExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -2509,21 +2518,21 @@ class EcucQueryExpression(ARObject):
     def __init__(self):
         super().__init__()
 
-        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
+        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression. Stereotypes: atpUriDef
         self.configElementDefGlobalRef: Optional[RefType] = None
 
-        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
+        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression. Stereotypes: atpUriDef
         self.configElementDefLocalRef: Optional[RefType] = None
 
     def getConfigElementDefGlobalRef(self) -> Optional[RefType]:
         """
-        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression. Stereotypes: atpUriDef
         """
         return self.configElementDefGlobalRef
 
     def setConfigElementDefGlobalRef(self, value: Optional[RefType]) -> EcucQueryExpression:
         """
-        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression. Stereotypes: atpUriDef
         A None value is a no-op.
         """
         if value is not None:
@@ -2532,13 +2541,13 @@ class EcucQueryExpression(ARObject):
 
     def getConfigElementDefLocalRef(self) -> Optional[RefType]:
         """
-        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression. Stereotypes: atpUriDef
         """
         return self.configElementDefLocalRef
 
     def setConfigElementDefLocalRef(self, value: Optional[RefType]) -> EcucQueryExpression:
         """
-        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression. Stereotypes: atpUriDef
         A None value is a no-op.
         """
         if value is not None:

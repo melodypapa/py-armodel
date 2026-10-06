@@ -11,7 +11,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef, RTriggerInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import POperationInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -222,17 +222,19 @@ class DataReceivedEvent(RTEEvent):
 class SwcModeSwitchEvent(RTEEvent):
     """
     This event is raised when the specified mode change occurs.
+
+    [constr_1946] Existence of attribute SwcModeSwitchEvent.activation: For each SwcModeSwitchEvent, attribute activation shall exist at the time when the RTE is generated.
+    [constr_1947] Existence of reference SwcModeSwitchEvent.mode: For each SwcModeSwitchEvent, the reference to ModeDeclaration in the role mode shall exist at the time when the RTE is generated.
     """
 
     # SwcModeSwitchEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.17, p.544
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getActivation    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setActivation    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addModeIRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeIRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getActivation [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setActivation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addModeIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -240,7 +242,7 @@ class SwcModeSwitchEvent(RTEEvent):
         # Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
         self.activation: Optional[ModeActivationKind] = None
 
-        # The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        # The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
         self.modeIRefs: List[RModeInAtomicSwcInstanceRef] = []
 
     def getActivation(self) -> Optional[ModeActivationKind]:
@@ -252,6 +254,7 @@ class SwcModeSwitchEvent(RTEEvent):
     def setActivation(self, value: Optional[ModeActivationKind]) -> SwcModeSwitchEvent:
         """
         Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
+
         A None value is a no-op and does not overwrite an existing activation.
         """
         if value is not None:
@@ -260,7 +263,8 @@ class SwcModeSwitchEvent(RTEEvent):
 
     def addModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> SwcModeSwitchEvent:
         """
-        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
+
         A None value is a no-op and does not append anything.
         """
         if value is not None:
@@ -269,7 +273,7 @@ class SwcModeSwitchEvent(RTEEvent):
 
     def getModeIRefs(self) -> List[RModeInAtomicSwcInstanceRef]:
         """
-        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwcInstanceRef
         """
         return self.modeIRefs
 
@@ -363,26 +367,35 @@ class InitEvent(RTEEvent):
 
 class TimingEvent(RTEEvent):
     """
-    This event is used to start RunnableEntities that shall be executed
-    periodically.
+    This event is used to start RunnableEntities that shall be executed periodically.
+
+    [constr_1622] Value of TimingEvent.offset vs. TimingEvent.period: If a value is defined for attribute TimingEvent.offset then this value shall be greater than 0 and less or equal than the value of attribute TimingEvent.period of the respective TimingEvent at the time when the RTE is generated.
     """
 
     # TimingEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] periodMs                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOffset                    [x] impl  [x] docstring  [ ] test
-    # [ ] setOffset                    [x] impl  [x] docstring  [ ] test
-    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
-    # [ ] setPeriod                    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.4, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] periodMs   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPeriod  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPeriod  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
         self.offset: Optional[TimeValue] = None
+
+        # Period of timing event in seconds. The value of this attribute shall be greater than zero.
         self.period: Optional[TimeValue] = None
 
     @property
     def periodMs(self):
+        """
+        The period of the event in milliseconds (read-only convenience property derived from period; no spec row — added convenience property).
+        """
         if self.period is None:
             return None
         else:
@@ -392,48 +405,38 @@ class TimingEvent(RTEEvent):
             else:
                 return (int)(period_value * 1000)
 
-    def getOffset(self):
+    def getOffset(self) -> Optional[TimeValue]:
         """
-        Gets the offset before the first event firing.
+        The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
+        """
 
-        Returns:
-            TimeValue: The offset
-        """
         return self.offset
 
-    def setOffset(self, value):
+    def setOffset(self, value: Optional[TimeValue]) -> TimingEvent:
         """
-        Sets the offset before the first event firing.
+        The value makes an assumption about the time offset of the first activation of the RunnableEntity triggered by the mapped TimingEvent relative to the periodic activation of the time base of this TimingEvent. Unit: second.
 
-        Args:
-            value: The offset to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing offset.
         """
+
         if value is not None:
             self.offset = value
         return self
 
-    def getPeriod(self):
+    def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the period between event firings.
+        Period of timing event in seconds. The value of this attribute shall be greater than zero.
+        """
 
-        Returns:
-            TimeValue: The period
-        """
         return self.period
 
-    def setPeriod(self, value):
+    def setPeriod(self, value: Optional[TimeValue]) -> TimingEvent:
         """
-        Sets the period between event firings.
+        Period of timing event in seconds. The value of this attribute shall be greater than zero.
 
-        Args:
-            value: The period to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing period.
         """
+
         if value is not None:
             self.period = value
         return self
@@ -491,38 +494,35 @@ class BackgroundEvent(RTEEvent):
 
 class ModeSwitchedAckEvent(RTEEvent):
     """
-    This event is raised when the referenced ModeSwitchPoint has been
-    processed or an error occurred.
+    This event is raised when the referenced ModeSwitchPoint has been processed or an error occurred.
+
+    [constr_1948] Existence of attribute ModeSwitchedAckEvent.eventSource: For each ModeSwitchedAckEvent, attribute eventSource shall exist at the time when the RTE is generated.
     """
 
     # ModeSwitchedAckEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.19, p.545
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEventSourceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventSourceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The referenced ModeSwitchPoint raises this ModeSwitchedAckEvent when the ModeSwitchPoint has been processed.
         self.eventSourceRef: Optional[RefType] = None
 
-    def getEventSourceRef(self):
+    def getEventSourceRef(self) -> Optional[RefType]:
         """
-        Gets the event source reference.
-
-        Returns:
-            RefType: The event source reference
+        The referenced ModeSwitchPoint raises this ModeSwitchedAckEvent when the ModeSwitchPoint has been processed.
         """
         return self.eventSourceRef
 
-    def setEventSourceRef(self, value):
+    def setEventSourceRef(self, value: Optional[RefType]) -> ModeSwitchedAckEvent:
         """
-        Sets the event source reference.
+        The referenced ModeSwitchPoint raises this ModeSwitchedAckEvent when the ModeSwitchPoint has been processed.
 
-        Args:
-            value: The event source reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing eventSourceRef.
         """
         if value is not None:
             self.eventSourceRef = value
@@ -532,17 +532,19 @@ class ModeSwitchedAckEvent(RTEEvent):
 class WaitPoint(Identifiable):
     """
     This defines a wait-point for which the RunnableEntity can wait.
+
+    [constr_1951] Existence of attribute WaitPoint.timeout: For each WaitPoint, attribute timeout shall exist at the time when the RTE is generated.
+    [constr_1952] Existence of reference WaitPoint.trigger: For each WaitPoint, the reference to RTEEvent in the role trigger shall exist at the time when the contract phase generation is executed.
     """
 
     # WaitPoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.25, p.550
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimeout                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeout                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTriggerRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTriggerRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimeout       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -556,22 +558,14 @@ class WaitPoint(Identifiable):
     def getTimeout(self) -> Optional[TimeValue]:
         """
         Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
-
-        Returns:
-            Optional[TimeValue]: The timeout, or None if not set
         """
         return self.timeout
 
     def setTimeout(self, value: Optional[TimeValue]) -> WaitPoint:
         """
         Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
+
         A None value is a no-op and does not overwrite an existing timeout.
-
-        Args:
-            value: The timeout to set
-
-        Returns:
-            WaitPoint: self for method chaining
         """
         if value is not None:
             self.timeout = value
@@ -580,22 +574,14 @@ class WaitPoint(Identifiable):
     def getTriggerRef(self) -> Optional[RefType]:
         """
         This is the RTEEvent this WaitPoint is waiting for.
-
-        Returns:
-            Optional[RefType]: The trigger reference, or None if not set
         """
         return self.triggerRef
 
     def setTriggerRef(self, value: Optional[RefType]) -> WaitPoint:
         """
         This is the RTEEvent this WaitPoint is waiting for.
+
         A None value is a no-op and does not overwrite an existing triggerRef.
-
-        Args:
-            value: The trigger reference to set
-
-        Returns:
-            WaitPoint: self for method chaining
         """
         if value is not None:
             self.triggerRef = value
@@ -603,12 +589,111 @@ class WaitPoint(Identifiable):
 
 
 class ExternalTriggerOccurredEvent(RTEEvent):
-    pass
+    """
+    This event is raised when the referenced Trigger has occurred.
+
+    [constr_1949] Existence of attribute ExternalTriggerOccurredEvent.trigger: For each ExternalTriggerOccurredEvent, attribute trigger shall exist at the time when the RTE is generated.
+    """
+
+    # ExternalTriggerOccurredEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.20, p.545
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTriggerIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        self.triggerIRef: Optional[RTriggerInAtomicSwcInstanceRef] = None
+
+    def getTriggerIRef(self) -> Optional[RTriggerInAtomicSwcInstanceRef]:
+        """
+        The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        """
+        return self.triggerIRef
+
+    def setTriggerIRef(self, value: Optional[RTriggerInAtomicSwcInstanceRef]) -> ExternalTriggerOccurredEvent:
+        """
+        The referenced Trigger raises this ExternalTriggerOccurredEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing triggerIRef.
+        """
+        if value is not None:
+            self.triggerIRef = value
+        return self
 
 
 class OsTaskExecutionEvent(RTEEvent):
-    pass
+    """
+    This RTEEvent is supposed to execute RunnableEntities which have to react on the execution of specific OsTasks. Therefore, this event is unconditionally raised whenever the OsTask on which it is mapped is executed. The main use case for this event is scheduling of Runnables of Complex Drivers which have to react on task executions.
+
+    [constr_10016] Applicability of OsTaskExecutionEvent: An OsTaskExecutionEvent is only applicable for a SwcInternalBehavior in the context of a ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType, or ServiceSwComponentType at the time when the contract phase generation is executed.
+    """
+
+    # OsTaskExecutionEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.24, p.547
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class TransformerHardErrorEvent(RTEEvent):
-    pass
+    """
+    This event is raised when data are received which should trigger a Client/Server operation or an external Trigger but during transformation of the data a hard transformer error occurred.
+
+    [constr_1397] Existence of attributes of TransformerHardErrorEvent: For any given TransformerHardErrorEvent, either the attribute TransformerHardErrorEvent.operation or TransformerHardErrorEvent.requiredTrigger shall exist at the time when the contract phase generation is executed.
+    """
+
+    # TransformerHardErrorEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.23, p.546
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredTriggerIRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredTriggerIRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+        self.operationIRef: Optional[POperationInAtomicSwcInstanceRef] = None
+
+        # This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        self.requiredTriggerIRef: Optional[RTriggerInAtomicSwcInstanceRef] = None
+
+    def getOperationIRef(self) -> Optional[POperationInAtomicSwcInstanceRef]:
+        """
+        This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+        """
+        return self.operationIRef
+
+    def setOperationIRef(self, value: Optional[POperationInAtomicSwcInstanceRef]) -> TransformerHardErrorEvent:
+        """
+        This represents the ClientServerOperation for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: POperationInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing operationIRef.
+        """
+        if value is not None:
+            self.operationIRef = value
+        return self
+
+    def getRequiredTriggerIRef(self) -> Optional[RTriggerInAtomicSwcInstanceRef]:
+        """
+        This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+        """
+        return self.requiredTriggerIRef
+
+    def setRequiredTriggerIRef(self, value: Optional[RTriggerInAtomicSwcInstanceRef]) -> TransformerHardErrorEvent:
+        """
+        This represents the Trigger for which the transformer can raise this TransformerHardErrorEvent. InstanceRef implemented by: RTriggerInAtomicSwcInstanceRef
+
+        A None value is a no-op and does not overwrite an existing requiredTriggerIRef.
+        """
+        if value is not None:
+            self.requiredTriggerIRef = value
+        return self

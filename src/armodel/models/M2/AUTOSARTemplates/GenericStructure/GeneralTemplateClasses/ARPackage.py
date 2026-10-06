@@ -21,9 +21,11 @@ if TYPE_CHECKING:
         Collection,
     )
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+    from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisType
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    CalibrationParameterValue,
     DiagnosticCommonProps,
     DiagnosticConnectedIndicator,
     DiagnosticControlEnableMaskBit,
@@ -32,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -92,6 +95,7 @@ from importlib import import_module as _import_module  # noqa: E402
 _LAZY_IMPORTS = {
     "ApplicationDeferredDataType": "armodel.models.M2.AUTOSARTemplates.AbstractPlatform",
     "SwBaseType": "armodel.models.M2.MSR.AsamHdo.BaseTypes",
+    "SwAxisType": "armodel.models.M2.MSR.DataDictionary.Axis",
 }
 
 
@@ -2620,6 +2624,20 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(PhysicalDimension, self.getReferrableElement(short_name, PhysicalDimension))
 
+    def createPhysicalDimensionMappingSet(self, short_name: str) -> PhysicalDimensionMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, PhysicalDimensionMappingSet):
+            element = PhysicalDimensionMappingSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(PhysicalDimensionMappingSet, self.getReferrableElement(short_name, PhysicalDimensionMappingSet))
+
+    def createCalibrationParameterValueSet(self, short_name: str) -> CalibrationParameterValueSet:
+
+        if not self.IsReferrableElementExists(short_name, CalibrationParameterValueSet):
+            element = CalibrationParameterValueSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CalibrationParameterValueSet, self.getReferrableElement(short_name, CalibrationParameterValueSet))
+
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
 
         if not self.IsReferrableElementExists(short_name, ISignalGroup):
@@ -4384,6 +4402,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(props)
         return cast(E2EProfileCompatibilityProps, self.getReferrableElement(short_name, E2EProfileCompatibilityProps))
 
+    def createSwAxisType(self, short_name: str) -> SwAxisType:
+
+        if not self.IsReferrableElementExists(short_name, SwAxisType):
+            axis_type = SwAxisType(self, short_name)
+            self.addReferrableElement(axis_type)
+        return cast(SwAxisType, self.getReferrableElement(short_name, SwAxisType))
+
     def createTlvDataIdDefinitionSet(self, short_name: str) -> TlvDataIdDefinitionSet:
 
         if not self.IsReferrableElementExists(short_name, TlvDataIdDefinitionSet):
@@ -4593,6 +4618,14 @@ class ARPackage(CollectableElement, VariationPointCapable):
     def getUnits(self) -> List[Unit]:
 
         return list(a for a in self.referrableElements if isinstance(a, Unit))
+
+    def getPhysicalDimensionMappingSets(self) -> List[PhysicalDimensionMappingSet]:
+
+        return list(a for a in self.referrableElements if isinstance(a, PhysicalDimensionMappingSet))
+
+    def getCalibrationParameterValueSets(self) -> List[CalibrationParameterValueSet]:
+
+        return list(a for a in self.referrableElements if isinstance(a, CalibrationParameterValueSet))
 
     def getUnitGroups(self) -> List[UnitGroup]:
 
@@ -5050,7 +5083,36 @@ BuildActionManifest.__bases__ = (ARElement,)
 
 
 class CalibrationParameterValueSet(ARElement):
-    pass
+    """Specification of a constant that can be part of a package, i.e. it can be defined stand-alone. Tags: atp.recommendedPackage=CalibrationParameterValueSets"""
+
+    # CalibrationParameterValueSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.137, p.477
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCalibrationParameterValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCalibrationParameterValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.calibrationParameterValues: List[CalibrationParameterValue] = []
+
+    def addCalibrationParameterValue(self, value: Optional[CalibrationParameterValue]) -> CalibrationParameterValueSet:
+        """
+        This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not append a calibrationParameterValue.
+        """
+        if value is not None:
+            self.calibrationParameterValues.append(value)
+        return self
+
+    def getCalibrationParameterValues(self) -> List[CalibrationParameterValue]:
+        """
+        This represents single CalibrationParameterValues in the CalibrationParameterValueSet. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=calibrationParameterValue, calibrationParameterValue.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.calibrationParameterValues
 
 
 class DiagnosticMapping(ARElement, ABC):
@@ -11161,7 +11223,36 @@ class LifeCycleStateDefinitionGroup(ARElement):
 
 
 class PhysicalDimensionMappingSet(ARElement):
-    pass
+    """This class represents a container for a list of mappings between PhysicalDimensions. Tags: atp.recommendedPackage=PhysicalDimensionMappingSets"""
+
+    # PhysicalDimensionMappingSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.78, p.399
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPhysicalDimensionMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalDimensionMappings [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+        self.physicalDimensionMappings: List[PhysicalDimensionMapping] = []
+
+    def addPhysicalDimensionMapping(self, value: Optional[PhysicalDimensionMapping]) -> PhysicalDimensionMappingSet:
+        """
+        This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+
+        A None value is a no-op and does not append a physicalDimensionMapping.
+        """
+        if value is not None:
+            self.physicalDimensionMappings.append(value)
+        return self
+
+    def getPhysicalDimensionMappings(self) -> List[PhysicalDimensionMapping]:
+        """
+        This aggregation represents a concrete collections of PhysicalDimensionMappings in the context of one PhysicalDimensionMappingSet.
+        """
+        return self.physicalDimensionMappings
 
 
 class PostBuildVariantCriterionValueSet(ARElement):
@@ -11185,10 +11276,6 @@ class SecurityEventContextMappingFunctionalCluster(ARElement):
 
 
 class SecurityEventDefinition(ARElement):
-    pass
-
-
-class SwAxisType(ARElement):
     pass
 
 

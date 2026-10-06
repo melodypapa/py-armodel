@@ -1834,7 +1834,7 @@ class TestISignalAndGroupHandlers:
         parser.readISignal(element, signal)
         props = signal.getISignalProps()
         assert props is not None
-        assert props.getHandleOutOfRange().getValue() == "DEFAULT"
+        assert props.getHandleOutOfRange().getValue() == "default"
 
     def test_readISignal_does_not_set_iSignalProps_when_absent(self, parser):
         from armodel.models import ISignal

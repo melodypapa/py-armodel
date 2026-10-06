@@ -33,6 +33,7 @@ class EcucValueCollection(ARElement):
 
     # EcucValueCollection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.45, p.108
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addEcucValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -872,6 +873,7 @@ class ConfigReferenceValue(ARObject, ABC):
 
     # ConfigReferenceValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.40, l.2284 (R3.2.3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
@@ -1081,6 +1083,7 @@ class ModuleConfiguration(ARElement):
 
     # ModuleConfiguration method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.30, l.1916 (R3.2.3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] createContainer                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R3.2.3

@@ -20,9 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
-    from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
 
 class SwImplPolicyEnum(AREnum):
@@ -63,10 +61,8 @@ class SwCalibrationAccessEnum(AREnum):
 
     # SwCalibrationAccessEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.44, p.335
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.swCalibrationAccess
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ModeDeclarationGroupPrototype.swCalibrationAccess, SwCalprmAxis.swCalibrationAccess, SwDataDefProps.swCalibrationAccess (R23-11)
 
     # The element will not be accessible via MCD tools, i.e. will not appear in the ASAP file. Tags: atp.EnumerationLiteralIndex=0
     NOT_ACCESSIBLE = "notAccessible"
@@ -88,10 +84,9 @@ class DisplayPresentationEnum(AREnum):
 
     # DisplayPresentationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.107, p.432
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SwDataDefProps.displayPresentation
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwDataDefProps.displayPresentation (DISPLAY-PRESENTATION element; UPPERCASE XSD token via DISPLAY_PRESENTATION_XML_MAP, parser _readEnumToken / writer _writeEnumToken)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The presentation of data shall form a continuous graph between data points. Tags: atp.EnumerationLiteralIndex=0
     PRESENTATION_CONTINUOUS = "presentationContinuous"
@@ -110,21 +105,20 @@ class SwBitRepresentation(ARObject):
 
     # SwBitRepresentation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.41, p.333
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBitPosition           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBitPosition           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNumberOfBits          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNumberOfBits          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitPosition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitPosition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumberOfBits  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumberOfBits  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # If the "bit data object" is hosted within another data object (e.g. if the memory can be accessed via byte as well as bit address), this attribute specifies the position of the data object. The count starts at zero (0). Tags: xml.sequenceOffset=20
+        # If the "bit data object" is hosted within another data object (e.g. if the memory can be accessed via byte as well as bit address), this attribute specifies the position of the data object. The count starts at zero (0).
         self.bitPosition: Optional[Integer] = None
 
-        # Number of bits allocated by a "bit data object" within its host data object. Tags: xml.sequenceOffset=30
+        # Number of bits allocated by a "bit data object" within its host data object.
         self.numberOfBits: Optional[Integer] = None
 
     def getBitPosition(self) -> Optional[Integer]:
@@ -163,32 +157,31 @@ class SwDataDependencyArgs(ARObject):
 
     # SwDataDependencyArgs method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.59, p.374
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwCalprmRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwCalprmRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwVariable            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwVariable            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwCalprmRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalprmRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwVariable   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwVariable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies a calibration parameter as an input argument to the dependency.
+        # Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false
         self.swCalprmRef: Optional[SwCalprmRefProxy] = None
 
-        # Specifies a variable as an input argument to the dependency.
+        # Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false
         self.swVariable: Optional[SwVariableRefProxy] = None
 
     def getSwCalprmRef(self) -> Optional[SwCalprmRefProxy]:
         """
-        Specifies a calibration parameter as an input argument to the dependency.
+        Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swCalprmRef
 
     def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> SwDataDependencyArgs:
         """
-        Specifies a calibration parameter as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swCalprmRef.
+        Specifies a calibration parameter as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=60 xml.typeElement=false xml.typeWrapperElement=false A None value is a no-op and does not overwrite an existing swCalprmRef.
         """
         if value is not None:
             self.swCalprmRef = value
@@ -196,13 +189,13 @@ class SwDataDependencyArgs(ARObject):
 
     def getSwVariable(self) -> Optional[SwVariableRefProxy]:
         """
-        Specifies a variable as an input argument to the dependency.
+        Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.swVariable
 
     def setSwVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDependencyArgs:
         """
-        Specifies a variable as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swVariable.
+        Specifies a variable as an input argument to the dependency. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false A None value is a no-op and does not overwrite an existing swVariable.
         """
         if value is not None:
             self.swVariable = value
@@ -216,49 +209,48 @@ class SwDataDependency(ARObject):
 
     # SwDataDependency method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.58, p.374
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwDataDependencyFormula     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDependencyFormula     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwDataDependencyArgs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDependencyArgs        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwDataDependencyArgs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDependencyArgs     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDependencyFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDependencyFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This element describes the formula with which the dependencies between the participating objects are defined.
-        self.swDataDependencyFormula: Optional[CompuGenericMath] = None
-
-        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed).
+        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40
         self.swDataDependencyArgs: Optional[SwDataDependencyArgs] = None
 
-    def getSwDataDependencyFormula(self) -> Optional[CompuGenericMath]:
-        """
-        This element describes the formula with which the dependencies between the participating objects are defined.
-        """
-        return self.swDataDependencyFormula
-
-    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> SwDataDependency:
-        """
-        This element describes the formula with which the dependencies between the participating objects are defined. A None value is a no-op and does not overwrite an existing swDataDependencyFormula.
-        """
-        if value is not None:
-            self.swDataDependencyFormula = value
-        return self
+        # This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30
+        self.swDataDependencyFormula: Optional[CompuGenericMath] = None
 
     def getSwDataDependencyArgs(self) -> Optional[SwDataDependencyArgs]:
         """
-        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed).
+        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40
         """
         return self.swDataDependencyArgs
 
     def setSwDataDependencyArgs(self, value: Optional[SwDataDependencyArgs]) -> SwDataDependency:
         """
-        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). A None value is a no-op and does not overwrite an existing swDataDependencyArgs.
+        Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40 A None value is a no-op and does not overwrite an existing swDataDependencyArgs.
         """
         if value is not None:
             self.swDataDependencyArgs = value
+        return self
+
+    def getSwDataDependencyFormula(self) -> Optional[CompuGenericMath]:
+        """
+        This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30
+        """
+        return self.swDataDependencyFormula
+
+    def setSwDataDependencyFormula(self, value: Optional[CompuGenericMath]) -> SwDataDependency:
+        """
+        This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30 A None value is a no-op and does not overwrite an existing swDataDependencyFormula.
+        """
+        if value is not None:
+            self.swDataDependencyFormula = value
         return self
 
 
@@ -269,111 +261,79 @@ class SwDataDefProps(ARObject):
 
     # SwDataDefProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.39, p.332
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDisplayPresentation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDisplayPresentation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStepSize                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStepSize                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwValueBlockSizeMults       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwValueBlockSizeMult        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAnnotations                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addAnnotation                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAddrMethodRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAddrMethodRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwAlignment                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwAlignment                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBaseTypeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwBitRepresentation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwBitRepresentation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalibrationAccess         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwCalibrationAccess         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwValueBlockSize            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwValueBlockSize            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwCalprmAxisSet             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwCalprmAxisSet             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwTextProps                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwTextProps                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwComparisonVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwComparisonVariable        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompuMethodRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCompuMethodRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataConstrRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataConstrRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwDataDependency            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDependency            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDisplayFormat               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDisplayFormat               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplementationDataTypeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplementationDataTypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwHostVariable              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwHostVariable              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwImplPolicy                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwImplPolicy                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAdditionalNativeTypeQualifier [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAdditionalNativeTypeQualifier [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwIntendedResolution        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwIntendedResolution        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwInterpolationMethod       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwInterpolationMethod       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInvalidValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInvalidValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwIsVirtual                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwIsVirtual                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwPointerTargetProps        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwPointerTargetProps        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwRecordLayoutRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwRecordLayoutRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwRefreshTiming             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwRefreshTiming             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUnitRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnitRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValueAxisDataTypeRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValueAxisDataTypeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdditionalNativeTypeQualifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAdditionalNativeTypeQualifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addAnnotation                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getBaseTypeRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuMethodRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuMethodRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataConstrRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataConstrRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisplayFormat                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisplayFormat                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisplayPresentation              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisplayPresentation              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationDataTypeRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplementationDataTypeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInvalidValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInvalidValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStepSize                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStepSize                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAddrMethodRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAddrMethodRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAlignment                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAlignment                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwBitRepresentation              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwBitRepresentation              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalibrationAccess              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalibrationAccess              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalprmAxisSet                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalprmAxisSet                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwComparisonVariable             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComparisonVariables            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSwDataDependency                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDependency                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwHostVariable                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwHostVariable                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwImplPolicy                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwImplPolicy                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwIntendedResolution             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwIntendedResolution             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwInterpolationMethod            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwInterpolationMethod            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwIsVirtual                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwIsVirtual                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwPointerTargetProps             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwPointerTargetProps             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRefreshTiming                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRefreshTiming                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwTextProps                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwTextProps                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwValueBlockSize                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwValueBlockSize                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSwValueBlockSizeMult             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwValueBlockSizeMults            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUnitRef                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValueAxisDataTypeRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueAxisDataTypeRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     def __init__(self):
         super().__init__()
 
-        # This attribute controls the presentation of the related data for measurement and calibration tools.
-        self.displayPresentation: Optional[DisplayPresentationEnum] = None
-
-        # This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
-        self.stepSize: Optional[Float] = None
-
-        # This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValueBlockSize shall be used and this attribute shall not exist.
-        self.swValueBlockSizeMults: List[Numerical] = []
+        # This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
+        self.additionalNativeTypeQualifier: Optional[NativeDeclarationString] = None
 
         # This aggregation allows to add annotations (yellow pads ...) related to the current data object.
         self.annotations: List[Annotation] = []
 
-        # Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself.
-        self.swAddrMethodRef: Optional[RefType] = None
-
-        # The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
-        self.swAlignment: Optional[AlignmentType] = None
-
         # Base type associated with the containing data object.
         self.baseTypeRef: Optional[RefType] = None
-
-        # Description of the binary representation in case of a bit variable.
-        self.swBitRepresentation: Optional[SwBitRepresentation] = None
-
-        # Specifies the read or write access by MCD tools for this data object.
-        self.swCalibrationAccess: Optional[SwCalibrationAccessEnum] = None
-
-        # This represents the size of a Value Block
-        self.swValueBlockSize: Optional[Numerical] = None
-
-        # This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters.
-        self.swCalprmAxisSet: Optional[SwCalprmAxisSet] = None
-
-        # the specific properties if the data object is a text object.
-        self.swTextProps: Optional[SwTextProps] = None
-
-        # Variables used for comparison in an MCD process.
-        self.swComparisonVariables: List[SwVariableRefProxy] = []
 
         # Computation method associated with the semantics of this data object.
         self.compuMethodRef: Optional[RefType] = None
@@ -381,14 +341,41 @@ class SwDataDefProps(ARObject):
         # Data constraint for this data object.
         self.dataConstrRef: Optional[RefType] = None
 
-        # Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
-        self.swDataDependency: Optional[SwDataDependency] = None
-
         # This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system.
         self.displayFormat: Optional[DisplayFormatString] = None
 
-        # This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
+        # This attribute controls the presentation of the related data for measurement and calibration tools.
+        self.displayPresentation: Optional[DisplayPresentationEnum] = None
+
+        # This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTarget Props), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
         self.implementationDataTypeRef: Optional[RefType] = None
+
+        # Optional value to express invalidity of the actual data element.
+        self.invalidValue: Optional[ValueSpecification] = None
+
+        # This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
+        self.stepSize: Optional[Float] = None
+
+        # Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself.
+        self.swAddrMethodRef: Optional[RefType] = None
+
+        # The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced Sw AddrMethod.
+        self.swAlignment: Optional[AlignmentType] = None
+
+        # Description of the binary representation in case of a bit variable.
+        self.swBitRepresentation: Optional[SwBitRepresentation] = None
+
+        # Specifies the read or write access by MCD tools for this data object.
+        self.swCalibrationAccess: Optional[SwCalibrationAccessEnum] = None
+
+        # This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters.
+        self.swCalprmAxisSet: Optional[SwCalprmAxisSet] = None
+
+        # Variables used for comparison in an MCD process.
+        self.swComparisonVariables: List[SwVariableRefProxy] = []
+
+        # Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
+        self.swDataDependency: Optional[SwDataDependency] = None
 
         # Contains a reference to a variable which serves as a host-variable for a bit variable. Only applicable to bit objects.
         self.swHostVariable: Optional[SwVariableRefProxy] = None
@@ -396,19 +383,13 @@ class SwDataDefProps(ARObject):
         # Implementation policy for this data object.
         self.swImplPolicy: Optional[SwImplPolicyEnum] = None
 
-        # This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
-        self.additionalNativeTypeQualifier: Optional[NativeDeclarationString] = None
-
         # The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
         self.swIntendedResolution: Optional[Numerical] = None
 
         # This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked.
         self.swInterpolationMethod: Optional[Identifier] = None
 
-        # Optional value to express invalidity of the actual data element.
-        self.invalidValue: Optional[ValueSpecification] = None
-
-        # This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency.
+        # This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency .
         self.swIsVirtual: Optional[Boolean] = None
 
         # Specifies that the containing data object is a pointer to another data object. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern).
@@ -420,52 +401,41 @@ class SwDataDefProps(ARObject):
         # This element specifies the frequency in which the object involved shall be or is called or calculated. This timing can be collected from the task in which write access processes to the variable run. But this cannot be done by the MCD system. So this attribute can be used in an early phase to express the desired refresh timing and later on to specify the real refresh timing.
         self.swRefreshTiming: Optional[MultidimensionalTime] = None
 
+        # the specific properties if the data object is a text object.
+        self.swTextProps: Optional[SwTextProps] = None
+
+        # This represents the size of a Value Block
+        self.swValueBlockSize: Optional[Numerical] = None
+
+        # This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValue BlockSize shall be used and this attribute shall not exist.
+        self.swValueBlockSizeMults: List[Numerical] = []
+
         # Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. If both units (this as well as via compuMethod) are specified the units shall be compatible.
         self.unitRef: Optional[RefType] = None
 
         # The referenced ApplicationPrimitiveDataType represents the primitive data type of the value axis within a compound primitive (e.g. curve, map). It supersedes CompuMethod, Unit, and BaseType.
         self.valueAxisDataTypeRef: Optional[RefType] = None
 
-    def getDisplayPresentation(self) -> Optional[DisplayPresentationEnum]:
+    def getAdditionalNativeTypeQualifier(self) -> Optional[NativeDeclarationString]:
         """
-        This attribute controls the presentation of the related data for measurement and calibration tools.
+        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
         """
-        return self.displayPresentation
+        return self.additionalNativeTypeQualifier
 
-    def setDisplayPresentation(self, value: Optional[DisplayPresentationEnum]) -> SwDataDefProps:
+    def setAdditionalNativeTypeQualifier(self, value: Optional[NativeDeclarationString]) -> SwDataDefProps:
         """
-        This attribute controls the presentation of the related data for measurement and calibration tools. A None value is a no-op and does not overwrite an existing displayPresentation.
+        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string. A None value is a no-op and does not overwrite an existing additionalNativeTypeQualifier.
         """
         if value is not None:
-            self.displayPresentation = value
+            self.additionalNativeTypeQualifier = value
         return self
 
-    def getStepSize(self) -> Optional[Float]:
+    def addAnnotation(self, annotation: Annotation) -> SwDataDefProps:
         """
-        This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
+        This aggregation allows to add annotations (yellow pads ...) related to the current data object. A None value is a no-op and does not append to the list.
         """
-        return self.stepSize
-
-    def setStepSize(self, value: Optional[Float]) -> SwDataDefProps:
-        """
-        This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating. A None value is a no-op and does not overwrite an existing stepSize.
-        """
-        if value is not None:
-            self.stepSize = value
-        return self
-
-    def getSwValueBlockSizeMults(self) -> List[Numerical]:
-        """
-        This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValueBlockSize shall be used and this attribute shall not exist.
-        """
-        return self.swValueBlockSizeMults
-
-    def addSwValueBlockSizeMult(self, value: Optional[Numerical]) -> SwDataDefProps:
-        """
-        This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. Appends a dimension to the ordered list. A None value is a no-op.
-        """
-        if value is not None:
-            self.swValueBlockSizeMults.append(value)
+        if annotation is not None:
+            self.annotations.append(annotation)
         return self
 
     def getAnnotations(self) -> List[Annotation]:
@@ -473,42 +443,6 @@ class SwDataDefProps(ARObject):
         This aggregation allows to add annotations (yellow pads ...) related to the current data object.
         """
         return self.annotations
-
-    def addAnnotation(self, annotation: Annotation) -> SwDataDefProps:
-        """
-        This aggregation allows to add annotations (yellow pads ...) related to the current data object. A None value is a no-op.
-        """
-        if annotation is not None:
-            self.annotations.append(annotation)
-        return self
-
-    def getSwAddrMethodRef(self) -> Optional[RefType]:
-        """
-        Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself.
-        """
-        return self.swAddrMethodRef
-
-    def setSwAddrMethodRef(self, value: Optional[RefType]) -> SwDataDefProps:
-        """
-        Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself. A None value is a no-op and does not overwrite an existing swAddrMethodRef.
-        """
-        if value is not None:
-            self.swAddrMethodRef = value
-        return self
-
-    def getSwAlignment(self) -> Optional[AlignmentType]:
-        """
-        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
-        """
-        return self.swAlignment
-
-    def setSwAlignment(self, value: Optional[AlignmentType]) -> SwDataDefProps:
-        """
-        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod. A None value is a no-op and does not overwrite an existing swAlignment.
-        """
-        if value is not None:
-            self.swAlignment = value
-        return self
 
     def getBaseTypeRef(self) -> Optional[RefType]:
         """
@@ -522,90 +456,6 @@ class SwDataDefProps(ARObject):
         """
         if value is not None:
             self.baseTypeRef = value
-        return self
-
-    def getSwBitRepresentation(self) -> Optional[SwBitRepresentation]:
-        """
-        Description of the binary representation in case of a bit variable.
-        """
-        return self.swBitRepresentation
-
-    def setSwBitRepresentation(self, value: Optional[SwBitRepresentation]) -> SwDataDefProps:
-        """
-        Description of the binary representation in case of a bit variable. A None value is a no-op and does not overwrite an existing swBitRepresentation.
-        """
-        if value is not None:
-            self.swBitRepresentation = value
-        return self
-
-    def getSwCalibrationAccess(self) -> Optional[SwCalibrationAccessEnum]:
-        """
-        Specifies the read or write access by MCD tools for this data object.
-        """
-        return self.swCalibrationAccess
-
-    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> SwDataDefProps:
-        """
-        Specifies the read or write access by MCD tools for this data object. A None value is a no-op and does not overwrite an existing swCalibrationAccess.
-        """
-        if value is not None:
-            self.swCalibrationAccess = value
-        return self
-
-    def getSwValueBlockSize(self) -> Optional[Numerical]:
-        """
-        This represents the size of a Value Block
-        """
-        return self.swValueBlockSize
-
-    def setSwValueBlockSize(self, value: Optional[Numerical]) -> SwDataDefProps:
-        """
-        This represents the size of a Value Block A None value is a no-op and does not overwrite an existing swValueBlockSize.
-        """
-        if value is not None:
-            self.swValueBlockSize = value
-        return self
-
-    def getSwCalprmAxisSet(self) -> Optional[SwCalprmAxisSet]:
-        """
-        This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters.
-        """
-        return self.swCalprmAxisSet
-
-    def setSwCalprmAxisSet(self, value: Optional[SwCalprmAxisSet]) -> SwDataDefProps:
-        """
-        This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters. A None value is a no-op and does not overwrite an existing swCalprmAxisSet.
-        """
-        if value is not None:
-            self.swCalprmAxisSet = value
-        return self
-
-    def getSwTextProps(self) -> Optional[SwTextProps]:
-        """
-        the specific properties if the data object is a text object.
-        """
-        return self.swTextProps
-
-    def setSwTextProps(self, value: Optional[SwTextProps]) -> SwDataDefProps:
-        """
-        the specific properties if the data object is a text object. A None value is a no-op and does not overwrite an existing swTextProps.
-        """
-        if value is not None:
-            self.swTextProps = value
-        return self
-
-    def getSwComparisonVariables(self) -> List[SwVariableRefProxy]:
-        """
-        Variables used for comparison in an MCD process.
-        """
-        return self.swComparisonVariables
-
-    def addSwComparisonVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDefProps:
-        """
-        Variables used for comparison in an MCD process. Appends a comparison variable. A None value is a no-op.
-        """
-        if value is not None:
-            self.swComparisonVariables.append(value)
         return self
 
     def getCompuMethodRef(self) -> Optional[RefType]:
@@ -636,20 +486,6 @@ class SwDataDefProps(ARObject):
             self.dataConstrRef = value
         return self
 
-    def getSwDataDependency(self) -> Optional[SwDataDependency]:
-        """
-        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
-        """
-        return self.swDataDependency
-
-    def setSwDataDependency(self, value: Optional[SwDataDependency]) -> SwDataDefProps:
-        """
-        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system). A None value is a no-op and does not overwrite an existing swDataDependency.
-        """
-        if value is not None:
-            self.swDataDependency = value
-        return self
-
     def getDisplayFormat(self) -> Optional[DisplayFormatString]:
         """
         This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system.
@@ -664,18 +500,158 @@ class SwDataDefProps(ARObject):
             self.displayFormat = value
         return self
 
+    def getDisplayPresentation(self) -> Optional[DisplayPresentationEnum]:
+        """
+        This attribute controls the presentation of the related data for measurement and calibration tools.
+        """
+        return self.displayPresentation
+
+    def setDisplayPresentation(self, value: Optional[DisplayPresentationEnum]) -> SwDataDefProps:
+        """
+        This attribute controls the presentation of the related data for measurement and calibration tools. A None value is a no-op and does not overwrite an existing displayPresentation.
+        """
+        if value is not None:
+            self.displayPresentation = value
+        return self
+
     def getImplementationDataTypeRef(self) -> Optional[RefType]:
         """
-        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
+        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTarget Props), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
         """
         return self.implementationDataTypeRef
 
     def setImplementationDataTypeRef(self, value: Optional[RefType]) -> SwDataDefProps:
         """
-        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly. A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
+        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTarget Props), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
         """
         if value is not None:
             self.implementationDataTypeRef = value
+        return self
+
+    def getInvalidValue(self) -> Optional[ValueSpecification]:
+        """
+        Optional value to express invalidity of the actual data element.
+        """
+        return self.invalidValue
+
+    def setInvalidValue(self, value: Optional[ValueSpecification]) -> SwDataDefProps:
+        """
+        Optional value to express invalidity of the actual data element. A None value is a no-op and does not overwrite an existing invalidValue.
+        """
+        if value is not None:
+            self.invalidValue = value
+        return self
+
+    def getStepSize(self) -> Optional[Float]:
+        """
+        This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
+        """
+        return self.stepSize
+
+    def setStepSize(self, value: Optional[Float]) -> SwDataDefProps:
+        """
+        This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating. A None value is a no-op and does not overwrite an existing stepSize.
+        """
+        if value is not None:
+            self.stepSize = value
+        return self
+
+    def getSwAddrMethodRef(self) -> Optional[RefType]:
+        """
+        Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself.
+        """
+        return self.swAddrMethodRef
+
+    def setSwAddrMethodRef(self, value: Optional[RefType]) -> SwDataDefProps:
+        """
+        Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself. A None value is a no-op and does not overwrite an existing swAddrMethodRef.
+        """
+        if value is not None:
+            self.swAddrMethodRef = value
+        return self
+
+    def getSwAlignment(self) -> Optional[AlignmentType]:
+        """
+        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced Sw AddrMethod.
+        """
+        return self.swAlignment
+
+    def setSwAlignment(self, value: Optional[AlignmentType]) -> SwDataDefProps:
+        """
+        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced Sw AddrMethod. A None value is a no-op and does not overwrite an existing swAlignment.
+        """
+        if value is not None:
+            self.swAlignment = value
+        return self
+
+    def getSwBitRepresentation(self) -> Optional[SwBitRepresentation]:
+        """
+        Description of the binary representation in case of a bit variable.
+        """
+        return self.swBitRepresentation
+
+    def setSwBitRepresentation(self, value: Optional[SwBitRepresentation]) -> SwDataDefProps:
+        """
+        Description of the binary representation in case of a bit variable. A None value is a no-op and does not overwrite an existing swBitRepresentation.
+        """
+        if value is not None:
+            self.swBitRepresentation = value
+        return self
+
+    def getSwCalibrationAccess(self) -> Optional[SwCalibrationAccessEnum]:
+        """
+        Specifies the read or write access by MCD tools for this data object.
+        """
+        return self.swCalibrationAccess
+
+    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> SwDataDefProps:
+        """
+        Specifies the read or write access by MCD tools for this data object. A None value is a no-op and does not overwrite an existing swCalibrationAccess.
+        """
+        if value is not None:
+            self.swCalibrationAccess = value
+        return self
+
+    def getSwCalprmAxisSet(self) -> Optional[SwCalprmAxisSet]:
+        """
+        This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters.
+        """
+        return self.swCalprmAxisSet
+
+    def setSwCalprmAxisSet(self, value: Optional[SwCalprmAxisSet]) -> SwDataDefProps:
+        """
+        This specifies the properties of the axes in case of a curve or map etc. This is mainly applicable to calibration parameters. A None value is a no-op and does not overwrite an existing swCalprmAxisSet.
+        """
+        if value is not None:
+            self.swCalprmAxisSet = value
+        return self
+
+    def addSwComparisonVariable(self, value: Optional[SwVariableRefProxy]) -> SwDataDefProps:
+        """
+        Variables used for comparison in an MCD process. A None value is a no-op and does not append to the list.
+        """
+        if value is not None:
+            self.swComparisonVariables.append(value)
+        return self
+
+    def getSwComparisonVariables(self) -> List[SwVariableRefProxy]:
+        """
+        Variables used for comparison in an MCD process.
+        """
+        return self.swComparisonVariables
+
+    def getSwDataDependency(self) -> Optional[SwDataDependency]:
+        """
+        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
+        """
+        return self.swDataDependency
+
+    def setSwDataDependency(self, value: Optional[SwDataDependency]) -> SwDataDefProps:
+        """
+        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system). A None value is a no-op and does not overwrite an existing swDataDependency.
+        """
+        if value is not None:
+            self.swDataDependency = value
         return self
 
     def getSwHostVariable(self) -> Optional[SwVariableRefProxy]:
@@ -706,20 +682,6 @@ class SwDataDefProps(ARObject):
             self.swImplPolicy = value
         return self
 
-    def getAdditionalNativeTypeQualifier(self) -> Optional[NativeDeclarationString]:
-        """
-        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
-        """
-        return self.additionalNativeTypeQualifier
-
-    def setAdditionalNativeTypeQualifier(self, value: Optional[NativeDeclarationString]) -> SwDataDefProps:
-        """
-        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string. A None value is a no-op and does not overwrite an existing additionalNativeTypeQualifier.
-        """
-        if value is not None:
-            self.additionalNativeTypeQualifier = value
-        return self
-
     def getSwIntendedResolution(self) -> Optional[Numerical]:
         """
         The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
@@ -748,29 +710,15 @@ class SwDataDefProps(ARObject):
             self.swInterpolationMethod = value
         return self
 
-    def getInvalidValue(self) -> Optional[ValueSpecification]:
-        """
-        Optional value to express invalidity of the actual data element.
-        """
-        return self.invalidValue
-
-    def setInvalidValue(self, value: Optional[ValueSpecification]) -> SwDataDefProps:
-        """
-        Optional value to express invalidity of the actual data element. A None value is a no-op and does not overwrite an existing invalidValue.
-        """
-        if value is not None:
-            self.invalidValue = value
-        return self
-
     def getSwIsVirtual(self) -> Optional[Boolean]:
         """
-        This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency.
+        This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency .
         """
         return self.swIsVirtual
 
     def setSwIsVirtual(self, value: Optional[Boolean]) -> SwDataDefProps:
         """
-        This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency. A None value is a no-op and does not overwrite an existing swIsVirtual.
+        This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency . A None value is a no-op and does not overwrite an existing swIsVirtual.
         """
         if value is not None:
             self.swIsVirtual = value
@@ -817,6 +765,48 @@ class SwDataDefProps(ARObject):
         if value is not None:
             self.swRefreshTiming = value
         return self
+
+    def getSwTextProps(self) -> Optional[SwTextProps]:
+        """
+        the specific properties if the data object is a text object.
+        """
+        return self.swTextProps
+
+    def setSwTextProps(self, value: Optional[SwTextProps]) -> SwDataDefProps:
+        """
+        the specific properties if the data object is a text object. A None value is a no-op and does not overwrite an existing swTextProps.
+        """
+        if value is not None:
+            self.swTextProps = value
+        return self
+
+    def getSwValueBlockSize(self) -> Optional[Numerical]:
+        """
+        This represents the size of a Value Block
+        """
+        return self.swValueBlockSize
+
+    def setSwValueBlockSize(self, value: Optional[Numerical]) -> SwDataDefProps:
+        """
+        This represents the size of a Value Block A None value is a no-op and does not overwrite an existing swValueBlockSize.
+        """
+        if value is not None:
+            self.swValueBlockSize = value
+        return self
+
+    def addSwValueBlockSizeMult(self, value: Optional[Numerical]) -> SwDataDefProps:
+        """
+        This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValue BlockSize shall be used and this attribute shall not exist. A None value is a no-op and does not append to the list.
+        """
+        if value is not None:
+            self.swValueBlockSizeMults.append(value)
+        return self
+
+    def getSwValueBlockSizeMults(self) -> List[Numerical]:
+        """
+        This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValue BlockSize shall be used and this attribute shall not exist.
+        """
+        return self.swValueBlockSizeMults
 
     def getUnitRef(self) -> Optional[RefType]:
         """
@@ -926,68 +916,51 @@ class ValueList(ARObject):
 
     # ValueList method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.127, p.459
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getV                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setV                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVf                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getVfs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getV       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setV       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVf      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVfs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is a particular numerical value without variation.
+        # This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         self.v: Optional[Numerical] = None
 
-        # This is one entry in the list of numerical values
-        self._vf: List[Numerical] = []
+        # This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        self.vfs: List[Numerical] = []
 
     def getV(self) -> Optional[Numerical]:
         """
-        This is a particular numerical value without variation.
-
-        Returns:
-            Optional[Numerical]: This is a particular numerical value without variation., or None if not set
+        This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         """
         return self.v
 
     def setV(self, value: Optional[Numerical]) -> ValueList:
         """
-        This is a particular numerical value without variation.
+        This is a particular numerical value without variation. Tags: xml.sequenceOffset=30
         A None value is a no-op and does not overwrite an existing v.
-
-        Args:
-            value: This is a particular numerical value without variation. to set
-
-        Returns:
-            ValueList: self for method chaining
         """
         if value is not None:
             self.v = value
         return self
 
-    def addVf(self, vf: Numerical) -> ValueList:
+    def addVf(self, vf: Optional[Numerical]) -> ValueList:
         """
-        This is one entry in the list of numerical values
-
-        Args:
-            vf: This is one entry in the list of numerical values to add
-
-        Returns:
-            ValueList: self for method chaining
+        This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
+        A None value is a no-op and does not append to vfs.
         """
-        self._vf.append(vf)
+        if vf is not None:
+            self.vfs.append(vf)
         return self
 
     def getVfs(self) -> List[Numerical]:
         """
-        This is one entry in the list of numerical values
-
-        Returns:
-            List[Numerical]: The list of entries in insertion order (vf is ordered per spec)
+        This is one entry in the list of numerical values Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.typeElement=false xml.typeWrapperElement=false
         """
-        return list(self._vf)
+        return self.vfs
 
 
 class SwTextProps(ARObject):
@@ -996,18 +969,17 @@ class SwTextProps(ARObject):
     """
 
     # SwTextProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.72, p.343
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArraySizeSemantics    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArraySizeSemantics    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBaseTypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseTypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwFillCharacter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwFillCharacter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwMaxTextSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwMaxTextSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.7, p.250
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArraySizeSemantics    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArraySizeSemantics    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBaseTypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseTypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwFillCharacter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwFillCharacter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwMaxTextSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwMaxTextSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1079,3 +1051,11 @@ class SwTextProps(ARObject):
         if value is not None:
             self.swMaxTextSize = value
         return self
+
+
+# Cycle-breaker imports: these annotation targets are consumed by CommonStructure/Constants and
+# CalibrationParameter import chains, so a top-level import here would be circular; they are
+# placed at the bottom so SwDataDefProps is fully defined first and get_type_hints can resolve
+# the names at runtime on Python 3.8 (bpo-39291).
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification  # noqa: E402
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet  # noqa: E402

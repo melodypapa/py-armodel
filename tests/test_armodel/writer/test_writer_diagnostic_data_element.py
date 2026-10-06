@@ -73,7 +73,7 @@ class TestWriteDiagnosticDataElement:
         child = parent.find("DIAGNOSTIC-DATA-ELEMENT")
         assert child is not None
         assert child.find("SHORT-NAME").text == "De1"
-        assert child.find("ARRAY-SIZE-SEMANTICS").text == "fixedSize"
+        assert child.find("ARRAY-SIZE-SEMANTICS").text == "FIXED-SIZE"
         assert child.find("MAX-NUMBER-OF-ELEMENTS").text == "4"
         assert child.find("SCALING-INFO-SIZE").text == "8"
         assert child.find("SW-DATA-DEF-PROPS/SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL/BASE-TYPE-REF").text == "/Base/uint8"
@@ -118,7 +118,7 @@ class TestDiagnosticDataElementRoundTrip:
         parameter = DiagnosticParameter()
         parameter.createDataElement("De1")
         data_element = parameter.getDataElement()
-        data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("FIXED-SIZE"))
+        data_element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("fixedSize"))
         max_number_of_elements = PositiveInteger()
         max_number_of_elements.setValue("4")
         data_element.setMaxNumberOfElements(max_number_of_elements)

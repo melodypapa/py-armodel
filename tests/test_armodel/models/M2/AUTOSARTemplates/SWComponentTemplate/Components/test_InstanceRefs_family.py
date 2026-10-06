@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
     ROperationInAtomicSwcInstanceRef,
+    RTriggerInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
     TriggerInAtomicSwcInstanceRef,
 )
@@ -30,6 +31,7 @@ CONCRETE = [
     RVariableInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef,
     ROperationInAtomicSwcInstanceRef,
+    RTriggerInAtomicSwcInstanceRef,
 ]
 
 

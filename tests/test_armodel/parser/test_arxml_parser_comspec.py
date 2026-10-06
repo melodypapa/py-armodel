@@ -24,6 +24,8 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification, TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedSenderComSpec, UserDefinedTransformationComSpecProps
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
@@ -113,7 +115,7 @@ class TestGetNonqueuedSenderComSpec:
             <TRANSMISSION-PROPS>
                 <DATA-UPDATE-PERIOD>0.01</DATA-UPDATE-PERIOD>
                 <MINIMUM-SEND-INTERVAL>0.1</MINIMUM-SEND-INTERVAL>
-                <TRANSMISSION-MODE>triggered</TRANSMISSION-MODE>
+                <TRANSMISSION-MODE>TRIGGERED</TRANSMISSION-MODE>
             </TRANSMISSION-PROPS>
             <TRANSMISSION-ACKNOWLEDGE>
                 <TIMEOUT>0.5</TIMEOUT>
@@ -130,12 +132,40 @@ class TestGetNonqueuedSenderComSpec:
         assert result.getTransmissionAcknowledge() is not None
         assert result.getTransmissionAcknowledge().getTimeout().getValue() == 0.5
 
+    def test_transmission_mode_token_mapped_to_camel_literal(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            "<TRANSMISSION-PROPS><TRANSMISSION-MODE>CYCLIC-AND-ON-CHANGE</TRANSMISSION-MODE></TRANSMISSION-PROPS>",
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        assert result.getTransmissionProps().getTransmissionMode().getValue() == "cyclicAndOnChange"
+
     def test_without_transmission_props(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip("", root_tag="NONQUEUED-SENDER-COM-SPEC")
         result = parser.getNonqueuedSenderComSpec(element)
         assert result.getTransmissionProps() is None
         assert result.getTransmissionAcknowledge() is None
+
+    def test_with_init_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <INIT-VALUE>
+                <TEXT-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Init</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Init</DEFINITION-REF>
+                    <VALUE>init</VALUE>
+                </TEXT-VALUE-SPECIFICATION>
+            </INIT-VALUE>
+            """,
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        init_value = result.getInitValue()
+        assert isinstance(init_value, TextValueSpecification)
+        assert init_value.getValue().getValue() == "init"
 
 
 class TestGetServerComSpec:
@@ -285,12 +315,68 @@ class TestGetNonqueuedReceiverComSpec:
         assert result is not None
         assert result.getDataElementRef() is not None
         assert result.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert result.getAliveTimeout() is not None
+        assert isinstance(result.getAliveTimeout(), TimeValue)
+        assert result.getAliveTimeout().getValue() == 0.5
         assert result.getEnableUpdate() is not None
+        assert result.getEnableUpdate().getValue() is True
         assert result.getHandleDataStatus() is not None
         assert result.getHandleDataStatus().getValue() is True
         assert result.getHandleNeverReceived() is not None
+        assert result.getHandleNeverReceived().getValue() is False
         assert result.getHandleTimeoutType() is not None
+        assert result.getHandleTimeoutType().getValue() == "replace"
+
+    def test_handle_timeout_type_token_mapped_to_camel_literal(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            "<HANDLE-TIMEOUT-TYPE>REPLACE-BY-TIMEOUT-SUBSTITUTION-VALUE</HANDLE-TIMEOUT-TYPE>",
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        result = parser.getNonqueuedReceiverComSpec(element)
+        assert result.getHandleTimeoutType().getValue() == "replaceByTimeoutSubstitutionValue"
+
+    def test_handle_out_of_range_token_mapped_to_camel_literal(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            "<HANDLE-OUT-OF-RANGE>EXTERNAL-REPLACEMENT</HANDLE-OUT-OF-RANGE>",
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        result = parser.getNonqueuedReceiverComSpec(element)
+        assert result.getHandleOutOfRange().getValue() == "externalReplacement"
+
+    def test_with_own_aggregates(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <FILTER>
+                <DATA-FILTER-TYPE>ONE-EVERY-N</DATA-FILTER-TYPE>
+            </FILTER>
+            <INIT-VALUE>
+                <TEXT-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Init</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Init</DEFINITION-REF>
+                    <VALUE>42</VALUE>
+                </TEXT-VALUE-SPECIFICATION>
+            </INIT-VALUE>
+            <TIMEOUT-SUBSTITUTION-VALUE>
+                <NUMERICAL-VALUE-SPECIFICATION>
+                    <SHORT-NAME>Sub</SHORT-NAME>
+                    <DEFINITION-REF DEST="IDENTIFIABLE">Constants/Sub</DEFINITION-REF>
+                    <VALUE>7</VALUE>
+                </NUMERICAL-VALUE-SPECIFICATION>
+            </TIMEOUT-SUBSTITUTION-VALUE>
+            """,
+            root_tag="NONQUEUED-RECEIVER-COM-SPEC",
+        )
+        result = parser.getNonqueuedReceiverComSpec(element)
+        assert result.getFilter() is not None
+        assert result.getFilter().getDataFilterType().getValue() == "ONE-EVERY-N"
+        init_value = result.getInitValue()
+        assert isinstance(init_value, TextValueSpecification)
+        assert init_value.getValue().getValue() == "42"
+        timeout_substitution_value = result.getTimeoutSubstitutionValue()
+        assert isinstance(timeout_substitution_value, NumericalValueSpecification)
+        assert timeout_substitution_value.getValue().getValue() == 7
 
     def test_minimal(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -539,7 +625,7 @@ class TestReadProvidedComSpec:
         assert isinstance(specs[0], QueuedSenderComSpec)
         assert specs[0].getDataElementRef().getValue() == "/vdp/QueuedElem"
         assert specs[0].getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
-        assert specs[0].getHandleOutOfRange().getValue() == "SATURATE"
+        assert specs[0].getHandleOutOfRange().getValue() == "saturate"
         assert specs[0].getUsesEndToEndProtection().getValue() is True
 
     def test_nv_provide_branch_with_mock_parent(self, parser):
@@ -711,7 +797,7 @@ class TestTransformationComSpecProps:
             "<CLEAR-FROM-VALID-TO-INVALID>true</CLEAR-FROM-VALID-TO-INVALID>"
             "<DISABLE-END-TO-END-CHECK>true</DISABLE-END-TO-END-CHECK>"
             "<DISABLE-END-TO-END-STATE-MACHINE>true</DISABLE-END-TO-END-STATE-MACHINE>"
-            "<E2E-PROFILE-COMPATIBILITY-PROPS-REF DEST='E2E-PROFILE-COMPATIBILITY-PROPS'>/Pkg/Props</E2E-PROFILE-COMPATIBILITY-PROPS-REF>"
+            "<E-2-E-PROFILE-COMPATIBILITY-PROPS-REF DEST='E-2-E-PROFILE-COMPATIBILITY-PROPS'>/Pkg/Props</E-2-E-PROFILE-COMPATIBILITY-PROPS-REF>"
             "<MAX-DELTA-COUNTER>3</MAX-DELTA-COUNTER>"
             "<MAX-ERROR-STATE-INIT>2</MAX-ERROR-STATE-INIT>"
             "<MAX-ERROR-STATE-INVALID>2</MAX-ERROR-STATE-INVALID>"

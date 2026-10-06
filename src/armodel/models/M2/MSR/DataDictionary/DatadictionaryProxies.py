@@ -18,13 +18,12 @@ class SwVariableRefProxy(ARObject):
 
     # SwVariableRefProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.57, p.370
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAutosarVariable       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutosarVariable       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMcDataInstanceVarRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMcDataInstanceVarRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAutosarVariable        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutosarVariable        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcDataInstanceVarRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcDataInstanceVarRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -37,13 +36,13 @@ class SwVariableRefProxy(ARObject):
 
     def getAutosarVariable(self) -> Optional[AutosarVariableRef]:
         """
-        This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type.
+        This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type
         """
         return self.autosarVariable
 
     def setAutosarVariable(self, value: Optional[AutosarVariableRef]) -> SwVariableRefProxy:
         """
-        This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type. A None value is a no-op and does not overwrite an existing autosarVariable.
+        This represents the reference to a Variable in an Autosar system. Note that the target of the reference within AutosarVariableRef shall be typed by a primitive data type A None value is a no-op and does not overwrite an existing autosarVariable.
         """
         if value is not None:
             self.autosarVariable = value
@@ -71,13 +70,12 @@ class SwCalprmRefProxy(ARObject):
 
     # SwCalprmRefProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.56, p.370
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getArParameter           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArParameter           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMcDataInstanceRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMcDataInstanceRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArParameter        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArParameter        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcDataInstanceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcDataInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

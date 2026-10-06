@@ -54,7 +54,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
 
 ## Queue (dependency-first)
 
-- [ ] `ConfigReferenceValue` (input · R3.2.3 markdown · Table 3.40)
+- [x] `ConfigReferenceValue` (input · R3.2.3 markdown · Table 3.40) — commit 7ed4c9a4a (stamped 2026-10-06, # Spec verified: R3.2.3)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): R3.2.3-only class — no table in R23-11 or R4.3.1 markdown;
     Table 3.40 AUTOSAR_ECU_Configuration.md l.2284 (pdf_page.py: no caption
@@ -144,7 +144,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       left to its next regen. No missing referenced classes (RefType covers
       the kind-ref target; ConfigReference is the definition-side class, not
       a field type). No placeholder remains.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14951 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14951 passed / 0
     failed, lint clean, black clean on touched files); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -156,7 +156,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       __init__.py — outside this class's scope, left for their owning rows); this
       row's files are black-clean and the full suite + npm run lint pass.
 
-- [ ] `EcucValueCollection` (input · R23-11 markdown · Table 2.45)
+- [x] `EcucValueCollection` (input · R23-11 markdown · Table 2.45) — commit b65b2313a (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): Table 2.45 AUTOSAR_CP_TPS_ECUConfiguration.md l.2949
     (pdf_page.py: no caption hit → direct pypdf caption scan → PDF p.108).
@@ -256,7 +256,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       appended to docs/examples/method_deviation_by_class.md; v2 tracker
       is script-generated — left to its next regen (ConfigReferenceValue
       precedent).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14956 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -270,7 +270,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       mirrored test file, all 5 touched code files re-checked clean; no
       marker in batch mode.
 
-- [ ] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1)
+- [x] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1) — commit 5cedb145b (stamped 2026-10-06, # Spec verified: R3.2.3)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): R3.2.3-only class — Table 3.30 AUTOSAR_ECU_Configuration.md
     l.1916 (pdf_page.py: no caption hit in the R3.2.3 PDF → markdown line
@@ -399,7 +399,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       script-generated — left to its next regen (ConfigReferenceValue
       precedent). Container member type fully synced (Table 3.31, same
       file) — not a stub.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -415,7 +415,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (Os_ECUC.arxml carries MODULE-CONFIGURATION); black clean on all
       touched files; no marker in batch mode.
 
-- [ ] `EcucConfigurationClassEnum` (input · R23-11 markdown/PDF · Table 2.12)
+- [x] `EcucConfigurationClassEnum` (input · R23-11 markdown/PDF · Table 2.12) — commit eb890b899 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): Table 2.12 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.52
@@ -493,7 +493,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       without a spec attribute table") left to the script's next regen
       (batch precedent). No Rule 0001.10 missing referenced classes (enum
       references no model type).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14967 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14967 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -506,7 +506,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       round-trips incl.); npm run lint clean; black clean on all touched
       files; no marker in batch mode.
 
-- [ ] `EcucScopeEnum` (input · R23-11 markdown · Table 2.7)
+- [x] `EcucScopeEnum` (input · R23-11 markdown · Table 2.7) — commit 096c9544f (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): Table 2.7 AUTOSAR_CP_TPS_ECUConfiguration.md l.1163
@@ -578,7 +578,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (batch precedent). No Rule 0001.10 missing referenced classes (enum
       references no model type); no integration fixture carries SCOPE (no
       Rule 0019 case).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14970 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14970 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -591,7 +591,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       0 failed (integration round-trips incl.); npm run lint clean; black
       clean on all touched files; no marker in batch mode.
 
-- [ ] `EcucDestinationUriDefRefType` — RefType — XSD-only (resolved at Step 1; no own table in any corpus)
+- [x] `EcucDestinationUriDefRefType` — RefType — XSD-only (resolved at Step 1; no own table in any corpus) — commit 7047c575f (stamped 2026-10-06, # XSD verified: AUTOSAR_00052.xsd)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): XSD-only class — no PDF/markdown table in R23-11 or R4.3.1 markdown;
@@ -676,11 +676,11 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       stamped separately). v2 tracker lists the class only in its generated
       "classes without a spec attribute table" appendix — left to the script's
       next regen.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a runs in the batch verification
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a runs in the batch verification
     pass (2026-10-04); 9b deferred to batch confirmation (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS (single __init__ row), member-annotation gate PASS; 9b still deferred to batch confirmation.
 
-- [ ] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15
+- [x] `EcucBooleanParamDef` — EcucParameterDef — R23-11 markdown · Table 2.15 — commit b40b99238 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.15 AUTOSAR_CP_TPS_ECUConfiguration.md l.1495
     (complete, not page-split; pdf_page.py: PDF p.58 caption hit). Concrete
@@ -763,7 +763,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       EcucBooleanParamDef section). No Rule 0001.10 missing referenced
       classes; no integration fixture carries elements beyond DEFAULT-VALUE
       (no Rule 0019 combine case).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14973 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -773,7 +773,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       round-trips incl.); npm run lint clean; black clean on all touched
       files; no marker in batch mode.
 
-- [ ] `EcucFloatParamDef` — EcucParameterDef — R23-11 markdown · Table 2.17
+- [x] `EcucFloatParamDef` — EcucParameterDef — R23-11 markdown · Table 2.17 — commit 454e47206 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.17 AUTOSAR_CP_TPS_ECUConfiguration.md — PAGE-
     SPLIT render: body rows (Class/Package/Note/Base/Aggregated-by/
@@ -871,7 +871,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       displayed-row-order finding). No Rule 0001.10 missing referenced
       classes; no Rule 0019 combine case (no fixture carries anything
       beyond DEFAULT-VALUE/MAX/MIN).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14977 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -881,7 +881,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (integration round-trips incl.); npm run lint clean; black clean on
       all touched files; no marker in batch mode.
 
-- [ ] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 markdown · Table 2.31
+- [x] `EcucForeignReferenceDef` — EcucAbstractExternalReferenceDef — R23-11 markdown · Table 2.31 — commit 958007001 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.31 AUTOSAR_CP_TPS_ECUConfiguration.md l.2009-2016
     (caption l.2007; pdf_page.py: PDF p.75 caption hit). Concrete Class;
@@ -966,8 +966,8 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       ReferenceDef + setDestinationType via getChildElementOptionalLiteral —
       the stamped readEcucInstanceReferenceDef helper choice for String-typed
       fields) + dispatch branches in readEcucContainerDefReferences AND
-      readEcucDestinationUriPolicyReferences (direct construction +
-      addReference — policy convention). WRITER: writeEcucForeignReferenceDef
+      readEcucDestinationUriPolicyReferences (createEcucForeignReferenceDef
+      factory — policy convention). WRITER: writeEcucForeignReferenceDef
       (writeEcucAbstractExternalReferenceDef + setChildElementOptionalLiteral,
       DESTINATION-TYPE flat — XSD has no VARIANTS wrapper) + isinstance
       branches in writeEcucContainerDefReferences AND
@@ -1000,7 +1000,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       integration fixture carries ECUC-FOREIGN-REFERENCE-DEF (no Rule 0019
       combine case). v2 tracker has no EcucForeignReferenceDef entry
       (nothing to reconcile there).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14985 passed /
     0 failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -1013,7 +1013,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (integration round-trips incl.); npm run lint clean; black clean on
       all 6 touched code files; no marker in batch mode.
 
-- [ ] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — R23-11 markdown · Table 2.21
+- [x] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — R23-11 markdown · Table 2.21 — commit 776f61b1d (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.21 AUTOSAR_CP_TPS_ECUConfiguration.md l.1707-1714
     (caption l.1705; pdf_page.py: PDF p.65 caption hit). Concrete Class
@@ -1125,7 +1125,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       coverage fixed in-pass, recorded as no-deviation rows + batch Note in
       method_deviation_by_class.md; v2 tracker appendix needs no reconciliation; no
       open deviation remains.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
       failed incl. integration round-trips; npm run lint clean; black clean on all
       touched files); 9b deferred to batch confirmation (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
@@ -1136,7 +1136,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
 
 - [x] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.33 (CP_TPS_ECUConfiguration), p.81 — commits 0d4506747 + d495d9ebf (rw completion; stamped 2026-10-02, # Spec verified: R23-11)
 
-- [ ] `EcucConditionFormula` (input · R23-11 PDF · Table 2.43) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+- [x] `EcucConditionFormula` (input · R23-11 PDF · Table 2.43) — REOPENED 2026-10-05 (batch 9b audit, Group B) — commit 86096857a (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.43 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.100. Class
     `<<atpMixedString>>` pure-text formula; Package
@@ -1206,9 +1206,13 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       recorded drift fix (docs/plan/atp_mixed_string_hierarchy.md), not a
       deviation. No Rule 0001.10 missing referenced classes (RefType is the
       stamped base; EcucQuery is the destination-side class).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)
+    - note (2026-10-06, batch-9b review): class re-verified PASS (fields/
+      docstrings/base/rw coverage all conform); stale tracker `missing` rows
+      (ecucQueryRef/ecucQueryStringRef) removed from
+      method_deviation_by_class.md (Rule 0014) — no source change.
 
-- [ ] `EcucParameterDerivationFormula` (input · R23-11 PDF · Table 2.39) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+- [x] `EcucParameterDerivationFormula` (input · R23-11 PDF · Table 2.39) — REOPENED 2026-10-05 (batch 9b audit, Group B) — commit 16bd8cd3d (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.39 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.88. Class
     `<<atpMixedString>>` pure-text formula; Package
@@ -1264,9 +1268,18 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
     - note (Step 8): No deviations — legacy checklist shape + missing
       base-helper call were Rule 0023/0025 to-fix drift. No Rule 0001.10
       missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+    - note (Steps 3/4 re-run 2026-10-06, batch-9b review): 2 defects found by
+      the 2026-10-06 Rule-0026 audit and fixed — (1) Rule 0001.4: setter
+      params were bare `RefType` (spec 0..1 → Optional[RefType]); field/getter
+      were already Optional; sibling EcucConditionFormula was the correct
+      shape; (2) Rule 0012 verbatim: class docstring hard-wrapped the Note
+      mid-sentence ("derived\nfrom") — unwrapped to the spec's single
+      sentence. Stale tracker `missing` rows (ecucQueryRef/ecucQueryStringRef)
+      removed from method_deviation_by_class.md (Rule 0014). Both mirrored
+      test classes pin behavior only — no test change needed.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)
 
-- [ ] `EcucQueryExpression` (input · R23-11 PDF · Table 2.41) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+- [x] `EcucQueryExpression` (input · R23-11 PDF · Table 2.41) — REOPENED 2026-10-05 (batch 9b audit, Group B) — commit a6ca95862 (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.41 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.90. Class
     `<<atpMixedString>>` pure-text formula; Package
@@ -1323,4 +1336,12 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
     - note (Step 8): No deviations — legacy checklist shape + missing
       base-helper call were Rule 0023/0025 to-fix drift. No Rule 0001.10
       missing referenced classes.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+    - note (Step 4 re-run 2026-10-06, batch-9b review): Rule 0012.2.5.3 —
+      the `Stereotypes: atpUriDef` tail was dropped from both attribute Notes
+      (Table 2.41 rows end with it; the stamped atpUriDef siblings keep it).
+      Appended in all 6 places (inline __init__ comments + getter/setter
+      docstrings, global + local). Stale tracker `missing` rows
+      (configElementDefGlobalRef/LocalRef) removed from
+      method_deviation_by_class.md (Rule 0014). Mirrored test class pins
+      behavior only — no test change needed.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)

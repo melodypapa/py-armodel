@@ -11,7 +11,8 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -44,7 +45,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 
 class TestHandleInvalidEnum:
@@ -172,7 +176,21 @@ class TestCompositeNetworkRepresentation:
 
 
 class TestTransmissionAcknowledgementRequest:
-    """Test class for TransmissionAcknowledgementRequest class."""
+    """Test class for TransmissionAcknowledgementRequest class (Table 4.71)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.71 Note copied verbatim with the class-level constraint appended."""
+        note = "Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity."
+        constraint = "[constr_1892] Existence of attribute TransmissionAcknowledgementRequest . timeout: For each TransmissionAcknowledgementRequest, attribute timeout shall exist at the time when the contract phase generation is executed. ()"
+        assert inspect.cleandoc(TransmissionAcknowledgementRequest.__doc__) == inspect.cleandoc(note + "\n\n    " + constraint)
+        timeout_note = "Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again."
+        assert TransmissionAcknowledgementRequest.getTimeout.__doc__.strip() == timeout_note
+        assert TransmissionAcknowledgementRequest.setTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing timeout."
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject (Table 4.71); the class is concrete and instantiable."""
+        request = TransmissionAcknowledgementRequest()
+        assert isinstance(request, ARObject)
 
     def test_initialization(self):
         """Test TransmissionAcknowledgementRequest field defaults."""
@@ -193,6 +211,33 @@ class TestTransmissionAcknowledgementRequest:
 
 class TestSenderComSpec:
     """Test class for SenderComSpec abstract class (base accessors via NonqueuedSenderComSpec)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.67 Notes copied verbatim."""
+        assert SenderComSpec.__doc__.strip() == "Communication attributes for a sender port (PPortPrototype typed by SenderReceiverInterface)."
+        add_note = "This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation"
+        assert SenderComSpec.addCompositeNetworkRepresentation.__doc__.strip() == add_note + " A None value is a no-op and does not append anything."
+        assert SenderComSpec.getCompositeNetworkRepresentations.__doc__.strip() == add_note
+        data_element_note = "Data element these quality of service attributes apply to."
+        assert SenderComSpec.getDataElementRef.__doc__.strip() == data_element_note
+        assert SenderComSpec.setDataElementRef.__doc__.strip() == data_element_note + " A None value is a no-op and does not overwrite an existing dataElementRef."
+        handle_out_of_range_note = "This attribute controls how out-of-range values shall be dealt with."
+        assert SenderComSpec.getHandleOutOfRange.__doc__.strip() == handle_out_of_range_note
+        assert SenderComSpec.setHandleOutOfRange.__doc__.strip() == handle_out_of_range_note + " A None value is a no-op and does not overwrite an existing handleOutOfRange."
+        network_representation_note = (
+            "A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation"
+        )
+        assert SenderComSpec.getNetworkRepresentation.__doc__.strip() == network_representation_note
+        assert SenderComSpec.setNetworkRepresentation.__doc__.strip() == network_representation_note + " A None value is a no-op and does not overwrite an existing networkRepresentation."
+        acknowledge_note = "Requested transmission acknowledgement for data element."
+        assert SenderComSpec.getTransmissionAcknowledge.__doc__.strip() == acknowledge_note
+        assert SenderComSpec.setTransmissionAcknowledge.__doc__.strip() == acknowledge_note + " A None value is a no-op and does not overwrite an existing transmissionAcknowledge."
+        transmission_props_note = "This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec."
+        assert SenderComSpec.getTransmissionProps.__doc__.strip() == transmission_props_note
+        assert SenderComSpec.setTransmissionProps.__doc__.strip() == transmission_props_note + " A None value is a no-op and does not overwrite an existing transmissionProps."
+        uses_e2e_note = "This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"
+        assert SenderComSpec.getUsesEndToEndProtection.__doc__.strip() == uses_e2e_note
+        assert SenderComSpec.setUsesEndToEndProtection.__doc__.strip() == uses_e2e_note + " A None value is a no-op and does not overwrite an existing usesEndToEndProtection."
 
     def test_sender_com_spec_abstract(self):
         """Test that SenderComSpec is an abstract class that raises TypeError when instantiated."""
@@ -322,13 +367,33 @@ class TestQueuedSenderComSpec:
 
 
 class TestNonqueuedSenderComSpec:
-    """Test class for NonqueuedSenderComSpec class."""
+    """Test class for NonqueuedSenderComSpec class (Table 4.69)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.69 Notes copied verbatim."""
+        assert NonqueuedSenderComSpec.__doc__.strip() == "Communication attributes for non-queued sender/receiver communication (sender side)"
+        data_filter_note = "The applicable filter algorithm for filtering the value of the corresponding dataElement."
+        assert NonqueuedSenderComSpec.getDataFilter.__doc__.strip() == data_filter_note
+        assert NonqueuedSenderComSpec.setDataFilter.__doc__.strip() == data_filter_note + " A None value is a no-op and does not overwrite an existing dataFilter."
+        init_value_note = "Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already."
+        assert NonqueuedSenderComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NonqueuedSenderComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + PPortComSpec + SenderComSpec — Python base is SenderComSpec (most-derived, Table 4.67); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NonqueuedSenderComSpec, SenderComSpec)
+        assert issubclass(NonqueuedSenderComSpec, PPortComSpec)
+        assert issubclass(NonqueuedSenderComSpec, ARObject)
+        assert "dataElementRef" not in NonqueuedSenderComSpec.__dict__ and "transmissionProps" not in NonqueuedSenderComSpec.__dict__
+        assert NonqueuedSenderComSpec.__dict__["setDataFilter"].__annotations__["return"] == "NonqueuedSenderComSpec"
 
     def test_nonqueued_sender_com_spec_initialization(self):
         """Test NonqueuedSenderComSpec initialization and methods."""
         sender = NonqueuedSenderComSpec()
         assert sender.dataFilter is None
         assert sender.initValue is None
+        assert sender.compositeNetworkRepresentations == []
+        assert sender.dataElementRef is None
 
     def test_get_set_data_filter(self):
         """Test dataFilter accessor pair and None no-op."""
@@ -350,7 +415,26 @@ class TestNonqueuedSenderComSpec:
 
 
 class TestClientComSpec:
-    """Test class for ClientComSpec class."""
+    """Test class for ClientComSpec class (Table 4.77)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.77 Notes copied verbatim."""
+        assert ClientComSpec.__doc__.strip() == "Client-specific communication attributes (RPortPrototype typed by ClientServerInterface)."
+        timeout_note = "This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response)."
+        assert ClientComSpec.getEndToEndCallResponseTimeout.__doc__.strip() == timeout_note
+        assert ClientComSpec.setEndToEndCallResponseTimeout.__doc__.strip() == timeout_note + " A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout."
+        operation_note = "This represents the corresponding ClientServerOperation."
+        assert ClientComSpec.getOperationRef.__doc__.strip() == operation_note
+        assert ClientComSpec.setOperationRef.__doc__.strip() == operation_note + " A None value is a no-op and does not overwrite an existing operationRef."
+        transformation_note = "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        assert ClientComSpec.addTransformationComSpecProps.__doc__.strip() == transformation_note + " A None value is a no-op and does not append anything."
+        assert ClientComSpec.getTransformationComSpecProps.__doc__.strip() == transformation_note
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, RPortComSpec (Table 4.77); most-derived base RPortComSpec."""
+        com_spec = ClientComSpec()
+        assert isinstance(com_spec, RPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_client_com_spec_initialization(self):
         """Test ClientComSpec initialization and methods."""
@@ -864,7 +948,23 @@ class TestModeSwitchSenderComSpec:
 
 
 class TestParameterProvideComSpec:
-    """Test class for ParameterProvideComSpec class."""
+    """Test class for ParameterProvideComSpec class (Table 4.82)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.82 Notes copied verbatim."""
+        assert ParameterProvideComSpec.__doc__.strip() == '"Communication" specification that applies to parameters on the provided side of a connection.'
+        init_value_note = "The initial value applicable for the corresponding ParameterDataPrototype."
+        assert ParameterProvideComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert ParameterProvideComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        parameter_note = "The ParameterDataPrototype to which the Parameter ComSpec applies."
+        assert ParameterProvideComSpec.getParameterRef.__doc__.strip() == parameter_note
+        assert ParameterProvideComSpec.setParameterRef.__doc__.strip() == parameter_note + " A None value is a no-op and does not overwrite an existing parameterRef."
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, PPortComSpec (Table 4.82); most-derived base PPortComSpec."""
+        com_spec = ParameterProvideComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_parameter_provide_com_spec_initialization(self):
         """Test ParameterProvideComSpec field defaults."""
@@ -893,7 +993,25 @@ class TestParameterProvideComSpec:
 
 
 class TestTransmissionComSpecProps:
-    """Test class for TransmissionComSpecProps class."""
+    """Test class for TransmissionComSpecProps class (Table 4.70)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.70 Notes copied verbatim."""
+        assert TransmissionComSpecProps.__doc__.strip() == "This meta-class defines a set of transmission attributes which the application software is assumed to implement."
+        data_update_period_note = "This attribute defines the period in which the application is assumed to transmit the respective data."
+        assert TransmissionComSpecProps.getDataUpdatePeriod.__doc__.strip() == data_update_period_note
+        assert TransmissionComSpecProps.setDataUpdatePeriod.__doc__.strip() == data_update_period_note + " A None value is a no-op and does not overwrite an existing dataUpdatePeriod."
+        minimum_send_interval_note = "This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure."
+        assert TransmissionComSpecProps.getMinimumSendInterval.__doc__.strip() == minimum_send_interval_note
+        assert TransmissionComSpecProps.setMinimumSendInterval.__doc__.strip() == minimum_send_interval_note + " A None value is a no-op and does not overwrite an existing minimumSendInterval."
+        transmission_mode_note = "The attribute defines the mode in which the application is assumed to transmit the respective data."
+        assert TransmissionComSpecProps.getTransmissionMode.__doc__.strip() == transmission_mode_note
+        assert TransmissionComSpecProps.setTransmissionMode.__doc__.strip() == transmission_mode_note + " A None value is a no-op and does not overwrite an existing transmissionMode."
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject (Table 4.70); the class is concrete and instantiable."""
+        props = TransmissionComSpecProps()
+        assert isinstance(props, ARObject)
 
     def test_initialization(self):
         """Test TransmissionComSpecProps field defaults."""
@@ -933,18 +1051,24 @@ class TestTransmissionComSpecProps:
 
 
 class TestTransmissionModeDefinitionEnum:
-    """Test class for TransmissionModeDefinitionEnum class."""
+    """Test class for TransmissionModeDefinitionEnum class (Table 4.73)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.73 Note copied verbatim."""
+        assert TransmissionModeDefinitionEnum.__doc__.strip() == "This meta-class defines possible settings for the transmission mode."
 
     def test_members(self):
-        """Test TransmissionModeDefinitionEnum member values."""
+        """Test TransmissionModeDefinitionEnum member values and registration order (Literal rows in displayed order)."""
         enum = TransmissionModeDefinitionEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            TransmissionModeDefinitionEnum.CYCLIC,
+            TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE,
+            TransmissionModeDefinitionEnum.TRIGGERED,
+        ]
         assert TransmissionModeDefinitionEnum.CYCLIC == "cyclic"
         assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE == "cyclicAndOnChange"
         assert TransmissionModeDefinitionEnum.TRIGGERED == "triggered"
-        assert TransmissionModeDefinitionEnum.CYCLIC in values
-        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE in values
-        assert TransmissionModeDefinitionEnum.TRIGGERED in values
         assert len(values) == 3
 
     def test_instantiable(self):
@@ -955,12 +1079,51 @@ class TestTransmissionModeDefinitionEnum:
 
 
 class TestTransformationComSpecProps:
-    """Test class for TransformationComSpecProps abstract class."""
+    """Test class for TransformationComSpecProps abstract class (Table 4.86)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.86 Note copied verbatim."""
+        assert TransformationComSpecProps.__doc__.strip() == "TransformationComSpecProps holds all the attributes for transformers that are port specific."
 
     def test_transformation_com_spec_props_abstract(self):
-        """Test that TransformationComSpecProps is an abstract class that raises NotImplementedError when instantiated."""
+        """Test that TransformationComSpecProps is an abstract class that raises TypeError when instantiated."""
         with pytest.raises(TypeError):
             TransformationComSpecProps()
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, Describable (Table 4.86); most-derived base Describable; no own attributes (XSD group is an empty sequence)."""
+        props = UserDefinedTransformationComSpecProps()
+        assert isinstance(props, TransformationComSpecProps)
+        assert isinstance(props, Describable)
+        assert isinstance(props, ARObject)
+
+    def test_base_properties_via_concrete_subclass(self):
+        """Abstract class: the Describable base accessors exercised through a concrete subclass."""
+        props = UserDefinedTransformationComSpecProps()
+        desc = MultiLanguageOverviewParagraph()
+        assert props.setDesc(desc) is props
+        assert props.getDesc() is desc
+        props.setDesc(None)
+        assert props.getDesc() is desc
+
+        category = CategoryString()
+        category.setValue("customTransformer")
+        assert props.setCategory(category) is props
+        assert props.getCategory() is category
+        props.setCategory(None)
+        assert props.getCategory() is category
+
+        introduction = DocumentationBlock()
+        assert props.setIntroduction(introduction) is props
+        assert props.getIntroduction() is introduction
+        props.setIntroduction(None)
+        assert props.getIntroduction() is introduction
+
+        admin_data = AdminData()
+        assert props.setAdminData(admin_data) is props
+        assert props.getAdminData() is admin_data
+        props.removeAdminData()
+        assert props.getAdminData() is None
 
 
 class TestEndToEndTransformationComSpecProps:
@@ -1096,36 +1259,60 @@ class TestUserDefinedTransformationComSpecProps:
 
 
 class TestServerComSpec:
-    """Test class for ServerComSpec class."""
+    """Test class for ServerComSpec class (Table 4.78)."""
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.78 Notes copied verbatim."""
+        assert ServerComSpec.__doc__.strip() == "Communication attributes for a server port (PPortPrototype and ClientServerInterface)."
+        operation_note = "Operation these communication attributes apply to."
+        assert ServerComSpec.getOperationRef.__doc__.strip() == operation_note
+        assert ServerComSpec.setOperationRef.__doc__.strip() == operation_note + " A None value is a no-op and does not overwrite an existing operationRef."
+        queue_note = "Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed."
+        assert ServerComSpec.getQueueLength.__doc__.strip() == queue_note
+        assert ServerComSpec.setQueueLength.__doc__.strip() == queue_note + " A None value is a no-op and does not overwrite an existing queueLength."
+        transformation_note = "This references the TransformationComSpecProps which define port-specific configuration for data transformation."
+        assert ServerComSpec.addTransformationComSpecProps.__doc__.strip() == transformation_note + " A None value is a no-op and does not append anything."
+        assert ServerComSpec.getTransformationComSpecProps.__doc__.strip() == transformation_note
+
+    def test_base_and_inheritance_shape(self):
+        """Base = ARObject, PPortComSpec (Table 4.78); most-derived base PPortComSpec."""
+        com_spec = ServerComSpec()
+        assert isinstance(com_spec, PPortComSpec)
+        assert isinstance(com_spec, ARObject)
 
     def test_server_com_spec_initialization(self):
-        """Test ServerComSpec initialization and methods."""
+        """Test ServerComSpec field defaults."""
         server = ServerComSpec()
         assert server.operationRef is None
         assert server.queueLength is None
         assert server.transformationComSpecProps == []
 
-        # Test setters and getters
+    def test_get_set_operation_ref(self):
+        """Test operationRef accessor pair and None no-op."""
+        server = ServerComSpec()
         ref = RefType()
         ref.setValue("/Test/Operation")
-        server.setOperationRef(ref)
-        assert server.getOperationRef() == ref
-
-        queue_len = PositiveInteger()
-        queue_len.setValue(10)
-        server.setQueueLength(queue_len)
-        assert server.getQueueLength() == queue_len
-
-        # Test transformationComSpecProps methods
-        e2e_props = EndToEndTransformationComSpecProps()
-        server.addTransformationComSpecProps(e2e_props)
-        assert e2e_props in server.getTransformationComSpecProps()
-
-        # None no-op checks
+        assert server.setOperationRef(ref) is server
+        assert server.getOperationRef() is ref
         server.setOperationRef(None)
         assert server.getOperationRef() is ref
+
+    def test_get_set_queue_length(self):
+        """Test queueLength accessor pair and None no-op."""
+        server = ServerComSpec()
+        queue_len = PositiveInteger()
+        queue_len.setValue(10)
+        assert server.setQueueLength(queue_len) is server
+        assert server.getQueueLength() is queue_len
         server.setQueueLength(None)
         assert server.getQueueLength() is queue_len
+
+    def test_add_transformation_com_spec_props(self):
+        """Test transformationComSpecProps add/get and None no-op."""
+        server = ServerComSpec()
+        e2e_props = EndToEndTransformationComSpecProps()
+        assert server.addTransformationComSpecProps(e2e_props) is server
+        assert server.getTransformationComSpecProps() == [e2e_props]
         server.addTransformationComSpecProps(None)
         assert len(server.getTransformationComSpecProps()) == 1
 
@@ -1194,98 +1381,132 @@ class TestNvProvideComSpec:
 
 
 class TestNonqueuedReceiverComSpec:
-    """Test class for NonqueuedReceiverComSpec class."""
+    """Test class for NonqueuedReceiverComSpec class (Table 4.62)."""
 
-    def test_nonqueued_receiver_com_spec_initialization(self):
-        """Test NonqueuedReceiverComSpec initialization and methods."""
+    def test_spec_notes_are_verbatim(self):
+        """Class and accessor docstrings must be the Table 4.62 Notes copied verbatim."""
+        assert NonqueuedReceiverComSpec.__doc__.strip() == "Communication attributes specific to non-queued receiving."
+        alive_timeout_note = "Specify the amount of time (in seconds) after which the software component (via the RTE) needs to be notified if the corresponding data item have not been received according to the specified timing description. If the aliveTimeout attribute is 0 no timeout monitoring shall be performed."
+        assert NonqueuedReceiverComSpec.getAliveTimeout.__doc__.strip() == alive_timeout_note
+        assert NonqueuedReceiverComSpec.setAliveTimeout.__doc__.strip() == alive_timeout_note + " A None value is a no-op and does not overwrite an existing aliveTimeout."
+        enable_update_note = "This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated."
+        assert NonqueuedReceiverComSpec.getEnableUpdate.__doc__.strip() == enable_update_note
+        assert NonqueuedReceiverComSpec.setEnableUpdate.__doc__.strip() == enable_update_note + " A None value is a no-op and does not overwrite an existing enableUpdate."
+        filter_note = "The applicable filter algorithm for filtering the value of the corresponding dataElement."
+        assert NonqueuedReceiverComSpec.getFilter.__doc__.strip() == filter_note
+        assert NonqueuedReceiverComSpec.setFilter.__doc__.strip() == filter_note + " A None value is a no-op and does not overwrite an existing filter."
+        handle_data_status_note = "If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions."
+        assert NonqueuedReceiverComSpec.getHandleDataStatus.__doc__.strip() == handle_data_status_note
+        assert NonqueuedReceiverComSpec.setHandleDataStatus.__doc__.strip() == handle_data_status_note + " A None value is a no-op and does not overwrite an existing handleDataStatus."
+        handle_never_received_note = 'This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.'
+        assert NonqueuedReceiverComSpec.getHandleNeverReceived.__doc__.strip() == handle_never_received_note
+        assert NonqueuedReceiverComSpec.setHandleNeverReceived.__doc__.strip() == handle_never_received_note + " A None value is a no-op and does not overwrite an existing handleNeverReceived."
+        handle_timeout_type_note = "This attribute controls the behavior with respect to the handling of timeouts."
+        assert NonqueuedReceiverComSpec.getHandleTimeoutType.__doc__.strip() == handle_timeout_type_note
+        assert NonqueuedReceiverComSpec.setHandleTimeoutType.__doc__.strip() == handle_timeout_type_note + " A None value is a no-op and does not overwrite an existing handleTimeoutType."
+        init_value_note = "Initial value to be used in case the sending component is not yet initialized. If the sender also specifies an initial value, then the receiver's value will be used."
+        assert NonqueuedReceiverComSpec.getInitValue.__doc__.strip() == init_value_note
+        assert NonqueuedReceiverComSpec.setInitValue.__doc__.strip() == init_value_note + " A None value is a no-op and does not overwrite an existing initValue."
+        timeout_substitution_value_note = "This attribute represents the substitution value applicable in the case of a timeout."
+        assert NonqueuedReceiverComSpec.getTimeoutSubstitutionValue.__doc__.strip() == timeout_substitution_value_note
+        assert (
+            NonqueuedReceiverComSpec.setTimeoutSubstitutionValue.__doc__.strip()
+            == timeout_substitution_value_note + " A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue."
+        )
+
+    def test_base_and_inheritance_shape(self):
+        """Spec Base = ARObject + RPortComSpec + ReceiverComSpec — Python base is ReceiverComSpec (most-derived, Table 4.60); inherited members are not flattened onto the subclass; setter return annotations resolve to the class (PEP 563 bare names, Rule 0003)."""
+        assert issubclass(NonqueuedReceiverComSpec, ReceiverComSpec)
+        assert issubclass(NonqueuedReceiverComSpec, RPortComSpec)
+        assert issubclass(NonqueuedReceiverComSpec, ARObject)
+        assert "dataElementRef" not in NonqueuedReceiverComSpec.__dict__ and "compositeNetworkRepresentations" not in NonqueuedReceiverComSpec.__dict__
+        assert NonqueuedReceiverComSpec.__dict__["setAliveTimeout"].__annotations__["return"] == "NonqueuedReceiverComSpec"
+
+    def test_initialization_defaults(self):
+        """Test NonqueuedReceiverComSpec field defaults, including inherited base members."""
         receiver = NonqueuedReceiverComSpec()
-        assert receiver.getAliveTimeout() is None
-        assert receiver.getEnableUpdate() is None
-        assert receiver.getFilter() is None
-        assert receiver.getHandleDataStatus() is None
-        assert receiver.getHandleNeverReceived() is None
-        assert receiver.getHandleTimeoutType() is None
-        assert receiver.getInitValue() is None
-        assert receiver.getTimeoutSubstitutionValue() is None
+        assert receiver.aliveTimeout is None
+        assert receiver.enableUpdate is None
+        assert receiver.filter is None
+        assert receiver.handleDataStatus is None
+        assert receiver.handleNeverReceived is None
+        assert receiver.handleTimeoutType is None
+        assert receiver.initValue is None
+        assert receiver.timeoutSubstitutionValue is None
+        assert receiver.compositeNetworkRepresentations == []
+        assert receiver.dataElementRef is None
 
-        # Test setters and getters
-        alive_timeout = TimeValue()
-        alive_timeout.setValue("10.5")
-        receiver.setAliveTimeout(alive_timeout)
-        assert receiver.getAliveTimeout() == alive_timeout
-
-        enable_updated = Boolean()
-        enable_updated.setValue(True)
-        receiver.setEnableUpdate(enable_updated)
-        assert receiver.getEnableUpdate() == enable_updated
-
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-
-        filter_value = DataFilter()
-        receiver.setFilter(filter_value)
-        assert receiver.getFilter() == filter_value
-
-        handle_data = Boolean()
-        handle_data.setValue(True)
-        receiver.setHandleDataStatus(handle_data)
-        assert receiver.getHandleDataStatus() == handle_data
-
-        handle_never = Boolean()
-        handle_never.setValue(False)
-        receiver.setHandleNeverReceived(handle_never)
-        assert receiver.getHandleNeverReceived() == handle_never
-
-        timeout_type = HandleTimeoutEnum()
-        timeout_type.setValue(HandleTimeoutEnum.REPLACE)
-        receiver.setHandleTimeoutType(timeout_type)
-        assert receiver.getHandleTimeoutType() == timeout_type
-
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-
-        init_value = TextValueSpecification()
-        receiver.setInitValue(init_value)
-        assert receiver.getInitValue() == init_value
-
-        timeout_sub = TextValueSpecification()
-        receiver.setTimeoutSubstitutionValue(timeout_sub)
-        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
-
-    def test_alive_timeout_none_noop(self):
-        """Test setAliveTimeout with None is a no-op."""
+    def test_get_set_alive_timeout(self):
+        """Test aliveTimeout accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        alive_timeout = TimeValue()
-        alive_timeout.setValue("10.5")
-        receiver.setAliveTimeout(alive_timeout)
+        alive_timeout = TimeValue().setValue("10.5")
+        assert receiver.setAliveTimeout(alive_timeout) is receiver
+        assert receiver.getAliveTimeout() is alive_timeout
         receiver.setAliveTimeout(None)
-        assert receiver.getAliveTimeout() == alive_timeout
+        assert receiver.getAliveTimeout() is alive_timeout
 
-    def test_enable_update_none_noop(self):
-        """Test setEnableUpdate with None is a no-op."""
+    def test_get_set_enable_update(self):
+        """Test enableUpdate accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        enable = Boolean()
-        enable.setValue(True)
-        receiver.setEnableUpdate(enable)
+        enable_update = Boolean().setValue(True)
+        assert receiver.setEnableUpdate(enable_update) is receiver
+        assert receiver.getEnableUpdate() is enable_update
         receiver.setEnableUpdate(None)
-        assert receiver.getEnableUpdate() == enable
+        assert receiver.getEnableUpdate() is enable_update
 
-    def test_handle_timeout_type_none_noop(self):
-        """Test setHandleTimeoutType with None is a no-op."""
+    def test_get_set_filter(self):
+        """Test filter accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        timeout_type = HandleTimeoutEnum()
-        timeout_type.setValue(HandleTimeoutEnum.NONE)
-        receiver.setHandleTimeoutType(timeout_type)
+        filter_value = DataFilter()
+        assert receiver.setFilter(filter_value) is receiver
+        assert receiver.getFilter() is filter_value
+        receiver.setFilter(None)
+        assert receiver.getFilter() is filter_value
+
+    def test_get_set_handle_data_status(self):
+        """Test handleDataStatus accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        handle_data_status = Boolean().setValue(True)
+        assert receiver.setHandleDataStatus(handle_data_status) is receiver
+        assert receiver.getHandleDataStatus() is handle_data_status
+        receiver.setHandleDataStatus(None)
+        assert receiver.getHandleDataStatus() is handle_data_status
+
+    def test_get_set_handle_never_received(self):
+        """Test handleNeverReceived accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        handle_never_received = Boolean().setValue(False)
+        assert receiver.setHandleNeverReceived(handle_never_received) is receiver
+        assert receiver.getHandleNeverReceived() is handle_never_received
+        receiver.setHandleNeverReceived(None)
+        assert receiver.getHandleNeverReceived() is handle_never_received
+
+    def test_get_set_handle_timeout_type(self):
+        """Test handleTimeoutType accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        timeout_type = HandleTimeoutEnum().setValue(HandleTimeoutEnum.REPLACE)
+        assert receiver.setHandleTimeoutType(timeout_type) is receiver
+        assert receiver.getHandleTimeoutType() is timeout_type
         receiver.setHandleTimeoutType(None)
-        assert receiver.getHandleTimeoutType() == timeout_type
+        assert receiver.getHandleTimeoutType() is timeout_type
 
-    def test_timeout_substitution_value_none_noop(self):
-        """Test setTimeoutSubstitutionValue with None is a no-op."""
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair, chaining and None no-op."""
         receiver = NonqueuedReceiverComSpec()
-        timeout_sub = TextValueSpecification()
-        receiver.setTimeoutSubstitutionValue(timeout_sub)
+        init_value = TextValueSpecification()
+        assert receiver.setInitValue(init_value) is receiver
+        assert receiver.getInitValue() is init_value
+        receiver.setInitValue(None)
+        assert receiver.getInitValue() is init_value
+
+    def test_get_set_timeout_substitution_value(self):
+        """Test timeoutSubstitutionValue accessor pair, chaining and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        timeout_substitution_value = TextValueSpecification()
+        assert receiver.setTimeoutSubstitutionValue(timeout_substitution_value) is receiver
+        assert receiver.getTimeoutSubstitutionValue() is timeout_substitution_value
         receiver.setTimeoutSubstitutionValue(None)
-        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
+        assert receiver.getTimeoutSubstitutionValue() is timeout_substitution_value
 
 
 class TestHandleOutOfRangeStatusEnum:
@@ -1311,18 +1532,30 @@ class TestHandleOutOfRangeStatusEnum:
 
 
 class TestHandleTimeoutEnum:
-    """Test cases for HandleTimeoutEnum class."""
+    """Test cases for HandleTimeoutEnum class (Table 4.65)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.65 Note copied verbatim."""
+        assert HandleTimeoutEnum.__doc__.strip() == "Strategies of handling a reception timeout violation."
 
     def test_members(self):
-        """Test HandleTimeoutEnum member values."""
+        """Test HandleTimeoutEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleTimeoutEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            HandleTimeoutEnum.NONE,
+            HandleTimeoutEnum.REPLACE,
+            HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE,
+        ]
         assert HandleTimeoutEnum.NONE == "none"
         assert HandleTimeoutEnum.REPLACE == "replace"
         assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE == "replaceByTimeoutSubstitutionValue"
-        assert HandleTimeoutEnum.NONE in values
-        assert HandleTimeoutEnum.REPLACE in values
-        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleTimeoutEnum()
+        enum.setValue(HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE)
+        assert enum.getValue() == "replaceByTimeoutSubstitutionValue"
 
 
 class TestQueuedReceiverComSpec:
@@ -1363,26 +1596,36 @@ class TestQueuedReceiverComSpec:
 
 
 class TestHandleOutOfRangeEnum:
-    """Test cases for HandleOutOfRangeEnum class."""
+    """Test cases for HandleOutOfRangeEnum class (Table 4.72)."""
+
+    def test_spec_note_is_verbatim(self):
+        """Class docstring must be the Table 4.72 Note copied verbatim."""
+        assert HandleOutOfRangeEnum.__doc__.strip() == "A value of this type is taken for controlling the range checking behavior of the AUTOSAR RTE."
 
     def test_members(self):
-        """Test HandleOutOfRangeEnum member values."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
-
+        """Test HandleOutOfRangeEnum member values and registration order (Literal rows in displayed order)."""
         enum = HandleOutOfRangeEnum()
         values = enum.getEnumValues()
+        assert list(values) == [
+            HandleOutOfRangeEnum.DEFAULT,
+            HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT,
+            HandleOutOfRangeEnum.IGNORE,
+            HandleOutOfRangeEnum.INVALID,
+            HandleOutOfRangeEnum.NONE,
+            HandleOutOfRangeEnum.SATURATE,
+        ]
         assert HandleOutOfRangeEnum.DEFAULT == "default"
         assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT == "externalReplacement"
         assert HandleOutOfRangeEnum.IGNORE == "ignore"
         assert HandleOutOfRangeEnum.INVALID == "invalid"
         assert HandleOutOfRangeEnum.NONE == "none"
         assert HandleOutOfRangeEnum.SATURATE == "saturate"
-        assert HandleOutOfRangeEnum.DEFAULT in values
-        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT in values
-        assert HandleOutOfRangeEnum.IGNORE in values
-        assert HandleOutOfRangeEnum.INVALID in values
-        assert HandleOutOfRangeEnum.NONE in values
-        assert HandleOutOfRangeEnum.SATURATE in values
+
+    def test_set_value_round_trip(self):
+        """The enum is instantiable and takes its own members via setValue."""
+        enum = HandleOutOfRangeEnum()
+        enum.setValue(HandleOutOfRangeEnum.SATURATE)
+        assert enum.getValue() == "saturate"
 
 
 class TestReceptionComSpecProps:

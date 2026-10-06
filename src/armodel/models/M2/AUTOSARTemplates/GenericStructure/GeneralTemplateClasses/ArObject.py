@@ -15,6 +15,7 @@ if TYPE_CHECKING:
         DateTime,
         String,
     )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ValueSpecification
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDataElement, DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource
 
@@ -109,73 +110,88 @@ class AggregationCondition(AttributeCondition):
     pass
 
 
-class ArParameterInImplementationDataInstanceRef(ARObject):
-    """
-    This class represents the ability to navigate into an element inside of an ParameterDataPrototype typed by an ImplementationDatatype. Note that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn't either, especially because ImplementationDataTypeElement (intentionally) isn't derived from AtpPrototype.
-    """
-
-    def __init__(self):
-        super().__init__()
-
-        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure.
-        self.contextDataPrototypeRefs: List[RefType] = []
-
-        # This reference points to the PortPrototype providing/receiving the root of the parameter.
-        self.portPrototypeRef: Optional[RefType] = None
-
-        # This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found.
-        self.rootParameterDataPrototypeRef: Optional[RefType] = None
-
-        # This reference points to the target ImplementationDataTypeElement.
-        self.targetDataPrototypeRef: Optional[RefType] = None
-
-    def getContextDataPrototypeRefs(self) -> List[RefType]:
-        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."""
-        return self.contextDataPrototypeRefs
-
-    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
-        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.contextDataPrototypeRefs.append(value)
-        return self
-
-    def getPortPrototypeRef(self) -> Optional[RefType]:
-        """This reference points to the PortPrototype providing/receiving the root of the parameter."""
-        return self.portPrototypeRef
-
-    def setPortPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
-        """This reference points to the PortPrototype providing/receiving the root of the parameter. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
-        if value is not None:
-            self.portPrototypeRef = value
-        return self
-
-    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
-        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found."""
-        return self.rootParameterDataPrototypeRef
-
-    def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
-        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found. A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef."""
-        if value is not None:
-            self.rootParameterDataPrototypeRef = value
-        return self
-
-    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
-        """This reference points to the target ImplementationDataTypeElement."""
-        return self.targetDataPrototypeRef
-
-    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
-        """This reference points to the target ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
-        if value is not None:
-            self.targetDataPrototypeRef = value
-        return self
-
-
 class Baseline(ARObject):
     pass
 
 
-class CalibrationParameterValue(ARObject):
-    pass
+class CalibrationParameterValue(ARObject, VariationPointCapable):
+    """
+    Specifies instance specific calibration parameter values used to initialize the memory objects implementing calibration parameters in the generated RTE code. RTE generator will use the implInitValue to override the initial values specified for the DataPrototypes of a component type. The applInitValue is used to exchange init values with the component vendor not publishing the transformation algorithm between ApplicationDataTypes and ImplementationDataTypes or defining an instance specific initialization of components which are only defined with ApplicationDataTypes. Note: If both representations of init values are available these need to represent the same content. Note further that in this case an explicit mapping of ValueSpecification is not implemented because calibration parameters are delivered back after the calibration phase.
+
+    [constr_1933] Existence of CalibrationParameterValue.initializedParameter: For each CalibrationParameterValue, the reference to meta-class ConstantSpecification in the role initializedParameter shall exist at the time when the contract phase generation is executed.
+    """
+
+    # CalibrationParameterValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.138, p.478
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplInitValue             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplInitValue             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplInitValue             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImplInitValue             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInitializedParameterRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitializedParameterRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the initial value specification structured according to the ApplicationDataType
+        self.applInitValue: Optional[ValueSpecification] = None
+
+        # This is the initial value specification structured according to the ImplementationDataType
+        self.implInitValue: Optional[ValueSpecification] = None
+
+        # This represents the parameter that is initialized by the CalibrationParameterValue.
+        self.initializedParameterRef: Optional[RefType] = None
+
+    def getApplInitValue(self) -> Optional[ValueSpecification]:
+        """
+        This is the initial value specification structured according to the ApplicationDataType
+        """
+        return self.applInitValue
+
+    def setApplInitValue(self, value: Optional[ValueSpecification]) -> CalibrationParameterValue:
+        """
+        This is the initial value specification structured according to the ApplicationDataType
+
+        A None value is a no-op and does not overwrite an existing applInitValue.
+        """
+        if value is not None:
+            self.applInitValue = value
+        return self
+
+    def getImplInitValue(self) -> Optional[ValueSpecification]:
+        """
+        This is the initial value specification structured according to the ImplementationDataType
+        """
+        return self.implInitValue
+
+    def setImplInitValue(self, value: Optional[ValueSpecification]) -> CalibrationParameterValue:
+        """
+        This is the initial value specification structured according to the ImplementationDataType
+
+        A None value is a no-op and does not overwrite an existing implInitValue.
+        """
+        if value is not None:
+            self.implInitValue = value
+        return self
+
+    def getInitializedParameterRef(self) -> Optional[RefType]:
+        """
+        This represents the parameter that is initialized by the CalibrationParameterValue.
+        """
+        return self.initializedParameterRef
+
+    def setInitializedParameterRef(self, value: Optional[RefType]) -> CalibrationParameterValue:
+        """
+        This represents the parameter that is initialized by the CalibrationParameterValue.
+
+        A None value is a no-op and does not overwrite an existing initializedParameterRef.
+        """
+        if value is not None:
+            self.initializedParameterRef = value
+        return self
 
 
 class ClassTailoring(ARObject, ABC):
@@ -2125,7 +2141,57 @@ class MultiplicityRestrictionWithSeverity(AbstractMultiplicityRestriction):
 
 
 class PhysicalDimensionMapping(ARObject):
-    pass
+    """This class represents a specific mapping between two PhysicalDimensions."""
+
+    # PhysicalDimensionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.77, p.399
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstPhysicalDimensionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstPhysicalDimensionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondPhysicalDimensionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        self.firstPhysicalDimensionRef: Optional[RefType] = None
+
+        # This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        self.secondPhysicalDimensionRef: Optional[RefType] = None
+
+    def getFirstPhysicalDimensionRef(self) -> Optional[RefType]:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        """
+        return self.firstPhysicalDimensionRef
+
+    def setFirstPhysicalDimensionRef(self, value: Optional[RefType]) -> PhysicalDimensionMapping:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+
+        A None value is a no-op and does not overwrite an existing firstPhysicalDimensionRef.
+        """
+        if value is not None:
+            self.firstPhysicalDimensionRef = value
+        return self
+
+    def getSecondPhysicalDimensionRef(self) -> Optional[RefType]:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+        """
+        return self.secondPhysicalDimensionRef
+
+    def setSecondPhysicalDimensionRef(self, value: Optional[RefType]) -> PhysicalDimensionMapping:
+        """
+        This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping.
+
+        A None value is a no-op and does not overwrite an existing secondPhysicalDimensionRef.
+        """
+        if value is not None:
+            self.secondPhysicalDimensionRef = value
+        return self
 
 
 class PrimitiveAttributeCondition(AttributeCondition):
@@ -2201,10 +2267,6 @@ class RptProfile(ARObject):
 
 
 class SpecificationScope(ARObject):
-    pass
-
-
-class SwAxisCont(ARObject):
     pass
 
 

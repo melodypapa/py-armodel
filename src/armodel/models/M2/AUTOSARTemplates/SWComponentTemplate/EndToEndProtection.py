@@ -5,16 +5,16 @@ defining end-to-end protection profiles, variables, and protection sets
 used to ensure data integrity in communication systems.
 """
 
+from __future__ import annotations
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
-from typing import List, Optional, TYPE_CHECKING, cast
-
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu
+from typing import List, Optional, cast
 
 
 class EndToEndDescription(ARObject):
@@ -87,7 +87,7 @@ class EndToEndDescription(ARObject):
         """
         return self.category
 
-    def setCategory(self, value: Optional[NameToken]) -> "EndToEndDescription":
+    def setCategory(self, value: Optional[NameToken]) -> EndToEndDescription:
         """
         The category represents the identification of the concrete E2E profile. The applicable values are specified in a semantic constraint and determine the applicable attributes of EndToEndDescription. A None value is a no-op and does not overwrite an existing category.
         """
@@ -101,7 +101,7 @@ class EndToEndDescription(ARObject):
         """
         return self.counterOffset
 
-    def setCounterOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setCounterOffset(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Bit offset of Counter from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 4 and it should be 8 whenever possible. For example, offset 8 means that the counter will take the low nibble of the byte 1, i.e. bits 8 .. 11. If counterOffset is not present the value is defined by the selected profile. A None value is a no-op and does not overwrite an existing counterOffset.
         """
@@ -115,7 +115,7 @@ class EndToEndDescription(ARObject):
         """
         return self.crcOffset
 
-    def setCrcOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setCrcOffset(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Bit offset of CRC from the beginning of the Array representation of the Signal Group/VariableDataPrototype (MSB order, bit numbering: bit 0 is the least important). The offset shall be a multiplicity of 8 and it should be 0 whenever possible. For example, offset 8 means that the CRC will take the byte 1, i.e. bits 8..15. If crcOffset is not present the value is defined by the selected profile. A None value is a no-op and does not overwrite an existing crcOffset.
         """
@@ -123,7 +123,7 @@ class EndToEndDescription(ARObject):
             self.crcOffset = value
         return self
 
-    def addDataId(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def addDataId(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         This represents a unique numerical identifier. Note: ID is used for protection against masquerading. The details concerning the maximum number of values (this information is specific for each E2E profile) applicable for this attribute are controlled by a semantic constraint that depends on the category of the EndToEndProtection. A None value is a no-op and does not append to the dataIds.
         """
@@ -143,7 +143,7 @@ class EndToEndDescription(ARObject):
         """
         return self.dataIdMode
 
-    def setDataIdMode(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setDataIdMode(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         There are three inclusion modes how the implicit two-byte Data ID is included in the one-byte CRC: • dataIDMode = 0: Two bytes are included in the CRC (double ID configuration) This is used in variant 1A. • dataIDMode = 1: One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. This is used in variant 1B. • dataIDMode = 2: Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. • dataIdMode = 3: The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits. A None value is a no-op and does not overwrite an existing dataIdMode.
         """
@@ -157,7 +157,7 @@ class EndToEndDescription(ARObject):
         """
         return self.dataIdNibbleOffset
 
-    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Bit offset of the low nibble of the high byte of Data ID. The applicability of this attribute is controlled by [constr_1261]. A None value is a no-op and does not overwrite an existing dataIdNibbleOffset.
         """
@@ -171,7 +171,7 @@ class EndToEndDescription(ARObject):
         """
         return self.dataLength
 
-    def setDataLength(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setDataLength(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         This attribute represents the length of the Array representation of the Signal Group/VariableDataPrototype including CRC and Counter in bits. A None value is a no-op and does not overwrite an existing dataLength.
         """
@@ -185,7 +185,7 @@ class EndToEndDescription(ARObject):
         """
         return self.maxDeltaCounterInit
 
-    def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setMaxDeltaCounterInit(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Initial maximum allowed gap between two counter values of two consecutively received valid Data, i.e. how many subsequent lost data is accepted. For example, if the receiver gets Data with counter 1 and MaxDeltaCounterInit is 1, then at the next reception the receiver can accept Counters with values 2 and 3, but not 4. Note that if the receiver does not receive new Data at a consecutive read, then the receiver increments the tolerance by 1. A None value is a no-op and does not overwrite an existing maxDeltaCounterInit.
         """
@@ -199,7 +199,7 @@ class EndToEndDescription(ARObject):
         """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         The maximum amount of missing or repeated Data which the receiver does not expect to exceed under normal communication conditions. A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
         """
@@ -213,7 +213,7 @@ class EndToEndDescription(ARObject):
         """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndDescription":
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Number of Data required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter. A None value is a no-op and does not overwrite an existing syncCounterInit.
         """
@@ -251,7 +251,7 @@ class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
         # This serves as part of the split key in case of more than one EndToEndProtectionVariablePrototype is aggregated in the bound model. Stereotypes: atpIdentityContributor
         self.shortLabel: Optional[Identifier] = None
 
-    def addReceiverIref(self, iref: Optional[VariableDataPrototypeInSystemInstanceRef]) -> "EndToEndProtectionVariablePrototype":
+    def addReceiverIref(self, iref: Optional[VariableDataPrototypeInSystemInstanceRef]) -> EndToEndProtectionVariablePrototype:
         """
         This represents the receiver. Note that 1:n communication is supported for this use case. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef A None value is a no-op and does not append to the receiverIRefs.
         """
@@ -271,7 +271,7 @@ class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
         """
         return self.senderIRef
 
-    def setSenderIref(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> "EndToEndProtectionVariablePrototype":
+    def setSenderIref(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> EndToEndProtectionVariablePrototype:
         """
         This represents the sender. Can be optional if an ecu extract is provided and the sender is part of the extract. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef A None value is a no-op and does not overwrite an existing senderIRef.
         """
@@ -285,7 +285,7 @@ class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "EndToEndProtectionVariablePrototype":
+    def setShortLabel(self, value: Optional[Identifier]) -> EndToEndProtectionVariablePrototype:
         """
         This serves as part of the split key in case of more than one EndToEndProtectionVariablePrototype is aggregated in the bound model. Stereotypes: atpIdentityContributor A None value is a no-op and does not overwrite an existing shortLabel.
         """
@@ -296,94 +296,73 @@ class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
 
 class EndToEndProtection(Identifiable, VariationPointCapable):
     """
-    This meta-class represents the ability to describe a particular end to
-    end protection.
+    This meta-class represents the ability to describe a particular end to end protection.
     """
 
     # EndToEndProtection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEndToEndProfile           [x] impl  [x] docstring  [ ] test
-    # [ ] setEndToEndProfile           [x] impl  [x] docstring  [ ] test
-    # [ ] getEndToEndProtectionISignalIPdus [x] impl  [x] docstring  [ ] test
-    # [ ] addEndToEndProtectionISignalIPdu [x] impl  [x] docstring  [ ] test
-    # [ ] getEndToEndProtectionVariablePrototypes [x] impl  [x] docstring  [ ] test
-    # [ ] addEndToEndProtectionVariablePrototype [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.97, p.215
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEndToEndProfile                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEndToEndProfile                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addEndToEndProtectionISignalIPdu        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEndToEndProtectionISignalIPdus       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addEndToEndProtectionVariablePrototype  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEndToEndProtectionVariablePrototypes [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This represents the particular EndToEndDescription.
         self.endToEndProfile: Optional[EndToEndDescription] = None
+
+        # Defines to which ISignalIPdu - ISignalGroup pair this EndToEndProtection shall apply. In case several ISignalGroups are used to transport the data (e.g. fan-out in the RTE) there may exist several EndToEndProtectionISignalIPdu definitions.
         self.endToEndProtectionISignalIPdus: List[EndToEndProtectionISignalIPdu] = []
+
+        # Defines to which VariableDataPrototypes in the roles of one sender and one or more receivers this EndToEndprotection applies. It shall be possible to aggregate several EndToEndProtectionVariablePrototype in case additional hierarchical decompositions are introduced subsequently. In this case one particular PortPrototype is split into multiple PortPrototypes and connectors, all representing the same data entity. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
         self.endToEndProtectionVariablePrototypes: List[EndToEndProtectionVariablePrototype] = []
 
-    def getEndToEndProfile(self):
+    def getEndToEndProfile(self) -> Optional[EndToEndDescription]:
         """
-        Gets the end-to-end protection profile description.
-
-        Returns:
-            EndToEndDescription: The end-to-end profile
+        This represents the particular EndToEndDescription.
         """
         return self.endToEndProfile
 
-    def setEndToEndProfile(self, value):
+    def setEndToEndProfile(self, value: Optional[EndToEndDescription]) -> EndToEndProtection:
         """
-        Sets the end-to-end protection profile description.
-
-        Args:
-            value: The end-to-end profile to set
-
-        Returns:
-            self for method chaining
+        This represents the particular EndToEndDescription. A None value is a no-op and does not overwrite an existing endToEndProfile.
         """
         if value is not None:
             self.endToEndProfile = value
         return self
 
-    def getEndToEndProtectionISignalIPdus(self):
+    def addEndToEndProtectionISignalIPdu(self, value: Optional[EndToEndProtectionISignalIPdu]) -> EndToEndProtection:
         """
-        Gets the list of EndToEndProtectionISignalIPdu definitions.
-
-        Returns:
-            List[EndToEndProtectionISignalIPdu]: The ISignalIPdu definitions
-        """
-        return self.endToEndProtectionISignalIPdus
-
-    def addEndToEndProtectionISignalIPdu(self, value):
-        """
-        Adds an EndToEndProtectionISignalIPdu definition.
-
-        Args:
-            value: The ISignalIPdu definition to add
-
-        Returns:
-            self for method chaining
+        Defines to which ISignalIPdu - ISignalGroup pair this EndToEndProtection shall apply. In case several ISignalGroups are used to transport the data (e.g. fan-out in the RTE) there may exist several EndToEndProtectionISignalIPdu definitions. A None value is a no-op and does not append to the endToEndProtectionISignalIPdus.
         """
         if value is not None:
             self.endToEndProtectionISignalIPdus.append(value)
         return self
 
-    def getEndToEndProtectionVariablePrototypes(self) -> List[EndToEndProtectionVariablePrototype]:
+    def getEndToEndProtectionISignalIPdus(self) -> List[EndToEndProtectionISignalIPdu]:
         """
-        Gets the list of end-to-end protection variable prototypes.
-
-        Returns:
-            List[EndToEndProtectionVariablePrototype]: The variable prototypes
+        Defines to which ISignalIPdu - ISignalGroup pair this EndToEndProtection shall apply. In case several ISignalGroups are used to transport the data (e.g. fan-out in the RTE) there may exist several EndToEndProtectionISignalIPdu definitions.
         """
-        return self.endToEndProtectionVariablePrototypes
+        return self.endToEndProtectionISignalIPdus
 
-    def addEndToEndProtectionVariablePrototype(self, value: EndToEndProtectionVariablePrototype):
+    def addEndToEndProtectionVariablePrototype(self, value: Optional[EndToEndProtectionVariablePrototype]) -> EndToEndProtection:
         """
-        Adds an end-to-end protection variable prototype.
-
-        Args:
-            value: The variable prototype to add
-
-        Returns:
-            self for method chaining
+        Defines to which VariableDataPrototypes in the roles of one sender and one or more receivers this EndToEndprotection applies. It shall be possible to aggregate several EndToEndProtectionVariablePrototype in case additional hierarchical decompositions are introduced subsequently. In this case one particular PortPrototype is split into multiple PortPrototypes and connectors, all representing the same data entity. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. A None value is a no-op and does not append to the endToEndProtectionVariablePrototypes.
         """
         if value is not None:
             self.endToEndProtectionVariablePrototypes.append(value)
         return self
+
+    def getEndToEndProtectionVariablePrototypes(self) -> List[EndToEndProtectionVariablePrototype]:
+        """
+        Defines to which VariableDataPrototypes in the roles of one sender and one or more receivers this EndToEndprotection applies. It shall be possible to aggregate several EndToEndProtectionVariablePrototype in case additional hierarchical decompositions are introduced subsequently. In this case one particular PortPrototype is split into multiple PortPrototypes and connectors, all representing the same data entity. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
+        """
+        return self.endToEndProtectionVariablePrototypes
 
 
 class EndToEndProtectionSet(ARElement):

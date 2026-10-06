@@ -4,7 +4,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, Integer, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -46,6 +47,12 @@ def _time(value):
     time_value = TimeValue()
     time_value.setValue(value)
     return time_value
+
+
+def _vp(label):
+    vp = VariationPoint()
+    vp.setShortLabel(Identifier().setValue(label))
+    return vp
 
 
 def _new_cluster():
@@ -122,3 +129,25 @@ class TestWriteCanNmCluster:
         assert cluster.getNmRemoteSleepIndicationTime().getValue() == 1.5
         assert cluster.getNmRepeatMessageTime().getValue() == 0.5
         assert cluster.getNmWaitBusSleepTime().getValue() == 0.2
+
+    def test_write_can_nm_cluster_writes_variation_point_last(self):
+        cluster = _new_cluster()
+        cluster.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeCanNmCluster(parent, cluster)
+        cluster_element = parent.find("CAN-NM-CLUSTER")
+        tags = [child.tag for child in cluster_element if child.tag != "SHORT-NAME"]
+        assert tags == _XSD_ELEMENT_ORDER + ["VARIATION-POINT"]
+        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_can_nm_cluster_round_trips_variation_point(self):
+        cluster = _new_cluster()
+        cluster.setVariationPoint(_vp("VP1"))
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeCanNmCluster(parent, cluster)
+        parent.set("xmlns", NS)
+        root = ET.fromstring(ET.tostring(parent, encoding="unicode")).find("{%s}CAN-NM-CLUSTER" % NS)
+        parsed = CanNmCluster(MockParent(), "CanNmCluster")
+        ARXMLParser().readCanNmCluster(root, parsed)
+        assert parsed.getVariationPoint() is not None
+        assert parsed.getVariationPoint().getShortLabel().getValue() == "VP1"

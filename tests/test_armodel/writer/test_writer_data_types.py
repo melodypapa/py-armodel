@@ -21,6 +21,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    ByteOrderEnum,
+    DateTime,
     Float,
     Identifier,
     Integer,
@@ -30,8 +32,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     PositiveInteger,
     RefType,
+    String,
     VerbatimString,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef, AutosarVariableRef
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
@@ -54,12 +58,14 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     ScaleConstrValidityEnum,
 )
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    CalprmAxisCategoryEnum,
     SwCalprmAxis,
     SwCalprmAxisSet,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwCalibrationAccessEnum,
     SwDataDefProps,
     SwPointerTargetProps,
     ValueList,
@@ -176,8 +182,37 @@ class TestSwAxisIndividualWriter:
         writer.setSwAxisIndividual(parent, props)
 
         child = parent[0]
-        assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
+        assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
         assert child.find("UNIT-REF").text == "/units/u"
+
+    def test_set_sw_axis_individual_writes_variable_refs_full_content(self, writer):
+        """Each SW-VARIABLE-REF-PROXY group instance is written inline in XSD group order (AUTOSAR-VARIABLE then MC-DATA-INSTANCE-VAR-REF) — no wrapper element named after the group."""
+        props = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        first.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/temp")))
+        first.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v1"))
+        second = SwVariableRefProxy()
+        second.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/pressure")))
+        second.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v2"))
+        props.addSwVariableRef(first).addSwVariableRef(second)
+
+        parent = _parent()
+        writer.setSwAxisIndividual(parent, props)
+
+        child = parent[0]
+        variables_element = child.find("SW-VARIABLE-REFS")
+        assert variables_element is not None
+        assert variables_element.find("SW-VARIABLE-REF-PROXY") is None
+        assert [element.tag for element in variables_element] == [
+            "AUTOSAR-VARIABLE",
+            "MC-DATA-INSTANCE-VAR-REF",
+            "AUTOSAR-VARIABLE",
+            "MC-DATA-INSTANCE-VAR-REF",
+        ]
+        local_refs = variables_element.findall("AUTOSAR-VARIABLE/LOCAL-VARIABLE-REF")
+        assert [ref.text for ref in local_refs] == ["/variables/temp", "/variables/pressure"]
+        assert local_refs[0].attrib.get("DEST") == "VARIABLE-DATA-PROTOTYPE"
+        assert [ref.text for ref in variables_element.findall("MC-DATA-INSTANCE-VAR-REF")] == ["/mc/instances/v1", "/mc/instances/v2"]
 
 
 class TestSwAxisGroupedWriter:
@@ -198,7 +233,7 @@ class TestSwAxisGroupedWriter:
         assert ref_el.text == "/shared"
         assert ref_el.attrib.get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert child.find("SW-AXIS-INDEX").text == "1"
-        assert child.find("SW-CALPRM-REF-PROXY/MC-DATA-INSTANCE-REF").text == "/calprm"
+        assert child.find("MC-DATA-INSTANCE-REF").text == "/calprm"
 
     def test_set_sw_generic_axis_param_type_writes_data_constraint(self, writer):
         param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
@@ -212,6 +247,269 @@ class TestSwAxisGroupedWriter:
         assert child.find("SHORT-NAME").text == "param"
         assert child.find("DATA-CONSTR-REF").text == "/constraints/axis"
 
+    def test_set_sw_axis_grouped_writes_calprm_ref_proxy_content_inline(self, writer):
+        """The SW-CALPRM-REF-PROXY group members (AR-PARAMETER, MC-DATA-INSTANCE-REF) are written inline in XSD group order — no wrapper element named after the group."""
+        proxy = SwCalprmRefProxy()
+        proxy.setArParameter(AutosarParameterRef().setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/params/shift")))
+        proxy.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/mc/instances/axis1"))
+        props = SwAxisGrouped()
+        props.setSwCalprmRef(proxy)
+
+        parent = _parent()
+        writer.setSwAxisGrouped(parent, props)
+
+        child = parent[0]
+        assert child.tag == "SW-AXIS-GROUPED"
+        assert child.find("SW-CALPRM-REF-PROXY") is None
+        assert [element.tag for element in child if element.tag in ("AR-PARAMETER", "MC-DATA-INSTANCE-REF")] == ["AR-PARAMETER", "MC-DATA-INSTANCE-REF"]
+        local_ref = child.find("AR-PARAMETER/LOCAL-PARAMETER-REF")
+        assert local_ref.text == "/params/shift"
+        assert local_ref.attrib.get("DEST") == "PARAMETER-DATA-PROTOTYPE"
+        mc_ref = child.find("MC-DATA-INSTANCE-REF")
+        assert mc_ref.text == "/mc/instances/axis1"
+        assert mc_ref.attrib.get("DEST") == "MC-DATA-INSTANCE"
+
+
+class TestSwCalprmRefProxyRoundTrip:
+    def test_round_trip_via_sw_axis_grouped(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("SharedAxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisGrouped()
+        props.setSharedAxisTypeRef(_ref("SW-AXIS-TYPE", "/axis/types/shared"))
+        props.setSwAxisIndex(_literal("1"))
+        proxy = SwCalprmRefProxy()
+        proxy.setArParameter(AutosarParameterRef().setLocalParameterRef(_ref("PARAMETER-DATA-PROTOTYPE", "/params/shift")))
+        proxy.setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/mc/instances/axis1"))
+        props.setSwCalprmRef(proxy)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisGrouped)
+            assert props_2.getSharedAxisTypeRef().getValue() == "/axis/types/shared"
+            assert props_2.getSwAxisIndex().getValue() == "1"
+            proxy_2 = props_2.getSwCalprmRef()
+            assert proxy_2 is not None
+            local_ref_2 = proxy_2.getArParameter().getLocalParameterRef()
+            assert local_ref_2.getValue() == "/params/shift"
+            assert local_ref_2.getDest() == "PARAMETER-DATA-PROTOTYPE"
+            assert proxy_2.getMcDataInstanceRef().getValue() == "/mc/instances/axis1"
+            assert proxy_2.getMcDataInstanceRef().getDest() == "MC-DATA-INSTANCE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwVariableRefProxyRoundTrip:
+    def test_round_trip_variable_refs_via_sw_axis_individual(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("AxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        first.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/temp")))
+        first.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v1"))
+        second = SwVariableRefProxy()
+        second.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/pressure")))
+        second.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/v2"))
+        props.addSwVariableRef(first).addSwVariableRef(second)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisIndividual)
+            refs_2 = props_2.getSwVariableRefs()
+            assert len(refs_2) == 2
+            assert refs_2[0].getAutosarVariable().getLocalVariableRef().getValue() == "/variables/temp"
+            assert refs_2[0].getMcDataInstanceVarRef().getValue() == "/mc/instances/v1"
+            assert refs_2[1].getAutosarVariable().getLocalVariableRef().getValue() == "/variables/pressure"
+            assert refs_2[1].getMcDataInstanceVarRef().getValue() == "/mc/instances/v2"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_sw_host_variable_with_ar_object_attributes(self):
+        """SW-HOST-VARIABLE is typed by the SW-VARIABLE-REF-PROXY complexType — the proxy's S/T (writeARObject on the element) survive a save/load round-trip."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("HostVarParam")
+        checksum = String()
+        checksum.setValue("4321")
+        timestamp = DateTime()
+        timestamp.setValue("2024-06-01T12:00:00Z")
+        host_variable = SwVariableRefProxy()
+        host_variable.setChecksum(checksum)
+        host_variable.setTimestamp(timestamp)
+        host_variable.setAutosarVariable(AutosarVariableRef().setLocalVariableRef(_ref("VARIABLE-DATA-PROTOTYPE", "/variables/host")))
+        host_variable.setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/mc/instances/host"))
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwHostVariable(host_variable)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            xml = open(file_path, encoding="utf-8").read()
+            assert 'SW-HOST-VARIABLE S="4321"' in xml
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            host_variable_2 = data_type_2.getSwDataDefProps().getSwHostVariable()
+            assert host_variable_2 is not None
+            assert host_variable_2.getChecksum() is not None
+            assert host_variable_2.getChecksum().getValue() == "4321"
+            assert host_variable_2.getTimestamp() is not None
+            assert host_variable_2.getTimestamp().getValue() == "2024-06-01T12:00:00Z"
+            assert host_variable_2.getAutosarVariable().getLocalVariableRef().getValue() == "/variables/host"
+            assert host_variable_2.getMcDataInstanceVarRef().getValue() == "/mc/instances/host"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSwGenericAxisParamWriter:
+    def test_set_sw_generic_axis_param_element_order_and_values(self, writer):
+        """SW-GENERIC-AXIS-PARAM-TYPE-REF (sequenceOffset 20) precedes the VF list (30) per XSD group SW-GENERIC-AXIS-PARAM."""
+        param = SwGenericAxisParam()
+        param.setSwGenericAxisParamTypeRef(_ref("SW-GENERIC-AXIS-PARAM-TYPE", "/axis/types/fixed/shift"))
+        param.addVf(_numerical("1.5"))
+        param.addVf(_numerical("-2.25e-3"))
+
+        parent = _parent()
+        writer.setSwGenericAxisParam(parent, param)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM"
+        assert [element.tag for element in child] == ["SW-GENERIC-AXIS-PARAM-TYPE-REF", "VF", "VF"]
+        ref_el = child.find("SW-GENERIC-AXIS-PARAM-TYPE-REF")
+        assert ref_el.text == "/axis/types/fixed/shift"
+        assert ref_el.attrib.get("DEST") == "SW-GENERIC-AXIS-PARAM-TYPE"
+        assert [vf.text for vf in child.findall("VF")] == ["1.5", "-2.25e-3"]
+
+    def test_set_sw_generic_axis_param_omits_unset_members(self, writer):
+        param = SwGenericAxisParam()
+        parent = _parent()
+        writer.setSwGenericAxisParam(parent, param)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM"
+        assert len(list(child)) == 0
+
+
+class TestSwGenericAxisParamRoundTrip:
+    def test_round_trip_via_sw_axis_individual(self):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        data_type = pkg.createApplicationPrimitiveDataType("AxisParam")
+        axis_set = SwCalprmAxisSet()
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        generic = SwAxisGeneric()
+        generic.setSwAxisTypeRef(_ref("SW-AXIS-TYPE", "/axis/types/fixed"))
+        param = SwGenericAxisParam()
+        param.setSwGenericAxisParamTypeRef(_ref("SW-GENERIC-AXIS-PARAM-TYPE", "/axis/types/fixed/shift"))
+        param.addVf(_numerical("1.5"))
+        param.addVf(_numerical("2.5"))
+        generic.addSwGenericAxisParam(param)
+        props.setSwAxisGeneric(generic)
+        axis.setSwCalprmAxisTypeProps(props)
+        axis_set.addSwCalprmAxis(axis)
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setSwCalprmAxisSet(axis_set)
+        data_type.setSwDataDefProps(sw_data_def_props)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
+            axis_2 = data_type_2.getSwDataDefProps().getSwCalprmAxisSet().getSwCalprmAxises()[0]
+            props_2 = axis_2.getSwCalprmAxisTypeProps()
+            assert isinstance(props_2, SwAxisIndividual)
+            generic_2 = props_2.getSwAxisGeneric()
+            assert generic_2 is not None
+            assert generic_2.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+            assert generic_2.getSwAxisTypeRef().getDest() == "SW-AXIS-TYPE"
+            params_2 = generic_2.getSwGenericAxisParams()
+            assert len(params_2) == 1
+            param_2 = params_2[0]
+            assert param_2.getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+            assert param_2.getSwGenericAxisParamTypeRef().getDest() == "SW-GENERIC-AXIS-PARAM-TYPE"
+            vfs_2 = param_2.getVfs()
+            assert len(vfs_2) == 2
+            assert vfs_2[0].getValue() == 1.5
+            assert vfs_2[1].getValue() == 2.5
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
 
 class TestSwCalprmAxisWriter:
     def test_set_sw_calprm_axis_none(self, writer):
@@ -222,7 +520,7 @@ class TestSwCalprmAxisWriter:
     def test_set_sw_calprm_axis_individual(self, writer):
         axis = SwCalprmAxis()
         axis.setSwAxisIndex(_literal("1"))
-        axis.setCategory(_literal("FIXED"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS))
         individual = SwAxisIndividual()
         individual.setSwMaxAxisPoints(_numerical("50"))
         axis.setSwCalprmAxisTypeProps(individual)
@@ -234,14 +532,14 @@ class TestSwCalprmAxisWriter:
         child = parent[0]
         assert child.tag == "SW-CALPRM-AXIS"
         assert child.find("SW-AXIS-INDEX").text == "1"
-        assert child.find("CATEGORY").text == "FIXED"
+        assert child.find("CATEGORY").text == "FIX_AXIS"
         assert child.find("SW-AXIS-INDIVIDUAL") is not None
         assert child.find("SW-AXIS-INDIVIDUAL/SW-MAX-AXIS-POINTS").text == "50"
 
     def test_set_sw_calprm_axis_grouped(self, writer):
         axis = SwCalprmAxis()
         axis.setSwAxisIndex(_literal("2"))
-        axis.setCategory(_literal("STD"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS))
         grouped = SwAxisGrouped()
         grouped.setSharedAxisTypeRef(_ref("SW-CALPRM-AXIS", "/g"))
         axis.setSwCalprmAxisTypeProps(grouped)
@@ -252,7 +550,7 @@ class TestSwCalprmAxisWriter:
         child = parent[0]
         assert child.tag == "SW-CALPRM-AXIS"
         assert child.find("SW-AXIS-INDEX").text == "2"
-        assert child.find("CATEGORY").text == "STD"
+        assert child.find("CATEGORY").text == "STD_AXIS"
         assert child.find("SW-AXIS-GROUPED") is not None
         assert child.find("SW-AXIS-GROUPED/SHARED-AXIS-TYPE-REF").text == "/g"
 
@@ -283,9 +581,9 @@ class TestSwCalprmAxisSetWriter:
     def test_set_sw_calprm_axis_set_with_axes(self, writer):
         ax_set = SwCalprmAxisSet()
         axis1 = SwCalprmAxis()
-        axis1.category = _literal("FIXED")
+        axis1.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
         axis2 = SwCalprmAxis()
-        axis2.category = _literal("STD")
+        axis2.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS)
         ax_set.addSwCalprmAxis(axis1)
         ax_set.addSwCalprmAxis(axis2)
 
@@ -297,8 +595,8 @@ class TestSwCalprmAxisSetWriter:
         assert outer.tag == "SW-CALPRM-AXIS-SET"
         axes = outer.findall("SW-CALPRM-AXIS")
         assert len(axes) == 2
-        assert axes[0].find("CATEGORY").text == "FIXED"
-        assert axes[1].find("CATEGORY").text == "STD"
+        assert axes[0].find("CATEGORY").text == "FIX_AXIS"
+        assert axes[1].find("CATEGORY").text == "STD_AXIS"
 
 
 class TestSwPointerTargetPropsWriter:
@@ -340,12 +638,12 @@ class TestSwDataDefPropsWriter:
         props = SwDataDefProps()
         props.setBaseTypeRef(_ref("SW-BASE-TYPE", "/bt"))
         props.setSwAddrMethodRef(_ref("SW-ADDR-METHOD", "/am"))
-        props.setSwCalibrationAccess(_literal("READ-ONLY"))
+        props.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY))
         props.setCompuMethodRef(_ref("COMPU-METHOD", "/cm"))
         props.setStepSize(_float("0.5"))
         props.setDataConstrRef(_ref("DATA-CONSTR", "/dc"))
         props.setImplementationDataTypeRef(_ref("IMPLEMENTATION-DATA-TYPE", "/idt"))
-        props.setSwImplPolicy(_literal("STANDARD"))
+        props.setSwImplPolicy(_literal("standard"))
         props.setSwIntendedResolution(_numerical("8"))
         props.setSwRecordLayoutRef(_ref("SW-RECORD-LAYOUT", "/rl"))
         props.setValueAxisDataTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/vad"))
@@ -353,7 +651,7 @@ class TestSwDataDefPropsWriter:
 
         ax_set = SwCalprmAxisSet()
         ax = SwCalprmAxis()
-        ax.category = _literal("FIXED")
+        ax.category = CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.FIX_AXIS)
         ax_set.addSwCalprmAxis(ax)
         props.setSwCalprmAxisSet(ax_set)
 
@@ -634,7 +932,7 @@ class TestBaseTypeDirectDefinitionWriter:
         btd = BaseTypeDirectDefinition()
         btd.setBaseTypeSize(_numerical("32"))
         btd.setBaseTypeEncoding(_literal("IEEE754"))
-        btd.setByteOrder(_literal("LITTLE-ENDIAN"))
+        btd.setByteOrder(ByteOrderEnum().setValue(ByteOrderEnum.OPAQUE))
         btd.setMemAlignment(_numerical("4"))
         btd.setNativeDeclaration(_literal("float"))
 
@@ -643,7 +941,7 @@ class TestBaseTypeDirectDefinitionWriter:
 
         assert parent.find("BASE-TYPE-SIZE").text == "32"
         assert parent.find("BASE-TYPE-ENCODING").text == "IEEE754"
-        assert parent.find("BYTE-ORDER").text == "LITTLE-ENDIAN"
+        assert parent.find("BYTE-ORDER").text == "OPAQUE"
         assert parent.find("MEM-ALIGNMENT").text == "4"
         assert parent.find("NATIVE-DECLARATION").text == "float"
 
@@ -867,11 +1165,11 @@ class TestWriteCompuScaleWriter:
         scale.setMask(mask)
         lower = Limit()
         lower.value = "0"
-        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        lower.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         scale.setLowerLimit(lower)
         upper = Limit()
         upper.value = "10"
-        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        upper.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         scale.setUpperLimit(upper)
 
         contents = CompuScaleConstantContents()
@@ -1095,7 +1393,7 @@ class TestRuleBasedValueSpecificationWriter:
         spec.setCategory(_literal("ARRAY"))
 
         axis = RuleBasedAxisCont()
-        axis.setCategory(_literal("STD_AXIS"))
+        axis.setCategory(CalprmAxisCategoryEnum().setValue(CalprmAxisCategoryEnum.STD_AXIS))
         axis.setUnitRef(_ref("UNIT", "/p/u"))
         size = ValueList()
         size.setV(_float("3"))
@@ -1444,11 +1742,11 @@ class TestInternalConstrsWriter:
         constrs = InternalConstrs()
         lower = Limit()
         lower.value = "0"
-        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        lower.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         constrs.setLowerLimit(lower)
         upper = Limit()
         upper.value = "100"
-        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        upper.setIntervalType(IntervalTypeEnum().setValue(IntervalTypeEnum.CLOSED))
         constrs.setUpperLimit(upper)
 
         parent = _parent()
@@ -1512,7 +1810,7 @@ class TestInternalConstrsWriter:
         assert scale_tag.find("UPPER-LIMIT").text == "50.0"
         assert child.find("MAX-GRADIENT").text == "1.5"
         assert child.find("MAX-DIFF").text == "0.5"
-        assert child.find("MONOTONY").text == "increasing"
+        assert child.find("MONOTONY").text == "INCREASING"
 
 
 class TestPhysConstrsWriter:
@@ -1548,7 +1846,7 @@ class TestPhysConstrsWriter:
         constrs = PhysConstrs()
         constrs.setMaxDiff(_numerical("0.5"))
         constrs.setMaxGradient(_numerical("1.0"))
-        constrs.setMonotony(MonotonyEnum.INCREASING)
+        constrs.setMonotony(MonotonyEnum().setValue(MonotonyEnum.INCREASING))
         scale = ScaleConstr()
         scale.setShortLabel(_identifier("s1"))
         desc = MultiLanguageOverviewParagraph()
@@ -1569,7 +1867,7 @@ class TestPhysConstrsWriter:
         child = parent[0]
         assert child.find("MAX-DIFF").text == "0.5"
         assert child.find("MAX-GRADIENT").text == "1.0"
-        assert child.find("MONOTONY").text == "increasing"
+        assert child.find("MONOTONY").text == "INCREASING"
         scales = child.find("SCALE-CONSTRS")
         assert scales is not None
         scale_tag = scales.find("SCALE-CONSTR")

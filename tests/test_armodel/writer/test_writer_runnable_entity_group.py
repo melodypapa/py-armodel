@@ -2,9 +2,11 @@
 
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import RunnableEntityGroup
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerRunnableEntityGroupInCompositionInstanceRef,
@@ -91,6 +93,68 @@ class TestWriteRunnableEntityGroup:
             assert group_2.getShortName() == "RunnableGroup"
             assert group_2.getRunnableEntityGroupIRefs() == []
             assert group_2.getRunnableEntityIRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestWriteRunnableEntityGroupVariationPoint:
+    """VARIATION-POINT is anchored in the XSD group RUNNABLE-ENTITY-GROUP with
+    xml.sequenceOffset="10000" — it serializes last, after the two iref wrapper
+    lists (AUTOSAR_00052.xsd)."""
+
+    def test_write_variation_point_last(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        runnable_group = RunnableEntityGroup(ar_root, "RunnableGroup")
+        runnable_group.addRunnableEntityGroupIRef(InnerRunnableEntityGroupInCompositionInstanceRef())
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP1")
+        variation_point.setShortLabel(vp_label)
+        runnable_group.setVariationPoint(variation_point)
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityGroup(parent_element, runnable_group)
+
+        child = parent_element[0]
+        assert child.tag == "RUNNABLE-ENTITY-GROUP"
+        tags = [element.tag for element in child]
+        assert tags.index("RUNNABLE-ENTITY-GROUP-IREFS") < tags.index("VARIATION-POINT")
+        assert tags[-1] == "VARIATION-POINT"
+        assert child.find("VARIATION-POINT/SHORT-LABEL").text == "VP1"
+
+    def test_write_no_variation_point_omits_element(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        runnable_group = RunnableEntityGroup(ar_root, "RunnableGroup")
+
+        parent_element = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityGroup(parent_element, runnable_group)
+
+        child = parent_element[0]
+        assert child.find("VARIATION-POINT") is None
+
+    def test_round_trip_variation_point(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        runnable_group = RunnableEntityGroup(ar_root, "RunnableGroup")
+        runnable_iref = RunnableEntityInCompositionInstanceRef()
+        runnable_iref.setTargetRunnableEntityRef(make_ref("/Comp/A/Runnable", "RUNNABLE-ENTITY"))
+        runnable_group.addRunnableEntityIRef(runnable_iref)
+        variation_point = VariationPoint()
+        vp_label = Identifier()
+        vp_label.setValue("VP2")
+        variation_point.setShortLabel(vp_label)
+        runnable_group.setVariationPoint(variation_point)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, _build_document(runnable_group))
+            group_2 = _reload(file_path)
+            assert group_2.getVariationPoint() is not None
+            assert group_2.getVariationPoint().getShortLabel().getValue() == "VP2"
+            assert group_2.getRunnableEntityIRefs()[0].getTargetRunnableEntityRef().getValue() == "/Comp/A/Runnable"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

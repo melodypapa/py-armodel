@@ -8,8 +8,10 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    CalibrationParameterValue,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
@@ -30,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
+    PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -58,6 +61,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 
 class ConcreteARObject(ARObject):
@@ -2609,4 +2613,275 @@ class TestEventObdReadinessGroup:
         assert inspect.cleandoc(EventObdReadinessGroup.getEventObdReadinessGroup.__doc__) == self.EVENT_OBD_READINESS_GROUP_NOTE
         assert inspect.cleandoc(EventObdReadinessGroup.setEventObdReadinessGroup.__doc__) == (
             self.EVENT_OBD_READINESS_GROUP_NOTE + "\n\nA None value is a no-op and does not overwrite an existing eventObdReadinessGroup."
+        )
+
+
+class TestPhysicalDimensionMapping:
+    """
+    Test class for PhysicalDimensionMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.77, p.399
+    """
+
+    CLASS_NOTE = "This class represents a specific mapping between two PhysicalDimensions."
+    FIRST_PHYSICAL_DIMENSION_NOTE = "This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping."
+    SECOND_PHYSICAL_DIMENSION_NOTE = "This represents the first PhysicalDimension of the enclosing PhysicalDimensionMapping."
+
+    def _create_mapping(self) -> PhysicalDimensionMapping:
+        return PhysicalDimensionMapping()
+
+    def test_initialization(self):
+        """
+        Test that a new PhysicalDimensionMapping initializes all attributes to their defaults.
+        """
+        obj = self._create_mapping()
+
+        assert obj.getFirstPhysicalDimensionRef() is None
+        assert obj.getSecondPhysicalDimensionRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that PhysicalDimensionMapping derives from ARObject per the Table 5.77 Base row.
+        """
+        assert issubclass(PhysicalDimensionMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(PhysicalDimensionMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert PhysicalDimensionMapping.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 5.77 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in PhysicalDimensionMapping.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getFirstPhysicalDimensionRef",
+            "setFirstPhysicalDimensionRef",
+            "getSecondPhysicalDimensionRef",
+            "setSecondPhysicalDimensionRef",
+        ]
+
+    def test_annotations_are_optional_ref_type(self):
+        """
+        Test that the ref accessors carry the spec Optional[RefType] hints (0..1 ref rows).
+        """
+        hints_get_first = typing.get_type_hints(PhysicalDimensionMapping.getFirstPhysicalDimensionRef)
+        assert hints_get_first["return"] == typing.Optional[RefType]
+
+        hints_set_first = typing.get_type_hints(PhysicalDimensionMapping.setFirstPhysicalDimensionRef)
+        assert hints_set_first["value"] == typing.Optional[RefType]
+        assert hints_set_first["return"] == PhysicalDimensionMapping
+
+        hints_get_second = typing.get_type_hints(PhysicalDimensionMapping.getSecondPhysicalDimensionRef)
+        assert hints_get_second["return"] == typing.Optional[RefType]
+
+        hints_set_second = typing.get_type_hints(PhysicalDimensionMapping.setSecondPhysicalDimensionRef)
+        assert hints_set_second["value"] == typing.Optional[RefType]
+        assert hints_set_second["return"] == PhysicalDimensionMapping
+
+    def test_get_set_first_physical_dimension_ref(self):
+        """
+        Test getFirstPhysicalDimensionRef and setFirstPhysicalDimensionRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/PhysicalDimensions/Time")
+        result = obj.setFirstPhysicalDimensionRef(value)
+        assert result is obj  # method chaining
+        assert obj.getFirstPhysicalDimensionRef() is value
+        assert obj.getFirstPhysicalDimensionRef().getValue() == "/PhysicalDimensions/Time"
+
+        result = obj.setFirstPhysicalDimensionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getFirstPhysicalDimensionRef() is value  # None is a no-op
+
+    def test_get_set_second_physical_dimension_ref(self):
+        """
+        Test getSecondPhysicalDimensionRef and setSecondPhysicalDimensionRef round-trip and None no-op.
+        """
+        obj = self._create_mapping()
+
+        value = RefType().setValue("/PhysicalDimensions/Duration")
+        result = obj.setSecondPhysicalDimensionRef(value)
+        assert result is obj  # method chaining
+        assert obj.getSecondPhysicalDimensionRef() is value
+        assert obj.getSecondPhysicalDimensionRef().getValue() == "/PhysicalDimensions/Duration"
+
+        result = obj.setSecondPhysicalDimensionRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getSecondPhysicalDimensionRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(PhysicalDimensionMapping.getFirstPhysicalDimensionRef.__doc__) == self.FIRST_PHYSICAL_DIMENSION_NOTE
+        assert inspect.cleandoc(PhysicalDimensionMapping.setFirstPhysicalDimensionRef.__doc__) == (
+            self.FIRST_PHYSICAL_DIMENSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing firstPhysicalDimensionRef."
+        )
+        assert inspect.cleandoc(PhysicalDimensionMapping.getSecondPhysicalDimensionRef.__doc__) == self.SECOND_PHYSICAL_DIMENSION_NOTE
+        assert inspect.cleandoc(PhysicalDimensionMapping.setSecondPhysicalDimensionRef.__doc__) == (
+            self.SECOND_PHYSICAL_DIMENSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing secondPhysicalDimensionRef."
+        )
+
+
+class TestCalibrationParameterValue:
+    """
+    Test class for CalibrationParameterValue functionality.
+
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.138, p.478
+    """
+
+    CLASS_NOTE = (
+        "Specifies instance specific calibration parameter values used to initialize the memory objects implementing calibration parameters in the generated RTE code. "
+        "RTE generator will use the implInitValue to override the initial values specified for the DataPrototypes of a component type. "
+        "The applInitValue is used to exchange init values with the component vendor not publishing the transformation algorithm between ApplicationDataTypes and ImplementationDataTypes or defining an instance specific initialization of components which are only defined with ApplicationDataTypes. "
+        "Note: If both representations of init values are available these need to represent the same content. "
+        "Note further that in this case an explicit mapping of ValueSpecification is not implemented because calibration parameters are delivered back after the calibration phase."
+        "\n\n"
+        "[constr_1933] Existence of CalibrationParameterValue.initializedParameter: For each CalibrationParameterValue, the reference to meta-class ConstantSpecification in the role initializedParameter shall exist at the time when the contract phase generation is executed."
+    )
+    APPL_INIT_VALUE_NOTE = "This is the initial value specification structured according to the ApplicationDataType"
+    IMPL_INIT_VALUE_NOTE = "This is the initial value specification structured according to the ImplementationDataType"
+    INITIALIZED_PARAMETER_NOTE = "This represents the parameter that is initialized by the CalibrationParameterValue."
+
+    def _create_value(self) -> CalibrationParameterValue:
+        return CalibrationParameterValue()
+
+    def test_initialization(self):
+        """
+        Test that a new CalibrationParameterValue initializes all attributes to their defaults.
+        """
+        obj = self._create_value()
+
+        assert obj.getApplInitValue() is None
+        assert obj.getImplInitValue() is None
+        assert obj.getInitializedParameterRef() is None
+        assert obj.getVariationPoint() is None
+
+    def test_is_ar_object_subclass_with_variation_point_capable(self):
+        """
+        Test that CalibrationParameterValue derives from ARObject per the Table 5.138 Base row
+        and from VariationPointCapable (the atpVariation on the owning Set row makes the member
+        class VP-capable; the XSD CALIBRATION-PARAMETER-VALUE group carries VARIATION-POINT).
+        """
+        assert issubclass(CalibrationParameterValue, ARObject)
+        assert issubclass(CalibrationParameterValue, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim plus the class-level constraint.
+        """
+        assert inspect.cleandoc(CalibrationParameterValue.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert CalibrationParameterValue.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 5.138 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in CalibrationParameterValue.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getApplInitValue",
+            "setApplInitValue",
+            "getImplInitValue",
+            "setImplInitValue",
+            "getInitializedParameterRef",
+            "setInitializedParameterRef",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec Optional[T] hints (0..1 rows).
+
+        The ValueSpecification members are pinned via the raw PEP 563 annotation strings:
+        the Constants package imports ARObject back from this module, so a runtime import
+        into ArObject.py would invert the module load order (the DiagnosticParameter.ident
+        precedent for cross-package types in this module).
+        """
+        assert CalibrationParameterValue.getApplInitValue.__annotations__["return"] == "Optional[ValueSpecification]"
+        assert CalibrationParameterValue.setApplInitValue.__annotations__["value"] == "Optional[ValueSpecification]"
+        assert CalibrationParameterValue.setApplInitValue.__annotations__["return"] == "CalibrationParameterValue"
+
+        assert CalibrationParameterValue.getImplInitValue.__annotations__["return"] == "Optional[ValueSpecification]"
+        assert CalibrationParameterValue.setImplInitValue.__annotations__["value"] == "Optional[ValueSpecification]"
+        assert CalibrationParameterValue.setImplInitValue.__annotations__["return"] == "CalibrationParameterValue"
+
+        hints_get_ref = typing.get_type_hints(CalibrationParameterValue.getInitializedParameterRef)
+        assert hints_get_ref["return"] == typing.Optional[RefType]
+
+        hints_set_ref = typing.get_type_hints(CalibrationParameterValue.setInitializedParameterRef)
+        assert hints_set_ref["value"] == typing.Optional[RefType]
+        assert hints_set_ref["return"] == CalibrationParameterValue
+
+    def test_get_set_appl_init_value(self):
+        """
+        Test getApplInitValue and setApplInitValue round-trip and None no-op.
+        """
+        obj = self._create_value()
+
+        value = TextValueSpecification()
+        result = obj.setApplInitValue(value)
+        assert result is obj  # method chaining
+        assert obj.getApplInitValue() is value
+
+        result = obj.setApplInitValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getApplInitValue() is value  # None is a no-op
+
+    def test_get_set_impl_init_value(self):
+        """
+        Test getImplInitValue and setImplInitValue round-trip and None no-op.
+        """
+        obj = self._create_value()
+
+        value = TextValueSpecification()
+        result = obj.setImplInitValue(value)
+        assert result is obj  # method chaining
+        assert obj.getImplInitValue() is value
+
+        result = obj.setImplInitValue(None)
+        assert result is obj  # method chaining with None
+        assert obj.getImplInitValue() is value  # None is a no-op
+
+    def test_get_set_initialized_parameter_ref(self):
+        """
+        Test getInitializedParameterRef and setInitializedParameterRef round-trip and None no-op.
+        """
+        obj = self._create_value()
+
+        value = RefType().setDest("FLAT-INSTANCE-DESCRIPTOR").setValue("/Pkg/FlatInstanceDescriptors/FID")
+        result = obj.setInitializedParameterRef(value)
+        assert result is obj  # method chaining
+        assert obj.getInitializedParameterRef() is value
+        assert obj.getInitializedParameterRef().getValue() == "/Pkg/FlatInstanceDescriptors/FID"
+        assert obj.getInitializedParameterRef().getDest() == "FLAT-INSTANCE-DESCRIPTOR"
+
+        result = obj.setInitializedParameterRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getInitializedParameterRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(CalibrationParameterValue.getApplInitValue.__doc__) == self.APPL_INIT_VALUE_NOTE
+        assert inspect.cleandoc(CalibrationParameterValue.setApplInitValue.__doc__) == (self.APPL_INIT_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing applInitValue.")
+        assert inspect.cleandoc(CalibrationParameterValue.getImplInitValue.__doc__) == self.IMPL_INIT_VALUE_NOTE
+        assert inspect.cleandoc(CalibrationParameterValue.setImplInitValue.__doc__) == (self.IMPL_INIT_VALUE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing implInitValue.")
+        assert inspect.cleandoc(CalibrationParameterValue.getInitializedParameterRef.__doc__) == self.INITIALIZED_PARAMETER_NOTE
+        assert inspect.cleandoc(CalibrationParameterValue.setInitializedParameterRef.__doc__) == (
+            self.INITIALIZED_PARAMETER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing initializedParameterRef."
         )

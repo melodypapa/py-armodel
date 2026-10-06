@@ -209,6 +209,86 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         return self
 
 
+class ArParameterInImplementationDataInstanceRef(ARObject):
+    """
+    This class represents the ability to navigate into an element inside of an ParameterDataPrototype typed by an ImplementationDatatype. Note that it shall not be used if the target is the ParameterDataPrototype itself (e.g. if the target is a primitive data type). Note that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn't either, especially because ImplementationDataTypeElement (intentionally) isn't derived from AtpPrototype.
+    """
+
+    # ArParameterInImplementationDataInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.38, p.324
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContextDataPrototypeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPortPrototypeRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootParameterDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootParameterDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Serialized nested inside ImplementationDataTypeSubElementRef
+    # (PARAMETER-IMPLEMENTATION-DATA-TYPE-ELEMENT, AUTOSAR_00052.xsd l.71876) via the
+    # reusable readArParameterInImplementationDataInstanceRef /
+    # writeArParameterInImplementationDataInstanceRef helpers; the parent's own
+    # dispatch is pending its sync (Group1.md:954-955).
+
+    def __init__(self):
+        super().__init__()
+
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure.
+        self.contextDataPrototypeRefs: List[RefType] = []
+
+        # This reference points to the PortPrototype providing/receiving the root of the parameter.
+        self.portPrototypeRef: Optional[RefType] = None
+
+        # This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found.
+        self.rootParameterDataPrototypeRef: Optional[RefType] = None
+
+        # This reference points to the target ImplementationDataTypeElement.
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextDataPrototypeRefs.append(value)
+        return self
+
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."""
+        return self.contextDataPrototypeRefs
+
+    def getPortPrototypeRef(self) -> Optional[RefType]:
+        """This reference points to the PortPrototype providing/receiving the root of the parameter."""
+        return self.portPrototypeRef
+
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This reference points to the PortPrototype providing/receiving the root of the parameter. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
+        if value is not None:
+            self.portPrototypeRef = value
+        return self
+
+    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
+        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found."""
+        return self.rootParameterDataPrototypeRef
+
+    def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This refers to the ParameterDataPrototype typed by the implementationDataType in which the target can be found. A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef."""
+        if value is not None:
+            self.rootParameterDataPrototypeRef = value
+        return self
+
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
+        """This reference points to the target ImplementationDataTypeElement."""
+        return self.targetDataPrototypeRef
+
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> ArParameterInImplementationDataInstanceRef:
+        """This reference points to the target ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
+        if value is not None:
+            self.targetDataPrototypeRef = value
+        return self
+
+
 class AutosarParameterRef(ARObject):
     """
     This class represents a reference to a parameter within AUTOSAR which can be one of the following use cases: localParameter: • localParameter which is used as whole (e.g. sharedAxis for curve) autosarVariable: • a parameter provided via PortPrototype which is used as whole (e.g. parameterAccess) • an element inside of a composite local parameter typed by ApplicationDatatype (e.g. sharedAxis for a curve) • an element inside of a composite parameter provided via Port and typed by ApplicationDatatype (e.g. sharedAxis for a curve) autosarParameterInImplDatatype: • an element inside of a composite local parameter typed by ImplementationDatatype • an element inside of a composite parameter provided via PortPrototype and typed by ImplementationDatatype
@@ -312,3 +392,16 @@ class AutosarVariableRef(ARObject):
         if value is not None:
             self.localVariableRef = value
         return self
+
+
+# Cycle-breaker: SwCalprmRefProxy/SwVariableRefProxy (MSR::DataDictionary::DatadictionaryProxies)
+# annotate their arParameter/autosarVariable members with these classes, but the package cycle
+# (DataElements -> DataDefProperties -> DatadictionaryProxies) forbids both a top-level import
+# there and a bottom-of-module import back into this package (the SwcInternalBehavior __init__
+# chain re-enters a partially initialized CommonStructure). The names are therefore published
+# into that module's globals here — after both classes are fully defined — so its PEP 563
+# annotations stay runtime-resolvable for the get_type_hints pins on Python 3.8 (bpo-39291).
+import armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies as _datadictionary_proxies  # noqa: E402
+
+setattr(_datadictionary_proxies, "AutosarParameterRef", AutosarParameterRef)
+setattr(_datadictionary_proxies, "AutosarVariableRef", AutosarVariableRef)

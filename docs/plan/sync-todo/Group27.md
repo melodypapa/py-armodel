@@ -14,11 +14,11 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 - [ ] `EcucConditionSpecification` — ARObject — R23-11 CP_TPS_ECUConfiguration Table 2.42, p.100
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - [x] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-04 (309 passed model+annotations+ECUC-handler suites + new round-trip file; ruff/black/mypy clean); 9b deferred to batch confirmation (user instruction); sync commit `901e5bb4c`
@@ -795,15 +795,15 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PPortComSpec` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.58, p.166
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — synced unstamped on main at commit `fd913bfe4` (2026-10-05, 6-col checklist, zero attrs per T4.58; verified by merge battery 19,113/0); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RPortComSpec` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.59, p.167
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
@@ -843,159 +843,159 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `NonqueuedReceiverComSpec` — ReceiverComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.62, p.173
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py BLOCK/ROWS/BASE/STAMP clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `417955860`
 
 - [ ] `HandleTimeoutEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.65, p.174
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py BLOCK/ROWS/BASE/STAMP clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `cd413d668`
 
 - [ ] `TimeValue` — ARLiteral — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.66, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (full battery 19,170/0; audit BLOCK/ROWS/SPECLINE clean, BASE false-positive rationale recorded); 9b deferred to batch confirmation (user instruction); sync commit `e079162eb`
 
 - [ ] `SenderComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.67, p.179
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py BLOCK/ROWS/BASE/STAMP clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `a598c3519`
 
 - [ ] `NonqueuedSenderComSpec` — SenderComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.69, p.179
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py BLOCK/ROWS/BASE/STAMP clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `f6f67d00a`
 
 - [ ] `TransmissionComSpecProps` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.70, p.180
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `3c8b18ca2`
 
 - [ ] `TransmissionAcknowledgementRequest` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.71, p.180
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `1dbcef992`
 
 - [ ] `HandleOutOfRangeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.72, p.180; also CP_TPS_SystemTemplate Table 6.11, p.323
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `fd8d9ec9f`
 
 - [ ] `TransmissionModeDefinitionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.73, p.181
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `f13828d9d`
 
 - [ ] `ClientComSpec` — RPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.77, p.187
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `1a86c955e`
 
 - [ ] `ServerComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.78, p.188
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `c0dcb9aff`
 
 - [ ] `ParameterProvideComSpec` — PPortComSpec — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.82, p.192
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `e41ac253a`
 
 - [ ] `TransformationComSpecProps` — Describable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.86, p.197
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — Rule-0023 re-sync completed 2026-10-05 (9a: audit_class.py clean, touched suites + black/ruff clean); 9b deferred to batch confirmation (user instruction); sync commit `720b97ba6`
 
 - [ ] `TransformationTechnology` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 4.87, p.199; also CP_TPS_SystemTemplate Table 7.3, p.764
   - module: M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py

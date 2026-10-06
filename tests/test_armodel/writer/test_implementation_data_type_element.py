@@ -146,8 +146,8 @@ class TestWriteImplementationDataTypeElement:
         element = data_type.createImplementationDataTypeElement("Elem")
         element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-POINTER-TO-ARRAY"))
         element.setArraySize(PositiveInteger().setValue("4"))
-        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue("ALL-INDICES-SAME-ARRAY-SIZE"))
-        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("FIXED-SIZE"))
+        element.setArraySizeHandling(ArraySizeHandlingEnum().setValue("allIndicesSameArraySize"))
+        element.setArraySizeSemantics(ArraySizeSemanticsEnum().setValue("fixedSize"))
         element.setIsOptional(Boolean().setValue(True))
         sub_element = element.createImplementationDataTypeElement("Sub")
         sub_element.setArrayImplPolicy(ArrayImplPolicyEnum().setValue("PAYLOAD-AS-ARRAY"))
@@ -163,9 +163,9 @@ class TestWriteImplementationDataTypeElement:
         assert element.getArraySize() is not None
         assert element.getArraySize().getValue() == 4
         assert element.getArraySizeHandling() is not None
-        assert element.getArraySizeHandling().getValue() == "ALL-INDICES-SAME-ARRAY-SIZE"
+        assert element.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
         assert element.getArraySizeSemantics() is not None
-        assert element.getArraySizeSemantics().getValue() == "FIXED-SIZE"
+        assert element.getArraySizeSemantics().getValue() == "fixedSize"
         assert element.getIsOptional() is not None
         assert element.getIsOptional().getValue() is True
         sub_element = element.getSubElements()[0]
