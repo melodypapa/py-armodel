@@ -3,18 +3,23 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     DiagnosticParameterIdent,
     ExternalTriggeringPointIdent,
     IdentCaption,
     ModeAccessPointIdent,
     RptExecutableEntityProperties,
+    RptHook,
     RptImplPolicy,
     RptServicePointEnum,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
 class TestIdentCaption:
@@ -246,3 +251,122 @@ class TestDiagnosticParameterIdent:
         factory_hints = typing.get_type_hints(DiagnosticParameterIdent.createSubElement)
         assert factory_hints.get("short_name") is str
         assert factory_hints.get("return") is DiagnosticParameterElement
+
+
+class TestRptHook:
+    """Test class for RptHook class (Table 14.3, p.848)."""
+
+    SPEC_NOTE = (
+        "This meta-class provide the ability to describe a rapid prototyping hook. This can either be described by an other AUTOSAR system with the category RPT_SYSTEM or as a non AUTOSAR software."
+    )
+
+    def test_rpt_hook_concrete(self):
+        """RptHook is concrete (Table 14.3 header) — instantiable without parent/short_name (Base = ARObject)."""
+        hook = RptHook()
+
+        assert isinstance(hook, RptHook)
+
+    def test_rpt_hook_heritage(self):
+        """Most-derived base is ARObject (Table 14.3 Base); VP capability via the VariationPointCapable mixin (Rule 0020)."""
+        hook = RptHook()
+
+        assert type(hook).__bases__ == (ARObject, VariationPointCapable)
+        for ancestor in (ARObject, VariationPointCapable):
+            assert isinstance(hook, ancestor)
+
+    def test_rpt_hook_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.3)."""
+        assert RptHook.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptHook initialization defaults (all Table 14.3 attributes unset)."""
+        hook = RptHook()
+
+        assert hook is not None
+        assert hook.getCodeLabel() is None
+        assert hook.getMcdIdentifier() is None
+        assert hook.getRptArHookIRef() is None
+        assert hook.getSdgs() == []
+
+    def test_get_set_code_label(self):
+        """Test codeLabel setter and getter (CIdentifier, 0..1)."""
+        hook = RptHook()
+        test_value = CIdentifier().setValue("RptHookFunc")
+        result = hook.setCodeLabel(test_value)
+
+        assert result is hook
+        assert hook.getCodeLabel() == test_value
+
+        hook.setCodeLabel(None)
+        assert hook.getCodeLabel() == test_value
+
+    def test_get_set_mcd_identifier(self):
+        """Test mcdIdentifier setter and getter (NameToken, 0..1)."""
+        hook = RptHook()
+        test_value = NameToken().setValue("McdHook")
+        result = hook.setMcdIdentifier(test_value)
+
+        assert result is hook
+        assert hook.getMcdIdentifier() == test_value
+
+        hook.setMcdIdentifier(None)
+        assert hook.getMcdIdentifier() == test_value
+
+    def test_get_set_rpt_ar_hook_iref(self):
+        """Test rptArHook iref setter and getter (AnyInstanceRef, 0..1, Rule 0001.5 IRef suffix)."""
+        hook = RptHook()
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/RptAlgorithm"))
+        result = hook.setRptArHookIRef(iref)
+
+        assert result is hook
+        assert hook.getRptArHookIRef() == iref
+
+        hook.setRptArHookIRef(None)
+        assert hook.getRptArHookIRef() == iref
+
+    def test_add_get_sdgs(self):
+        """Test sdg aggregation (Sdg, *, Base = ARObject → add, not create)."""
+        hook = RptHook()
+        sdg = Sdg()
+        sdg.setGID(NameToken().setValue("toolData"))
+        result = hook.addSdg(sdg)
+
+        assert result is hook
+        assert hook.getSdgs() == [sdg]
+
+        hook.addSdg(None)
+        assert hook.getSdgs() == [sdg]
+
+        second = Sdg()
+        hook.addSdg(second)
+        assert hook.getSdgs() == [sdg, second]
+
+    def test_get_set_variation_point(self):
+        """VP capability inherited from VariationPointCapable (Rule 0020)."""
+        hook = RptHook()
+        vp = VariationPoint()
+
+        assert hook == hook.setVariationPoint(vp)
+        assert hook.getVariationPoint() == vp
+
+        assert hook == hook.setVariationPoint(None)
+        assert hook.getVariationPoint() == vp
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptHook.getCodeLabel).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptHook.setCodeLabel).get("value") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptHook.setCodeLabel).get("return") is RptHook
+
+        assert typing.get_type_hints(RptHook.getMcdIdentifier).get("return") == typing.Optional[NameToken]
+        assert typing.get_type_hints(RptHook.setMcdIdentifier).get("value") == typing.Optional[NameToken]
+
+        assert typing.get_type_hints(RptHook.getRptArHookIRef).get("return") == typing.Optional[AnyInstanceRef]
+        assert typing.get_type_hints(RptHook.setRptArHookIRef).get("value") == typing.Optional[AnyInstanceRef]
+
+        assert typing.get_type_hints(RptHook.getSdgs).get("return") == typing.List[Sdg]
+        assert typing.get_type_hints(RptHook.addSdg).get("sdg") == typing.Optional[Sdg]
+        assert typing.get_type_hints(RptHook.addSdg).get("return") is RptHook

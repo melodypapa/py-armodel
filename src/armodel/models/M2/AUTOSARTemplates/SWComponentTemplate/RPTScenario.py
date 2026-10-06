@@ -5,9 +5,12 @@ and access point identification elements in software component templates.
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, NameToken, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from abc import ABC
 from typing import List, Optional, cast
 
@@ -223,6 +226,108 @@ class RptExecutableEntityProperties(ARObject):
         if value is not None:
             self.rptServicePoint = value
         return self
+
+
+class RptHook(ARObject, VariationPointCapable):
+    """
+    This meta-class provide the ability to describe a rapid prototyping hook. This can either be described by an other AUTOSAR system with the category RPT_SYSTEM or as a non AUTOSAR software.
+    """
+
+    # RptHook method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.3, p.848
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCodeLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCodeLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcdIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcdIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptArHookIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptArHookIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSdg              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # reader/writer: dedicated helpers readRptHook/writeRptHook (readARObject/writeARObject
+    # once each, Rule 0025; element <RPT-HOOK>, group RPT-HOOK XSD AUTOSAR_00052.xsd
+    # l.100040, sequenceOffset order CODE-LABEL, MCD-IDENTIFIER, RPT-AR-HOOK-IREF, SDGS,
+    # VARIATION-POINT). Aggregated by RptContainer.rptHook (RPT-HOOKS wrapper) — the
+    # RptContainer dispatch is that class's own queued sync.
+    # get/setVariationPoint provided by the VariationPointCapable base (mixin) — no spec
+    # rows (Rule 0020: RptContainer.rptHook atpVariation; XSD VARIATION-POINT
+    # xml.sequenceOffset 10000)
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        self.codeLabel: Optional[CIdentifier] = None
+
+        # This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        self.mcdIdentifier: Optional[NameToken] = None
+
+        # This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        self.rptArHookIRef: Optional[AnyInstanceRef] = None
+
+        # This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        self.sdgs: List[Sdg] = []
+
+    def getCodeLabel(self) -> Optional[CIdentifier]:
+        """
+        This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        """
+        return self.codeLabel
+
+    def setCodeLabel(self, value: Optional[CIdentifier]) -> "RptHook":
+        """
+        This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        A None value is a no-op and does not overwrite an existing codeLabel.
+        """
+        if value is not None:
+            self.codeLabel = value
+        return self
+
+    def getMcdIdentifier(self) -> Optional[NameToken]:
+        """
+        This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        """
+        return self.mcdIdentifier
+
+    def setMcdIdentifier(self, value: Optional[NameToken]) -> "RptHook":
+        """
+        This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        A None value is a no-op and does not overwrite an existing mcdIdentifier.
+        """
+        if value is not None:
+            self.mcdIdentifier = value
+        return self
+
+    def getRptArHookIRef(self) -> Optional[AnyInstanceRef]:
+        """
+        This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        """
+        return self.rptArHookIRef
+
+    def setRptArHookIRef(self, value: Optional[AnyInstanceRef]) -> "RptHook":
+        """
+        This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        A None value is a no-op and does not overwrite an existing rptArHookIRef.
+        """
+        if value is not None:
+            self.rptArHookIRef = value
+        return self
+
+    def addSdg(self, sdg: Optional[Sdg]) -> "RptHook":
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        A None value is a no-op and is not appended.
+        """
+        if sdg is not None:
+            self.sdgs.append(sdg)
+        return self
+
+    def getSdgs(self) -> List[Sdg]:
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        """
+        return self.sdgs
 
 
 class ExternalTriggeringPointIdent(IdentCaption):

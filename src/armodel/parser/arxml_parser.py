@@ -1016,7 +1016,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
+    ModeAccessPointIdent,
+    RptExecutableEntityProperties,
+    RptHook,
+    RptImplPolicy,
+    RptServicePointEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -5965,6 +5972,17 @@ class ARXMLParser(AbstractARXMLParser):
         properties.setMinRptEventId(self.getChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID"))
         properties.setRptExecutionControl(cast(Optional[RptExecutionControlEnum], self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")))
         properties.setRptServicePoint(cast(Optional[RptServicePointEnum], self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT")))
+
+    def readRptHook(self, element: ET.Element, hook: RptHook):
+        self.readARObject(element, hook)
+        hook.setCodeLabel(self.getChildElementOptionalCIdentifier(element, "CODE-LABEL"))
+        hook.setMcdIdentifier(self.getChildElementOptionalNameToken(element, "MCD-IDENTIFIER"))
+        hook.setRptArHookIRef(self.getAnyInstanceRef(element, "RPT-AR-HOOK-IREF"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child_element in self.findall(sdgs_element, "SDG"):
+                hook.addSdg(self.getSdg(child_element))
+        self.readVariationPointCapable(element, hook)
 
     def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID"))

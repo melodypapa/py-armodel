@@ -837,7 +837,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptHook, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -7571,6 +7571,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID", properties.getMinRptEventId())
             self.setChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL", properties.getRptExecutionControl())
             self.setChildElementOptionalLiteral(element, "RPT-SERVICE-POINT", properties.getRptServicePoint())
+
+    def writeRptHook(self, element: ET.Element, hook: Optional[RptHook]):
+        if hook is not None:
+            child_element = ET.SubElement(element, "RPT-HOOK")
+            self.writeARObject(child_element, hook)
+            self.setChildElementOptionalCIdentifier(child_element, "CODE-LABEL", hook.getCodeLabel())
+            self.setChildElementOptionalNameToken(child_element, "MCD-IDENTIFIER", hook.getMcdIdentifier())
+            self.setAnyInstanceRef(child_element, "RPT-AR-HOOK-IREF", hook.getRptArHookIRef())
+            sdgs = hook.getSdgs()
+            if len(sdgs) > 0:
+                sdgs_element = ET.SubElement(child_element, "SDGS")
+                for sdg in sdgs:
+                    self.setSdg(sdgs_element, sdg)
+            self.writeVariationPointCapable(child_element, hook)
 
     def writeRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
         self.writeIdentifiable(element, service_point)

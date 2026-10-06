@@ -589,16 +589,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `RptHook` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.3, p.848
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 14.3, p.848; concrete Class (not abstract, no TypeError guard); Base most-derived = `ARObject` (`__init__(self)`, no parent/short_name). PLACEMENT ARBITRATION (Rule 0007 + TtcanCommunicationController precedent 20da1fc7f): spec Package tail = `RPTScenario` → RELOCATED from the `GeneralTemplateClasses/ArObject.py` stub to `SWComponentTemplate/RPTScenario.py` (existing module of the RPT family: RptImplPolicy, RptExecutableEntityProperties); stub removed from ArObject.py, STUBS entry removed from test_group21_36_stub_classes.py, `armodel.RptHook` re-resolves at top level via the existing RPTScenario export chain. VP-capable per Rule 0020: RptContainer.rptHook aggr row (Table 14.2) carries `Stereotypes: atpVariation` and XSD group RPT-HOOK (AUTOSAR_00052.xsd l.100040) declares VARIATION-POINT directly ("Applicable for: RptContainer.rptHook", sequenceOffset 10000 = last) → inherits `VariationPointCapable`. Attributes (displayed order): codeLabel (CIdentifier, 0..1, attr), mcdIdentifier (NameToken, 0..1, attr), rptArHook (iref 0..1, `InstanceRef implemented by: AnyInstanceRef` → `IRef` suffix per FlatMap precedent), sdg (Sdg, *, aggr → `List[Sdg]` + add/getSdgs; Sdg Base = ARObject → add, not create). XSD sequenceOffset XML order: CODE-LABEL, MCD-IDENTIFIER, RPT-AR-HOOK-IREF, SDGS wrapper (unbounded SDG), VARIATION-POINT last; no `atp.Status="removed"` members; no Tags:/Stereotypes: tails in any Note. All member types exist and are stamped (Rule 0001.10 clean). No synced consumer yet — RptContainer (aggregator) and RapidPrototypingScenario are separate queued stubs, so `readRptHook`/`writeRptHook` land as standalone reusable helpers; the RPT-HOOKS wrapper dispatch belongs to the RptContainer sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): No deviations — all four Table 14.3 attributes modeled (field + typed accessor pair + reader/writer coverage each); XSD group RPT-HOOK holds no attribute beyond the PDF table (Rule 0015: nothing to drop) and no `atp.Status="removed"` members; no Tags:/Stereotypes: tails in any Table 14.3 Note (nothing to keep/drop per 0012.2.5.3); no Rule 0001.10 placeholders — CIdentifier, NameToken, AnyInstanceRef, Sdg all exist and are stamped. Observations: (1) placement relocated ArObject.py → SWComponentTemplate/RPTScenario.py per Rule 0007 + TtcanCommunicationController precedent 20da1fc7f (stub + STUBS entry removed; `armodel.RptHook` re-resolves via the existing RPTScenario wildcard export, models/__init__.py l.66); (2) `rptArHook` (Kind=iref, PDF Type AtpFeature, Note "InstanceRef implemented by: AnyInstanceRef") modeled `Optional[AnyInstanceRef]` with the IRef suffix — Rule 0001.5, FlatMap `ecuExtractReferenceIRef` precedent, not a deviation; (3) VP capability per Rule 0020 via the VariationPointCapable mixin (no own variationPoint rows; XSD VARIATION-POINT sequenceOffset 10000 = last element); (4) `readRptHook`/`writeRptHook` are standalone reusable helpers — aggregator RptContainer (RPT-HOOKS wrapper) and RapidPrototypingScenario are separate queued stubs, so no consumer dispatch exists yet (Rule 0001.7 aggregator-sequenced-after-child; the dispatch wires up in the RptContainer sync); (5) pre-existing, outside this row: stamped ARObject-level RPT siblings (RptImplPolicy, RptExecutableEntityProperties, RptSwPrototypingAccess) currently FAIL audit BASE (no readARObject/writeARObject call) — flagged for batch 9b; (6) `# Spec verified: R23-11` marker deferred to batch 9b stamp (user instruction) — audit STAMP INFO expected pre-9b.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (2583 + 8727 passed / 0 failed: models SWComponentTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `RptProfile` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.7, p.854
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

@@ -2258,10 +2258,6 @@ class RoleBasedResourceDependency(ARObject):
         return self
 
 
-class RptHook(ARObject):
-    pass
-
-
 class RptProfile(ARObject):
     pass
 
