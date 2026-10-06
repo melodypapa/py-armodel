@@ -14,7 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
-    SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -24,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementSwitchDetails,
     CouplingPort,
     SwitchStreamFilterActionDestPortModification,
+    SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
 )
@@ -374,6 +374,110 @@ class TestReadCouplingElementSwitchDetails:
         assert details.getStreamGates() == []
         assert details.getSwitchStreamIdentifications() == []
         assert details.getTrafficShaperGroups() == []
+
+
+class TestReadSwitchStreamFilterEntry:
+    """Test readSwitchStreamFilterEntry (SwitchStreamFilterEntry, Table 3.95, p.142):
+    the seven XSD group children of SWITCH-STREAM-FILTER-ENTRY after the identifiable levels —
+    ASYNCHRONOUS-TRAFFIC-SHAPER-REF, FILTER-PRIORITY, FLOW-METERING-REF, MAX-SDU-SIZE,
+    STREAM-GATE-REF, STREAM-IDENTIFICATION-HANDLE-REFS, STREAM-IDENTIFICATION-WILDCARD
+    (XSD group SWITCH-STREAM-FILTER-ENTRY). The reader dispatch of
+    readCouplingElementSwitchDetails for the SWITCH-STREAM-FILTER-ENTRY item calls this level."""
+
+    def test_read_all_members(self, parser):
+        """Every XSD group child populates its model field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <STREAM-FILTERS>
+                            <SWITCH-STREAM-FILTER-ENTRY>
+                                <SHORT-NAME>Filter1</SHORT-NAME>
+                                <ASYNCHRONOUS-TRAFFIC-SHAPER-REF DEST="COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER">/Pkg/Switch/Ats1</ASYNCHRONOUS-TRAFFIC-SHAPER-REF>
+                                <FILTER-PRIORITY>3</FILTER-PRIORITY>
+                                <FLOW-METERING-REF DEST="SWITCH-FLOW-METERING-ENTRY">/Pkg/Switch/Metering1</FLOW-METERING-REF>
+                                <MAX-SDU-SIZE>1522</MAX-SDU-SIZE>
+                                <STREAM-GATE-REF DEST="SWITCH-STREAM-GATE-ENTRY">/Pkg/Switch/Gate1</STREAM-GATE-REF>
+                                <STREAM-IDENTIFICATION-HANDLE-REFS>
+                                    <STREAM-IDENTIFICATION-HANDLE-REF DEST="SWITCH-STREAM-IDENTIFICATION">/Pkg/Switch/Stream1</STREAM-IDENTIFICATION-HANDLE-REF>
+                                    <STREAM-IDENTIFICATION-HANDLE-REF DEST="SWITCH-STREAM-IDENTIFICATION">/Pkg/Switch/Stream2</STREAM-IDENTIFICATION-HANDLE-REF>
+                                </STREAM-IDENTIFICATION-HANDLE-REFS>
+                                <STREAM-IDENTIFICATION-WILDCARD>true</STREAM-IDENTIFICATION-WILDCARD>
+                            </SWITCH-STREAM-FILTER-ENTRY>
+                        </STREAM-FILTERS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        stream_filters = coupling_element.getCouplingElementDetails().getStreamFilters()
+        assert len(stream_filters) == 1
+        stream_filter = stream_filters[0]
+        assert isinstance(stream_filter, SwitchStreamFilterEntry)
+        assert stream_filter.getShortName() == "Filter1"
+
+        ats_ref = stream_filter.getAsynchronousTrafficShaperRef()
+        assert ats_ref.getValue() == "/Pkg/Switch/Ats1"
+        assert ats_ref.getDest() == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"
+
+        assert stream_filter.getFilterPriority() is not None
+        assert stream_filter.getFilterPriority().getValue() == 3
+
+        flow_metering_ref = stream_filter.getFlowMeteringRef()
+        assert flow_metering_ref.getValue() == "/Pkg/Switch/Metering1"
+        assert flow_metering_ref.getDest() == "SWITCH-FLOW-METERING-ENTRY"
+
+        assert stream_filter.getMaxSduSize() is not None
+        assert stream_filter.getMaxSduSize().getValue() == 1522
+
+        stream_gate_ref = stream_filter.getStreamGateRef()
+        assert stream_gate_ref.getValue() == "/Pkg/Switch/Gate1"
+        assert stream_gate_ref.getDest() == "SWITCH-STREAM-GATE-ENTRY"
+
+        handle_refs = stream_filter.getStreamIdentificationHandleRefs()
+        assert len(handle_refs) == 2
+        assert handle_refs[0].getValue() == "/Pkg/Switch/Stream1"
+        assert handle_refs[0].getDest() == "SWITCH-STREAM-IDENTIFICATION"
+        assert handle_refs[1].getValue() == "/Pkg/Switch/Stream2"
+
+        assert stream_filter.getStreamIdentificationWildcard() is not None
+        assert stream_filter.getStreamIdentificationWildcard().getValue() is True
+
+    def test_read_absent_optional_members(self, parser):
+        """A bare SWITCH-STREAM-FILTER-ENTRY item leaves all fields unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <STREAM-FILTERS>
+                            <SWITCH-STREAM-FILTER-ENTRY>
+                                <SHORT-NAME>Filter1</SHORT-NAME>
+                            </SWITCH-STREAM-FILTER-ENTRY>
+                        </STREAM-FILTERS>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        stream_filter = coupling_element.getCouplingElementDetails().getStreamFilters()[0]
+        assert stream_filter.getShortName() == "Filter1"
+        assert stream_filter.getAsynchronousTrafficShaperRef() is None
+        assert stream_filter.getFilterPriority() is None
+        assert stream_filter.getFlowMeteringRef() is None
+        assert stream_filter.getMaxSduSize() is None
+        assert stream_filter.getStreamGateRef() is None
+        assert stream_filter.getStreamIdentificationHandleRefs() == []
+        assert stream_filter.getStreamIdentificationWildcard() is None
 
 
 class TestReadSwitchStreamIdentification:

@@ -15,12 +15,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
-    SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElementAbstractDetails,
     CouplingElementSwitchDetails,
+    SwitchStreamFilterEntry,
     SwitchStreamIdentification,
 )
 

@@ -984,6 +984,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
     SwitchStreamFilterActionDestPortModification,
+    SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
     VlanMembership,
@@ -12041,6 +12042,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(egress_port_refs_element, "EGRESS-PORT-REF", ref)
             self.setChildElementOptionalLiteral(element, "MODIFICATION", modification.getModification())
 
+    def writeSwitchStreamFilterEntry(self, element: ET.Element, stream_filter: Optional[SwitchStreamFilterEntry]):
+        if stream_filter is not None:
+            self.writeIdentifiable(element, stream_filter)
+            self.setChildElementOptionalRefType(element, "ASYNCHRONOUS-TRAFFIC-SHAPER-REF", stream_filter.getAsynchronousTrafficShaperRef())
+            self.setChildElementOptionalPositiveInteger(element, "FILTER-PRIORITY", stream_filter.getFilterPriority())
+            self.setChildElementOptionalRefType(element, "FLOW-METERING-REF", stream_filter.getFlowMeteringRef())
+            self.setChildElementOptionalPositiveInteger(element, "MAX-SDU-SIZE", stream_filter.getMaxSduSize())
+            self.setChildElementOptionalRefType(element, "STREAM-GATE-REF", stream_filter.getStreamGateRef())
+            stream_identification_handle_refs = stream_filter.getStreamIdentificationHandleRefs()
+            if len(stream_identification_handle_refs) > 0:
+                stream_identification_handle_refs_element = ET.SubElement(element, "STREAM-IDENTIFICATION-HANDLE-REFS")
+                for ref in stream_identification_handle_refs:
+                    self.setChildElementOptionalRefType(stream_identification_handle_refs_element, "STREAM-IDENTIFICATION-HANDLE-REF", ref)
+            self.setChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD", stream_filter.getStreamIdentificationWildcard())
+
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:
             self.writeARObject(element, mac_address)
@@ -12146,7 +12162,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             stream_filters_element = ET.SubElement(element, "STREAM-FILTERS")
             for stream_filter in stream_filters:
                 stream_filter_element = ET.SubElement(stream_filters_element, "SWITCH-STREAM-FILTER-ENTRY")
-                self.writeIdentifiable(stream_filter_element, stream_filter)
+                self.writeSwitchStreamFilterEntry(stream_filter_element, stream_filter)
         stream_gates = details.getStreamGates()
         if len(stream_gates) > 0:
             stream_gates_element = ET.SubElement(element, "STREAM-GATES")

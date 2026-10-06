@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchFlowMeteringEntry,
-    SwitchStreamFilterEntry,
     SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -776,6 +775,167 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
         """
         if value is not None:
             self.modification = value
+        return self
+
+
+class SwitchStreamFilterEntry(Identifiable):
+    """
+    Defines a Stream Filter Entry. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.95, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addStreamIdentificationHandleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAsynchronousTrafficShaperRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAsynchronousTrafficShaperRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowMeteringRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowMeteringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSduSize                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSduSize                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamGateRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamGateRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamIdentificationHandleRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getStreamIdentificationWildcard   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamIdentificationWildcard   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+        self.asynchronousTrafficShaperRef: Optional[RefType] = None
+
+        # Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+        self.filterPriority: Optional[PositiveInteger] = None
+
+        # Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+        self.flowMeteringRef: Optional[RefType] = None
+
+        # Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+        self.maxSduSize: Optional[PositiveInteger] = None
+
+        # Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+        self.streamGateRef: Optional[RefType] = None
+
+        # Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+        self.streamIdentificationHandleRefs: List[RefType] = []
+
+        # Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.streamIdentificationWildcard: Optional[Boolean] = None
+
+    def addStreamIdentificationHandleRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a streamIdentificationHandleRef.
+        """
+        if value is not None:
+            self.streamIdentificationHandleRefs.append(value)
+        return self
+
+    def getAsynchronousTrafficShaperRef(self) -> Optional[RefType]:
+        """
+        Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+        """
+        return self.asynchronousTrafficShaperRef
+
+    def setAsynchronousTrafficShaperRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing asynchronousTrafficShaperRef.
+        """
+        if value is not None:
+            self.asynchronousTrafficShaperRef = value
+        return self
+
+    def getFilterPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+        """
+        return self.filterPriority
+
+    def setFilterPriority(self, value: Optional[PositiveInteger]) -> SwitchStreamFilterEntry:
+        """
+        Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterPriority.
+        """
+        if value is not None:
+            self.filterPriority = value
+        return self
+
+    def getFlowMeteringRef(self) -> Optional[RefType]:
+        """
+        Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+        """
+        return self.flowMeteringRef
+
+    def setFlowMeteringRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing flowMeteringRef.
+        """
+        if value is not None:
+            self.flowMeteringRef = value
+        return self
+
+    def getMaxSduSize(self) -> Optional[PositiveInteger]:
+        """
+        Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+        """
+        return self.maxSduSize
+
+    def setMaxSduSize(self, value: Optional[PositiveInteger]) -> SwitchStreamFilterEntry:
+        """
+        Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxSduSize.
+        """
+        if value is not None:
+            self.maxSduSize = value
+        return self
+
+    def getStreamGateRef(self) -> Optional[RefType]:
+        """
+        Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+        """
+        return self.streamGateRef
+
+    def setStreamGateRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamGateRef.
+        """
+        if value is not None:
+            self.streamGateRef = value
+        return self
+
+    def getStreamIdentificationHandleRefs(self) -> List[RefType]:
+        """
+        Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+        """
+        return self.streamIdentificationHandleRefs
+
+    def getStreamIdentificationWildcard(self) -> Optional[Boolean]:
+        """
+        Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.streamIdentificationWildcard
+
+    def setStreamIdentificationWildcard(self, value: Optional[Boolean]) -> SwitchStreamFilterEntry:
+        """
+        Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamIdentificationWildcard.
+        """
+        if value is not None:
+            self.streamIdentificationWildcard = value
         return self
 
 

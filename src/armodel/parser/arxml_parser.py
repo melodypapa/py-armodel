@@ -1181,6 +1181,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     StreamFilterRuleIpTp,
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterActionPortModificationEnum,
+    SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
@@ -11185,6 +11186,17 @@ class ARXMLParser(AbstractARXMLParser):
             value.setValue(modification_literal.getValue())
             modification.setModification(value)
 
+    def readSwitchStreamFilterEntry(self, element: ET.Element, stream_filter: SwitchStreamFilterEntry):
+        self.readIdentifiable(element, stream_filter)
+        stream_filter.setAsynchronousTrafficShaperRef(self.getChildElementOptionalRefType(element, "ASYNCHRONOUS-TRAFFIC-SHAPER-REF"))
+        stream_filter.setFilterPriority(self.getChildElementOptionalPositiveInteger(element, "FILTER-PRIORITY"))
+        stream_filter.setFlowMeteringRef(self.getChildElementOptionalRefType(element, "FLOW-METERING-REF"))
+        stream_filter.setMaxSduSize(self.getChildElementOptionalPositiveInteger(element, "MAX-SDU-SIZE"))
+        stream_filter.setStreamGateRef(self.getChildElementOptionalRefType(element, "STREAM-GATE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "STREAM-IDENTIFICATION-HANDLE-REFS/STREAM-IDENTIFICATION-HANDLE-REF"):
+            stream_filter.addStreamIdentificationHandleRef(ref)
+        stream_filter.setStreamIdentificationWildcard(self.getChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD"))
+
     def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
         self.readARObject(element, mac_address)
         child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS")
@@ -11315,7 +11327,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWITCH-STREAM-FILTER-ENTRY":
                 stream_filter = details.createStreamFilter(self.getShortName(child_element))
-                self.readIdentifiable(child_element, stream_filter)
+                self.readSwitchStreamFilterEntry(child_element, stream_filter)
             else:
                 self.notImplemented("Unsupported SwitchStreamFilterEntry <%s>" % tag_name)
         for child_element in self.findall(element, "STREAM-GATES/*"):

@@ -359,6 +359,132 @@ class TestCouplingElementSwitchDetailsRoundTrip:
         assert reloaded_details.getTrafficShaperGroups() == []
 
 
+class TestSwitchStreamFilterEntryRoundTrip:
+    """SwitchStreamFilterEntry (Table 3.95, p.142) — the SWITCH-STREAM-FILTER-ENTRY item of
+    COUPLING-ELEMENT-SWITCH-DETAILS round-trips its seven XSD group children after the
+    identifiable levels (XSD group SWITCH-STREAM-FILTER-ENTRY). XML child order per XSD
+    sequence: SHORT-NAME (identifiable levels), then ASYNCHRONOUS-TRAFFIC-SHAPER-REF,
+    FILTER-PRIORITY, FLOW-METERING-REF, MAX-SDU-SIZE, STREAM-GATE-REF,
+    STREAM-IDENTIFICATION-HANDLE-REFS, STREAM-IDENTIFICATION-WILDCARD. The ref wrapper
+    STREAM-IDENTIFICATION-HANDLE-REFS is emitted only when non-empty."""
+
+    FILTER_XSD_ORDER = [
+        "ASYNCHRONOUS-TRAFFIC-SHAPER-REF",
+        "FILTER-PRIORITY",
+        "FLOW-METERING-REF",
+        "MAX-SDU-SIZE",
+        "STREAM-GATE-REF",
+        "STREAM-IDENTIFICATION-HANDLE-REFS",
+        "STREAM-IDENTIFICATION-WILDCARD",
+    ]
+
+    def _coupling_element_with_full_stream_filter(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        stream_filter = details.createStreamFilter("Filter1")
+        stream_filter.setAsynchronousTrafficShaperRef(_ref("/Pkg/Switch/Ats1", "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"))
+        stream_filter.setFilterPriority(PositiveInteger().setValue("3"))
+        stream_filter.setFlowMeteringRef(_ref("/Pkg/Switch/Metering1", "SWITCH-FLOW-METERING-ENTRY"))
+        stream_filter.setMaxSduSize(PositiveInteger().setValue("1522"))
+        stream_filter.setStreamGateRef(_ref("/Pkg/Switch/Gate1", "SWITCH-STREAM-GATE-ENTRY"))
+        stream_filter.addStreamIdentificationHandleRef(_ref("/Pkg/Switch/Stream1", "SWITCH-STREAM-IDENTIFICATION"))
+        stream_filter.addStreamIdentificationHandleRef(_ref("/Pkg/Switch/Stream2", "SWITCH-STREAM-IDENTIFICATION"))
+        stream_filter.setStreamIdentificationWildcard(Boolean().setValue(True))
+        return coupling_element, details, stream_filter
+
+    def _switch_details_element(self, coupling_element):
+        parent = _write_coupling_element(coupling_element)
+        return parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+    def test_writes_children_in_xsd_order(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_filter()
+
+        stream_filter_element = self._switch_details_element(coupling_element).find("STREAM-FILTERS/SWITCH-STREAM-FILTER-ENTRY")
+
+        children = [child.tag for child in stream_filter_element]
+        assert children == ["SHORT-NAME"] + self.FILTER_XSD_ORDER
+
+    def test_writes_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_filter()
+
+        stream_filter_element = self._switch_details_element(coupling_element).find("STREAM-FILTERS/SWITCH-STREAM-FILTER-ENTRY")
+
+        assert stream_filter_element.find("SHORT-NAME").text == "Filter1"
+        ats_ref = stream_filter_element.find("ASYNCHRONOUS-TRAFFIC-SHAPER-REF")
+        assert ats_ref.text == "/Pkg/Switch/Ats1"
+        assert ats_ref.attrib["DEST"] == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"
+        assert stream_filter_element.find("FILTER-PRIORITY").text == "3"
+        flow_metering_ref = stream_filter_element.find("FLOW-METERING-REF")
+        assert flow_metering_ref.text == "/Pkg/Switch/Metering1"
+        assert flow_metering_ref.attrib["DEST"] == "SWITCH-FLOW-METERING-ENTRY"
+        assert stream_filter_element.find("MAX-SDU-SIZE").text == "1522"
+        stream_gate_ref = stream_filter_element.find("STREAM-GATE-REF")
+        assert stream_gate_ref.text == "/Pkg/Switch/Gate1"
+        assert stream_gate_ref.attrib["DEST"] == "SWITCH-STREAM-GATE-ENTRY"
+        handle_refs = stream_filter_element.findall("STREAM-IDENTIFICATION-HANDLE-REFS/STREAM-IDENTIFICATION-HANDLE-REF")
+        assert len(handle_refs) == 2
+        assert handle_refs[0].text == "/Pkg/Switch/Stream1"
+        assert handle_refs[0].attrib["DEST"] == "SWITCH-STREAM-IDENTIFICATION"
+        assert handle_refs[1].text == "/Pkg/Switch/Stream2"
+        assert stream_filter_element.find("STREAM-IDENTIFICATION-WILDCARD").text == "true"
+
+    def test_bare_stream_filter_emits_no_children(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createStreamFilter("Filter1")
+
+        stream_filter_element = self._switch_details_element(coupling_element).find("STREAM-FILTERS/SWITCH-STREAM-FILTER-ENTRY")
+
+        assert stream_filter_element.find("SHORT-NAME").text == "Filter1"
+        for tag in self.FILTER_XSD_ORDER:
+            assert stream_filter_element.find(tag) is None, tag
+
+    def test_round_trip_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_filter()
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_filter = reloaded.getCouplingElementDetails().getStreamFilters()[0]
+        assert reloaded_filter.getShortName() == "Filter1"
+        ats_ref = reloaded_filter.getAsynchronousTrafficShaperRef()
+        assert ats_ref.getValue() == "/Pkg/Switch/Ats1"
+        assert ats_ref.getDest() == "COUPLING-PORT-ASYNCHRONOUS-TRAFFIC-SHAPER"
+        assert reloaded_filter.getFilterPriority().getValue() == 3
+        flow_metering_ref = reloaded_filter.getFlowMeteringRef()
+        assert flow_metering_ref.getValue() == "/Pkg/Switch/Metering1"
+        assert flow_metering_ref.getDest() == "SWITCH-FLOW-METERING-ENTRY"
+        assert reloaded_filter.getMaxSduSize().getValue() == 1522
+        stream_gate_ref = reloaded_filter.getStreamGateRef()
+        assert stream_gate_ref.getValue() == "/Pkg/Switch/Gate1"
+        assert stream_gate_ref.getDest() == "SWITCH-STREAM-GATE-ENTRY"
+        handle_refs = reloaded_filter.getStreamIdentificationHandleRefs()
+        assert len(handle_refs) == 2
+        assert handle_refs[0].getValue() == "/Pkg/Switch/Stream1"
+        assert handle_refs[1].getValue() == "/Pkg/Switch/Stream2"
+        assert reloaded_filter.getStreamIdentificationWildcard().getValue() is True
+
+    def test_round_trip_bare_stream_filter(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createStreamFilter("Filter1")
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_filter = reloaded.getCouplingElementDetails().getStreamFilters()[0]
+        assert reloaded_filter.getShortName() == "Filter1"
+        assert reloaded_filter.getAsynchronousTrafficShaperRef() is None
+        assert reloaded_filter.getFilterPriority() is None
+        assert reloaded_filter.getFlowMeteringRef() is None
+        assert reloaded_filter.getMaxSduSize() is None
+        assert reloaded_filter.getStreamGateRef() is None
+        assert reloaded_filter.getStreamIdentificationHandleRefs() == []
+        assert reloaded_filter.getStreamIdentificationWildcard() is None
+
+
 class TestSwitchStreamIdentificationRoundTrip:
     """SwitchStreamIdentification (Table 3.84, p.135) — the SWITCH-STREAM-IDENTIFICATION item of
     COUPLING-ELEMENT-SWITCH-DETAILS round-trips its seven XSD group children after the identifiable
