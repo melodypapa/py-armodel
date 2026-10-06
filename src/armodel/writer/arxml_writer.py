@@ -908,7 +908,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordTypeMapping,
     TriggerToSignalMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, ForbiddenSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
@@ -13000,6 +13000,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             for signal in signals:
                 self.writeSwcToSwcSignal(signals_tag, signal)
 
+    def writeForbiddenSignalPath(self, element: ET.Element, path: ForbiddenSignalPath):
+        child_element = ET.SubElement(element, "FORBIDDEN-SIGNAL-PATH")
+        self.writeSignalPathConstraint(child_element, path)
+        operations = path.getOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "OPERATIONS")
+            for operation in operations:
+                self.writeSwcToSwcOperationArguments(operations_tag, operation)
+        refs = path.getPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PHYSICAL-CHANNEL-REF", ref)
+        signals = path.getSignals()
+        if len(signals) > 0:
+            signals_tag = ET.SubElement(child_element, "SIGNALS")
+            for signal in signals:
+                self.writeSwcToSwcSignal(signals_tag, signal)
+
     def writeSystemMappingSignalPathConstraints(self, element: ET.Element, mapping: SystemMapping):
         constraints = mapping.getSignalPathConstraints()
         if len(constraints) > 0:
@@ -13007,6 +13026,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for constraint in constraints:
                 if isinstance(constraint, CommonSignalPath):
                     self.writeCommonSignalPath(constraints_tag, constraint)
+                elif isinstance(constraint, ForbiddenSignalPath):
+                    self.writeForbiddenSignalPath(constraints_tag, constraint)
                 else:
                     self.notImplemented("Unsupported SignalPathConstraint %s" % type(constraint))
 
@@ -13566,6 +13587,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
+        self.writeSystemMappingSignalPathConstraints(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
 

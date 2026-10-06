@@ -2442,10 +2442,6 @@ class FlexrayTpEcu(ARObject):
     pass
 
 
-class ForbiddenSignalPath(ARObject):
-    pass
-
-
 class GlobalTimeCorrectionProps(ARObject):
     pass
 

@@ -4,7 +4,7 @@ from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import OperationInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -220,3 +220,80 @@ class SwcToSwcOperationArguments(ARObject):
         Reference to the operation at the client and at the server side whose arguments are described by SwcToSwcOperationArguments. The two ports referenced shall be connected by a connector in the software component description. InstanceRef implemented by: OperationInSystemInstanceRef
         """
         return self.operationIRefs
+
+
+class ForbiddenSignalPath(SignalPathConstraint):
+    """
+    The ForbiddenSignalPath describes the physical channels which an element shall not take in the topology. Such a signal path can be a constraint for the communication matrix, because such a path has an effect on the frame generation and the frame path.
+    """
+
+    # ForbiddenSignalPath method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.40, p.255
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOperation              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPhysicalChannelRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalChannelRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignal                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignals                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the operation arguments of one operation which shall not take the predefined way in the topology.
+        self.operations: List[SwcToSwcOperationArguments] = []
+
+        # The SwcToSwcSignal shall not be transmitted on one of these physical channels.
+        self.physicalChannelRefs: List[RefType] = []
+
+        # The data element which shall not take the predefined way in the topology.
+        self.signals: List[SwcToSwcSignal] = []
+
+    def addOperation(self, value: Optional[SwcToSwcOperationArguments]) -> ForbiddenSignalPath:
+        """
+        Reference to the operation arguments of one operation which shall not take the predefined way in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.operations.append(value)
+        return self
+
+    def getOperations(self) -> List[SwcToSwcOperationArguments]:
+        """
+        Reference to the operation arguments of one operation which shall not take the predefined way in the topology.
+        """
+        return self.operations
+
+    def addPhysicalChannelRef(self, value: Optional[RefType]) -> ForbiddenSignalPath:
+        """
+        The SwcToSwcSignal shall not be transmitted on one of these physical channels.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.physicalChannelRefs.append(value)
+        return self
+
+    def getPhysicalChannelRefs(self) -> List[RefType]:
+        """
+        The SwcToSwcSignal shall not be transmitted on one of these physical channels.
+        """
+        return self.physicalChannelRefs
+
+    def addSignal(self, value: Optional[SwcToSwcSignal]) -> ForbiddenSignalPath:
+        """
+        The data element which shall not take the predefined way in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.signals.append(value)
+        return self
+
+    def getSignals(self) -> List[SwcToSwcSignal]:
+        """
+        The data element which shall not take the predefined way in the topology.
+        """
+        return self.signals
