@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
     Referrable,
     SwitchFlowMeteringEntry,
-    SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -496,6 +495,41 @@ class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
         """
         if value is not None:
             self.maximumResidenceTime = value
+        return self
+
+
+class SwitchStreamGateEntry(Identifiable):
+    """
+    Defines a Asynchronous Traffic Shapter (ATS) Group for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamGateEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.97, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInternalPriorityValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInternalPriorityValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+        self.internalPriorityValue: Optional[PositiveInteger] = None
+
+    def getInternalPriorityValue(self) -> Optional[PositiveInteger]:
+        """
+        Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+        """
+        return self.internalPriorityValue
+
+    def setInternalPriorityValue(self, value: Optional[PositiveInteger]) -> SwitchStreamGateEntry:
+        """
+        Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing internalPriorityValue.
+        """
+        if value is not None:
+            self.internalPriorityValue = value
         return self
 
 

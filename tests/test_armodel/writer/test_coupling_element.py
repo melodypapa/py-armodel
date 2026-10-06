@@ -680,3 +680,76 @@ class TestSwitchAsynchronousTrafficShaperGroupEntryRoundTrip:
         reloaded_group = reloaded.getCouplingElementDetails().getTrafficShaperGroups()[0]
         assert reloaded_group.getShortName() == "AtsGroup1"
         assert reloaded_group.getMaximumResidenceTime() is None
+
+
+class TestSwitchStreamGateEntryRoundTrip:
+    """SwitchStreamGateEntry (Table 3.97, p.143) — the SWITCH-STREAM-GATE-ENTRY
+    item of COUPLING-ELEMENT-SWITCH-DETAILS round-trips its single XSD group child after the identifiable levels
+    (XSD group SWITCH-STREAM-GATE-ENTRY). XML child order per XSD sequence: SHORT-NAME
+    (identifiable levels), then INTERNAL-PRIORITY-VALUE."""
+
+    GROUP_XSD_ORDER = [
+        "INTERNAL-PRIORITY-VALUE",
+    ]
+
+    def _coupling_element_with_full_stream_gate(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        stream_gate = details.createStreamGate("Gate1")
+        stream_gate.setInternalPriorityValue(PositiveInteger().setValue("5"))
+        return coupling_element, details, stream_gate
+
+    def _switch_details_element(self, coupling_element):
+        parent = _write_coupling_element(coupling_element)
+        return parent.find("COUPLING-ELEMENT/COUPLING-ELEMENT-DETAILS/COUPLING-ELEMENT-SWITCH-DETAILS")
+
+    def test_writes_children_in_xsd_order(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_gate()
+
+        stream_gate_element = self._switch_details_element(coupling_element).find("STREAM-GATES/SWITCH-STREAM-GATE-ENTRY")
+
+        children = [child.tag for child in stream_gate_element]
+        assert children == ["SHORT-NAME"] + self.GROUP_XSD_ORDER
+
+    def test_writes_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_gate()
+
+        stream_gate_element = self._switch_details_element(coupling_element).find("STREAM-GATES/SWITCH-STREAM-GATE-ENTRY")
+
+        assert stream_gate_element.find("SHORT-NAME").text == "Gate1"
+        assert stream_gate_element.find("INTERNAL-PRIORITY-VALUE").text == "5"
+
+    def test_bare_stream_gate_emits_no_children(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createStreamGate("Gate1")
+
+        stream_gate_element = self._switch_details_element(coupling_element).find("STREAM-GATES/SWITCH-STREAM-GATE-ENTRY")
+
+        assert stream_gate_element.find("SHORT-NAME").text == "Gate1"
+        for tag in self.GROUP_XSD_ORDER:
+            assert stream_gate_element.find(tag) is None, tag
+
+    def test_round_trip_field_values(self):
+        coupling_element, _, _ = self._coupling_element_with_full_stream_gate()
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_gate = reloaded.getCouplingElementDetails().getStreamGates()[0]
+        assert reloaded_gate.getShortName() == "Gate1"
+        assert reloaded_gate.getInternalPriorityValue().getValue() == 5
+
+    def test_round_trip_bare_stream_gate(self):
+        coupling_element = CouplingElement(_pkg(), "Switch")
+        details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
+        details.createStreamGate("Gate1")
+
+        parent = _write_coupling_element(coupling_element)
+        reloaded = CouplingElement(_pkg(), "Switch")
+        ARXMLParser().readCouplingElement(_namespaced_first_child(parent), reloaded)
+
+        reloaded_gate = reloaded.getCouplingElementDetails().getStreamGates()[0]
+        assert reloaded_gate.getShortName() == "Gate1"
+        assert reloaded_gate.getInternalPriorityValue() is None

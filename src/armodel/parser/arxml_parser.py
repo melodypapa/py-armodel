@@ -1184,6 +1184,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SwitchStreamFilterActionPortModificationEnum,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
+    SwitchStreamGateEntry,
     SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
@@ -11202,6 +11203,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, traffic_shaper_group)
         traffic_shaper_group.setMaximumResidenceTime(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME"))
 
+    def readSwitchStreamGateEntry(self, element: ET.Element, stream_gate: SwitchStreamGateEntry):
+        self.readIdentifiable(element, stream_gate)
+        stream_gate.setInternalPriorityValue(self.getChildElementOptionalPositiveInteger(element, "INTERNAL-PRIORITY-VALUE"))
+
     def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
         self.readARObject(element, mac_address)
         child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS")
@@ -11339,7 +11344,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "SWITCH-STREAM-GATE-ENTRY":
                 stream_gate = details.createStreamGate(self.getShortName(child_element))
-                self.readIdentifiable(child_element, stream_gate)
+                self.readSwitchStreamGateEntry(child_element, stream_gate)
             else:
                 self.notImplemented("Unsupported SwitchStreamGateEntry <%s>" % tag_name)
         for child_element in self.findall(element, "SWITCH-STREAM-IDENTIFICATIONS/*"):

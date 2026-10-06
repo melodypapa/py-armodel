@@ -14,13 +14,13 @@ import typing
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchFlowMeteringEntry,
-    SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElementAbstractDetails,
     CouplingElementSwitchDetails,
     SwitchAsynchronousTrafficShaperGroupEntry,
     SwitchStreamFilterEntry,
+    SwitchStreamGateEntry,
     SwitchStreamIdentification,
 )
 

@@ -13,7 +13,6 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     SwitchFlowMeteringEntry,
-    SwitchStreamGateEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
@@ -25,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
+    SwitchStreamGateEntry,
     SwitchStreamIdentification,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -652,3 +652,65 @@ class TestReadSwitchAsynchronousTrafficShaperGroupEntry:
         traffic_shaper_group = coupling_element.getCouplingElementDetails().getTrafficShaperGroups()[0]
         assert traffic_shaper_group.getShortName() == "AtsGroup1"
         assert traffic_shaper_group.getMaximumResidenceTime() is None
+
+
+class TestReadSwitchStreamGateEntry:
+    """Test readSwitchStreamGateEntry (SwitchStreamGateEntry, Table 3.97, p.143):
+    the single XSD group child of SWITCH-STREAM-GATE-ENTRY after the identifiable levels —
+    INTERNAL-PRIORITY-VALUE (XSD group SWITCH-STREAM-GATE-ENTRY). The reader dispatch of
+    readCouplingElementSwitchDetails for the SWITCH-STREAM-GATE-ENTRY item calls this level."""
+
+    def test_read_all_members(self, parser):
+        """Every XSD group child populates its model field, in document order."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <STREAM-GATES>
+                            <SWITCH-STREAM-GATE-ENTRY>
+                                <SHORT-NAME>Gate1</SHORT-NAME>
+                                <INTERNAL-PRIORITY-VALUE>5</INTERNAL-PRIORITY-VALUE>
+                            </SWITCH-STREAM-GATE-ENTRY>
+                        </STREAM-GATES>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        stream_gates = coupling_element.getCouplingElementDetails().getStreamGates()
+        assert len(stream_gates) == 1
+        stream_gate = stream_gates[0]
+        assert isinstance(stream_gate, SwitchStreamGateEntry)
+        assert stream_gate.getShortName() == "Gate1"
+        assert stream_gate.getInternalPriorityValue() is not None
+        assert stream_gate.getInternalPriorityValue().getValue() == 5
+
+    def test_read_absent_optional_members(self, parser):
+        """A bare SWITCH-STREAM-GATE-ENTRY item leaves all fields unset (empty-wrapper case)."""
+        coupling_element = _make_coupling_element()
+        element = ET.fromstring(
+            f"""<COUPLING-ELEMENT xmlns='{NS}'>
+                <SHORT-NAME>Switch</SHORT-NAME>
+                <COUPLING-ELEMENT-DETAILS>
+                    <COUPLING-ELEMENT-SWITCH-DETAILS>
+                        <SHORT-NAME>SwitchDetails</SHORT-NAME>
+                        <STREAM-GATES>
+                            <SWITCH-STREAM-GATE-ENTRY>
+                                <SHORT-NAME>Gate1</SHORT-NAME>
+                            </SWITCH-STREAM-GATE-ENTRY>
+                        </STREAM-GATES>
+                    </COUPLING-ELEMENT-SWITCH-DETAILS>
+                </COUPLING-ELEMENT-DETAILS>
+            </COUPLING-ELEMENT>"""
+        )
+
+        parser.readCouplingElement(element, coupling_element)
+
+        stream_gate = coupling_element.getCouplingElementDetails().getStreamGates()[0]
+        assert stream_gate.getShortName() == "Gate1"
+        assert stream_gate.getInternalPriorityValue() is None

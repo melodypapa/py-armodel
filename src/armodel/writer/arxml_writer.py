@@ -987,6 +987,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SwitchStreamFilterActionDestPortModification,
     SwitchStreamFilterEntry,
     SwitchStreamFilterRule,
+    SwitchStreamGateEntry,
     SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
@@ -12063,6 +12064,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(element, traffic_shaper_group)
             self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME", traffic_shaper_group.getMaximumResidenceTime())
 
+    def writeSwitchStreamGateEntry(self, element: ET.Element, stream_gate: Optional[SwitchStreamGateEntry]):
+        if stream_gate is not None:
+            self.writeIdentifiable(element, stream_gate)
+            self.setChildElementOptionalPositiveInteger(element, "INTERNAL-PRIORITY-VALUE", stream_gate.getInternalPriorityValue())
+
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:
             self.writeARObject(element, mac_address)
@@ -12174,7 +12180,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             stream_gates_element = ET.SubElement(element, "STREAM-GATES")
             for stream_gate in stream_gates:
                 stream_gate_element = ET.SubElement(stream_gates_element, "SWITCH-STREAM-GATE-ENTRY")
-                self.writeIdentifiable(stream_gate_element, stream_gate)
+                self.writeSwitchStreamGateEntry(stream_gate_element, stream_gate)
         switch_stream_identifications = details.getSwitchStreamIdentifications()
         if len(switch_stream_identifications) > 0:
             switch_stream_identifications_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATIONS")

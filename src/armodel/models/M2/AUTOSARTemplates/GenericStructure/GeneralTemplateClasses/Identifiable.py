@@ -1567,10 +1567,6 @@ class SwitchFlowMeteringEntry(Identifiable):
     pass
 
 
-class SwitchStreamGateEntry(Identifiable):
-    pass
-
-
 class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     pass
 
