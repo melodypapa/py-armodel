@@ -277,6 +277,7 @@ __all__ = [
     "ConsistencyNeeds",
     "ConstantSpecification",
     "ConstantSpecificationMappingSet",
+    "CouplingElement",
     "CryptoEllipticCurveProps",
     "CryptoServiceCertificate",
     "CryptoServicePrimitive",
@@ -2714,6 +2715,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
+    def createCouplingElement(self, short_name: str) -> CouplingElement:
+
+        if not self.IsReferrableElementExists(short_name, CouplingElement):
+            coupling_element = CouplingElement(self, short_name)
+            self.addReferrableElement(coupling_element)
+        return cast(CouplingElement, self.getReferrableElement(short_name, CouplingElement))
+
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
         Creates a new DiagnosticAging with the given short name,
@@ -4954,7 +4962,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
     ConsumedProvidedServiceInstanceGroup,

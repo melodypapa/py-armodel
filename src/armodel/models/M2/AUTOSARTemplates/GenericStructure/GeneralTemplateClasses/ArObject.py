@@ -2326,10 +2326,6 @@ class ContainerIPdu(ARObject):
     pass
 
 
-class CouplingElement(ARObject):
-    pass
-
-
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
     pass
 

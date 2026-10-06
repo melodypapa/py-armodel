@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import CouplingElementAbstractDetails, CouplingElementSwitchDetails, Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, MacSecProps
@@ -160,6 +161,151 @@ class EthernetCluster(CommunicationCluster):
         MacMulticastGroup that is defined for the Subnet (EthernetCluster).
         """
         return self.macMulticastGroups
+
+
+class CouplingElement(FibexElement):
+    """
+    A CouplingElement is used to connect EcuInstances to the VLAN of an EthernetCluster. Coupling Elements can reach from a simple hub to a complex managed switch or even devices with functionalities in higher layers. A CouplingElement that is not related to an EcuInstance occurs as a dedicated single device. Tags: atp.recommendedPackage=CouplingElements
+    """
+
+    # CouplingElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.52, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationClusterRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationClusterRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCouplingElementSwitchDetails  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingElementDetails           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCouplingPort                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPorts                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCouplingType                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingType                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    #
+    # Member types CouplingElementAbstractDetails/CouplingElementSwitchDetails are
+    # queued separately in this group (Table 3.82/3.83) — until their sync lands the
+    # COUPLING-ELEMENT-DETAILS child round-trips identity-only (SHORT-NAME +
+    # identifiable levels) via the create/writeIdentifiable placeholders above.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This relationship defines to which cluster the Coupling Element belongs.
+        self.communicationClusterRef: Optional[RefType] = None
+
+        # Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        self.couplingElementDetails: Optional[CouplingElementAbstractDetails] = None
+
+        # Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.couplingPorts: List[CouplingPort] = []
+
+        # Describes the coupling type of this CouplingElement.
+        self.couplingType: Optional[CouplingElementEnum] = None
+
+        # Optional reference to the ECU where the Coupling Element is located.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+        self.firewallRuleRefs: List[RefType] = []
+
+    def getCommunicationClusterRef(self) -> Optional[RefType]:
+        """
+        This relationship defines to which cluster the Coupling Element belongs.
+        """
+        return self.communicationClusterRef
+
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        This relationship defines to which cluster the Coupling Element belongs.
+
+        A None value is a no-op and does not overwrite an existing communicationClusterRef.
+        """
+        if value is not None:
+            self.communicationClusterRef = value
+        return self
+
+    def createCouplingElementSwitchDetails(self, short_name: str) -> CouplingElementSwitchDetails:
+        """
+        Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.couplingElementDetails is None or self.couplingElementDetails.getShortName() != short_name:
+            self.couplingElementDetails = CouplingElementSwitchDetails(self, short_name)
+        return cast(CouplingElementSwitchDetails, self.couplingElementDetails)
+
+    def getCouplingElementDetails(self) -> Optional[CouplingElementAbstractDetails]:
+        """
+        Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        """
+        return self.couplingElementDetails
+
+    def createCouplingPort(self, short_name: str) -> CouplingPort:
+        """
+        Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, CouplingPort):
+            port = CouplingPort(self, short_name)
+            self.addReferrableElement(port)
+            self.couplingPorts.append(port)
+        return cast(CouplingPort, self.getReferrableElement(short_name, CouplingPort))
+
+    def getCouplingPorts(self) -> List[CouplingPort]:
+        """
+        Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.couplingPorts
+
+    def getCouplingType(self) -> Optional[CouplingElementEnum]:
+        """
+        Describes the coupling type of this CouplingElement.
+        """
+        return self.couplingType
+
+    def setCouplingType(self, value: Optional[CouplingElementEnum]) -> CouplingElement:
+        """
+        Describes the coupling type of this CouplingElement.
+
+        A None value is a no-op and does not overwrite an existing couplingType.
+        """
+        if value is not None:
+            self.couplingType = value
+        return self
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Optional reference to the ECU where the Coupling Element is located.
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        Optional reference to the ECU where the Coupling Element is located.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def addFirewallRuleRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a firewallRuleRef.
+        """
+        if value is not None:
+            self.firewallRuleRefs.append(value)
+        return self
+
+    def getFirewallRuleRefs(self) -> List[RefType]:
+        """
+        Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+        """
+        return self.firewallRuleRefs
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

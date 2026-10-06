@@ -1140,6 +1140,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    CouplingElement,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
@@ -1215,6 +1216,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingElementEnum,
     CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     DoIpEntity,
@@ -11137,6 +11139,39 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CouplingPortConnection <%s>" % tag_name)
 
+    def readCouplingElementCouplingElementDetails(self, element: ET.Element, coupling_element: CouplingElement):
+        for child_element in self.findall(element, "COUPLING-ELEMENT-DETAILS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-ELEMENT-SWITCH-DETAILS":
+                details = coupling_element.createCouplingElementSwitchDetails(self.getShortName(child_element))
+                self.readIdentifiable(child_element, details)
+            else:
+                self.notImplemented("Unsupported CouplingElementDetails <%s>" % tag_name)
+
+    def readCouplingElementCouplingPorts(self, element: ET.Element, coupling_element: CouplingElement):
+        for child_element in self.findall(element, "COUPLING-PORTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT":
+                port = coupling_element.createCouplingPort(self.getShortName(child_element))
+                self.readCouplingPort(child_element, port)
+            else:
+                self.notImplemented("Unsupported CouplingPort <%s>" % tag_name)
+
+    def readCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
+        self.logger.debug("Read CouplingElement <%s>" % coupling_element.getShortName())
+        self.readIdentifiable(element, coupling_element)
+        coupling_element.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF"))
+        self.readCouplingElementCouplingElementDetails(element, coupling_element)
+        self.readCouplingElementCouplingPorts(element, coupling_element)
+        coupling_type = self.getChildElementOptionalLiteral(element, "COUPLING-TYPE")
+        if coupling_type is not None:
+            e: ARLiteral = CouplingElementEnum()
+            e.setValue(coupling_type.getValue())
+            coupling_element.setCouplingType(cast(Optional[CouplingElementEnum], e))
+        coupling_element.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "FIREWALL-RULE-REFS/FIREWALL-RULE-REF"):
+            coupling_element.addFirewallRuleRef(ref)
+
     def readEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Read EthernetCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -17223,6 +17258,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlatMap(child_element, map)
             elif tag_name == "PORT-INTERFACE-MAPPING-SET":
                 self.readPortInterfaceMappingSet(child_element, parent.createPortInterfaceMappingSet(self.getShortName(child_element)))
+            elif tag_name == "COUPLING-ELEMENT":
+                self.readCouplingElement(child_element, parent.createCouplingElement(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":

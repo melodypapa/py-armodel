@@ -562,6 +562,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    CouplingElementSwitchDetails,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -948,6 +949,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    CouplingElement,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
@@ -11989,6 +11991,35 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
 
+    def writeCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
+        self.logger.debug("Set CouplingElement %s" % coupling_element.getShortName())
+        child_element = ET.SubElement(element, "COUPLING-ELEMENT")
+        self.writeIdentifiable(child_element, coupling_element)
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CLUSTER-REF", coupling_element.getCommunicationClusterRef())
+        details = coupling_element.getCouplingElementDetails()
+        if details is not None:
+            details_element = ET.SubElement(child_element, "COUPLING-ELEMENT-DETAILS")
+            if isinstance(details, CouplingElementSwitchDetails):
+                switch_details_element = ET.SubElement(details_element, "COUPLING-ELEMENT-SWITCH-DETAILS")
+                self.writeIdentifiable(switch_details_element, details)
+            else:
+                self.notImplemented("Unsupported CouplingElementDetails <%s>" % type(details))
+        ports = coupling_element.getCouplingPorts()
+        if len(ports) > 0:
+            ports_element = ET.SubElement(child_element, "COUPLING-PORTS")
+            for port in ports:
+                if isinstance(port, CouplingPort):
+                    self.writeCouplingPort(ports_element, port)
+                else:
+                    self.notImplemented("Unsupported CouplingPort <%s>" % type(port))
+        self.setChildElementOptionalLiteral(child_element, "COUPLING-TYPE", coupling_element.getCouplingType())
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", coupling_element.getEcuInstanceRef())
+        firewall_rule_refs = coupling_element.getFirewallRuleRefs()
+        if len(firewall_rule_refs) > 0:
+            firewall_rule_refs_element = ET.SubElement(child_element, "FIREWALL-RULE-REFS")
+            for ref in firewall_rule_refs:
+                self.setChildElementOptionalRefType(firewall_rule_refs_element, "FIREWALL-RULE-REF", ref)
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -17425,6 +17456,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFlatMap(element, ar_element)
         elif isinstance(ar_element, PortInterfaceMappingSet):
             self.writePortInterfaceMappingSet(element, ar_element)
+        elif isinstance(ar_element, CouplingElement):
+            self.writeCouplingElement(element, ar_element)
         elif isinstance(ar_element, EthernetCluster):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
