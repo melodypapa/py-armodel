@@ -414,17 +414,18 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
+- [x] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py initially FAILed on a Rule 0012.2.4 `__init__` docstring — removed in this pass; audit now PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ObdRatioDenominatorNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.51, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
