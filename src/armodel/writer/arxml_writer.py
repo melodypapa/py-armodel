@@ -17809,6 +17809,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER", cast(Integer, rule.getMinSourcePortNumber()))
 
     def writeTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.writeTransportLayerRule(element, rule)
         self.setChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS", cast(Integer, rule.getNumberOfParallelTcpSessions()))
         self.setChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS", rule.getStateManagementBasedOnTcpFlags())
         self.setChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK", cast(Integer, rule.getTimeoutCheck()))

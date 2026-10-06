@@ -84,6 +84,28 @@ class TestReadFirewallRuleTcpRule:
         assert transport_rule.getStateManagementBasedOnTcpFlags() is None
         assert transport_rule.getTimeoutCheck() is None
 
+    def test_read_tcp_rule_inherited_transport_layer_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "<SHORT-NAME>Rule1</SHORT-NAME>"
+            "<TRANSPORT-LAYER-RULE>"
+            "<TCP-RULE>"
+            "<CHECKSUM-VERIFICATION>true</CHECKSUM-VERIFICATION>"
+            "<MAX-DESTINATION-PORT-NUMBER>8080</MAX-DESTINATION-PORT-NUMBER>"
+            "<MIN-SOURCE-PORT-NUMBER>2000</MIN-SOURCE-PORT-NUMBER>"
+            "</TCP-RULE>"
+            "</TRANSPORT-LAYER-RULE>"
+        )
+        rule = _rule()
+        parser.readFirewallRule(element, rule)
+
+        transport_rule = rule.getTransportLayerRule()
+        assert isinstance(transport_rule, TcpRule)
+        assert transport_rule.getChecksumVerification().getValue() is True
+        assert transport_rule.getMaxDestinationPortNumber().getValue() == 8080
+        assert transport_rule.getMinSourcePortNumber().getValue() == 2000
+        assert transport_rule.getNumberOfParallelTcpSessions() is None
+
     def test_read_no_transport_layer_rule_element(self):
         parser = ARXMLParser(options={"warning": True})
         element = _snip("<SHORT-NAME>Rule1</SHORT-NAME>")

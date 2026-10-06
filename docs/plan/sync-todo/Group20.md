@@ -1015,6 +1015,14 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+  - note (Steps 5/6 re-run 2026-10-06, batch-9b review): Rule 0025 BASE fixed —
+    readTcpRule/writeTcpRule now call the base readTransportLayerRule/
+    writeTransportLayerRule helpers first (which carry the readARObject/
+    writeARObject calls), so the 5 inherited TRANSPORT-LAYER-RULE members
+    round-trip through the TCP-RULE path in XSD composition order; supersedes
+    the Step 8 note above ("inherited members not modeled" — they now live on
+    the base class); parser/writer suites extended with inherited-member
+    round-trip/order tests.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12678 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `IcmpRule` — ARObject — XSD-only (00052 complexType L67721)

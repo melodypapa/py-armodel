@@ -17781,6 +17781,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setMinSourcePortNumber(self.getChildElementOptionalPositiveInteger(element, "MIN-SOURCE-PORT-NUMBER"))
 
     def readTcpRule(self, element: ET.Element, rule: TcpRule):
+        self.readTransportLayerRule(element, rule)
         rule.setNumberOfParallelTcpSessions(self.getChildElementOptionalPositiveInteger(element, "NUMBER-OF-PARALLEL-TCP-SESSIONS"))
         rule.setStateManagementBasedOnTcpFlags(self.getChildElementOptionalBooleanValue(element, "STATE-MANAGEMENT-BASED-ON-TCP-FLAGS"))
         rule.setTimeoutCheck(self.getChildElementOptionalPositiveInteger(element, "TIMEOUT-CHECK"))
