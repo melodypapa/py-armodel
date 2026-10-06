@@ -760,34 +760,34 @@ Status: **29/29** completed
 
 Status: **26/26** completed
 
-| Class Name                                 | Status   | Commit ID |
-| ------------------------------------------ | -------- | --------- |
-| `CanClusterBusOffRecovery`                 | [x] Done  | 9c4a146ff0 |
-| `CanCommunicationConnector`                | [x] Done  | 6e9794500d |
-| `CanControllerConfiguration`               | [x] Done  | 5de9869ed6 |
-| `CanControllerConfigurationRequirements`   | [x] Done  | cd843bee26 |
-| `CanControllerFdConfigurationRequirements` | [x] Done  | a115435650 |
-| `ResumePosition`                           | [x] Done  | 40c0abb9b1 |
-| `ApplicationEntry`                         | [x] Done  | 8a6c27cb1c |
-| `LinScheduleTable`                         | [x] Done  | 0215ceb16a |
-| `RunMode`                                  | [x] Done  | 0215ceb16a |
-| `LinCommunicationConnector`                | [x] Done  | da0534323b |
-| `FlexrayFrameTriggering`                   | [x] Done  | 3ab64d2b03 |
-| `FlexrayAbsolutelyScheduledTiming`         | [x] Done  | 3ab64d2b03 |
-| `FlexrayCommunicationConnector`            | [x] Done  | 73bba1d58a |
-| `FlexrayCommunicationController`           | [x] Done  | 0c1ff9a927 |
-| `FlexrayPhysicalChannel`                   | [x] Done  | 7774a8ec9b |
-| `DataMapping`                              | [x] Done  | dc0553786f |
-| `IndexedArrayElement`                      | [x] Done  | 9eb93f743f |
-| `SenderRecRecordElementMapping`            | [x] Done  | dc019f9575 |
-| `SenderRecRecordTypeMapping`               | [x] Done  | abbfc40109 |
-| `SenderReceiverToSignalMapping`            | [x] Done  | 44442b8b6a |
-| `SenderReceiverToSignalGroupMapping`       | [x] Done  | f921dd6fb4 |
-| `DefaultValueElement`                      | [x] Done  | 721cca6400 |
-| `FrameMapping`                             | [x] Done  | a5f62ee06d |
-| `ISignalMapping`                           | [x] Done  | ba0f1a12a8 |
-| `TargetIPduRef`                            | [x] Done  | 4d2c155383 |
-| `Gateway`                                  | [x] Done  | a00d99f993 |
+| Class Name                                 | Status   | Commit ID  |
+| ------------------------------------------ | -------- | ---------- |
+| `CanClusterBusOffRecovery`                 | [x] Done | 9c4a146ff0 |
+| `CanCommunicationConnector`                | [x] Done | 6e9794500d |
+| `CanControllerConfiguration`               | [x] Done | 5de9869ed6 |
+| `CanControllerConfigurationRequirements`   | [x] Done | cd843bee26 |
+| `CanControllerFdConfigurationRequirements` | [x] Done | a115435650 |
+| `ResumePosition`                           | [x] Done | 40c0abb9b1 |
+| `ApplicationEntry`                         | [x] Done | 8a6c27cb1c |
+| `LinScheduleTable`                         | [x] Done | 0215ceb16a |
+| `RunMode`                                  | [x] Done | 0215ceb16a |
+| `LinCommunicationConnector`                | [x] Done | da0534323b |
+| `FlexrayFrameTriggering`                   | [x] Done | 3ab64d2b03 |
+| `FlexrayAbsolutelyScheduledTiming`         | [x] Done | 3ab64d2b03 |
+| `FlexrayCommunicationConnector`            | [x] Done | 73bba1d58a |
+| `FlexrayCommunicationController`           | [x] Done | 0c1ff9a927 |
+| `FlexrayPhysicalChannel`                   | [x] Done | 7774a8ec9b |
+| `DataMapping`                              | [x] Done | dc0553786f |
+| `IndexedArrayElement`                      | [x] Done | 9eb93f743f |
+| `SenderRecRecordElementMapping`            | [x] Done | dc019f9575 |
+| `SenderRecRecordTypeMapping`               | [x] Done | abbfc40109 |
+| `SenderReceiverToSignalMapping`            | [x] Done | 44442b8b6a |
+| `SenderReceiverToSignalGroupMapping`       | [x] Done | f921dd6fb4 |
+| `DefaultValueElement`                      | [x] Done | 721cca6400 |
+| `FrameMapping`                             | [x] Done | a5f62ee06d |
+| `ISignalMapping`                           | [x] Done | ba0f1a12a8 |
+| `TargetIPduRef`                            | [x] Done | 4d2c155383 |
+| `Gateway`                                  | [x] Done | a00d99f993 |
 
 ## Group18
 
@@ -815,7 +815,7 @@ Status: **0/17** completed
 
 ## Group19
 
-Status: **6/16** completed
+Status: **3/16** completed
 
 | Class Name                       | Status       | Commit ID  |
 | -------------------------------- | ------------ | ---------- |
@@ -832,9 +832,9 @@ Status: **6/16** completed
 | `EcucReferenceDef`               | [x] Done     | 0d45067479 |
 | `EcucSymbolicNameReferenceDef`   | [x] Done     | 0d45067479 |
 | `EcucUriReferenceDef`            | [x] Done     | 0d45067479 |
-| `EcucConditionFormula`           | [x] Done     | N/A        |
-| `EcucParameterDerivationFormula` | [x] Done     | N/A        |
-| `EcucQueryExpression`            | [x] Done     | N/A        |
+| `EcucConditionFormula`           | [ ] Pending* | N/A        |
+| `EcucParameterDerivationFormula` | [ ] Pending* | N/A        |
+| `EcucQueryExpression`            | [ ] Pending* | N/A        |
 
 ## Group20
 
@@ -1512,82 +1512,82 @@ Status: **0/75** completed
 
 Status: **0/74** completed
 
-| Class Name                                     | Status          | Commit ID |
-| ---------------------------------------------- | --------------- | --------- |
-| `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A       |
-| `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A       |
-| `ExternalTriggeringPoint`                      | [ ] Implemented | N/A       |
-| `IncludedDataTypeSet`                          | [ ] Implemented | N/A       |
-| `SwcServiceDependency`                         | [ ] Implemented | N/A       |
-| `SymbolicNameProps`                            | [ ] Implemented | N/A       |
-| `VariationPointProxy`                          | [ ] Implemented | N/A       |
-| `SwcModeManagerErrorEvent`                     | [ ] Created     | N/A       |
-| `SensorActuatorSwComponentType`                | [ ] Implemented | N/A       |
-| `EcuAbstractionSwComponentType`                | [ ] Implemented | N/A       |
-| `ComplexDeviceDriverSwComponentType`           | [ ] Implemented | N/A       |
-| `ServiceSwComponentType`                       | [ ] Implemented | N/A       |
-| `NvBlockSwComponentType`                       | [ ] Implemented | N/A       |
-| `SwComponentDocumentation`                     | [ ] Implemented | N/A       |
-| `AdditionalBindingTimeEnum`                    | [ ] Created     | N/A       |
-| `FunctionInhibitionAvailabilityNeeds`          | [ ] Implemented | N/A       |
-| `DiagnosticOperationCycleNeeds`                | [ ] Implemented | N/A       |
-| `OperationCycleTypeEnum`                       | [ ] Implemented | N/A       |
-| `DiagnosticEnableConditionNeeds`               | [ ] Implemented | N/A       |
-| `EventAcceptanceStatusEnum`                    | [ ] Implemented | N/A       |
-| `DiagnosticStorageConditionNeeds`              | [ ] Implemented | N/A       |
-| `StorageConditionStatusEnum`                   | [ ] Implemented | N/A       |
-| `IndicatorStatusNeeds`                         | [ ] Implemented | N/A       |
-| `DiagnosticIndicatorTypeEnum`                  | [ ] Implemented | N/A       |
-| `ObdRatioServiceNeeds`                         | [ ] Implemented | N/A       |
-| `ObdControlServiceNeeds`                       | [ ] Implemented | N/A       |
-| `ObdRatioConnectionKindEnum`                   | [ ] Implemented | N/A       |
-| `ObdPidServiceNeeds`                           | [ ] Implemented | N/A       |
-| `ObdInfoServiceNeeds`                          | [ ] Implemented | N/A       |
-| `ObdMonitorServiceNeeds`                       | [ ] Implemented | N/A       |
-| `DiagnosticMonitorUpdateKindEnum`              | [ ] Implemented | N/A       |
-| `ObdRatioDenominatorNeeds`                     | [ ] Implemented | N/A       |
-| `DiagnosticDenominatorConditionEnum`           | [ ] Implemented | N/A       |
-| `DiagnosticTestResult`                         | [ ] Created     | N/A       |
-| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Implemented | N/A       |
-| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Implemented | N/A       |
-| `SecureOnBoardCommunicationNeeds`              | [ ] Implemented | N/A       |
-| `VerificationStatusIndicationModeEnum`         | [ ] Implemented | N/A       |
-| `IdsMgrNeeds`                                  | [ ] Implemented | N/A       |
-| `RapidPrototypingScenario`                     | [ ] Created     | N/A       |
-| `RptContainer`                                 | [ ] Created     | N/A       |
-| `RptHook`                                      | [ ] Created     | N/A       |
-| `RptProfile`                                   | [ ] Created     | N/A       |
-| `CommunicationConnector`                       | [ ] Implemented | N/A       |
-| `PhysicalChannel`                              | [ ] Implemented | N/A       |
-| `AbstractCanCluster`                           | [ ] Implemented | N/A       |
-| `CanCluster`                                   | [ ] Implemented | N/A       |
-| `CanCommunicationController`                   | [ ] Implemented | N/A       |
-| `AbstractCanCommunicationController`           | [ ] Implemented | N/A       |
-| `AbstractCanCommunicationControllerAttributes` | [ ] Implemented | N/A       |
-| `CanControllerFdConfiguration`                 | [ ] Implemented | N/A       |
-| `CanControllerXlConfiguration`                 | [ ] Implemented | N/A       |
-| `CanControllerXlConfigurationRequirements`     | [ ] Implemented | N/A       |
-| `AbstractCanPhysicalChannel`                   | [ ] Implemented | N/A       |
-| `CanPhysicalChannel`                           | [ ] Implemented | N/A       |
-| `AbstractCanCommunicationConnector`            | [ ] Implemented | N/A       |
-| `TtcanCluster`                                 | [ ] Created     | N/A       |
-| `TtcanCommunicationController`                 | [ ] Created     | N/A       |
-| `TtcanPhysicalChannel`                         | [ ] Created     | N/A       |
-| `TtcanCommunicationConnector`                  | [ ] Created     | N/A       |
-| `FlexrayCluster`                               | [ ] Implemented | N/A       |
-| `FlexrayFifoConfiguration`                     | [ ] Implemented | N/A       |
-| `FlexrayFifoRange`                             | [ ] Implemented | N/A       |
-| `LinCluster`                                   | [ ] Implemented | N/A       |
-| `LinCommunicationController`                   | [ ] Implemented | N/A       |
-| `LinMaster`                                    | [ ] Implemented | N/A       |
-| `LinSlaveConfig`                               | [ ] Implemented | N/A       |
-| `LinSlaveConfigIdent`                          | [ ] Implemented | N/A       |
-| `LinSlave`                                     | [ ] Created     | N/A       |
-| `LinErrorResponse`                             | [ ] Implemented | N/A       |
-| `LinConfigurableFrame`                         | [ ] Implemented | N/A       |
-| `LinOrderedConfigurableFrame`                  | [ ] Implemented | N/A       |
-| `LinPhysicalChannel`                           | [ ] Implemented | N/A       |
-| `EthernetCluster`                              | [ ] Implemented | N/A       |
+| Class Name                                     | Status          | Commit ID  |
+| ---------------------------------------------- | --------------- | ---------- |
+| `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A        |
+| `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A        |
+| `ExternalTriggeringPoint`                      | [ ] Implemented | N/A        |
+| `IncludedDataTypeSet`                          | [ ] Implemented | N/A        |
+| `SwcServiceDependency`                         | [ ] Implemented | N/A        |
+| `SymbolicNameProps`                            | [ ] Implemented | N/A        |
+| `VariationPointProxy`                          | [ ] Implemented | N/A        |
+| `SwcModeManagerErrorEvent`                     | [ ] Created     | N/A        |
+| `SensorActuatorSwComponentType`                | [ ] Implemented | N/A        |
+| `EcuAbstractionSwComponentType`                | [ ] Implemented | N/A        |
+| `ComplexDeviceDriverSwComponentType`           | [ ] Implemented | N/A        |
+| `ServiceSwComponentType`                       | [ ] Implemented | N/A        |
+| `NvBlockSwComponentType`                       | [ ] Implemented | N/A        |
+| `SwComponentDocumentation`                     | [ ] Implemented | N/A        |
+| `AdditionalBindingTimeEnum`                    | [ ] Created     | N/A        |
+| `FunctionInhibitionAvailabilityNeeds`          | [ ] Implemented | N/A        |
+| `DiagnosticOperationCycleNeeds`                | [ ] Implemented | N/A        |
+| `OperationCycleTypeEnum`                       | [ ] Implemented | N/A        |
+| `DiagnosticEnableConditionNeeds`               | [ ] Implemented | N/A        |
+| `EventAcceptanceStatusEnum`                    | [ ] Implemented | N/A        |
+| `DiagnosticStorageConditionNeeds`              | [ ] Implemented | N/A        |
+| `StorageConditionStatusEnum`                   | [ ] Implemented | N/A        |
+| `IndicatorStatusNeeds`                         | [ ] Implemented | N/A        |
+| `DiagnosticIndicatorTypeEnum`                  | [ ] Implemented | N/A        |
+| `ObdRatioServiceNeeds`                         | [ ] Pending*    | 86d72d7d2c |
+| `ObdControlServiceNeeds`                       | [ ] Implemented | N/A        |
+| `ObdRatioConnectionKindEnum`                   | [ ] Implemented | N/A        |
+| `ObdPidServiceNeeds`                           | [ ] Implemented | N/A        |
+| `ObdInfoServiceNeeds`                          | [ ] Implemented | N/A        |
+| `ObdMonitorServiceNeeds`                       | [ ] Implemented | N/A        |
+| `DiagnosticMonitorUpdateKindEnum`              | [ ] Implemented | N/A        |
+| `ObdRatioDenominatorNeeds`                     | [ ] Pending*    | c4b99a4cf3 |
+| `DiagnosticDenominatorConditionEnum`           | [ ] Implemented | N/A        |
+| `DiagnosticTestResult`                         | [ ] Created     | N/A        |
+| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending*    | ee01eb9e60 |
+| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending*    | ca6b7d152b |
+| `SecureOnBoardCommunicationNeeds`              | [ ] Pending*    | 294106f57d |
+| `VerificationStatusIndicationModeEnum`         | [ ] Implemented | N/A        |
+| `IdsMgrNeeds`                                  | [ ] Implemented | N/A        |
+| `RapidPrototypingScenario`                     | [ ] Created     | N/A        |
+| `RptContainer`                                 | [ ] Created     | N/A        |
+| `RptHook`                                      | [ ] Created     | N/A        |
+| `RptProfile`                                   | [ ] Created     | N/A        |
+| `CommunicationConnector`                       | [ ] Pending*    | 7b29ffc2ba |
+| `PhysicalChannel`                              | [ ] Pending*    | 13ae27c195 |
+| `AbstractCanCluster`                           | [ ] Pending*    | b9599507f4 |
+| `CanCluster`                                   | [ ] Pending*    | ec69750f14 |
+| `CanCommunicationController`                   | [ ] Pending*    | 250fded7cd |
+| `AbstractCanCommunicationController`           | [ ] Pending*    | b115cca55e |
+| `AbstractCanCommunicationControllerAttributes` | [ ] Pending*    | a7b009e6e7 |
+| `CanControllerFdConfiguration`                 | [ ] Pending*    | 3cd3adcdc4 |
+| `CanControllerXlConfiguration`                 | [ ] Pending*    | 55877d3a96 |
+| `CanControllerXlConfigurationRequirements`     | [ ] Pending*    | 4e35a9d3b4 |
+| `AbstractCanPhysicalChannel`                   | [ ] Pending*    | d5b7c507aa |
+| `CanPhysicalChannel`                           | [ ] Pending*    | 10e6b6aab3 |
+| `AbstractCanCommunicationConnector`            | [ ] Pending*    | b6aaf97f5d |
+| `TtcanCluster`                                 | [ ] Pending*    | 4c24b5ae37 |
+| `TtcanCommunicationController`                 | [ ] Pending*    | 20da1fc7f6 |
+| `TtcanPhysicalChannel`                         | [ ] Pending*    | d6edfeef67 |
+| `TtcanCommunicationConnector`                  | [ ] Pending*    | 20db1869a0 |
+| `FlexrayCluster`                               | [ ] Pending*    | 00edf04e32 |
+| `FlexrayFifoConfiguration`                     | [ ] Pending*    | d4975bcfb7 |
+| `FlexrayFifoRange`                             | [ ] Pending*    | a2965515fb |
+| `LinCluster`                                   | [ ] Pending*    | d8a563e1f0 |
+| `LinCommunicationController`                   | [ ] Pending*    | f19185283e |
+| `LinMaster`                                    | [ ] Pending*    | 35db48e9b0 |
+| `LinSlaveConfig`                               | [ ] Pending*    | 81ac1ac2a0 |
+| `LinSlaveConfigIdent`                          | [ ] Pending*    | 5e4ae9f277 |
+| `LinSlave`                                     | [ ] Pending*    | c8f1e00c47 |
+| `LinErrorResponse`                             | [ ] Pending*    | 6439b6cbd5 |
+| `LinConfigurableFrame`                         | [ ] Pending*    | eb075693c2 |
+| `LinOrderedConfigurableFrame`                  | [ ] Pending*    | 15a63a22ae |
+| `LinPhysicalChannel`                           | [ ] Pending*    | a60d5418a2 |
+| `EthernetCluster`                              | [ ] Pending*    | 4b9d113878 |
 
 ## Group30
 
@@ -1905,7 +1905,7 @@ Status: **0/75** completed
 | `IEEE1722TpAcfLin`                          | [ ] Created     | N/A       |
 | `IEEE1722TpAcfLinPart`                      | [ ] Created     | N/A       |
 | `BusspecificNmEcu`                          | [ ] Implemented | N/A       |
-| `NmCoordinator`                             | [ ] Created     | N/A       |
+| `NmCoordinator`                             | [ ] Implemented | N/A       |
 | `NmNode`                                    | [ ] Implemented | N/A       |
 | `NmCoordinatorRoleEnum`                     | [ ] Implemented | N/A       |
 | `FlexrayNmScheduleVariant`                  | [ ] Implemented | N/A       |

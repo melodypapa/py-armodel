@@ -299,7 +299,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ObdRatioServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.44, p.795
+- [ ] `ObdRatioServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.44, p.795
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -309,7 +309,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1897 + 8190 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1897 + 8190 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `86d72d7d2`
 
 - [ ] `ObdControlServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.45, p.796; also CP_TPS_DiagnosticExtractTemplate Table 5.11, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -383,7 +383,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [x] `ObdRatioDenominatorNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.51, p.803
+- [ ] `ObdRatioDenominatorNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.51, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -393,7 +393,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1898 + 8194 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1898 + 8194 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `c4b99a4cf`
 
 - [ ] `DiagnosticDenominatorConditionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.52, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -429,7 +429,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1899 + 8198 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1899 + 8198 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `ee01eb9e6`
 
 - [ ] `DoIpRoutingActivationConfirmationNeeds` — DoIpServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.59, p.807
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -441,7 +441,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1900 + 8202 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1900 + 8202 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `ca6b7d152`
 
 - [ ] `SecureOnBoardCommunicationNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.68, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -455,7 +455,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1901 + 8206 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1901 + 8206 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `294106f57`
 
 - [ ] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -539,7 +539,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (9979 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (9979 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `7b29ffc2b`
 
 - [ ] `PhysicalChannel` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.7, p.59
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -551,7 +551,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10007 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10007 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `13ae27c19`
 
 - [ ] `AbstractCanCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.8, p.62
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -563,7 +563,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10029 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10029 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `b9599507f`
 
 - [ ] `CanCluster` — AbstractCanCluster — R23-11 CP_TPS_SystemTemplate Table 3.9, p.62
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -575,7 +575,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2096+7949 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2096+7949 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `ec69750f1`
 
 - [ ] `CanCommunicationController` — AbstractCanCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.11, p.63
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -588,7 +588,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2183+8011 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2183+8011 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `250fded7c`
 
 - [ ] `AbstractCanCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.12, p.63
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -601,7 +601,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2178+8002 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2178+8002 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `b115cca55`
 
 - [ ] `AbstractCanCommunicationControllerAttributes` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.13, p.64
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -613,7 +613,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10065 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10065 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `a7b009e6e`
 
 - [ ] `CanControllerFdConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.16, p.66
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -626,7 +626,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10094 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10094 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `3cd3adcdc`
 
 - [ ] `CanControllerXlConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.18, p.71
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -638,7 +638,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10118 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10118 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `55877d3a9`
 
 - [ ] `CanControllerXlConfigurationRequirements` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.19, p.72
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -651,7 +651,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10163 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10163 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `4e35a9d3b`
 
 - [ ] `AbstractCanPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.20, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -665,7 +665,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10207 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10207 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `d5b7c507a`
 
 - [ ] `CanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.21, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -679,7 +679,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2194+8019 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2194+8019 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `10e6b6aab`
 
 - [ ] `AbstractCanCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.22, p.73
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -692,7 +692,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2200+8026 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2200+8026 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `b6aaf97f5`
 
 - [ ] `TtcanCluster` — AbstractCanCluster — R23-11 CP_TPS_SystemTemplate Table 3.24, p.76
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
@@ -705,7 +705,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2212+8036 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2212+8036 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `4c24b5ae3`
 
 - [ ] `TtcanCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.25, p.77
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
@@ -719,7 +719,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): deviations — queue-hint placement arbitrated (see Step 1 finding): implemented in CanTopology.py with most-derived modeled base AbstractCanCommunicationController (Rule 0001.2; Rule 0007 nearest-modeled-ancestor placement, cf. TtcanCluster), ArObject.py stub removed and the generated stub-guard row dropped (NmCoordinator precedent 559d53600); MachineDesign COMMUNICATION-CONTROLLERS choice (XSD line 79522) not wired — MachineDesign has no reader/writer path in this codebase; no other deviations (docstrings verbatim from the markdown Note, reader/writer wired in both directions, no fabrication, no flattening).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1687+2222+8048 passed / 0 failed: models GenericStructure+SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1687+2222+8048 passed / 0 failed: models GenericStructure+SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `20da1fc7f`
 
 - [ ] `TtcanPhysicalChannel` — AbstractCanPhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.26, p.77
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
@@ -733,9 +733,9 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - Step 8 (2026-10-05): deviations — spec Package tail Fibex4Ttcan::TtcanTopology has no codebase package; class placed in the nearest modeled ancestor AbstractCanPhysicalChannel's module CanTopology.py (queue-hint arbitration, TtcanCommunicationController precedent 20da1fc7f). The aggregator factory createTtcanPhysicalChannel was added to CommunicationCluster (CoreTopology.py) whose checklist block is the grandfathered 5-column pre-release-column format — the new row matches the host format and gains its release column at CommunicationCluster's own re-sync pass (Rule 0002 grandfathering). No attribute deviations: Table 3.26 renders no attribute rows, docstring is the verbatim Note, reader/writer call the base helpers exactly once in both directions (audit BASE clean); no fabrication, no flattening.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2228+8059+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2228+8059+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `d6edfeef6`
 
-- [x] `TtcanCommunicationConnector` — AbstractCanCommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.27, p.77
+- [ ] `TtcanCommunicationConnector` — AbstractCanCommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.27, p.77
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -745,7 +745,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10305 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10305 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `20db1869a`
 
 - [ ] `FlexrayCluster` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.29, p.81
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
@@ -759,7 +759,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no deviations — base arbitration resolved to the spec (queue's `ARObject` was stale; Table 3.29 Base column and the XSD complexType both give CommunicationCluster as most-derived modeled base); all 35 attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer element order = XSD FLEXRAY-CLUSTER-CONTENT sequenceOffset — the two orders coincide here); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 35 inline comments + 35 getter/setter docstrings; markdown quirks kept verbatim, e.g. "cSamplesPer Bit", "awakeup symbol", "Unit: gDbit"); reader/writer already fully wired (ARPackage.element dispatch, CONDITIONAL wrapper carrying the inherited COMMUNICATION-CLUSTER content per the 9a-verified CanCluster/TtcanCluster convention, base helpers read/writeIdentifiable + read/writeCommunicationCluster called exactly once each — audit BASE clean); no fabrication, no flattening, no missing member types.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2310+8081 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2310+8081 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `00edf04e3`
 
 - [ ] `FlexrayFifoConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.31, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
@@ -773,9 +773,9 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — the pre-recorded Rule 0001.6 deviation is resolved in this pass: `createFlexrayFifoRange()` renamed to `addFlexrayFifoRange(value: Optional[FlexrayFifoRange])` (None-guarded append, returns self), the `fifoRange` list field pluralized to `fifoRanges` per Rule 0001.5, and the reader's transitional `getFlexrayFifoRanges().append(...)` replaced by `addFlexrayFifoRange(value)`. Rename call sites updated: model test_FlexrayTopology.py, writer test_flexray_fifo_range.py, writer test_writer_frame_channel.py. `channel` (Kind ref, 0..1) modeled as `channelRef: Optional[RefType]` per Rule 0001.5 ref-suffix naming (spec Type column names the reference target FlexrayPhysicalChannel; XSD CHANNEL-REF with DEST FLEXRAY-PHYSICAL-CHANNEL--SUBTYPES-ENUM) — no type drift. Reader/writer entry points now call readARObject/writeARObject exactly once each (Rule 0025 — inherited S/T were silently dropped before this pass). Stale `# Spec verified: R23-11` marker from the legacy 5-column checklist removed; re-stamp deferred to batch 9b per user instruction.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2333+8101 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2333+8101 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `d4975bcfb`
 
-- [x] `FlexrayFifoRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.32, p.87
+- [ ] `FlexrayFifoRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.32, p.87
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Flexray/FlexrayTopology.py
   - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale spec-verified stamp removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column; model surface already at bar (ARObject base, rangeMax/rangeMin `Optional[Integer]` 0..1 in displayed order, PEP 526 + blank lines, verbatim Notes after full wipe/rewrite) so Steps 2–3 tests were born GREEN. Reader/writer fixed to XSD ground truth in this pass (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): writer now emits the FIFO-RANGES wrapper (only when non-empty) between FIFO-DEPTH and MSG-ID-MASK and reader descends `FIFO-RANGES/FLEXRAY-FIFO-RANGE` via the getFlexrayFifoRange entry point, which now calls readARObject exactly once (writeARObject mirrored in setFlexrayFifoRange) so inherited S/T round-trip; fragment verified schema-valid against AUTOSAR_00052.xsd FLEXRAY-FIFO-CONFIGURATION (old bare-range shape confirmed invalid). Reader list insertion uses `getFlexrayFifoRanges().append(...)` transitionally — replaced by the next row's pre-recorded `addFlexrayFifoRange(value)` rename (FlexrayFifoConfiguration, Table 3.31). Two stale unit tests asserting the old wrapper-less shape updated (parser test_arxml_parser_network_handlers.py, writer test_writer_frame_channel.py); no integration fixture touched.
   - [x] Step 1 — Sync members & description from spec
@@ -786,7 +786,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2315+8090 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2315+8090 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `a2965515f`
 
 - [ ] `LinCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.36, p.93
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -799,7 +799,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2351+8123+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2351+8123+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `d8a563e1f`
 
 - [ ] `LinCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.37, p.93
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -811,7 +811,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2356+8131+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2356+8131+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `f19185283`
 
 - [ ] `LinMaster` — LinCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.38, p.94
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -825,7 +825,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — all three attributes modeled with spec types/multiplicities in displayed order (linSlave `*` aggr → dedicated `List[LinSlaveConfig]` field + `addLinSlave(value)` per Rule 0001.6 since LinSlaveConfig derives from ARObject, not Referrable; timeBase/timeBaseJitter 0..1 → Optional[TimeValue]); member order = markdown row order, reader/writer XML element order = XSD LIN-MASTER-CONTENT sequenceOffset (LIN-SLAVES, TIME-BASE, TIME-BASE-JITTER — the two orders coincide); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 3 inline comments + 6 accessor docstrings); reader/writer entry points call readIdentifiable/writeIdentifiable on the outer element and read/writeLinCommunicationController exactly once each on the LIN-MASTER-CONDITIONAL wrapper (audit BASE clean); EcuInstance COMM-CONTROLLERS dispatch already wired. MachineDesign COMMUNICATION-CONTROLLERS choice (XSD line 79520) not wired — no MachineDesign reader/writer path in this codebase (TtcanCommunicationController precedent). linSlave member type LinSlaveConfig is a legacy class queued for its own pass (Table 3.39). Re-stamp deferred to batch 9b per user instruction.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2361+8140+1185 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2361+8140+1185 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `35db48e9b`
 
 - [ ] `LinSlaveConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.39, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -839,7 +839,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale `# Spec verified: R23-11` marker removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column (release column, `[—]` glyphs). Two drifts fixed in this pass: (1) ident docstring normalized to the markdown verbatim "This adds the ability to become referrable to LinSlave Config." — the mid-identifier wrap artifact "LinSlave Config" is part of the R23-11 markdown Note and is kept verbatim (FlexrayCluster precedent: "cSamplesPer Bit"); (2) entry helpers getLinSlaveConfig/setLinSlaveConfig gained the readARObject/writeARObject base-helper calls (Rule 0025 — inherited S/T were silently dropped; audit BASE now clean). Non-blocking arbitration: XSD group member LIN-SLAVE-ECU-REF (AUTOSAR_00052.xsd line 77806) carries atp.Status="removed" and is absent from the R23-11 Table 3.39 — not modeled (Rule 0015); ident (0..1, Referrable-typed LinSlaveConfigIdent on an ARObject-derived parent) keeps the set/getIdent + dedicated Optional-field shape instead of a createXxx(short_name) registry factory — ARObject provides no Referrable elements registry to register it in, and the reader constructs LinSlaveConfigIdent(config, short-name) + setIdent (matched pairs across layers). No fabrication, no flattening; all ten attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer XML element order = XSD LIN-SLAVE-CONFIG group sequenceOffset — the two orders coincide); docstrings byte-identical to the markdown Notes (mechanical diff: 0 deltas across class Note + 10 inline comments + 20 accessor docstrings).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2381+8155+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2381+8155+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `81ac1ac2a`
 
 - [ ] `LinSlaveConfigIdent` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.40, p.95
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -853,7 +853,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — the re-run's actual drift was the checklist itself (legacy 5-column format + stale `# Spec verified: R23-11` marker; audit ROWS/STAMP failed at session start), fixed at Step 7: marker removed (re-stamp deferred to batch 9b per user instruction), block rebuilt 6-column with the release column. Zero-attribute contract verified both directions: Table 3.40 has no Attribute rows and the XSD LIN-SLAVE-CONFIG-IDENT group is an empty sequence — the class keeps zero own members on the Referrable base (inherited shortName/shortNameFragments/S-T round-trip through the IDENT element), no fabrication, no flattening. Class docstring byte-identical to the markdown Note; the "Lin SlaveConfig" mid-identifier wrap artifact is part of the R23-11 markdown Note and is kept verbatim (FlexrayCluster/LinSlaveConfig precedent). Reader/writer coverage stays on the consumer path (Rule 0001.7): parser readLinSlaveConfig constructs LinSlaveConfigIdent + readReferrable exactly once, writer setLinSlaveConfig writes IDENT + writeReferrable exactly once (audit BASE clean); test hardening added in this pass — parser test asserts the IDENT's inherited Referrable payload (SHORT-NAME, SHORT-NAME-FRAGMENTS role/fragment, S/T) is read, writer tests assert it is written and round-trips. Workflow note (non-blocking): both TDD pairs ran Green on arrival — the parent re-sync (81ac1ac2a) had already wired the consumer path and the legacy impl/docstring already matched the R23-11 table, so the only genuine Red of this re-run was the checklist gate; tests were still written before any implementation check. XSD DEST attribute at line 77153 belongs to ASSIGNED-LIN-SLAVE-CONFIG-REF (a LinConfigurationEntry reference DEST enum), not to this class — not modeled here.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2384+8160+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2384+8160+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `5e4ae9f27`
 
 - [ ] `LinSlave` — LinCommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.41, p.97
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -867,7 +867,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — all eight attributes modeled with spec types/multiplicities in displayed order (all 0..1: assignNad Boolean, configuredNad Integer, functionId PositiveInteger, initialNad Integer, linErrorResponse LinErrorResponse aggr, nasTimeout TimeValue, supplierId PositiveInteger, variantId PositiveInteger; no `*` aggr / Referrable children → setXxx accessors only, setLinErrorResponse for the 0..1 aggr); member order = markdown row order, reader/writer XML element order = XSD LIN-SLAVE-CONTENT sequenceOffset (the two orders coincide); docstrings byte-identical to the markdown Notes (enforced by the model test's verbatim asserts across class Note + 8 inline comments + 16 accessor docstrings; period-less "LIN function ID"/"LIN Supplier ID"/"Specifies the Variant ID" kept verbatim); reader/writer entry points call readIdentifiable/writeIdentifiable on the outer element and read/writeLinCommunicationController exactly once each on the LIN-SLAVE-VARIANTS/LIN-SLAVE-CONDITIONAL wrapper (audit BASE clean); the missing EcuInstance COMM-CONTROLLERS LIN-SLAVE branch added in this pass (parser tag dispatch + writer isinstance dispatch + createLinSlave factory on EcuInstance, LinMaster 35db48e9b / TtcanCommunicationController 20da1fc7f precedent). XSD LIN-SLAVE-CONTENT member SAVE-CONFIGURATION carries atp.Status="removed" (since 4.4.0) and is absent from the R23-11 Table 3.41 — not modeled (Rule 0015). MachineDesign COMMUNICATION-CONTROLLERS choice not wired — no MachineDesign reader/writer path in this codebase (LinMaster precedent). linErrorResponse member type LinErrorResponse (Table 3.42, queued row after this one) exists in LinCommunication.py; its current shape (ARObject, responseError ref → responseErrorRef Optional[RefType], Note verbatim) does not conflict with this row — full re-sync in its own queued pass. Stub-guard row (test_group21_36_stub_classes.py) keeps holding on the in-place fill. Re-stamp deferred to batch 9b per user instruction.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2376+8150+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2376+8150+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `c8f1e00c4`
 
 - [ ] `LinErrorResponse` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.42, p.97
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
@@ -880,7 +880,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2389+8164+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2389+8164+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `6439b6cbd`
 
 - [ ] `LinConfigurableFrame` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.44, p.99
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -894,7 +894,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale `# Spec verified: R23-11` marker removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column (release column, `[—]` glyphs). Model surface already at bar (ARObject base, frameRef `Optional[RefType]` ref-kind + messageId `Optional[PositiveInteger]` 0..1 in displayed order, PEP 526 + blank lines, docstrings byte-identical to the markdown Notes after wipe/rewrite — mechanical diff: 0 deltas across class Note + 2 inline comments + 4 accessor docstrings, pinned by the new model-test verbatim asserts), so the model TDD pair was born GREEN (LinSlaveConfigIdent/FlexrayFifoRange precedent). Reader/writer fixed to XSD ground truth in this pass (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): the XSD complexType LIN-CONFIGURABLE-FRAME (AUTOSAR_00052.xsd line 77104) = AR-OBJECT group + LIN-CONFIGURABLE-FRAME group + AR-OBJECT attributeGroup, but all three parser construction sites (entry helper getLinConfigurableFrame + the inline loops in readLinSlaveConfig and readLinCommunicationConnector) and the writer setLinConfigurableFrame skipped the base helpers — inherited S/T silently dropped in both directions (Rule 0025). Fixed by consolidating parser construction into a new readLinConfigurableFrame helper (getLinSlaveConfig→readLinSlaveConfig precedent) that calls readARObject exactly once, with both consumer loops + getLinConfigurableFrame delegating to it via addLinConfigurableFrame mutators, and by adding writeARObject to setLinConfigurableFrame (single construction site; audit BASE clean both directions). No fabrication, no flattening; both attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer XML element order = XSD LIN-CONFIGURABLE-FRAME group sequenceOffset FRAME-REF, MESSAGE-ID — the two orders coincide); no `*` aggr / Referrable children (get/set accessors only).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2394+8170+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2394+8170+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `eb075693c`
 
 - [ ] `LinOrderedConfigurableFrame` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.45, p.99
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -908,7 +908,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no spec deviations — Rule 0023/0012.3 re-run of a legacy 5-column class: stale `# Spec verified: R23-11` marker removed (re-stamp deferred to batch 9b per user instruction), checklist rebuilt 6-column (release column, `[—]` glyphs). Model surface already at bar (ARObject base, frameRef `Optional[RefType]` ref-kind + index `Optional[Integer]` 0..1 in displayed order, PEP 526 + blank lines, docstrings byte-identical to the markdown Notes after wipe/rewrite — mechanical diff: 0 deltas across class Note + 2 inline comments + 4 accessor docstrings, pinned by the new model-test verbatim asserts), so the model TDD pair was born GREEN (LinSlaveConfigIdent/FlexrayFifoRange/LinConfigurableFrame precedent). Reader/writer fixed to XSD ground truth in this pass (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): the XSD complexType LIN-ORDERED-CONFIGURABLE-FRAME (AUTOSAR_00052.xsd line 77531) = AR-OBJECT group + LIN-ORDERED-CONFIGURABLE-FRAME group + AR-OBJECT attributeGroup, but all three parser construction sites (entry helper getLinOrderedConfigurableFrame + the inline loops in readLinSlaveConfig and readLinCommunicationConnector) and the writer setLinOrderedConfigurableFrame skipped the base helpers — inherited S/T silently dropped in both directions (Rule 0025). Fixed by consolidating parser construction into a new readLinOrderedConfigurableFrame helper (readLinConfigurableFrame precedent) that calls readARObject exactly once, with both consumer loops + getLinOrderedConfigurableFrame delegating to it via addLinOrderedConfigurableFrame mutators, and by adding writeARObject to setLinOrderedConfigurableFrame (single construction site; audit BASE clean both directions). No fabrication, no flattening; both attributes modeled with spec types/multiplicities in displayed order (member order = markdown order; reader/writer XML element order = XSD LIN-ORDERED-CONFIGURABLE-FRAME group sequenceOffset FRAME-REF, INDEX — the two orders coincide); no `*` aggr / Referrable children (get/set accessors only).
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10575 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (10575 passed / 0 failed: models SystemTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `15a63a22a`
 
 - [ ] `LinPhysicalChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.46, p.100
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py
@@ -922,7 +922,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): no remaining deviations — the queue-hint base `ARObject` was arbitrated to `PhysicalChannel` at Step 1 (Table 3.46 Base column + XSD complexType chain, Rule 0015; the existing code already conformed). Fixed this class's reader/writer gap found at Step 1 (defect NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): readLinPhysicalChannel/writeLinPhysicalChannel never touched BUS-IDLE-TIMEOUT-PERIOD — both now read/write it via the TimeValue helpers in XSD sequenceOffset order (BUS-IDLE-TIMEOUT-PERIOD before the SCHEDULE-TABLES wrapper, LIN-PHYSICAL-CHANNEL group AUTOSAR_00052.xsd line 77544); base helpers read/writePhysicalChannel called exactly once each (audit BASE clean both directions). Markdown quirk kept verbatim per Rule 0015/0001.4: the scheduleTable Note's Tags tail reads "schedule Table.variationPoint.shortLabel" (capital T mid-word). Referenced member type LinScheduleTable exists and is already stamped (Table 6.93, p.432, Fibex4Lin/LinCommunication.py) — no missing classes; no fabrication, no flattening.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2409+8188+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2409+8188+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `a60d5418a`
 
 - [ ] `EthernetCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.47, p.103
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
@@ -935,4 +935,4 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 7 — Update checklist comment
   - Step 8 (2026-10-05): deviations — all resolved in this pass. Writer defects fixed (own code, NOT in docs/plan/xsd-validation-known-writer-defects.md, validation gate ON): (1) writeEthernetCluster emitted MAC-MULTICAST-GROUPS before COUPLING-PORT-CONNECTIONS — now emits ETHERNET-CLUSTER-CONTENT in XSD sequenceOffset order (COUPLING-PORT-CONNECTIONS, COUPLING-PORT-STARTUP-ACTIVE-TIME, COUPLING-PORT-SWITCHOFF-DELAY, MAC-MULTICAST-GROUPS); (2) entry point called writeARElement (a one-line writeIdentifiable delegation) — normalized to the direct writeIdentifiable call per the CanCluster/TtcanCluster/FlexrayCluster convention (Rule 0013.2 symmetry with readIdentifiable); reader own-field read order aligned to the same XSD order (cosmetic). Model docstrings restored verbatim in the Step 4 wipe/rewrite: class Note's `Tags: atp.recommendedPackage=CommunicationClusters` tail and couplingPortConnection's full Note (`Note: This atpSplitable property … Tags: vh.latestBindingTime=postBuild`) were truncated in the legacy file. The tracker's stale `missing` row `ethernetClusterVariant`/`EthernetClusterConditional` documents the atpVariation VARIANTS/CONDITIONAL wrapper, deliberately not a modeled attribute (Rule 0001.7) — same accepted shape as sibling FlexrayCluster/TtcanCluster tracker rows, tracker untouched per sibling precedent. No fabrication, no flattening, no missing member types.
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2347+8113+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (2347+8113+1185 passed / 0 failed: models SystemTemplate, parser+writer regression, member-annotations+stub-guard); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `4b9d11387`
