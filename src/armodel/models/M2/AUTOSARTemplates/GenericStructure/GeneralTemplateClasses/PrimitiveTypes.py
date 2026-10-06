@@ -1804,7 +1804,29 @@ class DdsDurabilityServiceHistoryKindEnum(AREnum):
 
 
 class DdsHistoryKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS HISTORY kind. Tags: atp.Status=candidate
+    """
+
+    # DdsHistoryKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.199, p.537
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsHistory.historyKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "HISTORY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    KEEP_ALL = "KEEP-ALL"
+
+    # See "HISTORY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    KEEP_LAST = "KEEP-LAST"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsHistoryKindEnum.KEEP_ALL,
+                DdsHistoryKindEnum.KEEP_LAST,
+            ]
+        )
 
 
 class DdsLivenessKindEnum(AREnum):

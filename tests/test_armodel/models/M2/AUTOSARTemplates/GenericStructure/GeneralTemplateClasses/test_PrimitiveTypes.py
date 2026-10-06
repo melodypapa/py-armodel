@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -3494,3 +3495,46 @@ class TestDdsDestinationOrderKindEnum:
         enum.setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP)
 
         assert enum.getValue() == DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP
+
+
+class TestDdsHistoryKindEnum:
+    """
+    Test class for DdsHistoryKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.199, p.537
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsHistoryKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsHistoryKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsHistoryKindEnum.KEEP_ALL,
+            DdsHistoryKindEnum.KEEP_LAST,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsHistoryKindEnum member values.
+        """
+        enum = DdsHistoryKindEnum()
+
+        assert DdsHistoryKindEnum.KEEP_ALL == "KEEP-ALL"
+        assert DdsHistoryKindEnum.KEEP_LAST == "KEEP-LAST"
+
+        assert enum.validateEnumValue("KEEP-ALL") is True
+        assert enum.validateEnumValue("KEEP-LAST") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsHistoryKindEnum instantiability and getValue.
+        """
+        enum = DdsHistoryKindEnum()
+        enum.setValue(DdsHistoryKindEnum.KEEP_ALL)
+
+        assert enum.getValue() == DdsHistoryKindEnum.KEEP_ALL
