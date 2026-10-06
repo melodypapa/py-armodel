@@ -1013,7 +1013,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       (integration round-trips incl.); npm run lint clean; black clean on
       all 6 touched code files; no marker in batch mode.
 
-- [ ] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — R23-11 markdown · Table 2.21
+- [x] `EcucLinkerSymbolDef` — EcucAbstractStringParamDef — R23-11 markdown · Table 2.21 — commit 776f61b1d (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.21 AUTOSAR_CP_TPS_ECUConfiguration.md l.1707-1714
     (caption l.1705; pdf_page.py: PDF p.65 caption hit). Concrete Class
@@ -1125,7 +1125,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       coverage fixed in-pass, recorded as no-deviation rows + batch Note in
       method_deviation_by_class.md; v2 tracker appendix needs no reconciliation; no
       open deviation remains.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14995 passed / 0
       failed incl. integration round-trips; npm run lint clean; black clean on all
       touched files); 9b deferred to batch confirmation (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
