@@ -103,15 +103,38 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwcModeManagerErrorEvent` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 9.8, p.638
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): placement arbitrated — spec Package row is
+    `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents` and the
+    most-derived modeled base is `RTEEvent` (XSD group chain AR-OBJECT→…→RTE-EVENT→SWC-MODE-MANAGER-ERROR-EVENT);
+    the ArObject.py `ARObject` stub is a generated-stub misplacement → RELOCATED to
+    `SWComponentTemplate/SwcInternalBehavior/RTEEvents.py` per Rule 0007 + TtcanCommunicationController
+    precedent (20da1fc7f); mirrors sibling `SwcModeSwitchEvent` (8ea809a12); stub-guard test entry
+    updated to the new module/base per its documented contract. One attribute: `modeGroup`
+    (ModeDeclarationGroupPrototype, 0..1, iref) → `modeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef]`;
+    XSD element `SWC-MODE-MANAGER-ERROR-EVENT`/`MODE-GROUP-IREF` (flat, fixed-concrete).
+  - Step 8 (2026-10-06): no deviations — relocation + re-base recorded in the tracker
+    (`docs/examples/method_deviation_by_class.md`, new `SwcModeManagerErrorEvent` entry):
+    stub relocated ArObject.py → RTEEvents.py, re-based ARObject → `RTEEvent`, stub-guard
+    entry removed per contract, top-level export re-verified; five-place dispatch wired
+    (factory/getter on SwcInternalBehavior with checklist rows, reader/writer helpers calling
+    readRTEEvent/writeRTEEvent exactly once, EVENTS dispatch both sides). Member type
+    `PModeGroupInAtomicSwcInstanceRef` already stamped R23-11 (Table D.12, p.949) — no
+    Rule 0001.10 missing classes. Docstring normalization recorded (sibling precedent):
+    markdown wrap-spaces inside class-name tokens joined — "ModeDeclarationGroup Prototype" →
+    "ModeDeclarationGroupPrototype", "PModeGroupInAtomic SwcInstanceRef" →
+    "PModeGroupInAtomicSwcInstanceRef" (XSD complexType doc confirms joined forms).
+    Report-only: XSD group SWC-MODE-MANAGER-ERROR-EVENT (AUTOSAR_00052.xsd L117378) holds no
+    member beyond the PDF table (Rule 0015); no `atp.Status="removed"` members. No stamp
+    (batch 9b deferred, user instruction).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (73 + 8695 + 1183 + 11476 passed / 0 failed: models mirrored test_RTEEvents, parser+writer regression, member-annotations+stub-guard, models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `SensorActuatorSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 10.1, p.646
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py

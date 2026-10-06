@@ -1060,6 +1060,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -6689,6 +6690,15 @@ class ARXMLParser(AbstractARXMLParser):
         event.setActivation(self._readEnumToken(element, "ACTIVATION", ModeActivationKind, MODE_ACTIVATION_KIND_XML_MAP))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
+    def readSwcModeManagerErrorEvent(self, element: ET.Element, event: SwcModeManagerErrorEvent):
+        # self.logger.debug("Read SwcModeManagerErrorEvent <%s>" % event.getShortName())
+        self.readRTEEvent(element, event)
+        child_element = self.find(element, "MODE-GROUP-IREF")
+        if child_element is not None:
+            instance_ref = PModeGroupInAtomicSwcInstanceRef()
+            self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            event.setModeGroupIRef(instance_ref)
+
     def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
         # self.logger.debug("Read InternalTriggerOccurredEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
@@ -6760,6 +6770,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTimingEvent(child_element, event)
             elif tag_name == "SWC-MODE-SWITCH-EVENT":
                 self.readSwcModeSwitchEvent(child_element, parent.createSwcModeSwitchEvent(self.getShortName(child_element)))
+            elif tag_name == "SWC-MODE-MANAGER-ERROR-EVENT":
+                self.readSwcModeManagerErrorEvent(child_element, parent.createSwcModeManagerErrorEvent(self.getShortName(child_element)))
             elif tag_name == "OPERATION-INVOKED-EVENT":
                 self.readOperationInvokedEvent(child_element, parent.createOperationInvokedEvent(self.getShortName(child_element)))
             elif tag_name == "DATA-RECEIVED-EVENT":

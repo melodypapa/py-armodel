@@ -3634,3 +3634,86 @@ class TestIncludedDataTypeSetRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestSwcModeManagerErrorEventRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of a SwcModeManagerErrorEvent with a mode group IRef (Table 9.8)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeManagerErrorEvent
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        event = behavior.createSwcModeManagerErrorEvent("mee1")
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/Pkg/App/pp", "P-PORT-PROTOTYPE"))
+        iref.setTargetModeGroupRef(_ref("/Pkg/ModeDclGroup", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        event.setModeGroupIRef(iref)
+        event.setStartOnEventRef(_ref("/Pkg/App/Behavior/r1", "RUNNABLE-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mee1")
+            assert isinstance(event_2, SwcModeManagerErrorEvent)
+            start_ref = event_2.getStartOnEventRef()
+            assert start_ref is not None
+            assert start_ref.getValue() == "/Pkg/App/Behavior/r1"
+            assert start_ref.getDest() == "RUNNABLE-ENTITY"
+            iref_2 = event_2.getModeGroupIRef()
+            assert iref_2 is not None
+            ctx = iref_2.getContextPPortRef()
+            assert ctx.getValue() == "/Pkg/App/pp"
+            assert ctx.getDest() == "P-PORT-PROTOTYPE"
+            tgt = iref_2.getTargetModeGroupRef()
+            assert tgt.getValue() == "/Pkg/ModeDclGroup"
+            assert tgt.getDest() == "MODE-DECLARATION-GROUP-PROTOTYPE"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that a SwcModeManagerErrorEvent without a mode group IRef round-trips without the element."""
+        import os
+        import tempfile
+        import xml.etree.ElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        app = document.createARPackage("Pkg").createApplicationSwComponentType("App")
+        behavior = app.createSwcInternalBehavior("Behavior")
+        behavior.createSwcModeManagerErrorEvent("mee1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            evt = next(e for e in saved.iter() if e.tag.endswith("SWC-MODE-MANAGER-ERROR-EVENT"))
+            assert all(not c.tag.endswith("MODE-GROUP-IREF") for c in evt)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            app_2 = next(e for e in package.referrableElements if e.getShortName() == "App")
+            behavior_2 = app_2.getInternalBehavior()
+            event_2 = next(e for e in behavior_2.getRteEvents() if e.getShortName() == "mee1")
+            assert event_2.getModeGroupIRef() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

@@ -872,6 +872,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -4723,6 +4724,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for iref in irefs:
                     self.setRModeInAtomicSwcInstanceRef(mode_irefs_tag, "MODE-IREF", iref)
 
+    def writeSwcModeManagerErrorEvent(self, element: ET.Element, event: SwcModeManagerErrorEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "SWC-MODE-MANAGER-ERROR-EVENT")
+            self.writeRTEEvent(child_element, event)
+            self.setPModeGroupInAtomicSwcInstanceRef(child_element, "MODE-GROUP-IREF", event.getModeGroupIRef())
+
     def setRVariableInAtomicSwcInstanceRef(self, element: ET.Element, iref: Optional[RVariableInAtomicSwcInstanceRef]):
         if iref is not None:
             child_element = ET.SubElement(element, "DATA-IREF")
@@ -4823,6 +4830,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeOperationInvokedEvent(child_element, event)
                 elif isinstance(event, SwcModeSwitchEvent):
                     self.writeSwcModeSwitchEvent(child_element, event)
+                elif isinstance(event, SwcModeManagerErrorEvent):
+                    self.writeSwcModeManagerErrorEvent(child_element, event)
                 elif isinstance(event, DataReceivedEvent):
                     self.writeDataReceivedEvent(child_element, event)
                 elif isinstance(event, DataReceiveErrorEvent):

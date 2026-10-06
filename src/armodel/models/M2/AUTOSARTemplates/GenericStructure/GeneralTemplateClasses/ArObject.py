@@ -2270,10 +2270,6 @@ class SpecificationScope(ARObject):
     pass
 
 
-class SwcModeManagerErrorEvent(ARObject):
-    pass
-
-
 class TextualCondition(AbstractCondition):
     pass
 
