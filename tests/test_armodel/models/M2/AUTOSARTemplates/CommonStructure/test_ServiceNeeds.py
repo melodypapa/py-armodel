@@ -965,7 +965,13 @@ class TestDiagnosticAudienceEnum:
         """Test DiagnosticAudienceEnum initialization"""
         enum = DiagnosticAudienceEnum()
 
-        assert enum.enumValues == (DiagnosticAudienceEnum.AFTER_MARKET, DiagnosticAudienceEnum.AFTER_SALES, DiagnosticAudienceEnum.DEVELOPMENT, DiagnosticAudienceEnum.MANUFACTURING, DiagnosticAudienceEnum.SUPPLIER)
+        assert enum.enumValues == (
+            DiagnosticAudienceEnum.AFTER_MARKET,
+            DiagnosticAudienceEnum.AFTER_SALES,
+            DiagnosticAudienceEnum.DEVELOPMENT,
+            DiagnosticAudienceEnum.MANUFACTURING,
+            DiagnosticAudienceEnum.SUPPLIER,
+        )
 
     def test_values(self):
         """Test enum values"""
@@ -1178,7 +1184,11 @@ class TestDiagnosticProcessingStyleEnum:
         """Test DiagnosticProcessingStyleEnum initialization"""
         enum = DiagnosticProcessingStyleEnum()
 
-        assert enum.enumValues == (DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS, DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR, DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS)
+        assert enum.enumValues == (
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS,
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_ASYNCHRONOUS_WITH_ERROR,
+            DiagnosticProcessingStyleEnum.PROCESSING_STYLE_SYNCHRONOUS,
+        )
 
     def test_values(self):
         """Test enum values"""
@@ -2445,7 +2455,13 @@ class TestDiagnosticIndicatorTypeEnum:
     def test_initialization(self):
         """Test DiagnosticIndicatorTypeEnum initialization"""
         enum = DiagnosticIndicatorTypeEnum()
-        assert enum.enumValues == (DiagnosticIndicatorTypeEnum.AMBER_WARNING, DiagnosticIndicatorTypeEnum.MALFUNCTION, DiagnosticIndicatorTypeEnum.PROTECT_LAMP, DiagnosticIndicatorTypeEnum.RED_STOP_LAMP, DiagnosticIndicatorTypeEnum.WARNING)
+        assert enum.enumValues == (
+            DiagnosticIndicatorTypeEnum.AMBER_WARNING,
+            DiagnosticIndicatorTypeEnum.MALFUNCTION,
+            DiagnosticIndicatorTypeEnum.PROTECT_LAMP,
+            DiagnosticIndicatorTypeEnum.RED_STOP_LAMP,
+            DiagnosticIndicatorTypeEnum.WARNING,
+        )
 
     def test_values(self):
         """Test enum values"""

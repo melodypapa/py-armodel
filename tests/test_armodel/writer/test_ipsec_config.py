@@ -10,9 +10,8 @@ from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, IPsecModeEnum
 from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPsecModeEnum
 
 NS = "http://autosar.org/schema/r4.0"
 

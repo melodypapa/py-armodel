@@ -18,8 +18,8 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_indicat
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from tests.test_armodel.parser._helpers import _snip
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum
+from tests.test_armodel.parser._helpers import _snip
 
 
 class TestReadDiagnosticIndicator:

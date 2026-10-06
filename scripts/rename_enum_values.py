@@ -4,6 +4,7 @@ Value strings ONLY: constant names, comments, tuple order, and class
 structure are untouched. Also regenerates *_XML_MAP keys in the parser and
 writer whose keys reference renamed values.
 """
+
 import os
 import re
 
@@ -18,9 +19,15 @@ MAP_FILES = [
 
 SKIP_CLASSES = {
     # IEEE-1722 empty stubs: XSD counterparts exist but they define zero constants (nothing to rename)
-    "IEEE1722TpAafAes3DataTypeEnum", "IEEE1722TpAafFormatEnum", "IEEE1722TpAafNominalRateEnum",
-    "IEEE1722TpAcfCanMessageTypeEnum", "IEEE1722TpCrfPullEnum", "IEEE1722TpCrfTypeEnum",
-    "IEEE1722TpRvfColorSpaceEnum", "IEEE1722TpRvfFrameRateEnum", "IEEE1722TpRvfPixelDepthEnum",
+    "IEEE1722TpAafAes3DataTypeEnum",
+    "IEEE1722TpAafFormatEnum",
+    "IEEE1722TpAafNominalRateEnum",
+    "IEEE1722TpAcfCanMessageTypeEnum",
+    "IEEE1722TpCrfPullEnum",
+    "IEEE1722TpCrfTypeEnum",
+    "IEEE1722TpRvfColorSpaceEnum",
+    "IEEE1722TpRvfFrameRateEnum",
+    "IEEE1722TpRvfPixelDepthEnum",
     "IEEE1722TpRvfPixelFormatEnum",
 }
 
@@ -100,7 +107,7 @@ def main():
                 if xsvals is None:
                     continue
                 start = m.start()
-                nxt = re.search(r"\nclass ", src[m.end():])
+                nxt = re.search(r"\nclass ", src[m.end() :])
                 end = m.end() + nxt.start() if nxt else len(src)
                 block = src[start:end]
                 renames = class_renames(block, xsvals)

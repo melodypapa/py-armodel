@@ -39,7 +39,6 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
 
 
 def _ref(value, dest):

@@ -15,8 +15,8 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_dynamic
 
 from unittest.mock import MagicMock
 
-from tests.test_armodel.parser._helpers import _snip
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticHandleDDDIConfigurationEnum
+from tests.test_armodel.parser._helpers import _snip
 
 
 class TestReadDiagnosticDynamicallyDefineDataIdentifierClass:

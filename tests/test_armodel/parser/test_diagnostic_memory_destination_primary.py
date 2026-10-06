@@ -17,8 +17,8 @@ Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_memory_
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from tests.test_armodel.parser._helpers import _snip
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticTypeOfDtcSupportedEnum
+from tests.test_armodel.parser._helpers import _snip
 
 
 class TestReadDiagnosticMemoryDestinationPrimary:

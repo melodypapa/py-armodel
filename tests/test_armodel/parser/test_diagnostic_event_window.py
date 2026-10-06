@@ -12,8 +12,8 @@ dispatch is wired with the DiagnosticResponseOnEvent pass.
 Round-trip counterpart: tests/test_armodel/writer/test_writer_diagnostic_event_window.py
 """
 
-from tests.test_armodel.parser._helpers import _snip
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticEventWindowTimeEnum
+from tests.test_armodel.parser._helpers import _snip
 
 
 class TestReadDiagnosticEventWindow:

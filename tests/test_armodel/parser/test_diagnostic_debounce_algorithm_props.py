@@ -17,8 +17,8 @@ from unittest.mock import MagicMock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagEventDebounceCounterBased, DiagEventDebounceMonitorInternal, DiagEventDebounceTimeBased
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DiagnosticCommonProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps
-from tests.test_armodel.parser._helpers import _snip
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagnosticDebounceBehaviorEnum
+from tests.test_armodel.parser._helpers import _snip
 
 
 class TestReadDiagnosticDebounceAlgorithmProps:

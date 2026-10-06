@@ -17,8 +17,8 @@ import logging
 from unittest.mock import MagicMock
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
-from tests.test_armodel.parser._helpers import _autosar_root, _snip
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecuredPduHeaderEnum
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 class TestMultiplexedPartHandlers:

@@ -8,8 +8,7 @@ Round-trip counterpart: tests/test_armodel/writer/test_text_table_mapping.py
 
 import xml.etree.ElementTree as ET
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableValuePair
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import MappingDirectionEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import MappingDirectionEnum, TextTableValuePair
 
 NS = "http://autosar.org/schema/r4.0"
 
