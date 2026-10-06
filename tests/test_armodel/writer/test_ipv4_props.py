@@ -3,11 +3,12 @@ Writer/reader round-trip tests for Ipv4Props (Table 3.101, p.146).
 
 XML element order per XSD IPV-4-PROPS group: ARP-PROPS, AUTO-IP-PROPS,
 FRAGMENTATION-PROPS (unwrapped direct children of IPV-4-PROPS).
-The ARP-PROPS child fully round-trips via readIpv4ArpProps/writeIpv4ArpProps since
-the Ipv4ArpProps sync (Table 3.102). The member types Ipv4AutoIpProps/
-Ipv4FragmentationProps are queued separately (Tables 3.103/3.104), so until their
-syncs land those children round-trip identity-only (empty elements via the
-ARObject level).
+The ARP-PROPS and AUTO-IP-PROPS children fully round-trip via
+readIpv4ArpProps/writeIpv4ArpProps and readIpv4AutoIpProps/writeIpv4AutoIpProps
+since the Ipv4ArpProps (Table 3.102) and Ipv4AutoIpProps (Table 3.103) syncs.
+The member type Ipv4FragmentationProps is queued separately (Table 3.104), so
+until its sync lands that child round-trips identity-only (empty element via
+the ARObject level).
 writeIpv4Props calls writeARObject on the IPV-4-PROPS element exactly once.
 """
 
@@ -16,9 +17,9 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4AutoIpProps, Ipv4FragmentationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4FragmentationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4Props
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4Props
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

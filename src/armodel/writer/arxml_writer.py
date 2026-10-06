@@ -973,6 +973,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetPriorityRegeneration,
     DhcpServerConfiguration,
     Ipv4ArpProps,
+    Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
@@ -11314,8 +11315,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeIpv4ArpProps(child_element, arpProps_value)
             autoIpProps_value = props.getAutoIpProps()
             if autoIpProps_value is not None:
-                auto_ip_props_element = ET.SubElement(child_element, "AUTO-IP-PROPS")
-                self.writeARObject(auto_ip_props_element, autoIpProps_value)
+                self.writeIpv4AutoIpProps(child_element, autoIpProps_value)
             fragmentationProps_value = props.getFragmentationProps()
             if fragmentationProps_value is not None:
                 fragmentation_props_element = ET.SubElement(child_element, "FRAGMENTATION-PROPS")
@@ -11330,6 +11330,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ARP-PACKET-QUEUE-ENABLED", props.getTcpIpArpPacketQueueEnabled())
             self.setChildElementOptionalTimeValue(child_element, "TCP-IP-ARP-REQUEST-TIMEOUT", props.getTcpIpArpRequestTimeout())
             self.setChildElementOptionalTimeValue(child_element, "TCP-IP-ARP-TABLE-ENTRY-TIMEOUT", props.getTcpIpArpTableEntryTimeout())
+
+    def writeIpv4AutoIpProps(self, element: ET.Element, props: Optional[Ipv4AutoIpProps]):
+        """Write an R23-11 <AUTO-IP-PROPS> element (Table 3.103, p.147): 1 optional attribute in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "AUTO-IP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-AUTO-IP-INIT-TIMEOUT", props.getTcpIpAutoIpInitTimeout())
 
     def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""

@@ -577,7 +577,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv4AutoIpProps,
     Ipv4FragmentationProps,
     Ipv6Props,
     PhysicalDimensionMapping,
@@ -1172,6 +1171,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     GenericTp,
     GlobalTimeCouplingPortProps,
     Ipv4ArpProps,
+    Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
@@ -11039,7 +11039,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "AUTO-IP-PROPS")
         if child_element is not None:
             auto_ip_props = Ipv4AutoIpProps()
-            self.readARObject(child_element, auto_ip_props)
+            self.readIpv4AutoIpProps(child_element, auto_ip_props)
             props.setAutoIpProps(auto_ip_props)
         child_element = self.find(element, "FRAGMENTATION-PROPS")
         if child_element is not None:
@@ -11054,6 +11054,11 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpIpArpPacketQueueEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ARP-PACKET-QUEUE-ENABLED"))
         props.setTcpIpArpRequestTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-REQUEST-TIMEOUT"))
         props.setTcpIpArpTableEntryTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-TABLE-ENTRY-TIMEOUT"))
+
+    def readIpv4AutoIpProps(self, element: ET.Element, props: Ipv4AutoIpProps):
+        """Read an R23-11 <AUTO-IP-PROPS> element (Table 3.103, p.147): 1 optional attribute in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpAutoIpInitTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-AUTO-IP-INIT-TIMEOUT"))
 
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""

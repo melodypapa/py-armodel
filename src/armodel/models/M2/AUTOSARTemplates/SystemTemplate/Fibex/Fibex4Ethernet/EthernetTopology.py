@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4FragmentationProps, Ipv6Props
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5741,11 +5741,11 @@ class Ipv4Props(ARObject):
     # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # ARP-PROPS fully round-trips via readIpv4ArpProps/writeIpv4ArpProps since the
-    # Ipv4ArpProps sync (Table 3.102). Member types Ipv4AutoIpProps/Ipv4FragmentationProps
-    # are still queued (Tables 3.103/3.104) — until their syncs land the AUTO-IP-PROPS/
-    # FRAGMENTATION-PROPS children round-trip identity-only via the ARObject level
-    # (readARObject/writeARObject on each child).
+    # ARP-PROPS and AUTO-IP-PROPS fully round-trip via readIpv4ArpProps/writeIpv4ArpProps
+    # and readIpv4AutoIpProps/writeIpv4AutoIpProps since the Ipv4ArpProps (Table 3.102)
+    # and Ipv4AutoIpProps (Table 3.103) syncs. Member type Ipv4FragmentationProps is
+    # still queued (Table 3.104) — until its sync lands the FRAGMENTATION-PROPS child
+    # round-trips identity-only via the ARObject level (readARObject/writeARObject on it).
 
     def __init__(self):
         super().__init__()
@@ -5887,6 +5887,37 @@ class Ipv4ArpProps(ARObject):
         """
         if value is not None:
             self.tcpIpArpTableEntryTimeout = value
+        return self
+
+
+class Ipv4AutoIpProps(ARObject):
+    """Specifies the configuration options for Auto-IP (automatic private IP addressing)."""
+
+    # Ipv4AutoIpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.103, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpAutoIpInitTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpAutoIpInitTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present.
+        self.tcpIpAutoIpInitTimeout: Optional[TimeValue] = None
+
+    def getTcpIpAutoIpInitTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present."""
+        return self.tcpIpAutoIpInitTimeout
+
+    def setTcpIpAutoIpInitTimeout(self, value: Optional[TimeValue]) -> Ipv4AutoIpProps:
+        """
+        This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present.
+
+        A None value is a no-op and does not overwrite an existing tcpIpAutoIpInitTimeout.
+        """
+        if value is not None:
+            self.tcpIpAutoIpInitTimeout = value
         return self
 
 
