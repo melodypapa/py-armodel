@@ -11,7 +11,9 @@ XSD_PATH = os.path.join("src", "armodel", "validation", "schemas", "R23-11", "AU
 MODELS_DIR = os.path.join("src", "armodel", "models")
 MAP_FILES = [
     os.path.join("src", "armodel", "parser", "arxml_parser.py"),
+    os.path.join("src", "armodel", "parser", "abstract_arxml_parser.py"),
     os.path.join("src", "armodel", "writer", "arxml_writer.py"),
+    os.path.join("src", "armodel", "writer", "abstract_arxml_writer.py"),
 ]
 
 SKIP_CLASSES = {
