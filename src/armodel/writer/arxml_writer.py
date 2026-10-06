@@ -17819,6 +17819,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeIcmpRule(self, element: ET.Element, rule: Optional[IcmpRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION", rule.getChecksumVerification())
             self.setChildElementOptionalPositiveInteger(element, "CODE", rule.getCode())
             self.setChildElementOptionalPositiveInteger(element, "TYPE", rule.getType())

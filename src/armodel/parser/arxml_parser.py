@@ -17790,6 +17790,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTransportLayerRule(element, rule)
 
     def readIcmpRule(self, element: ET.Element, rule: IcmpRule):
+        self.readARObject(element, rule)
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
         rule.setCode(self.getChildElementOptionalPositiveInteger(element, "CODE"))
         rule.setType(self.getChildElementOptionalPositiveInteger(element, "TYPE"))
