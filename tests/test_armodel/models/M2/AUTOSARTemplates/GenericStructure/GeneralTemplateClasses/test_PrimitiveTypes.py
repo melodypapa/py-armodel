@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3315,3 +3316,46 @@ class TestDdsDurabilityServiceHistoryKindEnum:
         enum.setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST)
 
         assert enum.getValue() == DdsDurabilityServiceHistoryKindEnum.KEEP_LAST
+
+
+class TestDdsOwnershipKindEnum:
+    """
+    Test class for DdsOwnershipKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.188, p.533
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsOwnershipKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsOwnershipKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsOwnershipKindEnum.EXCLUSIVE,
+            DdsOwnershipKindEnum.SHARED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsOwnershipKindEnum member values.
+        """
+        enum = DdsOwnershipKindEnum()
+
+        assert DdsOwnershipKindEnum.EXCLUSIVE == "EXCLUSIVE"
+        assert DdsOwnershipKindEnum.SHARED == "SHARED"
+
+        assert enum.validateEnumValue("EXCLUSIVE") is True
+        assert enum.validateEnumValue("SHARED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsOwnershipKindEnum instantiability and getValue.
+        """
+        enum = DdsOwnershipKindEnum()
+        enum.setValue(DdsOwnershipKindEnum.SHARED)
+
+        assert enum.getValue() == DdsOwnershipKindEnum.SHARED

@@ -1790,7 +1790,29 @@ class DdsLivenessKindEnum(AREnum):
 
 
 class DdsOwnershipKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS OWNERSHIP kind. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnershipKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.188, p.533
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsOwnership.ownershipKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "OWNERSHIP" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    EXCLUSIVE = "EXCLUSIVE"
+
+    # See "OWNERSHIP" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    SHARED = "SHARED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsOwnershipKindEnum.EXCLUSIVE,
+                DdsOwnershipKindEnum.SHARED,
+            ]
+        )
 
 
 class DdsReliabilityKindEnum(AREnum):
