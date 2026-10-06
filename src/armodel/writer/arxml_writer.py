@@ -17795,6 +17795,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDoIpRule(self, element: ET.Element, rule: Optional[DoIpRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS", rule.getDestinationMaxAddress())
             self.setChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS", rule.getDestinationMinAddress())
             self.setChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION", rule.getInverseProtocolVersion())

@@ -17767,6 +17767,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
     def readDoIpRule(self, element: ET.Element, rule: DoIpRule):
+        self.readARObject(element, rule)
         rule.setDestinationMaxAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MAX-ADDRESS"))
         rule.setDestinationMinAddress(self.getChildElementOptionalPositiveInteger(element, "DESTINATION-MIN-ADDRESS"))
         rule.setInverseProtocolVersion(self.getChildElementOptionalPositiveInteger(element, "INVERSE-PROTOCOL-VERSION"))
