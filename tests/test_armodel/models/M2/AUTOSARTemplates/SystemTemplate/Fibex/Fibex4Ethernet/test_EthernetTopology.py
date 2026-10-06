@@ -1541,20 +1541,25 @@ class TestDoIpEntityRoleEnum:
 
 
 class TestCouplingPortRatePolicyActionEnum:
-    """Test cases for CouplingPortRatePolicyActionEnum (Table 3.70, p.125)."""
+    """Test cases for CouplingPortRatePolicyActionEnum (CP_TPS_SystemTemplate Table 3.70, p.125, R23-11)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "DROP-FRAME"
+        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "BLOCK-SOURCE"
         assert list(CouplingPortRatePolicyActionEnum().getEnumValues()) == [
             CouplingPortRatePolicyActionEnum.DROP_FRAME,
             CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
         ]
-        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "DROP-FRAME"
-        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "BLOCK-SOURCE"
 
-    def test_instantiation(self):
-        enum = CouplingPortRatePolicyActionEnum()
-        assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
-        assert enum.getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
+    def test_instantiability_round_trip(self):
+        drop_frame = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.DROP_FRAME)
+        assert drop_frame.getValue() == CouplingPortRatePolicyActionEnum.DROP_FRAME
+
+        block_source = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE)
+        assert block_source.getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CouplingPortRatePolicyActionEnum.__doc__) == "Defines the action to be performed when a rate policy is violated."
 
 
 class TestCouplingPortRatePolicy:
