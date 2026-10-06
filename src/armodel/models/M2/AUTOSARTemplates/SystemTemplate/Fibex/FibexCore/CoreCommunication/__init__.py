@@ -245,6 +245,27 @@ class ContainerIPduHeaderTypeEnum(AREnum):
         super().__init__([ContainerIPduHeaderTypeEnum.LONG_HEADER, ContainerIPduHeaderTypeEnum.NO_HEADER, ContainerIPduHeaderTypeEnum.SHORT_HEADER])
 
 
+class RxAcceptContainedIPduEnum(AREnum):
+    """
+    Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception.
+    """
+
+    # RxAcceptContainedIPduEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.38, p.355 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainerIPdu.rxAcceptContainedIPdu
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # No fixed set of containedIPdus is defined for reception, any known containedIPdu (based on header Id) shall be expected within this ContainerIPdu. Tags: atp.EnumerationLiteralIndex=0
+    ACCEPT_ALL = "ACCEPT-ALL"
+
+    # A fixed set of containedIPdus is defined for reception. Only these assigned containedIPdus (based on headerId) are expected in this ContainerIPdu. If a not assigned containedIPdu is received within this ContainerIPdu this containedIPdu is discarded. Tags: atp.EnumerationLiteralIndex=1
+    ACCEPT_CONFIGURED = "ACCEPT-CONFIGURED"
+
+    def __init__(self):
+        super().__init__([RxAcceptContainedIPduEnum.ACCEPT_ALL, RxAcceptContainedIPduEnum.ACCEPT_CONFIGURED])
+
+
 class ContainedIPduProps(ARObject):
     """
     Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.

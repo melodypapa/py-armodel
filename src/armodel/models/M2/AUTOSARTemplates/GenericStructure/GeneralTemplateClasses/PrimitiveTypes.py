@@ -2723,10 +2723,6 @@ class MirroringProtocolEnum(AREnum):
     pass
 
 
-class RxAcceptContainedIPduEnum(AREnum):
-    pass
-
-
 class SecurityEventContextDataSourceEnum(AREnum):
     pass
 
