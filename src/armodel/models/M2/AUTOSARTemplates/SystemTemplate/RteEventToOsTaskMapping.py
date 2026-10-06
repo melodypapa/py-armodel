@@ -1,7 +1,7 @@
 # This module contains AUTOSAR System Template classes for RTE event to OS task mapping
 # It defines mappings between application and ECU task proxies for real-time execution
 
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -163,6 +163,41 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
         if value is not None:
             self.rteEventIRef = value
         return self
+
+
+class RteEventInCompositionSeparation(Identifiable):
+    """
+    This meta-class is used to define a separation constraint in the context of a SwComposition. The referenced RteEvents are not allowed to be mapped into the same OsTask.
+    """
+
+    # RteEventInCompositionSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.19, p.212
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRteEventIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEventIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+        self.rteEventIRefs: List[RteEventInCompositionInstanceRef] = []
+
+    def addRteEventIRef(self, value: Optional[RteEventInCompositionInstanceRef]) -> "RteEventInCompositionSeparation":
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.rteEventIRefs.append(value)
+        return self
+
+    def getRteEventIRefs(self) -> List[RteEventInCompositionInstanceRef]:
+        """
+        Reference to RteEvents that are not allowed to be mapped into the same OsTask. InstanceRef implemented by: RteEventInComposition InstanceRef
+        """
+        return self.rteEventIRefs
 
 
 class OsTaskPreemptabilityEnum(AREnum):

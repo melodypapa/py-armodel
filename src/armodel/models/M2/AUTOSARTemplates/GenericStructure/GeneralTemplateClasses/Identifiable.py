@@ -1547,10 +1547,6 @@ class PortElementToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class RteEventInCompositionSeparation(Identifiable):
-    pass
-
-
 class RteEventInSystemSeparation(Identifiable):
     pass
 

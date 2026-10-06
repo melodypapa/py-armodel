@@ -910,7 +910,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps, DoIpRoutingActivation
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import CommunicationControllerMapping, ECUMapping, HwPortMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import AppOsTaskProxyToEcuTaskProxyMapping, OsTaskProxy, RteEventInCompositionToOsTaskProxyMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
+    AppOsTaskProxyToEcuTaskProxyMapping,
+    OsTaskProxy,
+    RteEventInCompositionSeparation,
+    RteEventInCompositionToOsTaskProxyMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
     CanFrameTriggering,
@@ -13100,6 +13105,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", mapping.getOffset())
         self.setChildElementOptionalRefType(child_element, "OS-TASK-PROXY-REF", mapping.getOsTaskProxyRef())
         self.setRteEventInCompositionInstanceRef(child_element, "RTE-EVENT-IREF", mapping.getRteEventIRef())
+
+    def writeRteEventInCompositionSeparation(self, element: ET.Element, separation: RteEventInCompositionSeparation):
+        child_element = ET.SubElement(element, "RTE-EVENT-IN-COMPOSITION-SEPARATION")
+        self.writeIdentifiable(child_element, separation)
+        irefs = separation.getRteEventIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(child_element, "RTE-EVENT-IREFS")
+            for iref in irefs:
+                self.setRteEventInCompositionInstanceRef(irefs_tag, "RTE-EVENT-IREF", iref)
 
     def writeSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         app_ecu_mappings = mapping.getAppOsTaskProxyToEcuTaskProxyMappings()

@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     AppOsTaskProxyToEcuTaskProxyMapping,
     OsTaskPreemptabilityEnum,
     OsTaskProxy,
+    RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
@@ -927,6 +928,7 @@ __all__ = [
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",
+    "RteEventInCompositionSeparation",
     "RteEventInCompositionToOsTaskProxyMapping",
     "ARObject",
     "AtpPrototype",

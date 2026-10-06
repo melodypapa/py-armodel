@@ -2916,9 +2916,9 @@ STUBS = [
         "ARObject",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping",
         "RteEventInCompositionSeparation",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping",
         "Identifiable",
     ),
     (

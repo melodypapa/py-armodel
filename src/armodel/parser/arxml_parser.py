@@ -1102,6 +1102,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping i
     AppOsTaskProxyToEcuTaskProxyMapping,
     OsTaskPreemptabilityEnum,
     OsTaskProxy,
+    RteEventInCompositionSeparation,
     RteEventInCompositionToOsTaskProxyMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
@@ -16292,6 +16293,11 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "RTE-EVENT-IREF")
         if child_element is not None:
             mapping.setRteEventIRef(self.getRteEventInCompositionInstanceRef(child_element))
+
+    def readRteEventInCompositionSeparation(self, element: ET.Element, separation: RteEventInCompositionSeparation):
+        self.readIdentifiable(element, separation)
+        for child_element in self.findall(element, "RTE-EVENT-IREFS/RTE-EVENT-IREF"):
+            separation.addRteEventIRef(self.getRteEventInCompositionInstanceRef(child_element))
 
     def readSystemMappingAppOsTaskProxyToEcuTaskProxyMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPINGS/APP-OS-TASK-PROXY-TO-ECU-TASK-PROXY-MAPPING"):
