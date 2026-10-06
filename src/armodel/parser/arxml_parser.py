@@ -14852,6 +14852,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = Ipv6DhcpServerConfiguration()
+            self.readDescribable(child_element, config)
             config.setAddressRangeLowerBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
             config.setAddressRangeUpperBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
             config.setDefaultGateway(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
