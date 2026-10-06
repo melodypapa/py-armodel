@@ -2392,6 +2392,7 @@ class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
 
     # EcucLinkerSymbolDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.21, p.65
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
