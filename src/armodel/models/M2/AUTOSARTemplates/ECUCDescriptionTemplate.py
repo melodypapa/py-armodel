@@ -872,6 +872,7 @@ class ConfigReferenceValue(ARObject, ABC):
 
     # ConfigReferenceValue method parity checklist:
     # Spec: R3.2.3/AUTOSAR_ECU_Configuration.md, Table 3.40, l.2284 (R3.2.3)
+    # Spec verified: R3.2.3
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R3.2.3
     # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R3.2.3
