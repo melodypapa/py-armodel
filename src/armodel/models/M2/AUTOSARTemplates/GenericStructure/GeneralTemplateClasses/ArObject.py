@@ -2578,10 +2578,6 @@ class SomeipTpConnection(ARObject):
     pass
 
 
-class StreamFilterIEEE1722Tp(ARObject):
-    pass
-
-
 class SwcToSwcOperationArguments(ARObject):
     pass
 

@@ -976,6 +976,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIEEE1722Tp,
     StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterMACAddress,
@@ -12098,6 +12099,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(element, ipv6_address)
             self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS", ipv6_address.getIpv6Address())
             self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK", ipv6_address.getIpv6AddressMask())
+
+    def writeStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: Optional[StreamFilterIEEE1722Tp]):
+        if tp_rule is not None:
+            self.writeARObject(element, tp_rule)
+            self.setChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID", tp_rule.getStreamId())
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)

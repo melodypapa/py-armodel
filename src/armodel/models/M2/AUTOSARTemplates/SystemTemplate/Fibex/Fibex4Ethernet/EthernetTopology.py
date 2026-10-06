@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     MacAddressString,
     PositiveInteger,
+    PositiveUnlimitedInteger,
     RefType,
     String,
     TimeValue,
@@ -1106,6 +1107,41 @@ class StreamFilterPortRange(ARObject):
         """
         if value is not None:
             self.min = value
+        return self
+
+
+class StreamFilterIEEE1722Tp(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIEEE1722Tp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.92, p.139
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getStreamId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+        self.streamId: Optional[PositiveUnlimitedInteger] = None
+
+    def getStreamId(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+        """
+        return self.streamId
+
+    def setStreamId(self, value: Optional[PositiveUnlimitedInteger]) -> StreamFilterIEEE1722Tp:
+        """
+        Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamId.
+        """
+        if value is not None:
+            self.streamId = value
         return self
 
 

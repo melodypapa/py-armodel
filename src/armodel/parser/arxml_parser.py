@@ -1172,6 +1172,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     PlcaProps,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIEEE1722Tp,
     StreamFilterIpv4Address,
     StreamFilterIpv6Address,
     StreamFilterMACAddress,
@@ -11265,6 +11266,10 @@ class ARXMLParser(AbstractARXMLParser):
             address = Ip6AddressString()
             address.setValue(child_element.getValue())
             ipv6_address.setIpv6AddressMask(address)
+
+    def readStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: StreamFilterIEEE1722Tp):
+        self.readARObject(element, tp_rule)
+        tp_rule.setStreamId(self.getChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID"))
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)
