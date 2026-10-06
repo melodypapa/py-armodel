@@ -578,6 +578,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     PhysicalDimensionMapping,
 )
@@ -11877,6 +11878,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticParameterSupportInfo(self, element: ET.Element, support_info: DiagnosticParameterSupportInfo):
         self.logger.debug("Read DiagnosticParameterSupportInfo")
         support_info.setSupportInfoBit(self.getChildElementOptionalPositiveInteger(element, "SUPPORT-INFO-BIT"))
+
+    def readDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
+        self.logger.debug("Read DdsCpServiceInstanceEvent")
+        self.readARObject(element, event)
+        event.setDdsEventQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-QOS-PROFILE-REF"))
+        event.setDdsEventRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-REF"))
+        event.setDdsEventTopicRef(self.getChildElementOptionalRefType(element, "DDS-EVENT-TOPIC-REF"))
+        self.readVariationPointCapable(element, event)
 
     def readDdsCpServiceInstanceOperation(self, element: ET.Element, operation: DdsCpServiceInstanceOperation):
         self.logger.debug("Read DdsCpServiceInstanceOperation")

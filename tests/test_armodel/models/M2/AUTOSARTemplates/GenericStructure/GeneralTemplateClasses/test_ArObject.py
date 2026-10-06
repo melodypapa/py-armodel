@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     CalibrationParameterValue,
+    DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
@@ -2975,4 +2976,115 @@ class TestDdsCpServiceInstanceOperation:
         assert inspect.cleandoc(DdsCpServiceInstanceOperation.getDdsOperationResponseTriggeringRef.__doc__) == self.RESPONSE_TRIGGERING_NOTE
         assert inspect.cleandoc(DdsCpServiceInstanceOperation.setDdsOperationResponseTriggeringRef.__doc__) == (
             self.RESPONSE_TRIGGERING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsOperationResponseTriggeringRef."
+        )
+
+
+class TestDdsCpServiceInstanceEvent:
+    """
+    Test class for DdsCpServiceInstanceEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.155, p.475
+    """
+
+    CLASS_NOTE = "This element represents an event as part of the Provided Service Instance. Tags: atp.Status=candidate"
+    DDS_EVENT_NOTE = "Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate"
+    DDS_EVENT_QOS_PROFILE_NOTE = "Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate"
+    DDS_EVENT_TOPIC_NOTE = "Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate"
+
+    def _create_event(self) -> DdsCpServiceInstanceEvent:
+        return DdsCpServiceInstanceEvent()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstanceEvent initializes all attributes to their defaults.
+        """
+        obj = self._create_event()
+
+        assert obj.getDdsEventRef() is None
+        assert obj.getDdsEventQosProfileRef() is None
+        assert obj.getDdsEventTopicRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpServiceInstanceEvent derives from ARObject and is VP-capable (XSD group DDS-CP-SERVICE-INSTANCE-EVENT carries VARIATION-POINT, Rule 0020).
+        """
+        assert issubclass(DdsCpServiceInstanceEvent, ARObject)
+        assert issubclass(DdsCpServiceInstanceEvent, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (including the spec's own "PduTriggerung" spelling in the ddsEvent Note).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstanceEvent.__init__.__doc__ is None
+
+    def test_get_set_dds_event_ref(self):
+        """
+        Test getDdsEventRef and setDdsEventRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/DdsEvent")
+        result = obj.setDdsEventRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventRef() is value
+        assert obj.getDdsEventRef().getValue() == "/Fibex/Ecu1/PduTriggerings/DdsEvent"
+        assert obj.getDdsEventRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsEventRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventRef() is value  # None is a no-op
+
+    def test_get_set_dds_event_qos_profile_ref(self):
+        """
+        Test getDdsEventQosProfileRef and setDdsEventQosProfileRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("DDS-CP-QOS-PROFILE").setValue("/DdsCpConfig/QosProfiles/Profile1")
+        result = obj.setDdsEventQosProfileRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventQosProfileRef() is value
+        assert obj.getDdsEventQosProfileRef().getValue() == "/DdsCpConfig/QosProfiles/Profile1"
+        assert obj.getDdsEventQosProfileRef().getDest() == "DDS-CP-QOS-PROFILE"
+
+        result = obj.setDdsEventQosProfileRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventQosProfileRef() is value  # None is a no-op
+
+    def test_get_set_dds_event_topic_ref(self):
+        """
+        Test getDdsEventTopicRef and setDdsEventTopicRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("DDS-CP-TOPIC").setValue("/DdsCpConfig/Domains/Domain1/Topics/Topic1")
+        result = obj.setDdsEventTopicRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventTopicRef() is value
+        assert obj.getDdsEventTopicRef().getValue() == "/DdsCpConfig/Domains/Domain1/Topics/Topic1"
+        assert obj.getDdsEventTopicRef().getDest() == "DDS-CP-TOPIC"
+
+        result = obj.setDdsEventTopicRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventTopicRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventRef.__doc__) == self.DDS_EVENT_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventRef.__doc__) == (self.DDS_EVENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventRef.")
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventQosProfileRef.__doc__) == self.DDS_EVENT_QOS_PROFILE_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventQosProfileRef.__doc__) == (
+            self.DDS_EVENT_QOS_PROFILE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventQosProfileRef."
+        )
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventTopicRef.__doc__) == self.DDS_EVENT_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventTopicRef.__doc__) == (
+            self.DDS_EVENT_TOPIC_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventTopicRef."
         )

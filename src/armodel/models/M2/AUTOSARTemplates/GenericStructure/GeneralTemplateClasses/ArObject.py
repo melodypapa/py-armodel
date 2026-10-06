@@ -2334,8 +2334,84 @@ class DdsCpQosProfile(ARObject):
     pass
 
 
-class DdsCpServiceInstanceEvent(ARObject):
-    pass
+class DdsCpServiceInstanceEvent(ARObject, VariationPointCapable):
+    """
+    This element represents an event as part of the Provided Service Instance. Tags: atp.Status=candidate
+    """
+
+    # DdsCpServiceInstanceEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.155, p.475
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsEventRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsEventQosProfileRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventQosProfileRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsEventTopicRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventTopicRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) —
+    # no spec rows (XSD group DDS-CP-SERVICE-INSTANCE-EVENT carries VARIATION-POINT, Rule 0020).
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+        self.ddsEventRef: Optional[RefType] = None
+
+        # Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+        self.ddsEventQosProfileRef: Optional[RefType] = None
+
+        # Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+        self.ddsEventTopicRef: Optional[RefType] = None
+
+    def getDdsEventRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+        """
+        return self.ddsEventRef
+
+    def setDdsEventRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventRef.
+        """
+        if value is not None:
+            self.ddsEventRef = value
+        return self
+
+    def getDdsEventQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+        """
+        return self.ddsEventQosProfileRef
+
+    def setDdsEventQosProfileRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventQosProfileRef.
+        """
+        if value is not None:
+            self.ddsEventQosProfileRef = value
+        return self
+
+    def getDdsEventTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+        """
+        return self.ddsEventTopicRef
+
+    def setDdsEventTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventTopicRef.
+        """
+        if value is not None:
+            self.ddsEventTopicRef = value
+        return self
 
 
 class DdsCpServiceInstanceOperation(ARObject, VariationPointCapable):
