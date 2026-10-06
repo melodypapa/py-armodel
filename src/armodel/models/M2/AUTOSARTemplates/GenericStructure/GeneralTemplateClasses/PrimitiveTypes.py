@@ -1671,10 +1671,6 @@ class AdditionalBindingTimeEnum(AREnum):
     pass
 
 
-class ContainerIPduHeaderTypeEnum(AREnum):
-    pass
-
-
 class CouplingElementEnum(AREnum):
     pass
 

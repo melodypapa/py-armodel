@@ -221,6 +221,30 @@ class ContainerIPduTriggerEnum(AREnum):
         super().__init__([ContainerIPduTriggerEnum.DEFAULT_TRIGGER, ContainerIPduTriggerEnum.FIRST_CONTAINED_TRIGGER])
 
 
+class ContainerIPduHeaderTypeEnum(AREnum):
+    """
+    Is used to define the header type and size of ContainerIPdus. The header size includes the header id and the length information.
+    """
+
+    # ContainerIPduHeaderTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.37, p.355 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ContainerIPdu.headerType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Header size is 64 bit: • Header Id 32 bit • Dlc 32 bit Tags: atp.EnumerationLiteralIndex=0
+    LONG_HEADER = "LONG-HEADER"
+
+    # No Header is used and the location of each containedPdu in the ContainerPdu is statically configured. Tags: atp.EnumerationLiteralIndex=2
+    NO_HEADER = "NO-HEADER"
+
+    # Header size is 32 bit: • Header Id 24 bit • Dlc 8 bit. Tags: atp.EnumerationLiteralIndex=1
+    SHORT_HEADER = "SHORT-HEADER"
+
+    def __init__(self):
+        super().__init__([ContainerIPduHeaderTypeEnum.LONG_HEADER, ContainerIPduHeaderTypeEnum.NO_HEADER, ContainerIPduHeaderTypeEnum.SHORT_HEADER])
+
+
 class ContainedIPduProps(ARObject):
     """
     Defines the aspects of an IPdu which can be collected inside a ContainerIPdu.
