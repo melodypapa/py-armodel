@@ -452,15 +452,53 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DiagnosticTestResult` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.53, p.804; also CP_TPS_DiagnosticExtractTemplate Table 4.201, p.204
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): defining table = CP_TPS_DiagnosticExtractTemplate Table 4.201, p.204 (pdf_page.py) — the row's SWC Table 13.53
+    is a reproduction (class spec Package `DiagnosticExtract::Dem::DiagnosticTestResult`; SWC §13.8.5 cross-references "the TPS Diagnostic
+    Extract"; DEXT §4.4.12 carries the class-level constraints constr_1850/1851; sibling family citations all DEXT); both renderings verified
+    row-identical. Concrete Class; Base chain = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , Identifiable ,
+    MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-TEST-RESULT l.46004: … → AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT (empty group l.32814) → own group; DiagnosticCommonElement
+    is stamped but adds no members — sibling DiagnosticMeasurementIdentifier with the identical chain inherits ARElement directly) — stub
+    base already correct, no relocation. Note (md Table 4.201): "This meta-class represents the ability to define diagnostic test results.
+    Tags: atp.recommendedPackage=DiagnosticTestResults" + class-level constr_1850 (testIdentifier aggregation existence) / constr_1851
+    (monitoredIdentifier reference existence) appended to the class docstring. 4 attrs in displayed order (cell-wraps healed per XSD):
+    1. diagnosticEvent (DiagnosticEvent, 0..1, ref; Stereotypes: atpSplitable; atpVariation) → XSD DIAGNOSTIC-EVENTS wrapper (l.45949,
+       unbounded DIAGNOSTIC-EVENT-REF-CONDITIONAL choice, pureMM.maxOccurs="-1") but PDF Mult 0..1 wins (Rule 0001.4/0015 shape rule;
+       EventHandler.eventMulticastAddressRef — identical stereotype row — modeled single, stamped) → `diagnosticEventRef: Optional[RefType]`
+       + set/get; reader deep path DIAGNOSTIC-EVENTS/DIAGNOSTIC-EVENT-REF-CONDITIONAL/DIAGNOSTIC-EVENT-REF, writer wrapper-only-when-set
+       (sdClientTimerConfig single-shape precedent); Tags cell-wrap healed "diagnostic Event.variationPoint.shortLabel" →
+       diagnosticEvent.variationPoint.shortLabel (XSD l.45957).
+    2. monitoredIdentifier (DiagnosticMeasurementIdentifier, 0..1, ref) → MONITORED-IDENTIFIER-REF (DEST
+       DIAGNOSTIC-MEASUREMENT-IDENTIFIER--SUBTYPES-ENUM) → `monitoredIdentifierRef: Optional[RefType]`.
+    3. testIdentifier (DiagnosticTestIdentifier, 0..1, aggr) → TEST-IDENTIFIER (l.45989) → `testIdentifier: Optional[DiagnosticTestIdentifier]`
+       (child Base ARObject ⇒ set/get shape, Rule 0001.6; the child's checklist deferred its reader/writer to "the future consumer" = this
+       class — wired in Steps 5/6).
+    4. updateKind (DiagnosticTestResultUpdateEnum, 0..1, attr) → UPDATE-KIND → `updateKind: Optional[DiagnosticTestResultUpdateEnum]`
+       (transparent atpMixedString variation-point wrapper; ObdMonitorServiceNeeds.updateKind precedent: get/setChildElementOptionalLiteral
+       + cast).
+    XSD element order (Rule 0001.11 writer/reader order): DIAGNOSTIC-EVENTS, MONITORED-IDENTIFIER-REF, TEST-IDENTIFIER, UPDATE-KIND; XSD
+    EVENT-REF (l.45969, mmt DiagnosticTestResult.event) carries atp.Status="removed" → not modeled (Rule 0015). Aggregated by
+    ARPackage.element ⇒ ARPackage factory createDiagnosticTestResult + readDiagnosticPackageElement/writeDiagnosticElement dispatch branches
+    (both MISSING — added in Step 6). All 4 member types exist and are stamped — no Rule 0001.10 missing classes. Not VP-capable (Rule 0020):
+    the class's own XSD group DIAGNOSTIC-TEST-RESULT holds no VARIATION-POINT element (the rows' atpVariation Tags are split keys).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — tracker gains a "No deviations" entry (docs/examples/method_deviation_by_class.md).
+    All 4 Table 4.201 rows modeled 1:1 in displayed order with spec types/names/shapes. Report-only: XSD EVENT-REF (l.45969, mmt
+    DiagnosticTestResult.event) carries atp.Status="removed" → not modeled (Rule 0015/0001.3); diagnosticEvent PDF Mult 0..1 wins over the
+    XSD unbounded splitable wrapper (pureMM.maxOccurs="-1") → Optional[RefType] single — EventHandler.eventMulticastAddressRef (identical
+    stereotype row) is the stamped single-shape precedent, ConsumedEventGroup.eventMulticastAddressRefs List = prior sibling deviation to
+    reconcile (Rule 0001.6), sdClientTimerConfig single-shape reader/writer precedent followed; defining-table re-cite SWC 13.53 (reproduction)
+    → DEXT 4.201 (primary), single `# Spec:` line, both renderings row-identical; the DiagnosticTestIdentifier child's reader/writer
+    ("the future consumer wires it") wired here via the matched getDiagnosticTestIdentifier/setDiagnosticTestIdentifier pair (Rule 0013.2);
+    not VP-capable (Rule 0020); no integration fixture carries DIAGNOSTIC-TEST-RESULT; no Rule 0001.10 missing member types (all 4 stamped).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1457 + 8717 passed / 0 failed: models GeneralTemplateClasses, parser+writer regression; member annotations + stub guard 1183 passed); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `DoIpRoutingActivationAuthenticationNeeds` — DoIpServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.58, p.806
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py

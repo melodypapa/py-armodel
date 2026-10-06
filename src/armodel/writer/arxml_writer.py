@@ -488,6 +488,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutine,
     DiagnosticRoutineControl,
     DiagnosticSecurityAccess,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
@@ -554,6 +555,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -16314,6 +16316,26 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "REQUEST-DATA-SIZE", cast(Integer, test_routine_identifier.getRequestDataSize()))
         self.setChildElementOptionalPositiveInteger(child_element, "RESPONSE-DATA-SIZE", cast(Integer, test_routine_identifier.getResponseDataSize()))
 
+    def setDiagnosticTestIdentifier(self, element: ET.Element, key: str, identifier: Optional[DiagnosticTestIdentifier]):
+        if identifier is None:
+            return
+        child_element = ET.SubElement(element, key)
+        self.setChildElementOptionalPositiveInteger(child_element, "ID", cast(Integer, identifier.getId()))
+        self.setChildElementOptionalPositiveInteger(child_element, "UAS-ID", cast(Integer, identifier.getUasId()))
+
+    def writeDiagnosticTestResult(self, element: ET.Element, test_result: DiagnosticTestResult):
+        self.logger.debug("Write DiagnosticTestResult %s" % test_result.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-TEST-RESULT")
+        self.writeIdentifiable(child_element, test_result)
+        diagnostic_event_ref = test_result.getDiagnosticEventRef()
+        if diagnostic_event_ref is not None:
+            events_tag = ET.SubElement(child_element, "DIAGNOSTIC-EVENTS")
+            conditional_tag = ET.SubElement(events_tag, "DIAGNOSTIC-EVENT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "DIAGNOSTIC-EVENT-REF", diagnostic_event_ref)
+        self.setChildElementOptionalRefType(child_element, "MONITORED-IDENTIFIER-REF", test_result.getMonitoredIdentifierRef())
+        self.setDiagnosticTestIdentifier(child_element, "TEST-IDENTIFIER", test_result.getTestIdentifier())
+        self.setChildElementOptionalLiteral(child_element, "UPDATE-KIND", test_result.getUpdateKind())
+
     def writeDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Write DiagnosticRequestVehicleInfo %s" % request_vehicle_info.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-VEHICLE-INFO")
@@ -17874,6 +17896,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             return True
         if isinstance(ar_element, DiagnosticTestRoutineIdentifier):
             self.writeDiagnosticTestRoutineIdentifier(element, ar_element)
+            return True
+        if isinstance(ar_element, DiagnosticTestResult):
+            self.writeDiagnosticTestResult(element, ar_element)
             return True
         if isinstance(ar_element, DiagnosticRequestVehicleInfo):
             self.writeDiagnosticRequestVehicleInfo(element, ar_element)

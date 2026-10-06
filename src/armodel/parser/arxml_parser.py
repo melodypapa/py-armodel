@@ -577,6 +577,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -668,6 +669,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticSessionControl,
     DiagnosticStorageCondition,
     DiagnosticStorageConditionGroup,
+    DiagnosticTestResult,
     DiagnosticTestRoutineIdentifier,
     DiagnosticTroubleCode,
     DiagnosticTroubleCodeGroup,
@@ -774,6 +776,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticResponseOnEventActionEnum,
     DiagnosticResponseToEcuResetEnum,
     DiagnosticStatusBitHandlingTestFailedSinceLastClearEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
@@ -12398,6 +12401,23 @@ class ARXMLParser(AbstractARXMLParser):
         test_routine_identifier.setRequestDataSize(self.getChildElementOptionalPositiveInteger(element, "REQUEST-DATA-SIZE"))
         test_routine_identifier.setResponseDataSize(self.getChildElementOptionalPositiveInteger(element, "RESPONSE-DATA-SIZE"))
 
+    def getDiagnosticTestIdentifier(self, element: ET.Element) -> Optional[DiagnosticTestIdentifier]:
+        child_element = self.find(element, "TEST-IDENTIFIER")
+        if child_element is None:
+            return None
+        identifier = DiagnosticTestIdentifier()
+        identifier.setId(self.getChildElementOptionalPositiveInteger(child_element, "ID"))
+        identifier.setUasId(self.getChildElementOptionalPositiveInteger(child_element, "UAS-ID"))
+        return identifier
+
+    def readDiagnosticTestResult(self, element: ET.Element, test_result: DiagnosticTestResult):
+        self.logger.debug("Read DiagnosticTestResult <%s>" % test_result.getShortName())
+        self.readIdentifiable(element, test_result)
+        test_result.setDiagnosticEventRef(self.getChildElementOptionalRefType(element, "DIAGNOSTIC-EVENTS/DIAGNOSTIC-EVENT-REF-CONDITIONAL/DIAGNOSTIC-EVENT-REF"))
+        test_result.setMonitoredIdentifierRef(self.getChildElementOptionalRefType(element, "MONITORED-IDENTIFIER-REF"))
+        test_result.setTestIdentifier(self.getDiagnosticTestIdentifier(element))
+        test_result.setUpdateKind(cast(Optional[DiagnosticTestResultUpdateEnum], self.getChildElementOptionalLiteral(element, "UPDATE-KIND")))
+
     def readDiagnosticRequestVehicleInfo(self, element: ET.Element, request_vehicle_info: DiagnosticRequestVehicleInfo):
         self.logger.debug("Read DiagnosticRequestVehicleInfo <%s>" % request_vehicle_info.getShortName())
         self.readIdentifiable(element, request_vehicle_info)
@@ -18034,6 +18054,10 @@ class ARXMLParser(AbstractARXMLParser):
         if tag_name == "DIAGNOSTIC-TEST-ROUTINE-IDENTIFIER":
             test_routine_identifier = parent.createDiagnosticTestRoutineIdentifier(self.getShortName(child_element))
             self.readDiagnosticTestRoutineIdentifier(child_element, test_routine_identifier)
+            return True
+        if tag_name == "DIAGNOSTIC-TEST-RESULT":
+            test_result = parent.createDiagnosticTestResult(self.getShortName(child_element))
+            self.readDiagnosticTestResult(child_element, test_result)
             return True
         if tag_name == "DIAGNOSTIC-REQUEST-VEHICLE-INFO":
             request_vehicle_info = parent.createDiagnosticRequestVehicleInfo(self.getShortName(child_element))
