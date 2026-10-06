@@ -8,8 +8,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4FragmentationProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4Props
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv4Props
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -39,7 +38,10 @@ class TestReadIpv4Props:
             f"""<IPV-4-PROPS xmlns='{NS}'>
                 <ARP-PROPS/>
                 <AUTO-IP-PROPS/>
-                <FRAGMENTATION-PROPS/>
+                <FRAGMENTATION-PROPS>
+                    <TCP-IP-IP-FRAGMENTATION-RX-ENABLED>true</TCP-IP-IP-FRAGMENTATION-RX-ENABLED>
+                    <TCP-IP-IP-NUM-FRAGMENTS>8</TCP-IP-IP-NUM-FRAGMENTS>
+                </FRAGMENTATION-PROPS>
             </IPV-4-PROPS>"""
         )
 
@@ -48,6 +50,8 @@ class TestReadIpv4Props:
         assert isinstance(ipv4_props.getArpProps(), Ipv4ArpProps)
         assert isinstance(ipv4_props.getAutoIpProps(), Ipv4AutoIpProps)
         assert isinstance(ipv4_props.getFragmentationProps(), Ipv4FragmentationProps)
+        assert ipv4_props.getFragmentationProps().getTcpIpIpFragmentationRxEnabled().getValue() is True
+        assert ipv4_props.getFragmentationProps().getTcpIpIpNumFragments().getValue() == 8
 
     def test_read_arobject_levels(self, parser):
         """The ARObject levels (checksum S / timestamp T) are populated via readARObject."""

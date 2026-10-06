@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv4FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv6Props
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5741,11 +5741,11 @@ class Ipv4Props(ARObject):
     # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # ARP-PROPS and AUTO-IP-PROPS fully round-trip via readIpv4ArpProps/writeIpv4ArpProps
-    # and readIpv4AutoIpProps/writeIpv4AutoIpProps since the Ipv4ArpProps (Table 3.102)
-    # and Ipv4AutoIpProps (Table 3.103) syncs. Member type Ipv4FragmentationProps is
-    # still queued (Table 3.104) — until its sync lands the FRAGMENTATION-PROPS child
-    # round-trips identity-only via the ARObject level (readARObject/writeARObject on it).
+    # All three children fully round-trip via readIpv4ArpProps/writeIpv4ArpProps,
+    # readIpv4AutoIpProps/writeIpv4AutoIpProps and
+    # readIpv4FragmentationProps/writeIpv4FragmentationProps since the Ipv4ArpProps
+    # (Table 3.102), Ipv4AutoIpProps (Table 3.103) and Ipv4FragmentationProps
+    # (Table 3.104) syncs.
 
     def __init__(self):
         super().__init__()
@@ -5918,6 +5918,94 @@ class Ipv4AutoIpProps(ARObject):
         """
         if value is not None:
             self.tcpIpAutoIpInitTimeout = value
+        return self
+
+
+class Ipv4FragmentationProps(ARObject):
+    """Specifies the configuration options for IPv4 packet fragmentation/reassembly."""
+
+    # Ipv4FragmentationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.104, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIpFragmentationRxEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpFragmentationRxEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpNumFragments           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpNumFragments           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpNumReassDgrams         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpNumReassDgrams         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms).
+        self.tcpIpIpFragmentationRxEnabled: Optional[Boolean] = None
+
+        # Specifies the maximum number of IP fragments per datagram.
+        self.tcpIpIpNumFragments: Optional[PositiveInteger] = None
+
+        # Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel.
+        self.tcpIpIpNumReassDgrams: Optional[PositiveInteger] = None
+
+        # Specifies the timeout in [s] after which an incomplete datagram gets discarded.
+        self.tcpIpIpReassTimeout: Optional[TimeValue] = None
+
+    def getTcpIpIpFragmentationRxEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms)."""
+        return self.tcpIpIpFragmentationRxEnabled
+
+    def setTcpIpIpFragmentationRxEnabled(self, value: Optional[Boolean]) -> Ipv4FragmentationProps:
+        """
+        Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms).
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpFragmentationRxEnabled.
+        """
+        if value is not None:
+            self.tcpIpIpFragmentationRxEnabled = value
+        return self
+
+    def getTcpIpIpNumFragments(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of IP fragments per datagram."""
+        return self.tcpIpIpNumFragments
+
+    def setTcpIpIpNumFragments(self, value: Optional[PositiveInteger]) -> Ipv4FragmentationProps:
+        """
+        Specifies the maximum number of IP fragments per datagram.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpNumFragments.
+        """
+        if value is not None:
+            self.tcpIpIpNumFragments = value
+        return self
+
+    def getTcpIpIpNumReassDgrams(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel."""
+        return self.tcpIpIpNumReassDgrams
+
+    def setTcpIpIpNumReassDgrams(self, value: Optional[PositiveInteger]) -> Ipv4FragmentationProps:
+        """
+        Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpNumReassDgrams.
+        """
+        if value is not None:
+            self.tcpIpIpNumReassDgrams = value
+        return self
+
+    def getTcpIpIpReassTimeout(self) -> Optional[TimeValue]:
+        """Specifies the timeout in [s] after which an incomplete datagram gets discarded."""
+        return self.tcpIpIpReassTimeout
+
+    def setTcpIpIpReassTimeout(self, value: Optional[TimeValue]) -> Ipv4FragmentationProps:
+        """
+        Specifies the timeout in [s] after which an incomplete datagram gets discarded.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassTimeout.
+        """
+        if value is not None:
+            self.tcpIpIpReassTimeout = value
         return self
 
 

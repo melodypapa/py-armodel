@@ -3,12 +3,11 @@ Writer/reader round-trip tests for Ipv4Props (Table 3.101, p.146).
 
 XML element order per XSD IPV-4-PROPS group: ARP-PROPS, AUTO-IP-PROPS,
 FRAGMENTATION-PROPS (unwrapped direct children of IPV-4-PROPS).
-The ARP-PROPS and AUTO-IP-PROPS children fully round-trip via
-readIpv4ArpProps/writeIpv4ArpProps and readIpv4AutoIpProps/writeIpv4AutoIpProps
-since the Ipv4ArpProps (Table 3.102) and Ipv4AutoIpProps (Table 3.103) syncs.
-The member type Ipv4FragmentationProps is queued separately (Table 3.104), so
-until its sync lands that child round-trips identity-only (empty element via
-the ARObject level).
+All three children fully round-trip via readIpv4ArpProps/writeIpv4ArpProps,
+readIpv4AutoIpProps/writeIpv4AutoIpProps and
+readIpv4FragmentationProps/writeIpv4FragmentationProps since the Ipv4ArpProps
+(Table 3.102), Ipv4AutoIpProps (Table 3.103) and Ipv4FragmentationProps
+(Table 3.104) syncs.
 writeIpv4Props calls writeARObject on the IPV-4-PROPS element exactly once.
 """
 
@@ -17,9 +16,8 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv4FragmentationProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, String
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv4Props
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -43,7 +41,10 @@ def _full_ipv4_props():
     ipv4_props = Ipv4Props()
     ipv4_props.setArpProps(Ipv4ArpProps())
     ipv4_props.setAutoIpProps(Ipv4AutoIpProps())
-    ipv4_props.setFragmentationProps(Ipv4FragmentationProps())
+    fragmentation_props = Ipv4FragmentationProps()
+    fragmentation_props.setTcpIpIpFragmentationRxEnabled(Boolean().setValue(True))
+    fragmentation_props.setTcpIpIpNumFragments(PositiveInteger().setValue(8))
+    ipv4_props.setFragmentationProps(fragmentation_props)
     return ipv4_props
 
 
@@ -100,6 +101,8 @@ class TestIpv4PropsRoundTrip:
         assert isinstance(reloaded.getArpProps(), Ipv4ArpProps)
         assert isinstance(reloaded.getAutoIpProps(), Ipv4AutoIpProps)
         assert isinstance(reloaded.getFragmentationProps(), Ipv4FragmentationProps)
+        assert reloaded.getFragmentationProps().getTcpIpIpFragmentationRxEnabled().getValue() is True
+        assert reloaded.getFragmentationProps().getTcpIpIpNumFragments().getValue() == 8
 
     def test_round_trip_empty_through_ipv4_props(self):
         parent = _write_ipv4_props(Ipv4Props())
@@ -118,7 +121,10 @@ class TestIpv4PropsRoundTrip:
         ipv4_props = Ipv4Props()
         ipv4_props.setArpProps(Ipv4ArpProps())
         ipv4_props.setAutoIpProps(Ipv4AutoIpProps())
-        ipv4_props.setFragmentationProps(Ipv4FragmentationProps())
+        fragmentation_props = Ipv4FragmentationProps()
+        fragmentation_props.setTcpIpIpFragmentationRxEnabled(Boolean().setValue(True))
+        fragmentation_props.setTcpIpIpNumFragments(PositiveInteger().setValue(8))
+        ipv4_props.setFragmentationProps(fragmentation_props)
         eth_ip_props.setIpv4Props(ipv4_props)
 
         out_file = str(tmp_path / "ipv4_props.arxml")
@@ -135,3 +141,5 @@ class TestIpv4PropsRoundTrip:
         assert isinstance(reloaded.getArpProps(), Ipv4ArpProps)
         assert isinstance(reloaded.getAutoIpProps(), Ipv4AutoIpProps)
         assert isinstance(reloaded.getFragmentationProps(), Ipv4FragmentationProps)
+        assert reloaded.getFragmentationProps().getTcpIpIpFragmentationRxEnabled().getValue() is True
+        assert reloaded.getFragmentationProps().getTcpIpIpNumFragments().getValue() == 8

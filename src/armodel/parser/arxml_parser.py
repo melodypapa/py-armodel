@@ -577,7 +577,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv4FragmentationProps,
     Ipv6Props,
     PhysicalDimensionMapping,
 )
@@ -1173,6 +1172,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
+    Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
@@ -11044,7 +11044,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "FRAGMENTATION-PROPS")
         if child_element is not None:
             fragmentation_props = Ipv4FragmentationProps()
-            self.readARObject(child_element, fragmentation_props)
+            self.readIpv4FragmentationProps(child_element, fragmentation_props)
             props.setFragmentationProps(fragmentation_props)
 
     def readIpv4ArpProps(self, element: ET.Element, props: Ipv4ArpProps):
@@ -11059,6 +11059,14 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R23-11 <AUTO-IP-PROPS> element (Table 3.103, p.147): 1 optional attribute in XSD order."""
         self.readARObject(element, props)
         props.setTcpIpAutoIpInitTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-AUTO-IP-INIT-TIMEOUT"))
+
+    def readIpv4FragmentationProps(self, element: ET.Element, props: Ipv4FragmentationProps):
+        """Read an R23-11 <IPV-4-FRAGMENTATION-PROPS> element (Table 3.104, p.147): 4 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpIpFragmentationRxEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-IP-FRAGMENTATION-RX-ENABLED"))
+        props.setTcpIpIpNumFragments(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-NUM-FRAGMENTS"))
+        props.setTcpIpIpNumReassDgrams(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-NUM-REASS-DGRAMS"))
+        props.setTcpIpIpReassTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-IP-REASS-TIMEOUT"))
 
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""

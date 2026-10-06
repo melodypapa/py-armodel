@@ -975,6 +975,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
+    Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
@@ -11318,8 +11319,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeIpv4AutoIpProps(child_element, autoIpProps_value)
             fragmentationProps_value = props.getFragmentationProps()
             if fragmentationProps_value is not None:
-                fragmentation_props_element = ET.SubElement(child_element, "FRAGMENTATION-PROPS")
-                self.writeARObject(fragmentation_props_element, fragmentationProps_value)
+                self.writeIpv4FragmentationProps(child_element, fragmentationProps_value)
 
     def writeIpv4ArpProps(self, element: ET.Element, props: Optional[Ipv4ArpProps]):
         """Write an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""
@@ -11337,6 +11337,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "AUTO-IP-PROPS")
             self.writeARObject(child_element, props)
             self.setChildElementOptionalTimeValue(child_element, "TCP-IP-AUTO-IP-INIT-TIMEOUT", props.getTcpIpAutoIpInitTimeout())
+
+    def writeIpv4FragmentationProps(self, element: ET.Element, props: Optional[Ipv4FragmentationProps]):
+        """Write an R23-11 <FRAGMENTATION-PROPS> element (Table 3.104, p.147): 4 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "FRAGMENTATION-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-IP-FRAGMENTATION-RX-ENABLED", props.getTcpIpIpFragmentationRxEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-NUM-FRAGMENTS", props.getTcpIpIpNumFragments())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-NUM-REASS-DGRAMS", props.getTcpIpIpNumReassDgrams())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-IP-REASS-TIMEOUT", props.getTcpIpIpReassTimeout())
 
     def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
