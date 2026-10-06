@@ -17845,6 +17845,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "TTL-MIN", cast(Integer, rule.getTtlMin()))
 
     def writeIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.writeARObject(element, rule)
         self.setChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS", rule.getDestinationIpAddress())
         self.setChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK", rule.getDestinationNetworkMask())
         self.setChildElementOptionalPositiveInteger(element, "FLOW-LABEL", rule.getFlowLabel())

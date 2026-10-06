@@ -17833,6 +17833,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
 
     def readIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
+        self.readARObject(element, rule)
         destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
         if destination_ip_address is not None:
             ip6_address = Ip6AddressString()
