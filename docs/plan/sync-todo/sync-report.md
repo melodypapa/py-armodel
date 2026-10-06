@@ -13,9 +13,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | [x] Done | 825 | 43.4% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 478 | 25.1% |
-| [ ] Implemented | 265 | 13.9% |
-| [ ] Created | 325 | 17.1% |
+| [ ] Deferred | 514 | 27.0% |
+| [ ] Implemented | 234 | 12.3% |
+| [ ] Created | 320 | 16.8% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -257,7 +257,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CanNmCluster`                                          | [x] Done    | 97b3ffb12e                               | Group18          |
 | `CanNmClusterCoupling`                                  | [x] Done    | 8561fbb806                               | Group18          |
 | `CanNmEcu`                                              | [ ] Implemented| N/A                                      | Group33          |
-| `CanNmNode`                                             | [ ] Deferred| N/A                                      | Group18          |
+| `CanNmNode`                                             | [x] Done    | 3d406b5e98                               | Group18          |
 | `CanPhysicalChannel`                                    | [ ] Deferred| 10e6b6aab3                               | Group29          |
 | `CanTpAddress`                                          | [ ] Implemented| N/A                                      | Group33          |
 | `CanTpAddressingFormatType`                             | [ ] Implemented| N/A                                      | Group33          |
@@ -807,9 +807,9 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucChoiceContainerDef`                                | [ ] Deferred| 416e583ff2                               | Group26          |
 | `EcucChoiceReferenceDef`                                | [ ] Deferred| b85e3d5202                               | Group26          |
 | `EcucCommonAttributes`                                  | [ ] Deferred| b5ba9d4e2f                               | Group26          |
-| `EcucConditionFormula`                                  | [ ] Deferred| N/A                                      | Group19          |
-| `EcucConditionSpecification`                            | [ ] Implemented| 901e5bb4c3                               | Group27          |
-| `EcucConfigurationClassEnum`                            | [ ] Deferred| N/A                                      | Group19          |
+| `EcucConditionFormula`                                  | [x] Done    | 86096857ad                               | Group19          |
+| `EcucConditionSpecification`                            | [ ] Deferred| 901e5bb4c3                               | Group27          |
+| `EcucConfigurationClassEnum`                            | [x] Done    | eb890b899c                               | Group19          |
 | `EcucConfigurationVariantEnum`                          | [ ] Deferred| 5ce1bb021e                               | Group26          |
 | `EcucContainerDef`                                      | [ ] Deferred| d497b88ae7                               | Group26          |
 | `EcucContainerValue`                                    | [ ] Deferred| 319fcf7080                               | Group27          |
@@ -838,10 +838,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EcucNumericalParamValue`                               | [ ] Deferred| c2eb1c04d2                               | Group27          |
 | `EcucParamConfContainerDef`                             | [ ] Deferred| 571d1bb8d7                               | Group26          |
 | `EcucParameterDef`                                      | [ ] Deferred| bf479d9bf8                               | Group26          |
-| `EcucParameterDerivationFormula`                        | [ ] Deferred| N/A                                      | Group19          |
+| `EcucParameterDerivationFormula`                        | [x] Done    | 16bd8cd3d0                               | Group19          |
 | `EcucParameterValue`                                    | [ ] Deferred| de8db969b1                               | Group27          |
 | `EcucQuery`                                             | [ ] Deferred| 8bb9dbd181                               | Group26          |
-| `EcucQueryExpression`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `EcucQueryExpression`                                   | [x] Done    | a6ca958629                               | Group19          |
 | `EcucReferenceDef`                                      | [x] Done    | 0d45067479                               | Group19          |
 | `EcucReferenceValue`                                    | [ ] Deferred| 5986011aa6                               | Group27          |
 | `EcucScopeEnum`                                         | [x] Done    | 096c9544fc                               | Group19          |
@@ -1391,11 +1391,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PeriodicEventTriggering`                               | [ ] Implemented| N/A                                      | Group35          |
 | `PermissibleSignalPath`                                 | [ ] Created | N/A                                      | Group31          |
 | `PgwideEnum`                                            | [x] Done    | 1649678501                               | Group22          |
-| `PhysConstrs`                                           | [ ] Implemented| N/A                                      | Group28          |
+| `PhysConstrs`                                           | [ ] Deferred| cad9e2a340                               | Group28          |
 | `PhysicalChannel`                                       | [ ] Deferred| 13ae27c195                               | Group29          |
-| `PhysicalDimension`                                     | [ ] Implemented| N/A                                      | Group28          |
-| `PhysicalDimensionMapping`                              | [ ] Created | N/A                                      | Group28          |
-| `PhysicalDimensionMappingSet`                           | [ ] Created | N/A                                      | Group28          |
+| `PhysicalDimension`                                     | [ ] Deferred| 995b22a850                               | Group28          |
+| `PhysicalDimensionMapping`                              | [ ] Deferred| e8c89613ff                               | Group28          |
+| `PhysicalDimensionMappingSet`                           | [ ] Deferred| 262eb0db3d                               | Group28          |
 | `PlatformModuleEthernetEndpointConfiguration`           | [x] Done    | 5d4cc1c454                               | Group7           |
 | `PlcaProps`                                             | [ ] Implemented| N/A                                      | Group30          |
 | `PncGatewayTypeEnum`                                    | [x] Done    | f4ffa771cf                               | Group15          |
@@ -1504,12 +1504,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RteEventInSystemToOsTaskProxyMapping`                  | [ ] Created | N/A                                      | Group31          |
 | `RtePluginProps`                                        | [x] Done    | ec7fa0b5df                               | Group6           |
 | `RtpTp`                                                 | [ ] Created | N/A                                      | Group32          |
-| `RuleArguments`                                         | [ ] Implemented| N/A                                      | Group28          |
-| `RuleBasedAxisCont`                                     | [ ] Implemented| N/A                                      | Group28          |
-| `RuleBasedValueCont`                                    | [ ] Implemented| N/A                                      | Group28          |
-| `RuleBasedValueSpecification`                           | [ ] Implemented| N/A                                      | Group28          |
+| `RuleArguments`                                         | [ ] Deferred| 571398195f                               | Group28          |
+| `RuleBasedAxisCont`                                     | [ ] Deferred| ebe56c922e                               | Group28          |
+| `RuleBasedValueCont`                                    | [ ] Deferred| 1c8cba3d46                               | Group28          |
+| `RuleBasedValueSpecification`                           | [ ] Deferred| 01d5ffb425                               | Group28          |
 | `RunMode`                                               | [x] Done    | 0215ceb16a                               | Group17          |
-| `RunnableEntity`                                        | [ ] Implemented| N/A                                      | Group28          |
+| `RunnableEntity`                                        | [ ] Deferred| ba3d6ff8b5                               | Group28          |
 | `RunnableEntityArgument`                                | [x] Done    | 3857c2a435                               | Group2           |
 | `RunnableEntityGroup`                                   | [ ] Deferred| N/A                                      | Group28          |
 | `RuntimeAddressConfigurationEnum`                       | [x] Done    | f24d8b53ba                               | Group16          |
