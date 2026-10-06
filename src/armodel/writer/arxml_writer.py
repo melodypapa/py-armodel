@@ -17783,6 +17783,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipSdRule(self, element: ET.Element, rule: Optional[SomeipSdRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "ENTRY-TYPE", rule.getEntryType())
             self.setChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID", rule.getEventGroupId())
             self.setChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION", rule.getMaxMajorVersion())

@@ -17756,6 +17756,7 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setServiceInterfaceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INTERFACE-ID"))
 
     def readSomeipSdRule(self, element: ET.Element, rule: SomeipSdRule):
+        self.readARObject(element, rule)
         rule.setEntryType(self.getChildElementOptionalPositiveInteger(element, "ENTRY-TYPE"))
         rule.setEventGroupId(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-ID"))
         rule.setMaxMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAX-MAJOR-VERSION"))
