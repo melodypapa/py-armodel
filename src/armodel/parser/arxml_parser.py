@@ -14620,7 +14620,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
         self.readReferrable(element, assignment)
-        for child_element in self.findall(element, "PRIORITY"):
+        for child_element in self.findall(element, "PRIORITYS/PRIORITY"):
             priority = PositiveInteger()
             self.readARType(child_element, priority)
             priority.setValue(child_element.text)

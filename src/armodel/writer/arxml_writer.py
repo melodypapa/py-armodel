@@ -12362,8 +12362,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
         child_element = ET.SubElement(element, "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
         self.writeReferrable(child_element, assignment)
-        for priority in assignment.getPriorities():
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, priority))
+        priorities = assignment.getPriorities()
+        if len(priorities) > 0:
+            priorities_element = ET.SubElement(child_element, "PRIORITYS")
+            for priority in priorities:
+                self.setChildElementOptionalPositiveInteger(priorities_element, "PRIORITY", cast(Integer, priority))
         self.setChildElementOptionalPositiveInteger(child_element, "TRAFFIC-CLASS", cast(Integer, assignment.getTrafficClass()))
 
     def writeCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):

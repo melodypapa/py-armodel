@@ -2076,13 +2076,12 @@ class CouplingPortTrafficClassAssignment(Referrable):
 
     # CouplingPortTrafficClassAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.75, p.128
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriorities             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTrafficClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrafficClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriorities             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTrafficClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrafficClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
