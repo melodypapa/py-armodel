@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
@@ -3450,3 +3451,46 @@ class TestDdsReliabilityKindEnum:
         enum.setValue(DdsReliabilityKindEnum.RELIABLE)
 
         assert enum.getValue() == DdsReliabilityKindEnum.RELIABLE
+
+
+class TestDdsDestinationOrderKindEnum:
+    """
+    Test class for DdsDestinationOrderKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.197, p.536
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDestinationOrderKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDestinationOrderKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP,
+            DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDestinationOrderKindEnum member values.
+        """
+        enum = DdsDestinationOrderKindEnum()
+
+        assert DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP == "BY-RECEPTION-TIMESTAMP"
+        assert DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP == "BY-SOURCE-TIMESTAMP"
+
+        assert enum.validateEnumValue("BY-RECEPTION-TIMESTAMP") is True
+        assert enum.validateEnumValue("BY-SOURCE-TIMESTAMP") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDestinationOrderKindEnum instantiability and getValue.
+        """
+        enum = DdsDestinationOrderKindEnum()
+        enum.setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP)
+
+        assert enum.getValue() == DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP

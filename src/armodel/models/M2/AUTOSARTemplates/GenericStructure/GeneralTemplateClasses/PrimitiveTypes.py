@@ -1718,7 +1718,29 @@ class DataExchangePointKind(AREnum):
 
 
 class DdsDestinationOrderKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS DESTINATION_ORDER kind. Tags: atp.Status=candidate
+    """
+
+    # DdsDestinationOrderKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.197, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsDestinationOrder.destinationOrderKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    BY_RECEPTION_TIMESTAMP = "BY-RECEPTION-TIMESTAMP"
+
+    # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BY_SOURCE_TIMESTAMP = "BY-SOURCE-TIMESTAMP"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP,
+                DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP,
+            ]
+        )
 
 
 class DdsDurabilityKindEnum(AREnum):
