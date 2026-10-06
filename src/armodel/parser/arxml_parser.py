@@ -578,7 +578,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     PhysicalDimensionMapping,
-    StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1175,6 +1174,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     SdServerConfig,
     StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
@@ -11210,7 +11210,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "DESTINATION-IPV-6-ADDRESS")
         if child_element is not None:
             ipv6_address = StreamFilterIpv6Address()
-            self.readARObject(child_element, ipv6_address)
+            self.readStreamFilterIpv6Address(child_element, ipv6_address)
             rule.setDestinationIpv6Address(ipv6_address)
         ports_element = self.find(element, "DESTINATION-PORTS")
         if ports_element is not None:
@@ -11226,7 +11226,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "SOURCE-IPV-6-ADDRESS")
         if child_element is not None:
             ipv6_address = StreamFilterIpv6Address()
-            self.readARObject(child_element, ipv6_address)
+            self.readStreamFilterIpv6Address(child_element, ipv6_address)
             rule.setSourceIpv6Address(ipv6_address)
         ports_element = self.find(element, "SOURCE-PORTS")
         if ports_element is not None:
@@ -11247,6 +11247,19 @@ class ARXMLParser(AbstractARXMLParser):
             address = Ip4AddressString()
             address.setValue(child_element.getValue())
             ipv4_address.setIpv4AddressMask(address)
+
+    def readStreamFilterIpv6Address(self, element: ET.Element, ipv6_address: StreamFilterIpv6Address):
+        self.readARObject(element, ipv6_address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")
+        if child_element is not None:
+            address = Ip6AddressString()
+            address.setValue(child_element.getValue())
+            ipv6_address.setIpv6Address(address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK")
+        if child_element is not None:
+            address = Ip6AddressString()
+            address.setValue(child_element.getValue())
+            ipv6_address.setIpv6AddressMask(address)
 
     def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.readCouplingElementAbstractDetails(element, details)

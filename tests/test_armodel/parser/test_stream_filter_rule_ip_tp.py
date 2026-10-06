@@ -17,11 +17,11 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
     StreamFilterRuleIpTp,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -45,10 +45,10 @@ class TestReadStreamFilterRuleIpTp:
         parser = ARXMLParser(options={"warning": True})
         element = _snip(
             "<DESTINATION-IPV-4-ADDRESS S='1'><IPV-4-ADDRESS>192.168.0.1</IPV-4-ADDRESS><IPV-4-ADDRESS-MASK>255.255.0.0</IPV-4-ADDRESS-MASK></DESTINATION-IPV-4-ADDRESS>"
-            "<DESTINATION-IPV-6-ADDRESS S='2'/>"
+            "<DESTINATION-IPV-6-ADDRESS S='2'><IPV-6-ADDRESS>2001:0DB8:0000:0000:0000:0000:0000:0001</IPV-6-ADDRESS><IPV-6-ADDRESS-MASK>FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FF00</IPV-6-ADDRESS-MASK></DESTINATION-IPV-6-ADDRESS>"
             "<DESTINATION-PORTS><STREAM-FILTER-PORT-RANGE S='31'/><STREAM-FILTER-PORT-RANGE S='32'/></DESTINATION-PORTS>"
             "<SOURCE-IPV-4-ADDRESS S='3'><IPV-4-ADDRESS>10.0.0.1</IPV-4-ADDRESS></SOURCE-IPV-4-ADDRESS>"
-            "<SOURCE-IPV-6-ADDRESS S='4'/>"
+            "<SOURCE-IPV-6-ADDRESS S='4'><IPV-6-ADDRESS>FE80:0000:0000:0000:0000:0000:0000:0001</IPV-6-ADDRESS></SOURCE-IPV-6-ADDRESS>"
             "<SOURCE-PORTS><STREAM-FILTER-PORT-RANGE S='33'/></SOURCE-PORTS>"
         )
         rule = StreamFilterRuleIpTp()
@@ -60,6 +60,8 @@ class TestReadStreamFilterRuleIpTp:
         assert rule.getDestinationIpv4Address().getIpv4AddressMask().getValue() == "255.255.0.0"
         assert isinstance(rule.getDestinationIpv6Address(), StreamFilterIpv6Address)
         assert rule.getDestinationIpv6Address().getChecksum().getValue() == "2"
+        assert rule.getDestinationIpv6Address().getIpv6Address().getValue() == "2001:0DB8:0000:0000:0000:0000:0000:0001"
+        assert rule.getDestinationIpv6Address().getIpv6AddressMask().getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FF00"
         destination_ports = rule.getDestinationPorts()
         assert len(destination_ports) == 2
         assert all(isinstance(port, StreamFilterPortRange) for port in destination_ports)
@@ -71,6 +73,8 @@ class TestReadStreamFilterRuleIpTp:
         assert rule.getSourceIpv4Address().getIpv4AddressMask() is None
         assert isinstance(rule.getSourceIpv6Address(), StreamFilterIpv6Address)
         assert rule.getSourceIpv6Address().getChecksum().getValue() == "4"
+        assert rule.getSourceIpv6Address().getIpv6Address().getValue() == "FE80:0000:0000:0000:0000:0000:0000:0001"
+        assert rule.getSourceIpv6Address().getIpv6AddressMask() is None
         source_ports = rule.getSourcePorts()
         assert len(source_ports) == 1
         assert isinstance(source_ports[0], StreamFilterPortRange)

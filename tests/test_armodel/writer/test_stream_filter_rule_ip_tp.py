@@ -16,12 +16,12 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
     StreamFilterRuleIpTp,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -43,19 +43,30 @@ def _ipv4(value):
     return ip
 
 
+def _ipv6(value):
+    ip = Ip6AddressString()
+    ip.setValue(value)
+    return ip
+
+
 def _full_rule() -> StreamFilterRuleIpTp:
     rule = StreamFilterRuleIpTp()
     destination_ipv4_address = StreamFilterIpv4Address()
     destination_ipv4_address.setIpv4Address(_ipv4("192.168.0.1"))
     destination_ipv4_address.setIpv4AddressMask(_ipv4("255.255.0.0"))
     rule.setDestinationIpv4Address(destination_ipv4_address)
-    rule.setDestinationIpv6Address(StreamFilterIpv6Address())
+    destination_ipv6_address = StreamFilterIpv6Address()
+    destination_ipv6_address.setIpv6Address(_ipv6("2001:0DB8:0000:0000:0000:0000:0000:0001"))
+    destination_ipv6_address.setIpv6AddressMask(_ipv6("FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FF00"))
+    rule.setDestinationIpv6Address(destination_ipv6_address)
     rule.addDestinationPort(StreamFilterPortRange())
     rule.addDestinationPort(StreamFilterPortRange())
     source_ipv4_address = StreamFilterIpv4Address()
     source_ipv4_address.setIpv4Address(_ipv4("10.0.0.1"))
     rule.setSourceIpv4Address(source_ipv4_address)
-    rule.setSourceIpv6Address(StreamFilterIpv6Address())
+    source_ipv6_address = StreamFilterIpv6Address()
+    source_ipv6_address.setIpv6Address(_ipv6("FE80:0000:0000:0000:0000:0000:0000:0001"))
+    rule.setSourceIpv6Address(source_ipv6_address)
     rule.addSourcePort(StreamFilterPortRange())
     return rule
 
@@ -82,11 +93,15 @@ class TestWriteStreamFilterRuleIpTp:
         assert element.find("DESTINATION-IPV-4-ADDRESS/IPV-4-ADDRESS").text == "192.168.0.1"
         assert element.find("DESTINATION-IPV-4-ADDRESS/IPV-4-ADDRESS-MASK").text == "255.255.0.0"
         assert isinstance(element.find("DESTINATION-IPV-6-ADDRESS"), ET.Element)
+        assert element.find("DESTINATION-IPV-6-ADDRESS/IPV-6-ADDRESS").text == "2001:0DB8:0000:0000:0000:0000:0000:0001"
+        assert element.find("DESTINATION-IPV-6-ADDRESS/IPV-6-ADDRESS-MASK").text == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FF00"
         assert [child.tag for child in element.find("DESTINATION-PORTS")] == ["STREAM-FILTER-PORT-RANGE", "STREAM-FILTER-PORT-RANGE"]
         assert isinstance(element.find("SOURCE-IPV-4-ADDRESS"), ET.Element)
         assert element.find("SOURCE-IPV-4-ADDRESS/IPV-4-ADDRESS").text == "10.0.0.1"
         assert element.find("SOURCE-IPV-4-ADDRESS/IPV-4-ADDRESS-MASK") is None
         assert isinstance(element.find("SOURCE-IPV-6-ADDRESS"), ET.Element)
+        assert element.find("SOURCE-IPV-6-ADDRESS/IPV-6-ADDRESS").text == "FE80:0000:0000:0000:0000:0000:0000:0001"
+        assert element.find("SOURCE-IPV-6-ADDRESS/IPV-6-ADDRESS-MASK") is None
         assert [child.tag for child in element.find("SOURCE-PORTS")] == ["STREAM-FILTER-PORT-RANGE"]
 
     def test_write_partial_omits_absent_elements(self):
@@ -117,11 +132,15 @@ class TestWriteStreamFilterRuleIpTp:
         assert recovered.getDestinationIpv4Address().getIpv4Address().getValue() == "192.168.0.1"
         assert recovered.getDestinationIpv4Address().getIpv4AddressMask().getValue() == "255.255.0.0"
         assert isinstance(recovered.getDestinationIpv6Address(), StreamFilterIpv6Address)
+        assert recovered.getDestinationIpv6Address().getIpv6Address().getValue() == "2001:0DB8:0000:0000:0000:0000:0000:0001"
+        assert recovered.getDestinationIpv6Address().getIpv6AddressMask().getValue() == "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FF00"
         assert len(recovered.getDestinationPorts()) == 2
         assert all(isinstance(port, StreamFilterPortRange) for port in recovered.getDestinationPorts())
         assert isinstance(recovered.getSourceIpv4Address(), StreamFilterIpv4Address)
         assert recovered.getSourceIpv4Address().getIpv4Address().getValue() == "10.0.0.1"
         assert recovered.getSourceIpv4Address().getIpv4AddressMask() is None
         assert isinstance(recovered.getSourceIpv6Address(), StreamFilterIpv6Address)
+        assert recovered.getSourceIpv6Address().getIpv6Address().getValue() == "FE80:0000:0000:0000:0000:0000:0000:0001"
+        assert recovered.getSourceIpv6Address().getIpv6AddressMask() is None
         assert len(recovered.getSourcePorts()) == 1
         assert isinstance(recovered.getSourcePorts()[0], StreamFilterPortRange)

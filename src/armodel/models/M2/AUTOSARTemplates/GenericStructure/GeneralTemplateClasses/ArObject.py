@@ -2582,10 +2582,6 @@ class StreamFilterIEEE1722Tp(ARObject):
     pass
 
 
-class StreamFilterIpv6Address(ARObject):
-    pass
-
-
 class StreamFilterPortRange(ARObject):
     pass
 

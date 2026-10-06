@@ -18,7 +18,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
-    StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -998,6 +997,62 @@ class StreamFilterIpv4Address(ARObject):
         """
         if value is not None:
             self.ipv4AddressMask = value
+        return self
+
+
+class StreamFilterIpv6Address(ARObject):
+    """
+    IPv6 address range definition. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIpv6Address method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.90, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv6Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6AddressMask   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6AddressMask   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+        self.ipv6Address: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+        self.ipv6AddressMask: Optional[Ip6AddressString] = None
+
+    def getIpv6Address(self) -> Optional[Ip6AddressString]:
+        """
+        Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+        """
+        return self.ipv6Address
+
+    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> StreamFilterIpv6Address:
+        """
+        Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv6Address.
+        """
+        if value is not None:
+            self.ipv6Address = value
+        return self
+
+    def getIpv6AddressMask(self) -> Optional[Ip6AddressString]:
+        """
+        Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.ipv6AddressMask
+
+    def setIpv6AddressMask(self, value: Optional[Ip6AddressString]) -> StreamFilterIpv6Address:
+        """
+        Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv6AddressMask.
+        """
+        if value is not None:
+            self.ipv6AddressMask = value
         return self
 
 

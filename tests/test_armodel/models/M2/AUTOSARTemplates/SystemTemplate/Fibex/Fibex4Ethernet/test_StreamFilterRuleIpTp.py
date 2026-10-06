@@ -13,11 +13,11 @@ import typing
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
-    StreamFilterIpv6Address,
     StreamFilterPortRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
     StreamFilterRuleIpTp,
 )
 

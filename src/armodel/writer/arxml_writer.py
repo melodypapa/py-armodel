@@ -977,6 +977,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     SdServerConfig,
     StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
     StreamFilterMACAddress,
     StreamFilterRuleDataLinkLayer,
     StreamFilterRuleIpTp,
@@ -12057,7 +12058,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             destination_ipv6_address = rule.getDestinationIpv6Address()
             if destination_ipv6_address is not None:
                 destination_ipv6_address_element = ET.SubElement(element, "DESTINATION-IPV-6-ADDRESS")
-                self.writeARObject(destination_ipv6_address_element, destination_ipv6_address)
+                self.writeStreamFilterIpv6Address(destination_ipv6_address_element, destination_ipv6_address)
             destination_ports = rule.getDestinationPorts()
             if len(destination_ports) > 0:
                 destination_ports_element = ET.SubElement(element, "DESTINATION-PORTS")
@@ -12071,7 +12072,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             source_ipv6_address = rule.getSourceIpv6Address()
             if source_ipv6_address is not None:
                 source_ipv6_address_element = ET.SubElement(element, "SOURCE-IPV-6-ADDRESS")
-                self.writeARObject(source_ipv6_address_element, source_ipv6_address)
+                self.writeStreamFilterIpv6Address(source_ipv6_address_element, source_ipv6_address)
             source_ports = rule.getSourcePorts()
             if len(source_ports) > 0:
                 source_ports_element = ET.SubElement(element, "SOURCE-PORTS")
@@ -12084,6 +12085,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(element, ipv4_address)
             self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS", ipv4_address.getIpv4Address())
             self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK", ipv4_address.getIpv4AddressMask())
+
+    def writeStreamFilterIpv6Address(self, element: ET.Element, ipv6_address: Optional[StreamFilterIpv6Address]):
+        if ipv6_address is not None:
+            self.writeARObject(element, ipv6_address)
+            self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS", ipv6_address.getIpv6Address())
+            self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK", ipv6_address.getIpv6AddressMask())
 
     def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
         self.writeCouplingElementAbstractDetails(element, details)
