@@ -1019,6 +1019,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     DiagnosticParameterIdent,
     ModeAccessPointIdent,
+    RptContainer,
     RptExecutableEntityProperties,
     RptHook,
     RptImplPolicy,
@@ -5973,6 +5974,41 @@ class ARXMLParser(AbstractARXMLParser):
         properties.setMinRptEventId(self.getChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID"))
         properties.setRptExecutionControl(cast(Optional[RptExecutionControlEnum], self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")))
         properties.setRptServicePoint(cast(Optional[RptServicePointEnum], self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT")))
+
+    def readRptContainer(self, element: ET.Element, container: RptContainer):
+        self.readIdentifiable(element, container)
+        bypass_irefs_element = self.find(element, "BY-PASS-POINT-IREFS")
+        if bypass_irefs_element is not None:
+            for child_element in self.findall(bypass_irefs_element, "BY-PASS-POINT-IREF"):
+                container.addByPassPointIRef(self.getAnyInstanceRefFromElement(child_element))
+        for ref in self.getChildElementRefTypeList(element, "EXPLICIT-RPT-PROFILE-SELECTION-REFS/EXPLICIT-RPT-PROFILE-SELECTION-REF"):
+            container.addExplicitRptProfileSelectionRef(ref)
+        containers_element = self.find(element, "RPT-CONTAINERS")
+        if containers_element is not None:
+            for child_element in self.findall(containers_element, "RPT-CONTAINER"):
+                sub_container = container.createRptContainer(self.getShortName(child_element))
+                self.readRptContainer(child_element, sub_container)
+        rpt_executable_entity_properties_element = self.find(element, "RPT-EXECUTABLE-ENTITY-PROPERTIES")
+        if rpt_executable_entity_properties_element is not None:
+            properties = RptExecutableEntityProperties()
+            self.readRptExecutableEntityProperties(rpt_executable_entity_properties_element, properties)
+            container.setRptExecutableEntityProperties(properties)
+        rpt_hooks_element = self.find(element, "RPT-HOOKS")
+        if rpt_hooks_element is not None:
+            for child_element in self.findall(rpt_hooks_element, "RPT-HOOK"):
+                hook = RptHook()
+                self.readRptHook(child_element, hook)
+                container.setRptHook(hook)
+        rpt_impl_policy_element = self.find(element, "RPT-IMPL-POLICY")
+        if rpt_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rpt_impl_policy_element, policy)
+            container.setRptImplPolicy(policy)
+        rpt_sw_prototyping_access_element = self.find(element, "RPT-SW-PROTOTYPING-ACCESS")
+        if rpt_sw_prototyping_access_element is not None:
+            access = RptSwPrototypingAccess()
+            self.readRptSwPrototypingAccess(rpt_sw_prototyping_access_element, access)
+            container.setRptSwPrototypingAccess(access)
 
     def readRptHook(self, element: ET.Element, hook: RptHook):
         self.readARObject(element, hook)

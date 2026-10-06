@@ -837,7 +837,15 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import DiagnosticParameterIdent, ModeAccessPointIdent, RptExecutableEntityProperties, RptHook, RptImplPolicy, RptProfile
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    DiagnosticParameterIdent,
+    ModeAccessPointIdent,
+    RptContainer,
+    RptExecutableEntityProperties,
+    RptHook,
+    RptImplPolicy,
+    RptProfile,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import PerInstanceMemorySize, SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -7571,6 +7579,39 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID", properties.getMinRptEventId())
             self.setChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL", properties.getRptExecutionControl())
             self.setChildElementOptionalLiteral(element, "RPT-SERVICE-POINT", properties.getRptServicePoint())
+
+    def writeRptContainer(self, element: ET.Element, container: Optional[RptContainer]):
+        if container is not None:
+            child_element = ET.SubElement(element, "RPT-CONTAINER")
+            self.writeIdentifiable(child_element, container, write_variation_point=False)
+            irefs = container.getByPassPointIRefs()
+            if len(irefs) > 0:
+                irefs_element = ET.SubElement(child_element, "BY-PASS-POINT-IREFS")
+                for iref in irefs:
+                    self.setAnyInstanceRef(irefs_element, "BY-PASS-POINT-IREF", iref)
+            refs = container.getExplicitRptProfileSelectionRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "EXPLICIT-RPT-PROFILE-SELECTION-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "EXPLICIT-RPT-PROFILE-SELECTION-REF", ref)
+            sub_containers = container.getRptContainers()
+            if len(sub_containers) > 0:
+                containers_element = ET.SubElement(child_element, "RPT-CONTAINERS")
+                for sub_container in sub_containers:
+                    self.writeRptContainer(containers_element, sub_container)
+            properties = container.getRptExecutableEntityProperties()
+            if properties is not None:
+                self.writeRptExecutableEntityProperties(ET.SubElement(child_element, "RPT-EXECUTABLE-ENTITY-PROPERTIES"), properties)
+            hook = container.getRptHook()
+            if hook is not None:
+                self.writeRptHook(ET.SubElement(child_element, "RPT-HOOKS"), hook)
+            policy = container.getRptImplPolicy()
+            if policy is not None:
+                self.writeRptImplPolicy(ET.SubElement(child_element, "RPT-IMPL-POLICY"), policy)
+            access = container.getRptSwPrototypingAccess()
+            if access is not None:
+                self.writeRptSwPrototypingAccess(ET.SubElement(child_element, "RPT-SW-PROTOTYPING-ACCESS"), access)
+            self.writeVariationPointCapable(child_element, container)
 
     def writeRptHook(self, element: ET.Element, hook: Optional[RptHook]):
         if hook is not None:

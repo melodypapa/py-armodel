@@ -3,12 +3,12 @@ This module contains classes for representing AUTOSAR Run-Time Protection (RPT) 
 and access point identification elements in software component templates.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum, RptSwPrototypingAccess
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, NameToken, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, NameToken, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from abc import ABC
@@ -447,6 +447,172 @@ class RptProfile(Identifiable):
         """
         if value is not None:
             self.stimEnabler = value
+        return self
+
+
+class RptContainer(Identifiable, VariationPointCapable):
+    """
+    This meta-class defines a byPassPoint and the relation to a rptHook. Additionally it may contain further rptContainers if the byPassPoint is not atomic. For example a byPass Point referencing to a RunnableEntity may contain rptContainers referring to the data access points of the RunnableEntity. The RptContainer structure on M1 shall follow the M1 structure of the Software Component Descriptions. The category attribute denotes which level of the Software Component Description is annotated.
+    """
+
+    # RptContainer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.2, p.847
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addByPassPointIRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getByPassPointIRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addExplicitRptProfileSelectionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExplicitRptProfileSelectionRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRptContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRptExecutableEntityProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptExecutableEntityProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptHook                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptHook                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptImplPolicy                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptImplPolicy                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptSwPrototypingAccess          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptSwPrototypingAccess          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRptContainer/writeRptContainer (readIdentifiable/
+    # writeIdentifiable once each, Rule 0025; element <RPT-CONTAINER>, group RPT-CONTAINER
+    # XSD AUTOSAR_00052.xsd l.99633, sequenceOffset order BY-PASS-POINT-IREFS,
+    # EXPLICIT-RPT-PROFILE-SELECTION-REFS, RPT-CONTAINERS, RPT-EXECUTABLE-ENTITY-PROPERTIES,
+    # RPT-HOOKS, RPT-IMPL-POLICY, RPT-SW-PROTOTYPING-ACCESS, VARIATION-POINT). The recursive
+    # sub-container RPT-CONTAINERS dispatch lives in readRptContainer/writeRptContainer itself;
+    # the RapidPrototypingScenario.rptContainer dispatch is that class's own queued sync.
+    # get/setVariationPoint provided by the VariationPointCapable base (mixin) — no spec
+    # rows (Rule 0020: RptContainer.rptContainer atpVariation; XSD VARIATION-POINT
+    # xml.sequenceOffset 10000)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        self.byPassPointIRefs: List[AnyInstanceRef] = []
+
+        # This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        self.explicitRptProfileSelectionRefs: List[RefType] = []
+
+        # Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptContainers: List[RptContainer] = []
+
+        # Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        self.rptExecutableEntityProperties: Optional[RptExecutableEntityProperties] = None
+
+        # The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptHook: Optional[RptHook] = None
+
+        # Describes the required code preparation for rapid prototyping at data accesses.
+        self.rptImplPolicy: Optional[RptImplPolicy] = None
+
+        # Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        self.rptSwPrototypingAccess: Optional[RptSwPrototypingAccess] = None
+
+    def addByPassPointIRef(self, iref: Optional[AnyInstanceRef]) -> "RptContainer":
+        """
+        byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        A None value is a no-op and is not appended.
+        """
+        if iref is not None:
+            self.byPassPointIRefs.append(iref)
+        return self
+
+    def getByPassPointIRefs(self) -> List[AnyInstanceRef]:
+        """
+        byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        """
+        return self.byPassPointIRefs
+
+    def addExplicitRptProfileSelectionRef(self, ref: Optional[RefType]) -> "RptContainer":
+        """
+        This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        A None value is a no-op and is not appended.
+        """
+        if ref is not None:
+            self.explicitRptProfileSelectionRefs.append(ref)
+        return self
+
+    def getExplicitRptProfileSelectionRefs(self) -> List[RefType]:
+        """
+        This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        """
+        return self.explicitRptProfileSelectionRefs
+
+    def createRptContainer(self, short_name: str) -> "RptContainer":
+        """
+        Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        The existing sub container is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptContainer):
+            sub_container = RptContainer(self, short_name)
+            self.addReferrableElement(sub_container)
+            self.rptContainers.append(sub_container)
+        return cast(RptContainer, self.getReferrableElement(short_name, RptContainer))
+
+    def getRptContainers(self) -> "List[RptContainer]":
+        """
+        Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptContainers
+
+    def getRptExecutableEntityProperties(self) -> Optional[RptExecutableEntityProperties]:
+        """
+        Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        """
+        return self.rptExecutableEntityProperties
+
+    def setRptExecutableEntityProperties(self, value: Optional[RptExecutableEntityProperties]) -> "RptContainer":
+        """
+        Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        A None value is a no-op and does not overwrite an existing rptExecutableEntityProperties.
+        """
+        if value is not None:
+            self.rptExecutableEntityProperties = value
+        return self
+
+    def getRptHook(self) -> Optional[RptHook]:
+        """
+        The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptHook
+
+    def setRptHook(self, value: Optional[RptHook]) -> "RptContainer":
+        """
+        The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not overwrite an existing rptHook.
+        """
+        if value is not None:
+            self.rptHook = value
+        return self
+
+    def getRptImplPolicy(self) -> Optional[RptImplPolicy]:
+        """
+        Describes the required code preparation for rapid prototyping at data accesses.
+        """
+        return self.rptImplPolicy
+
+    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> "RptContainer":
+        """
+        Describes the required code preparation for rapid prototyping at data accesses.
+        A None value is a no-op and does not overwrite an existing rptImplPolicy.
+        """
+        if value is not None:
+            self.rptImplPolicy = value
+        return self
+
+    def getRptSwPrototypingAccess(self) -> Optional[RptSwPrototypingAccess]:
+        """
+        Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        """
+        return self.rptSwPrototypingAccess
+
+    def setRptSwPrototypingAccess(self, value: Optional[RptSwPrototypingAccess]) -> "RptContainer":
+        """
+        Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        A None value is a no-op and does not overwrite an existing rptSwPrototypingAccess.
+        """
+        if value is not None:
+            self.rptSwPrototypingAccess = value
         return self
 
 

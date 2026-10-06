@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     ExternalTriggeringPointIdent,
     IdentCaption,
     ModeAccessPointIdent,
+    RptContainer,
     RptExecutableEntityProperties,
     RptHook,
     RptImplPolicy,
@@ -487,3 +488,188 @@ class TestRptProfile:
 
         assert typing.get_type_hints(RptProfile.getStimEnabler).get("return") == typing.Optional[RptEnablerImplTypeEnum]
         assert typing.get_type_hints(RptProfile.setStimEnabler).get("value") == typing.Optional[RptEnablerImplTypeEnum]
+
+
+class TestRptContainer:
+    """Test class for RptContainer class (Table 14.2, p.847)."""
+
+    SPEC_NOTE = (
+        "This meta-class defines a byPassPoint and the relation to a rptHook. Additionally it may contain further rptContainers if the byPassPoint is not atomic. "
+        "For example a byPass Point referencing to a RunnableEntity may contain rptContainers referring to the data access points of the RunnableEntity. "
+        "The RptContainer structure on M1 shall follow the M1 structure of the Software Component Descriptions. "
+        "The category attribute denotes which level of the Software Component Description is annotated."
+    )
+
+    def test_rpt_container_concrete(self):
+        """RptContainer is concrete (Table 14.2 header, XSD RPT-CONTAINER abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert isinstance(container, RptContainer)
+        assert container.getShortName() == "RptContainer1"
+
+    def test_rpt_container_heritage(self):
+        """Most-derived base is Identifiable (Table 14.2 Base: ARObject, Identifiable, MultilanguageReferrable, Referrable — Rule 0001.2); VP capability via the VariationPointCapable mixin (Rule 0020)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert type(container).__bases__ == (Identifiable, VariationPointCapable)
+        for ancestor in (ARObject, Identifiable, VariationPointCapable):
+            assert isinstance(container, ancestor)
+
+    def test_rpt_container_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.2)."""
+        assert RptContainer.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptContainer initialization defaults (all Table 14.2 attributes unset)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert container is not None
+        assert container.getByPassPointIRefs() == []
+        assert container.getExplicitRptProfileSelectionRefs() == []
+        assert container.getRptContainers() == []
+        assert container.getRptExecutableEntityProperties() is None
+        assert container.getRptHook() is None
+        assert container.getRptImplPolicy() is None
+        assert container.getRptSwPrototypingAccess() is None
+
+    def test_add_get_by_pass_point_irefs(self):
+        """Test byPassPoint iref aggregation (AnyInstanceRef, *, Rule 0001.5 IRef suffix + plural)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/comp/Swc1/Data1"))
+        result = container.addByPassPointIRef(iref)
+
+        assert result is container
+        assert container.getByPassPointIRefs() == [iref]
+
+        container.addByPassPointIRef(None)
+        assert container.getByPassPointIRefs() == [iref]
+
+        second = AnyInstanceRef()
+        second.setTargetRef(RefType().setValue("/comp/Swc1/Data2"))
+        container.addByPassPointIRef(second)
+        assert container.getByPassPointIRefs() == [iref, second]
+
+    def test_add_get_explicit_rpt_profile_selection_refs(self):
+        """Test explicitRptProfileSelection ref aggregation (RefType, *)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        ref = RefType().setValue("/RptScenario/RptProfile1")
+        result = container.addExplicitRptProfileSelectionRef(ref)
+
+        assert result is container
+        assert container.getExplicitRptProfileSelectionRefs() == [ref]
+
+        container.addExplicitRptProfileSelectionRef(None)
+        assert container.getExplicitRptProfileSelectionRefs() == [ref]
+
+        second = RefType().setValue("/RptScenario/RptProfile2")
+        container.addExplicitRptProfileSelectionRef(second)
+        assert container.getExplicitRptProfileSelectionRefs() == [ref, second]
+
+    def test_create_get_rpt_containers(self):
+        """Test rptContainer recursive aggregation (RptContainer, *, Identifiable child -> create)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        sub_container = container.createRptContainer("SubContainer")
+        assert sub_container is not None
+        assert sub_container.getShortName() == "SubContainer"
+        assert sub_container.getParent() is container
+        assert isinstance(sub_container, RptContainer)
+        assert container.getRptContainers() == [sub_container]
+
+        duplicate = container.createRptContainer("SubContainer")
+        assert duplicate is sub_container  # duplicate short name returns the existing element
+        assert len(container.getRptContainers()) == 1
+
+        second = container.createRptContainer("SubContainer2")
+        assert container.getRptContainers() == [sub_container, second]
+
+    def test_get_set_rpt_hook(self):
+        """Test rptHook aggregation (RptHook, 0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        hook = RptHook()
+        result = container.setRptHook(hook)
+
+        assert result is container
+        assert container.getRptHook() == hook
+
+        container.setRptHook(None)
+        assert container.getRptHook() == hook
+
+    def test_get_set_rpt_executable_entity_properties(self):
+        """Test rptExecutableEntityProperties aggregation (0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        properties = RptExecutableEntityProperties()
+        result = container.setRptExecutableEntityProperties(properties)
+
+        assert result is container
+        assert container.getRptExecutableEntityProperties() == properties
+
+        container.setRptExecutableEntityProperties(None)
+        assert container.getRptExecutableEntityProperties() == properties
+
+    def test_get_set_rpt_impl_policy(self):
+        """Test rptImplPolicy aggregation (0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        policy = RptImplPolicy()
+        result = container.setRptImplPolicy(policy)
+
+        assert result is container
+        assert container.getRptImplPolicy() == policy
+
+        container.setRptImplPolicy(None)
+        assert container.getRptImplPolicy() == policy
+
+    def test_get_set_rpt_sw_prototyping_access(self):
+        """Test rptSwPrototypingAccess aggregation (0..1, ARObject child -> set)."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess
+
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        access = RptSwPrototypingAccess()
+        result = container.setRptSwPrototypingAccess(access)
+
+        assert result is container
+        assert container.getRptSwPrototypingAccess() == access
+
+        container.setRptSwPrototypingAccess(None)
+        assert container.getRptSwPrototypingAccess() == access
+
+    def test_get_set_variation_point(self):
+        """VP capability inherited from VariationPointCapable (Rule 0020)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        vp = VariationPoint()
+
+        assert container == container.setVariationPoint(vp)
+        assert container.getVariationPoint() == vp
+
+        assert container == container.setVariationPoint(None)
+        assert container.getVariationPoint() == vp
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptContainer.getByPassPointIRefs).get("return") == typing.List[AnyInstanceRef]
+        assert typing.get_type_hints(RptContainer.addByPassPointIRef).get("iref") == typing.Optional[AnyInstanceRef]
+        assert typing.get_type_hints(RptContainer.addByPassPointIRef).get("return") is RptContainer
+
+        assert typing.get_type_hints(RptContainer.getExplicitRptProfileSelectionRefs).get("return") == typing.List[RefType]
+        assert typing.get_type_hints(RptContainer.addExplicitRptProfileSelectionRef).get("ref") == typing.Optional[RefType]
+
+        assert typing.get_type_hints(RptContainer.getRptContainers).get("return") == typing.List[RptContainer]
+        assert typing.get_type_hints(RptContainer.createRptContainer).get("short_name") is str
+        assert typing.get_type_hints(RptContainer.createRptContainer).get("return") is RptContainer
+
+        assert typing.get_type_hints(RptContainer.getRptExecutableEntityProperties).get("return") == typing.Optional[RptExecutableEntityProperties]
+        assert typing.get_type_hints(RptContainer.setRptExecutableEntityProperties).get("value") == typing.Optional[RptExecutableEntityProperties]
+
+        assert typing.get_type_hints(RptContainer.getRptHook).get("return") == typing.Optional[RptHook]
+        assert typing.get_type_hints(RptContainer.setRptHook).get("value") == typing.Optional[RptHook]
+
+        assert typing.get_type_hints(RptContainer.getRptImplPolicy).get("return") == typing.Optional[RptImplPolicy]
+        assert typing.get_type_hints(RptContainer.setRptImplPolicy).get("value") == typing.Optional[RptImplPolicy]
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess
+
+        assert typing.get_type_hints(RptContainer.getRptSwPrototypingAccess).get("return") == typing.Optional[RptSwPrototypingAccess]
+        assert typing.get_type_hints(RptContainer.setRptSwPrototypingAccess).get("value") == typing.Optional[RptSwPrototypingAccess]
