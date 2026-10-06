@@ -17771,6 +17771,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipProtocolRule(self, element: ET.Element, rule: Optional[SomeipProtocolRule]):
         if rule is not None:
+            self.writeARObject(element, rule)
             self.setChildElementOptionalPositiveInteger(element, "CLIENT-ID", rule.getClientId())
             self.setChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION", rule.getLengthVerification())
             self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", rule.getMajorVersion())

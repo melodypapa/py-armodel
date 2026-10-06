@@ -17745,6 +17745,7 @@ class ARXMLParser(AbstractARXMLParser):
         part.setValue(self.getChildElementOptionalPositiveInteger(element, "VALUE"))
 
     def readSomeipProtocolRule(self, element: ET.Element, rule: SomeipProtocolRule):
+        self.readARObject(element, rule)
         rule.setClientId(self.getChildElementOptionalPositiveInteger(element, "CLIENT-ID"))
         rule.setLengthVerification(self.getChildElementOptionalBooleanValue(element, "LENGTH-VERIFICATION"))
         rule.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
