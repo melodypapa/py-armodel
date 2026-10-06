@@ -1779,3 +1779,71 @@ class TestSensorActuatorSwComponentTypeRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestEcuAbstractionSwComponentTypeRoundTrip:
+    def test_round_trip_populated(self):
+        """Test set -> save -> reload of an EcuAbstractionSwComponentType with hardware element refs (Table 10.2)."""
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        swc = pkg.createEcuAbstractionSwComponentType("EcuSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Ecu/Led", "HW-DESCRIPTION-ENTITY"))
+        swc.addHardwareElementRef(_make_ref("/Hw/Ecu/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = next(s for s in package.getSwComponentTypes() if isinstance(s, EcuAbstractionSwComponentType))
+            assert isinstance(swc_2, EcuAbstractionSwComponentType)
+            assert swc_2.getShortName() == "EcuSwc"
+            refs = swc_2.getHardwareElementRefs()
+            assert len(refs) == 2
+            assert refs[0].getValue() == "/Hw/Ecu/Led"
+            assert refs[0].getDest() == "HW-DESCRIPTION-ENTITY"
+            assert refs[1].getValue() == "/Hw/Ecu/Sensor"
+            assert refs[1].getDest() == "HW-DESCRIPTION-ENTITY"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_empty(self):
+        """Test that an EcuAbstractionSwComponentType without hardware element refs round-trips without the wrapper element."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        pkg.createEcuAbstractionSwComponentType("EcuSwc")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            with open(file_path, "r", encoding="utf-8") as f:
+                saved = ET.parse(f).getroot()
+            swc_element = next(e for e in saved.iter() if e.tag.endswith("ECU-ABSTRACTION-SW-COMPONENT-TYPE"))
+            assert all(not c.tag.endswith("HARDWARE-ELEMENT-REFS") for c in swc_element)
+            document.clear()
+            document.setARRelease("R23-11")
+            ARXMLParser().load(file_path, document)
+            package = document.getARPackages()[0]
+            swc_2 = package.getSwComponentTypes()[0]
+            assert swc_2.getHardwareElementRefs() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

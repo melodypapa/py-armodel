@@ -435,7 +435,25 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         ecu_sw_component = EcuAbstractionSwComponentType(ar_root, "TestEcuAbstractionSwComponent")
 
+        assert ecu_sw_component is not None
+        assert isinstance(ecu_sw_component, AtomicSwComponentType)
         assert ecu_sw_component.hardwareElementRefs == []
+
+    def test_EcuAbstractionSwComponentType_add_get_hardwareElementRefs(self):
+        """Test addHardwareElementRef/getHardwareElementRefs round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ecu_sw_component = EcuAbstractionSwComponentType(ar_root, "TestEcuAbstractionSwComponent")
+
+        ref = RefType().setValue("/HwTypes/HwElement")
+        ref.dest = "HW-DESCRIPTION-ENTITY"
+
+        assert ecu_sw_component.addHardwareElementRef(ref) is ecu_sw_component
+        assert ecu_sw_component.getHardwareElementRefs() == [ref]
+        assert ecu_sw_component.hardwareElementRefs == [ref]
+
+        ecu_sw_component.addHardwareElementRef(None)
+        assert ecu_sw_component.getHardwareElementRefs() == [ref]
 
     def test_ComplexDeviceDriverSwComponentType(self):
         """Test ComplexDeviceDriverSwComponentType class."""
