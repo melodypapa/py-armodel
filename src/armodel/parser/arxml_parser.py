@@ -1096,7 +1096,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderReceiverToSignalMapping,
     TriggerToSignalMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, ForbiddenSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, ForbiddenSignalPath, PermissibleSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import SwcToSwcOperationArgumentsDirectionEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import DoIpConfig, DoIpInterface, DoIpRoutingActivation
@@ -16199,6 +16199,19 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSwcToSwcSignal(child_element, signal)
             path.addSignal(signal)
 
+    def readPermissibleSignalPath(self, element: ET.Element, path: PermissibleSignalPath):
+        self.readSignalPathConstraint(element, path)
+        for child_element in self.findall(element, "OPERATIONS/SWC-TO-SWC-OPERATION-ARGUMENTS"):
+            operation = SwcToSwcOperationArguments()
+            self.readSwcToSwcOperationArguments(child_element, operation)
+            path.addOperation(operation)
+        for ref in self.getChildElementRefTypeList(element, "PHYSICAL-CHANNEL-REFS/PHYSICAL-CHANNEL-REF"):
+            path.addPhysicalChannelRef(ref)
+        for child_element in self.findall(element, "SIGNALS/SWC-TO-SWC-SIGNAL"):
+            signal = SwcToSwcSignal()
+            self.readSwcToSwcSignal(child_element, signal)
+            path.addSignal(signal)
+
     def readSystemMappingSignalPathConstraints(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "SIGNAL-PATH-CONSTRAINTS/*"):
             tag_name = self.getTagName(child_element)
@@ -16209,6 +16222,10 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FORBIDDEN-SIGNAL-PATH":
                 path = ForbiddenSignalPath()
                 self.readForbiddenSignalPath(child_element, path)
+                mapping.addSignalPathConstraint(path)
+            elif tag_name == "PERMISSIBLE-SIGNAL-PATH":
+                path = PermissibleSignalPath()
+                self.readPermissibleSignalPath(child_element, path)
                 mapping.addSignalPathConstraint(path)
             else:
                 self.notImplemented("Unsupported SignalPathConstraint %s" % tag_name)

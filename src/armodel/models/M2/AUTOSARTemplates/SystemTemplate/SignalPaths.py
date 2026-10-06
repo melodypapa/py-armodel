@@ -297,3 +297,80 @@ class ForbiddenSignalPath(SignalPathConstraint):
         The data element which shall not take the predefined way in the topology.
         """
         return self.signals
+
+
+class PermissibleSignalPath(SignalPathConstraint):
+    """
+    The PermissibleSignalPath describes the way a data element shall take in the topology. The path is described by ordered references to PhysicalChannels. If more than one PermissibleSignalPath is defined for the same signal/operation attributes, any of them can be chosen. Such a signal path can be a constraint for the communication matrix . This path describes that one data element should take path A (e.g. 1. CAN channel, 2. LIN channel) and not path B (1. CAN channel, FlexRay channel A). This has an effect on the frame generation and the frame path.
+    """
+
+    # PermissibleSignalPath method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.41, p.256
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOperation              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPhysicalChannelRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysicalChannelRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignal                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignals                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The arguments of an operation that can take the predefined way in the topology.
+        self.operations: List[SwcToSwcOperationArguments] = []
+
+        # The SwcToSwcSignal can be transmitted on one of these physical channels.
+        self.physicalChannelRefs: List[RefType] = []
+
+        # The data element which can take the predefined way in the topology.
+        self.signals: List[SwcToSwcSignal] = []
+
+    def addOperation(self, value: Optional[SwcToSwcOperationArguments]) -> PermissibleSignalPath:
+        """
+        The arguments of an operation that can take the predefined way in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.operations.append(value)
+        return self
+
+    def getOperations(self) -> List[SwcToSwcOperationArguments]:
+        """
+        The arguments of an operation that can take the predefined way in the topology.
+        """
+        return self.operations
+
+    def addPhysicalChannelRef(self, value: Optional[RefType]) -> PermissibleSignalPath:
+        """
+        The SwcToSwcSignal can be transmitted on one of these physical channels.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.physicalChannelRefs.append(value)
+        return self
+
+    def getPhysicalChannelRefs(self) -> List[RefType]:
+        """
+        The SwcToSwcSignal can be transmitted on one of these physical channels.
+        """
+        return self.physicalChannelRefs
+
+    def addSignal(self, value: Optional[SwcToSwcSignal]) -> PermissibleSignalPath:
+        """
+        The data element which can take the predefined way in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.signals.append(value)
+        return self
+
+    def getSignals(self) -> List[SwcToSwcSignal]:
+        """
+        The data element which can take the predefined way in the topology.
+        """
+        return self.signals

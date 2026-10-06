@@ -2522,10 +2522,6 @@ class NetworkSegmentIdentification(ARObject):
     pass
 
 
-class PermissibleSignalPath(ARObject):
-    pass
-
-
 class PncMapping(ARObject):
     pass
 
