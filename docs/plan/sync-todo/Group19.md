@@ -1136,7 +1136,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
 
 - [x] `EcucUriReferenceDef` — EcucAbstractInternalReferenceDef — R23-11 markdown · Table 2.33 (CP_TPS_ECUConfiguration), p.81 — commits 0d4506747 + d495d9ebf (rw completion; stamped 2026-10-02, # Spec verified: R23-11)
 
-- [ ] `EcucConditionFormula` (input · R23-11 PDF · Table 2.43) — REOPENED 2026-10-05 (batch 9b audit, Group B)
+- [x] `EcucConditionFormula` (input · R23-11 PDF · Table 2.43) — REOPENED 2026-10-05 (batch 9b audit, Group B) — commit 86096857a (stamped 2026-10-06, # Spec verified: R23-11)
   - module: M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
   - note (Step 1): Table 2.43 AUTOSAR_CP_TPS_ECUConfiguration.pdf p.100. Class
     `<<atpMixedString>>` pure-text formula; Package
@@ -1206,7 +1206,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       recorded drift fix (docs/plan/atp_mixed_string_hierarchy.md), not a
       deviation. No Rule 0001.10 missing referenced classes (RefType is the
       stamped base; EcucQuery is the destination-side class).
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b deferred to batch confirmation (user instruction)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a reruns in the batch verification pass; 9b user-confirmed 2026-10-06 (batch)
     - note (2026-10-06, batch-9b review): class re-verified PASS (fields/
       docstrings/base/rw coverage all conform); stale tracker `missing` rows
       (ecucQueryRef/ecucQueryStringRef) removed from
