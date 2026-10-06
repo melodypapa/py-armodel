@@ -270,7 +270,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       mirrored test file, all 5 touched code files re-checked clean; no
       marker in batch mode.
 
-- [ ] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1)
+- [x] `ModuleConfiguration` — ARElement — source TBC (locate table at Step 1) — commit 5cedb145b (stamped 2026-10-06, # Spec verified: R3.2.3)
   - module: M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
   - note (Step 1): R3.2.3-only class — Table 3.30 AUTOSAR_ECU_Configuration.md
     l.1916 (pdf_page.py: no caption hit in the R3.2.3 PDF → markdown line
@@ -399,7 +399,7 @@ staleness), checklist converted to the 6-column format (Step 7), `readARObject` 
       script-generated — left to its next regen (ConfigReferenceValue
       precedent). Container member type fully synced (Table 3.31, same
       file) — not a stub.
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-30 (14964 passed / 0
     failed, lint + black clean); 9b deferred to batch confirmation
     (user instruction)
     - note (Step 9 re-verify 2026-10-04): 9a re-passed on feature/g19-batch-9b (base 42a9a0dc9) — full suite 17607 passed / 0 failed (integration round-trips incl.), ruff + flake8 + mypy (268 files) clean, black clean on touched files, set-based checklist-vs-methods PASS, member-annotation gate PASS; 9b still deferred to batch confirmation.
