@@ -87,15 +87,17 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `VariationPointProxy` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.61, p.613
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/VariantHandling.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 7.61, p.613 (markdown lines 17373-17386; pdf_page.py confirms p.613). Concrete Class; Base row = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived modeled = `Identifiable`, current Python base confirmed (Rule 0001.2, no change). Package row = `...SwcInternalBehavior::VariantHandling` → placement in VariantHandling.py correct. 5 own attrs in displayed order, ALL pre-implemented spec-named: conditionAccess (ConditionByFormula, 0..1, aggr → set shape), implementationDataType (AbstractImplementationDataType, 0..1, ref → `implementationDataTypeRef` Optional[RefType]), postBuildValueAccess (PostBuildVariantCriterion, 0..1, ref → `postBuildValueAccessRef` Optional[RefType]), postBuildVariantCondition (PostBuildVariantCondition, *, aggr → `postBuildVariantConditions` + add/get), valueAccess (AttributeValueVariationPoint, 0..1, aggr — abstract, non-Referrable → setValueAccess over the abstract type; parser dispatches the concrete wire tags). Rule 0023/0012.3 re-sync findings: legacy 5-column checklist + stale `# Spec verified: R23-11` (marker removed at session start; stays absent until batch 9b); Rule 0001.11 defect — `getPostBuildVariantConditions` listed before `addPostBuildVariantCondition` (list pair must be mutator-first); Rule 0003 defect — quoted `-> "VariationPointProxy"` return annotations, module lacks `from __future__ import annotations`. Reader/writer pre-exist and call readIdentifiable/writeIdentifiable exactly once each; element order matches XSD group VARIATION-POINT-PROXY (line 130095: CONDITION-ACCESS, IMPLEMENTATION-DATA-TYPE-REF, POST-BUILD-VALUE-ACCESS-REF, POST-BUILD-VARIANT-CONDITIONS wrapper, VALUE-ACCESS polymorphic choice). No Tags:/Stereotypes: tails; spec typos kept verbatim ("PostBuoldVariant", "aVariationPointProxy"). Duplicate weaker test class in test_VariantHandling.py to consolidate into test_VariationPointProxy.py.
+  - Step 8 (2026-10-06): no spec deviations — all 5 Table 7.61 attributes pre-implemented spec-named/shaped; tracker entry updated with the batch re-sync note in docs/examples/method_deviation_by_class.md (stale 2026-08-08/09-24 placeholder-era prose superseded). Genuine Reds fixed: Rule 0001.11 list pair getter-first → mutator-first (source-order pin failed before fix); Rule 0003 quoted `-> "VariationPointProxy"` returns + missing `from __future__ import annotations` → added + unquoted. Step 2 model Red vacuous on behavior (fields pre-existed); Step 5 reader/writer Red vacuous (reader/writer already correct + XSD-ordered, base helpers called once each) — tests added as regression pins (XSD element-order assert, empty-POST-BUILD-VARIANT-CONDITIONS-wrapper round trip). Duplicate weaker class-named test file test_VariationPointProxy.py consolidated into module-named test_VariantHandling.py. Spec typos kept verbatim ("PostBuoldVariant", "aVariationPointProxy"); no Tags:/Stereotypes: tails in this table; XSD group holds nothing beyond the PDF table (Rule 0015) and no atp.Status="removed" members; no Rule 0001.10 missing member types. Checklist rows [x] with release R23-11; `# Spec verified:` marker stays absent per batch instruction (rewritten only at batch 9b).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11469 + 8690 + 13 + 3 passed / 0 failed: models full tree, parser+writer regression, integration round-trip, member-annotation gate); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction)
 
 - [ ] `SwcModeManagerErrorEvent` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 9.8, p.638
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
