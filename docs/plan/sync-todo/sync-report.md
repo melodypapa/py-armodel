@@ -10,10 +10,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 814 | 42.8% |
+| [x] Done | 815 | 42.8% |
 | [x] Deferred | 10 | 0.5% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 399 | 21.0% |
+| [ ] Deferred | 398 | 20.9% |
 | [ ] Implemented | 346 | 18.2% |
 | [ ] Created | 334 | 17.6% |
 | [ ] Pending | 0 | 0.0% |
@@ -1288,7 +1288,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ModeSwitchedAckRequest`                                | [x] Done    | f587d873eb                               | Group10          |
 | `ModeTransition`                                        | [x] Done    | e3d79f89ca                               | Group22          |
 | `Modification`                                          | [x] Done    | 008307967e                               | Group9           |
-| `ModuleConfiguration`                                   | [ ] Deferred| N/A                                      | Group19          |
+| `ModuleConfiguration`                                   | [x] Done    | 5cedb145b9                               | Group19          |
 | `MonotonyEnum`                                          | [ ] Implemented| N/A                                      | Group28          |
 | `MsrQueryArg`                                           | [x] Done    | 4566d4d4f7                               | Group22          |
 | `MsrQueryChapter`                                       | [x] Done    | 50103018c3                               | Group3           |
