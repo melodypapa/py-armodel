@@ -3139,10 +3139,10 @@ STUBS = [
     ),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping", "SenderReceiverCompositeElementToSignalMapping", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping", "DataMapping"),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths",
         "SeparateSignalPath",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths",
+        "SignalPathConstraint",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",

@@ -374,3 +374,59 @@ class PermissibleSignalPath(SignalPathConstraint):
         The data element which can take the predefined way in the topology.
         """
         return self.signals
+
+
+class SeparateSignalPath(SignalPathConstraint):
+    """
+    The SeparateSignalPath describes that two SwcToSwcSignals and/or SwcToSwcOperationArguments shall not take the same way (Signal Path) in the topology (e.g. Redundancy). This means that the signals are not allowed to share even a single physical channel in their path.
+    """
+
+    # SeparateSignalPath method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.42, p.257
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addOperation              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOperations             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSignal                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignals                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The SwcToSwcOperationArguments that shall not take the same way (Signal Path) in the topology.
+        self.operations: List[SwcToSwcOperationArguments] = []
+
+        # The SwcToSwcSignals that shall not take the same way (Signal Path) in the topology.
+        self.signals: List[SwcToSwcSignal] = []
+
+    def addOperation(self, value: Optional[SwcToSwcOperationArguments]) -> SeparateSignalPath:
+        """
+        The SwcToSwcOperationArguments that shall not take the same way (Signal Path) in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.operations.append(value)
+        return self
+
+    def getOperations(self) -> List[SwcToSwcOperationArguments]:
+        """
+        The SwcToSwcOperationArguments that shall not take the same way (Signal Path) in the topology.
+        """
+        return self.operations
+
+    def addSignal(self, value: Optional[SwcToSwcSignal]) -> SeparateSignalPath:
+        """
+        The SwcToSwcSignals that shall not take the same way (Signal Path) in the topology.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.signals.append(value)
+        return self
+
+    def getSignals(self) -> List[SwcToSwcSignal]:
+        """
+        The SwcToSwcSignals that shall not take the same way (Signal Path) in the topology.
+        """
+        return self.signals

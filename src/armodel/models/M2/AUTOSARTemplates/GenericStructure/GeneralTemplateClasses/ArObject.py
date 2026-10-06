@@ -2550,10 +2550,6 @@ class SecurityEventStateFilter(ARObject):
     pass
 
 
-class SeparateSignalPath(ARObject):
-    pass
-
-
 class SomeipSdServerServiceInstanceConfig(ARObject):
     pass
 
