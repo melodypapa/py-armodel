@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3271,3 +3272,46 @@ class TestDdsDurabilityKindEnum:
         enum.setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL)
 
         assert enum.getValue() == DdsDurabilityKindEnum.TRANSIENT_LOCAL
+
+
+class TestDdsDurabilityServiceHistoryKindEnum:
+    """
+    Test class for DdsDurabilityServiceHistoryKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.184, p.531
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDurabilityServiceHistoryKindEnum.KEEP_ALL,
+            DdsDurabilityServiceHistoryKindEnum.KEEP_LAST,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum member values.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+
+        assert DdsDurabilityServiceHistoryKindEnum.KEEP_ALL == "KEEP-ALL"
+        assert DdsDurabilityServiceHistoryKindEnum.KEEP_LAST == "KEEP-LAST"
+
+        assert enum.validateEnumValue("KEEP-ALL") is True
+        assert enum.validateEnumValue("KEEP-LAST") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum instantiability and getValue.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+        enum.setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST)
+
+        assert enum.getValue() == DdsDurabilityServiceHistoryKindEnum.KEEP_LAST
