@@ -14,7 +14,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
-    FlowMeteringColorModeEnum,
     Integer,
     Ip4AddressString,
     Ip6AddressString,
@@ -531,6 +530,27 @@ class SwitchStreamGateEntry(Identifiable):
         if value is not None:
             self.internalPriorityValue = value
         return self
+
+
+class FlowMeteringColorModeEnum(AREnum):
+    """
+    Defines whether Flow Metering color-aware or color-blind mode is used. Tags: atp.Status=candidate
+    """
+
+    # FlowMeteringColorModeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.99, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwitchFlowMeteringEntry.colorMode
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Flow Metering color aware mode. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    COLOR_AWARE = "COLOR-AWARE"
+
+    # Flow Metering color blind mode. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    COLOR_BLIND = "COLOR-BLIND"
+
+    def __init__(self):
+        super().__init__([FlowMeteringColorModeEnum.COLOR_AWARE, FlowMeteringColorModeEnum.COLOR_BLIND])
 
 
 class SwitchFlowMeteringEntry(Identifiable):

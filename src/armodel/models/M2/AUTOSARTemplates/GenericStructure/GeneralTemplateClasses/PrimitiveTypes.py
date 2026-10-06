@@ -2643,10 +2643,6 @@ class FMFeatureSelectionState(AREnum):
     pass
 
 
-class FlowMeteringColorModeEnum(AREnum):
-    pass
-
-
 class FrArTpAckType(AREnum):
     pass
 

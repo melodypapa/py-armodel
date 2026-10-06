@@ -6,12 +6,10 @@ round-trips, the verbatim class-level spec Note and the member declaration
 order (markdown displayed row order) of the SwitchFlowMeteringEntry
 model class.
 
-The colorMode member is typed with the FlowMeteringColorModeEnum stub
-(PrimitiveTypes.py); that enum is queued after this class (Table 3.99), so the
-tests below use an instantiable local test double pinned to the XSD facets
-(COLOR-AWARE / COLOR-BLIND). When the enum's own sync lands, replace the test
-double with the enum constants (FlowMeteringColorModeEnum.COLOR_AWARE /
-COLOR_BLIND) and its facet-order __init__.
+The colorMode member is typed with FlowMeteringColorModeEnum (Table 3.99,
+p.144, synced): the tests below use the enum constants
+(FlowMeteringColorModeEnum.COLOR_AWARE / COLOR_BLIND) and its facet-order
+__init__.
 """
 
 import ast
@@ -23,10 +21,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
-    FlowMeteringColorModeEnum,
     PositiveInteger,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    FlowMeteringColorModeEnum,
     SwitchFlowMeteringEntry,
 )
 
@@ -48,11 +46,6 @@ EXCESS_INFORMATION_RATE_NOTE = "Excess Information Rate (EIR) (accepted rate in 
 class MockParent(ARObject):
     def __init__(self):
         super().__init__()
-
-
-class _ColorModeTestDouble(FlowMeteringColorModeEnum):
-    def __init__(self):
-        super().__init__(["COLOR-AWARE", "COLOR-BLIND"])
 
 
 class TestSwitchFlowMeteringEntry:
@@ -141,13 +134,18 @@ class TestSwitchFlowMeteringEntry:
     def test_get_set_color_mode(self):
         flow_metering = SwitchFlowMeteringEntry(MockParent(), "Metering1")
 
-        value = _ColorModeTestDouble().setValue("COLOR-AWARE")
+        value = FlowMeteringColorModeEnum().setValue(FlowMeteringColorModeEnum.COLOR_AWARE)
         assert flow_metering.setColorMode(value) is flow_metering
         assert flow_metering.getColorMode() is value
-        assert flow_metering.getColorMode().getValue() == "COLOR-AWARE"
+        assert flow_metering.getColorMode().getValue() == FlowMeteringColorModeEnum.COLOR_AWARE
+
+        blind = FlowMeteringColorModeEnum().setValue(FlowMeteringColorModeEnum.COLOR_BLIND)
+        assert flow_metering.setColorMode(blind) is flow_metering
+        assert flow_metering.getColorMode() is blind
+        assert flow_metering.getColorMode().getValue() == FlowMeteringColorModeEnum.COLOR_BLIND
 
         assert flow_metering.setColorMode(None) is flow_metering
-        assert flow_metering.getColorMode() is value
+        assert flow_metering.getColorMode() is blind
 
     def test_get_set_committed_burst_size(self):
         flow_metering = SwitchFlowMeteringEntry(MockParent(), "Metering1")

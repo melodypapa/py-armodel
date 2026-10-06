@@ -13,7 +13,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, FlowMeteringColorModeEnum, Identifier, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CategoryString, Identifier, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingElement,
@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingElementEnum,
     CouplingElementSwitchDetails,
     EthernetConnectionNegotiationEnum,
+    FlowMeteringColorModeEnum,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -755,11 +756,6 @@ class TestSwitchStreamGateEntryRoundTrip:
         assert reloaded_gate.getInternalPriorityValue() is None
 
 
-class _ColorModeTestDouble(FlowMeteringColorModeEnum):
-    def __init__(self):
-        super().__init__(["COLOR-AWARE", "COLOR-BLIND"])
-
-
 class TestSwitchFlowMeteringEntryRoundTrip:
     """SwitchFlowMeteringEntry (Table 3.98, p.143) — the SWITCH-FLOW-METERING-ENTRY
     item of COUPLING-ELEMENT-SWITCH-DETAILS round-trips its six XSD group children after the identifiable levels
@@ -780,7 +776,7 @@ class TestSwitchFlowMeteringEntryRoundTrip:
         coupling_element = CouplingElement(_pkg(), "Switch")
         details = coupling_element.createCouplingElementSwitchDetails("SwitchDetails")
         flow_metering = details.createFlowMetering("Metering1")
-        flow_metering.setColorMode(_ColorModeTestDouble().setValue("COLOR-AWARE"))
+        flow_metering.setColorMode(FlowMeteringColorModeEnum().setValue(FlowMeteringColorModeEnum.COLOR_AWARE))
         flow_metering.setCommittedBurstSize(PositiveInteger().setValue("1000"))
         flow_metering.setCommittedInformationRate(PositiveInteger().setValue("2000"))
         flow_metering.setCouplingFlag(Boolean().setValue(True))
