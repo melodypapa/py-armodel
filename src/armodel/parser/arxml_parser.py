@@ -1084,6 +1084,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    ClientServerToSignalMapping,
     DataMapping,
     DataTypePolicyEnum,
     IndexedArrayElement,
@@ -16293,6 +16294,12 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setTriggerIRef(self.getTriggerInSystemInstanceRef(cast(ET.Element, self.find(element, "TRIGGER-IREF"))))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
+    def readClientServerToSignalMapping(self, element: ET.Element, mapping: ClientServerToSignalMapping):
+        self.readDataMapping(element, mapping)
+        mapping.setCallSignalRef(self.getChildElementOptionalRefType(element, "CALL-SIGNAL-REF"))
+        mapping.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(cast(ET.Element, self.find(element, "CLIENT-SERVER-OPERATION-IREF"))))
+        mapping.setReturnSignalRef(self.getChildElementOptionalRefType(element, "RETURN-SIGNAL-REF"))
+
     def readDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
         self.readARObject(element, mapping)
         mapping.setDdsTopicRef(self.getChildElementOptionalRefType(element, "DDS-TOPIC-REF"))
@@ -16430,7 +16437,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMappingDataMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "DATA-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "SENDER-RECEIVER-TO-SIGNAL-MAPPING":
+            if tag_name == "CLIENT-SERVER-TO-SIGNAL-MAPPING":
+                cs_mapping = ClientServerToSignalMapping()
+                self.readClientServerToSignalMapping(child_element, cs_mapping)
+                mapping.addDataMapping(cs_mapping)
+            elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-MAPPING":
                 signal_mapping = SenderReceiverToSignalMapping()
                 self.readSenderReceiverToSignalMapping(child_element, signal_mapping)
                 mapping.addDataMapping(signal_mapping)

@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, List, Optional
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import TriggerInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import OperationInSystemInstanceRef, TriggerInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -772,7 +772,77 @@ class DataTypePolicyEnum(AREnum):
 
 
 class ClientServerToSignalMapping(DataMapping):
-    pass
+    """
+    This element maps the ClientServerOperation to call- and return-SystemSignals.
+    """
+
+    # ClientServerToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.33, p.242
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCallSignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCallSignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientServerOperationIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientServerOperationIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReturnSignalRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReturnSignalRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        self.callSignalRef: Optional[RefType] = None
+
+        # Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        self.clientServerOperationIRef: Optional[OperationInSystemInstanceRef] = None
+
+        # Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        self.returnSignalRef: Optional[RefType] = None
+
+    def getCallSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        """
+        return self.callSignalRef
+
+    def setCallSignalRef(self, value: Optional[RefType]) -> ClientServerToSignalMapping:
+        """
+        Reference to the callSignal to which the IN and INOUT ArgumentDataPrototypes are mapped.
+        A None value is a no-op and does not overwrite an existing callSignalRef.
+        """
+        if value is not None:
+            self.callSignalRef = value
+        return self
+
+    def getClientServerOperationIRef(self) -> Optional[OperationInSystemInstanceRef]:
+        """
+        Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        """
+        return self.clientServerOperationIRef
+
+    def setClientServerOperationIRef(self, value: Optional[OperationInSystemInstanceRef]) -> ClientServerToSignalMapping:
+        """
+        Reference to a ClientServerOperation, which is mapped to a call SystemSignal and a return SystemSignal. InstanceRef implemented by: OperationInSystem InstanceRef
+        A None value is a no-op and does not overwrite an existing clientServerOperationIRef.
+        """
+        if value is not None:
+            self.clientServerOperationIRef = value
+        return self
+
+    def getReturnSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        """
+        return self.returnSignalRef
+
+    def setReturnSignalRef(self, value: Optional[RefType]) -> ClientServerToSignalMapping:
+        """
+        Reference to the returnSignal to which the OUT and INOUT ArgumentDataPrototypes are mapped.
+        A None value is a no-op and does not overwrite an existing returnSignalRef.
+        """
+        if value is not None:
+            self.returnSignalRef = value
+        return self
 
 
 class SenderReceiverCompositeElementToSignalMapping(DataMapping):

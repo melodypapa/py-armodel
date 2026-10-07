@@ -897,6 +897,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    ClientServerToSignalMapping,
     DataMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
@@ -13116,6 +13117,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setTriggerInSystemInstanceRef(child_element, "TRIGGER-IREF", mapping.getTriggerIRef())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
+    def writeClientServerToSignalMapping(self, element: ET.Element, mapping: ClientServerToSignalMapping):
+        child_element = ET.SubElement(element, "CLIENT-SERVER-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "CALL-SIGNAL-REF", mapping.getCallSignalRef())
+        self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", mapping.getClientServerOperationIRef())
+        self.setChildElementOptionalRefType(child_element, "RETURN-SIGNAL-REF", mapping.getReturnSignalRef())
+
     def writeDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
         child_element = ET.SubElement(element, "DDS-CP-I-SIGNAL-TO-DDS-TOPIC-MAPPING")
         self.writeARObject(child_element, mapping)
@@ -13259,7 +13267,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(data_mappings) > 0:
             child_element = ET.SubElement(element, "DATA-MAPPINGS")
             for data_mapping in data_mappings:
-                if isinstance(data_mapping, SenderReceiverToSignalMapping):
+                if isinstance(data_mapping, ClientServerToSignalMapping):
+                    self.writeClientServerToSignalMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, SenderReceiverToSignalMapping):
                     self.writeSenderReceiverToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):
                     self.writeSenderReceiverToSignalGroupMapping(child_element, data_mapping)
