@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    DiagRequirementIdString,
     McdIdentifier,
     SymbolString,
 )
@@ -65,3 +66,19 @@ class TestSymbolStringLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalSymbolString(element, "SYMBOL") is None
+
+
+class TestDiagRequirementIdStringLeaf:
+    def test_reads_concrete_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><DIAG-REQUIREMENT T='2023-08-08T00:00:00Z'>REQ-1</DIAG-REQUIREMENT></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT")
+
+        assert isinstance(value, DiagRequirementIdString)
+        assert value.getValue() == "REQ-1"
+        assert value.timestamp == "2023-08-08T00:00:00Z"
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT") is None

@@ -6664,7 +6664,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     audience_element = ET.SubElement(audiences_tag, "AUDIENCE")
                     audience_element.text = token
-        self.setChildElementOptionalLiteral(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
+        self.setChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT", needs.getDiagRequirement())
         self.setChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL", cast(Integer, needs.getSecurityAccessLevel()))
 
     def _writeEnumToken(self, element: ET.Element, tag: str, value, token_map: dict):

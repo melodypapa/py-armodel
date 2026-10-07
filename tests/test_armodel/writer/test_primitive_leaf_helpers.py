@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
+    DiagRequirementIdString,
     McdIdentifier,
     SymbolString,
 )
@@ -78,3 +79,24 @@ class TestSymbolStringLeaf:
         ARXMLWriter().setChildElementOptionalSymbolString(element, "SYMBOL", None)
 
         assert element.find("SYMBOL") is None
+
+
+class TestDiagRequirementIdStringLeaf:
+    def test_writes_concrete_type_and_t(self):
+        value = DiagRequirementIdString()
+        value.setValue("REQ-1")
+        value.timestamp = "2023-08-08T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT", value)
+
+        written = element.find("DIAG-REQUIREMENT")
+        assert written is not None
+        assert written.text == "REQ-1"
+        assert written.attrib["T"] == "2023-08-08T00:00:00Z"
+
+    def test_none_emits_nothing(self):
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT", None)
+
+        assert element.find("DIAG-REQUIREMENT") is None

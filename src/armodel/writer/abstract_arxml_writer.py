@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagRequirementIdString,
     Identifier,
     MacAddressString,
     McdIdentifier,
@@ -170,6 +171,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalMcdIdentifier(self, element: ET.Element, key: str, literal: Optional[McdIdentifier]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str, literal: Optional[DiagRequirementIdString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalSymbolString(self, element: ET.Element, key: str, value: Optional[SymbolString]) -> ET.Element:

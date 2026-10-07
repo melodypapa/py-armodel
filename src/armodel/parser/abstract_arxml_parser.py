@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagRequirementIdString,
     Float,
     Identifier,
     Integer,
@@ -256,6 +257,15 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, category)
             category.setValue("" if child_element.text is None else child_element.text)
         return category
+
+    def getChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str) -> Optional[DiagRequirementIdString]:
+        child_element = self.find(element, key)
+        value = None
+        if child_element is not None:
+            value = DiagRequirementIdString()
+            self.readARType(child_element, value)
+            value.setValue("" if child_element.text is None else child_element.text)
+        return value
 
     def getChildElementOptionalSymbolString(self, element: ET.Element, key: str) -> Optional[SymbolString]:
         child_element = self.find(element, key)

@@ -97,7 +97,6 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticAudienceEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswCallType,
     BswEntryKindEnum,
@@ -3614,9 +3613,7 @@ class ARXMLParser(AbstractARXMLParser):
                 needs.addAudience(DiagnosticAudienceEnum().setValue(camel))
             else:
                 self.notImplemented("Unsupported AUDIENCE <%s>" % token)
-        req_element = self.find(element, "DIAG-REQUIREMENT")
-        if req_element is not None:
-            needs.setDiagRequirement(DiagRequirementIdString().setValue(req_element.text))
+        needs.setDiagRequirement(self.getChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT"))
         needs.setSecurityAccessLevel(self.getChildElementOptionalPositiveInteger(element, "SECURITY-ACCESS-LEVEL"))
 
     def readObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
