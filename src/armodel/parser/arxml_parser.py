@@ -16643,11 +16643,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
-            iref.addContextDataPrototypeInSrRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
-        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF"):
+            iref.addContextDataPrototypeInSrRefs(ctx)
+        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR-REF"))
 
     def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         self.readARObject(element, iref)

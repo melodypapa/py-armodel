@@ -15600,12 +15600,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
         self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR-REF", iref.getRootDataPrototypeInSrRef())
         for ctx in iref.getContextDataPrototypeInSrRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSrRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR-REF", iref.getTargetDataPrototypeInSrRef())
 
     def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")

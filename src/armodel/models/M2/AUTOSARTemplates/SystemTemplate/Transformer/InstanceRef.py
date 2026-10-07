@@ -6,23 +6,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataPr
 
 
 class DataPrototypeInSenderReceiverInterfaceInstanceRef(AtpInstanceRef, DataPrototypeInPortInterfaceRef):
-    """
-    Instance reference to a DataPrototype in the context of a SenderReceiverInterface.
-    """
 
     # DataPrototypeInSenderReceiverInterfaceInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.20, p.788
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getBaseRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBaseRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootDataPrototypeInSrRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootDataPrototypeInSrRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeInSrRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeInSrRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootDataPrototypeInSrRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootDataPrototypeInSrRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeInSrRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeInSrRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
