@@ -355,6 +355,54 @@ class TestApplicationEntryRoundTrip:
         assert parent.find("APPLICATION-ENTRY") is None
 
 
+class TestDataDumpEntryRoundTrip:
+    def test_roundtrip_field_values(self, writer):
+        entry = DataDumpEntry()
+        entry.setPositionInTable(_int(4))
+        entry.setAssignedControllerRef(_ref("LIN-SLAVE", "/cluster/slave"))
+        entry.addByteValue(_int(8))
+        entry.addByteValue(_int(9))
+
+        parent = _parent()
+        writer.setDataDumpEntry(parent, "DATA-DUMP-ENTRY", entry)
+
+        entry_element = parent.find("DATA-DUMP-ENTRY")
+        assert entry_element is not None
+        values_element = entry_element.find("BYTE-VALUES")
+        assert values_element is not None
+        values = [int(v.text) for v in values_element.findall("BYTE-VALUE")]
+        assert values == [8, 9]
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = parser.getDataDumpEntry(ET.fromstring(xml_str)[0])
+        assert reloaded is not None
+        assert reloaded.getPositionInTable().getValue() == 4
+        assert reloaded.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert [v.getValue() for v in reloaded.getByteValues()] == [8, 9]
+
+    def test_empty_byte_values_omits_wrapper(self, writer):
+        entry = DataDumpEntry()
+
+        parent = _parent()
+        writer.setDataDumpEntry(parent, "DATA-DUMP-ENTRY", entry)
+
+        entry_element = parent.find("DATA-DUMP-ENTRY")
+        assert entry_element is not None
+        assert entry_element.find("BYTE-VALUES") is None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = parser.getDataDumpEntry(ET.fromstring(xml_str)[0])
+        assert reloaded is not None
+        assert reloaded.getByteValues() == []
+
+    def test_omits_none_entry(self, writer):
+        parent = _parent()
+        writer.setDataDumpEntry(parent, "DATA-DUMP-ENTRY", None)
+        assert parent.find("DATA-DUMP-ENTRY") is None
+
+
 NS = "http://autosar.org/schema/r4.0"
 
 

@@ -426,6 +426,31 @@ class TestLinClusterHandlers:
     def test_getSaveConfigurationEntry_none_element_returns_none(self, parser):
         assert parser.getSaveConfigurationEntry(None) is None
 
+    def test_getDataDumpEntry_reads_byte_values(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import DataDumpEntry
+
+        element = _snip(
+            "<POSITION-IN-TABLE>2</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<BYTE-VALUES><BYTE-VALUE>8</BYTE-VALUE><BYTE-VALUE>9</BYTE-VALUE></BYTE-VALUES>",
+            root_tag="DATA-DUMP-ENTRY",
+        )
+        entry = parser.getDataDumpEntry(element)
+        assert entry is not None
+        assert isinstance(entry, DataDumpEntry)
+        assert entry.getPositionInTable().getValue() == 2
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert [v.getValue() for v in entry.getByteValues()] == [8, 9]
+
+    def test_getDataDumpEntry_absent_byte_values(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="DATA-DUMP-ENTRY")
+        entry = parser.getDataDumpEntry(element)
+        assert entry is not None
+        assert entry.getByteValues() == []
+
+    def test_getDataDumpEntry_none_element_returns_none(self, parser):
+        assert parser.getDataDumpEntry(None) is None
+
 
 class TestFlexrayClusterHandlers:
     def test_readFlexrayCluster_sets_short_name(self, parser):

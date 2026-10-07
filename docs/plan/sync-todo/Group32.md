@@ -48,15 +48,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DataDumpEntry` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.107, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (byteValue (ordered) Integer `*` → plural
+    `byteValues` + addByteValue/getByteValues per Rule 0001.4; Base = LinConfigurationEntry) — the drift was
+    the legacy 5-column checklist with a stale `# Spec verified: R23-11` marker (Rule 0023); marker removed,
+    block re-written 6-column without stamp. Reader `getDataDumpEntry`/writer `setDataDumpEntry` pre-existed;
+    BYTE-VALUES wrapper (omit-when-empty) verified against XSD group DATA-DUMP-ENTRY; constr_9148 (5 byteValues)
+    is a completeness constraint, not an attribute — not modeled.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FreeFormat` — FreeFormatEntry — R23-11 CP_TPS_SystemTemplate Table 6.108, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

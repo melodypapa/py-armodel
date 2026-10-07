@@ -960,6 +960,87 @@ class TestSaveConfigurationEntry:
         assert entry.getAssignedLinSlaveConfigRef() is None
 
 
+DATA_DUMP_ENTRY_CLASS_NOTE = "This service is reserved for initial configuration of a slave node by the slave node supplier and the format of this message is supplier specific."
+DATA_DUMP_ENTRY_BYTE_VALUE_NOTE = "Supplier specific format."
+
+
+class TestDataDumpEntry:
+    """Test cases for DataDumpEntry (Table 6.107, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.107: ARObject, LinConfigurationEntry, ScheduleTableEntry)"""
+        assert issubclass(DataDumpEntry, LinConfigurationEntry)
+        assert issubclass(DataDumpEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.107)"""
+        assert inspect.cleandoc(DataDumpEntry.__doc__).strip() == DATA_DUMP_ENTRY_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert DataDumpEntry.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = DataDumpEntry()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getByteValues() == []
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.107: byteValue (ordered))"""
+        source = inspect.getsource(DataDumpEntry.__init__)
+        assert source.index("self.byteValues") >= 0
+
+    def test_add_byte_value(self):
+        entry = DataDumpEntry()
+
+        first = Integer()
+        first.setValue(8)
+        second = Integer()
+        second.setValue(9)
+
+        assert entry == entry.addByteValue(first)
+        assert entry.getByteValues() == [first]
+        assert entry == entry.addByteValue(second)
+        assert entry.getByteValues() == [first, second]
+
+        assert entry == entry.addByteValue(None)
+        assert entry.getByteValues() == [first, second]
+
+    def _assert_docstring(self, method, note, suffix=None):
+        doc = method.__doc__
+        expected = note if suffix is None else note + "\n" + suffix
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/adder docstrings carry the spec Note verbatim (Table 6.107)"""
+        self._assert_docstring(DataDumpEntry.getByteValues, DATA_DUMP_ENTRY_BYTE_VALUE_NOTE)
+        self._assert_docstring(DataDumpEntry.addByteValue, DATA_DUMP_ENTRY_BYTE_VALUE_NOTE, "A None value is a no-op.")
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(DataDumpEntry.getByteValues)
+        assert getter_hints["return"] == List[Integer]
+
+        adder_hints = get_type_hints(DataDumpEntry.addByteValue)
+        assert adder_hints["value"] == Optional[Integer]
+        assert adder_hints["return"] == DataDumpEntry
+
+        src = inspect.getsource(sys.modules[DataDumpEntry.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "DataDumpEntry")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["byteValues"] == "List[Integer]"
+
+
 class Test_Fibex4LinTopology:
     """Test cases for Fibex4Lin Topology classes."""
 
