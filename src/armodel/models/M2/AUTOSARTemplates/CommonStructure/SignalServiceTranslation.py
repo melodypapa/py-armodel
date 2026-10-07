@@ -342,16 +342,15 @@ class SignalServiceTranslationProps(Identifiable):
 
 class SignalServiceTranslationPropsSet(Identifiable):
     """
-    Collection of SignalServiceTranslationProps.
+    Collection of SignalServiceTranslationProps. Tags: atp.recommendedPackage=SignalServiceTranslationProps
+    """
 
     # SignalServiceTranslationPropsSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.339, p.730
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSignalServiceTranslationProps        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
