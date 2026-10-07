@@ -178,7 +178,6 @@ ISignalTypeEnum
 Identifiable
 ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
-InfrastructureServices
 InnerDataPrototypeGroupInCompositionInstanceRef
 InnerRunnableEntityGroupInCompositionInstanceRef
 InstanceEventInCompositionInstanceRef
@@ -187,7 +186,6 @@ InternalBehavior
 InterpolationRoutine
 InterpolationRoutineMapping
 Ipv4Configuration
-Ipv6Configuration
 J1939NmEcu
 LEnum
 LanguageSpecific
