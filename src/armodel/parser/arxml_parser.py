@@ -1541,6 +1541,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationKindEnum,
+    ImplementationDataTypeElementInPortInterfaceRef,
     DataTransformationSet,
     E2EProfileCompatibilityProps,
     EndToEndProfileBehaviorEnum,
@@ -16721,27 +16722,42 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
-            iref.addContextDataPrototypeInSrRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
-        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF"):
+            iref.addContextDataPrototypeInSrRefs(ctx)
+        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR-REF"))
 
     def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         self.readARObject(element, iref)
-        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
-        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
-            iref.addContextDataPrototypeInCsRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
-        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS-REF"))
+        for ctx in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF"):
+            iref.addContextDataPrototypeInCsRefs(ctx)
+        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS-REF"))
+
+    def readImplementationDataTypeElementInPortInterfaceRef(self, element: ET.Element, ref: ImplementationDataTypeElementInPortInterfaceRef):
+        self.readDataPrototypeReference(element, ref)
+        ref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-REF"))
+        child_element = self.find(element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REFS")
+        if child_element is not None:
+            for ctx in self.getChildElementRefTypeList(child_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REF"):
+                ref.addContextImplementationDataElementRefs(ctx)
+        ref.setTargetImplementationDataTypeElementRef(self.getChildElementOptionalRefType(element, "TARGET-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF"))
 
     def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         self.readARObject(element, props)
         child_element = self.find(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
         if child_element is not None:
-            ref = DataPrototypeInPortInterfaceRef()
-            self.readDataPrototypeInPortInterfaceRef(child_element, ref)
-            props.setDataPrototypeInPortInterfaceRef(ref)
+            impl_element = self.find(child_element, "IMPLEMENTATION-DATA-TYPE-ELEMENT-IN-PORT-INTERFACE-REF")
+            if impl_element is not None:
+                impl_ref = ImplementationDataTypeElementInPortInterfaceRef()
+                self.readImplementationDataTypeElementInPortInterfaceRef(impl_element, impl_ref)
+                props.setDataPrototypeInPortInterfaceRef(impl_ref)
+            else:
+                dp_element = self.find(child_element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+                if dp_element is not None:
+                    dp_ref = DataPrototypeInPortInterfaceRef()
+                    self.readDataPrototypeInPortInterfaceRef(dp_element, dp_ref)
+                    props.setDataPrototypeInPortInterfaceRef(dp_ref)
         props.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         props.setTransformationPropsRef(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS-REF"))
 

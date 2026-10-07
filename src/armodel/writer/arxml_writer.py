@@ -1288,6 +1288,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    ImplementationDataTypeElementInPortInterfaceRef,
     E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
@@ -15683,34 +15684,45 @@ class ARXMLWriter(AbstractARXMLWriter):
         if sr_ref is not None:
             self.writeDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
 
-    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
-        self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
-        for ctx in iref.getContextDataPrototypeInSrRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSrRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
-
-    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
-        self.writeARObject(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
-        for ctx in iref.getContextDataPrototypeInCsRefs():
-            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
-            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCsRef())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCsRef())
+    def writeImplementationDataTypeElementInPortInterfaceRef(self, element: ET.Element, ref: ImplementationDataTypeElementInPortInterfaceRef):
+        child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE-ELEMENT-IN-PORT-INTERFACE-REF")
+        self.writeDataPrototypeReference(child_element, ref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF", ref.getRootDataPrototypeRef())
+        ctx_refs = ref.getContextImplementationDataElementRefs()
+        if len(ctx_refs) > 0:
+            ctxs_element = ET.SubElement(child_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REFS")
+            for ctx in ctx_refs:
+                self.setChildElementOptionalRefType(ctxs_element, "CONTEXT-IMPLEMENTATION-DATA-ELEMENT-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-IMPLEMENTATION-DATA-TYPE-ELEMENT-REF", ref.getTargetImplementationDataTypeElementRef())
 
     def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")
         self.writeARObject(child_element, props)
         dp_ref = props.getDataPrototypeInPortInterfaceRef()
         if dp_ref is not None:
-            self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
+            outer_element = ET.SubElement(child_element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+            if isinstance(dp_ref, ImplementationDataTypeElementInPortInterfaceRef):
+                self.writeImplementationDataTypeElementInPortInterfaceRef(outer_element, dp_ref)
+            else:
+                self.writeDataPrototypeInPortInterfaceRef(outer_element, cast(DataPrototypeInPortInterfaceRef, dp_ref))
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
+
+    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
+        self.writeARObject(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR-REF", iref.getRootDataPrototypeInSrRef())
+        for ctx in iref.getContextDataPrototypeInSrRefs():
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR-REF", iref.getTargetDataPrototypeInSrRef())
+
+    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
+        self.writeARObject(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS-REF", iref.getRootDataPrototypeInCsRef())
+        for ctx in iref.getContextDataPrototypeInCsRefs():
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS-REF", ctx)
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS-REF", iref.getTargetDataPrototypeInCsRef())
 
     def writeDoIpConfig(self, element: ET.Element, config: Optional[DoIpConfig]):
         if config is not None:

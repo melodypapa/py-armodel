@@ -60,11 +60,13 @@ def _full_ref() -> DataPrototypeInPortInterfaceRef:
 
     cs = DataPrototypeInClientServerInterfaceInstanceRef()
     cs.setBaseRef(_ref("/Cs", "CLIENT-SERVER-INTERFACE"))
+    cs.setRootDataPrototypeInCsRef(_ref("/Cs/Root", "ARGUMENT-DATA-PROTOTYPE"))
     cs.setTargetDataPrototypeInCsRef(_ref("/Cs/MyArg", "DATA-PROTOTYPE"))
     ref.setDataPrototypeInClientServerInterface(cs)
 
     sr = DataPrototypeInSenderReceiverInterfaceInstanceRef()
     sr.setBaseRef(_ref("/Sr", "SENDER-RECEIVER-INTERFACE"))
+    sr.setRootDataPrototypeInSrRef(_ref("/Sr/Root", "AUTOSAR-DATA-PROTOTYPE"))
     sr.setTargetDataPrototypeInSrRef(_ref("/Sr/MyVar", "DATA-PROTOTYPE"))
     ref.setDataPrototypeInSenderReceiverInterface(sr)
     return ref
@@ -81,13 +83,15 @@ class TestDataPrototypeInPortInterfaceRefWriter:
 
         cs_ref = el.find("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         assert cs_ref is not None
-        assert cs_ref.find("BASE").text == "/Cs"
-        assert cs_ref.find("TARGET-DATA-PROTOTYPE-IN-CS").text == "/Cs/MyArg"
+        assert cs_ref.find("BASE") is None
+        assert cs_ref.find("ROOT-DATA-PROTOTYPE-IN-CS-REF").text == "/Cs/Root"
+        assert cs_ref.find("TARGET-DATA-PROTOTYPE-IN-CS-REF").text == "/Cs/MyArg"
 
         sr_ref = el.find("DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
         assert sr_ref is not None
-        assert sr_ref.find("BASE").text == "/Sr"
-        assert sr_ref.find("TARGET-DATA-PROTOTYPE-IN-SR").text == "/Sr/MyVar"
+        assert sr_ref.find("BASE") is None
+        assert sr_ref.find("ROOT-DATA-PROTOTYPE-IN-SR-REF").text == "/Sr/Root"
+        assert sr_ref.find("TARGET-DATA-PROTOTYPE-IN-SR-REF").text == "/Sr/MyVar"
 
         children = [child.tag for child in el]
         assert children.index("TAG-ID") < children.index("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
@@ -123,14 +127,16 @@ class TestDataPrototypeInPortInterfaceRefRoundTrip:
 
         cs_ref = recovered.getDataPrototypeInClientServerInterface()
         assert isinstance(cs_ref, DataPrototypeInClientServerInterfaceInstanceRef)
-        assert cs_ref.getBaseRef() is not None
-        assert cs_ref.getBaseRef().getValue() == "/Cs"
+        assert cs_ref.getBaseRef() is None
+        assert cs_ref.getRootDataPrototypeInCsRef() is not None
+        assert cs_ref.getRootDataPrototypeInCsRef().getValue() == "/Cs/Root"
         assert cs_ref.getTargetDataPrototypeInCsRef() is not None
         assert cs_ref.getTargetDataPrototypeInCsRef().getValue() == "/Cs/MyArg"
 
         sr_ref = recovered.getDataPrototypeInSenderReceiverInterface()
         assert isinstance(sr_ref, DataPrototypeInSenderReceiverInterfaceInstanceRef)
-        assert sr_ref.getBaseRef() is not None
-        assert sr_ref.getBaseRef().getValue() == "/Sr"
+        assert sr_ref.getBaseRef() is None
+        assert sr_ref.getRootDataPrototypeInSrRef() is not None
+        assert sr_ref.getRootDataPrototypeInSrRef().getValue() == "/Sr/Root"
         assert sr_ref.getTargetDataPrototypeInSrRef() is not None
         assert sr_ref.getTargetDataPrototypeInSrRef().getValue() == "/Sr/MyVar"

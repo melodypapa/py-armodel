@@ -40,6 +40,17 @@ class TestDataPrototypeTransformationProps:
         assert props == props.setDataPrototypeInPortInterfaceRef(None)  # None no-op
         assert props.getDataPrototypeInPortInterfaceRef() == ref
 
+    def test_get_set_data_prototype_in_port_interface_ref_impl_dt_element(self):
+        props = DataPrototypeTransformationProps()
+        ref = ImplementationDataTypeElementInPortInterfaceRef()
+
+        assert props == props.setDataPrototypeInPortInterfaceRef(ref)
+        assert props.getDataPrototypeInPortInterfaceRef() == ref
+        assert isinstance(props.getDataPrototypeInPortInterfaceRef(), ImplementationDataTypeElementInPortInterfaceRef)
+
+        assert props == props.setDataPrototypeInPortInterfaceRef(None)  # None no-op
+        assert props.getDataPrototypeInPortInterfaceRef() == ref
+
     def test_get_set_network_representation_props(self):
 
         props = DataPrototypeTransformationProps()

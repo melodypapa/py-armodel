@@ -108,8 +108,6 @@ CycleRepetitionType
 DataDumpEntry
 DataFilter
 DataPrototype
-DataPrototypeInClientServerInterfaceInstanceRef
-DataPrototypeInSenderReceiverInterfaceInstanceRef
 DataPrototypeTransformationProps
 DataTypePolicyEnum
 Describable
@@ -179,7 +177,6 @@ ISignalToIPduMapping
 ISignalTriggering
 ISignalTypeEnum
 Identifiable
-ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
 InfrastructureServices
 InnerDataPrototypeGroupInCompositionInstanceRef

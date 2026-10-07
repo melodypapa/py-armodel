@@ -48,9 +48,8 @@ class TestDataPrototypeInPortInterfaceRef:
           <DATA-PROTOTYPE-IN-PORT-INTERFACE-REF>
             <TAG-ID>5</TAG-ID>
             <DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF>
-              <BASE DEST="CLIENT-SERVER-INTERFACE">/Cs</BASE>
-              <ROOT-DATA-PROTOTYPE-IN-CS DEST="DATA-PROTOTYPE">/Cs/Root</ROOT-DATA-PROTOTYPE-IN-CS>
-              <TARGET-DATA-PROTOTYPE-IN-CS DEST="DATA-PROTOTYPE">/Cs/MyArg</TARGET-DATA-PROTOTYPE-IN-CS>
+              <ROOT-DATA-PROTOTYPE-IN-CS-REF DEST="ARGUMENT-DATA-PROTOTYPE">/Cs/Root</ROOT-DATA-PROTOTYPE-IN-CS-REF>
+              <TARGET-DATA-PROTOTYPE-IN-CS-REF DEST="DATA-PROTOTYPE">/Cs/MyArg</TARGET-DATA-PROTOTYPE-IN-CS-REF>
             </DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF>
           </DATA-PROTOTYPE-IN-PORT-INTERFACE-REF>
         """
@@ -63,8 +62,9 @@ class TestDataPrototypeInPortInterfaceRef:
         assert ref.getTagId().getValue() == 5
         cs_ref = ref.getDataPrototypeInClientServerInterface()
         assert isinstance(cs_ref, DataPrototypeInClientServerInterfaceInstanceRef)
-        assert cs_ref.getBaseRef() is not None
-        assert cs_ref.getBaseRef().getValue() == "/Cs"
+        assert cs_ref.getBaseRef() is None
+        assert cs_ref.getRootDataPrototypeInCsRef() is not None
+        assert cs_ref.getRootDataPrototypeInCsRef().getValue() == "/Cs/Root"
         assert cs_ref.getTargetDataPrototypeInCsRef() is not None
         assert cs_ref.getTargetDataPrototypeInCsRef().getValue() == "/Cs/MyArg"
         assert ref.getDataPrototypeInSenderReceiverInterface() is None
@@ -74,9 +74,8 @@ class TestDataPrototypeInPortInterfaceRef:
           <DATA-PROTOTYPE-IN-PORT-INTERFACE-REF>
             <TAG-ID>7</TAG-ID>
             <DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF>
-              <BASE DEST="SENDER-RECEIVER-INTERFACE">/Sr</BASE>
-              <ROOT-DATA-PROTOTYPE-IN-SR DEST="DATA-PROTOTYPE">/Sr/Root</ROOT-DATA-PROTOTYPE-IN-SR>
-              <TARGET-DATA-PROTOTYPE-IN-SR DEST="DATA-PROTOTYPE">/Sr/MyVar</TARGET-DATA-PROTOTYPE-IN-SR>
+              <ROOT-DATA-PROTOTYPE-IN-SR-REF DEST="AUTOSAR-DATA-PROTOTYPE">/Sr/Root</ROOT-DATA-PROTOTYPE-IN-SR-REF>
+              <TARGET-DATA-PROTOTYPE-IN-SR-REF DEST="DATA-PROTOTYPE">/Sr/MyVar</TARGET-DATA-PROTOTYPE-IN-SR-REF>
             </DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF>
           </DATA-PROTOTYPE-IN-PORT-INTERFACE-REF>
         """
@@ -89,8 +88,9 @@ class TestDataPrototypeInPortInterfaceRef:
         assert ref.getTagId().getValue() == 7
         sr_ref = ref.getDataPrototypeInSenderReceiverInterface()
         assert isinstance(sr_ref, DataPrototypeInSenderReceiverInterfaceInstanceRef)
-        assert sr_ref.getBaseRef() is not None
-        assert sr_ref.getBaseRef().getValue() == "/Sr"
+        assert sr_ref.getBaseRef() is None
+        assert sr_ref.getRootDataPrototypeInSrRef() is not None
+        assert sr_ref.getRootDataPrototypeInSrRef().getValue() == "/Sr/Root"
         assert sr_ref.getTargetDataPrototypeInSrRef() is not None
         assert sr_ref.getTargetDataPrototypeInSrRef().getValue() == "/Sr/MyVar"
         assert ref.getDataPrototypeInClientServerInterface() is None

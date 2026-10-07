@@ -1366,7 +1366,7 @@ class DataPrototypeTransformationProps(ARObject):
         super().__init__()
 
         # Reference to a DataPrototype that is transported in the serialized ISignal.
-        self.dataPrototypeInPortInterfaceRef: Optional[DataPrototypeInPortInterfaceRef] = None
+        self.dataPrototypeInPortInterfaceRef: Optional[DataPrototypeReference] = None
 
         # Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
         self.networkRepresentationProps: Optional[SwDataDefProps] = None
@@ -1374,13 +1374,13 @@ class DataPrototypeTransformationProps(ARObject):
         # Collection of AutosarDataPrototype related configuration settings for a transformer.
         self.transformationPropsRef: Optional[RefType] = None
 
-    def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeInPortInterfaceRef]:
+    def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeReference]:
         """
         Reference to a DataPrototype that is transported in the serialized ISignal.
         """
         return self.dataPrototypeInPortInterfaceRef
 
-    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> DataPrototypeTransformationProps:
+    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeReference]) -> DataPrototypeTransformationProps:
         """
         Reference to a DataPrototype that is transported in the serialized ISignal.
         A None value is a no-op and does not overwrite an existing dataPrototypeInPortInterfaceRef.
