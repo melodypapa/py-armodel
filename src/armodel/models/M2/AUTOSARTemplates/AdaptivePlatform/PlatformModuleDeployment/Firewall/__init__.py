@@ -1322,6 +1322,7 @@ class DataLinkLayerRule(ARObject):
 
     # DataLinkLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class DataLinkLayerRule, AUTOSAR_00052.xsd line 27236 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationMacAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
