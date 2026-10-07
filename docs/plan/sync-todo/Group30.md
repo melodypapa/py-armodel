@@ -1641,15 +1641,54 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `UserDefinedCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.129, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.129 is a page-split table — fragment A (markdown lines
+    4858-4865: Class `<<atpVariation>> UserDefinedCluster`, Package
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport`, Note with
+    `Tags: atp.recommendedPackage=CommunicationClusters`, Base chain
+    `ARElement , ARObject , CollectableElement , CommunicationCluster , FibexElement ,
+    Identifiable , MultilanguageReferrable , PackageableElement , Referrable ,
+    UploadableDesignElement , Uploadable PackageElement`, Aggregated by
+    `ARPackage.element`, Attribute header) renders before the caption (line 4867); NO
+    attribute rows and no fragment B (Table 3.130's fragment follows the caption
+    directly) — pdf_page.py cites p.179. Header Class → model class; the class-row
+    `<<atpVariation>>` stereotype is not a VP-aggregation indicator (Rule 0020) but the
+    XSD own group USER-DEFINED-CLUSTER (AUTOSAR_00052.xsd lines 128516-128536) holds
+    only the atpVariation `USER-DEFINED-CLUSTER-VARIANTS/USER-DEFINED-CLUSTER-CONDITIONAL`
+    wrapper (identical shape to LinCluster, whose XSD LIN-CLUSTER group is the same
+    pattern) — zero own fields/accessors (Rule 0001.3). Base most-derived MODELED
+    ancestor = `CommunicationCluster` (Table 3.6; UploadableDesignElement/
+    UploadablePackageElement unmodeled, CollectableElement/FibexElement already in
+    CommunicationCluster's chain). Placement per Rule 0007 (spec Package row): class
+    MOVES from its legacy stub slot in CoreTopology.py to a NEW leaf-package module
+    `SystemTemplate/Fibex/CddSupport.py` (XSD comments confirm
+    `...Fibex::CddSupport::UserDefinedCluster`); stub-guard tuple + models export
+    chain updated. Wiring: ARPackage-level ARElement —
+    `createUserDefinedCluster` factory, parser `USER-DEFINED-CLUSTER` tag branch +
+    `readUserDefinedCluster` (readIdentifiable on the outer element +
+    readCommunicationCluster exactly once on the CONDITIONAL), writer isinstance branch
+    + `writeUserDefinedCluster` (writeIdentifiable + writeCommunicationCluster once on
+    the CONDITIONAL) — LinCluster is the 1:1 sibling precedent (Tables 3.36/3.129 both
+    attribute-less cluster leaves).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fresh-module creation: no stale docstrings existed to wipe; the verbatim Note went into the class docstring at creation (pinned by test_class_docstring_note) and `__init__` stays docless (pinned by test_init_docless); the class has no own accessors (zero Attribute rows)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 3.129 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the CommunicationCluster
+    reader/writer helper called exactly once per side (Rule 0025, pinned by tests). No
+    referenced-but-missing classes: CommunicationCluster is stamped `R23-11` and all
+    inherited accessors exist. Remark (not a deviation): Base-column ancestors
+    UploadableDesignElement / UploadablePackageElement are unmodeled mid-chain abstract
+    classes subsumed by CommunicationCluster's own chain (its Table 3.6 sync made the
+    same choice); CollectableElement/FibexElement are modeled. The `# Spec verified:`
+    marker is deferred to the batch 9b stamp per user instruction (Step 7 wrote the
+    6-column checklist without it; audit STAMP INFO expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22023 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 6e28a9d77
 
 - [ ] `UserDefinedPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.130, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py

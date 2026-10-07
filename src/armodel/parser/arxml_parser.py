@@ -1470,6 +1470,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
@@ -11228,6 +11229,13 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
 
+    def readUserDefinedCluster(self, element: ET.Element, cluster: UserDefinedCluster):
+        self.logger.debug("Read UserDefinedCluster <%s>" % cluster.getShortName())
+        self.readIdentifiable(element, cluster)
+        child_element = self.find(element, "USER-DEFINED-CLUSTER-VARIANTS/USER-DEFINED-CLUSTER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationCluster(child_element, cluster)
+
     def readCanCluster(self, element: ET.Element, cluster: CanCluster):
         self.logger.debug("Read CanCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -18411,6 +18419,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTtcanCluster(child_element, parent.createTtcanCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-CLUSTER":
                 self.readJ1939Cluster(child_element, parent.createJ1939Cluster(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-CLUSTER":
+                self.readUserDefinedCluster(child_element, parent.createUserDefinedCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-FRAME":
                 self.readCanFrame(child_element, parent.createCanFrame(self.getShortName(child_element)))
             elif tag_name == "I-SIGNAL":

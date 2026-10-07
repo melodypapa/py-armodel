@@ -1802,10 +1802,6 @@ class TtcanCluster(AbstractCanCluster):
         return self
 
 
-class UserDefinedCluster(CommunicationCluster):
-    pass
-
-
 class UserDefinedCommunicationController(CommunicationController):
     pass
 

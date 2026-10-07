@@ -2360,6 +2360,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(TtcanCluster, self.getReferrableElement(short_name, TtcanCluster))
 
+    def createUserDefinedCluster(self, short_name: str) -> UserDefinedCluster:
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCluster):
+            cluster = UserDefinedCluster(self, short_name)
+            self.addReferrableElement(cluster)
+        return cast(UserDefinedCluster, self.getReferrableElement(short_name, UserDefinedCluster))
+
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
 
         if not self.IsReferrableElementExists(short_name, LinUnconditionalFrame):
@@ -5080,6 +5087,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     EcuInstance,
     TtcanCluster,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (  # noqa: E402
     CryptoEllipticCurveProps,

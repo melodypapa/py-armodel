@@ -1222,6 +1222,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
@@ -11522,6 +11523,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(child_element, "LIN-CLUSTER-CONDITIONAL")
             self.writeCommunicationCluster(child_element, cluster)
 
+    def writeUserDefinedCluster(self, element: ET.Element, cluster: UserDefinedCluster):
+        if cluster is not None:
+            self.logger.debug("UserDefinedCluster %s" % cluster.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-CLUSTER")
+            self.writeIdentifiable(child_element, cluster)
+
+            child_element = ET.SubElement(child_element, "USER-DEFINED-CLUSTER-VARIANTS")
+            child_element = ET.SubElement(child_element, "USER-DEFINED-CLUSTER-CONDITIONAL")
+            self.writeCommunicationCluster(child_element, cluster)
+
     def writeCanCluster(self, element: ET.Element, cluster: CanCluster):
         if cluster is not None:
             self.logger.debug("CanCluster %s" % cluster.getShortName())
@@ -18747,6 +18758,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTtcanCluster(element, ar_element)
         elif isinstance(ar_element, J1939Cluster):
             self.writeJ1939Cluster(element, ar_element)
+        elif isinstance(ar_element, UserDefinedCluster):
+            self.writeUserDefinedCluster(element, ar_element)
         elif isinstance(ar_element, CanFrame):
             self.writeCanFrame(element, ar_element)
         elif isinstance(ar_element, Gateway):
