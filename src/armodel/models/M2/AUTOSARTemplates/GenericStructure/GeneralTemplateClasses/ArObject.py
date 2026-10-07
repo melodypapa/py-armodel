@@ -2258,19 +2258,7 @@ class RoleBasedResourceDependency(ARObject):
         return self
 
 
-class RptHook(ARObject):
-    pass
-
-
-class RptProfile(ARObject):
-    pass
-
-
 class SpecificationScope(ARObject):
-    pass
-
-
-class SwcModeManagerErrorEvent(ARObject):
     pass
 
 

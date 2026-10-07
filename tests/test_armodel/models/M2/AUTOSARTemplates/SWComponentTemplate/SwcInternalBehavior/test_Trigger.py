@@ -3,6 +3,7 @@ This module contains comprehensive tests for the Trigger module in SWComponentTe
 Tests cover all classes and methods in the Trigger.py file to achieve 100% test coverage.
 """
 
+import inspect
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -91,6 +92,31 @@ class TestExternalTriggeringPoint:
         # None is a no-op
         ext_trigger_point.setTrigger(None)
         assert ext_trigger_point.getTrigger() == trigger
+
+    def test_ident_is_optional_typed(self):
+        """The ident member is 0..1: PEP 526 Optional annotation, Optional getter."""
+        hints = typing.get_type_hints(ExternalTriggeringPoint.getIdent)
+        assert hints.get("return") == typing.Optional[ExternalTriggeringPointIdent]
+
+    def test_spec_notes_are_verbatim(self):
+        """Class and member docstrings carry the Table 7.39 markdown Notes verbatim."""
+        assert inspect.cleandoc(ExternalTriggeringPoint.__doc__) == ("If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to raise an ExternalTriggerOccurred Event.")
+        ident_note = (
+            "The aggregation in the role ident provides the ability to make the ExternalTriggeringPoint identifiable. "
+            "From the semantical point of view, the ExternalTriggering Point is considered a first-class Identifiable "
+            "and therefore the aggregation in the role ident shall always exist (until it may be possible to let "
+            "ModeAccessPoint directly inherit from Identifiable). "
+            "Stereotypes: atpIdentityContributor Tags: xml.sequenceOffset=-100"
+        )
+        assert inspect.cleandoc(ExternalTriggeringPoint.createIdent.__doc__) == ident_note
+        assert inspect.cleandoc(ExternalTriggeringPoint.getIdent.__doc__) == ident_note
+        trigger_note = (
+            "The trigger taken for the ExternalTriggeringPoint. Tags: xml.namePlural=TRIGGER-IREF "
+            "xml.roleElement=false xml.roleWrapperElement=true xml.typeElement=true xml.typeWrapperElement=false "
+            "InstanceRef implemented by: PTriggerInAtomicSwc TypeInstanceRef"
+        )
+        assert inspect.cleandoc(ExternalTriggeringPoint.getTrigger.__doc__) == trigger_note
+        assert inspect.cleandoc(ExternalTriggeringPoint.setTrigger.__doc__) == (trigger_note + "\nA None value is a no-op and does not overwrite an existing trigger.")
 
 
 def _make_ref(value):

@@ -219,6 +219,50 @@ class TestRunnableEntity:
         assert point.getTrigger().getContextPPortRef().getValue() == "/Demo/P"
         assert point.getTrigger().getTargetTriggerRef().getValue() == "/Demo/Trigger"
 
+    def test_external_triggering_point_s_t_ident_fragments_variation_point(self):
+        xml_content = """
+            <SWC-INTERNAL-BEHAVIOR>
+                <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Cyclic</SHORT-NAME>
+                      <EXTERNAL-TRIGGERING-POINTS>
+                        <EXTERNAL-TRIGGERING-POINT S="4321" T="2024-06-01T12:00:00Z">
+                          <IDENT>
+                            <SHORT-NAME>ExtTrigger</SHORT-NAME>
+                            <SHORT-NAME-FRAGMENTS>
+                              <SHORT-NAME-FRAGMENT>
+                                <FRAGMENT>Ext</FRAGMENT>
+                              </SHORT-NAME-FRAGMENT>
+                            </SHORT-NAME-FRAGMENTS>
+                          </IDENT>
+                          <TRIGGER-IREF>
+                            <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/Demo/P</CONTEXT-P-PORT-REF>
+                            <TARGET-TRIGGER-REF DEST="TRIGGER">/Demo/Trigger</TARGET-TRIGGER-REF>
+                          </TRIGGER-IREF>
+                          <VARIATION-POINT>
+                            <SHORT-LABEL>vp1</SHORT-LABEL>
+                          </VARIATION-POINT>
+                        </EXTERNAL-TRIGGERING-POINT>
+                      </EXTERNAL-TRIGGERING-POINTS>
+                    </RUNNABLE-ENTITY>
+                </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+        """
+
+        behavior = self._read_runnables(xml_content)
+        runnable = behavior.getRunnableEntities()[0]
+        point = runnable.getExternalTriggeringPoints()[0]
+        assert point.getChecksum().getValue() == "4321"
+        assert point.getTimestamp().getValue() == "2024-06-01T12:00:00Z"
+        assert point.getIdent() is not None
+        assert point.getIdent().getShortName() == "ExtTrigger"
+        fragments = point.getIdent().getShortNameFragments()
+        assert len(fragments) == 1
+        assert fragments[0].getFragment().getValue() == "Ext"
+        assert point.getTrigger() is not None
+        assert point.getVariationPoint() is not None
+        assert point.getVariationPoint().getShortLabel().getValue() == "vp1"
+
     def test_external_triggering_points_empty_wrapper(self):
         xml_content = """
             <SWC-INTERNAL-BEHAVIOR>

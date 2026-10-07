@@ -144,10 +144,10 @@ class TestRoleBasedPortAssignment:
 
 
 class TestSwcServiceDependency:
-    """Test class for SwcServiceDependency class."""
+    """Test class for SwcServiceDependency class (Table 7.56)."""
 
     def test_swc_service_dependency_initialization(self):
-        """Test SwcServiceDependency initialization and methods."""
+        """Test SwcServiceDependency initialization and field defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         service_dep = SwcServiceDependency(ar_root, "TestSwcServiceDependency")
@@ -156,126 +156,210 @@ class TestSwcServiceDependency:
         assert service_dep.short_name == "TestSwcServiceDependency"
         assert service_dep.assignedData == []
         assert service_dep.assignedPort == []
+        assert service_dep.representedPortGroupRef is None
         assert service_dep.serviceNeeds is None
 
-        # Test assigned data methods
+    def test_base_shape(self):
+        """Base arbitration: most-derived modeled classes of the two spec Base chains; no VP capability."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+
+        assert issubclass(SwcServiceDependency, AtpStructureElement)
+        assert issubclass(SwcServiceDependency, ServiceDependency)
+        assert issubclass(SwcServiceDependency, ARObject)
+        assert not issubclass(SwcServiceDependency, VariationPointCapable)
+        names = [cls.__name__ for cls in SwcServiceDependency.__mro__]
+        assert "Identifiable" in names
+        assert names.index("ServiceDependency") < names.index("ARObject")
+
+    def test_add_assigned_data(self):
+        """AddAssignedData: appending, chaining return, None no-op."""
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
 
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "Dep")
+
+        assert service_dep.getAssignedData() == []
         data_assignment = RoleBasedDataAssignment()
-        service_dep.AddAssignedData(data_assignment)
-        assert data_assignment in service_dep.getAssignedData()
+        assert service_dep.AddAssignedData(data_assignment) is service_dep
+        assert service_dep.getAssignedData() == [data_assignment]
 
-        # Test assigned ports methods
+        service_dep.AddAssignedData(None)
+        assert service_dep.getAssignedData() == [data_assignment]
+
+    def test_add_assigned_port(self):
+        """AddAssignedPort: appending, chaining return, None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "Dep")
+
+        assert service_dep.getAssignedPorts() == []
         port_assignment = RoleBasedPortAssignment()
-        service_dep.AddAssignedPort(port_assignment)
-        assert port_assignment in service_dep.getAssignedPorts()
+        assert service_dep.AddAssignedPort(port_assignment) is service_dep
+        assert service_dep.getAssignedPorts() == [port_assignment]
 
-        # Test service needs creation methods
-        nv_block_needs = service_dep.createNvBlockNeeds("TestNvBlockNeeds")
-        assert nv_block_needs is not None
-        assert nv_block_needs.short_name == "TestNvBlockNeeds"
-        assert nv_block_needs in service_dep.getNvBlockNeeds()
+        service_dep.AddAssignedPort(None)
+        assert service_dep.getAssignedPorts() == [port_assignment]
 
-        diag_comm_needs = service_dep.createDiagnosticCommunicationManagerNeeds("TestDiagCommNeeds")
-        assert diag_comm_needs is not None
-        assert diag_comm_needs.short_name == "TestDiagCommNeeds"
-        assert diag_comm_needs in service_dep.getDiagnosticCommunicationManagerNeeds()
+    def test_create_needs_factories_and_type_getters(self):
+        """Every concrete ServiceNeeds subtype factory: create -> typed getter -> duplicate returns existing."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+            ComMgrUserNeeds,
+            CryptoKeyManagementNeeds,
+            CryptoServiceJobNeeds,
+            CryptoServiceNeeds,
+            DiagnosticCommunicationManagerNeeds,
+            DiagnosticComponentNeeds,
+            DiagnosticControlNeeds,
+            DiagnosticEnableConditionNeeds,
+            DiagnosticEventInfoNeeds,
+            DiagnosticEventManagerNeeds,
+            DiagnosticEventNeeds,
+            DiagnosticIoControlNeeds,
+            DiagnosticOperationCycleNeeds,
+            DiagnosticRequestFileTransferNeeds,
+            DiagnosticRoutineNeeds,
+            DiagnosticsCommunicationSecurityNeeds,
+            DiagnosticStorageConditionNeeds,
+            DiagnosticUploadDownloadNeeds,
+            DiagnosticValueNeeds,
+            DltUserNeeds,
+            DoIpActivationLineNeeds,
+            DoIpGidNeeds,
+            DoIpGidSynchronizationNeeds,
+            DoIpPowerModeStatusNeeds,
+            DoIpRoutingActivationAuthenticationNeeds,
+            DoIpRoutingActivationConfirmationNeeds,
+            DtcStatusChangeNotificationNeeds,
+            EcuStateMgrUserNeeds,
+            ErrorTracerNeeds,
+            FunctionInhibitionAvailabilityNeeds,
+            FunctionInhibitionNeeds,
+            FurtherActionByteNeeds,
+            GlobalSupervisionNeeds,
+            HardwareTestNeeds,
+            IdsMgrCustomTimestampNeeds,
+            IdsMgrNeeds,
+            IndicatorStatusNeeds,
+            J1939DcmDm19Support,
+            J1939RmIncomingRequestServiceNeeds,
+            J1939RmOutgoingRequestServiceNeeds,
+            NvBlockNeeds,
+            ObdControlServiceNeeds,
+            ObdInfoServiceNeeds,
+            ObdMonitorServiceNeeds,
+            ObdPidServiceNeeds,
+            ObdRatioDenominatorNeeds,
+            ObdRatioServiceNeeds,
+            SecureOnBoardCommunicationNeeds,
+            ServiceNeeds,
+            SupervisedEntityCheckpointNeeds,
+            SyncTimeBaseMgrUserNeeds,
+            V2xDataManagerNeeds,
+            V2xFacUserNeeds,
+            V2xMUserNeeds,
+            VendorSpecificServiceNeeds,
+            WarningIndicatorRequestedBitNeeds,
+        )
 
-        diag_routine_needs = service_dep.createDiagnosticRoutineNeeds("TestDiagRoutineNeeds")
-        assert diag_routine_needs is not None
-        assert diag_routine_needs.short_name == "TestDiagRoutineNeeds"
-        assert diag_routine_needs in service_dep.getDiagnosticRoutineNeeds()
+        factory_getter_type = [
+            ("createNvBlockNeeds", "getNvBlockNeeds", NvBlockNeeds),
+            ("createDiagnosticCommunicationManagerNeeds", "getDiagnosticCommunicationManagerNeeds", DiagnosticCommunicationManagerNeeds),
+            ("createDiagnosticComponentNeeds", None, DiagnosticComponentNeeds),
+            ("createDiagnosticControlNeeds", None, DiagnosticControlNeeds),
+            ("createDiagnosticUploadDownloadNeeds", None, DiagnosticUploadDownloadNeeds),
+            ("createDiagnosticsCommunicationSecurityNeeds", None, DiagnosticsCommunicationSecurityNeeds),
+            ("createDiagnosticRoutineNeeds", "getDiagnosticRoutineNeeds", DiagnosticRoutineNeeds),
+            ("createDiagnosticValueNeeds", "getDiagnosticValueNeeds", DiagnosticValueNeeds),
+            ("createDiagnosticEventNeeds", "getDiagnosticEventNeeds", DiagnosticEventNeeds),
+            ("createDiagnosticEventInfoNeeds", "getDiagnosticEventInfoNeeds", DiagnosticEventInfoNeeds),
+            ("createCryptoKeyManagementNeeds", None, CryptoKeyManagementNeeds),
+            ("createCryptoServiceJobNeeds", None, CryptoServiceJobNeeds),
+            ("createCryptoServiceNeeds", "getCryptoServiceNeeds", CryptoServiceNeeds),
+            ("createEcuStateMgrUserNeeds", "getEcuStateMgrUserNeeds", EcuStateMgrUserNeeds),
+            ("createDtcStatusChangeNotificationNeeds", "getDtcStatusChangeNotificationNeeds", DtcStatusChangeNotificationNeeds),
+            ("createDiagnosticIoControlNeeds", "getDiagnosticIoControlNeeds", DiagnosticIoControlNeeds),
+            ("createDiagnosticEnableConditionNeeds", None, DiagnosticEnableConditionNeeds),
+            ("createDiagnosticEventManagerNeeds", None, DiagnosticEventManagerNeeds),
+            ("createDiagnosticOperationCycleNeeds", None, DiagnosticOperationCycleNeeds),
+            ("createDiagnosticRequestFileTransferNeeds", None, DiagnosticRequestFileTransferNeeds),
+            ("createDiagnosticStorageConditionNeeds", None, DiagnosticStorageConditionNeeds),
+            ("createFunctionInhibitionAvailabilityNeeds", None, FunctionInhibitionAvailabilityNeeds),
+            ("createFunctionInhibitionNeeds", None, FunctionInhibitionNeeds),
+            ("createFurtherActionByteNeeds", None, FurtherActionByteNeeds),
+            ("createGlobalSupervisionNeeds", None, GlobalSupervisionNeeds),
+            ("createHardwareTestNeeds", None, HardwareTestNeeds),
+            ("createIdsMgrCustomTimestampNeeds", None, IdsMgrCustomTimestampNeeds),
+            ("createIndicatorStatusNeeds", None, IndicatorStatusNeeds),
+            ("createJ1939DcmDm19Support", None, J1939DcmDm19Support),
+            ("createJ1939RmIncomingRequestServiceNeeds", None, J1939RmIncomingRequestServiceNeeds),
+            ("createJ1939RmOutgoingRequestServiceNeeds", None, J1939RmOutgoingRequestServiceNeeds),
+            ("createDltUserNeeds", "getDltUserNeeds", DltUserNeeds),
+            ("createComMgrUserNeeds", "getComMgrUserNeeds", ComMgrUserNeeds),
+            ("createErrorTracerNeeds", "getErrorTracerNeeds", ErrorTracerNeeds),
+            ("createObdInfoServiceNeeds", "getObdInfoServiceNeeds", ObdInfoServiceNeeds),
+            ("createObdMonitorServiceNeeds", "getObdMonitorServiceNeeds", ObdMonitorServiceNeeds),
+            ("createObdPidServiceNeeds", "getObdPidServiceNeeds", ObdPidServiceNeeds),
+            ("createObdControlServiceNeeds", "getObdControlServiceNeeds", ObdControlServiceNeeds),
+            ("createObdRatioServiceNeeds", None, ObdRatioServiceNeeds),
+            ("createObdRatioDenominatorNeeds", None, ObdRatioDenominatorNeeds),
+            ("createDoIpActivationLineNeeds", None, DoIpActivationLineNeeds),
+            ("createDoIpGidNeeds", None, DoIpGidNeeds),
+            ("createDoIpGidSynchronizationNeeds", None, DoIpGidSynchronizationNeeds),
+            ("createDoIpPowerModeStatusNeeds", None, DoIpPowerModeStatusNeeds),
+            ("createDoIpRoutingActivationAuthenticationNeeds", None, DoIpRoutingActivationAuthenticationNeeds),
+            ("createDoIpRoutingActivationConfirmationNeeds", None, DoIpRoutingActivationConfirmationNeeds),
+            ("createSecureOnBoardCommunicationNeeds", None, SecureOnBoardCommunicationNeeds),
+            ("createSupervisedEntityCheckpointNeeds", None, SupervisedEntityCheckpointNeeds),
+            ("createSyncTimeBaseMgrUserNeeds", None, SyncTimeBaseMgrUserNeeds),
+            ("createV2xDataManagerNeeds", None, V2xDataManagerNeeds),
+            ("createV2xFacUserNeeds", None, V2xFacUserNeeds),
+            ("createV2xMUserNeeds", None, V2xMUserNeeds),
+            ("createVendorSpecificServiceNeeds", None, VendorSpecificServiceNeeds),
+            ("createWarningIndicatorRequestedBitNeeds", None, WarningIndicatorRequestedBitNeeds),
+            ("createIdsMgrNeeds", None, IdsMgrNeeds),
+        ]
 
-        diag_value_needs = service_dep.createDiagnosticValueNeeds("TestDiagValueNeeds")
-        assert diag_value_needs is not None
-        assert diag_value_needs.short_name == "TestDiagValueNeeds"
-        assert diag_value_needs in service_dep.getDiagnosticValueNeeds()
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "Dep")
 
-        diag_event_needs = service_dep.createDiagnosticEventNeeds("TestDiagEventNeeds")
-        assert diag_event_needs is not None
-        assert diag_event_needs.short_name == "TestDiagEventNeeds"
-        assert diag_event_needs in service_dep.getDiagnosticEventNeeds()
+        first_needs = None
+        last_needs = None
+        for index, (factory, getter, needs_type) in enumerate(factory_getter_type):
+            needs = getattr(service_dep, factory)("Needs%d" % index)
+            assert isinstance(needs, needs_type)
+            assert isinstance(needs, ServiceNeeds)
+            assert needs.short_name == "Needs%d" % index
+            assert needs.parent is service_dep
+            if getter is not None:
+                assert needs in getattr(service_dep, getter)()
+            if index == 0:
+                first_needs = needs
+            last_needs = needs
 
-        diag_event_info_needs = service_dep.createDiagnosticEventInfoNeeds("TestDiagEventInfoNeeds")
-        assert diag_event_info_needs is not None
-        assert diag_event_info_needs.short_name == "TestDiagEventInfoNeeds"
-        assert diag_event_info_needs in service_dep.getDiagnosticEventInfoNeeds()
+        duplicate = service_dep.createNvBlockNeeds("Needs0")
+        assert duplicate is first_needs
+        assert service_dep.getServiceNeeds() is last_needs
 
-        io_control_needs = service_dep.createDiagnosticIoControlNeeds("TestIoControlNeeds")
-        assert io_control_needs is not None
-        assert io_control_needs.short_name == "TestIoControlNeeds"
-        assert io_control_needs in service_dep.getDiagnosticIoControlNeeds()
+    def test_service_needs_single_slot(self):
+        """serviceNeeds is a 0..1 aggr: getServiceNeeds returns the field (Optional), last create wins."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceNeeds
 
-        crypto_needs = service_dep.createCryptoServiceNeeds("TestCryptoNeeds")
-        assert crypto_needs is not None
-        assert crypto_needs.short_name == "TestCryptoNeeds"
-        assert crypto_needs in service_dep.getCryptoServiceNeeds()
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "Dep")
 
-        ecu_state_needs = service_dep.createEcuStateMgrUserNeeds("TestEcuStateNeeds")
-        assert ecu_state_needs is not None
-        assert ecu_state_needs.short_name == "TestEcuStateNeeds"
-        assert ecu_state_needs in service_dep.getEcuStateMgrUserNeeds()
+        assert service_dep.getServiceNeeds() is None
 
-        dtc_needs = service_dep.createDtcStatusChangeNotificationNeeds("TestDtcNeeds")
-        assert dtc_needs is not None
-        assert dtc_needs.short_name == "TestDtcNeeds"
-        assert dtc_needs in service_dep.getDtcStatusChangeNotificationNeeds()
+        nv = service_dep.createNvBlockNeeds("Nv")
+        assert service_dep.getServiceNeeds() is nv
+        dlt = service_dep.createDltUserNeeds("Dlt")
+        assert service_dep.getServiceNeeds() is dlt
 
-        dlt_needs = service_dep.createDltUserNeeds("TestDltNeeds")
-        assert dlt_needs is not None
-        assert dlt_needs.short_name == "TestDltNeeds"
-        assert dlt_needs in service_dep.getDltUserNeeds()
-
-        com_needs = service_dep.createComMgrUserNeeds("TestComNeeds")
-        assert com_needs is not None
-        assert com_needs.short_name == "TestComNeeds"
-        assert com_needs in service_dep.getComMgrUserNeeds()
-
-        enable_condition_needs = service_dep.createDiagnosticEnableConditionNeeds("TestEnableConditionNeeds")
-        assert enable_condition_needs is not None
-        assert enable_condition_needs.short_name == "TestEnableConditionNeeds"
-        assert enable_condition_needs in service_dep.getServiceNeeds()
-
-        operation_cycle_needs = service_dep.createDiagnosticOperationCycleNeeds("TestOperationCycleNeeds")
-        assert operation_cycle_needs is not None
-        assert operation_cycle_needs.short_name == "TestOperationCycleNeeds"
-        assert operation_cycle_needs in service_dep.getServiceNeeds()
-
-        storage_condition_needs = service_dep.createDiagnosticStorageConditionNeeds("TestStorageConditionNeeds")
-        assert storage_condition_needs is not None
-        assert storage_condition_needs.short_name == "TestStorageConditionNeeds"
-        assert storage_condition_needs in service_dep.getServiceNeeds()
-
-        indicator_status_needs = service_dep.createIndicatorStatusNeeds("TestIndicatorStatusNeeds")
-        assert indicator_status_needs is not None
-        assert indicator_status_needs.short_name == "TestIndicatorStatusNeeds"
-        assert indicator_status_needs in service_dep.getServiceNeeds()
-
-        fim_availability_needs = service_dep.createFunctionInhibitionAvailabilityNeeds("TestFimAvailabilityNeeds")
-        assert fim_availability_needs is not None
-        assert fim_availability_needs.short_name == "TestFimAvailabilityNeeds"
-        assert fim_availability_needs in service_dep.getServiceNeeds()
-
-        # Test remaining create/get service needs methods
-        error_tracer_needs = service_dep.createErrorTracerNeeds("TestErrorTracerNeeds")
-        assert error_tracer_needs is not None
-        assert error_tracer_needs in service_dep.getErrorTracerNeeds()
-
-        obd_info_needs = service_dep.createObdInfoServiceNeeds("TestObdInfoNeeds")
-        assert obd_info_needs is not None
-        assert obd_info_needs in service_dep.getObdInfoServiceNeeds()
-
-        obd_monitor_needs = service_dep.createObdMonitorServiceNeeds("TestObdMonitorNeeds")
-        assert obd_monitor_needs is not None
-        assert obd_monitor_needs in service_dep.getObdMonitorServiceNeeds()
-
-        obd_pid_needs = service_dep.createObdPidServiceNeeds("TestObdPidNeeds")
-        assert obd_pid_needs is not None
-        assert obd_pid_needs in service_dep.getObdPidServiceNeeds()
-
-        # Test getting all service needs
-        all_service_needs = service_dep.getServiceNeeds()
-        assert len(all_service_needs) == 21  # All the ones we created above
+        hints = typing.get_type_hints(SwcServiceDependency.getServiceNeeds)
+        assert hints["return"] == typing.Optional[ServiceNeeds]
 
     def test_get_set_represented_port_group(self):
         """Test representedPortGroup getter/setter round-trip with None no-op."""
@@ -287,7 +371,7 @@ class TestSwcServiceDependency:
 
         port_group_ref = RefType()
         port_group_ref.setValue("/PortGroup/Ref")
-        service_dep.setRepresentedPortGroupRef(port_group_ref)
+        assert service_dep.setRepresentedPortGroupRef(port_group_ref) is service_dep
         assert service_dep.getRepresentedPortGroupRef().getValue() == "/PortGroup/Ref"
 
         # None is a no-op and must not overwrite an existing value
@@ -296,31 +380,35 @@ class TestSwcServiceDependency:
 
 
 class TestSwcServiceDependencyRoundTrip:
-    """Test full parse -> write -> re-parse for the 5 new ServiceNeeds via SWC route."""
+    """Test full parse -> write -> re-parse for ServiceNeeds via the SWC route (one needs per dependency, spec 0..1)."""
 
     def test_swc_service_needs_round_trip(self):
-        """Verify all 5 new needs survive an SWC round-trip."""
+        """Verify representative needs survive an SWC round-trip (one ServiceNeeds per SwcServiceDependency)."""
         AUTOSAR.getInstance().setARRelease("R23-11")
         document = AUTOSAR.getInstance()
         document.clear()
         ar_root = document.createARPackage("AUTOSAR")
         swc = ar_root.createApplicationSwComponentType("MySwc")
         behavior = swc.createSwcInternalBehavior("Beh")
-        dependency = behavior.createSwcServiceDependency("Dep")
 
-        enable = dependency.createDiagnosticEnableConditionNeeds("EnableNeeds")
+        enable_dep = behavior.createSwcServiceDependency("EnableDep")
+        enable = enable_dep.createDiagnosticEnableConditionNeeds("EnableNeeds")
         enable.setInitialStatus(EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED))
 
-        cycle = dependency.createDiagnosticOperationCycleNeeds("CycleNeeds")
+        cycle_dep = behavior.createSwcServiceDependency("CycleDep")
+        cycle = cycle_dep.createDiagnosticOperationCycleNeeds("CycleNeeds")
         cycle.setOperationCycle(OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP))
 
-        storage = dependency.createDiagnosticStorageConditionNeeds("StorageNeeds")
+        storage_dep = behavior.createSwcServiceDependency("StorageDep")
+        storage = storage_dep.createDiagnosticStorageConditionNeeds("StorageNeeds")
         storage.setInitialStatus(StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE))
 
-        indicator = dependency.createIndicatorStatusNeeds("IndicatorNeeds")
+        indicator_dep = behavior.createSwcServiceDependency("IndicatorDep")
+        indicator = indicator_dep.createIndicatorStatusNeeds("IndicatorNeeds")
         indicator.setType(DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION))
 
-        fim = dependency.createFunctionInhibitionAvailabilityNeeds("FimNeeds")
+        fim_dep = behavior.createSwcServiceDependency("FimDep")
+        fim = fim_dep.createFunctionInhibitionAvailabilityNeeds("FimNeeds")
         fim_ref = RefType()
         fim_ref.setValue("/Fim/Ref")
         fim.setControlledFidRef(fim_ref)
@@ -334,14 +422,76 @@ class TestSwcServiceDependencyRoundTrip:
 
             swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
             behavior_2 = swc_2.getInternalBehavior()
-            dependency_2 = behavior_2.getSwcServiceDependencies()[0]
-            needs_2 = {n.getShortName(): n for n in dependency_2.getServiceNeeds()}
+            deps_2 = {d.short_name: d for d in behavior_2.getSwcServiceDependencies()}
 
-            assert needs_2["EnableNeeds"].getInitialStatus().getValue() == EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED
-            assert needs_2["CycleNeeds"].getOperationCycle().getValue() == "WARMUP"
-            assert needs_2["StorageNeeds"].getInitialStatus().getValue() == StorageConditionStatusEnum.EVENT_STORAGE_ENABLE
-            assert needs_2["IndicatorNeeds"].getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
-            assert needs_2["FimNeeds"].getControlledFidRef().getValue() == "/Fim/Ref"
+            enable_2 = deps_2["EnableDep"].getServiceNeeds()
+            assert enable_2.getShortName() == "EnableNeeds"
+            assert enable_2.getInitialStatus().getValue() == EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED
+
+            cycle_2 = deps_2["CycleDep"].getServiceNeeds()
+            assert cycle_2.getShortName() == "CycleNeeds"
+            assert cycle_2.getOperationCycle().getValue() == "WARMUP"
+
+            storage_2 = deps_2["StorageDep"].getServiceNeeds()
+            assert storage_2.getShortName() == "StorageNeeds"
+            assert storage_2.getInitialStatus().getValue() == StorageConditionStatusEnum.EVENT_STORAGE_ENABLE
+
+            indicator_2 = deps_2["IndicatorDep"].getServiceNeeds()
+            assert indicator_2.getShortName() == "IndicatorNeeds"
+            assert indicator_2.getType().getValue() == DiagnosticIndicatorTypeEnum.MALFUNCTION
+
+            fim_2 = deps_2["FimDep"].getServiceNeeds()
+            assert fim_2.getShortName() == "FimNeeds"
+            assert fim_2.getControlledFidRef().getValue() == "/Fim/Ref"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_swc_service_dependency_assigned_data_and_ports_round_trip(self):
+        """Verify assignedData/assignedPort (the * aggrs) survive an SWC round-trip with field values."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("MySwc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+
+        data_assignment = RoleBasedDataAssignment()
+        data_ref = RefType()
+        data_ref.setValue("/Data/Ref")
+        role = Identifier()
+        role.setValue("ramBlock")
+        data_assignment.setRole(role)
+        dependency.AddAssignedData(data_assignment)
+
+        port_assignment = RoleBasedPortAssignment()
+        port_ref = RefType()
+        port_ref.setValue("/Port/Ref")
+        port_role = Identifier()
+        port_role.setValue("NvMService")
+        port_assignment.setPortPrototypeRef(port_ref)
+        port_assignment.setRole(port_role)
+        dependency.AddAssignedPort(port_assignment)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
+            behavior_2 = swc_2.getInternalBehavior()
+            dependency_2 = behavior_2.getSwcServiceDependencies()[0]
+
+            assert len(dependency_2.getAssignedData()) == 1
+            assert dependency_2.getAssignedData()[0].getRole().getValue() == "ramBlock"
+            assert len(dependency_2.getAssignedPorts()) == 1
+            assert dependency_2.getAssignedPorts()[0].getPortPrototypeRef().getValue() == "/Port/Ref"
+            assert dependency_2.getAssignedPorts()[0].getRole().getValue() == "NvMService"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

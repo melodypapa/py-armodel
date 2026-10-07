@@ -971,3 +971,81 @@ class TestWriteAbstractEnumerationValueVariationPoint:
 
         assert "BASE" not in element.attrib
         assert "ENUM-TABLE" not in element.attrib
+
+
+class TestVariationPointProxyElementOrder:
+    """Table 7.61 pins for the VariationPointProxy serialization: the writer emits
+    the five own elements in the XSD group VARIATION-POINT-PROXY order
+    (AUTOSAR_00052.xsd L130095: CONDITION-ACCESS, IMPLEMENTATION-DATA-TYPE-REF,
+    POST-BUILD-VALUE-ACCESS-REF, POST-BUILD-VARIANT-CONDITIONS, VALUE-ACCESS) and
+    the POST-BUILD-VARIANT-CONDITIONS wrapper is omitted when the list is empty."""
+
+    def _build_proxy(self, short_name):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Demo")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+
+        proxy = VariationPointProxy(behavior, short_name)
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("PRE-COMPILE-TIME"))
+        syscond.setMixedString("sysc == 1")
+        proxy.setConditionAccess(syscond)
+        proxy.setImplementationDataTypeRef(RefType().setValue("/Demo/ImplementationDataTypes/uint8").setDest("IMPLEMENTATION-DATA-TYPE"))
+        proxy.setPostBuildValueAccessRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition = PostBuildVariantCondition()
+        condition.setMatchingCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition.setValue(Integer().setValue("1"))
+        proxy.addPostBuildVariantCondition(condition)
+        proxy.setValueAccess(NumericalValueVariationPoint())
+        return proxy
+
+    def test_write_element_order_follows_xsd(self):
+        writer = ARXMLWriter()
+        element = ET.Element("PARENT")
+        writer.writeVariationPointProxy(element, self._build_proxy("vpp_order"))
+
+        proxy_element = element.find("VARIATION-POINT-PROXY")
+        assert proxy_element is not None
+        own_tags = [
+            child.tag
+            for child in proxy_element
+            if child.tag
+            in (
+                "CONDITION-ACCESS",
+                "IMPLEMENTATION-DATA-TYPE-REF",
+                "POST-BUILD-VALUE-ACCESS-REF",
+                "POST-BUILD-VARIANT-CONDITIONS",
+                "VALUE-ACCESS",
+            )
+        ]
+        assert own_tags == [
+            "CONDITION-ACCESS",
+            "IMPLEMENTATION-DATA-TYPE-REF",
+            "POST-BUILD-VALUE-ACCESS-REF",
+            "POST-BUILD-VARIANT-CONDITIONS",
+            "VALUE-ACCESS",
+        ]
+
+    def test_round_trip_empty_conditions_wrapper(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        proxy = self._build_proxy("vpp_empty")
+        proxy.getPostBuildVariantConditions().clear()
+
+        writer = ARXMLWriter()
+        element = ET.Element("PARENT")
+        writer.writeVariationPointProxy(element, proxy)
+
+        proxy_element = element.find("VARIATION-POINT-PROXY")
+        assert proxy_element is not None
+        assert proxy_element.find("POST-BUILD-VARIANT-CONDITIONS") is None
+
+        proxy_2 = VariationPointProxy(None, "vpp_empty")
+        ARXMLParser().readVariationPointProxy(proxy_element, proxy_2)
+        assert proxy_2.getPostBuildVariantConditions() == []

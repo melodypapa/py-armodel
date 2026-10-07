@@ -3,11 +3,15 @@ This module contains classes for representing AUTOSAR Run-Time Protection (RPT) 
 and access point identification elements in software component templates.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum, RptSwPrototypingAccess
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from abc import ABC
 from typing import List, Optional, cast
 
@@ -222,6 +226,500 @@ class RptExecutableEntityProperties(ARObject):
         """
         if value is not None:
             self.rptServicePoint = value
+        return self
+
+
+class RptHook(ARObject, VariationPointCapable):
+    """
+    This meta-class provide the ability to describe a rapid prototyping hook. This can either be described by an other AUTOSAR system with the category RPT_SYSTEM or as a non AUTOSAR software.
+    """
+
+    # RptHook method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.3, p.848
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCodeLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCodeLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcdIdentifier    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcdIdentifier    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptArHookIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptArHookIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSdg              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # reader/writer: dedicated helpers readRptHook/writeRptHook (readARObject/writeARObject
+    # once each, Rule 0025; element <RPT-HOOK>, group RPT-HOOK XSD AUTOSAR_00052.xsd
+    # l.100040, sequenceOffset order CODE-LABEL, MCD-IDENTIFIER, RPT-AR-HOOK-IREF, SDGS,
+    # VARIATION-POINT). Aggregated by RptContainer.rptHook (RPT-HOOKS wrapper) — the
+    # RptContainer dispatch is that class's own queued sync.
+    # get/setVariationPoint provided by the VariationPointCapable base (mixin) — no spec
+    # rows (Rule 0020: RptContainer.rptHook atpVariation; XSD VARIATION-POINT
+    # xml.sequenceOffset 10000)
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        self.codeLabel: Optional[CIdentifier] = None
+
+        # This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        self.mcdIdentifier: Optional[NameToken] = None
+
+        # This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        self.rptArHookIRef: Optional[AnyInstanceRef] = None
+
+        # This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        self.sdgs: List[Sdg] = []
+
+    def getCodeLabel(self) -> Optional[CIdentifier]:
+        """
+        This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        """
+        return self.codeLabel
+
+    def setCodeLabel(self, value: Optional[CIdentifier]) -> "RptHook":
+        """
+        This attribute provides a code label which is used in the implementation of the hook. For example this can be an C function name or the name of data definition.
+        A None value is a no-op and does not overwrite an existing codeLabel.
+        """
+        if value is not None:
+            self.codeLabel = value
+        return self
+
+    def getMcdIdentifier(self) -> Optional[NameToken]:
+        """
+        This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        """
+        return self.mcdIdentifier
+
+    def setMcdIdentifier(self, value: Optional[NameToken]) -> "RptHook":
+        """
+        This attribute provides an identifier which shall be used in a MCD System to display the Rpt Hook.
+        A None value is a no-op and does not overwrite an existing mcdIdentifier.
+        """
+        if value is not None:
+            self.mcdIdentifier = value
+        return self
+
+    def getRptArHookIRef(self) -> Optional[AnyInstanceRef]:
+        """
+        This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        """
+        return self.rptArHookIRef
+
+    def setRptArHookIRef(self, value: Optional[AnyInstanceRef]) -> "RptHook":
+        """
+        This describes the hook with the means of another AUTOSAR system. InstanceRef implemented by: AnyInstanceRef
+        A None value is a no-op and does not overwrite an existing rptArHookIRef.
+        """
+        if value is not None:
+            self.rptArHookIRef = value
+        return self
+
+    def addSdg(self, sdg: Optional[Sdg]) -> "RptHook":
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        A None value is a no-op and is not appended.
+        """
+        if sdg is not None:
+            self.sdgs.append(sdg)
+        return self
+
+    def getSdgs(self) -> List[Sdg]:
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        """
+        return self.sdgs
+
+
+class RptProfile(Identifiable):
+    """
+    The RptProfile describes the common properties of a Rapid Prototyping method.
+    """
+
+    # RptProfile method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.7, p.854
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxServicePointId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxServicePointId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinServicePointId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinServicePointId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServicePointSymbolPost   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServicePointSymbolPost   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServicePointSymbolPre    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServicePointSymbolPre    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStimEnabler              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStimEnabler              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRptProfile/writeRptProfile (readIdentifiable/
+    # writeIdentifiable once each, Rule 0025; element <RPT-PROFILE>, group RPT-PROFILE XSD
+    # AUTOSAR_00052.xsd l.100138, sequenceOffset order MAX-SERVICE-POINT-ID, MIN-SERVICE-POINT-ID,
+    # SERVICE-POINT-SYMBOL-POST, SERVICE-POINT-SYMBOL-PRE, STIM-ENABLER). Aggregated by
+    # RapidPrototypingScenario.rptProfile (RPT-PROFILES wrapper) — the
+    # RapidPrototypingScenario dispatch is that class's own queued sync.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        self.maxServicePointId: Optional[PositiveInteger] = None
+
+        # Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        self.minServicePointId: Optional[PositiveInteger] = None
+
+        # Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        self.servicePointSymbolPost: Optional[CIdentifier] = None
+
+        # Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        self.servicePointSymbolPre: Optional[CIdentifier] = None
+
+        # Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        self.stimEnabler: Optional[RptEnablerImplTypeEnum] = None
+
+    def getMaxServicePointId(self) -> Optional[PositiveInteger]:
+        """
+        Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        """
+        return self.maxServicePointId
+
+    def setMaxServicePointId(self, value: Optional[PositiveInteger]) -> "RptProfile":
+        """
+        Highest service point id useable for RTE generated service points. [constr_1988] Existence of attribute RptProfile.maxServicePointId: For each RptProfile, attribute maxServicePointId shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing maxServicePointId.
+        """
+        if value is not None:
+            self.maxServicePointId = value
+        return self
+
+    def getMinServicePointId(self) -> Optional[PositiveInteger]:
+        """
+        Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        """
+        return self.minServicePointId
+
+    def setMinServicePointId(self, value: Optional[PositiveInteger]) -> "RptProfile":
+        """
+        Lowest service point id useable for RTE generated service points. [constr_1989] Existence of attribute RptProfile.minServicePointId: For each RptProfile, attribute minServicePointId shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing minServicePointId.
+        """
+        if value is not None:
+            self.minServicePointId = value
+        return self
+
+    def getServicePointSymbolPost(self) -> Optional[CIdentifier]:
+        """
+        Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        """
+        return self.servicePointSymbolPost
+
+    def setServicePointSymbolPost(self, value: Optional[CIdentifier]) -> "RptProfile":
+        """
+        Complete symbol of the function implementing the post service point. This symbol is used for post-build hooking purposes. [constr_1990] Existence of attribute RptProfile.servicePointSymbolPost: For each RptProfile, attribute servicePointSymbolPost shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing servicePointSymbolPost.
+        """
+        if value is not None:
+            self.servicePointSymbolPost = value
+        return self
+
+    def getServicePointSymbolPre(self) -> Optional[CIdentifier]:
+        """
+        Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        """
+        return self.servicePointSymbolPre
+
+    def setServicePointSymbolPre(self, value: Optional[CIdentifier]) -> "RptProfile":
+        """
+        Complete symbol of the function implementing the pre service point. This symbol is used for post-build hooking purposes. [constr_1991] Existence of attribute RptProfile.servicePointSymbolPre: For each RptProfile, attribute servicePointSymbolPre shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing servicePointSymbolPre.
+        """
+        if value is not None:
+            self.servicePointSymbolPre = value
+        return self
+
+    def getStimEnabler(self) -> Optional[RptEnablerImplTypeEnum]:
+        """
+        Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        """
+        return self.stimEnabler
+
+    def setStimEnabler(self, value: Optional[RptEnablerImplTypeEnum]) -> "RptProfile":
+        """
+        Defines if the service points support the stimulation enabler. If RptProfile.stimEnabler is "none" then no stimulation enabler is passed to the service function. Otherwise the stimulation enabler will be passed as a parameter. [constr_1992] Existence of attribute RptProfile.stimEnabler: For each RptProfile, attribute stimEnabler shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing stimEnabler.
+        """
+        if value is not None:
+            self.stimEnabler = value
+        return self
+
+
+class RptContainer(Identifiable, VariationPointCapable):
+    """
+    This meta-class defines a byPassPoint and the relation to a rptHook. Additionally it may contain further rptContainers if the byPassPoint is not atomic. For example a byPass Point referencing to a RunnableEntity may contain rptContainers referring to the data access points of the RunnableEntity. The RptContainer structure on M1 shall follow the M1 structure of the Software Component Descriptions. The category attribute denotes which level of the Software Component Description is annotated.
+    """
+
+    # RptContainer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.2, p.847
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addByPassPointIRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getByPassPointIRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addExplicitRptProfileSelectionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExplicitRptProfileSelectionRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRptContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptContainers                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRptExecutableEntityProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptExecutableEntityProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptHook                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptHook                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptImplPolicy                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptImplPolicy                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptSwPrototypingAccess          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptSwPrototypingAccess          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRptContainer/writeRptContainer (readIdentifiable/
+    # writeIdentifiable once each, Rule 0025; element <RPT-CONTAINER>, group RPT-CONTAINER
+    # XSD AUTOSAR_00052.xsd l.99633, sequenceOffset order BY-PASS-POINT-IREFS,
+    # EXPLICIT-RPT-PROFILE-SELECTION-REFS, RPT-CONTAINERS, RPT-EXECUTABLE-ENTITY-PROPERTIES,
+    # RPT-HOOKS, RPT-IMPL-POLICY, RPT-SW-PROTOTYPING-ACCESS, VARIATION-POINT). The recursive
+    # sub-container RPT-CONTAINERS dispatch lives in readRptContainer/writeRptContainer itself;
+    # the RapidPrototypingScenario.rptContainer dispatch is that class's own queued sync.
+    # get/setVariationPoint provided by the VariationPointCapable base (mixin) — no spec
+    # rows (Rule 0020: RptContainer.rptContainer atpVariation; XSD VARIATION-POINT
+    # xml.sequenceOffset 10000)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        self.byPassPointIRefs: List[AnyInstanceRef] = []
+
+        # This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        self.explicitRptProfileSelectionRefs: List[RefType] = []
+
+        # Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptContainers: List[RptContainer] = []
+
+        # Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        self.rptExecutableEntityProperties: Optional[RptExecutableEntityProperties] = None
+
+        # The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptHook: Optional[RptHook] = None
+
+        # Describes the required code preparation for rapid prototyping at data accesses.
+        self.rptImplPolicy: Optional[RptImplPolicy] = None
+
+        # Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        self.rptSwPrototypingAccess: Optional[RptSwPrototypingAccess] = None
+
+    def addByPassPointIRef(self, iref: Optional[AnyInstanceRef]) -> "RptContainer":
+        """
+        byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        A None value is a no-op and is not appended.
+        """
+        if iref is not None:
+            self.byPassPointIRefs.append(iref)
+        return self
+
+    def getByPassPointIRefs(self) -> List[AnyInstanceRef]:
+        """
+        byPassPoint describes the required preparation of the host ECU. At a byPassPoint the host ECU shall be capable to communicate with a RPT System in order to support the execution of the rapid prototyping algorithms with the original data calculated by the host system and to replace dedicated results of the host system by the results of the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=byPassPoint.contextElement, byPass Point.target, byPassPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime InstanceRef implemented by: AnyInstanceRef
+        """
+        return self.byPassPointIRefs
+
+    def addExplicitRptProfileSelectionRef(self, ref: Optional[RefType]) -> "RptContainer":
+        """
+        This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        A None value is a no-op and is not appended.
+        """
+        if ref is not None:
+            self.explicitRptProfileSelectionRefs.append(ref)
+        return self
+
+    def getExplicitRptProfileSelectionRefs(self) -> List[RefType]:
+        """
+        This attribute defines the applicable RptProfiles for the specific RptContainer. If not any references to a specific RptProfile is defined, all RptProfiles defined in the Rapid PrototypingScenario are applicable. Stereotypes: atpSplitable Tags: atp.Splitkey=explicitRptProfileSelection
+        """
+        return self.explicitRptProfileSelectionRefs
+
+    def createRptContainer(self, short_name: str) -> "RptContainer":
+        """
+        Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        The existing sub container is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptContainer):
+            sub_container = RptContainer(self, short_name)
+            self.addReferrableElement(sub_container)
+            self.rptContainers.append(sub_container)
+        return cast(RptContainer, self.getReferrableElement(short_name, RptContainer))
+
+    def getRptContainers(self) -> "List[RptContainer]":
+        """
+        Sub-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptContainers
+
+    def getRptExecutableEntityProperties(self) -> Optional[RptExecutableEntityProperties]:
+        """
+        Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        """
+        return self.rptExecutableEntityProperties
+
+    def setRptExecutableEntityProperties(self, value: Optional[RptExecutableEntityProperties]) -> "RptContainer":
+        """
+        Describes the required code preparation for rapid prototyping at ExecutableEntity invocation.
+        A None value is a no-op and does not overwrite an existing rptExecutableEntityProperties.
+        """
+        if value is not None:
+            self.rptExecutableEntityProperties = value
+        return self
+
+    def getRptHook(self) -> Optional[RptHook]:
+        """
+        The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptHook
+
+    def setRptHook(self, value: Optional[RptHook]) -> "RptContainer":
+        """
+        The rptHook describes the link between a byPassPoint and the rapid prototyping algorithm. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptHook, rptHook.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not overwrite an existing rptHook.
+        """
+        if value is not None:
+            self.rptHook = value
+        return self
+
+    def getRptImplPolicy(self) -> Optional[RptImplPolicy]:
+        """
+        Describes the required code preparation for rapid prototyping at data accesses.
+        """
+        return self.rptImplPolicy
+
+    def setRptImplPolicy(self, value: Optional[RptImplPolicy]) -> "RptContainer":
+        """
+        Describes the required code preparation for rapid prototyping at data accesses.
+        A None value is a no-op and does not overwrite an existing rptImplPolicy.
+        """
+        if value is not None:
+            self.rptImplPolicy = value
+        return self
+
+    def getRptSwPrototypingAccess(self) -> Optional[RptSwPrototypingAccess]:
+        """
+        Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        """
+        return self.rptSwPrototypingAccess
+
+    def setRptSwPrototypingAccess(self, value: Optional[RptSwPrototypingAccess]) -> "RptContainer":
+        """
+        Describes the required accessibility of data and modes by the rapid prototyping tooling.
+        A None value is a no-op and does not overwrite an existing rptSwPrototypingAccess.
+        """
+        if value is not None:
+            self.rptSwPrototypingAccess = value
+        return self
+
+
+class RapidPrototypingScenario(ARElement):
+    """
+    This meta-class provides the ability to describe a Rapid Prototyping Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects, the description of the byPassPoints and the relation to an rpt Hook. Tags: atp.recommendedPackage=RapidPrototypingScenarios
+    """
+
+    # RapidPrototypingScenario method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.1, p.846
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHostSystemRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHostSystemRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRptContainer  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptContainers    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRptProfile    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRptProfiles      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRptSystemRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRptSystemRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readRapidPrototypingScenario/writeRapidPrototypingScenario
+    # (readIdentifiable/writeIdentifiable once each, Rule 0025; element
+    # <RAPID-PROTOTYPING-SCENARIO>, group RAPID-PROTOTYPING-SCENARIO XSD AUTOSAR_00052.xsd
+    # l.95550, sequenceOffset order HOST-SYSTEM-REF, RPT-CONTAINERS, RPT-PROFILES,
+    # RPT-SYSTEM-REF). Aggregated by ARPackage.element — ELEMENTS dispatch branches in
+    # readARPackageElementsRest/writeARPackageElementRest via the ARPackage
+    # createRapidPrototypingScenario factory (RptContainer items via the sibling
+    # readRptContainer/writeRptContainer, RptProfile items via readRptProfile/writeRptProfile).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        self.hostSystemRef: Optional[RefType] = None
+
+        # Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.rptContainers: List[RptContainer] = []
+
+        # Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        self.rptProfiles: List[RptProfile] = []
+
+        # System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        self.rptSystemRef: Optional[RefType] = None
+
+    def getHostSystemRef(self) -> Optional[RefType]:
+        """
+        System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        """
+        return self.hostSystemRef
+
+    def setHostSystemRef(self, value: Optional[RefType]) -> "RapidPrototypingScenario":
+        """
+        System which describes the software components of the host ECU. [constr_1987] Existence of instance reference RapidPrototypingScenario.hostSystem: For each RapidPrototypingScenario, the instance reference to ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated.
+        A None value is a no-op and does not overwrite an existing hostSystemRef.
+        """
+        if value is not None:
+            self.hostSystemRef = value
+        return self
+
+    def createRptContainer(self, short_name: str) -> "RptContainer":
+        """
+        Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        The existing container is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptContainer):
+            container = RptContainer(self, short_name)
+            self.addReferrableElement(container)
+            self.rptContainers.append(container)
+        return cast(RptContainer, self.getReferrableElement(short_name, RptContainer))
+
+    def getRptContainers(self) -> List[RptContainer]:
+        """
+        Top-level rptContainer definitions of this specific rapid prototyping scenario. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=rptContainer.shortName, rpt Container.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.rptContainers
+
+    def createRptProfile(self, short_name: str) -> "RptProfile":
+        """
+        Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        The existing profile is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, RptProfile):
+            profile = RptProfile(self, short_name)
+            self.addReferrableElement(profile)
+            self.rptProfiles.append(profile)
+        return cast(RptProfile, self.getReferrableElement(short_name, RptProfile))
+
+    def getRptProfiles(self) -> List[RptProfile]:
+        """
+        Defiens the applicable Rapid Prototyping profils which are especially defining the smbol of the service functions and the valid id range. The order of the RptProfiles determines the order of the service function invocation by RTE. Stereotypes: atpSplitable Tags: atp.Splitkey=rptProfile.shortName
+        """
+        return self.rptProfiles
+
+    def getRptSystemRef(self) -> Optional[RefType]:
+        """
+        System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        """
+        return self.rptSystemRef
+
+    def setRptSystemRef(self, value: Optional[RefType]) -> "RapidPrototypingScenario":
+        """
+        System which describes the rapid prototyping algorithm in the format of AUTOSAR Software Components. Stereotypes: atpSplitable Tags: atp.Splitkey=rptSystem
+        A None value is a no-op and does not overwrite an existing rptSystemRef.
+        """
+        if value is not None:
+            self.rptSystemRef = value
         return self
 
 

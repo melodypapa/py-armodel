@@ -3182,6 +3182,42 @@ class TestWriterBswServiceDependency:
         assert secoc_element.find("SHORT-NAME").text == "needs"
         assert secoc_element.find("VERIFICATION-STATUS-INDICATION-MODE") is None
 
+    def test_writeBswServiceDependency_ids_mgr_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+
+        dependency = BswServiceDependency()
+        needs = IdsMgrNeeds(dependency, "needs")
+        needs.setUseSmartSensorApi(Boolean().setValue(True))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        ids_element = dep_element.find("SERVICE-NEEDS/IDS-MGR-NEEDS")
+        assert ids_element is not None
+        assert ids_element.find("SHORT-NAME").text == "needs"
+        assert ids_element.find("USE-SMART-SENSOR-API").text == "true"
+
+    def test_writeBswServiceDependency_ids_mgr_needs_empty_wrapper(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrNeeds
+
+        dependency = BswServiceDependency()
+        needs = IdsMgrNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        ids_element = dep_element.find("SERVICE-NEEDS/IDS-MGR-NEEDS")
+        assert ids_element is not None
+        assert ids_element.find("SHORT-NAME").text == "needs"
+        assert ids_element.find("USE-SMART-SENSOR-API") is None
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    PModeGroupInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef,
     RModeInAtomicSwcInstanceRef,
     RTriggerInAtomicSwcInstanceRef,
@@ -33,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     OperationInvokedEvent,
     OsTaskExecutionEvent,
     RTEEvent,
+    SwcModeManagerErrorEvent,
     SwcModeSwitchEvent,
     TimingEvent,
     TransformerHardErrorEvent,
@@ -989,3 +991,66 @@ class TestWaitPoint:
         assert typing.get_type_hints(point.getTriggerRef).get("return") == typing.Optional[RefType]
         assert typing.get_type_hints(point.setTriggerRef).get("value") == typing.Optional[RefType]
         assert typing.get_type_hints(point.setTriggerRef).get("return") is WaitPoint
+
+
+class TestSwcModeManagerErrorEvent:
+    """Test class for SwcModeManagerErrorEvent class (Table 9.8)."""
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """The class docstring carries the Table 9.8 Note + constr_1978 verbatim (class-name wrap-space joined)."""
+        assert inspect.getdoc(SwcModeManagerErrorEvent) == (
+            "This event is raised when an error occurred during the handling of the referenced ModeDeclarationGroupPrototype."
+            "\n\n"
+            "[constr_1978] Existence of attribute SwcModeManagerErrorEvent.modeGroup: For each SwcModeManagerErrorEvent, the instance reference to ModeDeclaration in the role modeGroup shall exist at the time when the RTE is generated."
+        )
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """Every accessor docstring is the spec Note copied verbatim (class-name wrap-space joined)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeManagerErrorEvent(ar_root, "TestSwcModeManagerErrorEvent")
+
+        note = "This represents the ModeDeclarationGroupPrototype for which this SwcModeManagerErrorEvent is raised in case of an error. InstanceRef implemented by: PModeGroupInAtomicSwcInstanceRef"
+
+        assert inspect.getdoc(event.getModeGroupIRef) == note
+        assert inspect.getdoc(event.setModeGroupIRef) == note + "\n\nA None value is a no-op and does not overwrite an existing modeGroupIRef."
+
+    def test_initialization(self):
+        """Test SwcModeManagerErrorEvent initialization defaults (own + inherited)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeManagerErrorEvent(ar_root, "TestSwcModeManagerErrorEvent")
+
+        assert event.parent == ar_root
+        assert event.short_name == "TestSwcModeManagerErrorEvent"
+        assert event.disabledModeIRefs == []
+        assert event.startOnEventRef is None
+        assert event.modeGroupIRef is None
+        assert isinstance(event, RTEEvent)
+
+    def test_get_set_mode_group_iref(self):
+        """setModeGroupIRef returns self, the value round-trips, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeManagerErrorEvent(ar_root, "TestSwcModeManagerErrorEvent")
+
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(RefType().setValue("/MyComponents/pp"))
+        iref.setTargetModeGroupRef(RefType().setValue("/MyComponents/mode_group"))
+        assert event.setModeGroupIRef(iref) is event
+        assert event.getModeGroupIRef() == iref
+        assert event.getModeGroupIRef().getContextPPortRef().getValue() == "/MyComponents/pp"
+        assert event.getModeGroupIRef().getTargetModeGroupRef().getValue() == "/MyComponents/mode_group"
+
+        event.setModeGroupIRef(None)
+        assert event.getModeGroupIRef() == iref
+
+    def test_accessor_type_hints(self):
+        """Accessors carry the spec-typed Optional[PModeGroupInAtomicSwcInstanceRef] annotations."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeManagerErrorEvent(ar_root, "TestSwcModeManagerErrorEvent")
+
+        assert typing.get_type_hints(event.getModeGroupIRef).get("return") == typing.Optional[PModeGroupInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setModeGroupIRef).get("value") == typing.Optional[PModeGroupInAtomicSwcInstanceRef]
+        assert typing.get_type_hints(event.setModeGroupIRef).get("return") is SwcModeManagerErrorEvent

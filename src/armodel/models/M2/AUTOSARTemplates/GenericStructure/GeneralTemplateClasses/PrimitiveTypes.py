@@ -1668,7 +1668,29 @@ class AclScopeEnum(AREnum):
 
 
 class AdditionalBindingTimeEnum(AREnum):
-    pass
+    """
+    This enumeration specifies the additional binding times applicable for vh.latestBindingTime of variation points.
+    """
+
+    # AdditionalBindingTimeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 12.4, p.700
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The point in time when an object is created from a blueprint. Tags: atp.EnumerationLiteralIndex=0
+    BLUEPRINT_DERIVATION_TIME = "BLUEPRINT-DERIVATION-TIME"
+
+    # After the executable has been built. Tags: atp.EnumerationLiteralIndex=1
+    POST_BUILD = "POST-BUILD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                AdditionalBindingTimeEnum.BLUEPRINT_DERIVATION_TIME,
+                AdditionalBindingTimeEnum.POST_BUILD,
+            ]
+        )
 
 
 class CouplingElementEnum(AREnum):
