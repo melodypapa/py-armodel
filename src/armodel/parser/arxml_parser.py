@@ -595,6 +595,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
+    GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
@@ -15599,6 +15600,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification) -> NetworkSegmentIdentification:
         self.readARObject(element, props)
         props.setNetworkSegmentId(self.getChildElementOptionalPositiveInteger(element, "NETWORK-SEGMENT-ID"))
+        return props
+
+    def readGlobalTimeCorrectionProps(self, element: ET.Element, props: GlobalTimeCorrectionProps) -> GlobalTimeCorrectionProps:
+        self.readARObject(element, props)
+        props.setOffsetCorrectionAdaptionInterval(self.getChildElementOptionalTimeValue(element, "OFFSET-CORRECTION-ADAPTION-INTERVAL"))
+        props.setOffsetCorrectionJumpThreshold(self.getChildElementOptionalTimeValue(element, "OFFSET-CORRECTION-JUMP-THRESHOLD"))
+        props.setRateCorrectionMeasurementDuration(self.getChildElementOptionalTimeValue(element, "RATE-CORRECTION-MEASUREMENT-DURATION"))
+        props.setRateCorrectionsPerMeasurementDuration(self.getChildElementOptionalPositiveInteger(element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION"))
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

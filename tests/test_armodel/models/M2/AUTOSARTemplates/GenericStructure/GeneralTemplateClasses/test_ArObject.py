@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
+    GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
@@ -4686,4 +4687,164 @@ class TestNetworkSegmentIdentification:
         assert inspect.cleandoc(NetworkSegmentIdentification.getNetworkSegmentId.__doc__) == self.NETWORK_SEGMENT_ID_NOTE
         assert inspect.cleandoc(NetworkSegmentIdentification.setNetworkSegmentId.__doc__) == (
             self.NETWORK_SEGMENT_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing networkSegmentId."
+        )
+
+
+class TestGlobalTimeCorrectionProps:
+    """
+    Test class for GlobalTimeCorrectionProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.7, p.862
+    """
+
+    CLASS_NOTE = "This meta-class defines the attributes for rate and offset correction."
+    OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE = "Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation."
+    OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE = (
+        "Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. "
+        "Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump."
+    )
+    RATE_CORRECTION_MEASUREMENT_DURATION_NOTE = "Definition of the time span which is used to calculate the rate deviation."
+    RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE = "Defines the number of simultaneous rate measurements to determine the current rate deviation."
+
+    def _create_object(self) -> GlobalTimeCorrectionProps:
+        return GlobalTimeCorrectionProps()
+
+    def test_initialization(self):
+        """
+        Test that a new GlobalTimeCorrectionProps initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getOffsetCorrectionAdaptionInterval() is None
+        assert obj.getOffsetCorrectionJumpThreshold() is None
+        assert obj.getRateCorrectionMeasurementDuration() is None
+        assert obj.getRateCorrectionsPerMeasurementDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that GlobalTimeCorrectionProps derives from ARObject per the Table 9.7 Base row.
+        """
+        assert issubclass(GlobalTimeCorrectionProps, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert GlobalTimeCorrectionProps.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.7 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in GlobalTimeCorrectionProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getOffsetCorrectionAdaptionInterval",
+            "setOffsetCorrectionAdaptionInterval",
+            "getOffsetCorrectionJumpThreshold",
+            "setOffsetCorrectionJumpThreshold",
+            "getRateCorrectionMeasurementDuration",
+            "setRateCorrectionMeasurementDuration",
+            "getRateCorrectionsPerMeasurementDuration",
+            "setRateCorrectionsPerMeasurementDuration",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec types (0..1 rows: TimeValue / PositiveInteger).
+        """
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getOffsetCorrectionAdaptionInterval)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.setOffsetCorrectionAdaptionInterval)
+        assert hints.get("value") == typing.Optional[TimeValue]
+        assert hints.get("return") is GlobalTimeCorrectionProps
+
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getOffsetCorrectionJumpThreshold)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getRateCorrectionMeasurementDuration)
+        assert hints.get("return") == typing.Optional[TimeValue]
+        hints = typing.get_type_hints(GlobalTimeCorrectionProps.getRateCorrectionsPerMeasurementDuration)
+        assert hints.get("return") == typing.Optional[PositiveInteger]
+
+    def test_get_set_offset_correction_adaption_interval(self):
+        """
+        Test getOffsetCorrectionAdaptionInterval and setOffsetCorrectionAdaptionInterval round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("0.005")
+        assert obj.setOffsetCorrectionAdaptionInterval(value) is obj
+        assert obj.getOffsetCorrectionAdaptionInterval() is value
+        assert obj.getOffsetCorrectionAdaptionInterval().getValue() == 0.005
+
+        obj.setOffsetCorrectionAdaptionInterval(None)
+        assert obj.getOffsetCorrectionAdaptionInterval() is value  # None is a no-op
+
+    def test_get_set_offset_correction_jump_threshold(self):
+        """
+        Test getOffsetCorrectionJumpThreshold and setOffsetCorrectionJumpThreshold round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("0.5")
+        assert obj.setOffsetCorrectionJumpThreshold(value) is obj
+        assert obj.getOffsetCorrectionJumpThreshold() is value
+
+        obj.setOffsetCorrectionJumpThreshold(None)
+        assert obj.getOffsetCorrectionJumpThreshold() is value  # None is a no-op
+
+    def test_get_set_rate_correction_measurement_duration(self):
+        """
+        Test getRateCorrectionMeasurementDuration and setRateCorrectionMeasurementDuration round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = TimeValue()
+        value.setValue("2.0")
+        assert obj.setRateCorrectionMeasurementDuration(value) is obj
+        assert obj.getRateCorrectionMeasurementDuration() is value
+
+        obj.setRateCorrectionMeasurementDuration(None)
+        assert obj.getRateCorrectionMeasurementDuration() is value  # None is a no-op
+
+    def test_get_set_rate_corrections_per_measurement_duration(self):
+        """
+        Test getRateCorrectionsPerMeasurementDuration and setRateCorrectionsPerMeasurementDuration round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = PositiveInteger()
+        value.setValue("3")
+        assert obj.setRateCorrectionsPerMeasurementDuration(value) is obj
+        assert obj.getRateCorrectionsPerMeasurementDuration() is value
+        assert obj.getRateCorrectionsPerMeasurementDuration().getValue() == 3
+
+        obj.setRateCorrectionsPerMeasurementDuration(None)
+        assert obj.getRateCorrectionsPerMeasurementDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getOffsetCorrectionAdaptionInterval.__doc__) == self.OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setOffsetCorrectionAdaptionInterval.__doc__) == (
+            self.OFFSET_CORRECTION_ADAPTION_INTERVAL_NOTE + none_no_op % "offsetCorrectionAdaptionInterval"
+        )
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getOffsetCorrectionJumpThreshold.__doc__) == self.OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setOffsetCorrectionJumpThreshold.__doc__) == (self.OFFSET_CORRECTION_JUMP_THRESHOLD_NOTE + none_no_op % "offsetCorrectionJumpThreshold")
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getRateCorrectionMeasurementDuration.__doc__) == self.RATE_CORRECTION_MEASUREMENT_DURATION_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setRateCorrectionMeasurementDuration.__doc__) == (
+            self.RATE_CORRECTION_MEASUREMENT_DURATION_NOTE + none_no_op % "rateCorrectionMeasurementDuration"
+        )
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.getRateCorrectionsPerMeasurementDuration.__doc__) == self.RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE
+        assert inspect.cleandoc(GlobalTimeCorrectionProps.setRateCorrectionsPerMeasurementDuration.__doc__) == (
+            self.RATE_CORRECTIONS_PER_MEASUREMENT_DURATION_NOTE + none_no_op % "rateCorrectionsPerMeasurementDuration"
         )

@@ -573,6 +573,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsReliability,
     DdsTopicData,
     DdsTransportPriority,
+    GlobalTimeCorrectionProps,
     NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
@@ -13140,6 +13141,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NETWORK-SEGMENT-ID")
         self.writeARObject(child_element, props)
         self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-SEGMENT-ID", cast(Integer, props.getNetworkSegmentId()))
+
+    def writeGlobalTimeCorrectionProps(self, element: ET.Element, props: GlobalTimeCorrectionProps):
+        child_element = ET.SubElement(element, "GLOBAL-TIME-CORRECTION-PROPS")
+        self.writeARObject(child_element, props)
+        self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-ADAPTION-INTERVAL", props.getOffsetCorrectionAdaptionInterval())
+        self.setChildElementOptionalTimeValue(child_element, "OFFSET-CORRECTION-JUMP-THRESHOLD", props.getOffsetCorrectionJumpThreshold())
+        self.setChildElementOptionalTimeValue(child_element, "RATE-CORRECTION-MEASUREMENT-DURATION", props.getRateCorrectionMeasurementDuration())
+        self.setChildElementOptionalPositiveInteger(child_element, "RATE-CORRECTIONS-PER-MEASUREMENT-DURATION", cast(Integer, props.getRateCorrectionsPerMeasurementDuration()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

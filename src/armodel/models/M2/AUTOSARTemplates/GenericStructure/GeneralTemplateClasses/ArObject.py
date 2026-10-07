@@ -3426,7 +3426,105 @@ class FlexrayTpEcu(ARObject):
 
 
 class GlobalTimeCorrectionProps(ARObject):
-    pass
+    """
+    This meta-class defines the attributes for rate and offset correction.
+    """
+
+    # GlobalTimeCorrectionProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.7, p.862
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionAdaptionInterval       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionAdaptionInterval       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffsetCorrectionJumpThreshold          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffsetCorrectionJumpThreshold          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateCorrectionMeasurementDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateCorrectionMeasurementDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRateCorrectionsPerMeasurementDuration  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRateCorrectionsPerMeasurementDuration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeDomain.globalTimeCorrectionProps) is pending — GlobalTimeDomain
+    # is a later-wave class; the reusable readGlobalTimeCorrectionProps /
+    # writeGlobalTimeCorrectionProps helpers own the GLOBAL-TIME-CORRECTION-PROPS element.
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+        self.offsetCorrectionAdaptionInterval: Optional[TimeValue] = None
+
+        # Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+        self.offsetCorrectionJumpThreshold: Optional[TimeValue] = None
+
+        # Definition of the time span which is used to calculate the rate deviation.
+        self.rateCorrectionMeasurementDuration: Optional[TimeValue] = None
+
+        # Defines the number of simultaneous rate measurements to determine the current rate deviation.
+        self.rateCorrectionsPerMeasurementDuration: Optional[PositiveInteger] = None
+
+    def getOffsetCorrectionAdaptionInterval(self) -> Optional[TimeValue]:
+        """
+        Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+        """
+        return self.offsetCorrectionAdaptionInterval
+
+    def setOffsetCorrectionAdaptionInterval(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Defines the interval during which the adaptive rate correction cancels out the rate- and time deviation.
+
+        A None value is a no-op and does not overwrite an existing offsetCorrectionAdaptionInterval.
+        """
+        if value is not None:
+            self.offsetCorrectionAdaptionInterval = value
+        return self
+
+    def getOffsetCorrectionJumpThreshold(self) -> Optional[TimeValue]:
+        """
+        Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+        """
+        return self.offsetCorrectionJumpThreshold
+
+    def setOffsetCorrectionJumpThreshold(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Threshold for the correction method. Deviations below this value will be corrected by a linear reduction over a defined timespan. Values equal- and greater than this value will be corrected by immediately setting the correct time- and rate in form of a jump.
+
+        A None value is a no-op and does not overwrite an existing offsetCorrectionJumpThreshold.
+        """
+        if value is not None:
+            self.offsetCorrectionJumpThreshold = value
+        return self
+
+    def getRateCorrectionMeasurementDuration(self) -> Optional[TimeValue]:
+        """
+        Definition of the time span which is used to calculate the rate deviation.
+        """
+        return self.rateCorrectionMeasurementDuration
+
+    def setRateCorrectionMeasurementDuration(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+        """
+        Definition of the time span which is used to calculate the rate deviation.
+
+        A None value is a no-op and does not overwrite an existing rateCorrectionMeasurementDuration.
+        """
+        if value is not None:
+            self.rateCorrectionMeasurementDuration = value
+        return self
+
+    def getRateCorrectionsPerMeasurementDuration(self) -> Optional[PositiveInteger]:
+        """
+        Defines the number of simultaneous rate measurements to determine the current rate deviation.
+        """
+        return self.rateCorrectionsPerMeasurementDuration
+
+    def setRateCorrectionsPerMeasurementDuration(self, value: Optional[PositiveInteger]) -> GlobalTimeCorrectionProps:
+        """
+        Defines the number of simultaneous rate measurements to determine the current rate deviation.
+
+        A None value is a no-op and does not overwrite an existing rateCorrectionsPerMeasurementDuration.
+        """
+        if value is not None:
+            self.rateCorrectionsPerMeasurementDuration = value
+        return self
 
 
 class GlobalTimeSlave(ARObject, ABC):
