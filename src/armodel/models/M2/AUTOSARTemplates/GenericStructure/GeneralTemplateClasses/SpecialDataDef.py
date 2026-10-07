@@ -55,7 +55,8 @@ class SdgElementWithGid(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.gid = value
+        if value is not None:
+            self.gid = value
         return self
 
 
