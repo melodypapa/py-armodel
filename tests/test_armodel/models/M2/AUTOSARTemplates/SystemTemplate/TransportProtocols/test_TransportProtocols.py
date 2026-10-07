@@ -12,6 +12,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
     FlexrayTpConnectionControl,
@@ -747,3 +750,33 @@ class TestTransportProtocols:
         config.addTpEcu(ecu)
         assert ecu in config.getTpEcus()
         assert config == config.addTpEcu(ecu)
+
+    def test_flexray_ar_tp_config(self):
+        """
+        Test FlexrayArTpConfig class functionality (R23-11, Table 6.245, p.600).
+        """
+        parent = MockParent()
+        config = FlexrayArTpConfig(parent, "test_flexray_ar_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpAddresses() == []
+        assert config.getTpChannels() == []
+        assert config.getTpNodes() == []
+
+        # Test create methods
+        address = config.createTpAddress("address_name")
+        assert isinstance(address, TpAddress)
+        assert address in config.getTpAddresses()
+
+        node = config.createFlexrayArTpNode("node_name")
+        assert isinstance(node, FlexrayArTpNode)
+        assert node in config.getTpNodes()
+
+        # Test addTpChannel
+        channel = FlexrayArTpChannel()
+        config.addTpChannel(channel)
+        assert channel in config.getTpChannels()
+        assert config == config.addTpChannel(channel)

@@ -2223,7 +2223,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FlexrayArTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
     ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "FlexrayArTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",

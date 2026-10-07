@@ -200,8 +200,6 @@ LetDataExchangeParadigmEnum
 LifeCyclePeriod
 LinConfigurationEntry
 LinFrame
-LinTpConfig
-LinTpNode
 LinUnconditionalFrame
 Linker
 LinkerSymbolValue

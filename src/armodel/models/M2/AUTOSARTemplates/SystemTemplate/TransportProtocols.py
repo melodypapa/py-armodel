@@ -9,10 +9,10 @@ from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import FlexrayTpConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FlexrayTpConnectionControl, FlexrayTpNode, FlexrayTpPduPool, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FlexrayArTpNode, FlexrayTpConnectionControl, FlexrayTpNode, FlexrayTpPduPool, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayTpEcu
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, FlexrayTpEcu
 
 
 class TpConfig(FibexElement, ABC):
@@ -1553,3 +1553,80 @@ class FlexrayTpConfig(TpConfig):
             self.addReferrableElement(node)
             self.tpNodes.append(node)
         return cast(FlexrayTpNode, self.getReferrableElement(short_name, FlexrayTpNode))
+
+
+class FlexrayArTpConfig(TpConfig):
+    """
+    This element defines exactly one FlexRay Autosar TP Configuration. One FlexrayArTpConfig element shall be created for each FlexRay Network in the System that uses Flex Ray Autosar TP. Tags: atp.recommendedPackage=TpConfigs
+    """
+
+    # FlexrayArTpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.245, p.600
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddresses           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTpAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpChannels            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpChannel             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createFlexrayArTpNode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of TpAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpAddresses: List[TpAddress] = []
+
+        # Configuration of FlexRay Autosar Transport Protocol channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel, tpChannel.variationPoint.short Label vh.latestBindingTime=postBuild
+        self.tpChannels: List[FlexrayArTpChannel] = []
+
+        # Senders and receivers of TP messages. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpNodes: List[FlexrayArTpNode] = []
+
+    def getTpAddresses(self) -> List[TpAddress]:
+        """
+        Collection of TpAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpAddresses
+
+    def createTpAddress(self, short_name: str) -> TpAddress:
+        """
+        Collection of TpAddresses. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, TpAddress):
+            address = TpAddress(self, short_name)
+            self.addReferrableElement(address)
+            self.tpAddresses.append(address)
+        return cast(TpAddress, self.getReferrableElement(short_name, TpAddress))
+
+    def getTpChannels(self) -> List[FlexrayArTpChannel]:
+        """
+        Configuration of FlexRay Autosar Transport Protocol channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel, tpChannel.variationPoint.short Label vh.latestBindingTime=postBuild
+        """
+        return self.tpChannels
+
+    def addTpChannel(self, value: Optional[FlexrayArTpChannel]) -> FlexrayArTpConfig:
+        """
+        Configuration of FlexRay Autosar Transport Protocol channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel, tpChannel.variationPoint.short Label vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpChannels.
+        """
+        if value is not None:
+            self.tpChannels.append(value)
+        return self
+
+    def getTpNodes(self) -> List[FlexrayArTpNode]:
+        """
+        Senders and receivers of TP messages. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpNodes
+
+    def createFlexrayArTpNode(self, short_name: str) -> FlexrayArTpNode:
+        """
+        Senders and receivers of TP messages. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, FlexrayArTpNode):
+            node = FlexrayArTpNode(self, short_name)
+            self.addReferrableElement(node)
+            self.tpNodes.append(node)
+        return cast(FlexrayArTpNode, self.getReferrableElement(short_name, FlexrayArTpNode))

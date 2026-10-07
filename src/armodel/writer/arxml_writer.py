@@ -1300,6 +1300,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
     FlexrayTpConnectionControl,
@@ -10517,6 +10520,54 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFlexrayTpConfigTpEcus(child_element, config)
         self.writeFlexrayTpConfigTpNodes(child_element, config)
 
+    def writeFlexrayArTpConfigTpAddresses(self, element: ET.Element, config: FlexrayArTpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, TpAddress):
+                    self.writeTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
+        if channel is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-AR-TP-CHANNEL")
+            self.writeARObject(child_element, channel)
+
+    def writeFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
+        channels = config.getTpChannels()
+        if len(channels) > 0:
+            child_element = ET.SubElement(element, "TP-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, FlexrayArTpChannel):
+                    self.writeFlexrayArTpChannel(child_element, channel)
+                else:
+                    self.notImplemented("Unsupported TpChannel <%s>" % type(channel))
+
+    def writeFlexrayArTpNode(self, element: ET.Element, tp_node: FlexrayArTpNode):
+        if tp_node is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-AR-TP-NODE")
+            self.writeIdentifiable(child_element, tp_node)
+
+    def writeFlexrayArTpConfigTpNodes(self, element: ET.Element, config: FlexrayArTpConfig):
+        tp_nodes = config.getTpNodes()
+        if len(tp_nodes) > 0:
+            child_element = ET.SubElement(element, "TP-NODES")
+            for tp_node in tp_nodes:
+                if isinstance(tp_node, FlexrayArTpNode):
+                    self.writeFlexrayArTpNode(child_element, tp_node)
+                else:
+                    self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
+
+    def writeFlexrayArTpConfig(self, element: ET.Element, config: FlexrayArTpConfig):
+        self.logger.debug("Write FlexrayArTpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-AR-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeFlexrayArTpConfigTpAddresses(child_element, config)
+        self.writeFlexrayArTpConfigTpChannels(child_element, config)
+        self.writeFlexrayArTpConfigTpNodes(child_element, config)
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -18815,6 +18866,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeLinTpConfig(element, ar_element)
         elif isinstance(ar_element, FlexrayTpConfig):
             self.writeFlexrayTpConfig(element, ar_element)
+        elif isinstance(ar_element, FlexrayArTpConfig):
+            self.writeFlexrayArTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

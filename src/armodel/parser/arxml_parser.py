@@ -1557,6 +1557,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayArTpChannel,
+    FlexrayArTpConfig,
+    FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
     FlexrayTpConnectionControl,
@@ -14304,6 +14307,47 @@ class ARXMLParser(AbstractARXMLParser):
         self.readFlexrayTpConfigTpEcus(element, config)
         self.readFlexrayTpConfigTpNodes(element, config)
 
+    def readFlexrayArTpConfigTpAddresses(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
+        self.readARObject(element, channel)
+
+    def readFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CHANNEL":
+                channel = FlexrayArTpChannel()
+                self.readFlexrayArTpChannel(child_element, channel)
+                config.addTpChannel(channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readFlexrayArTpNode(self, element: ET.Element, tp_node: FlexrayArTpNode):
+        self.readIdentifiable(element, tp_node)
+
+    def readFlexrayArTpConfigTpNodes(self, element: ET.Element, config: FlexrayArTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-NODE":
+                tp_node = config.createFlexrayArTpNode(self.getShortName(child_element))
+                self.readFlexrayArTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayArTpConfig(self, element: ET.Element, config: FlexrayArTpConfig):
+        self.logger.debug("Read FlexrayArTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayArTpConfigTpAddresses(element, config)
+        self.readFlexrayArTpConfigTpChannels(element, config)
+        self.readFlexrayArTpConfigTpNodes(element, config)
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18444,6 +18488,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readLinTpConfig(child_element, parent.createLinTpConfig(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-TP-CONFIG":
                 self.readFlexrayTpConfig(child_element, parent.createFlexrayTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-AR-TP-CONFIG":
+                self.readFlexrayArTpConfig(child_element, parent.createFlexrayArTpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
