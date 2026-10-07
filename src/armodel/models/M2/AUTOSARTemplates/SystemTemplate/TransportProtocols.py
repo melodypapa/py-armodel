@@ -838,6 +838,7 @@ class DoIpTpConnection(TpConnection):
 
     # DoIpTpConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.206, p.555
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDoIpSourceAddressRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
