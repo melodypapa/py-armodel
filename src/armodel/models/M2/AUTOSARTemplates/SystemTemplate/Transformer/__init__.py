@@ -297,53 +297,52 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # EndToEndTransformationDescription method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.23, p.807
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getClearFromValidToInvalid           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClearFromValidToInvalid           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCounterOffset                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCounterOffset                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrcOffset                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrcOffset                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdMode                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdMode                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataIdNibbleOffset                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataIdNibbleOffset                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE2eProfileCompatibilityPropsRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE2eProfileCompatibilityPropsRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxDeltaCounter                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxDeltaCounter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInit                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInit                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateInvalid              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateInvalid              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxErrorStateValid                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxErrorStateValid                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNoNewOrRepeatedData            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNoNewOrRepeatedData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInit                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInit                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateInvalid                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateInvalid                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinOkStateValid                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinOkStateValid                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOffset                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOffset                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProfileBehavior                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProfileBehavior                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProfileName                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProfileName                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSyncCounterInit                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSyncCounterInit                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperHeaderBitsToShift            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperHeaderBitsToShift            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInit                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInit                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeInvalid                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeInvalid                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWindowSizeValid                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWindowSizeValid                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
