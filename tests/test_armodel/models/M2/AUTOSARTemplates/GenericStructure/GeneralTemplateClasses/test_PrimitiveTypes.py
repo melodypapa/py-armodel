@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     CIdentifier,
     CseCodeType,
+    DataConsistencyPolicyEnum,
     DateTime,
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
@@ -3542,3 +3543,46 @@ class TestDdsHistoryKindEnum:
         enum.setValue(DdsHistoryKindEnum.KEEP_ALL)
 
         assert enum.getValue() == DdsHistoryKindEnum.KEEP_ALL
+
+
+class TestDataConsistencyPolicyEnum:
+    """
+    Test class for DataConsistencyPolicyEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.11, p.903
+    """
+
+    def test_initialization(self):
+        """
+        Test DataConsistencyPolicyEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DataConsistencyPolicyEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED,
+            DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DataConsistencyPolicyEnum member values.
+        """
+        enum = DataConsistencyPolicyEnum()
+
+        assert DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED == "CONSISTENCY-MECHANISM-REQUIRED"
+        assert DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM == "NO-CONSISTENCY-MECHANISM"
+
+        assert enum.validateEnumValue("CONSISTENCY-MECHANISM-REQUIRED") is True
+        assert enum.validateEnumValue("NO-CONSISTENCY-MECHANISM") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DataConsistencyPolicyEnum instantiability and getValue.
+        """
+        enum = DataConsistencyPolicyEnum()
+        enum.setValue(DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM)
+
+        assert enum.getValue() == DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM

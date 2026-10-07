@@ -1703,7 +1703,29 @@ class CryptoServiceKeyGenerationEnum(AREnum):
 
 
 class DataConsistencyPolicyEnum(AREnum):
-    pass
+    """
+    Defines how data consistency is ensured in the cross cluster communication.
+
+    # DataConsistencyPolicyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.11, p.903
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute dataConsistencyPolicy)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # In this case the data consistency is ensured by the implementation of the SwClucC module. Tags: atp.EnumerationLiteralIndex=0
+    CONSISTENCY_MECHANISM_REQUIRED = "CONSISTENCY-MECHANISM-REQUIRED"
+
+    # In this case the data consistency is not ensured by the SwClucC module. In this case it has to be ensured by scheduling. Tags: atp.EnumerationLiteralIndex=1
+    NO_CONSISTENCY_MECHANISM = "NO-CONSISTENCY-MECHANISM"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataConsistencyPolicyEnum.CONSISTENCY_MECHANISM_REQUIRED,
+                DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM,
+            ]
+        )
 
 
 class DataExchangePointKind(AREnum):
