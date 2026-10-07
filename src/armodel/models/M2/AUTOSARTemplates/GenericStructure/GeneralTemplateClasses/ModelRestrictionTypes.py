@@ -101,7 +101,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.max = value
+        if value is not None:
+            self.max = value
         return self
 
     def getMaxLength(self) -> Optional[PositiveInteger]:
@@ -123,7 +124,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.maxLength = value
+        if value is not None:
+            self.maxLength = value
         return self
 
     def getMin(self) -> Optional[Limit]:
@@ -145,7 +147,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.min = value
+        if value is not None:
+            self.min = value
         return self
 
     def getMinLength(self) -> Optional[PositiveInteger]:
@@ -167,7 +170,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.minLength = value
+        if value is not None:
+            self.minLength = value
         return self
 
     def getPattern(self) -> Optional[RegularExpression]:
@@ -189,7 +193,8 @@ class AbstractValueRestriction(ARObject, ABC):
         Returns:
             self for method chaining
         """
-        self.pattern = value
+        if value is not None:
+            self.pattern = value
         return self
 
 
