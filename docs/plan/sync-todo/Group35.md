@@ -200,15 +200,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ModeInBswInstanceRef` — ModeInSwcBswInstanceRef — R23-11 CP_TPS_TimingExtensions Table 3.11, p.38
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule-0023 re-sync — stale marker removed, 6-column block. Docstrings re-written verbatim: the legacy
+    class docstring carried appended [constr_6853/6854] constraint prose (not part of the spec Note) — dropped;
+    the accessor Notes' "Tags: xml.sequenceOffset=10/20/30" tails (legacy-dropped) restored. Member order
+    matches the table display order (= sequenceOffset order here). Reader/writer (XSD-only abstract base
+    helper pair) pre-existed and verified.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TDEventVfbReference` — TDEventVfb — R23-11 CP_TPS_TimingExtensions Table 3.15, p.52
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/TimingDescriptionEvents/TDEventVfb.py

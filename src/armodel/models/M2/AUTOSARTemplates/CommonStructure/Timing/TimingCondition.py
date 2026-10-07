@@ -35,62 +35,76 @@ class ModeInSwcBswInstanceRef(ARObject, ABC):
 
 class ModeInBswInstanceRef(ModeInSwcBswInstanceRef):
     """
-    Instance reference to be capable of referencing a specific ModeDeclaration of a ModeDeclarationGroupPrototype utilized in a BSW module.
-
-    [constr_6853] Existence of ModeInBswInstanceRef.contextModeDeclarationGroupPrototype: For each ModeInBswInstanceRef, the reference to ModeDeclarationGroupPrototype in the role contextModeDeclarationGroupPrototype shall exist at least once at the time when the Bsw Timing Description is complete.
-    [constr_6854] Existence of ModeInBswInstanceRef.targetModeDeclaration: For each ModeInBswInstanceRef, the reference to ModeDeclaration in the role targetModeDeclaration shall exist at least once at the time when the Bsw Timing Description is complete.
+    Instance reference to be capable of referencing a specific ModeDeclaration of a ModeDeclarationGroup Prototype utilized in a BSW module.
     """
 
     # ModeInBswInstanceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.11, p.38
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetModeDeclarationRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextBswImplementationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextBswImplementationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextModeDeclarationGroupPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetModeDeclarationRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetModeDeclarationRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # Specifies the BSW implementation that manifests the context.
+        # Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
         self.contextBswImplementationRef: Optional[RefType] = None
 
-        # Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete.
+        # Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
         self.contextModeDeclarationGroupPrototypeRef: Optional[RefType] = None
 
-        # Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete.
+        # Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
         self.targetModeDeclarationRef: Optional[RefType] = None
 
     def getContextBswImplementationRef(self) -> Optional[RefType]:
-        """Specifies the BSW implementation that manifests the context."""
+        """
+        Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
+        """
         return self.contextBswImplementationRef
 
     def setContextBswImplementationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the BSW implementation that manifests the context. A None value is a no-op and does not overwrite an existing contextBswImplementationRef."""
+        """
+        Specifies the BSW implementation that manifests the context. Tags: xml.sequenceOffset=10
+
+        A None value is a no-op and does not overwrite an existing contextBswImplementationRef.
+        """
         if value is not None:
             self.contextBswImplementationRef = value
         return self
 
     def getContextModeDeclarationGroupPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
+        """
+        Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
+        """
         return self.contextModeDeclarationGroupPrototypeRef
 
     def setContextModeDeclarationGroupPrototypeRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the mode declaration group prototype that manifests the context. [constr_6853] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef."""
+        """
+        Specifies the mode declaration group prototype that manifests the context. Tags: xml.sequenceOffset=20
+
+        A None value is a no-op and does not overwrite an existing contextModeDeclarationGroupPrototypeRef.
+        """
         if value is not None:
             self.contextModeDeclarationGroupPrototypeRef = value
         return self
 
     def getTargetModeDeclarationRef(self) -> Optional[RefType]:
-        """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete."""
+        """
+        Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
+        """
         return self.targetModeDeclarationRef
 
     def setTargetModeDeclarationRef(self, value: Optional[RefType]) -> ModeInBswInstanceRef:
-        """Specifies the specific mode declaration in the given context. [constr_6854] The reference shall exist at least once at the time when the Bsw Timing Description is complete. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
+        """
+        Specifies the specific mode declaration in the given context. Tags: xml.sequenceOffset=30
+
+        A None value is a no-op and does not overwrite an existing targetModeDeclarationRef.
+        """
         if value is not None:
             self.targetModeDeclarationRef = value
         return self
