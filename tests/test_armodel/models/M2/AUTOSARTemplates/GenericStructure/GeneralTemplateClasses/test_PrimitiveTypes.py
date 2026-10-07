@@ -65,6 +65,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWwhObdDtcClassEnum,
     DiagRequirementIdString,
     DisplayFormatString,
+    EthGlobalTimeMessageFormatEnum,
     Float,
     Identifier,
     Integer,
@@ -3586,3 +3587,46 @@ class TestDataConsistencyPolicyEnum:
         enum.setValue(DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM)
 
         assert enum.getValue() == DataConsistencyPolicyEnum.NO_CONSISTENCY_MECHANISM
+
+
+class TestEthGlobalTimeMessageFormatEnum:
+    """
+    Test class for EthGlobalTimeMessageFormatEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.16, p.868
+    """
+
+    def test_initialization(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            EthGlobalTimeMessageFormatEnum.IEEE802_1AS,
+            EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum member values.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+
+        assert EthGlobalTimeMessageFormatEnum.IEEE802_1AS == "IEEE802-1AS"
+        assert EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR == "IEEE802-1AS-AUTOSAR"
+
+        assert enum.validateEnumValue("IEEE802-1AS") is True
+        assert enum.validateEnumValue("IEEE802-1AS-AUTOSAR") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test EthGlobalTimeMessageFormatEnum instantiability and getValue.
+        """
+        enum = EthGlobalTimeMessageFormatEnum()
+        enum.setValue(EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR)
+
+        assert enum.getValue() == EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR

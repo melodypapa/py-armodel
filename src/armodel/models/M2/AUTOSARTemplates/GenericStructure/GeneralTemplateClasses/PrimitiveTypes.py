@@ -2843,7 +2843,29 @@ class DiagnosticWwhObdDtcClassEnum(AREnum):
 
 
 class EthGlobalTimeMessageFormatEnum(AREnum):
-    pass
+    """
+    Specifies which message formats are available to for the Ethernet time sync protocol.
+
+    # EthGlobalTimeMessageFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.16, p.868
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute messageCompliance)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # Message format according to IEEE 802.1AS standard. Tags: atp.EnumerationLiteralIndex=0 xml.name=IEEE802-1AS
+    IEEE802_1AS = "IEEE802-1AS"
+
+    # Message format according to IEEE 802.1AS standard with AUTOSAR extensions. Tags: atp.EnumerationLiteralIndex=1 xml.name=IEEE802-1AS-AUTOSAR
+    IEEE802_1AS_AUTOSAR = "IEEE802-1AS-AUTOSAR"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthGlobalTimeMessageFormatEnum.IEEE802_1AS,
+                EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR,
+            ]
+        )
 
 
 class FMFeatureSelectionState(AREnum):
