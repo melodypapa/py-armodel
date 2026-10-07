@@ -3,6 +3,8 @@ from __future__ import annotations
 from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
@@ -340,7 +342,7 @@ class SignalServiceTranslationProps(Identifiable):
         return self.signalServiceTranslationEventProps
 
 
-class SignalServiceTranslationPropsSet(Identifiable):
+class SignalServiceTranslationPropsSet(ARElement):
     """
     Collection of SignalServiceTranslationProps. Tags: atp.recommendedPackage=SignalServiceTranslationProps
     """
@@ -352,7 +354,7 @@ class SignalServiceTranslationPropsSet(Identifiable):
     # [x] createSignalServiceTranslationProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSignalServiceTranslationProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
-    def __init__(self, parent: Identifiable, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # Collection of SignalServiceTranslationProps.
