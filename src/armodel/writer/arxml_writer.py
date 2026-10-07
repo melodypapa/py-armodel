@@ -560,6 +560,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
+    DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
@@ -1358,6 +1359,13 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDestinationOrderKindEnum literal values and their XML element text
+#: (AR:DDS-DESTINATION-ORDER-KIND-ENUM--SIMPLE).
+DDS_DESTINATION_ORDER_KIND_XML_MAP = {
+    "BY-RECEPTION-TIMESTAMP": "BY-RECEPTION-TIMESTAMP",
+    "BY-SOURCE-TIMESTAMP": "BY-SOURCE-TIMESTAMP",
 }
 
 #: Mapping between DdsDurabilityKindEnum literal values and their XML element text
@@ -15714,8 +15722,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         deadline = profile.getDeadline()
         if deadline is not None:
             self.writeDdsDeadline(child_element, deadline)
-        if profile.getDestinationOrder() is not None:
-            ET.SubElement(child_element, "DESTINATION-ORDER")
+        destination_order = profile.getDestinationOrder()
+        if destination_order is not None:
+            self.writeDdsDestinationOrder(child_element, destination_order)
         durability = profile.getDurability()
         if durability is not None:
             self.writeDdsDurability(child_element, durability)
@@ -15818,6 +15827,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "LIFESPAN")
         self.writeARObject(child_element, lifespan)
         self.setChildElementOptionalFloatValue(child_element, "LIFESPAN-DURATION", lifespan.getLifespanDuration())
+
+    def writeDdsDestinationOrder(self, element: ET.Element, destination_order: DdsDestinationOrder):
+        child_element = ET.SubElement(element, "DESTINATION-ORDER")
+        self.writeARObject(child_element, destination_order)
+        self._writeEnumToken(child_element, "DESTINATION-ORDER-KIND", destination_order.getDestinationOrderKind(), DDS_DESTINATION_ORDER_KIND_XML_MAP)
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

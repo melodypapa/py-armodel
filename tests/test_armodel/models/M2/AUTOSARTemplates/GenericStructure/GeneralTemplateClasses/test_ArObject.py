@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDeadline,
+    DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
@@ -54,6 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
@@ -4149,3 +4151,67 @@ class TestDdsLifespan:
         none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
         assert inspect.cleandoc(DdsLifespan.getLifespanDuration.__doc__) == self.LIFESPAN_DURATION_NOTE
         assert inspect.cleandoc(DdsLifespan.setLifespanDuration.__doc__) == (self.LIFESPAN_DURATION_NOTE + none_no_op % "lifespanDuration")
+
+
+class TestDdsDestinationOrder:
+    """
+    Test class for DdsDestinationOrder functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.196, p.536
+    """
+
+    CLASS_NOTE = "Describes the DDS DESTINATION_ORDER QoS policy. Tags: atp.Status=candidate"
+    DESTINATION_ORDER_KIND_NOTE = 'See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_destination_order(self) -> DdsDestinationOrder:
+        return DdsDestinationOrder()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDestinationOrder initializes all attributes to their defaults.
+        """
+        obj = self._create_destination_order()
+
+        assert obj.getDestinationOrderKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDestinationOrder derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDestinationOrder, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDestinationOrder.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDestinationOrder.__init__.__doc__ is None
+
+    def test_get_set_destination_order_kind(self):
+        """
+        Test getDestinationOrderKind and setDestinationOrderKind round-trip and None no-op.
+        """
+        obj = self._create_destination_order()
+
+        value = DdsDestinationOrderKindEnum().setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP)
+        result = obj.setDestinationOrderKind(value)
+        assert result is obj  # method chaining
+        assert obj.getDestinationOrderKind() is value
+        assert obj.getDestinationOrderKind().getValue() == DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP
+
+        result = obj.setDestinationOrderKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDestinationOrderKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsDestinationOrder.getDestinationOrderKind.__doc__) == self.DESTINATION_ORDER_KIND_NOTE
+        assert inspect.cleandoc(DdsDestinationOrder.setDestinationOrderKind.__doc__) == (self.DESTINATION_ORDER_KIND_NOTE + none_no_op % "destinationOrderKind")

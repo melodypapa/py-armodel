@@ -25,6 +25,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     DdsDeadline,
+    DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
     DdsHistory,
@@ -66,11 +67,17 @@ class TestReadDdsCpQosProfile:
         """Test that unsynced Dds* QoS policy children are constructed identity-only (presence round-trips)."""
         profile = self._read(
             parser,
-            "<DESTINATION-ORDER/><HISTORY><HISTORY-KIND>KEEP-LAST</HISTORY-KIND></HISTORY>",
+            "<LIFESPAN><LIFESPAN-DURATION>10.0</LIFESPAN-DURATION></LIFESPAN>",
         )
-        assert profile.getDestinationOrder() is not None
-        assert isinstance(profile.getHistory(), DdsHistory)
+        assert isinstance(profile.getLifespan(), DdsLifespan)
         assert profile.getResourceLimits() is None
+
+    def test_read_sets_destination_order_with_values(self, parser):
+        """Test that the synced DdsDestinationOrder child is read with its field values."""
+        profile = self._read(parser, "<DESTINATION-ORDER><DESTINATION-ORDER-KIND>BY-SOURCE-TIMESTAMP</DESTINATION-ORDER-KIND></DESTINATION-ORDER>")
+        assert isinstance(profile.getDestinationOrder(), DdsDestinationOrder)
+        assert profile.getDestinationOrder().getDestinationOrderKind() is not None
+        assert profile.getDestinationOrder().getDestinationOrderKind().getValue() == "BY-SOURCE-TIMESTAMP"
 
     def test_read_sets_lifespan_with_values(self, parser):
         """Test that the synced DdsLifespan child is read with its field values."""

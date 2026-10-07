@@ -775,6 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsDestinationOrderKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -1632,6 +1633,13 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDestinationOrderKindEnum literal values and their XML element text
+#: (AR:DDS-DESTINATION-ORDER-KIND-ENUM--SIMPLE).
+DDS_DESTINATION_ORDER_KIND_XML_MAP = {
+    "BY-RECEPTION-TIMESTAMP": "BY-RECEPTION-TIMESTAMP",
+    "BY-SOURCE-TIMESTAMP": "BY-SOURCE-TIMESTAMP",
 }
 
 #: Mapping between DdsDurabilityKindEnum literal values and their XML element text
@@ -11947,8 +11955,11 @@ class ARXMLParser(AbstractARXMLParser):
             deadline = DdsDeadline()
             self.readDdsDeadline(deadline_element, deadline)
             profile.setDeadline(deadline)
-        if self.find(element, "DESTINATION-ORDER") is not None:
-            profile.setDestinationOrder(DdsDestinationOrder())
+        destination_order_element = self.find(element, "DESTINATION-ORDER")
+        if destination_order_element is not None:
+            destination_order = DdsDestinationOrder()
+            self.readDdsDestinationOrder(destination_order_element, destination_order)
+            profile.setDestinationOrder(destination_order)
         durability_element = self.find(element, "DURABILITY")
         if durability_element is not None:
             durability = DdsDurability()
@@ -12073,6 +12084,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsLifespan")
         self.readARObject(element, lifespan)
         lifespan.setLifespanDuration(self.getChildElementOptionalFloatValue(element, "LIFESPAN-DURATION"))
+
+    def readDdsDestinationOrder(self, element: ET.Element, destination_order: DdsDestinationOrder):
+        self.logger.debug("Read DdsDestinationOrder")
+        self.readARObject(element, destination_order)
+        destination_order.setDestinationOrderKind(self._readEnumToken(element, "DESTINATION-ORDER-KIND", DdsDestinationOrderKindEnum, DDS_DESTINATION_ORDER_KIND_XML_MAP))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

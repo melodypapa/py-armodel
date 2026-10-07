@@ -18,6 +18,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     DdsDeadline,
+    DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
     DdsHistory,
@@ -34,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsDestinationOrderKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -86,6 +88,9 @@ def _new_profile() -> DdsCpQosProfile:
     lifespan = DdsLifespan()
     lifespan.setLifespanDuration(Float().setValue("10.0"))
     profile.setLifespan(lifespan)
+    destination_order = DdsDestinationOrder()
+    destination_order.setDestinationOrderKind(DdsDestinationOrderKindEnum().setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP))
+    profile.setDestinationOrder(destination_order)
     durability_service = DdsDurabilityService()
     durability_service.setDurabilityServiceCleanupDelay(Float().setValue("2.5"))
     durability_service.setDurabilityServiceHistoryKind(DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST))
@@ -164,6 +169,15 @@ class TestWriteDdsCpQosProfile:
         lifespan_node = node.find("LIFESPAN")
         assert lifespan_node is not None
         assert lifespan_node.find("LIFESPAN-DURATION").text == "10.0"
+
+    def test_write_emits_destination_order_fully(self):
+        """Test that the synced DdsDestinationOrder child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        destination_order_node = node.find("DESTINATION-ORDER")
+        assert destination_order_node is not None
+        assert destination_order_node.find("DESTINATION-ORDER-KIND").text == "BY-SOURCE-TIMESTAMP"
 
     def test_write_emits_ownership_strength_fully(self):
         """Test that the synced DdsOwnershipStrength child serializes with its values."""
@@ -265,5 +279,7 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getTransportPriority().getTransportPriority().getValue() == 4
         assert isinstance(reloaded.getLifespan(), DdsLifespan)
         assert reloaded.getLifespan().getLifespanDuration().getValue() == 10.0
+        assert isinstance(reloaded.getDestinationOrder(), DdsDestinationOrder)
+        assert reloaded.getDestinationOrder().getDestinationOrderKind().getValue() == "BY-SOURCE-TIMESTAMP"
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

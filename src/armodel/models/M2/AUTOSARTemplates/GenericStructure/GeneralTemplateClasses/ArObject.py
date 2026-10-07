@@ -2641,7 +2641,38 @@ class DdsDeadline(ARObject):
 
 
 class DdsDestinationOrder(ARObject):
-    pass
+    """
+    Describes the DDS DESTINATION_ORDER QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDestinationOrder method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.196, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationOrderKind      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationOrderKind      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+        self.destinationOrderKind: Optional[DdsDestinationOrderKindEnum] = None
+
+    def getDestinationOrderKind(self) -> Optional[DdsDestinationOrderKindEnum]:
+        """
+        See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.destinationOrderKind
+
+    def setDestinationOrderKind(self, value: Optional[DdsDestinationOrderKindEnum]) -> DdsDestinationOrder:
+        """
+        See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationOrderKind.
+        """
+        if value is not None:
+            self.destinationOrderKind = value
+        return self
 
 
 class DdsDurability(ARObject):
@@ -3416,6 +3447,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
