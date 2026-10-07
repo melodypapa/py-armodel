@@ -2160,4 +2160,15 @@ class SOMEIPTransformationDescription(TransformationDescription):
 
 
 class UserDefinedTransformationDescription(TransformationDescription):
-    pass
+    """
+    The UserDefinedTransformationDescription is used to specify details and documentation for custom transformers.
+    """
+
+    # UserDefinedTransformationDescription method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.7, p.771
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; reader/writer coverage via the USER-DEFINED-TRANSFORMATION-DESCRIPTION dispatch)
+
+    def __init__(self):
+        super().__init__()

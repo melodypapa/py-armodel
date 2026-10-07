@@ -1290,6 +1290,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -18519,6 +18520,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self._writeEnumToken(child_element, "BYTE-ORDER", desc.getByteOrder(), BYTE_ORDER_XML_MAP)
             self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", cast(Integer, desc.getInterfaceVersion()))
 
+    def writeUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "USER-DEFINED-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+
     def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         desc = tech.getTransformationDescription()
         if desc is not None:
@@ -18527,6 +18533,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeEndToEndTransformationDescription(child_element, desc)
             elif isinstance(desc, SOMEIPTransformationDescription):
                 self.writeSOMEIPTransformationDescription(child_element, desc)
+            elif isinstance(desc, UserDefinedTransformationDescription):
+                self.writeUserDefinedTransformationDescription(child_element, desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % type(desc))
 

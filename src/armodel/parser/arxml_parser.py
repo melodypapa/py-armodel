@@ -1546,6 +1546,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationISignalProps,
     TransformationTechnology,
     TransformerClassEnum,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -14370,6 +14371,9 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setByteOrder(self._readEnumToken(element, "BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
         desc.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(element, "INTERFACE-VERSION"))
 
+    def readUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        self.readTransformationDescription(element, desc)
+
     def readTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         for child_element in self.findall(element, "TRANSFORMATION-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
@@ -14381,6 +14385,10 @@ class ARXMLParser(AbstractARXMLParser):
                 someip_desc = SOMEIPTransformationDescription()
                 self.readSOMEIPTransformationDescription(child_element, someip_desc)
                 tech.setTransformationDescription(someip_desc)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-DESCRIPTION":
+                user_defined_desc = UserDefinedTransformationDescription()
+                self.readUserDefinedTransformationDescription(child_element, user_defined_desc)
+                tech.setTransformationDescription(user_defined_desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % tag_name)
 
