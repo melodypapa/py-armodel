@@ -1288,16 +1288,38 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsResourceLimits` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.200, p.538
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py (KEPT — the spec
+    Package row is Fibex4Ethernet::Dds, the same row all 13 wave-1 sibling Dds* QoS policy classes
+    carry; kept consistent with them in ArObject.py per the batch instruction, same family-consistency
+    decision as the Identifiable DdsCp* exception; stub tuple removed)
+  - Note: Step 1 — table renders split (Class/Package/Note/Base/Aggregated-by header + maxInstances row
+    before the caption; maxSamples/maxSamplesPerInstance in the post-caption segment); verified against
+    XSD group DDS-RESOURCE-LIMITS (AUTOSAR_00052.xsd l.30104: MAX-INSTANCES, MAX-SAMPLES,
+    MAX-SAMPLES-PER-INSTANCE; complexType l.30132 sequence = AR-OBJECT + DDS-RESOURCE-LIMITS).
+    Base most-derived = ARObject (confirmed); concrete; not VP-capable (no VARIATION-POINT in group).
+    3 attrs in displayed row order, all PositiveInteger 0..1: maxInstances / maxSamples /
+    maxSamplesPerInstance — the maxInstances and maxSamplesPerInstance Note cells carry NO Tags tail
+    (XSD appinfo has no atp.Status for those two — copied verbatim without a tail; maxSamples keeps
+    `Tags: atp.Status=candidate`).
+  - Note: Step 8 — no deviations: all 3 Table 6.200 attrs modeled (field+accessor+reader+writer),
+    Optional[PositiveInteger] per PDF type; Note tails differ per row (maxInstances/maxSamplesPerInstance
+    have no Tags tail in markdown+XSD, maxSamples does) — copied verbatim. Identity debt resolved in
+    this commit: the DdsCpQosProfile.resourceLimits identity-only placeholder in read/writeDdsCpQosProfile
+    REPLACED with real read/writeDdsResourceLimits calls (both sides, delete-not-insert — no dead code);
+    witness test test_write_emits_stub_child_identity_only rewritten as
+    test_write_emits_resource_limits_fully (asserts MAX-* values) and the QosProfile round-trip test
+    upgraded to assert resourceLimits field values. With this sync ALL 14 DdsCpQosProfile children are
+    fully serialized (checklist debt note updated to RESOLVED). Wave-1 QosProfile row's pending-children
+    note is fully satisfied (its own row stays untouched per batch instruction).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `StaticSocketConnection` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.201, p.544
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

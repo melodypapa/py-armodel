@@ -12551,8 +12551,11 @@ class ARXMLParser(AbstractARXMLParser):
             reliability = DdsReliability()
             self.readDdsReliability(reliability_element, reliability)
             profile.setReliability(reliability)
-        if self.find(element, "RESOURCE-LIMITS") is not None:
-            profile.setResourceLimits(DdsResourceLimits())
+        resource_limits_element = self.find(element, "RESOURCE-LIMITS")
+        if resource_limits_element is not None:
+            resource_limits = DdsResourceLimits()
+            self.readDdsResourceLimits(resource_limits_element, resource_limits)
+            profile.setResourceLimits(resource_limits)
         topic_data_element = self.find(element, "TOPIC-DATA")
         if topic_data_element is not None:
             topic_data = DdsTopicData()
@@ -12585,6 +12588,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsResourceLimits(self, element: ET.Element, resource_limits: DdsResourceLimits):
+        self.logger.debug("Read DdsResourceLimits")
+        self.readARObject(element, resource_limits)
+        resource_limits.setMaxInstances(self.getChildElementOptionalPositiveInteger(element, "MAX-INSTANCES"))
+        resource_limits.setMaxSamples(self.getChildElementOptionalPositiveInteger(element, "MAX-SAMPLES"))
+        resource_limits.setMaxSamplesPerInstance(self.getChildElementOptionalPositiveInteger(element, "MAX-SAMPLES-PER-INSTANCE"))
 
     def readDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
         self.logger.debug("Read DdsLiveliness")

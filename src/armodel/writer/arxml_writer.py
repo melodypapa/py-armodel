@@ -570,6 +570,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsOwnership,
     DdsOwnershipStrength,
     DdsReliability,
+    DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
     PhysicalDimensionMapping,
@@ -16825,8 +16826,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         reliability = profile.getReliability()
         if reliability is not None:
             self.writeDdsReliability(child_element, reliability)
-        if profile.getResourceLimits() is not None:
-            ET.SubElement(child_element, "RESOURCE-LIMITS")
+        resource_limits = profile.getResourceLimits()
+        if resource_limits is not None:
+            self.writeDdsResourceLimits(child_element, resource_limits)
         topic_data = profile.getTopicData()
         if topic_data is not None:
             self.writeDdsTopicData(child_element, topic_data)
@@ -16855,6 +16857,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsResourceLimits(self, element: ET.Element, resource_limits: DdsResourceLimits):
+        child_element = ET.SubElement(element, "RESOURCE-LIMITS")
+        self.writeARObject(child_element, resource_limits)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-INSTANCES", resource_limits.getMaxInstances())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SAMPLES", resource_limits.getMaxSamples())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SAMPLES-PER-INSTANCE", resource_limits.getMaxSamplesPerInstance())
 
     def writeDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
         child_element = ET.SubElement(element, "LIVELINESS")
