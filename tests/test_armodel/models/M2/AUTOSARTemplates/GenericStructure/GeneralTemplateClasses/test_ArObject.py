@@ -12,6 +12,22 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextVal
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
     CalibrationParameterValue,
+    DdsCpProvidedServiceInstance,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsTopicData,
+    DdsTransportPriority,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
     DiagnosticComControlSubNodeChannel,
@@ -40,6 +56,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DateTime,
+    DdsDestinationOrderKindEnum,
+    DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
+    DdsLivenessKindEnum,
+    DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -55,6 +78,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    Float,
     NameToken,
     PositiveInteger,
     RefType,
@@ -2885,3 +2909,1395 @@ class TestCalibrationParameterValue:
         assert inspect.cleandoc(CalibrationParameterValue.setInitializedParameterRef.__doc__) == (
             self.INITIALIZED_PARAMETER_NOTE + "\n\nA None value is a no-op and does not overwrite an existing initializedParameterRef."
         )
+
+
+class TestDdsCpServiceInstanceOperation:
+    """
+    Test class for DdsCpServiceInstanceOperation functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.156, p.476
+    """
+
+    CLASS_NOTE = "This element represents an operation as part of the Provided Service Instance. Tags: atp.Status=candidate"
+    REQUEST_TRIGGERING_NOTE = "Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate"
+    RESPONSE_TRIGGERING_NOTE = "Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate"
+
+    def _create_operation(self) -> DdsCpServiceInstanceOperation:
+        return DdsCpServiceInstanceOperation()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstanceOperation initializes all attributes to their defaults.
+        """
+        obj = self._create_operation()
+
+        assert obj.getDdsOperationRequestTriggeringRef() is None
+        assert obj.getDdsOperationResponseTriggeringRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpServiceInstanceOperation derives from ARObject and is VP-capable (XSD group DDS-CP-SERVICE-INSTANCE-OPERATION carries VARIATION-POINT, Rule 0020).
+        """
+        assert issubclass(DdsCpServiceInstanceOperation, ARObject)
+        assert issubclass(DdsCpServiceInstanceOperation, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstanceOperation.__init__.__doc__ is None
+
+    def test_get_set_dds_operation_request_triggering_ref(self):
+        """
+        Test getDdsOperationRequestTriggeringRef and setDdsOperationRequestTriggeringRef round-trip and None no-op.
+        """
+        obj = self._create_operation()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/RequestTriggering")
+        result = obj.setDdsOperationRequestTriggeringRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsOperationRequestTriggeringRef() is value
+        assert obj.getDdsOperationRequestTriggeringRef().getValue() == "/Fibex/Ecu1/PduTriggerings/RequestTriggering"
+        assert obj.getDdsOperationRequestTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsOperationRequestTriggeringRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsOperationRequestTriggeringRef() is value  # None is a no-op
+
+    def test_get_set_dds_operation_response_triggering_ref(self):
+        """
+        Test getDdsOperationResponseTriggeringRef and setDdsOperationResponseTriggeringRef round-trip and None no-op.
+        """
+        obj = self._create_operation()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/ResponseTriggering")
+        result = obj.setDdsOperationResponseTriggeringRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsOperationResponseTriggeringRef() is value
+        assert obj.getDdsOperationResponseTriggeringRef().getValue() == "/Fibex/Ecu1/PduTriggerings/ResponseTriggering"
+        assert obj.getDdsOperationResponseTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsOperationResponseTriggeringRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsOperationResponseTriggeringRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.getDdsOperationRequestTriggeringRef.__doc__) == self.REQUEST_TRIGGERING_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.setDdsOperationRequestTriggeringRef.__doc__) == (
+            self.REQUEST_TRIGGERING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsOperationRequestTriggeringRef."
+        )
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.getDdsOperationResponseTriggeringRef.__doc__) == self.RESPONSE_TRIGGERING_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceOperation.setDdsOperationResponseTriggeringRef.__doc__) == (
+            self.RESPONSE_TRIGGERING_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsOperationResponseTriggeringRef."
+        )
+
+
+class TestDdsCpServiceInstanceEvent:
+    """
+    Test class for DdsCpServiceInstanceEvent functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.155, p.475
+    """
+
+    CLASS_NOTE = "This element represents an event as part of the Provided Service Instance. Tags: atp.Status=candidate"
+    DDS_EVENT_NOTE = "Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate"
+    DDS_EVENT_QOS_PROFILE_NOTE = "Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate"
+    DDS_EVENT_TOPIC_NOTE = "Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate"
+
+    def _create_event(self) -> DdsCpServiceInstanceEvent:
+        return DdsCpServiceInstanceEvent()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstanceEvent initializes all attributes to their defaults.
+        """
+        obj = self._create_event()
+
+        assert obj.getDdsEventRef() is None
+        assert obj.getDdsEventQosProfileRef() is None
+        assert obj.getDdsEventTopicRef() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpServiceInstanceEvent derives from ARObject and is VP-capable (XSD group DDS-CP-SERVICE-INSTANCE-EVENT carries VARIATION-POINT, Rule 0020).
+        """
+        assert issubclass(DdsCpServiceInstanceEvent, ARObject)
+        assert issubclass(DdsCpServiceInstanceEvent, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim (including the spec's own "PduTriggerung" spelling in the ddsEvent Note).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstanceEvent.__init__.__doc__ is None
+
+    def test_get_set_dds_event_ref(self):
+        """
+        Test getDdsEventRef and setDdsEventRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("PDU-TRIGGERING").setValue("/Fibex/Ecu1/PduTriggerings/DdsEvent")
+        result = obj.setDdsEventRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventRef() is value
+        assert obj.getDdsEventRef().getValue() == "/Fibex/Ecu1/PduTriggerings/DdsEvent"
+        assert obj.getDdsEventRef().getDest() == "PDU-TRIGGERING"
+
+        result = obj.setDdsEventRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventRef() is value  # None is a no-op
+
+    def test_get_set_dds_event_qos_profile_ref(self):
+        """
+        Test getDdsEventQosProfileRef and setDdsEventQosProfileRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("DDS-CP-QOS-PROFILE").setValue("/DdsCpConfig/QosProfiles/Profile1")
+        result = obj.setDdsEventQosProfileRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventQosProfileRef() is value
+        assert obj.getDdsEventQosProfileRef().getValue() == "/DdsCpConfig/QosProfiles/Profile1"
+        assert obj.getDdsEventQosProfileRef().getDest() == "DDS-CP-QOS-PROFILE"
+
+        result = obj.setDdsEventQosProfileRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventQosProfileRef() is value  # None is a no-op
+
+    def test_get_set_dds_event_topic_ref(self):
+        """
+        Test getDdsEventTopicRef and setDdsEventTopicRef round-trip and None no-op.
+        """
+        obj = self._create_event()
+
+        value = RefType().setDest("DDS-CP-TOPIC").setValue("/DdsCpConfig/Domains/Domain1/Topics/Topic1")
+        result = obj.setDdsEventTopicRef(value)
+        assert result is obj  # method chaining
+        assert obj.getDdsEventTopicRef() is value
+        assert obj.getDdsEventTopicRef().getValue() == "/DdsCpConfig/Domains/Domain1/Topics/Topic1"
+        assert obj.getDdsEventTopicRef().getDest() == "DDS-CP-TOPIC"
+
+        result = obj.setDdsEventTopicRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDdsEventTopicRef() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventRef.__doc__) == self.DDS_EVENT_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventRef.__doc__) == (self.DDS_EVENT_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventRef.")
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventQosProfileRef.__doc__) == self.DDS_EVENT_QOS_PROFILE_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventQosProfileRef.__doc__) == (
+            self.DDS_EVENT_QOS_PROFILE_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventQosProfileRef."
+        )
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.getDdsEventTopicRef.__doc__) == self.DDS_EVENT_TOPIC_NOTE
+        assert inspect.cleandoc(DdsCpServiceInstanceEvent.setDdsEventTopicRef.__doc__) == (
+            self.DDS_EVENT_TOPIC_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ddsEventTopicRef."
+        )
+
+
+class TestDdsTopicData:
+    """
+    Test class for DdsTopicData functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.180, p.529
+    """
+
+    CLASS_NOTE = "Describes the DDS TOPIC_DATA QoS policy. Tags: atp.Status=candidate"
+    TOPIC_DATA_NOTE = 'See "TOPIC_DATA" chapter in DDS. Tags: atp.Status=candidate'
+
+    def _create_topic_data(self) -> DdsTopicData:
+        return DdsTopicData()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsTopicData initializes all attributes to their defaults.
+        """
+        obj = self._create_topic_data()
+
+        assert obj.getTopicData() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsTopicData derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsTopicData, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsTopicData.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsTopicData.__init__.__doc__ is None
+
+    def test_get_set_topic_data(self):
+        """
+        Test getTopicData and setTopicData round-trip and None no-op.
+        """
+        obj = self._create_topic_data()
+
+        value = String().setValue("topic-data-payload")
+        result = obj.setTopicData(value)
+        assert result is obj  # method chaining
+        assert obj.getTopicData() is value
+        assert obj.getTopicData().getValue() == "topic-data-payload"
+
+        result = obj.setTopicData(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTopicData() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsTopicData.getTopicData.__doc__) == self.TOPIC_DATA_NOTE
+        assert inspect.cleandoc(DdsTopicData.setTopicData.__doc__) == (self.TOPIC_DATA_NOTE + "\n\nA None value is a no-op and does not overwrite an existing topicData.")
+
+
+class TestDdsCpProvidedServiceInstance:
+    """
+    Test class for DdsCpProvidedServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.153, p.473
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to describe the existence and configuration of a provided service instance in a concrete implementation on top of DDS."
+    LOCAL_UNICAST_ADDRESS_NOTE = (
+        "The local address over which the Service is provided. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES"
+    )
+    MINOR_VERSION_NOTE = "Minor Version of the Service that is provided by this Dds CpProvidedServiceInstance."
+    PROVIDED_DDS_OPERATION_NOTE = (
+        "Collection of provided operations. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=providedDdsOperation, providedDds Operation.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime"
+    )
+    PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE = (
+        "Collection of provided events. Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=providedDdsServiceInstanceEvent, provided DdsServiceInstanceEvent.variationPoint.shortLabel "
+        "atp.Status=candidate vh.latestBindingTime=systemDesignTime"
+    )
+    STATIC_REMOTE_MULTICAST_ADDRESS_NOTE = (
+        "This reference defines the remote multicast address of Service consumers. This reference shall ONLY be used "
+        "if the remote multicast address of the clients is determined from the configuration and not at runtime. "
+        "Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation "
+        "Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime "
+        "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES"
+    )
+    STATIC_REMOTE_UNICAST_ADDRESS_NOTE = (
+        "This reference defines the remote unicast addresses of Service consumers. This reference shall ONLY be used "
+        "if the remote unicast address of the clients is determined from the configuration and not at runtime. "
+        "Stereotypes: atpSplitable; atpVariation Tags: "
+        "atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteMulticastAddress.variation "
+        "Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime "
+        "xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES"
+    )
+
+    def _create_instance(self) -> DdsCpProvidedServiceInstance:
+        return DdsCpProvidedServiceInstance()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpProvidedServiceInstance initializes all attributes to their defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getLocalUnicastAddressRef() is None
+        assert obj.getMinorVersion() is None
+        assert obj.getProvidedDdsOperations() == []
+        assert obj.getProvidedDdsServiceInstanceEvents() == []
+        assert obj.getStaticRemoteMulticastAddressRef() is None
+        assert obj.getStaticRemoteUnicastAddressRefs() == []
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsCpProvidedServiceInstance derives from ARObject (the Base row's AbstractServiceInstance/DdsCpServiceInstance branch is unsynced — queued Table 6.152/6.158).
+        """
+        assert issubclass(DdsCpProvidedServiceInstance, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpProvidedServiceInstance.__init__.__doc__ is None
+
+    def test_get_set_local_unicast_address_ref(self):
+        """
+        Test getLocalUnicastAddressRef and setLocalUnicastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/LocalEp")
+        result = obj.setLocalUnicastAddressRef(value)
+        assert result is obj  # method chaining
+        assert obj.getLocalUnicastAddressRef() is value
+        assert obj.getLocalUnicastAddressRef().getValue() == "/Cluster/Ethernet/Endpoints/LocalEp"
+        assert obj.getLocalUnicastAddressRef().getDest() == "APPLICATION-ENDPOINT"
+
+        result = obj.setLocalUnicastAddressRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLocalUnicastAddressRef() is value  # None is a no-op
+
+    def test_get_set_minor_version(self):
+        """
+        Test getMinorVersion and setMinorVersion round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setMinorVersion(value)
+        assert result is obj  # method chaining
+        assert obj.getMinorVersion() is value
+        assert obj.getMinorVersion().getValue() == 4
+
+        result = obj.setMinorVersion(None)
+        assert result is obj  # method chaining with None
+        assert obj.getMinorVersion() is value  # None is a no-op
+
+    def test_add_get_provided_dds_operations(self):
+        """
+        Test addProvidedDdsOperation and getProvidedDdsOperations appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getProvidedDdsOperations() == []
+
+        operation = DdsCpServiceInstanceOperation()
+        result = obj.addProvidedDdsOperation(operation)
+        assert result is obj  # method chaining
+        assert obj.getProvidedDdsOperations() == [operation]
+
+        assert obj.addProvidedDdsOperation(None) is obj  # None is a no-op
+        assert obj.getProvidedDdsOperations() == [operation]
+
+    def test_add_get_provided_dds_service_instance_events(self):
+        """
+        Test addProvidedDdsServiceInstanceEvent and getProvidedDdsServiceInstanceEvents appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getProvidedDdsServiceInstanceEvents() == []
+
+        event = DdsCpServiceInstanceEvent()
+        result = obj.addProvidedDdsServiceInstanceEvent(event)
+        assert result is obj  # method chaining
+        assert obj.getProvidedDdsServiceInstanceEvents() == [event]
+
+        assert obj.addProvidedDdsServiceInstanceEvent(None) is obj  # None is a no-op
+        assert obj.getProvidedDdsServiceInstanceEvents() == [event]
+
+    def test_get_set_static_remote_multicast_address_ref(self):
+        """
+        Test getStaticRemoteMulticastAddressRef and setStaticRemoteMulticastAddressRef round-trip and None no-op.
+        """
+        obj = self._create_instance()
+
+        value = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/MulticastEp")
+        result = obj.setStaticRemoteMulticastAddressRef(value)
+        assert result is obj  # method chaining
+        assert obj.getStaticRemoteMulticastAddressRef() is value
+        assert obj.getStaticRemoteMulticastAddressRef().getValue() == "/Cluster/Ethernet/Endpoints/MulticastEp"
+        assert obj.getStaticRemoteMulticastAddressRef().getDest() == "APPLICATION-ENDPOINT"
+
+        result = obj.setStaticRemoteMulticastAddressRef(None)
+        assert result is obj  # method chaining with None
+        assert obj.getStaticRemoteMulticastAddressRef() is value  # None is a no-op
+
+    def test_add_get_static_remote_unicast_address_refs(self):
+        """
+        Test addStaticRemoteUnicastAddressRef and getStaticRemoteUnicastAddressRefs appending, return value and None no-op.
+        """
+        obj = self._create_instance()
+
+        assert obj.getStaticRemoteUnicastAddressRefs() == []
+
+        ref = RefType().setDest("APPLICATION-ENDPOINT").setValue("/Cluster/Ethernet/Endpoints/UnicastEp1")
+        result = obj.addStaticRemoteUnicastAddressRef(ref)
+        assert result is obj  # method chaining
+        assert obj.getStaticRemoteUnicastAddressRefs() == [ref]
+
+        assert obj.addStaticRemoteUnicastAddressRef(None) is obj  # None is a no-op
+        assert obj.getStaticRemoteUnicastAddressRefs() == [ref]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getLocalUnicastAddressRef.__doc__) == self.LOCAL_UNICAST_ADDRESS_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setLocalUnicastAddressRef.__doc__) == (
+            self.LOCAL_UNICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing localUnicastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getMinorVersion.__doc__) == self.MINOR_VERSION_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setMinorVersion.__doc__) == (self.MINOR_VERSION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing minorVersion.")
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addProvidedDdsOperation.__doc__) == (
+            self.PROVIDED_DDS_OPERATION_NOTE + "\n\nA None value is a no-op and does not extend the providedDdsOperations list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getProvidedDdsOperations.__doc__) == self.PROVIDED_DDS_OPERATION_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addProvidedDdsServiceInstanceEvent.__doc__) == (
+            self.PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE + "\n\nA None value is a no-op and does not extend the providedDdsServiceInstanceEvents list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getProvidedDdsServiceInstanceEvents.__doc__) == self.PROVIDED_DDS_SERVICE_INSTANCE_EVENT_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getStaticRemoteMulticastAddressRef.__doc__) == self.STATIC_REMOTE_MULTICAST_ADDRESS_NOTE
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.setStaticRemoteMulticastAddressRef.__doc__) == (
+            self.STATIC_REMOTE_MULTICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.addStaticRemoteUnicastAddressRef.__doc__) == (
+            self.STATIC_REMOTE_UNICAST_ADDRESS_NOTE + "\n\nA None value is a no-op and does not extend the staticRemoteUnicastAddressRefs list."
+        )
+        assert inspect.cleandoc(DdsCpProvidedServiceInstance.getStaticRemoteUnicastAddressRefs.__doc__) == self.STATIC_REMOTE_UNICAST_ADDRESS_NOTE
+
+
+class TestDdsDurability:
+    """
+    Test class for DdsDurability functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.181, p.530
+    """
+
+    CLASS_NOTE = "Describes the DDS DURABILITY QoS policy. Tags: atp.Status=candidate"
+    DURABILITY_KIND_NOTE = 'See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate'
+
+    def _create_durability(self) -> DdsDurability:
+        return DdsDurability()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDurability initializes all attributes to their defaults.
+        """
+        obj = self._create_durability()
+
+        assert obj.getDurabilityKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDurability derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDurability, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDurability.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDurability.__init__.__doc__ is None
+
+    def test_get_set_durability_kind(self):
+        """
+        Test getDurabilityKind and setDurabilityKind round-trip and None no-op.
+        """
+        obj = self._create_durability()
+
+        value = DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL)
+        result = obj.setDurabilityKind(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityKind() is value
+        assert obj.getDurabilityKind().getValue() == DdsDurabilityKindEnum.TRANSIENT_LOCAL
+
+        result = obj.setDurabilityKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsDurability.getDurabilityKind.__doc__) == self.DURABILITY_KIND_NOTE
+        assert inspect.cleandoc(DdsDurability.setDurabilityKind.__doc__) == (self.DURABILITY_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing durabilityKind.")
+
+
+class TestDdsDurabilityService:
+    """
+    Test class for DdsDurabilityService functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.183, p.531
+    """
+
+    CLASS_NOTE = "Describes the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate"
+    CLEANUP_DELAY_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate'
+    HISTORY_DEPTH_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    HISTORY_KIND_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_INSTANCES_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_SAMPLES_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_SAMPLES_PER_INSTANCE_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+
+    def _create_durability_service(self) -> DdsDurabilityService:
+        return DdsDurabilityService()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDurabilityService initializes all attributes to their defaults.
+        """
+        obj = self._create_durability_service()
+
+        assert obj.getDurabilityServiceCleanupDelay() is None
+        assert obj.getDurabilityServiceHistoryDepth() is None
+        assert obj.getDurabilityServiceHistoryKind() is None
+        assert obj.getDurabilityServiceMaxInstances() is None
+        assert obj.getDurabilityServiceMaxSamples() is None
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDurabilityService derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDurabilityService, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDurabilityService.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDurabilityService.__init__.__doc__ is None
+
+    def test_get_set_durability_service_cleanup_delay(self):
+        """
+        Test getDurabilityServiceCleanupDelay and setDurabilityServiceCleanupDelay round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = Float().setValue("1.5")
+        result = obj.setDurabilityServiceCleanupDelay(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceCleanupDelay() is value
+        assert obj.getDurabilityServiceCleanupDelay().getValue() == 1.5
+
+        result = obj.setDurabilityServiceCleanupDelay(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceCleanupDelay() is value  # None is a no-op
+
+    def test_get_set_durability_service_history_depth(self):
+        """
+        Test getDurabilityServiceHistoryDepth and setDurabilityServiceHistoryDepth round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setDurabilityServiceHistoryDepth(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceHistoryDepth() is value
+        assert obj.getDurabilityServiceHistoryDepth().getValue() == 4
+
+        result = obj.setDurabilityServiceHistoryDepth(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceHistoryDepth() is value  # None is a no-op
+
+    def test_get_set_durability_service_history_kind(self):
+        """
+        Test getDurabilityServiceHistoryKind and setDurabilityServiceHistoryKind round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST)
+        result = obj.setDurabilityServiceHistoryKind(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceHistoryKind() is value
+        assert obj.getDurabilityServiceHistoryKind().getValue() == DdsDurabilityServiceHistoryKindEnum.KEEP_LAST
+
+        result = obj.setDurabilityServiceHistoryKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceHistoryKind() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_instances(self):
+        """
+        Test getDurabilityServiceMaxInstances and setDurabilityServiceMaxInstances round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("8")
+        result = obj.setDurabilityServiceMaxInstances(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxInstances() is value
+        assert obj.getDurabilityServiceMaxInstances().getValue() == 8
+
+        result = obj.setDurabilityServiceMaxInstances(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxInstances() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_samples(self):
+        """
+        Test getDurabilityServiceMaxSamples and setDurabilityServiceMaxSamples round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("16")
+        result = obj.setDurabilityServiceMaxSamples(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxSamples() is value
+        assert obj.getDurabilityServiceMaxSamples().getValue() == 16
+
+        result = obj.setDurabilityServiceMaxSamples(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxSamples() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_samples_per_instance(self):
+        """
+        Test getDurabilityServiceMaxSamplesPerInstance and setDurabilityServiceMaxSamplesPerInstance round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("32")
+        result = obj.setDurabilityServiceMaxSamplesPerInstance(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is value
+        assert obj.getDurabilityServiceMaxSamplesPerInstance().getValue() == 32
+
+        result = obj.setDurabilityServiceMaxSamplesPerInstance(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceCleanupDelay.__doc__) == self.CLEANUP_DELAY_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceCleanupDelay.__doc__) == (self.CLEANUP_DELAY_NOTE + none_no_op % "durabilityServiceCleanupDelay")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceHistoryDepth.__doc__) == self.HISTORY_DEPTH_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceHistoryDepth.__doc__) == (self.HISTORY_DEPTH_NOTE + none_no_op % "durabilityServiceHistoryDepth")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceHistoryKind.__doc__) == self.HISTORY_KIND_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "durabilityServiceHistoryKind")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxInstances.__doc__) == self.MAX_INSTANCES_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxInstances.__doc__) == (self.MAX_INSTANCES_NOTE + none_no_op % "durabilityServiceMaxInstances")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxSamples.__doc__) == self.MAX_SAMPLES_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamples.__doc__) == (self.MAX_SAMPLES_NOTE + none_no_op % "durabilityServiceMaxSamples")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxSamplesPerInstance.__doc__) == self.MAX_SAMPLES_PER_INSTANCE_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamplesPerInstance.__doc__) == (self.MAX_SAMPLES_PER_INSTANCE_NOTE + none_no_op % "durabilityServiceMaxSamplesPerInstance")
+
+
+class TestDdsDeadline:
+    """
+    Test class for DdsDeadline functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.185, p.532
+    """
+
+    CLASS_NOTE = "Describes the DDS DEADLINE QoS policy. Tags: atp.Status=candidate"
+    DEADLINE_PERIOD_NOTE = 'See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_deadline(self) -> DdsDeadline:
+        return DdsDeadline()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDeadline initializes all attributes to their defaults.
+        """
+        obj = self._create_deadline()
+
+        assert obj.getDeadlinePeriod() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDeadline derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDeadline, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDeadline.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDeadline.__init__.__doc__ is None
+
+    def test_get_set_deadline_period(self):
+        """
+        Test getDeadlinePeriod and setDeadlinePeriod round-trip and None no-op.
+        """
+        obj = self._create_deadline()
+
+        value = Float().setValue("0.5")
+        result = obj.setDeadlinePeriod(value)
+        assert result is obj  # method chaining
+        assert obj.getDeadlinePeriod() is value
+        assert obj.getDeadlinePeriod().getValue() == 0.5
+
+        result = obj.setDeadlinePeriod(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDeadlinePeriod() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsDeadline.getDeadlinePeriod.__doc__) == self.DEADLINE_PERIOD_NOTE
+        assert inspect.cleandoc(DdsDeadline.setDeadlinePeriod.__doc__) == (self.DEADLINE_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing deadlinePeriod.")
+
+
+class TestDdsLatencyBudget:
+    """
+    Test class for DdsLatencyBudget functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.186, p.532
+    """
+
+    CLASS_NOTE = "Describes the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate"
+    LATENCY_BUDGET_DURATION_NOTE = 'See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_latency_budget(self) -> DdsLatencyBudget:
+        return DdsLatencyBudget()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLatencyBudget initializes all attributes to their defaults.
+        """
+        obj = self._create_latency_budget()
+
+        assert obj.getLatencyBudgetDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLatencyBudget derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLatencyBudget, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLatencyBudget.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLatencyBudget.__init__.__doc__ is None
+
+    def test_get_set_latency_budget_duration(self):
+        """
+        Test getLatencyBudgetDuration and setLatencyBudgetDuration round-trip and None no-op.
+        """
+        obj = self._create_latency_budget()
+
+        value = Float().setValue("0.1")
+        result = obj.setLatencyBudgetDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLatencyBudgetDuration() is value
+        assert obj.getLatencyBudgetDuration().getValue() == 0.1
+
+        result = obj.setLatencyBudgetDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLatencyBudgetDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsLatencyBudget.getLatencyBudgetDuration.__doc__) == self.LATENCY_BUDGET_DURATION_NOTE
+        assert inspect.cleandoc(DdsLatencyBudget.setLatencyBudgetDuration.__doc__) == (
+            self.LATENCY_BUDGET_DURATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing latencyBudgetDuration."
+        )
+
+
+class TestDdsOwnership:
+    """
+    Test class for DdsOwnership functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.187, p.532
+    """
+
+    CLASS_NOTE = "Describes the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate"
+    OWNERSHIP_KIND_NOTE = 'See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_ownership(self) -> DdsOwnership:
+        return DdsOwnership()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsOwnership initializes all attributes to their defaults.
+        """
+        obj = self._create_ownership()
+
+        assert obj.getOwnershipKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsOwnership derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsOwnership, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsOwnership.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsOwnership.__init__.__doc__ is None
+
+    def test_get_set_ownership_kind(self):
+        """
+        Test getOwnershipKind and setOwnershipKind round-trip and None no-op.
+        """
+        obj = self._create_ownership()
+
+        value = DdsOwnershipKindEnum().setValue(DdsOwnershipKindEnum.EXCLUSIVE)
+        result = obj.setOwnershipKind(value)
+        assert result is obj  # method chaining
+        assert obj.getOwnershipKind() is value
+        assert obj.getOwnershipKind().getValue() == DdsOwnershipKindEnum.EXCLUSIVE
+
+        result = obj.setOwnershipKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getOwnershipKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsOwnership.getOwnershipKind.__doc__) == self.OWNERSHIP_KIND_NOTE
+        assert inspect.cleandoc(DdsOwnership.setOwnershipKind.__doc__) == (self.OWNERSHIP_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ownershipKind.")
+
+
+class TestDdsOwnershipStrength:
+    """
+    Test class for DdsOwnershipStrength functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.189, p.533
+    """
+
+    CLASS_NOTE = "Describes the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate"
+    OWNERSHIP_STRENGTH_NOTE = 'See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_ownership_strength(self) -> DdsOwnershipStrength:
+        return DdsOwnershipStrength()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsOwnershipStrength initializes all attributes to their defaults.
+        """
+        obj = self._create_ownership_strength()
+
+        assert obj.getOwnershipStrength() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsOwnershipStrength derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsOwnershipStrength, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsOwnershipStrength.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsOwnershipStrength.__init__.__doc__ is None
+
+    def test_get_set_ownership_strength(self):
+        """
+        Test getOwnershipStrength and setOwnershipStrength round-trip and None no-op.
+        """
+        obj = self._create_ownership_strength()
+
+        value = PositiveInteger().setValue("5")
+        result = obj.setOwnershipStrength(value)
+        assert result is obj  # method chaining
+        assert obj.getOwnershipStrength() is value
+        assert obj.getOwnershipStrength().getValue() == 5
+
+        result = obj.setOwnershipStrength(None)
+        assert result is obj  # method chaining with None
+        assert obj.getOwnershipStrength() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsOwnershipStrength.getOwnershipStrength.__doc__) == self.OWNERSHIP_STRENGTH_NOTE
+        assert inspect.cleandoc(DdsOwnershipStrength.setOwnershipStrength.__doc__) == (
+            self.OWNERSHIP_STRENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ownershipStrength."
+        )
+
+
+class TestDdsLiveliness:
+    """
+    Test class for DdsLiveliness functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.190, p.534
+    """
+
+    CLASS_NOTE = "Describes the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate"
+    LIVELINESS_LEASE_DURATION_NOTE = 'See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+    LIVENESS_KIND_NOTE = 'See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_liveliness(self) -> DdsLiveliness:
+        return DdsLiveliness()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLiveliness initializes all attributes to their defaults.
+        """
+        obj = self._create_liveliness()
+
+        assert obj.getLivelinessLeaseDuration() is None
+        assert obj.getLivenessKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLiveliness derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLiveliness, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLiveliness.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLiveliness.__init__.__doc__ is None
+
+    def test_get_set_liveliness_lease_duration(self):
+        """
+        Test getLivelinessLeaseDuration and setLivelinessLeaseDuration round-trip and None no-op.
+        """
+        obj = self._create_liveliness()
+
+        value = Float().setValue("10.0")
+        result = obj.setLivelinessLeaseDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLivelinessLeaseDuration() is value
+        assert obj.getLivelinessLeaseDuration().getValue() == 10.0
+
+        result = obj.setLivelinessLeaseDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLivelinessLeaseDuration() is value  # None is a no-op
+
+    def test_get_set_liveness_kind(self):
+        """
+        Test getLivenessKind and setLivenessKind round-trip and None no-op.
+        """
+        obj = self._create_liveliness()
+
+        value = DdsLivenessKindEnum().setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC)
+        result = obj.setLivenessKind(value)
+        assert result is obj  # method chaining
+        assert obj.getLivenessKind() is value
+        assert obj.getLivenessKind().getValue() == DdsLivenessKindEnum.MANUAL_BY_TOPIC
+
+        result = obj.setLivenessKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLivenessKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsLiveliness.getLivelinessLeaseDuration.__doc__) == self.LIVELINESS_LEASE_DURATION_NOTE
+        assert inspect.cleandoc(DdsLiveliness.setLivelinessLeaseDuration.__doc__) == (self.LIVELINESS_LEASE_DURATION_NOTE + none_no_op % "livelinessLeaseDuration")
+        assert inspect.cleandoc(DdsLiveliness.getLivenessKind.__doc__) == self.LIVENESS_KIND_NOTE
+        assert inspect.cleandoc(DdsLiveliness.setLivenessKind.__doc__) == (self.LIVENESS_KIND_NOTE + none_no_op % "livenessKind")
+
+
+class TestDdsReliability:
+    """
+    Test class for DdsReliability functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.192, p.535
+    """
+
+    CLASS_NOTE = "Describes the DDS RELIABILITY QoS policy. Tags: atp.Status=candidate"
+    RELIABILITY_KIND_NOTE = 'See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate'
+    RELIABILITY_MAX_BLOCKING_TIME_NOTE = 'See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_reliability(self) -> DdsReliability:
+        return DdsReliability()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsReliability initializes all attributes to their defaults.
+        """
+        obj = self._create_reliability()
+
+        assert obj.getReliabilityKind() is None
+        assert obj.getReliabilityMaxBlockingTime() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsReliability derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsReliability, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsReliability.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsReliability.__init__.__doc__ is None
+
+    def test_get_set_reliability_kind(self):
+        """
+        Test getReliabilityKind and setReliabilityKind round-trip and None no-op.
+        """
+        obj = self._create_reliability()
+
+        value = DdsReliabilityKindEnum().setValue(DdsReliabilityKindEnum.RELIABLE)
+        result = obj.setReliabilityKind(value)
+        assert result is obj  # method chaining
+        assert obj.getReliabilityKind() is value
+        assert obj.getReliabilityKind().getValue() == DdsReliabilityKindEnum.RELIABLE
+
+        result = obj.setReliabilityKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReliabilityKind() is value  # None is a no-op
+
+    def test_get_set_reliability_max_blocking_time(self):
+        """
+        Test getReliabilityMaxBlockingTime and setReliabilityMaxBlockingTime round-trip and None no-op.
+        """
+        obj = self._create_reliability()
+
+        value = Float().setValue("0.5")
+        result = obj.setReliabilityMaxBlockingTime(value)
+        assert result is obj  # method chaining
+        assert obj.getReliabilityMaxBlockingTime() is value
+        assert obj.getReliabilityMaxBlockingTime().getValue() == 0.5
+
+        result = obj.setReliabilityMaxBlockingTime(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReliabilityMaxBlockingTime() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsReliability.getReliabilityKind.__doc__) == self.RELIABILITY_KIND_NOTE
+        assert inspect.cleandoc(DdsReliability.setReliabilityKind.__doc__) == (self.RELIABILITY_KIND_NOTE + none_no_op % "reliabilityKind")
+        assert inspect.cleandoc(DdsReliability.getReliabilityMaxBlockingTime.__doc__) == self.RELIABILITY_MAX_BLOCKING_TIME_NOTE
+        assert inspect.cleandoc(DdsReliability.setReliabilityMaxBlockingTime.__doc__) == (self.RELIABILITY_MAX_BLOCKING_TIME_NOTE + none_no_op % "reliabilityMaxBlockingTime")
+
+
+class TestDdsTransportPriority:
+    """
+    Test class for DdsTransportPriority functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.194, p.535
+    """
+
+    CLASS_NOTE = "Describes the DDS TRANSPORT_PRIORITY QoS policy. Tags: atp.Status=candidate"
+    TRANSPORT_PRIORITY_NOTE = 'See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_transport_priority(self) -> DdsTransportPriority:
+        return DdsTransportPriority()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsTransportPriority initializes all attributes to their defaults.
+        """
+        obj = self._create_transport_priority()
+
+        assert obj.getTransportPriority() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsTransportPriority derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsTransportPriority, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsTransportPriority.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsTransportPriority.__init__.__doc__ is None
+
+    def test_get_set_transport_priority(self):
+        """
+        Test getTransportPriority and setTransportPriority round-trip and None no-op.
+        """
+        obj = self._create_transport_priority()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setTransportPriority(value)
+        assert result is obj  # method chaining
+        assert obj.getTransportPriority() is value
+        assert obj.getTransportPriority().getValue() == 4
+
+        result = obj.setTransportPriority(None)
+        assert result is obj  # method chaining with None
+        assert obj.getTransportPriority() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsTransportPriority.getTransportPriority.__doc__) == self.TRANSPORT_PRIORITY_NOTE
+        assert inspect.cleandoc(DdsTransportPriority.setTransportPriority.__doc__) == (self.TRANSPORT_PRIORITY_NOTE + none_no_op % "transportPriority")
+
+
+class TestDdsLifespan:
+    """
+    Test class for DdsLifespan functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.195, p.536
+    """
+
+    CLASS_NOTE = "Describes the DDS LIFESPAN QoS policy. Tags: atp.Status=candidate"
+    LIFESPAN_DURATION_NOTE = 'See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_lifespan(self) -> DdsLifespan:
+        return DdsLifespan()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLifespan initializes all attributes to their defaults.
+        """
+        obj = self._create_lifespan()
+
+        assert obj.getLifespanDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLifespan derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLifespan, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLifespan.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLifespan.__init__.__doc__ is None
+
+    def test_get_set_lifespan_duration(self):
+        """
+        Test getLifespanDuration and setLifespanDuration round-trip and None no-op.
+        """
+        obj = self._create_lifespan()
+
+        value = Float().setValue("10.0")
+        result = obj.setLifespanDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLifespanDuration() is value
+        assert obj.getLifespanDuration().getValue() == 10.0
+
+        result = obj.setLifespanDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLifespanDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsLifespan.getLifespanDuration.__doc__) == self.LIFESPAN_DURATION_NOTE
+        assert inspect.cleandoc(DdsLifespan.setLifespanDuration.__doc__) == (self.LIFESPAN_DURATION_NOTE + none_no_op % "lifespanDuration")
+
+
+class TestDdsDestinationOrder:
+    """
+    Test class for DdsDestinationOrder functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.196, p.536
+    """
+
+    CLASS_NOTE = "Describes the DDS DESTINATION_ORDER QoS policy. Tags: atp.Status=candidate"
+    DESTINATION_ORDER_KIND_NOTE = 'See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_destination_order(self) -> DdsDestinationOrder:
+        return DdsDestinationOrder()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDestinationOrder initializes all attributes to their defaults.
+        """
+        obj = self._create_destination_order()
+
+        assert obj.getDestinationOrderKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDestinationOrder derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDestinationOrder, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDestinationOrder.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDestinationOrder.__init__.__doc__ is None
+
+    def test_get_set_destination_order_kind(self):
+        """
+        Test getDestinationOrderKind and setDestinationOrderKind round-trip and None no-op.
+        """
+        obj = self._create_destination_order()
+
+        value = DdsDestinationOrderKindEnum().setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP)
+        result = obj.setDestinationOrderKind(value)
+        assert result is obj  # method chaining
+        assert obj.getDestinationOrderKind() is value
+        assert obj.getDestinationOrderKind().getValue() == DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP
+
+        result = obj.setDestinationOrderKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDestinationOrderKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsDestinationOrder.getDestinationOrderKind.__doc__) == self.DESTINATION_ORDER_KIND_NOTE
+        assert inspect.cleandoc(DdsDestinationOrder.setDestinationOrderKind.__doc__) == (self.DESTINATION_ORDER_KIND_NOTE + none_no_op % "destinationOrderKind")
+
+
+class TestDdsHistory:
+    """
+    Test class for DdsHistory functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.198, p.537
+    """
+
+    CLASS_NOTE = "Describes the DDS HISTORY QoS policy. Tags: atp.Status=candidate"
+    HISTORY_KIND_NOTE = 'See "HISTORY" chapter of DDS. Tags: atp.Status=candidate'
+    HISTORY_ORDER_DEPTH_NOTE = 'See "HISTORY" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_history(self) -> DdsHistory:
+        return DdsHistory()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsHistory initializes all attributes to their defaults.
+        """
+        obj = self._create_history()
+
+        assert obj.getHistoryKind() is None
+        assert obj.getHistoryOrderDepth() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsHistory derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsHistory, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsHistory.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsHistory.__init__.__doc__ is None
+
+    def test_get_set_history_kind(self):
+        """
+        Test getHistoryKind and setHistoryKind round-trip and None no-op.
+        """
+        obj = self._create_history()
+
+        value = DdsHistoryKindEnum().setValue(DdsHistoryKindEnum.KEEP_LAST)
+        result = obj.setHistoryKind(value)
+        assert result is obj  # method chaining
+        assert obj.getHistoryKind() is value
+        assert obj.getHistoryKind().getValue() == DdsHistoryKindEnum.KEEP_LAST
+
+        result = obj.setHistoryKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHistoryKind() is value  # None is a no-op
+
+    def test_get_set_history_order_depth(self):
+        """
+        Test getHistoryOrderDepth and setHistoryOrderDepth round-trip and None no-op.
+        """
+        obj = self._create_history()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setHistoryOrderDepth(value)
+        assert result is obj  # method chaining
+        assert obj.getHistoryOrderDepth() is value
+        assert obj.getHistoryOrderDepth().getValue() == 4
+
+        result = obj.setHistoryOrderDepth(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHistoryOrderDepth() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsHistory.getHistoryKind.__doc__) == self.HISTORY_KIND_NOTE
+        assert inspect.cleandoc(DdsHistory.setHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "historyKind")
+        assert inspect.cleandoc(DdsHistory.getHistoryOrderDepth.__doc__) == self.HISTORY_ORDER_DEPTH_NOTE
+        assert inspect.cleandoc(DdsHistory.setHistoryOrderDepth.__doc__) == (self.HISTORY_ORDER_DEPTH_NOTE + none_no_op % "historyOrderDepth")

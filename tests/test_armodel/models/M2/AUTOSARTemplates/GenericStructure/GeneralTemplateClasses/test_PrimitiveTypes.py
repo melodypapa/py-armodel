@@ -25,6 +25,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CseCodeType,
     DateTime,
+    DdsDestinationOrderKindEnum,
+    DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
+    DdsLivenessKindEnum,
+    DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3221,3 +3228,313 @@ class TestDiagnosticWwhObdDtcClassEnum:
         enum.setValue(DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION)
 
         assert enum.getValue() == DiagnosticWwhObdDtcClassEnum.DEM_DTC_WWH_OBD_CLASS_NO_INFORMATION
+
+
+class TestDdsDurabilityKindEnum:
+    """
+    Test class for DdsDurabilityKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.182, p.530
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDurabilityKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDurabilityKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDurabilityKindEnum.PERSISTENT,
+            DdsDurabilityKindEnum.TRANSIENT,
+            DdsDurabilityKindEnum.TRANSIENT_LOCAL,
+            DdsDurabilityKindEnum.VOLATILE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDurabilityKindEnum member values.
+        """
+        enum = DdsDurabilityKindEnum()
+
+        assert DdsDurabilityKindEnum.PERSISTENT == "PERSISTENT"
+        assert DdsDurabilityKindEnum.TRANSIENT == "TRANSIENT"
+        assert DdsDurabilityKindEnum.TRANSIENT_LOCAL == "TRANSIENT-LOCAL"
+        assert DdsDurabilityKindEnum.VOLATILE == "VOLATILE"
+
+        assert enum.validateEnumValue("PERSISTENT") is True
+        assert enum.validateEnumValue("TRANSIENT") is True
+        assert enum.validateEnumValue("TRANSIENT-LOCAL") is True
+        assert enum.validateEnumValue("VOLATILE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDurabilityKindEnum instantiability and getValue.
+        """
+        enum = DdsDurabilityKindEnum()
+        enum.setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL)
+
+        assert enum.getValue() == DdsDurabilityKindEnum.TRANSIENT_LOCAL
+
+
+class TestDdsDurabilityServiceHistoryKindEnum:
+    """
+    Test class for DdsDurabilityServiceHistoryKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.184, p.531
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDurabilityServiceHistoryKindEnum.KEEP_ALL,
+            DdsDurabilityServiceHistoryKindEnum.KEEP_LAST,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum member values.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+
+        assert DdsDurabilityServiceHistoryKindEnum.KEEP_ALL == "KEEP-ALL"
+        assert DdsDurabilityServiceHistoryKindEnum.KEEP_LAST == "KEEP-LAST"
+
+        assert enum.validateEnumValue("KEEP-ALL") is True
+        assert enum.validateEnumValue("KEEP-LAST") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDurabilityServiceHistoryKindEnum instantiability and getValue.
+        """
+        enum = DdsDurabilityServiceHistoryKindEnum()
+        enum.setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST)
+
+        assert enum.getValue() == DdsDurabilityServiceHistoryKindEnum.KEEP_LAST
+
+
+class TestDdsOwnershipKindEnum:
+    """
+    Test class for DdsOwnershipKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.188, p.533
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsOwnershipKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsOwnershipKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsOwnershipKindEnum.EXCLUSIVE,
+            DdsOwnershipKindEnum.SHARED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsOwnershipKindEnum member values.
+        """
+        enum = DdsOwnershipKindEnum()
+
+        assert DdsOwnershipKindEnum.EXCLUSIVE == "EXCLUSIVE"
+        assert DdsOwnershipKindEnum.SHARED == "SHARED"
+
+        assert enum.validateEnumValue("EXCLUSIVE") is True
+        assert enum.validateEnumValue("SHARED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsOwnershipKindEnum instantiability and getValue.
+        """
+        enum = DdsOwnershipKindEnum()
+        enum.setValue(DdsOwnershipKindEnum.SHARED)
+
+        assert enum.getValue() == DdsOwnershipKindEnum.SHARED
+
+
+class TestDdsLivenessKindEnum:
+    """
+    Test class for DdsLivenessKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.191, p.534
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsLivenessKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsLivenessKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsLivenessKindEnum.AUTOMATIC,
+            DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT,
+            DdsLivenessKindEnum.MANUAL_BY_TOPIC,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsLivenessKindEnum member values.
+        """
+        enum = DdsLivenessKindEnum()
+
+        assert DdsLivenessKindEnum.AUTOMATIC == "AUTOMATIC"
+        assert DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT == "MANUAL-BY-PARTICIPANT"
+        assert DdsLivenessKindEnum.MANUAL_BY_TOPIC == "MANUAL-BY-TOPIC"
+
+        assert enum.validateEnumValue("AUTOMATIC") is True
+        assert enum.validateEnumValue("MANUAL-BY-PARTICIPANT") is True
+        assert enum.validateEnumValue("MANUAL-BY-TOPIC") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsLivenessKindEnum instantiability and getValue.
+        """
+        enum = DdsLivenessKindEnum()
+        enum.setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC)
+
+        assert enum.getValue() == DdsLivenessKindEnum.MANUAL_BY_TOPIC
+
+
+class TestDdsReliabilityKindEnum:
+    """
+    Test class for DdsReliabilityKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.193, p.535
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsReliabilityKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsReliabilityKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsReliabilityKindEnum.BEST_EFFORT,
+            DdsReliabilityKindEnum.RELIABLE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsReliabilityKindEnum member values.
+        """
+        enum = DdsReliabilityKindEnum()
+
+        assert DdsReliabilityKindEnum.BEST_EFFORT == "BEST-EFFORT"
+        assert DdsReliabilityKindEnum.RELIABLE == "RELIABLE"
+
+        assert enum.validateEnumValue("BEST-EFFORT") is True
+        assert enum.validateEnumValue("RELIABLE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsReliabilityKindEnum instantiability and getValue.
+        """
+        enum = DdsReliabilityKindEnum()
+        enum.setValue(DdsReliabilityKindEnum.RELIABLE)
+
+        assert enum.getValue() == DdsReliabilityKindEnum.RELIABLE
+
+
+class TestDdsDestinationOrderKindEnum:
+    """
+    Test class for DdsDestinationOrderKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.197, p.536
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsDestinationOrderKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsDestinationOrderKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP,
+            DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsDestinationOrderKindEnum member values.
+        """
+        enum = DdsDestinationOrderKindEnum()
+
+        assert DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP == "BY-RECEPTION-TIMESTAMP"
+        assert DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP == "BY-SOURCE-TIMESTAMP"
+
+        assert enum.validateEnumValue("BY-RECEPTION-TIMESTAMP") is True
+        assert enum.validateEnumValue("BY-SOURCE-TIMESTAMP") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsDestinationOrderKindEnum instantiability and getValue.
+        """
+        enum = DdsDestinationOrderKindEnum()
+        enum.setValue(DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP)
+
+        assert enum.getValue() == DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP
+
+
+class TestDdsHistoryKindEnum:
+    """
+    Test class for DdsHistoryKindEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.199, p.537
+    """
+
+    def test_initialization(self):
+        """
+        Test DdsHistoryKindEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = DdsHistoryKindEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            DdsHistoryKindEnum.KEEP_ALL,
+            DdsHistoryKindEnum.KEEP_LAST,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test DdsHistoryKindEnum member values.
+        """
+        enum = DdsHistoryKindEnum()
+
+        assert DdsHistoryKindEnum.KEEP_ALL == "KEEP-ALL"
+        assert DdsHistoryKindEnum.KEEP_LAST == "KEEP-LAST"
+
+        assert enum.validateEnumValue("KEEP-ALL") is True
+        assert enum.validateEnumValue("KEEP-LAST") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test DdsHistoryKindEnum instantiability and getValue.
+        """
+        enum = DdsHistoryKindEnum()
+        enum.setValue(DdsHistoryKindEnum.KEEP_ALL)
+
+        assert enum.getValue() == DdsHistoryKindEnum.KEEP_ALL

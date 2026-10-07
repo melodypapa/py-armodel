@@ -5,7 +5,26 @@ in the GenericStructure module.
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DiagnosticAbstractParameter, DiagnosticParameter, RoleBasedResourceDependency
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsResourceLimits,
+    DdsTopicData,
+    DdsTransportPriority,
+    DiagnosticAbstractParameter,
+    DiagnosticParameter,
+    RoleBasedResourceDependency,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     CategoryString,
@@ -1473,6 +1492,377 @@ class DdsCpPartition(Identifiable):
 
 class DdsCpServiceInstance(Identifiable, ABC):
     pass
+
+
+class DdsCpTopic(Identifiable):
+    """
+    Definition of a DDS Partition. Tags: atp.Status=candidate
+    """
+
+    # DdsCpTopic method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.177, p.527
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsPartitionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsPartitionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+        self.ddsPartitionRef: Optional[RefType] = None
+
+        # Definition of the DDS Topic Name. Tags: atp.Status=candidate
+        self.topicName: Optional[String] = None
+
+    def getDdsPartitionRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+        """
+        return self.ddsPartitionRef
+
+    def setDdsPartitionRef(self, value: Optional[RefType]) -> DdsCpTopic:
+        """
+        Reference to the DDS Partition this topic is communicated. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsPartitionRef.
+        """
+        if value is not None:
+            self.ddsPartitionRef = value
+        return self
+
+    def getTopicName(self) -> Optional[String]:
+        """
+        Definition of the DDS Topic Name. Tags: atp.Status=candidate
+        """
+        return self.topicName
+
+    def setTopicName(self, value: Optional[String]) -> DdsCpTopic:
+        """
+        Definition of the DDS Topic Name. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing topicName.
+        """
+        if value is not None:
+            self.topicName = value
+        return self
+
+
+class DdsCpQosProfile(Identifiable):
+    """
+    Definition of a DDS QOS Profile. Tags: atp.Status=candidate
+    """
+
+    # DdsCpQosProfile method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.179, p.529
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDeadline               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDeadline               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationOrder       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationOrder       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurability             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurability             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityService      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityService      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHistory                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHistory                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLatencyBudget          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLatencyBudget          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLifespan               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLifespan               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLiveliness             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLiveliness             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOwnership              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnership              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOwnershipStrength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnershipStrength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReliability            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliability            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceLimits         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceLimits         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopicData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicData              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransportPriority      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportPriority      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Identity-only child serialization debt (Rule 0001.7): destinationOrder, history, lifespan,
+    # reliability, resourceLimits and transportPriority aggregate still-unsynced Dds* QoS policy
+    # classes (queued Table 6.192-6.200) — the reader constructs the child and the writer emits
+    # the empty element; the children's own syncs replace the placeholders. deadline, durability,
+    # durabilityService, latencyBudget, liveliness, ownership, ownershipStrength and topicData are
+    # fully serialized since their own syncs (Tables 6.180-6.190).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the DDS DEADLINE QoS policy. Tags: atp.Status=candidate
+        self.deadline: Optional[DdsDeadline] = None
+
+        # Defines the DDS DESTINATION_ORDER QoS policy.
+        self.destinationOrder: Optional[DdsDestinationOrder] = None
+
+        # Defines the DDS DURABILITY QoS policy. Tags: atp.Status=candidate
+        self.durability: Optional[DdsDurability] = None
+
+        # Defines the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate
+        self.durabilityService: Optional[DdsDurabilityService] = None
+
+        # Defines the DDS HISTORY QoS policy.
+        self.history: Optional[DdsHistory] = None
+
+        # Defines the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate
+        self.latencyBudget: Optional[DdsLatencyBudget] = None
+
+        # Defines the DDS LIFESPAN QoS policy.
+        self.lifespan: Optional[DdsLifespan] = None
+
+        # Defines the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate
+        self.liveliness: Optional[DdsLiveliness] = None
+
+        # Defines the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate
+        self.ownership: Optional[DdsOwnership] = None
+
+        # Defines the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate
+        self.ownershipStrength: Optional[DdsOwnershipStrength] = None
+
+        # Defines the DDS RELIABILITY QoS policy.
+        self.reliability: Optional[DdsReliability] = None
+
+        # Defines the DDS RESOURCE_LIMITS QoS policy.
+        self.resourceLimits: Optional[DdsResourceLimits] = None
+
+        # Defines the DDS TOPIC_DATA QoS policy.
+        self.topicData: Optional[DdsTopicData] = None
+
+        # Defines the DDS TRANSPORT_PRIORITY QoS policy.
+        self.transportPriority: Optional[DdsTransportPriority] = None
+
+    def getDeadline(self) -> Optional[DdsDeadline]:
+        """
+        Defines the DDS DEADLINE QoS policy. Tags: atp.Status=candidate
+        """
+        return self.deadline
+
+    def setDeadline(self, value: Optional[DdsDeadline]) -> DdsCpQosProfile:
+        """
+        Defines the DDS DEADLINE QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing deadline.
+        """
+        if value is not None:
+            self.deadline = value
+        return self
+
+    def getDestinationOrder(self) -> Optional[DdsDestinationOrder]:
+        """
+        Defines the DDS DESTINATION_ORDER QoS policy.
+        """
+        return self.destinationOrder
+
+    def setDestinationOrder(self, value: Optional[DdsDestinationOrder]) -> DdsCpQosProfile:
+        """
+        Defines the DDS DESTINATION_ORDER QoS policy.
+
+        A None value is a no-op and does not overwrite an existing destinationOrder.
+        """
+        if value is not None:
+            self.destinationOrder = value
+        return self
+
+    def getDurability(self) -> Optional[DdsDurability]:
+        """
+        Defines the DDS DURABILITY QoS policy. Tags: atp.Status=candidate
+        """
+        return self.durability
+
+    def setDurability(self, value: Optional[DdsDurability]) -> DdsCpQosProfile:
+        """
+        Defines the DDS DURABILITY QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durability.
+        """
+        if value is not None:
+            self.durability = value
+        return self
+
+    def getDurabilityService(self) -> Optional[DdsDurabilityService]:
+        """
+        Defines the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate
+        """
+        return self.durabilityService
+
+    def setDurabilityService(self, value: Optional[DdsDurabilityService]) -> DdsCpQosProfile:
+        """
+        Defines the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityService.
+        """
+        if value is not None:
+            self.durabilityService = value
+        return self
+
+    def getHistory(self) -> Optional[DdsHistory]:
+        """
+        Defines the DDS HISTORY QoS policy.
+        """
+        return self.history
+
+    def setHistory(self, value: Optional[DdsHistory]) -> DdsCpQosProfile:
+        """
+        Defines the DDS HISTORY QoS policy.
+
+        A None value is a no-op and does not overwrite an existing history.
+        """
+        if value is not None:
+            self.history = value
+        return self
+
+    def getLatencyBudget(self) -> Optional[DdsLatencyBudget]:
+        """
+        Defines the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate
+        """
+        return self.latencyBudget
+
+    def setLatencyBudget(self, value: Optional[DdsLatencyBudget]) -> DdsCpQosProfile:
+        """
+        Defines the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing latencyBudget.
+        """
+        if value is not None:
+            self.latencyBudget = value
+        return self
+
+    def getLifespan(self) -> Optional[DdsLifespan]:
+        """
+        Defines the DDS LIFESPAN QoS policy.
+        """
+        return self.lifespan
+
+    def setLifespan(self, value: Optional[DdsLifespan]) -> DdsCpQosProfile:
+        """
+        Defines the DDS LIFESPAN QoS policy.
+
+        A None value is a no-op and does not overwrite an existing lifespan.
+        """
+        if value is not None:
+            self.lifespan = value
+        return self
+
+    def getLiveliness(self) -> Optional[DdsLiveliness]:
+        """
+        Defines the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate
+        """
+        return self.liveliness
+
+    def setLiveliness(self, value: Optional[DdsLiveliness]) -> DdsCpQosProfile:
+        """
+        Defines the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing liveliness.
+        """
+        if value is not None:
+            self.liveliness = value
+        return self
+
+    def getOwnership(self) -> Optional[DdsOwnership]:
+        """
+        Defines the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate
+        """
+        return self.ownership
+
+    def setOwnership(self, value: Optional[DdsOwnership]) -> DdsCpQosProfile:
+        """
+        Defines the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownership.
+        """
+        if value is not None:
+            self.ownership = value
+        return self
+
+    def getOwnershipStrength(self) -> Optional[DdsOwnershipStrength]:
+        """
+        Defines the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate
+        """
+        return self.ownershipStrength
+
+    def setOwnershipStrength(self, value: Optional[DdsOwnershipStrength]) -> DdsCpQosProfile:
+        """
+        Defines the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownershipStrength.
+        """
+        if value is not None:
+            self.ownershipStrength = value
+        return self
+
+    def getReliability(self) -> Optional[DdsReliability]:
+        """
+        Defines the DDS RELIABILITY QoS policy.
+        """
+        return self.reliability
+
+    def setReliability(self, value: Optional[DdsReliability]) -> DdsCpQosProfile:
+        """
+        Defines the DDS RELIABILITY QoS policy.
+
+        A None value is a no-op and does not overwrite an existing reliability.
+        """
+        if value is not None:
+            self.reliability = value
+        return self
+
+    def getResourceLimits(self) -> Optional[DdsResourceLimits]:
+        """
+        Defines the DDS RESOURCE_LIMITS QoS policy.
+        """
+        return self.resourceLimits
+
+    def setResourceLimits(self, value: Optional[DdsResourceLimits]) -> DdsCpQosProfile:
+        """
+        Defines the DDS RESOURCE_LIMITS QoS policy.
+
+        A None value is a no-op and does not overwrite an existing resourceLimits.
+        """
+        if value is not None:
+            self.resourceLimits = value
+        return self
+
+    def getTopicData(self) -> Optional[DdsTopicData]:
+        """
+        Defines the DDS TOPIC_DATA QoS policy.
+        """
+        return self.topicData
+
+    def setTopicData(self, value: Optional[DdsTopicData]) -> DdsCpQosProfile:
+        """
+        Defines the DDS TOPIC_DATA QoS policy.
+
+        A None value is a no-op and does not overwrite an existing topicData.
+        """
+        if value is not None:
+            self.topicData = value
+        return self
+
+    def getTransportPriority(self) -> Optional[DdsTransportPriority]:
+        """
+        Defines the DDS TRANSPORT_PRIORITY QoS policy.
+        """
+        return self.transportPriority
+
+    def setTransportPriority(self, value: Optional[DdsTransportPriority]) -> DdsCpQosProfile:
+        """
+        Defines the DDS TRANSPORT_PRIORITY QoS policy.
+
+        A None value is a no-op and does not overwrite an existing transportPriority.
+        """
+        if value is not None:
+            self.transportPriority = value
+        return self
 
 
 class FlexrayArTpNode(Identifiable):
