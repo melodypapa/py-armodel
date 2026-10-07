@@ -62,13 +62,12 @@ class CanTpAddress(Identifiable, VariationPointCapable):
 
     # CanTpAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.255, p.610
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTpAddress                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpAddress                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpAddressExtensionValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpAddressExtensionValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddress                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddress                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddressExtensionValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressExtensionValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
