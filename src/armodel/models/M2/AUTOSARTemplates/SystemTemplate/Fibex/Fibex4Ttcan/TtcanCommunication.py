@@ -15,9 +15,9 @@ class TtcanTriggerType(AREnum):
 
     # TtcanTriggerType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.116, p.450
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Check for message reception Tags: atp.EnumerationLiteralIndex=0
     ENUM_RX_TRIGGER = "RX-TRIGGER"

@@ -417,7 +417,6 @@ TracedFailure
 TransientFault
 TriggerMapping
 TtcanAbsolutelyScheduledTiming
-TtcanTriggerType
 UdpChecksumCalculationEnum
 UdpNmEcu
 UdpProps

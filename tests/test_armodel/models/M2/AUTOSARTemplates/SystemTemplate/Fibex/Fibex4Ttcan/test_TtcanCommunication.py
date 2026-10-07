@@ -46,6 +46,8 @@ class TestTtcanAbsolutelyScheduledTiming:
 
 
 class TestTtcanTriggerType:
+    """Test cases for TtcanTriggerType (Table 6.116)."""
+
     def test_initialization(self):
         trigger_type = TtcanTriggerType()
         assert trigger_type is not None
@@ -65,3 +67,14 @@ class TestTtcanTriggerType:
         assert TtcanTriggerType.ENUM_RX_TRIGGER in enum.getEnumValues()
         assert TtcanTriggerType.ENUM_WATCH_TRIGGER_GAP in enum.getEnumValues()
         assert len(enum.getEnumValues()) == 7
+
+    def test_facet_order(self):
+        assert list(TtcanTriggerType().getEnumValues()) == [
+            TtcanTriggerType.ENUM_RX_TRIGGER,
+            TtcanTriggerType.ENUM_TX_REF_TRIGGER,
+            TtcanTriggerType.ENUM_TX_REF_TRIGGER_GAP,
+            TtcanTriggerType.ENUM_TX_TRIGGER_MERGED,
+            TtcanTriggerType.ENUM_TX_TRIGGER_SINGLE,
+            TtcanTriggerType.ENUM_WATCH_TRIGGER,
+            TtcanTriggerType.ENUM_WATCH_TRIGGER_GAP,
+        ]
