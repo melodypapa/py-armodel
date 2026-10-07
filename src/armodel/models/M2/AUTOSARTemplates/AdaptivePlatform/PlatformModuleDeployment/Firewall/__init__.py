@@ -558,6 +558,7 @@ class Ipv6Rule(NetworkLayerRule):
 
     # Ipv6Rule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class Ipv6Rule, AUTOSAR_00052.xsd line 75007 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationIpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
