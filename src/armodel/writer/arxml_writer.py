@@ -1097,6 +1097,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncClientConfiguration,
     TimeSynchronization,
     GenericTp,
+    Ieee1722Tp,
     RtpTp,
     TcpTp,
     TpPort,
@@ -11062,6 +11063,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             else:
                 self.notImplemented("Unsupported RtpTp tcpUdpConfig <%s>" % type(config))
 
+    def writeIeee1722Tp(self, element: ET.Element, tp: Ieee1722Tp):
+        child_element = ET.SubElement(element, "IEEE-1722-TP")
+        self.writeARObject(child_element, tp)
+        self.setChildElementOptionalTimeValue(child_element, "RELATIVE-REPRESENTATION-TIME", tp.getRelativeRepresentationTime())
+        self.setChildElementOptionalPositiveInteger(child_element, "STREAM-IDENTIFIER", cast(Integer, tp.getStreamIdentifier()))
+        self.setChildElementOptionalPositiveInteger(child_element, "SUB-TYPE", cast(Integer, tp.getSubType()))
+        self.setChildElementOptionalPositiveInteger(child_element, "VERSION", cast(Integer, tp.getVersion()))
+
     def writeTransportProtocolConfiguration(self, element: ET.Element, configuration: Optional[TransportProtocolConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, "TP-CONFIGURATION")
@@ -11073,6 +11082,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeGenericTp(child_element, configuration)
             elif isinstance(configuration, RtpTp):
                 self.writeRtpTp(child_element, configuration)
+            elif isinstance(configuration, Ieee1722Tp):
+                self.writeIeee1722Tp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % type(configuration))
 

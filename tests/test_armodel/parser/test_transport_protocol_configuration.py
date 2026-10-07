@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, RtpTp, TcpTp, TransportProtocolConfiguration, UdpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, Ieee1722Tp, RtpTp, TcpTp, TransportProtocolConfiguration, UdpTp
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -67,6 +67,29 @@ def test_read_rtp_tp_configuration_without_tcp_udp_config(parser):
     assert isinstance(configuration, RtpTp)
     assert configuration.getSsrc().getValue() == 7
     assert configuration.getTcpUdpConfig() is None
+
+
+def test_read_ieee_1722_tp_configuration(parser):
+    root = _snip(
+        "<TP-CONFIGURATION><IEEE-1722-TP><RELATIVE-REPRESENTATION-TIME>0.5</RELATIVE-REPRESENTATION-TIME><STREAM-IDENTIFIER>1712384</STREAM-IDENTIFIER><SUB-TYPE>0</SUB-TYPE><VERSION>2</VERSION></IEEE-1722-TP></TP-CONFIGURATION>"
+    )
+    configuration = parser.getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+    assert isinstance(configuration, Ieee1722Tp)
+    assert isinstance(configuration, TransportProtocolConfiguration)
+    assert configuration.getRelativeRepresentationTime().getValue() == 0.5
+    assert configuration.getStreamIdentifier().getValue() == 1712384
+    assert configuration.getSubType().getValue() == 0
+    assert configuration.getVersion().getValue() == 2
+
+
+def test_read_ieee_1722_tp_configuration_empty(parser):
+    root = _snip("<TP-CONFIGURATION><IEEE-1722-TP></IEEE-1722-TP></TP-CONFIGURATION>")
+    configuration = parser.getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+    assert isinstance(configuration, Ieee1722Tp)
+    assert configuration.getRelativeRepresentationTime() is None
+    assert configuration.getStreamIdentifier() is None
+    assert configuration.getSubType() is None
+    assert configuration.getVersion() is None
 
 
 def test_read_tp_configuration_empty(parser):

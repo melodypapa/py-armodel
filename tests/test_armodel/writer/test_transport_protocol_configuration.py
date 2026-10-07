@@ -12,8 +12,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     PositiveInteger,
     String,
+    TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, RtpTp, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import GenericTp, Ieee1722Tp, RtpTp, TcpTp, TpPort, TransportProtocolConfiguration, UdpTp
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -127,3 +128,47 @@ class TestWriteRtpTp:
         tcp_udp_config = reloaded.getTcpUdpConfig()
         assert isinstance(tcp_udp_config, TcpTp)
         assert tcp_udp_config.getTcpTpPort().getPortNumber().getValue() == 5005
+
+
+def _new_ieee_1722_tp():
+    tp = Ieee1722Tp()
+    tp.setRelativeRepresentationTime(TimeValue().setValue("0.5"))
+    tp.setStreamIdentifier(PositiveInteger().setValue("1712384"))
+    tp.setSubType(PositiveInteger().setValue("0"))
+    tp.setVersion(PositiveInteger().setValue("2"))
+    return tp
+
+
+class TestWriteIeee1722Tp:
+    def test_write_ieee_1722_tp(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, _new_ieee_1722_tp())
+        node = parent.find("TP-CONFIGURATION/IEEE-1722-TP")
+        assert node is not None
+        assert node.find("RELATIVE-REPRESENTATION-TIME").text == "0.5"
+        assert node.find("STREAM-IDENTIFIER").text == "1712384"
+        assert node.find("SUB-TYPE").text == "0"
+        assert node.find("VERSION").text == "2"
+
+    def test_write_ieee_1722_tp_empty_fields_omits_optional_tags(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, Ieee1722Tp())
+        node = parent.find("TP-CONFIGURATION/IEEE-1722-TP")
+        assert node is not None
+        assert node.find("RELATIVE-REPRESENTATION-TIME") is None
+        assert node.find("STREAM-IDENTIFIER") is None
+        assert node.find("SUB-TYPE") is None
+        assert node.find("VERSION") is None
+
+    def test_round_trip_ieee_1722_tp_preserves_values(self):
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeTransportProtocolConfiguration(parent, _new_ieee_1722_tp())
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring(inner.replace("<PARENT>", "<PARENT xmlns='%s'>" % NS, 1))
+
+        reloaded = ARXMLParser().getTransportProtocolConfiguration(root, "TP-CONFIGURATION")
+        assert isinstance(reloaded, Ieee1722Tp)
+        assert reloaded.getRelativeRepresentationTime().getValue() == 0.5
+        assert reloaded.getStreamIdentifier().getValue() == 1712384
+        assert reloaded.getSubType().getValue() == 0
+        assert reloaded.getVersion().getValue() == 2

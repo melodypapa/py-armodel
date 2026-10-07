@@ -1232,6 +1232,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     GenericTp,
     GlobalTimeCouplingPortProps,
     Dhcpv6Props,
+    Ieee1722Tp,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
@@ -10833,6 +10834,13 @@ class ARXMLParser(AbstractARXMLParser):
             if config is not None:
                 tp.setTcpUdpConfig(config)
 
+    def readIeee1722Tp(self, element: ET.Element, tp: Ieee1722Tp):
+        self.readARObject(element, tp)
+        tp.setRelativeRepresentationTime(self.getChildElementOptionalTimeValue(element, "RELATIVE-REPRESENTATION-TIME"))
+        tp.setStreamIdentifier(self.getChildElementOptionalPositiveInteger(element, "STREAM-IDENTIFIER"))
+        tp.setSubType(self.getChildElementOptionalPositiveInteger(element, "SUB-TYPE"))
+        tp.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> Optional[TransportProtocolConfiguration]:
         configuration: Optional[TransportProtocolConfiguration] = None
         child_element = self.find(element, "%s/*" % key)
@@ -10850,6 +10858,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "RTP-TP":
                 configuration = RtpTp()
                 self.readRtpTp(child_element, configuration)
+            elif tag_name == "IEEE-1722-TP":
+                configuration = Ieee1722Tp()
+                self.readIeee1722Tp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
         return configuration
