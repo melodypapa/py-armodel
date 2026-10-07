@@ -416,7 +416,6 @@ TraceableText
 TracedFailure
 TransientFault
 TriggerMapping
-UdpChecksumCalculationEnum
 UdpNmEcu
 UdpProps
 UnassignFrameId

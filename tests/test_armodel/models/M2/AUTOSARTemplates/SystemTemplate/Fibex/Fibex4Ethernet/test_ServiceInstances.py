@@ -1708,13 +1708,13 @@ class TestUdpChecksumCalculationEnum:
 
     def test_member_presence_and_values(self):
         """
-        Test that both spec literals exist with their index order.
+        Test that both spec literals exist with the XSD facet order (DISABLED first).
         """
         assert UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED == "UDP-CHECKSUM-ENABLED"
         assert UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED == "UDP-CHECKSUM-DISABLED"
         assert list(UdpChecksumCalculationEnum().getEnumValues()) == [
-            UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
             UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED,
+            UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
         ]
 
     def test_instantiability(self):

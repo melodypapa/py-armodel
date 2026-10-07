@@ -323,9 +323,9 @@ class UdpChecksumCalculationEnum(AREnum):
 
     # UdpChecksumCalculationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.119, p.454
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on SocketAddress.udpChecksumHandling
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Udp checksum handling shall be disabled Tags: atp.EnumerationLiteralIndex=1
     UDP_CHECKSUM_DISABLED = "UDP-CHECKSUM-DISABLED"
@@ -336,8 +336,8 @@ class UdpChecksumCalculationEnum(AREnum):
     def __init__(self):
         super().__init__(
             [
-                UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
                 UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED,
+                UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
             ]
         )
 
