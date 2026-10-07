@@ -1868,10 +1868,6 @@ class FlexrayArTpNode(Identifiable):
     pass
 
 
-class FlexrayTpConnectionControl(Identifiable):
-    pass
-
-
 class FlexrayTpNode(Identifiable):
     pass
 

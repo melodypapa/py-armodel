@@ -1576,6 +1576,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     SomeipTpChannel,
     SomeipTpConfig,
     SomeipTpConnection,
+    TpAckType,
     TpAddress,
     TpConfig,
 )
@@ -14278,6 +14279,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayTpConnectionControl(self, element: ET.Element, control: FlexrayTpConnectionControl):
         self.readIdentifiable(element, control)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = TpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            control.setAckType(ack_type)
+        control.setMaxFcWait(self.getChildElementOptionalIntegerValue(element, "MAX-FC-WAIT"))
+        control.setMaxNumberOfNpduPerCycle(self.getChildElementOptionalIntegerValue(element, "MAX-NUMBER-OF-NPDU-PER-CYCLE"))
+        control.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        control.setSeparationCycleExponent(self.getChildElementOptionalIntegerValue(element, "SEPARATION-CYCLE-EXPONENT"))
+        control.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        control.setTimeBuffer(self.getChildElementOptionalTimeValue(element, "TIME-BUFFER"))
+        control.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        control.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        control.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        control.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        control.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readVariationPointCapable(element, control)
 
     def readFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
         for child_element in self.findall(element, "TP-CONNECTION-CONTROLS/*"):

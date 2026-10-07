@@ -131,16 +131,28 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpConnectionControl` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.240, p.593
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the Identifiable.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007). XSD group FLEXRAY-TP-CONNECTION-CONTROL carries
+    VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable are
+    called. All 12 spec attrs modeled in displayed order (ackType, maxFcWait, maxNumberOfNpduPerCycle,
+    maxRetries, separationCycleExponent, timeBr, timeBuffer, timeCs, timeoutAr, timeoutAs, timeoutBs,
+    timeoutCr); XSD-only extras (MAX-AR, MAX-AS, MAX-BUFFER-SIZE, MAX-FR-IF, TIME-FR-IF, TIMEOUT-BR,
+    TIMEOUT-CS) absent from the PDF table NOT modeled (Rule 0015). ackType's type TpAckType has no own
+    R23-11 table (XSD-only, TP-ACK-TYPE line 144716, literals ACK-WITH-RT/NO-ACK) and is not a Group33
+    row — implemented from the XSD in the same commit (unstamped; Rule 0001.10). Writer XML element
+    order per XSD sequenceOffset coincides with the PDF displayed order for the modeled subset.
+    FlexrayTpConnection.tpConnectionControlRef stays Optional[RefType] — same convention as the
+    FlexrayTpPduPool-typed rxPduPoolRef/txPduPoolRef.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayTpConnection` — TpConnection — R23-11 CP_TPS_SystemTemplate Table 6.241, p.594
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py

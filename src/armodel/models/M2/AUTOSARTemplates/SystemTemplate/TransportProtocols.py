@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FlexrayArTpNode,
-    FlexrayTpConnectionControl,
     FlexrayTpNode,
     FlexrayTpPduPool,
     Identifiable,
@@ -200,6 +199,30 @@ class NetworkTargetAddressType(AREnum):
             [
                 NetworkTargetAddressType.ENUM_FUNCTIONAL,
                 NetworkTargetAddressType.ENUM_PHYSICAL,
+            ]
+        )
+
+
+class TpAckType(AREnum):
+    """Type of Acknowledgement."""
+
+    # TpAckType method parity checklist:
+    # Spec: class TpAckType, AUTOSAR_00052.xsd line 144716 (XSD-only; no own table in repo corpus)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayTpConnectionControl.ackType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Acknowledgement with retry. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_ACK_WITH_RT = "ACK-WITH-RT"
+
+    # No acknowledgement. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_NO_ACK = "NO-ACK"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TpAckType.ENUM_ACK_WITH_RT,
+                TpAckType.ENUM_NO_ACK,
             ]
         )
 
@@ -1761,6 +1784,261 @@ class FlexrayTpConnection(TpConnection, VariationPointCapable):
         """
         if value is not None:
             self.txPduPoolRef = value
+        return self
+
+
+class FlexrayTpConnectionControl(Identifiable, VariationPointCapable):
+    """
+    Configuration parameters to control a FlexRay TP connection.
+    """
+
+    # FlexrayTpConnectionControl method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.240, p.593
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAckType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAckType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxFcWait                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxFcWait                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxNumberOfNpduPerCycle      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxNumberOfNpduPerCycle      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxRetries                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxRetries                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeparationCycleExponent      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSeparationCycleExponent      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBr                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBr                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeBuffer                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBuffer                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeCs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeCs                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAr                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAr                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAs                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutBs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutBs                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCr                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCr                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This parameter defines the type of acknowledgement which is used for the specific channel.
+        self.ackType: Optional[TpAckType] = None
+
+        # This attribute defines the maximum number of Flow Control N-PDUs with FlowState "WAIT".
+        self.maxFcWait: Optional[Integer] = None
+
+        # This parameter limits the number of N-Pdus the sender is allowed to transmit within a FlexRay cycle.
+        self.maxNumberOfNpduPerCycle: Optional[Integer] = None
+
+        # This parameter defines the maximum number of retries (if retry is configured for the particular channel).
+        self.maxRetries: Optional[Integer] = None
+
+        # Exponent to calculate the minimum number of "Separation Cycles" the sender has to wait for the next transmission of an FrTp N-Pdu.
+        self.separationCycleExponent: Optional[Integer] = None
+
+        # Time (in seconds) until transmission of the next Flow Control N-PDU.
+        self.timeBr: Optional[TimeValue] = None
+
+        # This parameter defines the time of waiting for the next try to get a Tx or Rx buffer. This parameter is equivalent to the temporal distance between two FC.WT N-Pdus in case the buffer request returns busy.
+        self.timeBuffer: Optional[TimeValue] = None
+
+        # Time (in seconds) until transmission of the next ConsecutiveFrame NPdu / LastFrame NPdu.
+        self.timeCs: Optional[TimeValue] = None
+
+        # This parameter states the timeout between the PDU transmit request of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface on the receiver side (for FC or AF). Specified in seconds.
+        self.timeoutAr: Optional[TimeValue] = None
+
+        # This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
+        self.timeoutAs: Optional[TimeValue] = None
+
+        # This parameter defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        self.timeoutBs: Optional[TimeValue] = None
+
+        # This parameter defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
+        self.timeoutCr: Optional[TimeValue] = None
+
+    def getAckType(self) -> Optional[TpAckType]:
+        """
+        This parameter defines the type of acknowledgement which is used for the specific channel.
+        """
+        return self.ackType
+
+    def setAckType(self, value: Optional[TpAckType]) -> FlexrayTpConnectionControl:
+        """
+        This parameter defines the type of acknowledgement which is used for the specific channel.
+        A None value is a no-op and does not overwrite an existing ackType.
+        """
+        if value is not None:
+            self.ackType = value
+        return self
+
+    def getMaxFcWait(self) -> Optional[Integer]:
+        """
+        This attribute defines the maximum number of Flow Control N-PDUs with FlowState "WAIT".
+        """
+        return self.maxFcWait
+
+    def setMaxFcWait(self, value: Optional[Integer]) -> FlexrayTpConnectionControl:
+        """
+        This attribute defines the maximum number of Flow Control N-PDUs with FlowState "WAIT".
+        A None value is a no-op and does not overwrite an existing maxFcWait.
+        """
+        if value is not None:
+            self.maxFcWait = value
+        return self
+
+    def getMaxNumberOfNpduPerCycle(self) -> Optional[Integer]:
+        """
+        This parameter limits the number of N-Pdus the sender is allowed to transmit within a FlexRay cycle.
+        """
+        return self.maxNumberOfNpduPerCycle
+
+    def setMaxNumberOfNpduPerCycle(self, value: Optional[Integer]) -> FlexrayTpConnectionControl:
+        """
+        This parameter limits the number of N-Pdus the sender is allowed to transmit within a FlexRay cycle.
+        A None value is a no-op and does not overwrite an existing maxNumberOfNpduPerCycle.
+        """
+        if value is not None:
+            self.maxNumberOfNpduPerCycle = value
+        return self
+
+    def getMaxRetries(self) -> Optional[Integer]:
+        """
+        This parameter defines the maximum number of retries (if retry is configured for the particular channel).
+        """
+        return self.maxRetries
+
+    def setMaxRetries(self, value: Optional[Integer]) -> FlexrayTpConnectionControl:
+        """
+        This parameter defines the maximum number of retries (if retry is configured for the particular channel).
+        A None value is a no-op and does not overwrite an existing maxRetries.
+        """
+        if value is not None:
+            self.maxRetries = value
+        return self
+
+    def getSeparationCycleExponent(self) -> Optional[Integer]:
+        """
+        Exponent to calculate the minimum number of "Separation Cycles" the sender has to wait for the next transmission of an FrTp N-Pdu.
+        """
+        return self.separationCycleExponent
+
+    def setSeparationCycleExponent(self, value: Optional[Integer]) -> FlexrayTpConnectionControl:
+        """
+        Exponent to calculate the minimum number of "Separation Cycles" the sender has to wait for the next transmission of an FrTp N-Pdu.
+        A None value is a no-op and does not overwrite an existing separationCycleExponent.
+        """
+        if value is not None:
+            self.separationCycleExponent = value
+        return self
+
+    def getTimeBr(self) -> Optional[TimeValue]:
+        """
+        Time (in seconds) until transmission of the next Flow Control N-PDU.
+        """
+        return self.timeBr
+
+    def setTimeBr(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        Time (in seconds) until transmission of the next Flow Control N-PDU.
+        A None value is a no-op and does not overwrite an existing timeBr.
+        """
+        if value is not None:
+            self.timeBr = value
+        return self
+
+    def getTimeBuffer(self) -> Optional[TimeValue]:
+        """
+        This parameter defines the time of waiting for the next try to get a Tx or Rx buffer. This parameter is equivalent to the temporal distance between two FC.WT N-Pdus in case the buffer request returns busy.
+        """
+        return self.timeBuffer
+
+    def setTimeBuffer(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        This parameter defines the time of waiting for the next try to get a Tx or Rx buffer. This parameter is equivalent to the temporal distance between two FC.WT N-Pdus in case the buffer request returns busy.
+        A None value is a no-op and does not overwrite an existing timeBuffer.
+        """
+        if value is not None:
+            self.timeBuffer = value
+        return self
+
+    def getTimeCs(self) -> Optional[TimeValue]:
+        """
+        Time (in seconds) until transmission of the next ConsecutiveFrame NPdu / LastFrame NPdu.
+        """
+        return self.timeCs
+
+    def setTimeCs(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        Time (in seconds) until transmission of the next ConsecutiveFrame NPdu / LastFrame NPdu.
+        A None value is a no-op and does not overwrite an existing timeCs.
+        """
+        if value is not None:
+            self.timeCs = value
+        return self
+
+    def getTimeoutAr(self) -> Optional[TimeValue]:
+        """
+        This parameter states the timeout between the PDU transmit request of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface on the receiver side (for FC or AF). Specified in seconds.
+        """
+        return self.timeoutAr
+
+    def setTimeoutAr(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        This parameter states the timeout between the PDU transmit request of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface on the receiver side (for FC or AF). Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutAr.
+        """
+        if value is not None:
+            self.timeoutAr = value
+        return self
+
+    def getTimeoutAs(self) -> Optional[TimeValue]:
+        """
+        This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
+        """
+        return self.timeoutAs
+
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the Flex Ray Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutAs.
+        """
+        if value is not None:
+            self.timeoutAs = value
+        return self
+
+    def getTimeoutBs(self) -> Optional[TimeValue]:
+        """
+        This parameter defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        """
+        return self.timeoutBs
+
+    def setTimeoutBs(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        This parameter defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        A None value is a no-op and does not overwrite an existing timeoutBs.
+        """
+        if value is not None:
+            self.timeoutBs = value
+        return self
+
+    def getTimeoutCr(self) -> Optional[TimeValue]:
+        """
+        This parameter defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
+        """
+        return self.timeoutCr
+
+    def setTimeoutCr(self, value: Optional[TimeValue]) -> FlexrayTpConnectionControl:
+        """
+        This parameter defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutCr.
+        """
+        if value is not None:
+            self.timeoutCr = value
         return self
 
 

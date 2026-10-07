@@ -10484,6 +10484,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if control is not None:
             child_element = ET.SubElement(element, "FLEXRAY-TP-CONNECTION-CONTROL")
             self.writeIdentifiable(child_element, control)
+            ack_type = control.getAckType()
+            if ack_type is not None:
+                ack_type_element = ET.SubElement(child_element, "ACK-TYPE")
+                ack_type_element.text = ack_type.getValue()
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-FC-WAIT", control.getMaxFcWait())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-NPDU-PER-CYCLE", control.getMaxNumberOfNpduPerCycle())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-RETRIES", control.getMaxRetries())
+            self.setChildElementOptionalIntegerValue(child_element, "SEPARATION-CYCLE-EXPONENT", control.getSeparationCycleExponent())
+            self.setChildElementOptionalTimeValue(child_element, "TIME-BR", control.getTimeBr())
+            self.setChildElementOptionalTimeValue(child_element, "TIME-BUFFER", control.getTimeBuffer())
+            self.setChildElementOptionalTimeValue(child_element, "TIME-CS", control.getTimeCs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AR", control.getTimeoutAr())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AS", control.getTimeoutAs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BS", control.getTimeoutBs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CR", control.getTimeoutCr())
+            self.writeVariationPointCapable(child_element, control)
 
     def writeFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
         controls = config.getTpConnectionControls()
