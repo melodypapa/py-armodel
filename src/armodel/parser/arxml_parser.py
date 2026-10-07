@@ -775,6 +775,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
@@ -1646,6 +1647,14 @@ DDS_DURABILITY_KIND_XML_MAP = {
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsLivenessKindEnum literal values and their XML element text
+#: (AR:DDS-LIVENESS-KIND-ENUM--SIMPLE).
+DDS_LIVENESS_KIND_XML_MAP = {
+    "AUTOMATIC": "AUTOMATIC",
+    "MANUAL-BY-PARTICIPANT": "MANUAL-BY-PARTICIPANT",
+    "MANUAL-BY-TOPIC": "MANUAL-BY-TOPIC",
 }
 
 #: Mapping between DdsOwnershipKindEnum literal values and their XML element text
@@ -11953,10 +11962,11 @@ class ARXMLParser(AbstractARXMLParser):
             profile.setLatencyBudget(latency_budget)
         if self.find(element, "LIFESPAN") is not None:
             profile.setLifespan(DdsLifespan())
-        if self.find(element, "LIVELINESS") is not None:
-            profile.setLiveliness(DdsLiveliness())
-        if self.find(element, "OWNERSHIP") is not None:
-            profile.setOwnership(DdsOwnership())
+        liveliness_element = self.find(element, "LIVELINESS")
+        if liveliness_element is not None:
+            liveliness = DdsLiveliness()
+            self.readDdsLiveliness(liveliness_element, liveliness)
+            profile.setLiveliness(liveliness)
         ownership_element = self.find(element, "OWNERSHIP")
         if ownership_element is not None:
             ownership = DdsOwnership()
@@ -11989,6 +11999,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
+        self.logger.debug("Read DdsLiveliness")
+        self.readARObject(element, liveliness)
+        liveliness.setLivelinessLeaseDuration(self.getChildElementOptionalFloatValue(element, "LIVELINESS-LEASE-DURATION"))
+        liveliness.setLivenessKind(self._readEnumToken(element, "LIVENESS-KIND", DdsLivenessKindEnum, DDS_LIVENESS_KIND_XML_MAP))
 
     def readDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
         self.logger.debug("Read DdsOwnershipStrength")

@@ -5,7 +5,8 @@ writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
 (AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
 elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService/
-DdsDeadline/DdsLatencyBudget/DdsOwnership/DdsOwnershipStrength children serialize fully.
+DdsDeadline/DdsLatencyBudget/DdsOwnership/DdsOwnershipStrength/DdsLiveliness children
+serialize fully.
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -21,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsHistory,
     DdsLatencyBudget,
+    DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
     DdsTopicData,
@@ -29,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     Float,
     PositiveInteger,
@@ -62,6 +65,10 @@ def _new_profile() -> DdsCpQosProfile:
     ownership_strength = DdsOwnershipStrength()
     ownership_strength.setOwnershipStrength(PositiveInteger().setValue("5"))
     profile.setOwnershipStrength(ownership_strength)
+    liveliness = DdsLiveliness()
+    liveliness.setLivelinessLeaseDuration(Float().setValue("10.0"))
+    liveliness.setLivenessKind(DdsLivenessKindEnum().setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC))
+    profile.setLiveliness(liveliness)
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
@@ -105,6 +112,16 @@ class TestWriteDdsCpQosProfile:
         deadline_node = node.find("DEADLINE")
         assert deadline_node is not None
         assert deadline_node.find("DEADLINE-PERIOD").text == "0.5"
+
+    def test_write_emits_liveliness_fully(self):
+        """Test that the synced DdsLiveliness child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        liveliness_node = node.find("LIVELINESS")
+        assert liveliness_node is not None
+        assert liveliness_node.find("LIVELINESS-LEASE-DURATION").text == "10.0"
+        assert liveliness_node.find("LIVENESS-KIND").text == "MANUAL-BY-TOPIC"
 
     def test_write_emits_ownership_strength_fully(self):
         """Test that the synced DdsOwnershipStrength child serializes with its values."""
@@ -196,5 +213,8 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getOwnership().getOwnershipKind().getValue() == "EXCLUSIVE"
         assert isinstance(reloaded.getOwnershipStrength(), DdsOwnershipStrength)
         assert reloaded.getOwnershipStrength().getOwnershipStrength().getValue() == 5
+        assert isinstance(reloaded.getLiveliness(), DdsLiveliness)
+        assert reloaded.getLiveliness().getLivelinessLeaseDuration().getValue() == 10.0
+        assert reloaded.getLiveliness().getLivenessKind().getValue() == "MANUAL-BY-TOPIC"
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

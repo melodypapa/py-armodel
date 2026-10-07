@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
+    DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
     DdsTopicData,
@@ -1370,6 +1371,14 @@ DDS_DURABILITY_KIND_XML_MAP = {
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsLivenessKindEnum literal values and their XML element text
+#: (AR:DDS-LIVENESS-KIND-ENUM--SIMPLE).
+DDS_LIVENESS_KIND_XML_MAP = {
+    "AUTOMATIC": "AUTOMATIC",
+    "MANUAL-BY-PARTICIPANT": "MANUAL-BY-PARTICIPANT",
+    "MANUAL-BY-TOPIC": "MANUAL-BY-TOPIC",
 }
 
 #: Mapping between DdsOwnershipKindEnum literal values and their XML element text
@@ -15707,7 +15716,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getLifespan() is not None:
             ET.SubElement(child_element, "LIFESPAN")
         if profile.getLiveliness() is not None:
-            ET.SubElement(child_element, "LIVELINESS")
+            self.writeDdsLiveliness(child_element, profile.getLiveliness())
         if profile.getOwnership() is not None:
             self.writeDdsOwnership(child_element, profile.getOwnership())
         if profile.getOwnershipStrength() is not None:
@@ -15731,6 +15740,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
+        child_element = ET.SubElement(element, "LIVELINESS")
+        self.writeARObject(child_element, liveliness)
+        self.setChildElementOptionalFloatValue(child_element, "LIVELINESS-LEASE-DURATION", liveliness.getLivelinessLeaseDuration())
+        self._writeEnumToken(child_element, "LIVENESS-KIND", liveliness.getLivenessKind(), DDS_LIVENESS_KIND_XML_MAP)
 
     def writeDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
         child_element = ET.SubElement(element, "OWNERSHIP-STRENGTH")

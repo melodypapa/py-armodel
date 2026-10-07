@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
+    DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
     DdsTopicData,
@@ -52,6 +53,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -3847,3 +3849,87 @@ class TestDdsOwnershipStrength:
         assert inspect.cleandoc(DdsOwnershipStrength.setOwnershipStrength.__doc__) == (
             self.OWNERSHIP_STRENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ownershipStrength."
         )
+
+
+class TestDdsLiveliness:
+    """
+    Test class for DdsLiveliness functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.190, p.534
+    """
+
+    CLASS_NOTE = "Describes the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate"
+    LIVELINESS_LEASE_DURATION_NOTE = 'See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+    LIVENESS_KIND_NOTE = 'See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_liveliness(self) -> DdsLiveliness:
+        return DdsLiveliness()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLiveliness initializes all attributes to their defaults.
+        """
+        obj = self._create_liveliness()
+
+        assert obj.getLivelinessLeaseDuration() is None
+        assert obj.getLivenessKind() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLiveliness derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLiveliness, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLiveliness.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLiveliness.__init__.__doc__ is None
+
+    def test_get_set_liveliness_lease_duration(self):
+        """
+        Test getLivelinessLeaseDuration and setLivelinessLeaseDuration round-trip and None no-op.
+        """
+        obj = self._create_liveliness()
+
+        value = Float().setValue("10.0")
+        result = obj.setLivelinessLeaseDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLivelinessLeaseDuration() is value
+        assert obj.getLivelinessLeaseDuration().getValue() == 10.0
+
+        result = obj.setLivelinessLeaseDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLivelinessLeaseDuration() is value  # None is a no-op
+
+    def test_get_set_liveness_kind(self):
+        """
+        Test getLivenessKind and setLivenessKind round-trip and None no-op.
+        """
+        obj = self._create_liveliness()
+
+        value = DdsLivenessKindEnum().setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC)
+        result = obj.setLivenessKind(value)
+        assert result is obj  # method chaining
+        assert obj.getLivenessKind() is value
+        assert obj.getLivenessKind().getValue() == DdsLivenessKindEnum.MANUAL_BY_TOPIC
+
+        result = obj.setLivenessKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLivenessKind() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsLiveliness.getLivelinessLeaseDuration.__doc__) == self.LIVELINESS_LEASE_DURATION_NOTE
+        assert inspect.cleandoc(DdsLiveliness.setLivelinessLeaseDuration.__doc__) == (self.LIVELINESS_LEASE_DURATION_NOTE + none_no_op % "livelinessLeaseDuration")
+        assert inspect.cleandoc(DdsLiveliness.getLivenessKind.__doc__) == self.LIVENESS_KIND_NOTE
+        assert inspect.cleandoc(DdsLiveliness.setLivenessKind.__doc__) == (self.LIVENESS_KIND_NOTE + none_no_op % "livenessKind")

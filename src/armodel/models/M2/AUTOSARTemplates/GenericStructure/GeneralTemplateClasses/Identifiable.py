@@ -1600,9 +1600,12 @@ class DdsCpQosProfile(Identifiable):
     # [x] getTransportPriority      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTransportPriority      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Identity-only child serialization debt (Rule 0001.7): deadline..transportPriority except topicData
-    # aggregate still-unsynced Dds* QoS policy classes (queued Table 6.181-6.200) — the reader constructs
-    # the child and the writer emits the empty element; the children's own syncs replace the placeholders.
+    # Identity-only child serialization debt (Rule 0001.7): destinationOrder, history, lifespan,
+    # reliability, resourceLimits and transportPriority aggregate still-unsynced Dds* QoS policy
+    # classes (queued Table 6.192-6.200) — the reader constructs the child and the writer emits
+    # the empty element; the children's own syncs replace the placeholders. deadline, durability,
+    # durabilityService, latencyBudget, liveliness, ownership, ownershipStrength and topicData are
+    # fully serialized since their own syncs (Tables 6.180-6.190).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

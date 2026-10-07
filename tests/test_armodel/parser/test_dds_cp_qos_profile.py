@@ -11,9 +11,9 @@ OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY
 
 The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, DdsDurability,
 synced Table 6.181, DdsDurabilityService, synced Table 6.183, DdsDeadline, synced
-Table 6.185, DdsLatencyBudget, synced Table 6.186, DdsOwnership, synced Table 6.187, and
-DdsOwnershipStrength, synced Table 6.189) are still unsynced stubs — the reader serializes
-them identity-only (Rule 0001.7 debt).
+Table 6.185, DdsLatencyBudget, synced Table 6.186, DdsOwnership, synced Table 6.187,
+DdsOwnershipStrength, synced Table 6.189, and DdsLiveliness, synced Table 6.190) are still
+unsynced stubs — the reader serializes them identity-only (Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsHistory,
     DdsLatencyBudget,
+    DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
     DdsTopicData,
@@ -81,6 +82,13 @@ class TestReadDdsCpQosProfile:
         assert isinstance(profile.getDeadline(), DdsDeadline)
         assert profile.getDeadline().getDeadlinePeriod() is not None
         assert profile.getDeadline().getDeadlinePeriod().getValue() == 0.5
+
+    def test_read_sets_liveliness_with_values(self, parser):
+        """Test that the synced DdsLiveliness child is read with its field values."""
+        profile = self._read(parser, "<LIVELINESS><LIVELINESS-LEASE-DURATION>10.0</LIVELINESS-LEASE-DURATION><LIVENESS-KIND>MANUAL-BY-TOPIC</LIVENESS-KIND></LIVELINESS>")
+        assert isinstance(profile.getLiveliness(), DdsLiveliness)
+        assert profile.getLiveliness().getLivelinessLeaseDuration().getValue() == 10.0
+        assert profile.getLiveliness().getLivenessKind().getValue() == "MANUAL-BY-TOPIC"
 
     def test_read_sets_ownership_strength_with_values(self, parser):
         """Test that the synced DdsOwnershipStrength child is read with its field values."""

@@ -2863,7 +2863,59 @@ class DdsLifespan(ARObject):
 
 
 class DdsLiveliness(ARObject):
-    pass
+    """
+    Describes the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLiveliness method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.190, p.534
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLivelinessLeaseDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLivelinessLeaseDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLivenessKind                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLivenessKind                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.livelinessLeaseDuration: Optional[Float] = None
+
+        # See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+        self.livenessKind: Optional[DdsLivenessKindEnum] = None
+
+    def getLivelinessLeaseDuration(self) -> Optional[Float]:
+        """
+        See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.livelinessLeaseDuration
+
+    def setLivelinessLeaseDuration(self, value: Optional[Float]) -> DdsLiveliness:
+        """
+        See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing livelinessLeaseDuration.
+        """
+        if value is not None:
+            self.livelinessLeaseDuration = value
+        return self
+
+    def getLivenessKind(self) -> Optional[DdsLivenessKindEnum]:
+        """
+        See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.livenessKind
+
+    def setLivenessKind(self, value: Optional[DdsLivenessKindEnum]) -> DdsLiveliness:
+        """
+        See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing livenessKind.
+        """
+        if value is not None:
+            self.livenessKind = value
+        return self
 
 
 class DdsOwnership(ARObject):
@@ -3252,6 +3304,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
