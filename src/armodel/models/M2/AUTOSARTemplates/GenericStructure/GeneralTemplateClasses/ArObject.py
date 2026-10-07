@@ -2614,7 +2614,38 @@ class DdsDestinationOrder(ARObject):
 
 
 class DdsDurability(ARObject):
-    pass
+    """
+    Describes the DDS DURABILITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDurability method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.181, p.530
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDurabilityKind     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityKind     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityKind: Optional[DdsDurabilityKindEnum] = None
+
+    def getDurabilityKind(self) -> Optional[DdsDurabilityKindEnum]:
+        """
+        See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityKind
+
+    def setDurabilityKind(self, value: Optional[DdsDurabilityKindEnum]) -> DdsDurability:
+        """
+        See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityKind.
+        """
+        if value is not None:
+            self.durabilityKind = value
+        return self
 
 
 class DdsDurabilityService(ARObject):
@@ -2959,6 +2990,7 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DdsDurabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,

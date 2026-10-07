@@ -773,6 +773,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     CategoryString,
     DateTime,
+    DdsDurabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -1627,6 +1628,15 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDurabilityKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_KIND_XML_MAP = {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
+    "VOLATILE": "VOLATILE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -11903,8 +11913,11 @@ class ARXMLParser(AbstractARXMLParser):
             profile.setDeadline(DdsDeadline())
         if self.find(element, "DESTINATION-ORDER") is not None:
             profile.setDestinationOrder(DdsDestinationOrder())
-        if self.find(element, "DURABILITY") is not None:
-            profile.setDurability(DdsDurability())
+        durability_element = self.find(element, "DURABILITY")
+        if durability_element is not None:
+            durability = DdsDurability()
+            self.readDdsDurability(durability_element, durability)
+            profile.setDurability(durability)
         if self.find(element, "DURABILITY-SERVICE") is not None:
             profile.setDurabilityService(DdsDurabilityService())
         if self.find(element, "HISTORY") is not None:
@@ -11941,6 +11954,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsDurability(self, element: ET.Element, durability: DdsDurability):
+        self.logger.debug("Read DdsDurability")
+        self.readARObject(element, durability)
+        durability.setDurabilityKind(self._readEnumToken(element, "DURABILITY-KIND", DdsDurabilityKindEnum, DDS_DURABILITY_KIND_XML_MAP))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

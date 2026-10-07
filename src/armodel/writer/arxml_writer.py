@@ -559,6 +559,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
+    DdsDurability,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -1348,6 +1349,15 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDurabilityKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_KIND_XML_MAP = {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
+    "VOLATILE": "VOLATILE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -15668,7 +15678,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getDestinationOrder() is not None:
             ET.SubElement(child_element, "DESTINATION-ORDER")
         if profile.getDurability() is not None:
-            ET.SubElement(child_element, "DURABILITY")
+            self.writeDdsDurability(child_element, profile.getDurability())
         if profile.getDurabilityService() is not None:
             ET.SubElement(child_element, "DURABILITY-SERVICE")
         if profile.getHistory() is not None:
@@ -15702,6 +15712,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsDurability(self, element: ET.Element, durability: DdsDurability):
+        child_element = ET.SubElement(element, "DURABILITY")
+        self.writeARObject(child_element, durability)
+        self._writeEnumToken(child_element, "DURABILITY-KIND", durability.getDurabilityKind(), DDS_DURABILITY_KIND_XML_MAP)
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

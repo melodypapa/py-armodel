@@ -9,8 +9,9 @@ read via readIdentifiable; group members DEADLINE, DESTINATION-ORDER, DURABILITY
 DURABILITY-SERVICE, HISTORY, LATENCY-BUDGET, LIFESPAN, LIVELINESS, OWNERSHIP,
 OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY).
 
-The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180) are still
-unsynced stubs — the reader serializes them identity-only (Rule 0001.7 debt).
+The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, and DdsDurability,
+synced Table 6.181) are still unsynced stubs — the reader serializes them identity-only
+(Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -20,7 +21,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsHistory, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 
 NS = "http://autosar.org/schema/r4.0"
@@ -50,11 +51,18 @@ class TestReadDdsCpQosProfile:
         """Test that unsynced Dds* QoS policy children are constructed identity-only (presence round-trips)."""
         profile = self._read(
             parser,
-            "<DEADLINE><DURATION>1.0</DURATION></DEADLINE><DURABILITY><DURABILITY-KIND>TRANSIENT-LOCAL</DURABILITY-KIND></DURABILITY>",
+            "<DEADLINE><DURATION>1.0</DURATION></DEADLINE><HISTORY><HISTORY-KIND>KEEP-LAST</HISTORY-KIND></HISTORY>",
         )
         assert profile.getDeadline() is not None
-        assert isinstance(profile.getDurability(), DdsDurability)
+        assert isinstance(profile.getHistory(), DdsHistory)
         assert profile.getDestinationOrder() is None
+
+    def test_read_sets_durability_with_values(self, parser):
+        """Test that the synced DdsDurability child is read with its field values."""
+        profile = self._read(parser, "<DURABILITY><DURABILITY-KIND>TRANSIENT-LOCAL</DURABILITY-KIND></DURABILITY>")
+        assert isinstance(profile.getDurability(), DdsDurability)
+        assert profile.getDurability().getDurabilityKind() is not None
+        assert profile.getDurability().getDurabilityKind().getValue() == "TRANSIENT-LOCAL"
 
     def test_read_sets_topic_data_with_values(self, parser):
         """Test that the synced DdsTopicData child is read with its field values (TOPIC-DATA nested same-name shape)."""
