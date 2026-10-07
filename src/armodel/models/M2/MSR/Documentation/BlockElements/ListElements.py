@@ -316,13 +316,12 @@ class LabeledList(ARObject, VariationPointCapable):
 
     # LabeledList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.11, p.296
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndentSample     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addLabeledItem      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLabeledItems     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndentSample     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLabeledItem      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLabeledItems     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
