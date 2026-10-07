@@ -6219,6 +6219,7 @@ class Ipv4FragmentationProps(ARObject):
 
     # Ipv4FragmentationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.104, p.147
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTcpIpIpFragmentationRxEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
