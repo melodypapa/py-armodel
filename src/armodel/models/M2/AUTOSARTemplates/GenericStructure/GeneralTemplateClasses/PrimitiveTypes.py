@@ -2877,7 +2877,29 @@ class FrArTpAckType(AREnum):
 
 
 class GlobalTimeCrcSupportEnum(AREnum):
-    pass
+    """
+    This enumeration is used to define whether and how CRC on the TX side shall be utilized.
+
+    # GlobalTimeCrcSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.25, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute crcSecured)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # This indicates that CRC is not supported Tags: atp.EnumerationLiteralIndex=0
+    CRC_NOT_SUPPORTED = "CRC-NOT-SUPPORTED"
+
+    # This indicates that CRC is supported Tags: atp.EnumerationLiteralIndex=1
+    CRC_SUPPORTED = "CRC-SUPPORTED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED,
+                GlobalTimeCrcSupportEnum.CRC_SUPPORTED,
+            ]
+        )
 
 
 class GlobalTimeCrcValidationEnum(AREnum):

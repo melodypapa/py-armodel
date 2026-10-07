@@ -67,6 +67,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DisplayFormatString,
     EthGlobalTimeMessageFormatEnum,
     Float,
+    GlobalTimeCrcSupportEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -3630,3 +3631,46 @@ class TestEthGlobalTimeMessageFormatEnum:
         enum.setValue(EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR)
 
         assert enum.getValue() == EthGlobalTimeMessageFormatEnum.IEEE802_1AS_AUTOSAR
+
+
+class TestGlobalTimeCrcSupportEnum:
+    """
+    Test class for GlobalTimeCrcSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.25, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeCrcSupportEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED,
+            GlobalTimeCrcSupportEnum.CRC_SUPPORTED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeCrcSupportEnum member values.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+
+        assert GlobalTimeCrcSupportEnum.CRC_NOT_SUPPORTED == "CRC-NOT-SUPPORTED"
+        assert GlobalTimeCrcSupportEnum.CRC_SUPPORTED == "CRC-SUPPORTED"
+
+        assert enum.validateEnumValue("CRC-NOT-SUPPORTED") is True
+        assert enum.validateEnumValue("CRC-SUPPORTED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeCrcSupportEnum instantiability and getValue.
+        """
+        enum = GlobalTimeCrcSupportEnum()
+        enum.setValue(GlobalTimeCrcSupportEnum.CRC_SUPPORTED)
+
+        assert enum.getValue() == GlobalTimeCrcSupportEnum.CRC_SUPPORTED
