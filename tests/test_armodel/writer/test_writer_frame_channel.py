@@ -283,6 +283,29 @@ class TestWriteCanFrameTriggering:
         assert reloaded_rng.getLowerCanId().getValue() == 256
         assert reloaded_rng.getUpperCanId().getValue() == 511
 
+    def test_roundtrip_rx_identifier_range_carries_arobject_st(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        rng = RxIdentifierRange()
+        checksum = String()
+        checksum.setValue("511")
+        rng.setChecksum(checksum)
+        timestamp = DateTime()
+        timestamp.setValue("2009-07-23T14:38:00+01:00")
+        rng.setTimestamp(timestamp)
+        ft.setRxIdentifierRange(rng)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getChecksum().getValue() == "511"
+        assert reloaded_rng.getTimestamp().getValue() == "2009-07-23T14:38:00+01:00"
+
     def test_roundtrip_rx_identifier_range_empty_wrapper(self, writer):
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "CanFt")

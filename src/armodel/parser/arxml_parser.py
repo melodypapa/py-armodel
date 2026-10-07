@@ -2137,6 +2137,7 @@ class ARXMLParser(AbstractARXMLParser):
         range = None
         if child_element is not None:
             range = RxIdentifierRange()
+            self.readARObject(child_element, range)
             range.setLowerCanId(self.getChildElementOptionalPositiveInteger(child_element, "LOWER-CAN-ID"))
             range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range

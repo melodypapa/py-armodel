@@ -1868,8 +1868,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setRxIdentifierRange(self, element: ET.Element, key: str, range: Optional[RxIdentifierRange]):
         if range is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID", range.getLowerCanId())
-            self.setChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID", range.getUpperCanId())
+            self.writeARObject(child_element, range)
+            self.setChildElementOptionalPositiveInteger(child_element, "LOWER-CAN-ID", range.getLowerCanId())
+            self.setChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID", range.getUpperCanId())
 
     def setJ1939NodeName(self, element: ET.Element, key: str, node_name: Optional[J1939NodeName]):
         if node_name is not None:

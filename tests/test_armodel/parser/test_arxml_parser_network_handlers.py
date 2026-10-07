@@ -1597,6 +1597,22 @@ class TestFrameAndPduHandlers:
         assert triggering.getIdentifier() is not None
         assert triggering.getIdentifier().getValue() == 100
 
+    def test_readCanFrameTriggering_sets_rxIdentifierRange(self, parser):
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
+
+        cluster = CanCluster(parent=_autosar_root(), short_name="c")
+        channel = CanPhysicalChannel(parent=cluster, short_name="ch")
+        triggering = CanFrameTriggering(parent=channel, short_name="ft")
+        element = _snip(
+            "<SHORT-NAME>ft</SHORT-NAME>" "<RX-IDENTIFIER-RANGE><LOWER-CAN-ID>256</LOWER-CAN-ID><UPPER-CAN-ID>511</UPPER-CAN-ID></RX-IDENTIFIER-RANGE>",
+            root_tag="CAN-FRAME-TRIGGERING",
+        )
+        parser.readCanFrameTriggering(element, triggering)
+        range_obj = triggering.getRxIdentifierRange()
+        assert range_obj is not None
+        assert range_obj.getLowerCanId().getValue() == 256
+        assert range_obj.getUpperCanId().getValue() == 511
+
     def test_readPduTriggering_sets_ipduRef(self, parser):
         from armodel.models import CanCluster, CanPhysicalChannel, PduTriggering
 

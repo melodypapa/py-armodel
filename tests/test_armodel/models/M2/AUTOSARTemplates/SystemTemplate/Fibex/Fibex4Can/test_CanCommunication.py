@@ -8,6 +8,8 @@ of the respective classes.
 """
 
 import inspect
+import sys
+from typing import Optional, get_type_hints
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger
@@ -291,3 +293,87 @@ class TestCanAddressingModeType:
         assert enum.getValue() == "STANDARD"
 
         assert enum.getEnumValues() == ["EXTENDED", "STANDARD"]
+
+
+RX_IDENTIFIER_RANGE_CLASS_NOTE = "Optional definition of a CanId range to reduce the effort of specifying every possible FrameTriggering within the defined Id range during reception. All frames received within a range are mapped to the same Pdu that is passed to a upper layer module (e.g. Nm, CDD, PduR)."
+RX_IDENTIFIER_RANGE_LOWER_NOTE = "This attribute can be used together with the upperCanId attribute to define a range of CanIds."
+RX_IDENTIFIER_RANGE_UPPER_NOTE = "This attribute can be used together with the lowerCanId attribute to define a range of CanIds."
+
+
+class TestRxIdentifierRange:
+    """Test cases for RxIdentifierRange (Table 6.112, p.444)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.112: Base = ARObject)"""
+        assert issubclass(RxIdentifierRange, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.112)"""
+        assert inspect.cleandoc(RxIdentifierRange.__doc__).strip() == RX_IDENTIFIER_RANGE_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert RxIdentifierRange.__init__.__doc__ is None
+
+    def test_initialization(self):
+        range_obj = RxIdentifierRange()
+
+        assert isinstance(range_obj, ARObject)
+        assert range_obj.getLowerCanId() is None
+        assert range_obj.getUpperCanId() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.112: lowerCanId, upperCanId)"""
+        source = inspect.getsource(RxIdentifierRange.__init__)
+        assert source.index("self.lowerCanId") < source.index("self.upperCanId")
+
+    def test_get_set_lower_can_id(self):
+        range_obj = RxIdentifierRange()
+
+        assert range_obj == range_obj.setLowerCanId(PositiveInteger().setValue(0x100))
+        assert range_obj.getLowerCanId().getValue() == 0x100
+        assert range_obj == range_obj.setLowerCanId(None)
+        assert range_obj.getLowerCanId().getValue() == 0x100
+
+    def test_get_set_upper_can_id(self):
+        range_obj = RxIdentifierRange()
+
+        assert range_obj == range_obj.setUpperCanId(PositiveInteger().setValue(0x1FF))
+        assert range_obj.getUpperCanId().getValue() == 0x1FF
+        assert range_obj == range_obj.setUpperCanId(None)
+        assert range_obj.getUpperCanId().getValue() == 0x1FF
+
+    def _assert_docstring(self, method, note, suffix=None):
+        doc = method.__doc__
+        expected = note if suffix is None else note + "\n" + suffix
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 6.112)"""
+        none_no_op = "A None value is a no-op and does not overwrite an existing %s."
+        self._assert_docstring(RxIdentifierRange.getLowerCanId, RX_IDENTIFIER_RANGE_LOWER_NOTE)
+        self._assert_docstring(RxIdentifierRange.setLowerCanId, RX_IDENTIFIER_RANGE_LOWER_NOTE, none_no_op % "lowerCanId")
+        self._assert_docstring(RxIdentifierRange.getUpperCanId, RX_IDENTIFIER_RANGE_UPPER_NOTE)
+        self._assert_docstring(RxIdentifierRange.setUpperCanId, RX_IDENTIFIER_RANGE_UPPER_NOTE, none_no_op % "upperCanId")
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(RxIdentifierRange.getLowerCanId)
+        assert getter_hints["return"] == Optional[PositiveInteger]
+
+        setter_hints = get_type_hints(RxIdentifierRange.setUpperCanId)
+        assert setter_hints["value"] == Optional[PositiveInteger]
+        assert setter_hints["return"] == RxIdentifierRange
+
+        src = inspect.getsource(sys.modules[RxIdentifierRange.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "RxIdentifierRange")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["lowerCanId"] == "Optional[PositiveInteger]"
+        assert annotations["upperCanId"] == "Optional[PositiveInteger]"
