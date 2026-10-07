@@ -11114,16 +11114,16 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "CONSUMED-EVENT-GROUP-REFS/CONSUMED-EVENT-GROUP-REF"):
             handler.addConsumedEventGroupRef(ref)
         handler.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
-        for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
-            handler.setEventMulticastAddressRef(ref)
+        handler.setEventMulticastAddressRef(self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"))
         handler.setMulticastThreshold(self.getChildElementOptionalPositiveInteger(element, "MULTICAST-THRESHOLD"))
         for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
             handler.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             handler.addRoutingGroupRef(ref)
         handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
-        for ref in self.getChildElementRefTypeList(element, "SD-SERVER-EG-TIMING-CONFIGS/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF"):
-            handler.setSdServerEgTimingConfigRef(ref)
+        handler.setSdServerEgTimingConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-SERVER-EG-TIMING-CONFIGS/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF")
+        )
 
     def readProvidedServiceInstanceEventHandlers(self, element: ET.Element, instance: ProvidedServiceInstance):
         for child_element in self.findall(element, "EVENT-HANDLERS/*"):

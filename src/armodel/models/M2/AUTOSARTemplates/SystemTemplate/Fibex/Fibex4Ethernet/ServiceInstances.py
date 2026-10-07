@@ -1105,36 +1105,35 @@ class EventHandler(Identifiable, VariationPointCapable):
 
     # EventHandler method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.166, p.492
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addConsumedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsumedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getEventGroupIdentifier           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventGroupIdentifier           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEventMulticastAddressRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventMulticastAddressRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMulticastThreshold             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMulticastThreshold             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addPduActivationRoutingGroup      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduActivationRoutingGroups     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addRoutingGroupRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRoutingGroupRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSdServerConfig                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdServerConfig                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSdServerEgTimingConfigRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdServerEgTimingConfigRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConsumedEventGroupRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedEventGroupRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEventGroupIdentifier        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventGroupIdentifier        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventMulticastAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventMulticastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastThreshold          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastThreshold          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPduActivationRoutingGroup   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduActivationRoutingGroups  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRoutingGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutingGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSdServerConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdServerConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdServerEgTimingConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdServerEgTimingConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # All consumers of the event are referenced here.
+        # All consumers of the event are referenced here. Tags: atp.Status=obsolete
         self.consumedEventGroupRefs: List[RefType] = []
 
         # Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages.
         self.eventGroupIdentifier: Optional[PositiveInteger] = None
 
-        # Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup).
+        # Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.eventMulticastAddressRef: Optional[RefType] = None
 
         # Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only.
@@ -1143,18 +1142,18 @@ class EventHandler(Identifiable, VariationPointCapable):
         # The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
         self.pduActivationRoutingGroups: List[PduActivationRoutingGroup] = []
 
-        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for events. Tags: atp.Status=obsolete
         self.routingGroupRefs: List[RefType] = []
 
-        # Server configuration parameter for Service-Discovery.
+        # Server configuration parameter for Service-Discovery. Tags: atp.Status=obsolete
         self.sdServerConfig: Optional[SdServerConfig] = None
 
-        # Server Timing configuration settings that are EventGroup specific.
+        # Server Timing configuration settings that are EventGroup specific. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerEgTimingConfig.someipSdServerEventGroupTimingConfig, sdServerEgTimingConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.sdServerEgTimingConfigRef: Optional[RefType] = None
 
     def addConsumedEventGroupRef(self, value: Optional[RefType]) -> EventHandler:
         """
-        All consumers of the event are referenced here.
+        All consumers of the event are referenced here. Tags: atp.Status=obsolete
         A None value is a no-op and does not append to consumedEventGroupRefs.
         """
         if value is not None:
@@ -1162,7 +1161,7 @@ class EventHandler(Identifiable, VariationPointCapable):
         return self
 
     def getConsumedEventGroupRefs(self) -> List[RefType]:
-        """All consumers of the event are referenced here."""
+        """All consumers of the event are referenced here. Tags: atp.Status=obsolete"""
         return self.consumedEventGroupRefs
 
     def getEventGroupIdentifier(self) -> Optional[PositiveInteger]:
@@ -1179,12 +1178,12 @@ class EventHandler(Identifiable, VariationPointCapable):
         return self
 
     def getEventMulticastAddressRef(self) -> Optional[RefType]:
-        """Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup)."""
+        """Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.eventMulticastAddressRef
 
     def setEventMulticastAddressRef(self, value: Optional[RefType]) -> EventHandler:
         """
-        Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup).
+        Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing eventMulticastAddressRef.
         """
         if value is not None:
@@ -1219,7 +1218,7 @@ class EventHandler(Identifiable, VariationPointCapable):
 
     def addRoutingGroupRef(self, value: Optional[RefType]) -> EventHandler:
         """
-        The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for events. Tags: atp.Status=obsolete
         A None value is a no-op and does not append to routingGroupRefs.
         """
         if value is not None:
@@ -1227,16 +1226,16 @@ class EventHandler(Identifiable, VariationPointCapable):
         return self
 
     def getRoutingGroupRefs(self) -> List[RefType]:
-        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."""
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events. Tags: atp.Status=obsolete"""
         return self.routingGroupRefs
 
     def getSdServerConfig(self) -> Optional[SdServerConfig]:
-        """Server configuration parameter for Service-Discovery."""
+        """Server configuration parameter for Service-Discovery. Tags: atp.Status=obsolete"""
         return self.sdServerConfig
 
     def setSdServerConfig(self, value: Optional[SdServerConfig]) -> EventHandler:
         """
-        Server configuration parameter for Service-Discovery.
+        Server configuration parameter for Service-Discovery. Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing sdServerConfig.
         """
         if value is not None:
@@ -1244,12 +1243,12 @@ class EventHandler(Identifiable, VariationPointCapable):
         return self
 
     def getSdServerEgTimingConfigRef(self) -> Optional[RefType]:
-        """Server Timing configuration settings that are EventGroup specific."""
+        """Server Timing configuration settings that are EventGroup specific. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerEgTimingConfig.someipSdServerEventGroupTimingConfig, sdServerEgTimingConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.sdServerEgTimingConfigRef
 
     def setSdServerEgTimingConfigRef(self, value: Optional[RefType]) -> EventHandler:
         """
-        Server Timing configuration settings that are EventGroup specific.
+        Server Timing configuration settings that are EventGroup specific. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerEgTimingConfig.someipSdServerEventGroupTimingConfig, sdServerEgTimingConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing sdServerEgTimingConfigRef.
         """
         if value is not None:

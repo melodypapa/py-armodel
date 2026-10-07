@@ -1802,6 +1802,84 @@ class TestEventHandler:
         handler = self._new_handler()
         assert not hasattr(handler, "applicationEndpointRef")
 
+    def test_class_docstring_note(self):
+        """
+        Class docstring is the spec Note verbatim (Table 6.166).
+        """
+        assert inspect.cleandoc(EventHandler.__doc__) == "This element represents an event group as part of the Provided Service Instance."
+
+    def test_member_order(self):
+        """
+        Fields follow the markdown displayed row order (Table 6.166).
+        """
+        handler = self._new_handler()
+        members = [
+            "consumedEventGroupRefs",
+            "eventGroupIdentifier",
+            "eventMulticastAddressRef",
+            "multicastThreshold",
+            "pduActivationRoutingGroups",
+            "routingGroupRefs",
+            "sdServerConfig",
+            "sdServerEgTimingConfigRef",
+        ]
+        assert [k for k in vars(handler) if k in set(members)] == members
+
+    def test_consumed_event_group_refs_note_verbatim(self):
+        """
+        consumedEventGroup Note carries the atp.Status=obsolete tail verbatim at every level (Rule 0012.2.5.3).
+        """
+        expected = "All consumers of the event are referenced here. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getConsumedEventGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.addConsumedEventGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to consumedEventGroupRefs."
+        assert "All consumers of the event are referenced here. Tags: atp.Status=obsolete" in inspect.getsource(EventHandler.__init__)
+
+    def test_routing_group_refs_note_verbatim(self):
+        """
+        routingGroup Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "The ServiceDiscovery module is able to activate and deactivate the PDU routing for events. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getRoutingGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.addRoutingGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to routingGroupRefs."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_sd_server_config_note_verbatim(self):
+        """
+        sdServerConfig Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "Server configuration parameter for Service-Discovery. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(EventHandler.getSdServerConfig.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setSdServerConfig.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerConfig."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_sd_server_eg_timing_config_note_verbatim(self):
+        """
+        sdServerEgTimingConfig Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "Server Timing configuration settings that are EventGroup specific. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerEgTimingConfig.someipSdServerEventGroupTimingConfig, "
+            "sdServerEgTimingConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(EventHandler.getSdServerEgTimingConfigRef.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setSdServerEgTimingConfigRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerEgTimingConfigRef."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
+    def test_event_multicast_address_note_verbatim(self):
+        """
+        eventMulticastAddress Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "Multicast Address that is used for event communication in the IP-Multicast case. "
+            "It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. "
+            "This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup). "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastAddress.applicationEndpoint, "
+            "eventMulticastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(EventHandler.getEventMulticastAddressRef.__doc__) == expected
+        assert inspect.cleandoc(EventHandler.setEventMulticastAddressRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing eventMulticastAddressRef."
+        assert expected in inspect.getsource(EventHandler.__init__)
+
 
 class Test_ConsumedProvidedServiceInstanceGroup:
     """Test cases for ConsumedProvidedServiceInstanceGroup (Table 6.174, p.523)."""

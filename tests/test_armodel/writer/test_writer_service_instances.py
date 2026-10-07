@@ -13,6 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     ApplicationEndpoint,
+    EventGroupControlTypeEnum,
+    EventHandler,
+    PduActivationRoutingGroup,
     PduCollectionSemanticsEnum,
     PduCollectionTriggerEnum,
     ProvidedServiceInstance,
@@ -233,3 +236,70 @@ class TestWriteSoConIPduIdentifier:
         assert recovered.getPduCollectionSemantics() is None
         assert recovered.getPduCollectionTrigger() is None
         assert recovered.getPduTriggeringRef() is None
+
+
+class TestWriteEventHandler:
+    def test_write_and_read_back_event_handler(self, writer, parser):
+        handler = EventHandler(parent=None, short_name="eh1")
+        group_ref = RefType()
+        group_ref.setDest("CONSUMED-EVENT-GROUP")
+        group_ref.setValue("/ceg1")
+        event_group_identifier = PositiveInteger()
+        event_group_identifier.setValue("1")
+        multicast_ref = RefType()
+        multicast_ref.setDest("APPLICATION-ENDPOINT")
+        multicast_ref.setValue("/mc1")
+        threshold = PositiveInteger()
+        threshold.setValue("2")
+        routing_group = PduActivationRoutingGroup(parent=None, short_name="parg1")
+        control_type = EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST)
+        routing_group.setEventGroupControlType(control_type)
+        routing_ref = RefType()
+        routing_ref.setDest("SO-AD-ROUTING-GROUP")
+        routing_ref.setValue("/rg1")
+        timing_ref = RefType()
+        timing_ref.setDest("SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
+        timing_ref.setValue("/timing1")
+        handler.addConsumedEventGroupRef(group_ref)
+        handler.setEventGroupIdentifier(event_group_identifier)
+        handler.setEventMulticastAddressRef(multicast_ref)
+        handler.setMulticastThreshold(threshold)
+        handler.addPduActivationRoutingGroup(routing_group)
+        handler.addRoutingGroupRef(routing_ref)
+        handler.setSdServerEgTimingConfigRef(timing_ref)
+
+        parent = _parent()
+        writer.writeEventHandler(parent, handler)
+        element = _serialize_and_wrap(parent)
+
+        assert element.find(f"{{{NS}}}EVENT-GROUP-IDENTIFIER").text == "1"
+        assert element.find(f"{{{NS}}}MULTICAST-THRESHOLD").text == "2"
+        control_type_tag = element.find(f"{{{NS}}}PDU-ACTIVATION-ROUTING-GROUPS/{{{NS}}}PDU-ACTIVATION-ROUTING-GROUP/{{{NS}}}EVENT-GROUP-CONTROL-TYPE")
+        assert control_type_tag.text == "ACTIVATION-MULTICAST"
+
+        recovered = EventHandler(parent=None, short_name="eh1")
+        parser.readEventHandler(element, recovered)
+        assert [r.getValue() for r in recovered.getConsumedEventGroupRefs()] == ["/ceg1"]
+        assert recovered.getEventGroupIdentifier().getValue() == 1
+        assert recovered.getEventMulticastAddressRef().getValue() == "/mc1"
+        assert recovered.getMulticastThreshold().getValue() == 2
+        assert len(recovered.getPduActivationRoutingGroups()) == 1
+        assert recovered.getPduActivationRoutingGroups()[0].getEventGroupControlType().getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
+        assert [r.getValue() for r in recovered.getRoutingGroupRefs()] == ["/rg1"]
+        assert recovered.getSdServerEgTimingConfigRef().getValue() == "/timing1"
+
+    def test_write_event_handler_empty_omits_elements(self, writer, parser):
+        handler = EventHandler(parent=None, short_name="eh1")
+
+        parent = _parent()
+        writer.writeEventHandler(parent, handler)
+        element = _serialize_and_wrap(parent)
+
+        assert element.find(f"{{{NS}}}CONSUMED-EVENT-GROUP-REFS") is None
+        assert element.find(f"{{{NS}}}EVENT-GROUP-IDENTIFIER") is None
+        assert element.find(f"{{{NS}}}EVENT-MULTICAST-ADDRESSS") is None
+        assert element.find(f"{{{NS}}}MULTICAST-THRESHOLD") is None
+        assert element.find(f"{{{NS}}}PDU-ACTIVATION-ROUTING-GROUPS") is None
+        assert element.find(f"{{{NS}}}ROUTING-GROUP-REFS") is None
+        assert element.find(f"{{{NS}}}SD-SERVER-CONFIG") is None
+        assert element.find(f"{{{NS}}}SD-SERVER-EG-TIMING-CONFIGS") is None

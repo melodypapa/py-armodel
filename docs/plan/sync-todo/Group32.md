@@ -602,15 +602,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EventHandler` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.166, p.492
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown renders attribute names/cells with mid-token wraps ("SOME/ IP .",
+    "SD-SubscribeEvent GroupAck", "pduActivation RoutingGroup") — reconciled against XSD group
+    EVENT-HANDLER (unique per complexType; XSD doc confirms SOME/IP, SD-SubscribeEventGroupAck).
+    Rule 0023 drift: stale `# Spec verified:` marker removed; legacy 5-column block rewritten
+    6-column in source order (mutator-first for the three list pairs). Fields/accessors already
+    matched the 8 spec rows (8th = sdServerEgTimingConfig → RefType ref; consumedEventGroup/
+    routingGroup/sdServerConfig kept despite atp.Status=obsolete — PDF table keeps them). Reader:
+    eventMulticastAddressRef + sdServerEgTimingConfigRef switched to optional-typed nested reads
+    (Rule 0001.4). SomeipSdServerEventGroupTimingConfig (Table 6.172) + SomeipSdClientEventGroupTimingConfig
+    (Table 6.173) remain unsynced stubs — sdServerEgTimingConfigRef is ref-typed so its own
+    reader/writer coverage is real; the referenced classes' identity sync is their queued rows' debt
+    (Rule 0001.7 identity-only note).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsumedServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.167, p.501
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
