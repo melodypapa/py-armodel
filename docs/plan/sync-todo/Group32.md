@@ -354,15 +354,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacMulticastConfiguration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.141, p.467
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.141: Base most-derived = `NetworkEndpointAddress`; single attr `macMulticastGroup` (MacMulticastGroup, 0..1, Kind **ref** → `macMulticastGroupRef: Optional[RefType]` per Rule 0001.5 Kind-suffix; ref target MacMulticastGroup already synced/stamped Table 3.48). XSD `MAC-MULTICAST-CONFIGURATION` complexType = AR-OBJECT + NETWORK-ENDPOINT-ADDRESS + MAC-MULTICAST-CONFIGURATION groups → reader branch `MAC-MULTICAST-CONFIGURATION` in `readNetworkEndPointNetworkEndPointAddress` (readARObject + `getChildElementOptionalRefType("MAC-MULTICAST-GROUP-REF")`, DEST preserved), writer isinstance branch in `writeNetworkEndPointNetworkEndPointAddresses` (writeARObject + `setChildElementOptionalRefType`) — S/T round-trip pinned by tests on both sides. Ref type `MAC-MULTICAST-GROUP--SUBTYPES-ENUM` handled by the generic RefType DEST machinery (no dedicated enum class needed). New model test `test_MacMulticastConfiguration.py` (5 tests), parser tests +2, writer tests +3. Stub tuple removed from `test_group21_36_stub_classes.py`. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `InfrastructureServices` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.144, p.469
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

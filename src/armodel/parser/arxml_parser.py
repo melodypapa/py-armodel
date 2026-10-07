@@ -1243,6 +1243,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6FragmentationProps,
     Ipv6NdpProps,
     Ipv6Props,
+    MacMulticastConfiguration,
     MacMulticastGroup,
     PlcaProps,
     RequestMethodEnum,
@@ -10594,6 +10595,13 @@ class ARXMLParser(AbstractARXMLParser):
                 end_point.addNetworkEndpointAddress(self.getIpv4Configuration(child_element))
             elif tag_name == "IPV-6-CONFIGURATION":
                 end_point.addNetworkEndpointAddress(self.getIpv6Configuration(child_element))
+            elif tag_name == "MAC-MULTICAST-CONFIGURATION":
+                configuration = MacMulticastConfiguration()
+                self.readARObject(child_element, configuration)
+                ref = self.getChildElementOptionalRefType(child_element, "MAC-MULTICAST-GROUP-REF")
+                if ref is not None:
+                    configuration.setMacMulticastGroupRef(ref)
+                end_point.addNetworkEndpointAddress(configuration)
             else:
                 self.notImplemented("Unsupported Network EndPoint Address <%s>" % tag_name)
 

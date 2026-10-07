@@ -1092,6 +1092,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     InfrastructureServices,
     Ipv4Configuration,
     Ipv6Configuration,
+    MacMulticastConfiguration,
     NetworkEndpoint,
     NetworkEndpointAddress,
     TimeSyncClientConfiguration,
@@ -10858,6 +10859,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setIpv4Configuration(child_element, address)
                 elif isinstance(address, Ipv6Configuration):
                     self.setIpv6Configuration(child_element, address)
+                elif isinstance(address, MacMulticastConfiguration):
+                    config_element = ET.SubElement(child_element, "MAC-MULTICAST-CONFIGURATION")
+                    self.writeARObject(config_element, address)
+                    self.setChildElementOptionalRefType(config_element, "MAC-MULTICAST-GROUP-REF", address.getMacMulticastGroupRef())
                 else:
                     self.notImplemented("Unsupported Network EndPoint Address <%s>" % type(address))
 

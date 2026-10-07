@@ -7958,7 +7958,37 @@ class Ieee1722Tp(TransportProtocolConfiguration):
 
 
 class MacMulticastConfiguration(NetworkEndpointAddress):
-    pass
+    """
+    References a per cluster globally defined MAC-Multicast-Group.
+    """
+
+    # MacMulticastConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.141, p.467
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMacMulticastGroupRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacMulticastGroupRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a macMulticastGroup.
+        self.macMulticastGroupRef: Optional[RefType] = None
+
+    def getMacMulticastGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to a macMulticastGroup.
+        """
+        return self.macMulticastGroupRef
+
+    def setMacMulticastGroupRef(self, value: Optional[RefType]) -> MacMulticastConfiguration:
+        """
+        Reference to a macMulticastGroup.
+        A None value is a no-op and does not overwrite an existing macMulticastGroupRef.
+        """
+        if value is not None:
+            self.macMulticastGroupRef = value
+        return self
 
 
 class RtpTp(TransportProtocolConfiguration):
