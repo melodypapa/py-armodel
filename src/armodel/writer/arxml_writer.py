@@ -903,6 +903,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
     SenderRecCompositeTypeMapping,
+    SenderReceiverCompositeElementToSignalMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
     SenderRecRecordElementMapping,
@@ -13124,6 +13125,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setOperationInSystemInstanceRef(child_element, "CLIENT-SERVER-OPERATION-IREF", mapping.getClientServerOperationIRef())
         self.setChildElementOptionalRefType(child_element, "RETURN-SIGNAL-REF", mapping.getReturnSignalRef())
 
+    def writeSenderReceiverCompositeElementToSignalMapping(self, element: ET.Element, mapping: SenderReceiverCompositeElementToSignalMapping):
+        child_element = ET.SubElement(element, "SENDER-RECEIVER-COMPOSITE-ELEMENT-TO-SIGNAL-MAPPING")
+        self.writeDataMapping(child_element, mapping)
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "DATA-ELEMENT-IREF", mapping.getDataElementIRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+        type_mapping = mapping.getTypeMapping()
+        if type_mapping is not None:
+            complex_element = ET.SubElement(child_element, "TYPE-MAPPING")
+            if isinstance(type_mapping, SenderRecArrayTypeMapping):
+                self.writeSenderRecArrayTypeMapping(complex_element, type_mapping)
+            elif isinstance(type_mapping, SenderRecRecordTypeMapping):
+                self.writeSenderRecRecordTypeMapping(complex_element, type_mapping)
+            else:
+                self.notImplemented("Unsupported Type Mapping %s" % type(type_mapping))
+
     def writeDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
         child_element = ET.SubElement(element, "DDS-CP-I-SIGNAL-TO-DDS-TOPIC-MAPPING")
         self.writeARObject(child_element, mapping)
@@ -13269,6 +13285,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for data_mapping in data_mappings:
                 if isinstance(data_mapping, ClientServerToSignalMapping):
                     self.writeClientServerToSignalMapping(child_element, data_mapping)
+                elif isinstance(data_mapping, SenderReceiverCompositeElementToSignalMapping):
+                    self.writeSenderReceiverCompositeElementToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalMapping):
                     self.writeSenderReceiverToSignalMapping(child_element, data_mapping)
                 elif isinstance(data_mapping, SenderReceiverToSignalGroupMapping):

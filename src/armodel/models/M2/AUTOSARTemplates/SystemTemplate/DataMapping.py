@@ -846,7 +846,77 @@ class ClientServerToSignalMapping(DataMapping):
 
 
 class SenderReceiverCompositeElementToSignalMapping(DataMapping):
-    pass
+    """
+    Mapping of an Variable Data Prototype which is aggregated within a composite datatype to a System Signal (only one element of the composite data type is mapped).
+    """
+
+    # SenderReceiverCompositeElementToSignalMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.34, p.247
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeMapping        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        self.dataElementIRef: Optional[VariableDataPrototypeInSystemInstanceRef] = None
+
+        # Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        self.systemSignalRef: Optional[RefType] = None
+
+        # The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        self.typeMapping: Optional[SenderRecCompositeTypeMapping] = None
+
+    def getDataElementIRef(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
+        """
+        Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        """
+        return self.dataElementIRef
+
+    def setDataElementIRef(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        Reference to a data element with a composite datatype from which one element is mapped to a SystemSignal. InstanceRef implemented by: VariableDataPrototypeIn SystemInstanceRef
+        A None value is a no-op and does not overwrite an existing dataElementIRef.
+        """
+        if value is not None:
+            self.dataElementIRef = value
+        return self
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        Reference to the SystemSignal to which one primitive of the composite type is mapped.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self
+
+    def getTypeMapping(self) -> Optional[SenderRecCompositeTypeMapping]:
+        """
+        The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        """
+        return self.typeMapping
+
+    def setTypeMapping(self, value: Optional[SenderRecCompositeTypeMapping]) -> SenderReceiverCompositeElementToSignalMapping:
+        """
+        The CompositeTypeMapping maps one VariableData Prototype of the composite data type to a SystemSignal.
+        A None value is a no-op and does not overwrite an existing typeMapping.
+        """
+        if value is not None:
+            self.typeMapping = value
+        return self
 
 
 class TriggerToSignalMapping(DataMapping):

@@ -1093,6 +1093,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
+    SenderReceiverCompositeElementToSignalMapping,
     SenderReceiverToSignalGroupMapping,
     SenderReceiverToSignalMapping,
     TriggerToSignalMapping,
@@ -16300,6 +16301,24 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setClientServerOperationIRef(self.getOperationInSystemInstanceRef(cast(ET.Element, self.find(element, "CLIENT-SERVER-OPERATION-IREF"))))
         mapping.setReturnSignalRef(self.getChildElementOptionalRefType(element, "RETURN-SIGNAL-REF"))
 
+    def readSenderReceiverCompositeElementToSignalMapping(self, element: ET.Element, mapping: SenderReceiverCompositeElementToSignalMapping):
+        self.readDataMapping(element, mapping)
+        mapping.setDataElementIRef(self.getVariableDataPrototypeInSystemInstanceRef(cast(ET.Element, self.find(element, "DATA-ELEMENT-IREF"))))
+        mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+        type_mapping_element = self.find(element, "TYPE-MAPPING/*")
+        if type_mapping_element is not None:
+            tag_name = self.getTagName(type_mapping_element)
+            if tag_name == "SENDER-REC-ARRAY-TYPE-MAPPING":
+                type_mapping: ARObject = SenderRecArrayTypeMapping()
+                self.readSenderRecArrayTypeMapping(type_mapping_element, cast(SenderRecArrayTypeMapping, type_mapping))
+                mapping.setTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
+            elif tag_name == "SENDER-REC-RECORD-TYPE-MAPPING":
+                type_mapping = SenderRecRecordTypeMapping()
+                self.readSenderRecRecordTypeMapping(type_mapping_element, type_mapping)
+                mapping.setTypeMapping(cast(Optional[SenderRecCompositeTypeMapping], type_mapping))
+            else:
+                self.notImplemented("Unsupported Type Mapping %s" % tag_name)
+
     def readDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
         self.readARObject(element, mapping)
         mapping.setDdsTopicRef(self.getChildElementOptionalRefType(element, "DDS-TOPIC-REF"))
@@ -16441,6 +16460,10 @@ class ARXMLParser(AbstractARXMLParser):
                 cs_mapping = ClientServerToSignalMapping()
                 self.readClientServerToSignalMapping(child_element, cs_mapping)
                 mapping.addDataMapping(cs_mapping)
+            elif tag_name == "SENDER-RECEIVER-COMPOSITE-ELEMENT-TO-SIGNAL-MAPPING":
+                composite_mapping = SenderReceiverCompositeElementToSignalMapping()
+                self.readSenderReceiverCompositeElementToSignalMapping(child_element, composite_mapping)
+                mapping.addDataMapping(composite_mapping)
             elif tag_name == "SENDER-RECEIVER-TO-SIGNAL-MAPPING":
                 signal_mapping = SenderReceiverToSignalMapping()
                 self.readSenderReceiverToSignalMapping(child_element, signal_mapping)
