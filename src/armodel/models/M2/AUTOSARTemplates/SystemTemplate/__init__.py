@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping, PncMappingIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
     ApplicationPartitionToEcuPartitionMapping,
     EcuResourceEstimation,
     SwcToApplicationPartitionMapping,
@@ -1240,6 +1241,7 @@ class System(AtpStructureElement):
 
 
 __all__ = [
+    "ApplicationPartition",
     "ApplicationPartitionToEcuPartitionMapping",
     "ARElement",
     "AppOsTaskProxyToEcuTaskProxyMapping",

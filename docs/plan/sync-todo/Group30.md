@@ -1972,16 +1972,59 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-07 (22113 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8166698df
 
 - [ ] `ApplicationPartition` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.5, p.201
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    ARPackage.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration). Table 5.5 is page-split
+    (p.200→201): body fragment A (Class/Package/Note/Base, md lines 5306-5310) renders
+    BEFORE the caption at line 5322; continuation fragment B (Class/Aggregated by/
+    Attribute header — ZERO attribute rows, lines 5316-5321) sits between a figure and
+    the caption. Package row `M2::AUTOSARTemplates::SystemTemplate::SWmapping` →
+    Rule 0007 placement MOVE out of the ARPackage.py stub to the leaf module
+    `SystemTemplate/SWmapping.py` (same precedent as SwcToApplicationPartitionMapping
+    commit 8323feb0a; stamped siblings Tables 5.2-5.7 already live there; the XSD
+    comment `<!-- element group for class AUTOSAR Templates::SystemTemplate::SWmapping
+    ::ApplicationPartition -->` confirms). Base row `ARElement, ARObject,
+    CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement,
+    Referrable` → most-derived MODELED ancestor `ARElement` (stub base already right).
+    Zero own Attribute rows — empty-attribute ARElement (all members inherited); the
+    XSD APPLICATION-PARTITION complexType carries only the base groups (AR-OBJECT →
+    … → AR-ELEMENT) + an EMPTY `APPLICATION-PARTITION` group and NO VARIATION-POINT →
+    NOT VP-capable (no VariationPointCapable mixin). Aggregated by `ARPackage.element`
+    → full ARElement wiring: createApplicationPartition factory + ARPackage `__all__`
+    + bottom import, readARPackageElements branch, writeARPackageElement isinstance
+    branch (pattern 2065193be/edc1d0ae3; sibling EthernetWakeupSleepOnDatalineConfigSet).
+    Note verbatim: "ApplicationPartition to which SwComponentPrototypes are mapped at a
+    point in time when the corresponding EcuInstance is not yet known or defined. In a
+    later methodology step the Application Partition can be assigned to an EcuPartition.
+    Tags: atp.recommendedPackage=ApplicationPartitions" (Tags tail kept per
+    Rule 0012.2.5.3). No stale legacy marker existed (bare `pass` stub — Rule 0023
+    removal a no-op). Checklist = single `__init__` row (no own accessors).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.5 — the table carries zero Attribute
+    rows (empty-attribute ARElement), so the class declares no own members; the
+    inherited IDENTIFIABLE level is covered by readIdentifiable/writeIdentifiable
+    (called exactly once per side in readApplicationPartition/writeApplicationPartition)
+    and pinned by UUID/CATEGORY round-trip assertions. Full ARElement wiring landed:
+    createApplicationPartition factory + ARPackage `__all__` entry removed-and-rehomed
+    + bottom `# noqa: E402` import, readARPackageElements branch (after
+    APPLICATION-INTERFACE, XSD tag order) and writeARPackageElement isinstance branch
+    (after ApplicationInterface). Placement MOVE per Rule 0007: ARPackage.py stub →
+    SystemTemplate/SWmapping.py (spec Package row + XSD comment); stub-guard tuple in
+    test_group21_36_stub_classes.py re-pointed; SystemTemplate/__init__.py import list
+    extended; parser/writer SWmapping imports extended. No aggregator dispatch upgrades
+    were pending (nothing else serializes APPLICATION-PARTITION; the
+    SwcToApplicationPartitionMapping.applicationPartitionRef ref target is RefType-typed
+    — DEST string only, no wiring change). No referenced-but-missing classes (zero
+    member types). audit_class.py PASS (STAMP INFO expected — the `# Spec verified:`
+    marker is deferred to the batch 9b stamp per user instruction).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22128 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9271a2285
 
 - [ ] `MappingConstraint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.8, p.202
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

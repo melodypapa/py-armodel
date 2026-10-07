@@ -386,7 +386,6 @@ __all__ = [
     "ARPackage",
     "PackageableElement",
     "ReferenceBase",
-    "ApplicationPartition",
     "BswCompositionTiming",
     "BswModuleTiming",
     "CpSoftwareClusterBinaryManifestDescriptor",
@@ -2764,6 +2763,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
 
+    def createApplicationPartition(self, short_name: str) -> ApplicationPartition:
+
+        if not self.IsReferrableElementExists(short_name, ApplicationPartition):
+            app_partition = ApplicationPartition(self, short_name)
+            self.addReferrableElement(app_partition)
+        return cast(ApplicationPartition, self.getReferrableElement(short_name, ApplicationPartition))
+
     def createCouplingElement(self, short_name: str) -> CouplingElement:
 
         if not self.IsReferrableElementExists(short_name, CouplingElement):
@@ -5044,6 +5050,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
@@ -11469,10 +11476,6 @@ class SecurityEventContextMappingFunctionalCluster(ARElement):
 
 
 class SecurityEventDefinition(ARElement):
-    pass
-
-
-class ApplicationPartition(ARElement):
     pass
 
 

@@ -1272,7 +1272,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToApplicationPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    EcuResourceEstimation,
+    SwcToApplicationPartitionMapping,
+    SwcToImplMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -13970,6 +13976,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Data Mapping %s" % type(data_mapping))
 
+    def writeApplicationPartition(self, element: ET.Element, app_partition: ApplicationPartition):
+        if app_partition is not None:
+            child_element = ET.SubElement(element, "APPLICATION-PARTITION")
+            self.writeIdentifiable(child_element, app_partition)
+
     def writeApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
         child_element = ET.SubElement(element, "APPLICATION-PARTITION-TO-ECU-PARTITION-MAPPING")
         self.writeIdentifiable(child_element, mapping, write_variation_point=False)
@@ -18713,6 +18724,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAliasNameSet(element, ar_element)
         elif isinstance(ar_element, ApplicationInterface):
             self.writeApplicationInterface(element, ar_element)
+        elif isinstance(ar_element, ApplicationPartition):
+            self.writeApplicationPartition(element, ar_element)
         elif isinstance(ar_element, BuildActionManifest):
             self.writeBuildActionManifest(element, ar_element)
         elif isinstance(ar_element, CalibrationParameterValueSet):

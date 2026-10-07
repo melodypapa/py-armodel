@@ -1524,7 +1524,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, EcuResourceEstimation, SwcToApplicationPartitionMapping, SwcToImplMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
+    ApplicationPartition,
+    ApplicationPartitionToEcuPartitionMapping,
+    EcuResourceEstimation,
+    SwcToApplicationPartitionMapping,
+    SwcToImplMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
@@ -17317,6 +17323,9 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Data Mapping %s" % tag_name)
 
+    def readApplicationPartition(self, element: ET.Element, app_partition: ApplicationPartition):
+        self.readIdentifiable(element, app_partition)
+
     def readApplicationPartitionToEcuPartitionMapping(self, element: ET.Element, mapping: ApplicationPartitionToEcuPartitionMapping):
         self.readIdentifiable(element, mapping)
         for ref in self.getChildElementRefTypeList(element, "APPLICATION-PARTITION-REFS/APPLICATION-PARTITION-REF"):
@@ -18323,6 +18332,8 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "APPLICATION-INTERFACE":
                 interface = parent.createApplicationInterface(self.getShortName(child_element))
                 self.readApplicationInterface(child_element, interface)
+            elif tag_name == "APPLICATION-PARTITION":
+                self.readApplicationPartition(child_element, parent.createApplicationPartition(self.getShortName(child_element)))
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)

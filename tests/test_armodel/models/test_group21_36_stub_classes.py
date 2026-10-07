@@ -159,7 +159,7 @@ STUBS = [
         "AttributeTailoring",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "ApplicationPartition",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
         "ARElement",
