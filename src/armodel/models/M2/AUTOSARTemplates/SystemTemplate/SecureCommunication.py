@@ -1952,55 +1952,54 @@ class MacSecCryptoAlgoConfig(ARObject):
 
 class MacSecLocalKayProps(ARObject):
     """
-    Configuration of the MAC Security Key Agreement Entity (KaY).
+    Configuration of the MAC Security Key Agreement Entity (KaY). Tags: atp.Status=candidate
     """
 
     # MacSecLocalKayProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.119, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDestinationMacAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getKeyServerPriority          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setKeyServerPriority          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMkaParticipantRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMkaParticipantRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getRole                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRole                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSourceMacAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSourceMacAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalKayPropsRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalKayPropsRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getKeyServerPriority           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setKeyServerPriority           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMkaParticipantRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMkaParticipantRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRole                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value).
+        # This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         self.destinationMacAddress: Optional[MacAddressString] = None
 
-        # Reference to properties that are shared between MAC Security Key Agreement Entities.
+        # Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate
         self.globalKayPropsRef: Optional[RefType] = None
 
-        # This attribute defines the key-server priority.
+        # This attribute defines the key-server priority. Tags: atp.Status=candidate
         self.keyServerPriority: Optional[PositiveInteger] = None
 
-        # Reference to MKA participant settings supported on the CouplingPort.
+        # Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate
         self.mkaParticipantRefs: List[RefType] = []
 
-        # Role of the MAC Security Key Agreement Entity
+        # Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate
         self.role: Optional[MacSecRoleEnum] = None
 
-        # This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value).
+        # This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         self.sourceMacAddress: Optional[MacAddressString] = None
 
     def getDestinationMacAddress(self) -> Optional[MacAddressString]:
-        """This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value)."""
+        """This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate"""
         return self.destinationMacAddress
 
     def setDestinationMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
-        This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value).
+        This attribute defines the destination MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing destinationMacAddress.
         """
         if value is not None:
@@ -2008,12 +2007,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getGlobalKayPropsRef(self) -> Optional[RefType]:
-        """Reference to properties that are shared between MAC Security Key Agreement Entities."""
+        """Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate"""
         return self.globalKayPropsRef
 
     def setGlobalKayPropsRef(self, value: Optional[RefType]) -> MacSecLocalKayProps:
         """
-        Reference to properties that are shared between MAC Security Key Agreement Entities.
+        Reference to properties that are shared between MAC Security Key Agreement Entities. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing globalKayPropsRef.
         """
         if value is not None:
@@ -2021,12 +2020,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getKeyServerPriority(self) -> Optional[PositiveInteger]:
-        """This attribute defines the key-server priority."""
+        """This attribute defines the key-server priority. Tags: atp.Status=candidate"""
         return self.keyServerPriority
 
     def setKeyServerPriority(self, value: Optional[PositiveInteger]) -> MacSecLocalKayProps:
         """
-        This attribute defines the key-server priority.
+        This attribute defines the key-server priority. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing keyServerPriority.
         """
         if value is not None:
@@ -2035,7 +2034,7 @@ class MacSecLocalKayProps(ARObject):
 
     def addMkaParticipantRef(self, ref: Optional[RefType]) -> MacSecLocalKayProps:
         """
-        Reference to MKA participant settings supported on the CouplingPort.
+        Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate
         A None value is a no-op and does not append to mkaParticipantRefs.
         """
         if ref is not None:
@@ -2043,16 +2042,16 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getMkaParticipantRefs(self) -> List[RefType]:
-        """Reference to MKA participant settings supported on the CouplingPort."""
+        """Reference to MKA participant settings supported on the CouplingPort. Tags: atp.Status=candidate"""
         return self.mkaParticipantRefs
 
     def getRole(self) -> Optional[MacSecRoleEnum]:
-        """Role of the MAC Security Key Agreement Entity"""
+        """Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate"""
         return self.role
 
     def setRole(self, value: Optional[MacSecRoleEnum]) -> MacSecLocalKayProps:
         """
-        Role of the MAC Security Key Agreement Entity
+        Role of the MAC Security Key Agreement Entity Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing role.
         """
         if value is not None:
@@ -2060,12 +2059,12 @@ class MacSecLocalKayProps(ARObject):
         return self
 
     def getSourceMacAddress(self) -> Optional[MacAddressString]:
-        """This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value)."""
+        """This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate"""
         return self.sourceMacAddress
 
     def setSourceMacAddress(self, value: Optional[MacAddressString]) -> MacSecLocalKayProps:
         """
-        This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value).
+        This attribute defines the source MAC Address that is used to calculate the ICV (Integrity Check Value). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sourceMacAddress.
         """
         if value is not None:

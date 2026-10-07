@@ -15565,18 +15565,22 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         if element is not None:
             props = MacSecLocalKayProps()
-            props.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
-            props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
-            props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
-            for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
-                props.addMkaParticipantRef(ref)
-            role = self.getChildElementOptionalLiteral(element, "ROLE")
-            if role is not None:
-                e = MacSecRoleEnum()
-                e.setValue(role.getValue())
-                props.setRole(e)
-            props.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
+            self.readMacSecLocalKayProps(element, props)
         return props
+
+    def readMacSecLocalKayProps(self, element: ET.Element, props: MacSecLocalKayProps):
+        self.readARObject(element, props)
+        props.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
+        props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
+        for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
+            props.addMkaParticipantRef(ref)
+        role = self.getChildElementOptionalLiteral(element, "ROLE")
+        if role is not None:
+            e = MacSecRoleEnum()
+            e.setValue(role.getValue())
+            props.setRole(e)
+        props.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
 
     def getMacSecProps(self, element: ET.Element) -> Optional[MacSecProps]:
         props = None

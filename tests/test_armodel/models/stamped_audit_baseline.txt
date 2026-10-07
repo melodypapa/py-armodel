@@ -220,7 +220,6 @@ MacSecCryptoAlgoConfig
 MacSecFailPermissiveModeEnum
 MacSecGlobalKayProps
 MacSecKayParticipant
-MacSecLocalKayProps
 MacSecRoleEnum
 MaxCommModeEnum
 McDataAccessDetails

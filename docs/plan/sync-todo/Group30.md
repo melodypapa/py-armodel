@@ -1083,15 +1083,55 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecLocalKayProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.119, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.119 is a page-split table (four attribute rows on p.174, then
+    two more after the page break just before the caption; pdf_page.py cites p.174) —
+    Class header (concrete), Base ARObject (most-derived model ancestor → `__init__(self)`),
+    Aggregated by MacSecProps.macSecKayConfig (XSD: single optional MAC-SEC-KAY-CONFIG
+    under MAC-SEC-PROPS). Six 0..1/`*` attr/ref rows in displayed order
+    (destinationMacAddress, globalKayProps, keyServerPriority, mkaParticipant, role,
+    sourceMacAddress — alphabetical page-split render); XSD group MAC-SEC-LOCAL-KAY-PROPS
+    (AUTOSAR_00052.xsd line 79157) carries the identical child order DESTINATION-MAC-ADDRESS
+    → GLOBAL-KAY-PROPS-REF → KEY-SERVER-PRIORITY → MKA-PARTICIPANT-REFS (wrapper, unbounded
+    MKA-PARTICIPANT-REF items) → ROLE → SOURCE-MAC-ADDRESS, so member order and XML order
+    coincide. ref-kind rows are typed per codebase convention as RefType with the Kind
+    suffix (`globalKayProps` → `globalKayPropsRef: Optional[RefType]`, `mkaParticipant` →
+    `mkaParticipantRefs: List[RefType]`; SakRef/MacSecKayParticipant.ckn precedent);
+    MacSecRoleEnum/MacSecGlobalKayProps/MacSecKayParticipant all exist (queued later in
+    this batch as Tables 3.120/3.122/3.125-3.128 — stub-typed fields stay). Every Note
+    (class + attributes) carries the `Tags: atp.Status=candidate` tail — kept verbatim at
+    every level (Rule 0012.2.5.3); note the `role` Note has no period before the tail
+    ("…Key Agreement Entity Tags: …") — preserved verbatim. Placement per Rule 0007 (spec
+    Package row `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already
+    sits in SecureCommunication.py at its spec-table slot (directly before MacSecKayParticipant
+    / MacSecProps) — no move needed.
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + 5-column checklist — both retired (marker removed per
+    Rule 0023, batch 9b re-stamps; checklist rewritten to the 6-column format). Model fields
+    already matched Table 3.119 (names, types, order, quota shapes), so the Step 2 model
+    tests extended the legacy suite to the current-bar matrix (per-setter round-trip +
+    chaining + None-no-op retention) and passed immediately — the RED was not observable at
+    model level; the honest Red→Green pair landed at reader/writer level.
+  - Reader/writer upgrade: the legacy parser getMacSecLocalKayProps / writer
+    setMacSecLocalKayProps populated all six children but never called the ARObject base
+    level (entry-time audit BASE FAIL — S/T silently dropped on round-trip). Upgraded
+    MacSecProps-style (Rule 0025): dedicated readMacSecLocalKayProps/writeMacSecLocalKayProps
+    levels calling readARObject/writeARObject exactly once, with the legacy
+    getMacSecLocalKayProps(element) / setMacSecLocalKayProps(element, key, props) helpers
+    kept as delegating wrappers — the MacSecProps dispatch sites (readMacSecProps
+    MAC-SEC-KAY-CONFIG call; writeMacSecProps setMacSecLocalKayProps call) needed no
+    changes. New parser tests (test_armodel/parser/test_mac_sec_local_kay_props.py) and
+    extended writer tests (test_armodel/writer/test_mac_sec_local_kay_props.py; deprecated
+    cElementTree import modernized to ElementTree per PlcaProps precedent) assert field
+    values, S/T base level, XSD child order, partial/empty-wrapper cases and the write→parse
+    round-trip at both levels.
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21937 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 201e92a4f
 
 - [ ] `MacSecGlobalKayProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.120, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

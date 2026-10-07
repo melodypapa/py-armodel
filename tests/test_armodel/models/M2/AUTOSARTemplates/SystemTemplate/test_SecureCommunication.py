@@ -252,7 +252,7 @@ class Test_MacSecEnums:
 
 
 class Test_MacSecLocalKayProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         props = MacSecLocalKayProps()
         assert props.getDestinationMacAddress() is None
         assert props.getGlobalKayPropsRef() is None
@@ -261,31 +261,119 @@ class Test_MacSecLocalKayProps:
         assert props.getRole() is None
         assert props.getSourceMacAddress() is None
 
-    def test_setters_and_getters(self):
+    def test_get_set_destination_mac_address(self):
         props = MacSecLocalKayProps()
-        props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
-        props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
-        props.setKeyServerPriority(_pos_int("16"))
-        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
-        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
+        result = props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+
+        assert result is props
+        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+
+        props.setDestinationMacAddress(_mac("66-77-88-99-AA-BB"))
+        assert props.getDestinationMacAddress().getValue() == "66-77-88-99-AA-BB"
+
+    def test_get_set_global_kay_props_ref(self):
+        props = MacSecLocalKayProps()
+        result = props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
+
+        assert result is props
+        assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
+
+        props.setGlobalKayPropsRef(_ref("/Sec/Other"))
+        assert props.getGlobalKayPropsRef().getValue() == "/Sec/Other"
+
+    def test_get_set_key_server_priority(self):
+        props = MacSecLocalKayProps()
+        result = props.setKeyServerPriority(_pos_int("16"))
+
+        assert result is props
+        assert props.getKeyServerPriority().getValue() == 16
+
+        props.setKeyServerPriority(_pos_int("32"))
+        assert props.getKeyServerPriority().getValue() == 32
+
+    def test_add_mka_participant_refs(self):
+        props = MacSecLocalKayProps()
+        first = _ref("/Sec/MkaParticipant1")
+
+        result = props.addMkaParticipantRef(first)
+
+        assert result is props
+        assert props.getMkaParticipantRefs() == [first]
+
+        second = _ref("/Sec/MkaParticipant2")
+        props.addMkaParticipantRef(second)
+        assert props.getMkaParticipantRefs() == [first, second]
+
+    def test_get_set_role(self):
+        props = MacSecLocalKayProps()
         role = MacSecRoleEnum()
         role.setValue(MacSecRoleEnum.KEY_SERVER)
-        props.setRole(role)
-        props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
 
-        assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
-        assert props.getKeyServerPriority().getValue() == 16
-        assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
+        result = props.setRole(role)
+
+        assert result is props
         assert props.getRole().getValue() == MacSecRoleEnum.KEY_SERVER
+
+        peer = MacSecRoleEnum()
+        peer.setValue(MacSecRoleEnum.PEER)
+        props.setRole(peer)
+        assert props.getRole().getValue() == MacSecRoleEnum.PEER
+
+    def test_get_set_source_mac_address(self):
+        props = MacSecLocalKayProps()
+        result = props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
+
+        assert result is props
         assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+
+        props.setSourceMacAddress(_mac("11-22-33-44-55-66"))
+        assert props.getSourceMacAddress().getValue() == "11-22-33-44-55-66"
 
     def test_none_is_noop(self):
         props = MacSecLocalKayProps()
+        destination = _mac("00-11-22-33-44-55")
+        global_ref = _ref("/Sec/MacSecGlobalKay")
+        priority = _pos_int("16")
+        mka_ref = _ref("/Sec/MkaParticipant1")
+        role = MacSecRoleEnum()
+        role.setValue(MacSecRoleEnum.KEY_SERVER)
+        source = _mac("AA-BB-CC-DD-EE-FF")
+        props.setDestinationMacAddress(destination)
+        props.setGlobalKayPropsRef(global_ref)
+        props.setKeyServerPriority(priority)
+        props.addMkaParticipantRef(mka_ref)
+        props.setRole(role)
+        props.setSourceMacAddress(source)
+
         props.setDestinationMacAddress(None)
+        props.setGlobalKayPropsRef(None)
+        props.setKeyServerPriority(None)
+        props.addMkaParticipantRef(None)
         props.setRole(None)
+        props.setSourceMacAddress(None)
+
+        assert props.getDestinationMacAddress() is destination
+        assert props.getGlobalKayPropsRef() is global_ref
+        assert props.getKeyServerPriority() is priority
+        assert props.getMkaParticipantRefs() == [mka_ref]
+        assert props.getRole() is role
+        assert props.getSourceMacAddress() is source
+
+    def test_none_noop_on_fresh_instance(self):
+        props = MacSecLocalKayProps()
+        props.setDestinationMacAddress(None)
+        props.setGlobalKayPropsRef(None)
+        props.setKeyServerPriority(None)
+        props.addMkaParticipantRef(None)
+        props.setRole(None)
+        props.setSourceMacAddress(None)
+
         assert props.getDestinationMacAddress() is None
+        assert props.getGlobalKayPropsRef() is None
+        assert props.getKeyServerPriority() is None
+        assert props.getMkaParticipantRefs() == []
         assert props.getRole() is None
+        assert props.getSourceMacAddress() is None
 
 
 class Test_MacSecProps:

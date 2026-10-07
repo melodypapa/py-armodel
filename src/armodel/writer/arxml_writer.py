@@ -13111,16 +13111,21 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalMacAddressString(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
-            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
-            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
+            self.writeMacSecLocalKayProps(child_element, props)
+
+    def writeMacSecLocalKayProps(self, element: ET.Element, props: Optional[MacSecLocalKayProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
+            self.setChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
             refs = props.getMkaParticipantRefs()
             if len(refs) > 0:
-                refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
+                refs_element = ET.SubElement(element, "MKA-PARTICIPANT-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
-            self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
-            self.setChildElementOptionalMacAddressString(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+            self.setChildElementOptionalLiteral(element, "ROLE", props.getRole())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
 
     def setMacSecProps(self, element: ET.Element, key: str, props: Optional[MacSecProps]):
         if props is not None:
