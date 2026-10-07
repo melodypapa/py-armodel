@@ -11342,7 +11342,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipSdServerEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdServerEventGroupTimingConfig):
         self.logger.debug("Write SomeipSdServerEventGroupTimingConfig <%s>" % config.getShortName())
-        child_element = ET.SubElement(element, "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
+        child_element = ET.SubElement(element, "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
 

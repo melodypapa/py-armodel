@@ -89,8 +89,6 @@ CompuScaleContents
 CompuScaleRationalFormula
 ConcretePatternEventTriggering
 ConfidenceInterval
-ConsumedEventGroup
-ConsumedServiceInstance
 ContainedIPduProps
 CouplingPortAsynchronousTrafficShaper
 CouplingPortCreditBasedShaper
@@ -254,7 +252,6 @@ PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
 Pdu
-PduActivationRoutingGroup
 PduToFrameMapping
 PduTriggering
 PeriodicEventTriggering
@@ -310,7 +307,6 @@ SocketConnection
 SocketConnectionIpduIdentifier
 SomeipSdClientEventGroupTimingConfig
 SomeipSdClientServiceInstanceConfig
-SomeipSdServerEventGroupTimingConfig
 SomeipServiceVersion
 SporadicEventTriggering
 StaticSocketConnection

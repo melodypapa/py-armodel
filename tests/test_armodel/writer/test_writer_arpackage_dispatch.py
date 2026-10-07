@@ -122,7 +122,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("SoAdRoutingGroup", "SO-AD-ROUTING-GROUP"),
     ("SomeipSdClientServiceInstanceConfig", "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG"),
     ("SomeipSdClientEventGroupTimingConfig", "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG"),
-    ("SomeipSdServerEventGroupTimingConfig", "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG"),
+    ("SomeipSdServerEventGroupTimingConfig", "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG"),
     ("DoIpTpConfig", "DO-IP-TP-CONFIG"),
     ("HwElement", "HW-ELEMENT"),
     ("HwCategory", "HW-CATEGORY"),
