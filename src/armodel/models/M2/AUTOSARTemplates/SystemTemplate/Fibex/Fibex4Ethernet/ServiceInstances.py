@@ -514,30 +514,29 @@ class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
 
 class StaticSocketConnection(Identifiable, VariationPointCapable):
     """
-    Definition of static SocketConnection between the Socket that is defined by the aggregating Socket Address and the remoteAddress.
+    Definition of static SocketConnection between the Socket that is defined by the aggregating SocketAddress and the remoteAddress.
     """
 
     # StaticSocketConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.201, p.544
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduIdentifierRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addIPduIdentifierRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemoteAddressRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRemoteAddressRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduIdentifierRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIPduIdentifierRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemoteAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpConnectTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpConnectTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpRole             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpRole             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Assignment of IPduIdentifiers that are transmitted over the static SocketConnection.
+        # Assignment of IPduIdentifiers that are transmitted over the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduIdentifier.soConIPduIdentifier, iPduIdentifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.iPduIdentifierRefs: List[RefType] = []
 
-        # RemoteAddress of the static SocketConnection.
+        # RemoteAddress of the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteAddress.socketAddress, remoteAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.remoteAddressRef: Optional[RefType] = None
 
         # Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd.
@@ -547,12 +546,12 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         self.tcpRole: Optional[TcpRoleEnum] = None
 
     def getIPduIdentifierRefs(self) -> List[RefType]:
-        """Assignment of IPduIdentifiers that are transmitted over the static SocketConnection."""
+        """Assignment of IPduIdentifiers that are transmitted over the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduIdentifier.soConIPduIdentifier, iPduIdentifier.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.iPduIdentifierRefs
 
     def addIPduIdentifierRef(self, ref: Optional[RefType]) -> StaticSocketConnection:
         """
-        Assignment of IPduIdentifiers that are transmitted over the static SocketConnection.
+        Assignment of IPduIdentifiers that are transmitted over the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduIdentifier.soConIPduIdentifier, iPduIdentifier.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to iPduIdentifierRefs.
         """
         if ref is not None:
@@ -560,12 +559,12 @@ class StaticSocketConnection(Identifiable, VariationPointCapable):
         return self
 
     def getRemoteAddressRef(self) -> Optional[RefType]:
-        """RemoteAddress of the static SocketConnection."""
+        """RemoteAddress of the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteAddress.socketAddress, remoteAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.remoteAddressRef
 
     def setRemoteAddressRef(self, ref: Optional[RefType]) -> StaticSocketConnection:
         """
-        RemoteAddress of the static SocketConnection.
+        RemoteAddress of the static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteAddress.socketAddress, remoteAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing remoteAddressRef.
         """
         if ref is not None:

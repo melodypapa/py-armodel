@@ -1177,17 +1177,39 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `StaticSocketConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.201, p.544
+- [ ] `StaticSocketConnection` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.201, p.544
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 4 Table 6.201
+    attrs modeled in displayed order (iPduIdentifier SoConIPduIdentifier `*` ref → plural
+    `iPduIdentifierRefs` + add/get per Rule 0001.5; remoteAddress SocketAddress 0..1 ref →
+    `remoteAddressRef`; tcpConnectTimeout TimeValue; tcpRole TcpRoleEnum). spec `Base` row chain =
+    ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived = Identifiable (row label
+    "ARObject" was the chain head only; ConsumedEventGroup precedent); VP-capable per XSD group
+    STATIC-SOCKET-CONNECTION (VARIATION-POINT last, l.113239) ✓. Table renders PRE-caption split (header +
+    iPduIdentifier row above the caption; remoteAddress/tcpConnectTimeout/tcpRole after) — XSD group
+    reconciled. Reader/writer helpers pre-existed with full XSD-order coverage (I-PDU-IDENTIFIERS →
+    REMOTE-ADDRESSS → TCP-CONNECT-TIMEOUT → TCP-ROLE, base helpers once — audit BASE green); SocketAddress
+    aggregation (createStaticSocketConnection + read/writeStaticSocketConnection) verified — round-trip
+    asserts child field values (test_socket_address.py TCP-ROLE), no duplication. Drift fixed: (1) Rule
+    0023 legacy 5-column checklist with stale `# Spec verified: R23-11` — marker removed, block rewritten
+    6-column, getTcpRole/setTcpRole reader/writer split corrected (legacy block wrongly claimed both), no
+    stamp (9b deferred); (2) Rule 0012.2.5.3 — `Stereotypes:`/`Tags:` tails restored verbatim on the
+    iPduIdentifier + remoteAddress notes (markdown mid-token wraps "iPdu
+    Identifier.variationPoint.shortLabel" / "remote Address.variationPoint.shortLabel" reconciled against
+    the XSD atp.Splitkey appinfo, l.113252/l.113264); class docstring "aggregating Socket Address" wrap
+    reconciled to "aggregating SocketAddress" per XSD doc; (3) writer test upgraded to TcpRoleEnum
+    constants (Rule 0006, was ARLiteral). remoteAddress stays Optional single per PDF Mult 0..1 (XSD
+    wrapper unbounded via atpVariation — PDF wins, methodActivationRoutingGroup precedent). Audit PASS
+    (STAMP INFO = expected pre-9b state); stamped-audit baseline refreshed (entry drained). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IPSecRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.222, p.572
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py (FIXED from Identifiable.py — spec Package M2::AUTOSARTemplates::SystemTemplate::SecureCommunication)

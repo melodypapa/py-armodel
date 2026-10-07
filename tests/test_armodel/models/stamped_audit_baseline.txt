@@ -308,7 +308,6 @@ SocketConnectionIpduIdentifier
 SomeipSdClientServiceInstanceConfig
 SomeipServiceVersion
 SporadicEventTriggering
-StaticSocketConnection
 String
 StringValue
 StructuredReq

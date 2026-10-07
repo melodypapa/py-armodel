@@ -11,8 +11,8 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import StaticSocketConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import StaticSocketConnection, TcpRoleEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -52,7 +52,7 @@ def _new_connection(short_name="Conn1"):
     remote_ref = RefType()
     remote_ref.setValue("/Ecu/SoAd/SocketAddress/Remote")
     timeout = TimeValue().setValue(30)
-    role = ARLiteral().setValue("CONNECT")
+    role = TcpRoleEnum().setValue(TcpRoleEnum.CONNECT)
     connection.addIPduIdentifierRef(ref_1)
     connection.addIPduIdentifierRef(ref_2)
     connection.setRemoteAddressRef(remote_ref)
