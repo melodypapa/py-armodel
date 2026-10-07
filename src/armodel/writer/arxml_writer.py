@@ -540,6 +540,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticWriteDataByIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -13126,6 +13127,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
             self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
             self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
+
+    def writeAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps):
+        # Populates the concrete subclass element (CAN/ETH/FR-GLOBAL-TIME-DOMAIN-PROPS) created by
+        # the caller; VARIATION-POINT is the only element of the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS
+        # group (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
+        self.writeARObject(element, props)
+        self.writeVariationPointCapable(element, props)
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

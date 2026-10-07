@@ -10,6 +10,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     ARObject,
     BusMirrorCanIdRangeMapping,
     BusMirrorCanIdToCanIdMapping,
@@ -4516,3 +4517,83 @@ class TestBusMirrorLinPidToCanIdMapping:
         setter_hints = typing.get_type_hints(BusMirrorLinPidToCanIdMapping.setSourceLinPidRef)
         assert getter_hints.get("return") == typing.Optional[RefType]
         assert setter_hints.get("value") == typing.Optional[RefType]
+
+
+class ConcreteAbstractGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
+    pass
+
+
+class TestAbstractGlobalTimeDomainProps:
+    """
+    Test class for AbstractGlobalTimeDomainProps functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.2, p.859
+    (abstract; subclasses CanGlobalTimeDomainProps, EthGlobalTimeDomainProps and
+    FrGlobalTimeDomainProps — accessors exercised through a local concrete subclass
+    per the abstract-class test convention. The table's Attribute column is a single
+    "-" row, so the class owns no attributes of its own; the VARIATION-POINT slot of
+    the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group is mixin-provided.)
+    """
+
+    CLASS_NOTE = "This abstract class enables a GlobalTimeDomain to specify additional properties."
+
+    def test_abstract_initialization(self):
+        """
+        AbstractGlobalTimeDomainProps is abstract and cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            AbstractGlobalTimeDomainProps()
+
+    def test_is_ar_object_subclass_with_variation_point_capable(self):
+        """
+        Test that AbstractGlobalTimeDomainProps derives from ARObject per the Table 9.2 Base row
+        and from VariationPointCapable (the atpVariation on the owning GlobalTimeDomain.globalTimeDomainProperty
+        row makes the member class VP-capable; the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group carries
+        VARIATION-POINT).
+        """
+        assert issubclass(AbstractGlobalTimeDomainProps, ARObject)
+        assert issubclass(AbstractGlobalTimeDomainProps, VariationPointCapable)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(AbstractGlobalTimeDomainProps.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert AbstractGlobalTimeDomainProps.__init__.__doc__ is None
+
+    def test_no_own_methods(self):
+        """
+        Test that the class declares no accessors — Table 9.2 has no Attribute rows.
+        """
+        methods = [name for name, value in AbstractGlobalTimeDomainProps.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == []
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete subclass instantiates with all inherited state at defaults.
+        """
+        obj = ConcreteAbstractGlobalTimeDomainProps()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getVariationPoint() is None
+
+    def test_variation_point_base_accessors(self):
+        """
+        Exercise the inherited VariationPointCapable accessors: chaining, round-trip, None no-op.
+        """
+        obj = ConcreteAbstractGlobalTimeDomainProps()
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        variation_point = VariationPoint()
+        assert obj.setVariationPoint(variation_point) is obj
+        assert obj.getVariationPoint() is variation_point
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is variation_point  # None is a no-op

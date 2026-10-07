@@ -2266,8 +2266,28 @@ class TextualCondition(AbstractCondition):
     pass
 
 
-class AbstractGlobalTimeDomainProps(ARObject, ABC):
-    pass
+class AbstractGlobalTimeDomainProps(ARObject, VariationPointCapable):
+    """
+    This abstract class enables a GlobalTimeDomain to specify additional properties.
+    """
+
+    # AbstractGlobalTimeDomainProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.2, p.859
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+    # Table 9.2 has no Attribute rows; the abstract VARIATION-POINT slot is read/written by the
+    # reusable readAbstractGlobalTimeDomainProps / writeAbstractGlobalTimeDomainProps helpers
+    # that the concrete Can/Eth/Fr GlobalTimeDomainProps readers/writers call.
+    # Aggregator dispatch (GlobalTimeDomain.globalTimeDomainProperty) is pending — GlobalTimeDomain
+    # is a later-wave class.
+
+    def __init__(self):
+        if type(self) is AbstractGlobalTimeDomainProps:
+            raise TypeError("AbstractGlobalTimeDomainProps is an abstract class.")
+
+        super().__init__()
 
 
 class BinaryManifestAddressableObject(ARObject, ABC):

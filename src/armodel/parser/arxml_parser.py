@@ -561,6 +561,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import AtpMixedString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    AbstractGlobalTimeDomainProps,
     CalibrationParameterValue,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
@@ -15585,6 +15586,13 @@ class ARXMLParser(AbstractARXMLParser):
             props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID"))
             props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT"))
             props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
+        return props
+
+    def readAbstractGlobalTimeDomainProps(self, element: ET.Element, props: AbstractGlobalTimeDomainProps) -> AbstractGlobalTimeDomainProps:
+        # VARIATION-POINT is the only element of the XSD ABSTRACT-GLOBAL-TIME-DOMAIN-PROPS group
+        # (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
+        self.readARObject(element, props)
+        self.readVariationPointCapable(element, props)
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
