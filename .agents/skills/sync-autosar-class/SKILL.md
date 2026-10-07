@@ -120,9 +120,12 @@ session** (Rule 0017).
 - **Entry (every session):** the user invokes the skill (e.g. `/sync-autosar-class
   <ClassName>` or "continue the sync"). If `docs/plan/sync-todo/<ClassName>.md`
   exists, **resume — do NOT re-run Phase 0** (the closure was already confirmed;
-  re-running it re-asks the interactive gates for nothing). Read the todo file,
-  take the **first row still `[ ]`**, and run the 9-step workflow for that one
-  class. If the file does not exist, run Phase 0 first.
+  re-running it re-asks the interactive gates for nothing). Read the todo file and
+  take the **first row still `[ ]`**. Then, **before Step 1, run `audit_class.py
+  <Class>`** — a FAIL means the class is stale under the current bar (drift, Rule
+  0012.3), so run the full 9-step workflow; the same audit is required before honoring
+  any short-circuit on an already-stamped class. Then run the 9-step workflow for that
+  one class. If the file does not exist, run Phase 0 first.
 - **One class per session.** Never sync two classes in one session, even when the
   context still feels fresh — the 9b verbatim-diff work degrades silently under a
   loaded context. After a class finishes (below), stop and tell the user to start
@@ -169,6 +172,12 @@ Rule 0016.3 fallback). These markers are the
 provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
 round-trip) certifies a class as reviewed.
 
+- **Audit before honoring the marker.** The marker is proof of a 9b pass under *some*
+  bar, not the current one. Before skipping a stamped class, run `audit_class.py
+  <Class>`; a FAIL (legacy/5-column checklist, missing base reader/writer call, rows ≠
+  methods) means it is not synced under the current bar → treat as drift and run the
+  full workflow. This is the entry-time gate (Rule 0017.1) that keeps stale classes out
+  of 9b.
 - **Has the marker** → the class has been synced. Treat its fields, checklist,
   docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
   the spec changes (Rule 0012.3 drift) or when extending the class. A **legacy 4-column

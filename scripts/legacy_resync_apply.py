@@ -1,7 +1,7 @@
 """Rule 0023 mechanical re-sync applier.
 
-Consumes the dump produced by `audit_legacy_checklists.py --dump` and rewrites each
-queued class in place:
+Consumes the per-class audit output (the single authority is `audit_class.py`, whose
+ROWS check defines "legacy") and rewrites each queued class in place:
 
 - removes the stale `# Spec verified:` / `# XSD verified:` marker (Rule 0023 — goes first),
 - converts the legacy 4-column checklist to the current 6-column format (impl / docstring /

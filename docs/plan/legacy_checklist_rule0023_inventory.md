@@ -1,5 +1,13 @@
 # Legacy-format checklist inventory (Rule 0023 re-sync survey)
 
+> **Superseded 2026-10-07.** The legacy/format inventory is now defined solely by
+> `audit_class.py`'s ROWS check — any block that is not the current 6-column form,
+> **including 5-column blocks** that keep `reader`/`writer` but omit the per-row `release`
+> token. `scripts/eval_skill_static_checks.py` no longer scans checklists (the two
+> definitions conflicted, and 5-column blocks slipped through both — see the Group21
+> compliance pass). This snapshot is kept for historical reference; treat
+> `audit_class.py <Class>` run **at session entry** (Rule 0017.1) as the authority.
+
 Generated 2026-10-02 by `scripts/eval_skill_static_checks.py` (mechanical scan of `src/armodel/models/**`).
 
 A checklist whose method rows end at the `test` column — no `reader`/`writer` columns, no per-row
