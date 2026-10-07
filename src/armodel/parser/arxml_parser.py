@@ -15061,6 +15061,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
 
     def readAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        self.readARObject(element, restriction)
         restriction.setVariation(self.getChildElementOptionalBooleanValue(element, "VARIATION"))
         times_element = self.find(element, "VALID-BINDING-TIMES")
         if times_element is not None:

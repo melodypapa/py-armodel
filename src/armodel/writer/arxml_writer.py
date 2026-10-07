@@ -15414,6 +15414,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 )
 
     def writeAbstractVariationRestriction(self, element: ET.Element, restriction: AbstractVariationRestriction):
+        self.writeARObject(element, restriction)
         self.setChildElementOptionalBooleanValue(element, "VARIATION", restriction.getVariation())
         times = restriction.getValidBindingTimes()
         if len(times) > 0:
