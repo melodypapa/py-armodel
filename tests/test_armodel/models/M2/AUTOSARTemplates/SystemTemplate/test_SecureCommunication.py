@@ -628,7 +628,7 @@ class Test_MacSecParticipantSet:
 
 
 class Test_MacSecCipherSuiteConfig:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         config = MacSecCipherSuiteConfig()
         assert isinstance(config, ARObject)
         assert config.getCipherSuite() is None
@@ -637,16 +637,41 @@ class Test_MacSecCipherSuiteConfig:
     def test_get_set_cipher_suite(self):
         config = MacSecCipherSuiteConfig()
         cipher_suite = _string("GCM-AES-128")
-        assert config.setCipherSuite(cipher_suite) is config
+        result = config.setCipherSuite(cipher_suite)
+
+        assert result is config
         assert config.getCipherSuite() is cipher_suite
+
+        xpn = _string("GCM-AES-XPN-256")
+        config.setCipherSuite(xpn)
+        assert config.getCipherSuite() is xpn
 
     def test_get_set_cipher_suite_priority(self):
         config = MacSecCipherSuiteConfig()
         priority = _pos_int("1")
-        assert config.setCipherSuitePriority(priority) is config
+        result = config.setCipherSuitePriority(priority)
+
+        assert result is config
         assert config.getCipherSuitePriority() is priority
 
+        lowest = _pos_int("4")
+        config.setCipherSuitePriority(lowest)
+        assert config.getCipherSuitePriority() is lowest
+
     def test_none_is_noop(self):
+        config = MacSecCipherSuiteConfig()
+        cipher_suite = _string("GCM-AES-128")
+        priority = _pos_int("1")
+        config.setCipherSuite(cipher_suite)
+        config.setCipherSuitePriority(priority)
+
+        config.setCipherSuite(None)
+        config.setCipherSuitePriority(None)
+
+        assert config.getCipherSuite() is cipher_suite
+        assert config.getCipherSuitePriority() is priority
+
+    def test_none_noop_on_fresh_instance(self):
         config = MacSecCipherSuiteConfig()
         assert config.setCipherSuite(None) is config
         assert config.setCipherSuitePriority(None) is config

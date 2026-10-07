@@ -15536,6 +15536,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         self.logger.debug("Read MacSecCipherSuiteConfig")
+        self.readARObject(element, config)
         config.setCipherSuite(self.getChildElementOptionalString(element, "CIPHER-SUITE"))
         config.setCipherSuitePriority(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-PRIORITY"))
 

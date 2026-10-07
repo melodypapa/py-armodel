@@ -13086,6 +13086,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
+        self.writeARObject(child_element, config)
         self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
         self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", cast(Integer, config.getCipherSuitePriority()))
 

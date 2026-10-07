@@ -1386,15 +1386,64 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecCipherSuiteConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.124, p.176
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.124 is a page-split table — the Class/Package/Note rows
+    (markdown lines 4743-4746) render BEFORE the caption (line 4769) and the Base/
+    Aggregated-by rows plus the two attribute rows render after it (lines 4771-4777);
+    pdf_page.py cites p.176. Class header (concrete), Base ARObject (only; most-derived
+    model ancestor → `__init__(self)`), Aggregated by MacSecCryptoAlgoConfig.cipherSuiteConfig
+    (XSD: single optional CIPHER-SUITE-CONFIGS wrapper under MAC-SEC-CRYPTO-ALGO-CONFIG
+    holding a choice of max 4 MAC-SEC-CIPHER-SUITE-CONFIG items — the role element IS the
+    type name, AUTOSAR_00052.xsd line 78994, unlike the CRYPTO-ALGO-CONFIG role element).
+    Two 0..1 attr rows in displayed order (cipherSuite — String; cipherSuitePriority —
+    PositiveInteger; the markdown splits the name "cipherSuite Priority"); XSD group
+    MAC-SEC-CIPHER-SUITE-CONFIG (line 78937) carries the identical child order CIPHER-SUITE
+    → CIPHER-SUITE-PRIORITY, so member order and XML order coincide; the complexType (line
+    78960) = AR:AR-OBJECT group + the class group → base level readARObject/writeARObject
+    (S/T). Every Note (class + attributes) carries the `Tags: atp.Status=candidate` tail —
+    kept verbatim at every level (Rule 0012.2.5.3). The TPS_SYST_02389 semantics text
+    (cipherSuitePriority 1 = highest … 4 = lowest) sits outside the table Note — not copied
+    (Table 3.123/TPS_SYST_02388 precedent). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py; per batch instruction it MOVES to its spec-table-order slot
+    directly after MacSecCryptoAlgoConfig (Table 3.123 → 3.124 order; safe — the module is
+    PEP 563, so the aggregatee annotation resolves despite the later definition).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist (no per-row release token) —
+    both retired at session start (marker removed per Rule 0023, batch 9b re-stamps;
+    checklist rewritten to the 6-column format at Step 7). Docstrings lacked the `Tags:`
+    tails — rewritten verbatim at Step 4. Model fields already match Table 3.124 (names,
+    types, order, quota shapes); entry-time audit FAILed ROWS/STAMP/BASE (both directions)
+    as expected.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Reader/writer wiring upgrade: readMacSecCipherSuiteConfig / writeMacSecCipherSuiteConfig
+    populated both children but never called the ARObject base level (entry-time audit BASE
+    FAIL — S/T silently dropped on round-trip). Upgraded Rule 0025-style: each dedicated
+    level now calls readARObject/writeARObject exactly once; the aggregator dispatch needed
+    no changes — readMacSecCryptoAlgoConfig already instantiated children and handed them to
+    addCipherSuiteConfig (the Table 3.123 adder) before dispatching the dedicated level, and
+    writeMacSecCryptoAlgoConfig already emitted the CIPHER-SUITE-CONFIGS wrapper whose items
+    carry the XSD type-name role element MAC-SEC-CIPHER-SUITE-CONFIG (AUTOSAR_00052.xsd line
+    78994).
+  - Red observation (Step 5): model RED was not observable (fields already matched Table
+    3.124 — the Step 2 tests extended the legacy suite to the current-bar matrix and passed
+    immediately). Reader/writer RED: 4 failed / 8 passed — all four the missing ARObject
+    base level (parser S/T read + nested-child checksum via readMacSecCryptoAlgoConfig;
+    writer S/T attribute emission + the S/T round-trip). After the Step 6 upgrade all 12
+    pass and the MacSec family regression (crypto-algo-config + kay-participant, both
+    directions) stays green. The legacy writer test file's deprecated cElementTree import
+    was modernized to ElementTree (batch precedent).
+  - No deviations from Table 3.124; no missing referenced classes (String and
+    PositiveInteger primitives exist). The `# Spec verified: R23-11` marker is deferred to
+    the batch 9b stamp per user instruction; the entry-time stale legacy marker was removed
+    (Rule 0023).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21991 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9939d31b1
 
 - [ ] `MacSecConfidentialityOffsetEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.125, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

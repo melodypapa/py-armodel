@@ -1848,57 +1848,6 @@ class MacSecParticipantSet(ARElement):
         return self.mkaParticipants
 
 
-class MacSecCipherSuiteConfig(ARObject):
-    """
-    This meta-class defines the cipher suite configuration to use with MACsec. cipherSuitePriority is present in case the MKA instance acts as a Key Server to select the cipher suite to use for MACsec.
-    """
-
-    # MacSecCipherSuiteConfig method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.124, p.176
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCipherSuite          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCipherSuite          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCipherSuitePriority  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCipherSuitePriority  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
-    def __init__(self):
-        super().__init__()
-
-        # Cipher Suite to use for MACsec.
-        self.cipherSuite: Optional[String] = None
-
-        # In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers.
-        self.cipherSuitePriority: Optional[PositiveInteger] = None
-
-    def getCipherSuite(self) -> Optional[String]:
-        """Cipher Suite to use for MACsec."""
-        return self.cipherSuite
-
-    def setCipherSuite(self, value: Optional[String]) -> MacSecCipherSuiteConfig:
-        """
-        Cipher Suite to use for MACsec.
-        A None value is a no-op and does not overwrite an existing cipherSuite.
-        """
-        if value is not None:
-            self.cipherSuite = value
-        return self
-
-    def getCipherSuitePriority(self) -> Optional[PositiveInteger]:
-        """In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers."""
-        return self.cipherSuitePriority
-
-    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> MacSecCipherSuiteConfig:
-        """
-        In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers.
-        A None value is a no-op and does not overwrite an existing cipherSuitePriority.
-        """
-        if value is not None:
-            self.cipherSuitePriority = value
-        return self
-
-
 class MacSecCryptoAlgoConfig(ARObject):
     """
     This meta-class defines the cryptography configuration for MACsec. Tags: atp.Status=candidate
@@ -2000,6 +1949,56 @@ class MacSecCryptoAlgoConfig(ARObject):
         """
         if value is not None:
             self.replayProtectionWindow = value
+        return self
+
+
+class MacSecCipherSuiteConfig(ARObject):
+    """
+    This meta-class defines the cipher suite configuration to use with MACsec. cipherSuitePriority is present in case the MKA instance acts as a Key Server to select the cipher suite to use for MACsec. Tags: atp.Status=candidate
+    """
+
+    # MacSecCipherSuiteConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.124, p.176
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCipherSuite          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuite          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCipherSuitePriority  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCipherSuitePriority  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Cipher Suite to use for MACsec. Tags: atp.Status=candidate
+        self.cipherSuite: Optional[String] = None
+
+        # In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate
+        self.cipherSuitePriority: Optional[PositiveInteger] = None
+
+    def getCipherSuite(self) -> Optional[String]:
+        """Cipher Suite to use for MACsec. Tags: atp.Status=candidate"""
+        return self.cipherSuite
+
+    def setCipherSuite(self, value: Optional[String]) -> MacSecCipherSuiteConfig:
+        """
+        Cipher Suite to use for MACsec. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing cipherSuite.
+        """
+        if value is not None:
+            self.cipherSuite = value
+        return self
+
+    def getCipherSuitePriority(self) -> Optional[PositiveInteger]:
+        """In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate"""
+        return self.cipherSuitePriority
+
+    def setCipherSuitePriority(self, value: Optional[PositiveInteger]) -> MacSecCipherSuiteConfig:
+        """
+        In case the MKA instance acts as a Key Server, the priority is used to select the Cipher Suite to use with MACsec from the supported Ciphers. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing cipherSuitePriority.
+        """
+        if value is not None:
+            self.cipherSuitePriority = value
         return self
 
 
