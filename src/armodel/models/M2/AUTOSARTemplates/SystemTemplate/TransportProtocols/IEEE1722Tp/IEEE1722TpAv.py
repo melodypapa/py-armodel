@@ -94,6 +94,68 @@ class IEEE1722TpCrfPullEnum(AREnum):
         )
 
 
+class IEEE1722TpAafNominalRateEnum(AREnum):
+    """
+    Definition of the AAF nominal sample / frame rate. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAafNominalRateEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.281, p.644
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpAafConnection.aafNominalRate
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # 16 kHz Tags: atp.EnumerationLiteralIndex=2 xml.name=16-KHZ
+    ENUM_16KHZ = "16-KHZ"
+
+    # 176.4 kHz Tags: atp.EnumerationLiteralIndex=8 xml.name=176-4-KHZ
+    ENUM_176_4KHZ = "176-4-KHZ"
+
+    # 192 kHz Tags: atp.EnumerationLiteralIndex=9 xml.name=192-KHZ
+    ENUM_192KHZ = "192-KHZ"
+
+    # 24 kHz Tags: atp.EnumerationLiteralIndex=10 xml.name=24-KHZ
+    ENUM_24KHZ = "24-KHZ"
+
+    # 32 kHz Tags: atp.EnumerationLiteralIndex=3 xml.name=32-KHZ
+    ENUM_32KHZ = "32-KHZ"
+
+    # 44.1 kHz Tags: atp.EnumerationLiteralIndex=4 xml.name=44-1-KHZ
+    ENUM_44_1KHZ = "44-1-KHZ"
+
+    # 48 kHz Tags: atp.EnumerationLiteralIndex=5 xml.name=48-KHZ
+    ENUM_48KHZ = "48-KHZ"
+
+    # 88.2 kHz Tags: atp.EnumerationLiteralIndex=6 xml.name=88-2-KHZ
+    ENUM_88_2KHZ = "88-2-KHZ"
+
+    # 8 kHz Tags: atp.EnumerationLiteralIndex=1 xml.name=8-KHZ
+    ENUM_8KHZ = "8-KHZ"
+
+    # 96 kHz Tags: atp.EnumerationLiteralIndex=7 xml.name=96-KHZ
+    ENUM_96KHZ = "96-KHZ"
+
+    # User specified Tags: atp.EnumerationLiteralIndex=0
+    ENUM_USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpAafNominalRateEnum.ENUM_16KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_176_4KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_192KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_24KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_32KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_44_1KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_48KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_8KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_88_2KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_96KHZ,
+                IEEE1722TpAafNominalRateEnum.ENUM_USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections

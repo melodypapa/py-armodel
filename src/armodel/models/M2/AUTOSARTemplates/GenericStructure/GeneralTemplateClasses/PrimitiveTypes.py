@@ -2884,10 +2884,6 @@ class IEEE1722TpAafFormatEnum(AREnum):
     pass
 
 
-class IEEE1722TpAafNominalRateEnum(AREnum):
-    pass
-
-
 class IEEE1722TpAcfCanMessageTypeEnum(AREnum):
     pass
 
