@@ -1591,59 +1591,59 @@ Status: **20/74** completed
 
 ## Group30
 
-Status: **0/75** completed
+Status: **49/75** completed
 
 | Class Name                                       | Status          | Commit ID  |
 | ------------------------------------------------ | --------------- | ---------- |
-| `CouplingElement`                                | [ ] Pending*    | dccd25955a |
-| `CouplingElementEnum`                            | [ ] Pending*    | cc75a503b1 |
-| `CouplingPort`                                   | [ ] Pending*    | 51836c9a37 |
-| `EthernetConnectionNegotiationEnum`              | [ ] Pending*    | bc3d3386a2 |
-| `EthernetMacLayerTypeEnum`                       | [ ] Pending*    | d526c8ebcf |
-| `EthernetPhysicalLayerTypeEnum`                  | [ ] Pending*    | 5eba7c6ad9 |
-| `EthernetSwitchVlanIngressTagEnum`               | [ ] Pending*    | 0d682b9798 |
-| `CouplingPortConnection`                         | [ ] Pending*    | 7543596588 |
-| `EthernetCommunicationController`                | [ ] Pending*    | 01e4db429e |
-| `EthernetCommunicationConnector`                 | [ ] Pending*    | d22193a7d7 |
-| `CouplingPortDetails`                            | [ ] Pending*    | 7a56601b37 |
-| `EthernetCouplingPortSchedulerEnum`              | [ ] Pending*    | 909eb0ddcc |
-| `CouplingPortShaper`                             | [ ] Pending*    | 5d3549490d |
-| `CouplingPortFifo`                               | [ ] Pending*    | 365e7aec38 |
-| `CouplingPortRatePolicy`                         | [ ] Pending*    | 9fafd3ebc2 |
-| `CouplingPortRatePolicyActionEnum`               | [ ] Pending*    | 3f2c27ef2d |
-| `CouplingPortTrafficClassAssignment`             | [ ] Pending*    | aacc9860e9 |
-| `EthernetSwitchVlanEgressTaggingEnum`            | [ ] Pending*    | 41795ad4b3 |
-| `DhcpServerConfiguration`                        | [ ] Pending*    | 64d337c40c |
-| `Ipv4DhcpServerConfiguration`                    | [ ] Pending*    | 920dc732db |
-| `Ipv6DhcpServerConfiguration`                    | [ ] Pending*    | 49ad95dd43 |
-| `CouplingElementAbstractDetails`                 | [ ] Pending*    | 9c78940aa9 |
-| `CouplingElementSwitchDetails`                   | [ ] Pending*    | d20dc66668 |
-| `SwitchStreamIdentification`                     | [ ] Pending*    | aa06ec8a24 |
-| `SwitchStreamFilterRule`                         | [ ] Pending*    | 4f467314cf |
-| `StreamFilterRuleDataLinkLayer`                  | [ ] Pending*    | 65ab0bd89a |
-| `StreamFilterMACAddress`                         | [ ] Pending*    | c74b8e553a |
-| `StreamFilterRuleIpTp`                           | [ ] Pending*    | 8989307d08 |
-| `StreamFilterIpv4Address`                        | [ ] Pending*    | da459aa3b7 |
-| `StreamFilterIpv6Address`                        | [ ] Pending*    | ac34699c4a |
-| `StreamFilterPortRange`                          | [ ] Pending*    | c97f9dd4ee |
-| `StreamFilterIEEE1722Tp`                         | [ ] Pending*    | cc74587e4b |
-| `SwitchStreamFilterActionDestPortModification`   | [ ] Pending*    | cbe98badf5 |
-| `SwitchStreamFilterActionPortModificationEnum`   | [ ] Pending*    | 8ca63a75f0 |
-| `SwitchStreamFilterEntry`                        | [ ] Pending*    | 8bc4f911fe |
-| `SwitchAsynchronousTrafficShaperGroupEntry`      | [ ] Pending*    | dc9e5d6ce4 |
-| `SwitchStreamGateEntry`                          | [ ] Pending*    | ac22e340e2 |
-| `SwitchFlowMeteringEntry`                        | [ ] Pending*    | 29385d65d2 |
-| `FlowMeteringColorModeEnum`                      | [ ] Pending*    | c140322c44 |
-| `EthIpProps`                                     | [ ] Pending*    | 324da359ae |
-| `Ipv4Props`                                      | [ ] Pending*    | 614927b0c4 |
-| `Ipv4ArpProps`                                   | [ ] Pending*    | fbb86c3fcf |
-| `Ipv4AutoIpProps`                                | [ ] Pending*    | 926b146bca |
-| `Ipv4FragmentationProps`                         | [ ] Pending*    | e16eb379e5 |
-| `Ipv6Props`                                      | [ ] Pending*    | 05891c9038 |
-| `Ipv6FragmentationProps`                         | [ ] Pending*    | 772f5b9b2b |
-| `Dhcpv6Props`                                    | [ ] Pending*    | 58cbdb9815 |
-| `Ipv6NdpProps`                                   | [ ] Pending*    | f3c622bd64 |
-| `EthernetWakeupSleepOnDatalineConfig`            | [ ] Pending*    | e795dd3dc6 |
+| `CouplingElement`                                | [x] Done        | 939fd9894a |
+| `CouplingElementEnum`                            | [x] Done        | 3af3a6cf23 |
+| `CouplingPort`                                   | [x] Done        | e5f61db969 |
+| `EthernetConnectionNegotiationEnum`              | [x] Done        | 2ce08ac21e |
+| `EthernetMacLayerTypeEnum`                       | [x] Done        | c39dd7a327 |
+| `EthernetPhysicalLayerTypeEnum`                  | [x] Done        | b694498ff9 |
+| `EthernetSwitchVlanIngressTagEnum`               | [x] Done        | 9422ab1f77 |
+| `CouplingPortConnection`                         | [x] Done        | ee27121d13 |
+| `EthernetCommunicationController`                | [x] Done        | 03497b59ce |
+| `EthernetCommunicationConnector`                 | [x] Done        | 0de2c42ad7 |
+| `CouplingPortDetails`                            | [x] Done        | a45755ba3c |
+| `EthernetCouplingPortSchedulerEnum`              | [x] Done        | 264f040389 |
+| `CouplingPortShaper`                             | [x] Done        | a3502b3e2d |
+| `CouplingPortFifo`                               | [x] Done        | 20de6ab12a |
+| `CouplingPortRatePolicy`                         | [x] Done        | 83e5a7de8f |
+| `CouplingPortRatePolicyActionEnum`               | [x] Done        | 04d3d90ff9 |
+| `CouplingPortTrafficClassAssignment`             | [x] Done        | 1ada77419c |
+| `EthernetSwitchVlanEgressTaggingEnum`            | [x] Done        | 482ceab553 |
+| `DhcpServerConfiguration`                        | [x] Done        | 8edfe86ef6 |
+| `Ipv4DhcpServerConfiguration`                    | [x] Done        | de126f2ef1 |
+| `Ipv6DhcpServerConfiguration`                    | [x] Done        | ad1e393bad |
+| `CouplingElementAbstractDetails`                 | [x] Done        | 6223223d0c |
+| `CouplingElementSwitchDetails`                   | [x] Done        | eabdb4a5c5 |
+| `SwitchStreamIdentification`                     | [x] Done        | 4906ab07d6 |
+| `SwitchStreamFilterRule`                         | [x] Done        | 18175ad8c1 |
+| `StreamFilterRuleDataLinkLayer`                  | [x] Done        | dd40c287a3 |
+| `StreamFilterMACAddress`                         | [x] Done        | bd3889c1d6 |
+| `StreamFilterRuleIpTp`                           | [x] Done        | f8e38bb5fe |
+| `StreamFilterIpv4Address`                        | [x] Done        | 4e4067bb05 |
+| `StreamFilterIpv6Address`                        | [x] Done        | 88d594a1c3 |
+| `StreamFilterPortRange`                          | [x] Done        | 8942e29317 |
+| `StreamFilterIEEE1722Tp`                         | [x] Done        | 415bd8bfe1 |
+| `SwitchStreamFilterActionDestPortModification`   | [x] Done        | a3a74de3fa |
+| `SwitchStreamFilterActionPortModificationEnum`   | [x] Done        | 7f7ad8df9a |
+| `SwitchStreamFilterEntry`                        | [x] Done        | 617aad4814 |
+| `SwitchAsynchronousTrafficShaperGroupEntry`      | [x] Done        | dc49f66926 |
+| `SwitchStreamGateEntry`                          | [x] Done        | 1723b30e76 |
+| `SwitchFlowMeteringEntry`                        | [x] Done        | 99f54f629f |
+| `FlowMeteringColorModeEnum`                      | [x] Done        | 2099d6bf11 |
+| `EthIpProps`                                     | [x] Done        | 3e5bb7d27f |
+| `Ipv4Props`                                      | [x] Done        | f7c2e5277e |
+| `Ipv4ArpProps`                                   | [x] Done        | c993033819 |
+| `Ipv4AutoIpProps`                                | [x] Done        | 72f4381dd9 |
+| `Ipv4FragmentationProps`                         | [x] Done        | e3ac0e0998 |
+| `Ipv6Props`                                      | [x] Done        | 1719cfdc03 |
+| `Ipv6FragmentationProps`                         | [x] Done        | 0a9362c8ea |
+| `Dhcpv6Props`                                    | [x] Done        | 8dbe4cfacb |
+| `Ipv6NdpProps`                                   | [x] Done        | 76d04b8be6 |
+| `EthernetWakeupSleepOnDatalineConfig`            | [x] Done        | 70dce6bdb0 |
 | `EthernetWakeupSleepOnDatalineConfigSet`         | [ ] Created     | N/A        |
 | `PlcaProps`                                      | [ ] Implemented | N/A        |
 | `MacSecProps`                                    | [ ] Implemented | N/A        |
