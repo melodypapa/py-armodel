@@ -69,6 +69,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     GlobalTimeCrcSupportEnum,
     GlobalTimeCrcValidationEnum,
+    GlobalTimeIcvSupportEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -3724,3 +3725,46 @@ class TestGlobalTimeCrcValidationEnum:
         enum.setValue(GlobalTimeCrcValidationEnum.CRC_VALIDATED)
 
         assert enum.getValue() == GlobalTimeCrcValidationEnum.CRC_VALIDATED
+
+
+class TestGlobalTimeIcvSupportEnum:
+    """
+    Test class for GlobalTimeIcvSupportEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.27, p.880
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeIcvSupportEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED,
+            GlobalTimeIcvSupportEnum.ICV_SUPPORTED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeIcvSupportEnum member values.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+
+        assert GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED == "ICV-NOT-SUPPORTED"
+        assert GlobalTimeIcvSupportEnum.ICV_SUPPORTED == "ICV-SUPPORTED"
+
+        assert enum.validateEnumValue("ICV-NOT-SUPPORTED") is True
+        assert enum.validateEnumValue("ICV-SUPPORTED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeIcvSupportEnum instantiability and getValue.
+        """
+        enum = GlobalTimeIcvSupportEnum()
+        enum.setValue(GlobalTimeIcvSupportEnum.ICV_SUPPORTED)
+
+        assert enum.getValue() == GlobalTimeIcvSupportEnum.ICV_SUPPORTED

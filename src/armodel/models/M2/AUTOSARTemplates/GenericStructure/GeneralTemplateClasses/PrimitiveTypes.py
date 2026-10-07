@@ -2937,7 +2937,29 @@ class GlobalTimeCrcValidationEnum(AREnum):
 
 
 class GlobalTimeIcvSupportEnum(AREnum):
-    pass
+    """
+    Defines whether an Integrity Check Value (ICV) shall be added to the sent time sync messages. Tags: atp.Status=candidate
+
+    # GlobalTimeIcvSupportEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.27, p.880
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute icvSecured)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # The ICV is not supported Tags: atp.EnumerationLiteralIndex=1
+    ICV_NOT_SUPPORTED = "ICV-NOT-SUPPORTED"
+
+    # The ICV is supported Tags: atp.EnumerationLiteralIndex=0
+    ICV_SUPPORTED = "ICV-SUPPORTED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeIcvSupportEnum.ICV_NOT_SUPPORTED,
+                GlobalTimeIcvSupportEnum.ICV_SUPPORTED,
+            ]
+        )
 
 
 class GlobalTimeIcvVerificationEnum(AREnum):
