@@ -1190,6 +1190,59 @@ class TestAbstractServiceInstance:
         instance.addRoutingGroupRef(None)
         assert instance.getRoutingGroupRefs() == [ref1, ref2]
 
+    def test_class_docstring_note(self):
+        """
+        Table 6.158 renders no Note row; the docstring is the XSD ABSTRACT-SERVICE-INSTANCE
+        group documentation verbatim (recorded reconciliation).
+        """
+        expected = "Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint."
+        assert inspect.cleandoc(AbstractServiceInstance.__doc__) == expected
+
+    def test_member_order(self):
+        """
+        Fields follow the markdown displayed row order (Table 6.158).
+        """
+        instance = self._instance()
+        members = ["capabilityRecords", "majorVersion", "methodActivationRoutingGroup", "routingGroupRefs"]
+        assert [k for k in vars(instance) if k in set(members)] == members
+
+    def test_capability_record_note_verbatim(self):
+        """
+        capabilityRecord Note carries the Stereotypes/Tags tail verbatim at every level (Rule 0012.2.5.3).
+        """
+        expected = (
+            "A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=capabilityRecord, capabilityRecord.variationPoint.shortLabel "
+            "vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(AbstractServiceInstance.getCapabilityRecords.__doc__) == expected
+        assert inspect.cleandoc(AbstractServiceInstance.addCapabilityRecord.__doc__) == expected + "\nA None value is a no-op and does not append to capabilityRecords."
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
+
+    def test_method_activation_routing_group_note_verbatim(self):
+        """
+        methodActivationRoutingGroup Note carries the Stereotypes/Tags tail verbatim at every level.
+        """
+        expected = (
+            "The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, "
+            "methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(AbstractServiceInstance.getMethodActivationRoutingGroup.__doc__) == expected
+        assert (
+            inspect.cleandoc(AbstractServiceInstance.setMethodActivationRoutingGroup.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing methodActivationRoutingGroup."
+        )
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
+
+    def test_routing_group_refs_note_verbatim(self):
+        """
+        routingGroup Note carries the atp.Status=obsolete tail verbatim at every level.
+        """
+        expected = "The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(AbstractServiceInstance.getRoutingGroupRefs.__doc__) == expected
+        assert inspect.cleandoc(AbstractServiceInstance.addRoutingGroupRef.__doc__) == expected + "\nA None value is a no-op and does not append to routingGroupRefs."
+        assert expected in inspect.getsource(AbstractServiceInstance.__init__)
+
 
 class TestApplicationEndpoint:
     def _endpoint(self):

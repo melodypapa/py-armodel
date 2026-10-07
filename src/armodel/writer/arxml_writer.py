@@ -11199,6 +11199,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, version.getMajorVersion()))
                 self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", cast(Integer, version.getMinorVersion()))
 
+    def writeAbstractServiceInstance(self, element: ET.Element, instance: AbstractServiceInstance):
+        if instance is not None:
+            self.writeIdentifiable(element, instance)
+            self.setTagWithOptionalValues(element, "CAPABILITY-RECORDS", instance.getCapabilityRecords())
+            self.setChildElementOptionalPositiveInteger(element, "MAJOR-VERSION", cast(Integer, instance.getMajorVersion()))
+            self.writeAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
+            refs = instance.getRoutingGroupRefs()
+            if len(refs) > 0:
+                routing_groups_element = ET.SubElement(element, "ROUTING-GROUP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(routing_groups_element, "ROUTING-GROUP-REF", ref)
+
     def writeAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
         group = instance.getMethodActivationRoutingGroup()
         if group is not None:
@@ -11393,8 +11405,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeProvidedServiceInstance(self, element: ET.Element, instance: ProvidedServiceInstance):
         if instance is not None:
             child_element = ET.SubElement(element, "PROVIDED-SERVICE-INSTANCE")
-            self.writeIdentifiable(child_element, instance)
-            self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", instance.getCapabilityRecords())
+            self.writeAbstractServiceInstance(child_element, instance)
             self.writeProvidedServiceInstanceEventHandlers(child_element, instance)
             self.setChildElementOptionalPositiveInteger(child_element, "INSTANCE-IDENTIFIER", instance.getInstanceIdentifier())
             self.setChildElementOptionalPositiveInteger(child_element, "LOAD-BALANCING-PRIORITY", instance.getLoadBalancingPriority())
@@ -11405,8 +11416,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, instance.getMajorVersion()))
-            self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", instance.getPriority())
             refs = instance.getRemoteMulticastSubscriptionAddressRefs()
@@ -11421,11 +11430,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            refs = instance.getRoutingGroupRefs()
-            if len(refs) > 0:
-                routing_groups_element = ET.SubElement(child_element, "ROUTING-GROUP-REFS")
-                for ref in refs:
-                    self.setChildElementOptionalRefType(routing_groups_element, "ROUTING-GROUP-REF", ref)
             self.setSdServerConfig(child_element, "SD-SERVER-CONFIG", instance.getSdServerConfig())
             ref = instance.getSdServerTimerConfigRef()
             if ref is not None:

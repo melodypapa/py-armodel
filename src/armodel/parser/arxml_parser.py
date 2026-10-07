@@ -10942,6 +10942,15 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "METHOD-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
             instance.setMethodActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
 
+    def readAbstractServiceInstance(self, element: ET.Element, instance: AbstractServiceInstance):
+        self.readIdentifiable(element, instance)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
+
     def readConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         self.readIdentifiable(element, group)
         group.setApplicationEndpointRef(self.getChildElementOptionalRefType(element, "APPLICATION-ENDPOINT-REF"))
@@ -11135,10 +11144,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Event Handler <%s>" % tag_name)
 
     def readProvidedServiceInstance(self, element: ET.Element, instance: ProvidedServiceInstance):
-        self.readIdentifiable(element, instance)
-        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
-            instance.addCapabilityRecord(tag)
-        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
+        self.readAbstractServiceInstance(element, instance)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
         instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
@@ -11152,8 +11158,6 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addRemoteMulticastSubscriptionAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
-        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-            instance.addRoutingGroupRef(ref)
         instance.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
         instance.setSdServerTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")

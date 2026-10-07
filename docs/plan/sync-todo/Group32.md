@@ -512,15 +512,27 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `AbstractServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.158, p.477
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown Table 6.158 renders NO Package/Base/Note rows (pre-caption split artifact);
+    reconciled against XSD: ABSTRACT-SERVICE-INSTANCE is an element GROUP (no complexType) whose content
+    sits after IDENTIFIABLE in every subclass complexType — model base stays Identifiable (chain
+    ARObject→Referrable→MultilanguageReferrable→Identifiable; XSD group doc supplies the class
+    docstring verbatim). Rule 0023 drift: stale `# Spec verified:` marker removed; legacy 5-column
+    block rewritten 6-column. Rule 0001.7: abstract XML-bearing base now OWNS reusable
+    readAbstractServiceInstance/writeAbstractServiceInstance helpers (identifiable level + group attrs
+    in XSD order: CAPABILITY-RECORDS, MAJOR-VERSION, METHOD-ACTIVATION-ROUTING-GROUPS,
+    ROUTING-GROUP-REFS); concrete subclass ProvidedServiceInstance rewired to call them exactly once
+    (Rule 0013.1 symmetric leveling — reader and writer). methodActivationRoutingGroup modeled as
+    Optional single per PDF Mult 0..1 (XSD wrapper is unbounded via atpVariation — PDF wins,
+    Rule 0015/0001.4). ConsumedServiceInstance + DdsCp* subclasses rewire in their queued rows' passes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.160, p.486
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

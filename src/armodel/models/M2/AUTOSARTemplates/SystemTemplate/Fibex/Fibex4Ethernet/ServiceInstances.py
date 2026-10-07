@@ -32,17 +32,16 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
 
     # AbstractServiceInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.158, p.477
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addCapabilityRecord             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCapabilityRecords            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMajorVersion                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMajorVersion                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRoutingGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRoutingGroupRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCapabilityRecord             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCapabilityRecords            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMajorVersion                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMajorVersion                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRoutingGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRoutingGroupRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractServiceInstance:
@@ -50,21 +49,21 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
 
         super().__init__(parent, short_name)
 
-        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=capabilityRecord, capabilityRecord.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.capabilityRecords: List[TagWithOptionalValue] = []
 
         # Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service.
         self.majorVersion: Optional[PositiveInteger] = None
 
-        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.methodActivationRoutingGroup: Optional[PduActivationRoutingGroup] = None
 
-        # The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets. Tags: atp.Status=obsolete
         self.routingGroupRefs: List[RefType] = []
 
     def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> AbstractServiceInstance:
         """
-        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=capabilityRecord, capabilityRecord.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to capabilityRecords.
         """
         if value is not None:
@@ -72,7 +71,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         return self
 
     def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
-        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service."""
+        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=capabilityRecord, capabilityRecord.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.capabilityRecords
 
     def getMajorVersion(self) -> Optional[PositiveInteger]:
@@ -89,12 +88,12 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         return self
 
     def getMethodActivationRoutingGroup(self) -> Optional[PduActivationRoutingGroup]:
-        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods)."""
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.methodActivationRoutingGroup
 
     def setMethodActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> AbstractServiceInstance:
         """
-        The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=methodActivationRoutingGroup.shortName, methodActivationRoutingGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
         """
         if value is not None:
@@ -103,7 +102,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
 
     def addRoutingGroupRef(self, value: Optional[RefType]) -> AbstractServiceInstance:
         """
-        The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets. Tags: atp.Status=obsolete
         A None value is a no-op and does not append to routingGroupRefs.
         """
         if value is not None:
@@ -111,7 +110,7 @@ class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
         return self
 
     def getRoutingGroupRefs(self) -> List[RefType]:
-        """The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets."""
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets. Tags: atp.Status=obsolete"""
         return self.routingGroupRefs
 
 
