@@ -11995,8 +11995,11 @@ class ARXMLParser(AbstractARXMLParser):
             topic_data = DdsTopicData()
             self.readDdsTopicData(topic_data_element, topic_data)
             profile.setTopicData(topic_data)
-        if self.find(element, "TRANSPORT-PRIORITY") is not None:
-            profile.setTransportPriority(DdsTransportPriority())
+        transport_priority_element = self.find(element, "TRANSPORT-PRIORITY")
+        if transport_priority_element is not None:
+            transport_priority = DdsTransportPriority()
+            self.readDdsTransportPriority(transport_priority_element, transport_priority)
+            profile.setTransportPriority(transport_priority)
 
     def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         self.logger.debug("Read DdsCpTopic")
@@ -12057,6 +12060,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, reliability)
         reliability.setReliabilityKind(self._readEnumToken(element, "RELIABILITY-KIND", DdsReliabilityKindEnum, DDS_RELIABILITY_KIND_XML_MAP))
         reliability.setReliabilityMaxBlockingTime(self.getChildElementOptionalFloatValue(element, "RELIABILITY-MAX-BLOCKING-TIME"))
+
+    def readDdsTransportPriority(self, element: ET.Element, transport_priority: DdsTransportPriority):
+        self.logger.debug("Read DdsTransportPriority")
+        self.readARObject(element, transport_priority)
+        transport_priority.setTransportPriority(self.getChildElementOptionalPositiveInteger(element, "TRANSPORT-PRIORITY"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

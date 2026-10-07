@@ -3084,7 +3084,38 @@ class DdsTopicData(ARObject):
 
 
 class DdsTransportPriority(ARObject):
-    pass
+    """
+    Describes the DDS TRANSPORT_PRIORITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsTransportPriority method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.194, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransportPriority      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportPriority      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+        self.transportPriority: Optional[PositiveInteger] = None
+
+    def getTransportPriority(self) -> Optional[PositiveInteger]:
+        """
+        See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.transportPriority
+
+    def setTransportPriority(self, value: Optional[PositiveInteger]) -> DdsTransportPriority:
+        """
+        See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing transportPriority.
+        """
+        if value is not None:
+            self.transportPriority = value
+        return self
 
 
 class Dhcpv6Props(ARObject):

@@ -568,6 +568,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsOwnershipStrength,
     DdsReliability,
     DdsTopicData,
+    DdsTransportPriority,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -15744,8 +15745,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         topic_data = profile.getTopicData()
         if topic_data is not None:
             self.writeDdsTopicData(child_element, topic_data)
-        if profile.getTransportPriority() is not None:
-            ET.SubElement(child_element, "TRANSPORT-PRIORITY")
+        transport_priority = profile.getTransportPriority()
+        if transport_priority is not None:
+            self.writeDdsTransportPriority(child_element, transport_priority)
 
     def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         child_element = ET.SubElement(element, "DDS-CP-TOPIC")
@@ -15804,6 +15806,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, reliability)
         self._writeEnumToken(child_element, "RELIABILITY-KIND", reliability.getReliabilityKind(), DDS_RELIABILITY_KIND_XML_MAP)
         self.setChildElementOptionalFloatValue(child_element, "RELIABILITY-MAX-BLOCKING-TIME", reliability.getReliabilityMaxBlockingTime())
+
+    def writeDdsTransportPriority(self, element: ET.Element, transport_priority: DdsTransportPriority):
+        child_element = ET.SubElement(element, "TRANSPORT-PRIORITY")
+        self.writeARObject(child_element, transport_priority)
+        self.setChildElementOptionalPositiveInteger(child_element, "TRANSPORT-PRIORITY", transport_priority.getTransportPriority())
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

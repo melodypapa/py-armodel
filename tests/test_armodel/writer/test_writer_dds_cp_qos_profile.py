@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsOwnershipStrength,
     DdsReliability,
     DdsTopicData,
+    DdsTransportPriority,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -78,6 +79,9 @@ def _new_profile() -> DdsCpQosProfile:
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
+    transport_priority = DdsTransportPriority()
+    transport_priority.setTransportPriority(PositiveInteger().setValue("4"))
+    profile.setTransportPriority(transport_priority)
     durability_service = DdsDurabilityService()
     durability_service.setDurabilityServiceCleanupDelay(Float().setValue("2.5"))
     durability_service.setDurabilityServiceHistoryKind(DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST))
@@ -138,6 +142,15 @@ class TestWriteDdsCpQosProfile:
         assert reliability_node is not None
         assert reliability_node.find("RELIABILITY-KIND").text == "RELIABLE"
         assert reliability_node.find("RELIABILITY-MAX-BLOCKING-TIME").text == "0.5"
+
+    def test_write_emits_transport_priority_fully(self):
+        """Test that the synced DdsTransportPriority child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        transport_priority_node = node.find("TRANSPORT-PRIORITY")
+        assert transport_priority_node is not None
+        assert transport_priority_node.find("TRANSPORT-PRIORITY").text == "4"
 
     def test_write_emits_ownership_strength_fully(self):
         """Test that the synced DdsOwnershipStrength child serializes with its values."""
@@ -235,5 +248,7 @@ class TestWriteDdsCpQosProfile:
         assert isinstance(reloaded.getReliability(), DdsReliability)
         assert reloaded.getReliability().getReliabilityKind().getValue() == "RELIABLE"
         assert reloaded.getReliability().getReliabilityMaxBlockingTime().getValue() == 0.5
+        assert isinstance(reloaded.getTransportPriority(), DdsTransportPriority)
+        assert reloaded.getTransportPriority().getTransportPriority().getValue() == 4
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

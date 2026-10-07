@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsOwnershipStrength,
     DdsReliability,
     DdsTopicData,
+    DdsTransportPriority,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 
@@ -68,7 +69,14 @@ class TestReadDdsCpQosProfile:
         )
         assert profile.getDestinationOrder() is not None
         assert isinstance(profile.getHistory(), DdsHistory)
-        assert profile.getTransportPriority() is None
+        assert profile.getResourceLimits() is None
+
+    def test_read_sets_transport_priority_with_values(self, parser):
+        """Test that the synced DdsTransportPriority child is read with its field values."""
+        profile = self._read(parser, "<TRANSPORT-PRIORITY><TRANSPORT-PRIORITY>4</TRANSPORT-PRIORITY></TRANSPORT-PRIORITY>")
+        assert isinstance(profile.getTransportPriority(), DdsTransportPriority)
+        assert profile.getTransportPriority().getTransportPriority() is not None
+        assert profile.getTransportPriority().getTransportPriority().getValue() == 4
 
     def test_read_sets_reliability_with_values(self, parser):
         """Test that the synced DdsReliability child is read with its field values."""

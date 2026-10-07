@@ -834,15 +834,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsTransportPriority` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.194, p.535
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — table complete (header before caption, no interruption); single attr
+    transportPriority (PositiveInteger 0..1). Verified against XSD group DDS-TRANSPORT-PRIORITY
+    (AUTOSAR_00052.xsd l.30704: TRANSPORT-PRIORITY POSITIVE-INTEGER, AR-OBJECT group, no
+    VARIATION-POINT). Base ARObject confirmed. No enum member → no XML token map needed; placeholder
+    in read/writeDdsCpQosProfile replaced.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsLifespan` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.195, p.536
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
