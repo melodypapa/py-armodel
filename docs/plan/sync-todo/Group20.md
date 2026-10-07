@@ -15,7 +15,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
 
 ## Queue (dependency-first)
 
-- [ ] `DoIpLogicAddress` — Identifiable — source TBC (locate table at Step 1)
+- [x] `DoIpLogicAddress` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
   - note: deviation-tracked in method_deviation_by_class_v2.md — review entries at Step 1
   - note (Step 1): Table 6.207 p.555 (body after caption, md L14524-14532): Class =
@@ -55,7 +55,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     per batch mode).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 20e0dbf1d. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `DoIpTpConnection` — TpConnection — source TBC (locate table at Step 1)
+- [x] `DoIpTpConnection` — TpConnection — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
   - note (Step 1): Table 6.206 p.555 (caption-above render, body md L14511-14520):
     Class = DoIpTpConnection (concrete); Package =
@@ -95,7 +95,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     exists for this class.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: b71da200f. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CryptoKeySlotTypeEnum` — AREnum — source TBC (locate table at Step 1)
+- [x] `CryptoKeySlotTypeEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note (Step 1): XSD-only — no `Enumeration` table in R23-11 markdown (only the
     CryptoKeySlot Table B.5 attribute row references the type), none in R4.3.1
@@ -128,7 +128,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): audit ROWS — the `# (no methods)` line but the class declares `__init__`; added the `[x] __init__ ... R23-11` row (majority convention, 158 enums carry it; EcucScopeEnum precedent). Commit d6358fb5b.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: cda30aac6. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CryptoObjectTypeEnum` — AREnum — source TBC (locate table at Step 1)
+- [x] `CryptoObjectTypeEnum` — AREnum — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Enumeration` table in R23-11 markdown (only the
@@ -167,7 +167,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): audit ROWS — the `# (no methods)` line but the class declares `__init__`; added the `[x] __init__ ... R23-11` row (majority convention, 158 enums carry it; EcucScopeEnum precedent). Commit d6358fb5b.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 4ee3d9b33. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CryptoKeySlotAllowedModification` — ARObject — source TBC (locate table at Step 1)
+- [x] `CryptoKeySlotAllowedModification` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in
@@ -212,7 +212,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     CryptoObjectTypeEnum commit (Rule 0014).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 1b9c5d5f9. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `CryptoKeySlotContentAllowedUsage` — ARObject — source TBC (locate table at Step 1)
+- [x] `CryptoKeySlotContentAllowedUsage` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/CryptoDeployment/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in
@@ -256,7 +256,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     was removed with the CryptoObjectTypeEnum commit (Rule 0014).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 0b871a8e8. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `DataLinkLayerRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `DataLinkLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in R4.3.1
@@ -303,7 +303,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: e65b8c621. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `NetworkLayerRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `NetworkLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in R4.3.1
     markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted).
@@ -351,7 +351,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     readARObject/writeARObject (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 68f8744c7. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `TransportLayerRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `TransportLayerRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown, none in R4.3.1
     markdown, pdf_page.py finds no PDF table (Rule 0016.3 fallback exhausted).
@@ -405,7 +405,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     "subtypes not yet implemented" checklist comment rewritten.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 39d8f23c1. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `PayloadBytePatternRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `PayloadBytePatternRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
@@ -443,7 +443,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: d77a6727f. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SomeipProtocolRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `SomeipProtocolRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
@@ -477,7 +477,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: ebb82db44. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SomeipSdRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `SomeipSdRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
@@ -509,7 +509,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: 16c6ec495. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `DoIpRule` — ARObject — source TBC (locate table at Step 1)
+- [x] `DoIpRule` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): XSD-only — no `Class` table in R23-11 markdown (only the FirewallRule
@@ -544,7 +544,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     (S/T checksum/timestamp attributes round-trip).
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# XSD verified: AUTOSAR_00052.xsd` written; stamp commit: e1ebf1c4c. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `MemorySection` — Identifiable — source TBC (locate table at Step 1)
+- [x] `MemorySection` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - [x] Step 1 — Sync members & description from spec
@@ -606,7 +606,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     order.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 6d92ecd97. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)
+- [x] `SectionNamePrefix` — ImplementationProps — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - [x] Step 1 — Sync members & description from spec
@@ -640,7 +640,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0002 — normalized the single-corpus `# Spec:` line (dropped the Rule-0019 corpus prefix + bare `(R23-11)` suffix). Commit 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: bc26545b9. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
+- [x] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): Table 8.18, p.161 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
@@ -689,7 +689,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — writer helper `setHardwareConfiguration` -> `writeHardwareConfiguration` (was a read/set cross pair); Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 3f0dca505. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
+- [x] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): Table 8.20, p.163 (R23-11, AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate;
@@ -734,7 +734,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — writer helper `setSoftwareContext` -> `writeSoftwareContext` (was a read/set cross pair); Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 45cf952f3. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
+- [x] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ObsoleteModel.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - note (Step 1): Table F.115 p.2057 (appendix, md L75702-75710 of
@@ -788,7 +788,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     quoted per module convention.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 24f9dd86b. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `StackUsage` — Identifiable — source TBC (locate table at Step 1)
+- [x] `StackUsage` — Identifiable — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `HardwareConfiguration`
@@ -843,7 +843,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — base writer helper `setStackUsage` -> `writeStackUsage`; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 85a243308. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
+- [x] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `StackUsage`
@@ -890,7 +890,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — `setMeasuredStackUsage` -> `writeMeasuredStackUsage`, so the audit BASE reader/writer pair is symmetric and green again; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 05f494e75. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
+- [x] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `StackUsage`
@@ -930,7 +930,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — `setRoughEstimateStackUsage` -> `writeRoughEstimateStackUsage`, so the audit BASE reader/writer pair is symmetric and green again; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [x] Step 9 — Verify (9a) + confirm (9b) — **9b CONFIRMED 2026-10-07** (batch review, user-approved); marker `# Spec verified: R23-11` written; stamp commit: 575bb536f. 9a: 20337 passed / 0 failed, ruff + black clean, member-annotation gate 3 passed, audit_class.py 29/29 PASS (Rules 0024-0026), lossless integration round-trip; Rule 0025 reader/writer base-helper symmetry, Rule 0013.2 read/write name pairs, verbatim Notes, member order and quota shape re-verified against source
 
-- [ ] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
+- [x] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
   - module: M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py
   - note: deviation-tracked in method_deviation_by_class.md — review entries at Step 1
   - after `StackUsage`
