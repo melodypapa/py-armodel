@@ -2859,7 +2859,38 @@ class DdsLatencyBudget(ARObject):
 
 
 class DdsLifespan(ARObject):
-    pass
+    """
+    Describes the DDS LIFESPAN QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLifespan method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.195, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLifespanDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLifespanDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.lifespanDuration: Optional[Float] = None
+
+    def getLifespanDuration(self) -> Optional[Float]:
+        """
+        See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.lifespanDuration
+
+    def setLifespanDuration(self, value: Optional[Float]) -> DdsLifespan:
+        """
+        See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing lifespanDuration.
+        """
+        if value is not None:
+            self.lifespanDuration = value
+        return self
 
 
 class DdsLiveliness(ARObject):

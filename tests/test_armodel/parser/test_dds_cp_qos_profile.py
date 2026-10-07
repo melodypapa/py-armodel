@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsHistory,
     DdsLatencyBudget,
+    DdsLifespan,
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
@@ -70,6 +71,13 @@ class TestReadDdsCpQosProfile:
         assert profile.getDestinationOrder() is not None
         assert isinstance(profile.getHistory(), DdsHistory)
         assert profile.getResourceLimits() is None
+
+    def test_read_sets_lifespan_with_values(self, parser):
+        """Test that the synced DdsLifespan child is read with its field values."""
+        profile = self._read(parser, "<LIFESPAN><LIFESPAN-DURATION>10.0</LIFESPAN-DURATION></LIFESPAN>")
+        assert isinstance(profile.getLifespan(), DdsLifespan)
+        assert profile.getLifespan().getLifespanDuration() is not None
+        assert profile.getLifespan().getLifespanDuration().getValue() == 10.0
 
     def test_read_sets_transport_priority_with_values(self, parser):
         """Test that the synced DdsTransportPriority child is read with its field values."""

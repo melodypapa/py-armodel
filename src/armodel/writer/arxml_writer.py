@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
+    DdsLifespan,
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
@@ -15726,8 +15727,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         latency_budget = profile.getLatencyBudget()
         if latency_budget is not None:
             self.writeDdsLatencyBudget(child_element, latency_budget)
-        if profile.getLifespan() is not None:
-            ET.SubElement(child_element, "LIFESPAN")
+        lifespan = profile.getLifespan()
+        if lifespan is not None:
+            self.writeDdsLifespan(child_element, lifespan)
         liveliness = profile.getLiveliness()
         if liveliness is not None:
             self.writeDdsLiveliness(child_element, liveliness)
@@ -15811,6 +15813,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TRANSPORT-PRIORITY")
         self.writeARObject(child_element, transport_priority)
         self.setChildElementOptionalPositiveInteger(child_element, "TRANSPORT-PRIORITY", transport_priority.getTransportPriority())
+
+    def writeDdsLifespan(self, element: ET.Element, lifespan: DdsLifespan):
+        child_element = ET.SubElement(element, "LIFESPAN")
+        self.writeARObject(child_element, lifespan)
+        self.setChildElementOptionalFloatValue(child_element, "LIFESPAN-DURATION", lifespan.getLifespanDuration())
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurability,
     DdsDurabilityService,
     DdsLatencyBudget,
+    DdsLifespan,
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
@@ -4084,3 +4085,67 @@ class TestDdsTransportPriority:
         none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
         assert inspect.cleandoc(DdsTransportPriority.getTransportPriority.__doc__) == self.TRANSPORT_PRIORITY_NOTE
         assert inspect.cleandoc(DdsTransportPriority.setTransportPriority.__doc__) == (self.TRANSPORT_PRIORITY_NOTE + none_no_op % "transportPriority")
+
+
+class TestDdsLifespan:
+    """
+    Test class for DdsLifespan functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.195, p.536
+    """
+
+    CLASS_NOTE = "Describes the DDS LIFESPAN QoS policy. Tags: atp.Status=candidate"
+    LIFESPAN_DURATION_NOTE = 'See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_lifespan(self) -> DdsLifespan:
+        return DdsLifespan()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLifespan initializes all attributes to their defaults.
+        """
+        obj = self._create_lifespan()
+
+        assert obj.getLifespanDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLifespan derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLifespan, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLifespan.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLifespan.__init__.__doc__ is None
+
+    def test_get_set_lifespan_duration(self):
+        """
+        Test getLifespanDuration and setLifespanDuration round-trip and None no-op.
+        """
+        obj = self._create_lifespan()
+
+        value = Float().setValue("10.0")
+        result = obj.setLifespanDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLifespanDuration() is value
+        assert obj.getLifespanDuration().getValue() == 10.0
+
+        result = obj.setLifespanDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLifespanDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsLifespan.getLifespanDuration.__doc__) == self.LIFESPAN_DURATION_NOTE
+        assert inspect.cleandoc(DdsLifespan.setLifespanDuration.__doc__) == (self.LIFESPAN_DURATION_NOTE + none_no_op % "lifespanDuration")

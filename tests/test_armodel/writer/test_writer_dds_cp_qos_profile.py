@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsHistory,
     DdsLatencyBudget,
+    DdsLifespan,
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
@@ -82,6 +83,9 @@ def _new_profile() -> DdsCpQosProfile:
     transport_priority = DdsTransportPriority()
     transport_priority.setTransportPriority(PositiveInteger().setValue("4"))
     profile.setTransportPriority(transport_priority)
+    lifespan = DdsLifespan()
+    lifespan.setLifespanDuration(Float().setValue("10.0"))
+    profile.setLifespan(lifespan)
     durability_service = DdsDurabilityService()
     durability_service.setDurabilityServiceCleanupDelay(Float().setValue("2.5"))
     durability_service.setDurabilityServiceHistoryKind(DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST))
@@ -151,6 +155,15 @@ class TestWriteDdsCpQosProfile:
         transport_priority_node = node.find("TRANSPORT-PRIORITY")
         assert transport_priority_node is not None
         assert transport_priority_node.find("TRANSPORT-PRIORITY").text == "4"
+
+    def test_write_emits_lifespan_fully(self):
+        """Test that the synced DdsLifespan child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        lifespan_node = node.find("LIFESPAN")
+        assert lifespan_node is not None
+        assert lifespan_node.find("LIFESPAN-DURATION").text == "10.0"
 
     def test_write_emits_ownership_strength_fully(self):
         """Test that the synced DdsOwnershipStrength child serializes with its values."""
@@ -250,5 +263,7 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getReliability().getReliabilityMaxBlockingTime().getValue() == 0.5
         assert isinstance(reloaded.getTransportPriority(), DdsTransportPriority)
         assert reloaded.getTransportPriority().getTransportPriority().getValue() == 4
+        assert isinstance(reloaded.getLifespan(), DdsLifespan)
+        assert reloaded.getLifespan().getLifespanDuration().getValue() == 10.0
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

@@ -11966,8 +11966,11 @@ class ARXMLParser(AbstractARXMLParser):
             latency_budget = DdsLatencyBudget()
             self.readDdsLatencyBudget(latency_budget_element, latency_budget)
             profile.setLatencyBudget(latency_budget)
-        if self.find(element, "LIFESPAN") is not None:
-            profile.setLifespan(DdsLifespan())
+        lifespan_element = self.find(element, "LIFESPAN")
+        if lifespan_element is not None:
+            lifespan = DdsLifespan()
+            self.readDdsLifespan(lifespan_element, lifespan)
+            profile.setLifespan(lifespan)
         liveliness_element = self.find(element, "LIVELINESS")
         if liveliness_element is not None:
             liveliness = DdsLiveliness()
@@ -12065,6 +12068,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTransportPriority")
         self.readARObject(element, transport_priority)
         transport_priority.setTransportPriority(self.getChildElementOptionalPositiveInteger(element, "TRANSPORT-PRIORITY"))
+
+    def readDdsLifespan(self, element: ET.Element, lifespan: DdsLifespan):
+        self.logger.debug("Read DdsLifespan")
+        self.readARObject(element, lifespan)
+        lifespan.setLifespanDuration(self.getChildElementOptionalFloatValue(element, "LIFESPAN-DURATION"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")
