@@ -22,17 +22,27 @@ __all__ = [
 class SignalServiceTranslationControlEnum(AREnum):
     """
     This enumeration allows to define how the service instance offer/subscribe control shall behave.
+    """
 
     # SignalServiceTranslationControlEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.343, p.744
-    # Spec verified: R23-11
-    # (no methods; serialized as an enumeration literal on the consuming attribute serviceControl)
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on the consuming attribute serviceControl
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Defines the start of service control when all specified partial networks are active. Tags: atp.EnumerationLiteralIndex=3
     ALL_PARTIAL_NETWORKS_ACTIVE = "ALL-PARTIAL-NETWORKS-ACTIVE"
+
+    # Defines the start of service control when any specified partial network is active. Tags: atp.EnumerationLiteralIndex=4
     ANY_PARTIAL_NETWORK_ACTIVE = "ANY-PARTIAL-NETWORK-ACTIVE"
-    PARTIAL_NETWORK = "PARTIAL-NETWORK"  # atp.Status=obsolete
+
+    # Defines the start of service control when specific partial networks are active. Tags: atp.EnumerationLiteralIndex=1 atp.Status=obsolete
+    PARTIAL_NETWORK = "PARTIAL-NETWORK"
+
+    # Defines the start of service control when other service is available. Tags: atp.EnumerationLiteralIndex=2
     SERVICE_DISCOVERY = "SERVICE-DISCOVERY"
+
+    # Defines the start of service control at translation start. Tags: atp.EnumerationLiteralIndex=0
     TRANSLATION_START = "TRANSLATION-START"
 
     def __init__(self):
@@ -125,21 +135,20 @@ class SignalServiceTranslationElementProps(Identifiable):
 class SignalServiceTranslationEventProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the signal/service translation event.
+    """
 
     # SignalServiceTranslationEventProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.341, p.731
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSignalServiceTranslationElementProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationElementProps        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSafeTranslation                            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSafeTranslation                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecureTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setSecureTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTranslationTarget                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTranslationTarget                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationElementProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationElementProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSafeTranslation                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSafeTranslation                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecureTranslation                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecureTranslation                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTranslationTarget                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTranslationTarget                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
@@ -153,7 +162,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         # Defined whether the translation shall happen in a secure way.
         self.secureTranslation: Optional[Boolean] = None
 
-        # Reference to a VariableDataPrototype representing the target of signal/service translation.
+        # Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         self.translationTarget: Optional[VariableDataPrototypeInSystemInstanceRef] = None
 
     def createSignalServiceTranslationElementProps(self, short_name: str) -> SignalServiceTranslationElementProps:
@@ -203,13 +212,13 @@ class SignalServiceTranslationEventProps(Identifiable):
 
     def getTranslationTarget(self) -> Optional[VariableDataPrototypeInSystemInstanceRef]:
         """
-        Reference to a VariableDataPrototype representing the target of signal/service translation.
+        Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         """
         return self.translationTarget
 
     def setTranslationTarget(self, value: Optional[VariableDataPrototypeInSystemInstanceRef]):
         """
-        Reference to a VariableDataPrototype representing the target of signal/service translation.
+        Reference to a VariableDataPrototype representing the target of signal/service translation. InstanceRef implemented by: VariableDataPrototypeInSystemInstanceRef
         A None value is a no-op and does not overwrite an existing translationTarget.
         """
         if value is not None:
@@ -220,23 +229,22 @@ class SignalServiceTranslationEventProps(Identifiable):
 class SignalServiceTranslationProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the signal/service translation service.
+    """
 
     # SignalServiceTranslationProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.340, p.730
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addControlConsumedEventGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlConsumedEventGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addControlPncRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlPncRefs                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addControlProvidedEventGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlProvidedEventGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getServiceControl                           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setServiceControl                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createSignalServiceTranslationEventProps    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationEventProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    """
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.340, p.731
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addControlConsumedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlConsumedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addControlPncRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlPncRefs                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addControlProvidedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlProvidedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceControl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceControl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationEventProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationEventProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
@@ -244,7 +252,7 @@ class SignalServiceTranslationProps(Identifiable):
         # Reference to the EventGroup which encapsulates the signal-based payload.
         self.controlConsumedEventGroupRefs: List[RefType] = []
 
-        # Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        # Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         self.controlPncRefs: List[RefType] = []
 
         # Reference to the provided event group (aka Event Handler) which is automatically available when service Control equals translationStart.
@@ -273,7 +281,7 @@ class SignalServiceTranslationProps(Identifiable):
 
     def addControlPncRef(self, value: RefType):
         """
-        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         A None value is a no-op and does not overwrite an existing reference.
         """
         if value is not None:
@@ -282,7 +290,7 @@ class SignalServiceTranslationProps(Identifiable):
 
     def getControlPncRefs(self) -> List[RefType]:
         """
-        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         """
         return self.controlPncRefs
 
@@ -334,16 +342,15 @@ class SignalServiceTranslationProps(Identifiable):
 
 class SignalServiceTranslationPropsSet(Identifiable):
     """
-    Collection of SignalServiceTranslationProps.
+    Collection of SignalServiceTranslationProps. Tags: atp.recommendedPackage=SignalServiceTranslationProps
+    """
 
     # SignalServiceTranslationPropsSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.339, p.730
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createSignalServiceTranslationProps        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    """
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
