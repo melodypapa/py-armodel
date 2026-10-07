@@ -5113,6 +5113,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayArTpConfig,
     FlexrayTpConfig,
     IEEE1722TpConfig,
+    IEEE1722TpConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11519,10 +11520,6 @@ class GeneralPurposeConnection(ARElement):
 
 
 class GlobalTimeDomain(ARElement):
-    pass
-
-
-class IEEE1722TpConnection(ARElement, ABC):
     pass
 
 

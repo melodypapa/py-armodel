@@ -1313,6 +1313,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpNode,
     FlexrayTpPduPool,
     IEEE1722TpConfig,
+    IEEE1722TpConnection,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10758,6 +10759,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "IEEE-1722-TP-CONFIG")
         self.writeTpConfig(child_element, config)
         self.writeIEEE1722TpConfigTpConnectionRefs(child_element, config)
+
+    def writeIEEE1722TpConnection(self, element: ET.Element, connection: IEEE1722TpConnection):
+        self.writeIdentifiable(element, connection)
+        self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS", connection.getDestinationMacAddress())
+        self.setChildElementOptionalMacAddressString(element, "MAC-ADDRESS-STREAM-ID", connection.getMacAddressStreamId())
+        self.setChildElementOptionalRefType(element, "PDU-REF", connection.getPduRef())
+        self.setChildElementOptionalPositiveInteger(element, "UNIQUE-STREAM-ID", cast(Integer, connection.getUniqueStreamId()))
+        self.setChildElementOptionalPositiveInteger(element, "VERSION", cast(Integer, connection.getVersion()))
+        self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, connection.getVlanPriority()))
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)

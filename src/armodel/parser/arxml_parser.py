@@ -1572,6 +1572,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpNode,
     FlexrayTpPduPool,
     IEEE1722TpConfig,
+    IEEE1722TpConnection,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14510,6 +14511,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read IEEE1722TpConfig <%s>" % config.getShortName())
         self.readTpConfig(element, config)
         self.readIEEE1722TpConfigTpConnectionRefs(element, config)
+
+    def readIEEE1722TpConnection(self, element: ET.Element, connection: IEEE1722TpConnection):
+        self.readIdentifiable(element, connection)
+        connection.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        connection.setMacAddressStreamId(self.getChildElementOptionalMacAddressString(element, "MAC-ADDRESS-STREAM-ID"))
+        connection.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
+        connection.setUniqueStreamId(self.getChildElementOptionalPositiveInteger(element, "UNIQUE-STREAM-ID"))
+        connection.setVersion(self.getChildElementOptionalPositiveInteger(element, "VERSION"))
+        connection.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())

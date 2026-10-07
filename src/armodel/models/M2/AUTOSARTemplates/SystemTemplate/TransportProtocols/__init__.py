@@ -3063,4 +3063,5 @@ class SomeipTpConfig(TpConfig):
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import (  # noqa: E402
     IEEE1722TpConfig as IEEE1722TpConfig,
+    IEEE1722TpConnection as IEEE1722TpConnection,
 )
