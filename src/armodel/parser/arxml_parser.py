@@ -784,7 +784,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
-    MacAddressString,
     McdIdentifier,
     MimeTypeString,
     MonotonyEnum,
@@ -11104,11 +11103,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         self.readIdentifiable(element, group)
-        mac_address = self.getChildElementOptionalLiteral(element, "MAC-MULTICAST-ADDRESS")
-        if mac_address is not None:
-            address = MacAddressString()
-            address.setValue(mac_address.getValue())
-            group.setMacMulticastAddress(address)
+        group.setMacMulticastAddress(self.getChildElementOptionalMacAddressString(element, "MAC-MULTICAST-ADDRESS"))
 
     def readEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
         for child_element in self.findall(element, "MAC-MULTICAST-GROUPS/*"):
@@ -14688,11 +14683,7 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         if element is not None:
             props = MacSecLocalKayProps()
-            destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
-            if destination_mac is not None:
-                mac_address = MacAddressString()
-                mac_address.setValue(destination_mac.getValue())
-                props.setDestinationMacAddress(mac_address)
+            props.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
             props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
             props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
             for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
@@ -14702,11 +14693,7 @@ class ARXMLParser(AbstractARXMLParser):
                 e = MacSecRoleEnum()
                 e.setValue(role.getValue())
                 props.setRole(e)
-            source_mac = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS")
-            if source_mac is not None:
-                mac_address = MacAddressString()
-                mac_address.setValue(source_mac.getValue())
-                props.setSourceMacAddress(mac_address)
+            props.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
         return props
 
     def getMacSecProps(self, element: ET.Element) -> Optional[MacSecProps]:
@@ -14893,11 +14880,7 @@ class ARXMLParser(AbstractARXMLParser):
                 e = EthernetMacLayerTypeEnum()
                 e.setValue(mac_layer_type.getValue())
                 controller.setMacLayerType(e)
-            mac_unicast_literal = self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS")
-            if mac_unicast_literal is not None:
-                mac_unicast = MacAddressString()
-                mac_unicast.setValue(mac_unicast_literal.getValue())
-                controller.setMacUnicastAddress(mac_unicast)
+            controller.setMacUnicastAddress(self.getChildElementOptionalMacAddressString(child_element, "MAC-UNICAST-ADDRESS"))
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
             controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
@@ -18028,27 +18011,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataLinkLayerRule(self, element: ET.Element, rule: DataLinkLayerRule):
         self.readARObject(element, rule)
-        destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
-        if destination_mac is not None:
-            mac_address = MacAddressString()
-            mac_address.setValue(destination_mac.getValue())
-            rule.setDestinationMacAddress(mac_address)
-        destination_mac_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK")
-        if destination_mac_mask is not None:
-            mac_address = MacAddressString()
-            mac_address.setValue(destination_mac_mask.getValue())
-            rule.setDestinationMacAddressMask(mac_address)
+        rule.setDestinationMacAddress(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS"))
+        rule.setDestinationMacAddressMask(self.getChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS-MASK"))
         rule.setEtherType(self.getChildElementOptionalPositiveInteger(element, "ETHER-TYPE"))
-        source_mac = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS")
-        if source_mac is not None:
-            mac_address = MacAddressString()
-            mac_address.setValue(source_mac.getValue())
-            rule.setSourceMacAddress(mac_address)
-        source_mac_mask = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK")
-        if source_mac_mask is not None:
-            mac_address = MacAddressString()
-            mac_address.setValue(source_mac_mask.getValue())
-            rule.setSourceMacAddressMask(mac_address)
+        rule.setSourceMacAddress(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS"))
+        rule.setSourceMacAddressMask(self.getChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS-MASK"))
         rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
         rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
 

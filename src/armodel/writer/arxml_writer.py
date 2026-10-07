@@ -11993,7 +11993,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
             self.writeIdentifiable(child_element, group)
-            self.setChildElementOptionalLiteral(child_element, "MAC-MULTICAST-ADDRESS", group.getMacMulticastAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "MAC-MULTICAST-ADDRESS", group.getMacMulticastAddress())
 
     def writeEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
         groups = cluster.getMacMulticastGroups()
@@ -12420,7 +12420,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
             self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
             self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
             refs = props.getMkaParticipantRefs()
@@ -12429,7 +12429,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
             self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
-            self.setChildElementOptionalLiteral(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
 
     def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
         if props is not None:
@@ -12586,7 +12586,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(cond_tag, "CAN-XL-CONFIG-REF", controller.getCanXlConfigRef())
         self.writeEthernetCommunicationControllerCouplingPorts(cond_tag, controller)
         self.setChildElementOptionalLiteral(cond_tag, "MAC-LAYER-TYPE", controller.getMacLayerType())
-        self.setChildElementOptionalLiteral(cond_tag, "MAC-UNICAST-ADDRESS", controller.getMacUnicastAddress())
+        self.setChildElementOptionalMacAddressString(cond_tag, "MAC-UNICAST-ADDRESS", controller.getMacUnicastAddress())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-RECEIVE-BUFFER-LENGTH", controller.getMaximumReceiveBufferLength())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-TRANSMIT-BUFFER-LENGTH", controller.getMaximumTransmitBufferLength())
         self.setChildElementOptionalBooleanValue(cond_tag, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE", controller.getSlaveActAsPassiveCommunicationSlave())
@@ -18044,11 +18044,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataLinkLayerRule(self, element: ET.Element, rule: Optional[DataLinkLayerRule]):
         if rule is not None:
             self.writeARObject(element, rule)
-            self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
-            self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
-            self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
-            self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
             self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 

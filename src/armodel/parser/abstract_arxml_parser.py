@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     IntervalTypeEnum,
     Limit,
+    MacAddressString,
     NameToken,
     Numerical,
     PositiveInteger,
@@ -162,6 +163,18 @@ class AbstractARXMLParser(ABC):
         literal = None
         if child_element is not None:
             literal = CIdentifier()
+            self.readARType(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalMacAddressString(self, element: ET.Element, key: str) -> Optional[MacAddressString]:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = MacAddressString()
             self.readARType(child_element, literal)
             if child_element.text is None:
                 literal.setValue("")
