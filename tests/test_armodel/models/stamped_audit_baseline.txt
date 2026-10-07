@@ -273,7 +273,6 @@ PduActivationRoutingGroup
 PduToFrameMapping
 PduTriggering
 PeriodicEventTriggering
-PlcaProps
 PortDefinedArgumentValue
 PortPrototype
 PositiveInteger

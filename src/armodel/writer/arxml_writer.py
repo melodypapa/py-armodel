@@ -13045,9 +13045,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setPlcaProps(self, element: ET.Element, key: str, props: Optional[PlcaProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
-            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
+            self.writePlcaProps(child_element, props)
+
+    def writePlcaProps(self, element: ET.Element, props: Optional[PlcaProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-ID", cast(Integer, props.getPlcaLocalNodeId()))
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-COUNT", cast(Integer, props.getPlcaMaxBurstCount()))
+            self.setChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-TIMER", cast(Integer, props.getPlcaMaxBurstTimer()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

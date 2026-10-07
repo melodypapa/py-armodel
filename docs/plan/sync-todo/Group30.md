@@ -993,15 +993,41 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PlcaProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.117, p.169
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.117 is a single-page table (no page-split; pdf_page.py cites
+    p.169) — Class header (concrete), one Note row with no Tags tail, Base ARObject
+    (most-derived model ancestor → `__init__(self)`), Aggregated by CouplingPort.plcaProps
+    (XSD: single optional PLCA-PROPS element under COUPLING-PORT). Three PositiveInteger
+    0..1 attr rows in displayed order (plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer
+    — the markdown splits each camelCase name across lines, e.g. "plcaLocalNode Id"); XSD
+    group PLCA-PROPS (AUTOSAR_00052.xsd line 91534) carries the identical child order
+    PLCA-LOCAL-NODE-ID → PLCA-MAX-BURST-COUNT → PLCA-MAX-BURST-TIMER, so member order and
+    XML order coincide here. Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class already sits at its spec-table-order slot in
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` directly
+    after EthernetWakeupSleepOnDatalineConfigSet (Table 3.116) — no move needed. Upgrades
+    performed on the prior legacy sync (5-column checklist + stale `# Spec verified: R23-11`
+    marker, both retired): checklist rewritten to the 6-column format and the marker removed
+    (batch 9b stamps it later); setter docstring None-no-op sentence re-joined with the
+    batch `\n\n` blank line (was single `\n`); the presence-only parser getPlcaProps / writer
+    setPlcaProps helpers were upgraded to delegate to dedicated readPlcaProps/writePlcaProps
+    levels that call readARObject/writeARObject exactly once (Rule 0025 — was silently
+    dropping S/T; CouplingPort dispatch sites unchanged). Legacy CouplingPort-dispatch writer
+    tests (test_armodel/writer/test_plca_props.py) kept and extended with the dedicated-level
+    S/T/XSD-order/partial/empty-wrapper cases plus new parser tests
+    (test_armodel/parser/test_plca_props.py); deprecated cElementTree import modernized to
+    ElementTree. 9a: the stamped-audit ratchet baseline was drained for this class (the
+    single `PlcaProps` line removed from tests/test_armodel/models/stamped_audit_baseline.txt
+    via `scripts/audit_stamped_classes.py --write-baseline` — the class now passes the
+    current-bar audit).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21896 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 01b7ce9caf
 
 - [ ] `MacSecProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.118, p.173
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

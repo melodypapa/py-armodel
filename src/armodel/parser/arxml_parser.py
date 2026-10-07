@@ -15490,10 +15490,14 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             props = PlcaProps()
-            props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID"))
-            props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT"))
-            props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
+            self.readPlcaProps(child_element, props)
         return props
+
+    def readPlcaProps(self, element: ET.Element, props: PlcaProps):
+        self.readARObject(element, props)
+        props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-ID"))
+        props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-COUNT"))
+        props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-MAX-BURST-TIMER"))
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:
         props = None
