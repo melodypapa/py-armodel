@@ -7,6 +7,8 @@ from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
     DdsDeadline,
     DdsDestinationOrder,
     DdsDurability,
@@ -26,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RoleBasedResourceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyVersionString,
     Boolean,
     CategoryString,
     DiagnosticDebounceBehaviorEnum,
@@ -1437,10 +1440,6 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     pass
 
 
-class SoConIPduIdentifier(Referrable):
-    pass
-
-
 class SpecificationDocumentScope(SpecElementScope):
     pass
 
@@ -1482,15 +1481,285 @@ class CpSoftwareClusterToResourceMapping(Identifiable):
 
 
 class DdsCpDomain(Identifiable):
-    pass
+    """
+    Definition of a DDS Domain. Tags: atp.Status=candidate
+    """
+
+    # DdsCpDomain method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.176, p.526
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDdsPartition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsPartitions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDdsTopic       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsTopics         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDomainId          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDomainId          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Identity-only child serialization debt (Rule 0001.7): ddsPartition aggregated the then-unsynced
+    # DdsCpPartition stub — RESOLVED by the DdsCpPartition sync (Table 6.178), which replaced the
+    # identity-only reader/writer placeholder with real read/writeDdsCpPartition calls and upgraded the
+    # round-trip tests to assert partition field values. ddsTopic is fully serialized via the synced
+    # read/writeDdsCpTopic (Table 6.177).
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        self.ddsPartitions: List[DdsCpPartition] = []
+
+        # Collection of DDS Topics. Tags: atp.Status=candidate
+        self.ddsTopics: List[DdsCpTopic] = []
+
+        # Definition of the DDS Domain Id. Tags: atp.Status=candidate
+        self.domainId: Optional[PositiveInteger] = None
+
+    def createDdsPartition(self, short_name: str) -> DdsCpPartition:
+        """
+        Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        """
+        if not self.IsReferrableElementExists(short_name, DdsCpPartition):
+            partition = DdsCpPartition(self, short_name)
+            self.addReferrableElement(partition)
+            self.ddsPartitions.append(partition)
+        return cast(DdsCpPartition, self.getReferrableElement(short_name, DdsCpPartition))
+
+    def getDdsPartitions(self) -> List[DdsCpPartition]:
+        """
+        Collection of DDS Partition definitions. Tags: atp.Status=candidate
+        """
+        return self.ddsPartitions
+
+    def createDdsTopic(self, short_name: str) -> DdsCpTopic:
+        """
+        Collection of DDS Topics. Tags: atp.Status=candidate
+        """
+        if not self.IsReferrableElementExists(short_name, DdsCpTopic):
+            topic = DdsCpTopic(self, short_name)
+            self.addReferrableElement(topic)
+            self.ddsTopics.append(topic)
+        return cast(DdsCpTopic, self.getReferrableElement(short_name, DdsCpTopic))
+
+    def getDdsTopics(self) -> List[DdsCpTopic]:
+        """
+        Collection of DDS Topics. Tags: atp.Status=candidate
+        """
+        return self.ddsTopics
+
+    def getDomainId(self) -> Optional[PositiveInteger]:
+        """
+        Definition of the DDS Domain Id. Tags: atp.Status=candidate
+        """
+        return self.domainId
+
+    def setDomainId(self, value: Optional[PositiveInteger]) -> DdsCpDomain:
+        """
+        Definition of the DDS Domain Id. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing domainId.
+        """
+        if value is not None:
+            self.domainId = value
+        return self
 
 
 class DdsCpPartition(Identifiable):
-    pass
+    """
+    Definition of a DDS Partition. Tags: atp.Status=candidate
+    """
+
+    # DdsCpPartition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.178, p.527
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPartitionName     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPartitionName     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+        self.partitionName: Optional[String] = None
+
+    def getPartitionName(self) -> Optional[String]:
+        """
+        Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+        """
+        return self.partitionName
+
+    def setPartitionName(self, value: Optional[String]) -> DdsCpPartition:
+        """
+        Definition of the DDS Partition Name. '*' may be used to define the default partition. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing partitionName.
+        """
+        if value is not None:
+            self.partitionName = value
+        return self
 
 
 class DdsCpServiceInstance(Identifiable, ABC):
-    pass
+    """
+    Provided and Consumed Dds Service Instances that are available at the ApplicationEndpoint. Tags: atp.Status=candidate
+    """
+
+    # DdsCpServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.152, p.472
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsFieldReplyTopicRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsFieldReplyTopicRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsFieldRequestTopicRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsFieldRequestTopicRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsMethodReplyTopicRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsMethodReplyTopicRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsMethodRequestTopicRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setDdsMethodRequestTopicRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsServiceQosProfileRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsServiceQosProfileRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInterfaceId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInterfaceId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DdsCpServiceInstance:
+            raise TypeError("DdsCpServiceInstance is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+        self.ddsFieldReplyTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+        self.ddsFieldRequestTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+        self.ddsMethodReplyTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+        self.ddsMethodRequestTopicRef: Optional[RefType] = None
+
+        # Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+        self.ddsServiceQosProfileRef: Optional[RefType] = None
+
+        # Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+        self.serviceInstanceId: Optional[PositiveInteger] = None
+
+        # Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+        self.serviceInterfaceId: Optional[String] = None
+
+    def getDdsFieldReplyTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+        """
+        return self.ddsFieldReplyTopicRef
+
+    def setDdsFieldReplyTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsFieldReplyTopicRef.
+        """
+        if value is not None:
+            self.ddsFieldReplyTopicRef = value
+        return self
+
+    def getDdsFieldRequestTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+        """
+        return self.ddsFieldRequestTopicRef
+
+    def setDdsFieldRequestTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsFieldRequestTopicRef.
+        """
+        if value is not None:
+            self.ddsFieldRequestTopicRef = value
+        return self
+
+    def getDdsMethodReplyTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+        """
+        return self.ddsMethodReplyTopicRef
+
+    def setDdsMethodReplyTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsMethodReplyTopicRef.
+        """
+        if value is not None:
+            self.ddsMethodReplyTopicRef = value
+        return self
+
+    def getDdsMethodRequestTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+        """
+        return self.ddsMethodRequestTopicRef
+
+    def setDdsMethodRequestTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsMethodRequestTopicRef.
+        """
+        if value is not None:
+            self.ddsMethodRequestTopicRef = value
+        return self
+
+    def getDdsServiceQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+        """
+        return self.ddsServiceQosProfileRef
+
+    def setDdsServiceQosProfileRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsServiceQosProfileRef.
+        """
+        if value is not None:
+            self.ddsServiceQosProfileRef = value
+        return self
+
+    def getServiceInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+        """
+        return self.serviceInstanceId
+
+    def setServiceInstanceId(self, value: Optional[PositiveInteger]) -> DdsCpServiceInstance:
+        """
+        Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing serviceInstanceId.
+        """
+        if value is not None:
+            self.serviceInstanceId = value
+        return self
+
+    def getServiceInterfaceId(self) -> Optional[String]:
+        """
+        Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+        """
+        return self.serviceInterfaceId
+
+    def setServiceInterfaceId(self, value: Optional[String]) -> DdsCpServiceInstance:
+        """
+        Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing serviceInterfaceId.
+        """
+        if value is not None:
+            self.serviceInterfaceId = value
+        return self
 
 
 class DdsCpTopic(Identifiable):
@@ -1587,12 +1856,11 @@ class DdsCpQosProfile(Identifiable):
     # [x] getTransportPriority      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTransportPriority      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # Identity-only child serialization debt (Rule 0001.7): destinationOrder, history, lifespan,
-    # reliability, resourceLimits and transportPriority aggregate still-unsynced Dds* QoS policy
-    # classes (queued Table 6.192-6.200) — the reader constructs the child and the writer emits
-    # the empty element; the children's own syncs replace the placeholders. deadline, durability,
-    # durabilityService, latencyBudget, liveliness, ownership, ownershipStrength and topicData are
-    # fully serialized since their own syncs (Tables 6.180-6.190).
+    # Identity-only child serialization debt (Rule 0001.7): RESOLVED — destinationOrder, history,
+    # lifespan, reliability, resourceLimits and transportPriority originally aggregated still-unsynced
+    # Dds* QoS policy classes; every child's own sync (Tables 6.180-6.200, last: DdsResourceLimits
+    # Table 6.200) replaced the identity-only reader/writer placeholder with real read/write calls, so
+    # all 14 children now serialize fully with their field values.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1941,7 +2209,143 @@ class UserDefinedTransformationProps(Identifiable):
 
 
 class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
-    pass
+    """
+    This meta-class represents the ability to describe the existence and configuration of a consumed (required) service instance in a concrete implementation on top of DDS. Tags: atp.Status=candidate
+    """
+
+    # DdsCpConsumedServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.154, p.475
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConsumedDdsOperation             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedDdsOperations            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addConsumedDdsServiceEvent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedDdsServiceEvents         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getLocalUnicastAddressRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalUnicastAddressRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinorVersion                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinorVersion                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticRemoteMulticastAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticRemoteMulticastAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticRemoteUnicastAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticRemoteUnicastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+        self.consumedDdsOperations: List[DdsCpServiceInstanceOperation] = []
+
+        # Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        self.consumedDdsServiceEvents: List[DdsCpServiceInstanceEvent] = []
+
+        # The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        self.localUnicastAddressRef: Optional[RefType] = None
+
+        # Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        self.minorVersion: Optional[AnyVersionString] = None
+
+        # This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        self.staticRemoteMulticastAddressRef: Optional[RefType] = None
+
+        # This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        self.staticRemoteUnicastAddressRef: Optional[RefType] = None
+
+    def addConsumedDdsOperation(self, value: Optional[DdsCpServiceInstanceOperation]) -> DdsCpConsumedServiceInstance:
+        """
+        Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+
+        A None value is a no-op and does not extend the consumedDdsOperations list.
+        """
+        if value is not None:
+            self.consumedDdsOperations.append(value)
+        return self
+
+    def getConsumedDdsOperations(self) -> List[DdsCpServiceInstanceOperation]:
+        """
+        Collection of consumed operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsOperation, consumedDds Operation.variationPoint.shortLabel atp.Status=candidate
+        """
+        return self.consumedDdsOperations
+
+    def addConsumedDdsServiceEvent(self, value: Optional[DdsCpServiceInstanceEvent]) -> DdsCpConsumedServiceInstance:
+        """
+        Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not extend the consumedDdsServiceEvents list.
+        """
+        if value is not None:
+            self.consumedDdsServiceEvents.append(value)
+        return self
+
+    def getConsumedDdsServiceEvents(self) -> List[DdsCpServiceInstanceEvent]:
+        """
+        Collection of consumed events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedDdsServiceEvent, consumedDds ServiceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        return self.consumedDdsServiceEvents
+
+    def getLocalUnicastAddressRef(self) -> Optional[RefType]:
+        """
+        The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        """
+        return self.localUnicastAddressRef
+
+    def setLocalUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        The local address over which the Service is consumed. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing localUnicastAddressRef.
+        """
+        if value is not None:
+            self.localUnicastAddressRef = value
+        return self
+
+    def getMinorVersion(self) -> Optional[AnyVersionString]:
+        """
+        Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        """
+        return self.minorVersion
+
+    def setMinorVersion(self, value: Optional[AnyVersionString]) -> DdsCpConsumedServiceInstance:
+        """
+        Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+
+        A None value is a no-op and does not overwrite an existing minorVersion.
+        """
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def getStaticRemoteMulticastAddressRef(self) -> Optional[RefType]:
+        """
+        This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        """
+        return self.staticRemoteMulticastAddressRef
+
+    def setStaticRemoteMulticastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        This reference defines the remote multicast address of the Service provider. This reference shall ONLY be used if the remote multicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef.
+        """
+        if value is not None:
+            self.staticRemoteMulticastAddressRef = value
+        return self
+
+    def getStaticRemoteUnicastAddressRef(self) -> Optional[RefType]:
+        """
+        This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        """
+        return self.staticRemoteUnicastAddressRef
+
+    def setStaticRemoteUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpConsumedServiceInstance:
+        """
+        This reference defines the remote unicast address of the Service provider. This reference shall ONLY be used if the remote unicast address of the server is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteUnicastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing staticRemoteUnicastAddressRef.
+        """
+        if value is not None:
+            self.staticRemoteUnicastAddressRef = value
+        return self
 
 
 class GlobalTimeCanMaster(GlobalTimeMaster):

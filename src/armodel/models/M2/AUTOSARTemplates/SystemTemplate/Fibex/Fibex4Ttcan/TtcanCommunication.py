@@ -1,6 +1,8 @@
 # This module contains AUTOSAR System Template classes for TTCAN communication
 # It defines TTCAN-specific absolutely scheduled timing elements
 
+from __future__ import annotations
+
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -15,9 +17,9 @@ class TtcanTriggerType(AREnum):
 
     # TtcanTriggerType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.116, p.450
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Check for message reception Tags: atp.EnumerationLiteralIndex=0
     ENUM_RX_TRIGGER = "RX-TRIGGER"
@@ -61,15 +63,14 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
 
     # TtcanAbsolutelyScheduledTiming method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.115, p.450
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommunicationCycle           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setCommunicationCycle           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeMark                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeMark                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrigger                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrigger                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationCycle  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationCycle  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeMark            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeMark            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrigger             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrigger             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -89,7 +90,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.communicationCycle
 
-    def setCommunicationCycle(self, value: Optional[CommunicationCycle]) -> "TtcanAbsolutelyScheduledTiming":
+    def setCommunicationCycle(self, value: Optional[CommunicationCycle]) -> TtcanAbsolutelyScheduledTiming:
         """
         The communication cycle where the frame is sent.
         A None value is a no-op and does not overwrite an existing communicationCycle.
@@ -104,7 +105,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.timeMark
 
-    def setTimeMark(self, value: Optional[Integer]) -> "TtcanAbsolutelyScheduledTiming":
+    def setTimeMark(self, value: Optional[Integer]) -> TtcanAbsolutelyScheduledTiming:
         """
         Where FlexRay counts the slots in the static segment, TTCAN requires explicit Tx and Rx time marks.
         A None value is a no-op and does not overwrite an existing timeMark.
@@ -119,7 +120,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.trigger
 
-    def setTrigger(self, value: Optional[TtcanTriggerType]) -> "TtcanAbsolutelyScheduledTiming":
+    def setTrigger(self, value: Optional[TtcanTriggerType]) -> TtcanAbsolutelyScheduledTiming:
         """
         Trigger type for this time window.
         A None value is a no-op and does not overwrite an existing trigger.

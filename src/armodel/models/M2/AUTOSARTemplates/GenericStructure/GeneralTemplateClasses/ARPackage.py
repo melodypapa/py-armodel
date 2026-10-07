@@ -355,6 +355,7 @@ __all__ = [
     "SecuredIPdu",
     "SenderReceiverInterface",
     "SensorActuatorSwComponentType",
+    "ServiceInstanceCollectionSet",
     "ServiceProxySwComponentType",
     "ServiceSwComponentType",
     "SignalServiceTranslationPropsSet",
@@ -362,6 +363,8 @@ __all__ = [
     "SomeipSdClientEventGroupTimingConfig",
     "SomeipSdClientServiceInstanceConfig",
     "SomeipSdServerEventGroupTimingConfig",
+    "SomeipSdServerServiceInstanceConfig",
+    "SocketConnectionIpduIdentifierSet",
     "SwAddrMethod",
     "SwBaseType",
     "SwComponentType",
@@ -410,6 +413,7 @@ __all__ = [
     "J1939ControllerApplication",
     "LogAndTraceMessageCollectionSet",
     "MacSecParticipantSet",
+    "ServiceInstanceCollectionSet",
     "SocketConnectionIpduIdentifierSet",
     "TransformationPropsSet",
     "VfbTiming",
@@ -4366,6 +4370,19 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(tcp_option_filter_set)
         return cast(TcpOptionFilterSet, self.getReferrableElement(short_name, TcpOptionFilterSet))
 
+    def createIPv6ExtHeaderFilterSet(self, short_name: str) -> IPv6ExtHeaderFilterSet:
+
+        if not self.IsReferrableElementExists(short_name, IPv6ExtHeaderFilterSet):
+            ipv6_ext_header_filter_set = IPv6ExtHeaderFilterSet(self, short_name)
+            self.addReferrableElement(ipv6_ext_header_filter_set)
+        return cast(IPv6ExtHeaderFilterSet, self.getReferrableElement(short_name, IPv6ExtHeaderFilterSet))
+
+    def createDdsConfig(self, short_name: str) -> DdsCpConfig:
+        if not self.IsReferrableElementExists(short_name, DdsCpConfig):
+            config = DdsCpConfig(self, short_name)
+            self.addReferrableElement(config)
+        return cast(DdsCpConfig, self.getReferrableElement(short_name, DdsCpConfig))
+
     def createCanXlProps(self, short_name: str) -> CanXlProps:
 
         if not self.IsReferrableElementExists(short_name, CanXlProps):
@@ -4379,6 +4396,27 @@ class ARPackage(CollectableElement, VariationPointCapable):
             config = SomeipSdClientServiceInstanceConfig(self, short_name)
             self.addReferrableElement(config)
         return cast(SomeipSdClientServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdClientServiceInstanceConfig))
+
+    def createServiceInstanceCollectionSet(self, short_name: str) -> ServiceInstanceCollectionSet:
+
+        if not self.IsReferrableElementExists(short_name, ServiceInstanceCollectionSet):
+            collection_set = ServiceInstanceCollectionSet(self, short_name)
+            self.addReferrableElement(collection_set)
+        return cast(ServiceInstanceCollectionSet, self.getReferrableElement(short_name, ServiceInstanceCollectionSet))
+
+    def createSocketConnectionIpduIdentifierSet(self, short_name: str) -> SocketConnectionIpduIdentifierSet:
+
+        if not self.IsReferrableElementExists(short_name, SocketConnectionIpduIdentifierSet):
+            identifier_set = SocketConnectionIpduIdentifierSet(self, short_name)
+            self.addReferrableElement(identifier_set)
+        return cast(SocketConnectionIpduIdentifierSet, self.getReferrableElement(short_name, SocketConnectionIpduIdentifierSet))
+
+    def createSomeipSdServerServiceInstanceConfig(self, short_name: str) -> SomeipSdServerServiceInstanceConfig:
+
+        if not self.IsReferrableElementExists(short_name, SomeipSdServerServiceInstanceConfig):
+            config = SomeipSdServerServiceInstanceConfig(self, short_name)
+            self.addReferrableElement(config)
+        return cast(SomeipSdServerServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdServerServiceInstanceConfig))
 
     def createSomeipSdClientEventGroupTimingConfig(self, short_name: str) -> SomeipSdClientEventGroupTimingConfig:
 
@@ -5024,7 +5062,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipSdServerServiceInstanceConfig,
+    ServiceInstanceCollectionSet,
+    SocketConnectionIpduIdentifierSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import IPv6ExtHeaderFilterSet  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpConfig  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster  # noqa: E402
@@ -11466,10 +11509,6 @@ class CryptoServiceQueue(ARElement):
     pass
 
 
-class DdsCpConfig(ARElement):
-    pass
-
-
 class EcuTiming(ARElement):
     pass
 
@@ -11486,10 +11525,6 @@ class IEEE1722TpConnection(ARElement, ABC):
     pass
 
 
-class IPv6ExtHeaderFilterSet(ARElement):
-    pass
-
-
 class J1939ControllerApplication(ARElement):
     pass
 
@@ -11499,10 +11534,6 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class MacSecParticipantSet(ARElement):
-    pass
-
-
-class SocketConnectionIpduIdentifierSet(ARElement):
     pass
 
 

@@ -4,7 +4,6 @@ AbstractAccessPoint
 AbstractEnumerationValueVariationPoint
 AbstractProvidedPortPrototype
 AbstractRequiredPortPrototype
-AbstractServiceInstance
 AccessCountSet
 AdminData
 AgeConstraint
@@ -15,7 +14,6 @@ AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
-ApplicationEndpoint
 ApplicationInterface
 ArbitraryEventTriggering
 ArgumentDirectionEnum
@@ -63,11 +61,6 @@ BuildEngineeringObject
 BurstPatternEventTriggering
 BusspecificNmEcu
 CSTransformerErrorReactionEnum
-CanAddressingModeType
-CanFrame
-CanFrameRxBehaviorEnum
-CanFrameTriggering
-CanFrameTxBehaviorEnum
 CanNmEcu
 CanTpAddress
 CanTpAddressingFormatType
@@ -95,10 +88,7 @@ CompuScaleConstantContents
 CompuScaleContents
 CompuScaleRationalFormula
 ConcretePatternEventTriggering
-ConditionalChangeNad
 ConfidenceInterval
-ConsumedEventGroup
-ConsumedServiceInstance
 ContainedIPduProps
 CouplingPortAsynchronousTrafficShaper
 CouplingPortCreditBasedShaper
@@ -106,7 +96,6 @@ CouplingPortRoleEnum
 CryptoCertificateAlgorithmFamilyEnum
 CryptoCertificateFormatEnum
 CycleRepetitionType
-DataDumpEntry
 DataFilter
 DataIdModeEnum
 DataPrototype
@@ -128,7 +117,6 @@ DisplayFormatString
 DltConfig
 DltDefaultTraceStateEnum
 DoIpConfig
-DoIpEntityRoleEnum
 DoIpServiceNeeds
 DoIpTpConfig
 DocRevision
@@ -142,8 +130,6 @@ EndToEndProfileBehaviorEnum
 EndToEndTransformationDescription
 EngineeringObject
 ErrorTracerNeeds
-EventGroupControlTypeEnum
-EventHandler
 EventOccurrenceKindEnum
 EventTriggeringConstraint
 ExclusiveArea
@@ -163,7 +149,6 @@ FloatValue
 FormulaExpression
 Frame
 FramePid
-FreeFormat
 FreeFormatEntry
 FunctionNameValue
 GlobalTimeCouplingPortProps
@@ -188,7 +173,6 @@ ISignalTypeEnum
 Identifiable
 ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
-InfrastructureServices
 InnerDataPrototypeGroupInCompositionInstanceRef
 InnerRunnableEntityGroupInCompositionInstanceRef
 InstanceEventInCompositionInstanceRef
@@ -197,7 +181,6 @@ InternalBehavior
 InterpolationRoutine
 InterpolationRoutineMapping
 Ipv4Configuration
-Ipv6Configuration
 J1939NmEcu
 LEnum
 LanguageSpecific
@@ -269,7 +252,6 @@ PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
 Pdu
-PduActivationRoutingGroup
 PduToFrameMapping
 PduTriggering
 PeriodicEventTriggering
@@ -283,7 +265,6 @@ PrimitiveIdentifier
 PrivacyLevel
 PrmCharAbsTol
 PrmCharMinTypMax
-ProvidedServiceInstance
 RModeInAtomicSwcInstanceRef
 RVariableInAtomicSwcInstanceRef
 RecordLayoutIteratorPoint
@@ -302,9 +283,7 @@ RteEventInEcuInstanceRef
 RtePluginProps
 RunnableEntityArgument
 RunnableEntityInCompositionInstanceRef
-RxIdentifierRange
 SOMEIPMessageTypeEnum
-SaveConfigurationEntry
 ScaleConstr
 ScheduleTableEntry
 Sd
@@ -324,16 +303,11 @@ SignalServiceTranslationEventProps
 SignalServiceTranslationProps
 SignalServiceTranslationPropsSet
 SingleLanguageUnitNames
-SoAdConfig
-SocketAddress
 SocketConnection
 SocketConnectionIpduIdentifier
-SomeipSdClientEventGroupTimingConfig
 SomeipSdClientServiceInstanceConfig
-SomeipSdServerEventGroupTimingConfig
 SomeipServiceVersion
 SporadicEventTriggering
-StaticSocketConnection
 String
 StringValue
 StructuredReq
@@ -401,7 +375,6 @@ TcpProps
 TcpRoleEnum
 TextTableMapping
 Tgroup
-TimeSyncTechnologyEnum
 TimingClock
 TimingClockSyncAccuracy
 TimingCondition
@@ -426,9 +399,6 @@ TraceableText
 TracedFailure
 TransientFault
 TriggerMapping
-TtcanAbsolutelyScheduledTiming
-TtcanTriggerType
-UdpChecksumCalculationEnum
 UdpNmEcu
 UdpProps
 UnassignFrameId

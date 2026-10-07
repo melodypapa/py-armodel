@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
@@ -777,6 +777,347 @@ class TestLinConfigurationEntryFamily:
         assert entry.getByteValues() == [0x10, 0x20]
         assert entry == entry.addByteValue(None)
         assert entry.getByteValues() == [0x10, 0x20]
+
+
+CONDITIONAL_CHANGE_NAD_CLASS_NOTE = "Generates an conditional change NAD request. See ISO 17987 protocol specification for more information."
+CONDITIONAL_CHANGE_NAD_BYTE_NOTE = "Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask."
+CONDITIONAL_CHANGE_NAD_ID_NOTE = "Byte Position of Id."
+CONDITIONAL_CHANGE_NAD_INVERT_NOTE = "Byte Position of Invert."
+CONDITIONAL_CHANGE_NAD_MASK_NOTE = "Byte Position of Mask."
+CONDITIONAL_CHANGE_NAD_NEW_NAD_NOTE = "The newly assigned NAD value (Byte Position)."
+
+
+class TestConditionalChangeNad:
+    """Test cases for ConditionalChangeNad (Table 6.105, p.438)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.105: ARObject, LinConfigurationEntry, ScheduleTableEntry)"""
+        assert issubclass(ConditionalChangeNad, LinConfigurationEntry)
+        assert issubclass(ConditionalChangeNad, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.105)"""
+        assert inspect.cleandoc(ConditionalChangeNad.__doc__).strip() == CONDITIONAL_CHANGE_NAD_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert ConditionalChangeNad.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = ConditionalChangeNad()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getByte() is None
+        assert entry.getId() is None
+        assert entry.getInvert() is None
+        assert entry.getMask() is None
+        assert entry.getNewNad() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.105: byte, id, invert, mask, newNad)"""
+        source = inspect.getsource(ConditionalChangeNad.__init__)
+        assert source.index("self.byte") < source.index("self.id")
+        assert source.index("self.id") < source.index("self.invert")
+        assert source.index("self.invert") < source.index("self.mask")
+        assert source.index("self.mask") < source.index("self.newNad")
+
+    def test_get_set_byte(self):
+        entry = ConditionalChangeNad()
+
+        byte = Integer()
+        byte.setValue(1)
+
+        assert entry == entry.setByte(byte)
+        assert entry.getByte() == byte
+
+        assert entry == entry.setByte(None)
+        assert entry.getByte() == byte
+
+    def test_get_set_id(self):
+        entry = ConditionalChangeNad()
+
+        pid = PositiveInteger()
+        pid.setValue(2)
+
+        assert entry == entry.setId(pid)
+        assert entry.getId() == pid
+
+        assert entry == entry.setId(None)
+        assert entry.getId() == pid
+
+    def test_get_set_invert(self):
+        entry = ConditionalChangeNad()
+
+        invert = Integer()
+        invert.setValue(3)
+
+        assert entry == entry.setInvert(invert)
+        assert entry.getInvert() == invert
+
+        assert entry == entry.setInvert(None)
+        assert entry.getInvert() == invert
+
+    def test_get_set_mask(self):
+        entry = ConditionalChangeNad()
+
+        mask = Integer()
+        mask.setValue(4)
+
+        assert entry == entry.setMask(mask)
+        assert entry.getMask() == mask
+
+        assert entry == entry.setMask(None)
+        assert entry.getMask() == mask
+
+    def test_get_set_new_nad(self):
+        entry = ConditionalChangeNad()
+
+        new_nad = Integer()
+        new_nad.setValue(5)
+
+        assert entry == entry.setNewNad(new_nad)
+        assert entry.getNewNad() == new_nad
+
+        assert entry == entry.setNewNad(None)
+        assert entry.getNewNad() == new_nad
+
+    def _assert_docstring(self, method, note, attr_name=None):
+        doc = method.__doc__
+        expected = note if attr_name is None else note + "\nA None value is a no-op and does not overwrite an existing %s." % attr_name
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/setter docstrings carry the spec Note verbatim (Table 6.105)"""
+        self._assert_docstring(ConditionalChangeNad.getByte, CONDITIONAL_CHANGE_NAD_BYTE_NOTE)
+        self._assert_docstring(ConditionalChangeNad.setByte, CONDITIONAL_CHANGE_NAD_BYTE_NOTE, "byte")
+        self._assert_docstring(ConditionalChangeNad.getId, CONDITIONAL_CHANGE_NAD_ID_NOTE)
+        self._assert_docstring(ConditionalChangeNad.setId, CONDITIONAL_CHANGE_NAD_ID_NOTE, "id")
+        self._assert_docstring(ConditionalChangeNad.getInvert, CONDITIONAL_CHANGE_NAD_INVERT_NOTE)
+        self._assert_docstring(ConditionalChangeNad.setInvert, CONDITIONAL_CHANGE_NAD_INVERT_NOTE, "invert")
+        self._assert_docstring(ConditionalChangeNad.getMask, CONDITIONAL_CHANGE_NAD_MASK_NOTE)
+        self._assert_docstring(ConditionalChangeNad.setMask, CONDITIONAL_CHANGE_NAD_MASK_NOTE, "mask")
+        self._assert_docstring(ConditionalChangeNad.getNewNad, CONDITIONAL_CHANGE_NAD_NEW_NAD_NOTE)
+        self._assert_docstring(ConditionalChangeNad.setNewNad, CONDITIONAL_CHANGE_NAD_NEW_NAD_NOTE, "newNad")
+
+    def test_type_annotations(self):
+        import ast
+
+        expected_members = {
+            "byte": (Integer, "Optional[Integer]"),
+            "id": (PositiveInteger, "Optional[PositiveInteger]"),
+            "invert": (Integer, "Optional[Integer]"),
+            "mask": (Integer, "Optional[Integer]"),
+            "newNad": (Integer, "Optional[Integer]"),
+        }
+        for attr, (py_type, annotation) in expected_members.items():
+            getter = getattr(ConditionalChangeNad, "get%s%s" % (attr[0].upper(), attr[1:]))
+            setter = getattr(ConditionalChangeNad, "set%s%s" % (attr[0].upper(), attr[1:]))
+
+            getter_hints = get_type_hints(getter)
+            assert getter_hints["return"] == Optional[py_type]
+
+            setter_hints = get_type_hints(setter)
+            assert setter_hints["value"] == Optional[py_type]
+            assert setter_hints["return"] == ConditionalChangeNad
+
+        src = inspect.getsource(sys.modules[ConditionalChangeNad.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "ConditionalChangeNad")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        for attr, (_, annotation) in expected_members.items():
+            assert annotations[attr] == annotation
+
+
+SAVE_CONFIGURATION_ENTRY_CLASS_NOTE = "This service is used to notify a slave node to store its configuration."
+
+
+class TestSaveConfigurationEntry:
+    """Test cases for SaveConfigurationEntry (Table 6.106, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.106: ARObject, LinConfigurationEntry, ScheduleTableEntry)"""
+        assert issubclass(SaveConfigurationEntry, LinConfigurationEntry)
+        assert issubclass(SaveConfigurationEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.106)"""
+        assert inspect.cleandoc(SaveConfigurationEntry.__doc__).strip() == SAVE_CONFIGURATION_ENTRY_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert SaveConfigurationEntry.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = SaveConfigurationEntry()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+
+DATA_DUMP_ENTRY_CLASS_NOTE = "This service is reserved for initial configuration of a slave node by the slave node supplier and the format of this message is supplier specific."
+DATA_DUMP_ENTRY_BYTE_VALUE_NOTE = "Supplier specific format."
+
+
+class TestDataDumpEntry:
+    """Test cases for DataDumpEntry (Table 6.107, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.107: ARObject, LinConfigurationEntry, ScheduleTableEntry)"""
+        assert issubclass(DataDumpEntry, LinConfigurationEntry)
+        assert issubclass(DataDumpEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.107)"""
+        assert inspect.cleandoc(DataDumpEntry.__doc__).strip() == DATA_DUMP_ENTRY_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert DataDumpEntry.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = DataDumpEntry()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getByteValues() == []
+        assert entry.getAssignedControllerRef() is None
+        assert entry.getAssignedLinSlaveConfigRef() is None
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.107: byteValue (ordered))"""
+        source = inspect.getsource(DataDumpEntry.__init__)
+        assert source.index("self.byteValues") >= 0
+
+    def test_add_byte_value(self):
+        entry = DataDumpEntry()
+
+        first = Integer()
+        first.setValue(8)
+        second = Integer()
+        second.setValue(9)
+
+        assert entry == entry.addByteValue(first)
+        assert entry.getByteValues() == [first]
+        assert entry == entry.addByteValue(second)
+        assert entry.getByteValues() == [first, second]
+
+        assert entry == entry.addByteValue(None)
+        assert entry.getByteValues() == [first, second]
+
+    def _assert_docstring(self, method, note, suffix=None):
+        doc = method.__doc__
+        expected = note if suffix is None else note + "\n" + suffix
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/adder docstrings carry the spec Note verbatim (Table 6.107)"""
+        self._assert_docstring(DataDumpEntry.getByteValues, DATA_DUMP_ENTRY_BYTE_VALUE_NOTE)
+        self._assert_docstring(DataDumpEntry.addByteValue, DATA_DUMP_ENTRY_BYTE_VALUE_NOTE, "A None value is a no-op.")
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(DataDumpEntry.getByteValues)
+        assert getter_hints["return"] == List[Integer]
+
+        adder_hints = get_type_hints(DataDumpEntry.addByteValue)
+        assert adder_hints["value"] == Optional[Integer]
+        assert adder_hints["return"] == DataDumpEntry
+
+        src = inspect.getsource(sys.modules[DataDumpEntry.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "DataDumpEntry")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["byteValues"] == "List[Integer]"
+
+
+FREE_FORMAT_CLASS_NOTE = "Representing freely defined data."
+FREE_FORMAT_BYTE_VALUE_NOTE = "The integer Value of a freely defined data byte."
+
+
+class TestFreeFormat:
+    """Test cases for FreeFormat (Table 6.108, p.439)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.108: ARObject, FreeFormatEntry, ScheduleTableEntry)"""
+        assert issubclass(FreeFormat, FreeFormatEntry)
+        assert issubclass(FreeFormatEntry, ScheduleTableEntry)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.108)"""
+        assert inspect.cleandoc(FreeFormat.__doc__).strip() == FREE_FORMAT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert FreeFormat.__init__.__doc__ is None
+
+    def test_initialization(self):
+        entry = FreeFormat()
+
+        assert isinstance(entry, ARObject)
+        assert entry.getByteValues() == []
+
+    def test_member_order_matches_spec(self):
+        """Test member declaration order follows the R23-11 displayed row order (Table 6.108: byteValue (ordered))"""
+        source = inspect.getsource(FreeFormat.__init__)
+        assert source.index("self.byteValues") >= 0
+
+    def test_add_byte_value(self):
+        entry = FreeFormat()
+
+        first = Integer()
+        first.setValue(0x10)
+        second = Integer()
+        second.setValue(0x20)
+
+        assert entry == entry.addByteValue(first)
+        assert entry.getByteValues() == [first]
+        assert entry == entry.addByteValue(second)
+        assert entry.getByteValues() == [first, second]
+
+        assert entry == entry.addByteValue(None)
+        assert entry.getByteValues() == [first, second]
+
+    def _assert_docstring(self, method, note, suffix=None):
+        doc = method.__doc__
+        expected = note if suffix is None else note + "\n" + suffix
+        assert doc is not None
+        assert inspect.cleandoc(doc).strip() == expected
+
+    def test_member_docstrings_are_spec_note(self):
+        """Test getter/adder docstrings carry the spec Note verbatim (Table 6.108)"""
+        self._assert_docstring(FreeFormat.getByteValues, FREE_FORMAT_BYTE_VALUE_NOTE)
+        self._assert_docstring(FreeFormat.addByteValue, FREE_FORMAT_BYTE_VALUE_NOTE, "A None value is a no-op.")
+
+    def test_type_annotations(self):
+        import ast
+
+        getter_hints = get_type_hints(FreeFormat.getByteValues)
+        assert getter_hints["return"] == List[Integer]
+
+        adder_hints = get_type_hints(FreeFormat.addByteValue)
+        assert adder_hints["value"] == Optional[Integer]
+        assert adder_hints["return"] == FreeFormat
+
+        src = inspect.getsource(sys.modules[FreeFormat.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "FreeFormat")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["byteValues"] == "List[Integer]"
 
 
 class Test_Fibex4LinTopology:
