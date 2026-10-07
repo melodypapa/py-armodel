@@ -10662,6 +10662,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             services = InfrastructureServices()
+            self.readARObject(child_element, services)
             services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
             services.setTimeSynchronization(self.getTimeSynchronization(child_element, "TIME-SYNCHRONIZATION"))
         return services

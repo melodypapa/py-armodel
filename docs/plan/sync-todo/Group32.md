@@ -367,15 +367,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `InfrastructureServices` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.144, p.469
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: both Table 6.144 attrs modeled (`doIpEntity`, `timeSynchronization`, both 0..1 aggr — children DoIpEntity (Table 6.150) and TimeSynchronization (Table 6.145) already synced/stamped, so no identity-only debt); Base = `ARObject` ✓; XSD-only `DHCP-SERVER-CONFIGURATION` element carries `atp.Status="removed"` → correctly unmodeled (Rule 0001.3/0015). Docstrings verbatim vs the spec `Note`s ✓. Drift found and fixed: (1) legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block rewritten 6-column, no stamp (9b deferred); (2) Rule 0025 BASE: reader `getInfrastructureServices`/writer `setInfrastructureServices` never called `readARObject`/`writeARObject` (silent S/T loss; XSD complexType INFRASTRUCTURE-SERVICES carries the AR-OBJECT group) — added on both sides, pinned by new S/T round-trip tests (parser +3 assertions in `test_getInfrastructureServices_full`, writer `test_round_trip_infrastructure_services_preserves_values`). New model test `test_InfrastructureServices.py` (6 tests). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TimeSyncTechnologyEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.149, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

@@ -1192,6 +1192,26 @@ class TestWriteNetworkEndPoint:
         assert tag is not None
         assert tag.find("DO-IP-ENTITY") is not None
 
+    def test_round_trip_infrastructure_services_preserves_values(self, writer):
+        svc = InfrastructureServices()
+        svc.setChecksum(String().setValue("77"))
+        svc.setTimestamp(DateTime().setValue("2024-01-01T00:00:00Z"))
+        entity = DoIpEntity()
+        entity.setDoIpEntityRole(_literal("NODE"))
+        svc.setDoIpEntity(entity)
+        parent = _parent()
+        writer.setInfrastructureServices(parent, "INFRASTRUCTURE-SERVICES", svc)
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<ROOT xmlns='http://autosar.org/schema/r4.0'>%s</ROOT>" % inner)
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        reloaded = ARXMLParser().getInfrastructureServices(root[0], "INFRASTRUCTURE-SERVICES")
+        assert reloaded is not None
+        assert reloaded.getChecksum().getValue() == "77"
+        assert reloaded.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        assert reloaded.getDoIpEntity().getDoIpEntityRole().getValue() == "NODE"
+
     def test_write_network_end_point(self, writer):
         pkg = _pkg()
         ep = NetworkEndpoint(pkg, "Ep")

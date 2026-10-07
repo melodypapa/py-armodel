@@ -962,6 +962,22 @@ class TestEthernetClusterHandlers:
         parser.readNetworkEndPointNetworkEndPointAddress(element, endpoint)
         assert len(endpoint.getNetworkEndpointAddresses()) == 1
 
+    def test_getInfrastructureServices_full(self, parser):
+        element = _snip(
+            '<INFRASTRUCTURE-SERVICES S="555" T="2024-01-01T00:00:00Z">'
+            "<DO-IP-ENTITY><DO-IP-ENTITY-ROLE>GATEWAY</DO-IP-ENTITY-ROLE></DO-IP-ENTITY>"
+            "<TIME-SYNCHRONIZATION><TIME-SYNC-CLIENT><TIME-SYNC-TECHNOLOGY>PTP--IEEE-1588--2008</TIME-SYNC-TECHNOLOGY></TIME-SYNC-CLIENT></TIME-SYNCHRONIZATION>"
+            "</INFRASTRUCTURE-SERVICES>",
+            root_tag="ROOT",
+        )
+        services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
+        assert services is not None
+        assert services.getChecksum().getValue() == "555"
+        assert services.getTimestamp().getValue() == "2024-01-01T00:00:00Z"
+        assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "GATEWAY"
+        client = services.getTimeSynchronization().getTimeSyncClient()
+        assert client.getTimeSyncTechnology().getValue() == "PTP--IEEE-1588--2008"
+
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
             "<INFRASTRUCTURE-SERVICES>" '<DO-IP-ENTITY S="1234" T="2024-01-01T00:00:00Z">' "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>" "</DO-IP-ENTITY>" "</INFRASTRUCTURE-SERVICES>",

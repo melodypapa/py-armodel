@@ -10903,6 +10903,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setInfrastructureServices(self, element: ET.Element, key: str, services: Optional[InfrastructureServices]):
         if services is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, services)
             self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
             self.setTimeSynchronization(child_element, "TIME-SYNCHRONIZATION", services.getTimeSynchronization())
 
