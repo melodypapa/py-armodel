@@ -440,6 +440,10 @@ detail: *Rule 0002*.
 - **Trusting a pre-existing `# Spec verified:` stamp and skipping 9b** — the marker is
   the *output* of 9b, not a substitute for it; on any re-sync/drift pass, re-run the full
   9b checklist before re-stamping (*Rule 0006.1*, *Rule 0012.3*).
+- **Re-stamping by appending a second marker line** — stamping is one action, taken once
+  in 9b. On a drift/extension pass, *replace* the existing `# Spec verified:` line rather
+  than adding another: a block with two markers fails the audit's STAMP check, and a
+  marker sitting over a `[ ]` row claims work that was never done (*Rule 0012.1*).
 - **Class `Note` written into the `__init__` docstring** — the class-level `Note` belongs
   in the **class docstring** only; `__init__` carries inline per-attribute comments and
   **no docstring** (Rule 0012.2.4 / 0012.2.5.2).

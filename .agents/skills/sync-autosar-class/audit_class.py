@@ -323,6 +323,9 @@ def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
     markers = spec_ver + xsd_ver
     if len(markers) > 1:
         rep.fail("STAMP", "%d provenance markers in one block (%s) — exactly one is allowed" % (len(markers), "; ".join(markers)))
+        # Stop here: with two markers the block's provenance is ambiguous, so it is
+        # meaningless to go on and report the first one as a clean certification.
+        return
     ticks = [ROW_RE.match(x).group(1) for x in blk_lines if ROW_RE.match(x)]
     all_x = bool(ticks) and all(t == "x" for t in ticks)
     any_open = any(t != "x" for t in ticks)

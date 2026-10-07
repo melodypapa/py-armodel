@@ -930,6 +930,17 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
   confirms), not in
   Step 4/7/8 — a file that hasn't passed 9b carries the `# Spec:` line and method rows
   but no marker. Verify during every sync pass.
+- **Exactly one provenance marker per block, and it must certify every row.** Stamping
+  is a single action, taken once in 9b, so a later drift or extension re-stamp must
+  **replace** the existing marker line rather than append a second one. Two markers mean
+  two passes each believed they owned the class, and the block's provenance — the one
+  signal the whole workflow rests on (Rule 0012.1) — becomes ambiguous. Before writing
+  the marker, re-read the block: if a `# Spec verified:` or `# XSD verified:` line is
+  already there, edit that line in place. `audit_class.py`'s STAMP check fails a block
+  carrying more than one marker, and fails a marker sitting over any `[ ]` row, because a
+  stamp must never certify work that is not done. Found in the wild: `DoIpConfig`
+  (`AUTOSAR_CP_TPS_SystemTemplate.pdf`, Table 6.202) carried two identical
+  `# Spec verified: R23-11` lines, left by two separate stamping passes.
 - **The marker is the single review gate.** A class is reviewed/synced iff its source
   carries `# Spec verified: <RELEASE>`; a fully-`[x]` checklist, passing tests, or a
   clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
@@ -1902,7 +1913,7 @@ must equal the getter return type. This is the mechanical, repo-wide form of Rul
 
 ---
 
-## Rule 0023 — Legacy checklist format (rows ending at `test`) forces a full re-sync *(added after the skill-format review, 2026-10-01)*
+## Rule 0023 — Legacy checklist format (rows ending at `test`, or any non-6-column block) forces a full re-sync *(added after the skill-format review, 2026-10-01; scope widened 2026-10-07)*
 
 A checklist whose method rows **end at the `test` column** — `# [x] __init__  [x] impl
 [x] docstring  [x] test` — with **no `reader`/`writer` columns and no per-row release
