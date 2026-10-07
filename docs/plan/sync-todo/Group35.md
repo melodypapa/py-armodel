@@ -33,15 +33,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `VfbTiming` — ARElement — R23-11 CP_TPS_TimingExtensions Table 3.1, p.24
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: rehoused ARPackage.py stub -> TimingExtensions.py (spec Package row CommonStructure::Timing::TimingExtensions
+    wins, Rule 0007); derives TimingExtension (most-derived Base). Own group member COMPONENT-REF (DEST
+    SW-COMPONENT-TYPE--SUBTYPES-ENUM, XSD group VFB-TIMING) verified in displayed row order; accessor pair
+    get/setComponentRef after the SwcTiming behaviorRef precedent (spec attr `component`, kind ref).
+    ARPackage.createVfbTiming factory + parser VFB-TIMING dispatch branch + writer isinstance branch wired.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SwcTiming` — ARElement — R23-11 CP_TPS_TimingExtensions Table 3.2, p.25
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingExtensions.py

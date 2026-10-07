@@ -162,6 +162,41 @@ class TimingExtension(ARElement, ABC):
         return cast(ExecutionOrderConstraint, self.getReferrableElement(short_name, ExecutionOrderConstraint))
 
 
+class VfbTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints at VFB level. TimingDescriptions aggregated by VfbTiming are restricted to event chains referring to events which are derived from the class TDEventVfb. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # VfbTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.1, p.24
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComponentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComponentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.componentRef: Optional[RefType] = None
+
+    def getComponentRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.componentRef
+
+    def setComponentRef(self, value: Optional[RefType]) -> "VfbTiming":
+        """
+        This defines the scope of a VfbTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing componentRef.
+        """
+        if value is not None:
+            self.componentRef = value
+        return self
+
+
 class SwcTiming(TimingExtension):
     """
     The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior.

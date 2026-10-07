@@ -273,7 +273,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension, VfbTiming
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
@@ -9800,6 +9800,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTimingExtension(child_element, timing)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
 
+    def writeVfbTiming(self, element: ET.Element, timing: VfbTiming):
+        self.logger.debug("writeVfbTiming %s" % timing.getShortName())
+        child_element = ET.SubElement(element, "VFB-TIMING")
+        self.writeIdentifiable(child_element, timing)
+        self.writeTimingExtension(child_element, timing)
+        self.setChildElementOptionalRefType(child_element, "COMPONENT-REF", timing.getComponentRef())
+
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()
         if len(mappings) > 0:
@@ -18698,6 +18705,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeSwitchInterface(element, ar_element)
         elif isinstance(ar_element, SwcTiming):
             self.writeSwcTiming(element, ar_element)
+        elif isinstance(ar_element, VfbTiming):
+            self.writeVfbTiming(element, ar_element)
         elif isinstance(ar_element, LinUnconditionalFrame):
             self.writeLinUnconditionalFrame(element, ar_element)
         elif isinstance(ar_element, NmConfig):

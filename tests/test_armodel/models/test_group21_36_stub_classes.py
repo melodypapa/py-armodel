@@ -3446,10 +3446,10 @@ STUBS = [
         "AbstractVariationRestriction",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
         "VfbTiming",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage",
-        "ARElement",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
+        "TimingExtension",
     ),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet",
