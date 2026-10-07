@@ -268,6 +268,7 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
 
         # List of valid binding times. Tags: xml.sequenceOffset=20
         self.validBindingTimes: List[FullBindingTimeEnum] = []
+
         # Supported sub Sdg Class
         self.subSdgRef: Optional[RefType] = None
 
