@@ -2351,6 +2351,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(BswModuleTiming, self.getReferrableElement(short_name, BswModuleTiming))
 
+    def createBswCompositionTiming(self, short_name: str) -> BswCompositionTiming:
+
+        if not self.IsReferrableElementExists(short_name, BswCompositionTiming):
+            timing = BswCompositionTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(BswCompositionTiming, self.getReferrableElement(short_name, BswCompositionTiming))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -4958,7 +4965,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswModuleTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402
@@ -11460,10 +11467,6 @@ class SecurityEventDefinition(ARElement):
 
 
 class ApplicationPartition(ARElement):
-    pass
-
-
-class BswCompositionTiming(ARElement):
     pass
 
 

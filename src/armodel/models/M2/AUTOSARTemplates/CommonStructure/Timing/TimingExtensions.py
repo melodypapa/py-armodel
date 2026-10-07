@@ -300,3 +300,36 @@ class BswModuleTiming(TimingExtension):
         if value is not None:
             self.behaviorRef = value
         return self
+
+
+class BswCompositionTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints for a set of BswImplementations representing a BSW composition. A constraint defined at this level holds true for all referenced BswImplementations. Note, that multiple implementations of the same basic software module could be involved. TimingDescriptions aggregated by BswCompositionTiming are restricted to event chains referring to events which are derived from the class TDEventBswInternalBehavior and TDEventBsw. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # BswCompositionTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.5, p.29
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addImplementationRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImplementationRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.implementationRefs: List[RefType] = []
+
+    def addImplementationRef(self, value: Optional[RefType]) -> "BswCompositionTiming":
+        """
+        This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        if value is not None:
+            self.implementationRefs.append(value)
+        return self
+
+    def getImplementationRefs(self) -> List[RefType]:
+        """
+        This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.implementationRefs

@@ -401,7 +401,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     SynchronizationTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswModuleTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
@@ -10174,6 +10174,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingExtension(element, timing)
         timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
 
+    def readBswCompositionTiming(self, element: ET.Element, timing: BswCompositionTiming):
+        self.logger.debug("Read BswCompositionTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        for ref in self.getChildElementRefTypeList(element, "IMPLEMENTATION-REFS/IMPLEMENTATION-REF"):
+            timing.addImplementationRef(ref)
+
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
         for ref in self.getChildElementRefTypeList(element, "FRAME-PORT-REFS/FRAME-PORT-REF"):
@@ -18359,6 +18366,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-MODULE-TIMING":
                 timing = parent.createBswModuleTiming(self.getShortName(child_element))
                 self.readBswModuleTiming(child_element, timing)
+            elif tag_name == "BSW-COMPOSITION-TIMING":
+                timing = parent.createBswCompositionTiming(self.getShortName(child_element))
+                self.readBswCompositionTiming(child_element, timing)
             elif tag_name == "LIN-CLUSTER":
                 cluster = parent.createLinCluster(self.getShortName(child_element))
                 self.readLinCluster(child_element, cluster)
