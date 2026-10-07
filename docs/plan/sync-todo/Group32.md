@@ -718,6 +718,10 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsLatencyBudget` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.186, p.532
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
+  - Note: this class's commit (82b8ea883) left a dead identity-only LATENCY-BUDGET placeholder in
+    readDdsCpQosProfile (the real readDdsLatencyBudget block was inserted after it without removing
+    the placeholder — the second setLatencyBudget call won, so round-trips were correct, but the
+    dead code violated Rule 0001.7). Removed in a follow-up fix commit.
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)

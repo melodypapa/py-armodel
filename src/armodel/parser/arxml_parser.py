@@ -11953,8 +11953,6 @@ class ARXMLParser(AbstractARXMLParser):
             profile.setDurabilityService(durability_service)
         if self.find(element, "HISTORY") is not None:
             profile.setHistory(DdsHistory())
-        if self.find(element, "LATENCY-BUDGET") is not None:
-            profile.setLatencyBudget(DdsLatencyBudget())
         latency_budget_element = self.find(element, "LATENCY-BUDGET")
         if latency_budget_element is not None:
             latency_budget = DdsLatencyBudget()

@@ -15701,32 +15701,40 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
         child_element = ET.SubElement(element, "DDS-CP-QOS-PROFILE")
         self.writeIdentifiable(child_element, profile)
-        if profile.getDeadline() is not None:
-            self.writeDdsDeadline(child_element, profile.getDeadline())
+        deadline = profile.getDeadline()
+        if deadline is not None:
+            self.writeDdsDeadline(child_element, deadline)
         if profile.getDestinationOrder() is not None:
             ET.SubElement(child_element, "DESTINATION-ORDER")
-        if profile.getDurability() is not None:
-            self.writeDdsDurability(child_element, profile.getDurability())
-        if profile.getDurabilityService() is not None:
-            self.writeDdsDurabilityService(child_element, profile.getDurabilityService())
+        durability = profile.getDurability()
+        if durability is not None:
+            self.writeDdsDurability(child_element, durability)
+        durability_service = profile.getDurabilityService()
+        if durability_service is not None:
+            self.writeDdsDurabilityService(child_element, durability_service)
         if profile.getHistory() is not None:
             ET.SubElement(child_element, "HISTORY")
-        if profile.getLatencyBudget() is not None:
-            self.writeDdsLatencyBudget(child_element, profile.getLatencyBudget())
+        latency_budget = profile.getLatencyBudget()
+        if latency_budget is not None:
+            self.writeDdsLatencyBudget(child_element, latency_budget)
         if profile.getLifespan() is not None:
             ET.SubElement(child_element, "LIFESPAN")
-        if profile.getLiveliness() is not None:
-            self.writeDdsLiveliness(child_element, profile.getLiveliness())
-        if profile.getOwnership() is not None:
-            self.writeDdsOwnership(child_element, profile.getOwnership())
-        if profile.getOwnershipStrength() is not None:
-            self.writeDdsOwnershipStrength(child_element, profile.getOwnershipStrength())
+        liveliness = profile.getLiveliness()
+        if liveliness is not None:
+            self.writeDdsLiveliness(child_element, liveliness)
+        ownership = profile.getOwnership()
+        if ownership is not None:
+            self.writeDdsOwnership(child_element, ownership)
+        ownership_strength = profile.getOwnershipStrength()
+        if ownership_strength is not None:
+            self.writeDdsOwnershipStrength(child_element, ownership_strength)
         if profile.getReliability() is not None:
             ET.SubElement(child_element, "RELIABILITY")
         if profile.getResourceLimits() is not None:
             ET.SubElement(child_element, "RESOURCE-LIMITS")
-        if profile.getTopicData() is not None:
-            self.writeDdsTopicData(child_element, profile.getTopicData())
+        topic_data = profile.getTopicData()
+        if topic_data is not None:
+            self.writeDdsTopicData(child_element, topic_data)
         if profile.getTransportPriority() is not None:
             ET.SubElement(child_element, "TRANSPORT-PRIORITY")
 
