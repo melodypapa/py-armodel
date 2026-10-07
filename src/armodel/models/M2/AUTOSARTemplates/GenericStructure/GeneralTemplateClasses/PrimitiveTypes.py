@@ -1462,6 +1462,11 @@ class VerbatimStringPlain(ARLiteral):
     This primitive is applied in cases where xml:space attribute cannot be provided by
     the primitive type but needs to be provided by the container class. This is in
     particular the case in applications of [TPS_XMLSPR_00024].
+
+    Tags:
+        * xml.xsd.customType=VERBATIM-STRING-PLAIN
+        * xml.xsd.type=string
+        * xml.xsd.whiteSpace=preserve
     """
 
     # VerbatimStringPlain method parity checklist:
