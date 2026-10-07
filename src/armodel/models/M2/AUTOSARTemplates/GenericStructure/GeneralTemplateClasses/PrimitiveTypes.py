@@ -821,51 +821,42 @@ class CIdentifier(ARLiteral):
     def __init__(self):
         super().__init__()
 
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         self.blueprintValue: Optional[str] = None
+
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         self.namePattern: Optional[str] = None
 
     def getBlueprintValue(self) -> Optional[str]:
         """
-        Gets the blueprint value of this C identifier.
-
-        Returns:
-            The blueprint value, or None if not set
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
         """
         return self.blueprintValue
 
-    def setBlueprintValue(self, value: str):
+    def setBlueprintValue(self, value: Optional[str]):
         """
-        Sets the blueprint value of this C identifier.
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint. Tags: atp.Status=draft xml.attribute=true
 
-        Args:
-            value: The blueprint value to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing blueprintValue.
         """
-        self.blueprintValue = value
+        if value is not None:
+            self.blueprintValue = value
         return self
 
     def getNamePattern(self) -> Optional[str]:
         """
-        Gets the name pattern of this C identifier.
-
-        Returns:
-            The name pattern, or None if not set
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
         """
         return self.namePattern
 
-    def setNamePattern(self, value: str):
+    def setNamePattern(self, value: Optional[str]):
         """
-        Sets the name pattern of this C identifier.
+        This attribute represents a pattern which shall be used to define the value of the identifier if the CIdentifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate. Tags: xml.attribute=true
 
-        Args:
-            value: The name pattern to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing namePattern.
         """
-        self.namePattern = value
+        if value is not None:
+            self.namePattern = value
         return self
 
 
