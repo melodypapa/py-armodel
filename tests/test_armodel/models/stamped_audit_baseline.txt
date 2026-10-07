@@ -166,7 +166,6 @@ FramePid
 FreeFormat
 FreeFormatEntry
 FunctionNameValue
-GlobalTimeCouplingPortProps
 Graphic
 HeapUsage
 HwAttributeDef
@@ -319,10 +318,6 @@ SecureCommunicationProps
 SecureCommunicationPropsSet
 ServiceDependency
 ServiceVersionAcceptanceKindEnum
-SignalServiceTranslationControlEnum
-SignalServiceTranslationEventProps
-SignalServiceTranslationProps
-SignalServiceTranslationPropsSet
 SingleLanguageUnitNames
 SoAdConfig
 SocketAddress
