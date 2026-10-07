@@ -156,6 +156,48 @@ class IEEE1722TpAafNominalRateEnum(AREnum):
         )
 
 
+class IEEE1722TpAafFormatEnum(AREnum):
+    """
+    Definition of the AAF stream format. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAafFormatEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.282, p.644
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpAafConnection.aafFormat
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # AES3_32BIT, 32-bit AES3 format, AES3 Tags: atp.EnumerationLiteralIndex=5 xml.name=AES-3-32-BIT
+    AES3_32BIT = "AES-3-32-BIT"
+
+    # FLOAT_32BIT, 32bit floating, PCM Tags: atp.EnumerationLiteralIndex=1 xml.name=FLOAT-32-BIT
+    FLOAT_32BIT = "FLOAT-32-BIT"
+
+    # INT_16BIT, 16 bit integer, PCM Tags: atp.EnumerationLiteralIndex=4 xml.name=INT-16-BIT
+    INT_16BIT = "INT-16-BIT"
+
+    # INT_24BIT, 24 bit integer, PCM Tags: atp.EnumerationLiteralIndex=3 xml.name=INT-24-BIT
+    INT_24BIT = "INT-24-BIT"
+
+    # INT_32BIT, 32bit integer, PCM Tags: atp.EnumerationLiteralIndex=2 xml.name=INT-32-BIT
+    INT_32BIT = "INT-32-BIT"
+
+    # USER, user specific, PCM Tags: atp.EnumerationLiteralIndex=0
+    USER = "USER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpAafFormatEnum.AES3_32BIT,
+                IEEE1722TpAafFormatEnum.FLOAT_32BIT,
+                IEEE1722TpAafFormatEnum.INT_16BIT,
+                IEEE1722TpAafFormatEnum.INT_24BIT,
+                IEEE1722TpAafFormatEnum.INT_32BIT,
+                IEEE1722TpAafFormatEnum.USER,
+            ]
+        )
+
+
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     """
     AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
