@@ -212,15 +212,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TtcanAbsolutelyScheduledTiming` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.115, p.450
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ttcan/TtcanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0003 drift fixed: module now PEP 563 (`from __future__ import annotations`) and the three quoted `-> "TtcanAbsolutelyScheduledTiming"` returns unquoted. Field/accessor set already matched the table (communicationCycle/timeMark/trigger — "communication Cycle" in the markdown is a rendering wrap); reader/writer already called readARObject/writeARObject (audit BASE clean); S/T round-trip pinned by a new writer test. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TtcanTriggerType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.116, p.450
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ttcan/TtcanCommunication.py

@@ -1,8 +1,11 @@
+import typing
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import (
     TtcanAbsolutelyScheduledTiming,
     TtcanTriggerType,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CycleRepetition
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCycle, CycleCounter, CycleRepetition
 
 
 class TestTtcanAbsolutelyScheduledTiming:
@@ -23,14 +26,23 @@ class TestTtcanAbsolutelyScheduledTiming:
         assert timing == timing.setCommunicationCycle(None)  # None no-op
         assert timing.getCommunicationCycle() == cycle  # unchanged
 
+    def test_communicationCycle_cycleCounter_variant(self):
+        timing = TtcanAbsolutelyScheduledTiming()
+
+        cycle = CycleCounter()
+        timing.setCommunicationCycle(cycle)
+        assert isinstance(timing.getCommunicationCycle(), CycleCounter)
+
     def test_timeMark(self):
         timing = TtcanAbsolutelyScheduledTiming()
 
-        timing.setTimeMark(16)
-        assert timing.getTimeMark() == 16
-        assert timing == timing.setTimeMark(16)  # method chaining
+        value = Integer().setValue("16")
+        timing.setTimeMark(value)
+        assert timing.getTimeMark() is value
+        assert timing.getTimeMark().getValue() == 16
+        assert timing == timing.setTimeMark(value)  # method chaining
         assert timing == timing.setTimeMark(None)  # None no-op
-        assert timing.getTimeMark() == 16  # unchanged
+        assert timing.getTimeMark() is value  # unchanged
 
     def test_trigger(self):
         timing = TtcanAbsolutelyScheduledTiming()
@@ -43,6 +55,13 @@ class TestTtcanAbsolutelyScheduledTiming:
         assert timing == timing.setTrigger(trigger)  # method chaining
         assert timing == timing.setTrigger(None)  # None no-op
         assert timing.getTrigger() == trigger  # unchanged
+
+    def test_type_hints_pin(self):
+        assert typing.get_type_hints(TtcanAbsolutelyScheduledTiming.setCommunicationCycle)["return"] is TtcanAbsolutelyScheduledTiming
+        assert typing.get_type_hints(TtcanAbsolutelyScheduledTiming.setTimeMark)["return"] is TtcanAbsolutelyScheduledTiming
+        assert typing.get_type_hints(TtcanAbsolutelyScheduledTiming.setTrigger)["return"] is TtcanAbsolutelyScheduledTiming
+        assert typing.get_type_hints(TtcanAbsolutelyScheduledTiming.setTimeMark)["value"] == typing.Optional[Integer]
+        assert typing.get_type_hints(TtcanAbsolutelyScheduledTiming.getCommunicationCycle)["return"] == typing.Optional[CommunicationCycle]
 
 
 class TestTtcanTriggerType:
