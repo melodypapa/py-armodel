@@ -3139,7 +3139,80 @@ class DdsReliability(ARObject):
 
 
 class DdsResourceLimits(ARObject):
-    pass
+    """
+    Describes the DDS RESOURCE_LIMITS QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsResourceLimits method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.200, p.538
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxInstances             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxInstances             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamples               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamples               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSamplesPerInstance    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSamplesPerInstance    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "RESOURCE_LIMITS" chapter of DDS.
+        self.maxInstances: Optional[PositiveInteger] = None
+
+        # See "RESOURCE_LIMITS" chapter of DDS. Tags: atp.Status=candidate
+        self.maxSamples: Optional[PositiveInteger] = None
+
+        # See "RESOURCE_LIMITS" chapter of DDS.
+        self.maxSamplesPerInstance: Optional[PositiveInteger] = None
+
+    def getMaxInstances(self) -> Optional[PositiveInteger]:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS.
+        """
+        return self.maxInstances
+
+    def setMaxInstances(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS.
+
+        A None value is a no-op and does not overwrite an existing maxInstances.
+        """
+        if value is not None:
+            self.maxInstances = value
+        return self
+
+    def getMaxSamples(self) -> Optional[PositiveInteger]:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.maxSamples
+
+    def setMaxSamples(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxSamples.
+        """
+        if value is not None:
+            self.maxSamples = value
+        return self
+
+    def getMaxSamplesPerInstance(self) -> Optional[PositiveInteger]:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS.
+        """
+        return self.maxSamplesPerInstance
+
+    def setMaxSamplesPerInstance(self, value: Optional[PositiveInteger]) -> DdsResourceLimits:
+        """
+        See "RESOURCE_LIMITS" chapter of DDS.
+
+        A None value is a no-op and does not overwrite an existing maxSamplesPerInstance.
+        """
+        if value is not None:
+            self.maxSamplesPerInstance = value
+        return self
 
 
 class DdsTopicData(ARObject):
@@ -3305,10 +3378,6 @@ class SecurityEventFilterChain(ARObject):
 
 
 class SecurityEventStateFilter(ARObject):
-    pass
-
-
-class SomeipSdServerServiceInstanceConfig(ARObject):
     pass
 
 

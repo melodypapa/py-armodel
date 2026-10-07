@@ -3,10 +3,9 @@ Writer tests for DDS-CP-QOS-PROFILE elements — DdsCpQosProfile, Table 6.179 (p
 
 writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
-(AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
-elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService/
-DdsDeadline/DdsLatencyBudget/DdsOwnership/DdsOwnershipStrength/DdsLiveliness children
-serialize fully.
+(AUTOSAR_00052.xsd l.29057). All Dds* children are synced and serialize fully with their
+field values (the last identity-only child, DdsResourceLimits, was replaced by its own sync
+— Table 6.200).
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -102,6 +101,11 @@ def _new_profile() -> DdsCpQosProfile:
     history.setHistoryKind(DdsHistoryKindEnum().setValue(DdsHistoryKindEnum.KEEP_LAST))
     history.setHistoryOrderDepth(PositiveInteger().setValue("4"))
     profile.setHistory(history)
+    resource_limits = DdsResourceLimits()
+    resource_limits.setMaxInstances(PositiveInteger().setValue("8"))
+    resource_limits.setMaxSamples(PositiveInteger().setValue("16"))
+    resource_limits.setMaxSamplesPerInstance(PositiveInteger().setValue("32"))
+    profile.setResourceLimits(resource_limits)
     topic_data = DdsTopicData()
     topic_data.setTopicData(String().setValue("raw payload"))
     profile.setTopicData(topic_data)
@@ -119,16 +123,17 @@ class TestWriteDdsCpQosProfile:
         # DURABILITY before TOPIC-DATA per sequenceOffset
         assert children.index("DURABILITY") < children.index("TOPIC-DATA")
 
-    def test_write_emits_stub_child_identity_only(self):
-        """Test that an unsynced child serializes as an empty element (identity-only debt)."""
+    def test_write_emits_resource_limits_fully(self):
+        """Test that the synced DdsResourceLimits child serializes with its values (was identity-only)."""
         profile = _new_profile()
-        profile.setResourceLimits(DdsResourceLimits())
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDdsCpQosProfile(parent, profile)
         node = parent.find("DDS-CP-QOS-PROFILE")
         resource_limits_node = node.find("RESOURCE-LIMITS")
         assert resource_limits_node is not None
-        assert len(list(resource_limits_node)) == 0
+        assert resource_limits_node.find("MAX-INSTANCES").text == "8"
+        assert resource_limits_node.find("MAX-SAMPLES").text == "16"
+        assert resource_limits_node.find("MAX-SAMPLES-PER-INSTANCE").text == "32"
 
     def test_write_emits_history_fully(self):
         """Test that the synced DdsHistory child serializes with its values."""
@@ -301,5 +306,9 @@ class TestWriteDdsCpQosProfile:
         assert isinstance(reloaded.getHistory(), DdsHistory)
         assert reloaded.getHistory().getHistoryKind().getValue() == "KEEP-LAST"
         assert reloaded.getHistory().getHistoryOrderDepth().getValue() == 4
+        assert isinstance(reloaded.getResourceLimits(), DdsResourceLimits)
+        assert reloaded.getResourceLimits().getMaxInstances().getValue() == 8
+        assert reloaded.getResourceLimits().getMaxSamples().getValue() == 16
+        assert reloaded.getResourceLimits().getMaxSamplesPerInstance().getValue() == 32
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

@@ -1523,31 +1523,51 @@ class TestEthernetSwitchVlanIngressTagEnum:
 class TestTimeSyncTechnologyEnum:
     """Test cases for TimeSyncTechnologyEnum (Table 6.149, p.471)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert TimeSyncTechnologyEnum.AVB_IEEE802_1AS == "AVB--IEEE-802--1-AS"
+        assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP--RFC-958"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP--IEEE-1588--2002"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP--IEEE-1588--2008"
         assert list(TimeSyncTechnologyEnum().getEnumValues()) == [
             TimeSyncTechnologyEnum.AVB_IEEE802_1AS,
             TimeSyncTechnologyEnum.NTP_RFC958,
             TimeSyncTechnologyEnum.PTP_IEEE1588_2002,
             TimeSyncTechnologyEnum.PTP_IEEE1588_2008,
         ]
-        assert TimeSyncTechnologyEnum.AVB_IEEE802_1AS == "AVB--IEEE-802--1-AS"
-        assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP--RFC-958"
-        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP--IEEE-1588--2002"
-        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP--IEEE-1588--2008"
+
+    def test_instantiability_round_trip(self):
+        avb = TimeSyncTechnologyEnum().setValue(TimeSyncTechnologyEnum.AVB_IEEE802_1AS)
+        assert avb.getValue() == TimeSyncTechnologyEnum.AVB_IEEE802_1AS
+
+        ptp = TimeSyncTechnologyEnum().setValue(TimeSyncTechnologyEnum.PTP_IEEE1588_2008)
+        assert ptp.getValue() == TimeSyncTechnologyEnum.PTP_IEEE1588_2008
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(TimeSyncTechnologyEnum.__doc__) == "Timesynchronization. Server/Client configuration."
 
 
 class TestDoIpEntityRoleEnum:
     """Test cases for DoIpEntityRoleEnum (Table 6.151, p.471)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert DoIpEntityRoleEnum.EDGE_NODE == "EDGE-NODE"
+        assert DoIpEntityRoleEnum.GATEWAY == "GATEWAY"
+        assert DoIpEntityRoleEnum.NODE == "NODE"
         assert list(DoIpEntityRoleEnum().getEnumValues()) == [
             DoIpEntityRoleEnum.EDGE_NODE,
             DoIpEntityRoleEnum.GATEWAY,
             DoIpEntityRoleEnum.NODE,
         ]
-        assert DoIpEntityRoleEnum.EDGE_NODE == "EDGE-NODE"
-        assert DoIpEntityRoleEnum.GATEWAY == "GATEWAY"
-        assert DoIpEntityRoleEnum.NODE == "NODE"
+
+    def test_instantiability_round_trip(self):
+        edge = DoIpEntityRoleEnum().setValue(DoIpEntityRoleEnum.EDGE_NODE)
+        assert edge.getValue() == DoIpEntityRoleEnum.EDGE_NODE
+
+        node = DoIpEntityRoleEnum().setValue(DoIpEntityRoleEnum.NODE)
+        assert node.getValue() == DoIpEntityRoleEnum.NODE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(DoIpEntityRoleEnum.__doc__) == "DoIP role a network-node has."
 
 
 class TestCouplingPortRatePolicyActionEnum:

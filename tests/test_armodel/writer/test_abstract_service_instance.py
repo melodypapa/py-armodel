@@ -252,3 +252,54 @@ class TestMethodActivationRoutingGroupRoundTrip:
         recovered = ConsumedServiceInstance(MockParent(), "CSI")
         parser.readConsumedServiceInstance(element, recovered)
         assert recovered.getMethodActivationRoutingGroup() is None
+
+
+class TestAbstractServiceInstanceHelperOwnership:
+    def test_provided_writer_emits_abstract_group_in_xsd_order(self, writer, parser):
+        """
+        AbstractServiceInstance group elements (CAPABILITY-RECORDS, MAJOR-VERSION,
+        METHOD-ACTIVATION-ROUTING-GROUPS, ROUTING-GROUP-REFS) precede the
+        PROVIDED-SERVICE-INSTANCE group elements (XSD complexType sequence).
+        """
+        instance = _full_provided_instance()
+        routing_group = PduActivationRoutingGroup(MockParent(), "marg1")
+        instance.setMethodActivationRoutingGroup(routing_group)
+
+        parent = _parent()
+        writer.writeProvidedServiceInstance(parent, instance)
+        element = _namespaced_wrap(parent)
+
+        tags = [child.tag.split("}")[1] for child in element]
+        assert tags.index("CAPABILITY-RECORDS") < tags.index("MAJOR-VERSION")
+        assert tags.index("MAJOR-VERSION") < tags.index("METHOD-ACTIVATION-ROUTING-GROUPS")
+        assert tags.index("METHOD-ACTIVATION-ROUTING-GROUPS") < tags.index("ROUTING-GROUP-REFS")
+        assert tags.index("ROUTING-GROUP-REFS") < tags.index("EVENT-HANDLERS", 1) if "EVENT-HANDLERS" in tags else True
+
+        recovered = ProvidedServiceInstance(MockParent(), "MyProvidedService")
+        parser.readProvidedServiceInstance(element, recovered)
+        assert [t.getKey().getValue() for t in recovered.getCapabilityRecords()] == ["config"]
+        assert recovered.getMajorVersion().getValue() == 7
+        assert recovered.getMethodActivationRoutingGroup() is not None
+        assert recovered.getMethodActivationRoutingGroup().getShortName() == "marg1"
+        assert [r.getValue() for r in recovered.getRoutingGroupRefs()] == ["/Ether/RoutingGroup/RG3"]
+
+    def test_provided_reader_via_abstract_helper_keeps_identity(self, parser):
+        """
+        readProvidedServiceInstance delegates to readAbstractServiceInstance; UUID/ADMIN-DATA
+        and the identifiable level survive exactly once (Rule 0013.1 / Rule 0025).
+        """
+        element = ET.fromstring(
+            f"<PROVIDED-SERVICE-INSTANCE xmlns='{NS}' UUID='1234-5678'>"
+            "<SHORT-NAME>psi</SHORT-NAME>"
+            "<MAJOR-VERSION>9</MAJOR-VERSION>"
+            "<ROUTING-GROUP-REFS>"
+            "<ROUTING-GROUP-REF DEST='SO-AD-ROUTING-GROUP'>/rg9</ROUTING-GROUP-REF>"
+            "</ROUTING-GROUP-REFS>"
+            "</PROVIDED-SERVICE-INSTANCE>"
+        )
+        instance = ProvidedServiceInstance(MockParent(), "psi")
+        parser.readProvidedServiceInstance(element, instance)
+        assert instance.getShortName() == "psi"
+        assert instance.getUuid().getValue() == "1234-5678"
+        assert instance.getMajorVersion().getValue() == 9
+        assert [r.getValue() for r in instance.getRoutingGroupRefs()] == ["/rg9"]

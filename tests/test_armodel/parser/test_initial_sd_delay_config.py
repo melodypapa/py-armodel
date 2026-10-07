@@ -79,7 +79,7 @@ class TestInitialSdDelayConfigReader:
 
     def test_someip_sd_client_aggregator_reads_initial_find_behavior(self, parser):
         config = SomeipSdClientServiceInstanceConfig(MockParent(), "cfg")
-        element = _snip("<SHORT-NAME>cfg</SHORT-NAME><INITIAL-FIND-BEHAVIOR>%s</INITIAL-FIND-BEHAVIOR>" % FOUR_ATTRIBUTES, root_tag="SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
+        element = _snip("<SHORT-NAME>cfg</SHORT-NAME><INITIAL-FIND-BEHAVIOR>%s</INITIAL-FIND-BEHAVIOR>" % FOUR_ATTRIBUTES, root_tag="SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
         parser.readSomeipSdClientServiceInstanceConfig(element, config)
         behavior = config.getInitialFindBehavior()
         assert isinstance(behavior, InitialSdDelayConfig)
