@@ -10,6 +10,8 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
     DiagRequirementIdString,
+    Ip4AddressString,
+    Ip6AddressString,
     McdIdentifier,
     SymbolString,
 )
@@ -100,3 +102,31 @@ class TestDiagRequirementIdStringLeaf:
         ARXMLWriter().setChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT", None)
 
         assert element.find("DIAG-REQUIREMENT") is None
+
+
+class TestIpAddressStringLeaf:
+    def test_writes_concrete_ip4_type_and_t(self):
+        value = Ip4AddressString()
+        value.setValue("192.168.0.1")
+        value.timestamp = "2023-10-10T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS", value)
+
+        written = element.find("IPV-4-ADDRESS")
+        assert written is not None
+        assert written.text == "192.168.0.1"
+        assert written.attrib["T"] == "2023-10-10T00:00:00Z"
+
+    def test_writes_concrete_ip6_type_and_t(self):
+        value = Ip6AddressString()
+        value.setValue("fe80::1")
+        value.timestamp = "2023-10-10T00:00:00Z"
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().setChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS", value)
+
+        written = element.find("IPV-6-ADDRESS")
+        assert written is not None
+        assert written.text == "fe80::1"
+        assert written.attrib["T"] == "2023-10-10T00:00:00Z"

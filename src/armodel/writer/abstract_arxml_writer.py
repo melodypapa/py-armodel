@@ -20,6 +20,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DiagRequirementIdString,
     Identifier,
+    Ip4AddressString,
+    Ip6AddressString,
     MacAddressString,
     McdIdentifier,
     NameToken,
@@ -174,6 +176,12 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str, literal: Optional[DiagRequirementIdString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalIp4AddressString(self, element: ET.Element, key: str, literal: Optional[Ip4AddressString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalIp6AddressString(self, element: ET.Element, key: str, literal: Optional[Ip6AddressString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalSymbolString(self, element: ET.Element, key: str, value: Optional[SymbolString]) -> ET.Element:

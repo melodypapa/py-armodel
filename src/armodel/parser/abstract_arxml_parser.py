@@ -22,6 +22,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     Integer,
     IntervalTypeEnum,
+    Ip4AddressString,
+    Ip6AddressString,
     Limit,
     MacAddressString,
     McdIdentifier,
@@ -257,6 +259,24 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, category)
             category.setValue("" if child_element.text is None else child_element.text)
         return category
+
+    def getChildElementOptionalIp4AddressString(self, element: ET.Element, key: str) -> Optional[Ip4AddressString]:
+        child_element = self.find(element, key)
+        value = None
+        if child_element is not None:
+            value = Ip4AddressString()
+            self.readARType(child_element, value)
+            value.setValue("" if child_element.text is None else child_element.text)
+        return value
+
+    def getChildElementOptionalIp6AddressString(self, element: ET.Element, key: str) -> Optional[Ip6AddressString]:
+        child_element = self.find(element, key)
+        value = None
+        if child_element is not None:
+            value = Ip6AddressString()
+            self.readARType(child_element, value)
+            value.setValue("" if child_element.text is None else child_element.text)
+        return value
 
     def getChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str) -> Optional[DiagRequirementIdString]:
         child_element = self.find(element, key)

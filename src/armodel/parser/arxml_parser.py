@@ -10532,11 +10532,7 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             configuration = Ipv4Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
-            default_gateway = self.getChildElementOptionalLiteral(element, "DEFAULT-GATEWAY")
-            if default_gateway is not None:
-                ip4_address = Ip4AddressString()
-                ip4_address.setValue(default_gateway.getValue())
-                configuration.setDefaultGateway(ip4_address)
+            configuration.setDefaultGateway(self.getChildElementOptionalIp4AddressString(element, "DEFAULT-GATEWAY"))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 dns_address = Ip4AddressString()
                 self.readARType(address, dns_address)
@@ -10547,21 +10543,13 @@ class ARXMLParser(AbstractARXMLParser):
                 keep = IpAddressKeepEnum()
                 keep.setValue(keep_literal.getValue())
                 configuration.setIpAddressKeepBehavior(keep)
-            ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
-            if ipv4_address is not None:
-                ip4_address = Ip4AddressString()
-                ip4_address.setValue(ipv4_address.getValue())
-                configuration.setIpv4Address(ip4_address)
+            configuration.setIpv4Address(self.getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS"))
             source_literal = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-SOURCE")
             if source_literal is not None:
                 source = Ipv4AddressSourceEnum()
                 source.setValue(source_literal.getValue())
                 configuration.setIpv4AddressSource(source)
-            network_mask = self.getChildElementOptionalLiteral(element, "NETWORK-MASK")
-            if network_mask is not None:
-                ip4_address = Ip4AddressString()
-                ip4_address.setValue(network_mask.getValue())
-                configuration.setNetworkMask(ip4_address)
+            configuration.setNetworkMask(self.getChildElementOptionalIp4AddressString(element, "NETWORK-MASK"))
             configuration.setTtl(self.getChildElementOptionalPositiveInteger(element, "TTL"))
         return configuration
 
@@ -10570,12 +10558,12 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             configuration = Ipv6Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
-            configuration.setDefaultRouter(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER")))
+            configuration.setDefaultRouter(self.getChildElementOptionalIp6AddressString(element, "DEFAULT-ROUTER"))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
-                literal = ARLiteral()
-                self.readARType(address, literal)
-                literal.setValue(address.text)
-                configuration.addDnsServerAddress(cast(Optional[Ip6AddressString], literal))
+                dns_address = Ip6AddressString()
+                self.readARType(address, dns_address)
+                dns_address.setValue(address.text)
+                configuration.addDnsServerAddress(dns_address)
             configuration.setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST"))
             configuration.setHopCount(self.getChildElementOptionalPositiveInteger(element, "HOP-COUNT"))
             keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
@@ -10584,7 +10572,7 @@ class ARXMLParser(AbstractARXMLParser):
                 keep.setValue(keep_literal.getValue())
                 configuration.setIpAddressKeepBehavior(keep)
             configuration.setIpAddressPrefixLength(self.getChildElementOptionalPositiveInteger(element, "IP-ADDRESS-PREFIX-LENGTH"))
-            configuration.setIpv6Address(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")))
+            configuration.setIpv6Address(self.getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS"))
             source_literal = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE")
             if source_literal is not None:
                 source = Ipv6AddressSourceEnum()
@@ -11673,29 +11661,13 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: StreamFilterIpv4Address):
         self.readARObject(element, ipv4_address)
-        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
-        if child_element is not None:
-            address = Ip4AddressString()
-            address.setValue(child_element.getValue())
-            ipv4_address.setIpv4Address(address)
-        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK")
-        if child_element is not None:
-            address = Ip4AddressString()
-            address.setValue(child_element.getValue())
-            ipv4_address.setIpv4AddressMask(address)
+        ipv4_address.setIpv4Address(self.getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS"))
+        ipv4_address.setIpv4AddressMask(self.getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS-MASK"))
 
     def readStreamFilterIpv6Address(self, element: ET.Element, ipv6_address: StreamFilterIpv6Address):
         self.readARObject(element, ipv6_address)
-        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")
-        if child_element is not None:
-            address = Ip6AddressString()
-            address.setValue(child_element.getValue())
-            ipv6_address.setIpv6Address(address)
-        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK")
-        if child_element is not None:
-            address = Ip6AddressString()
-            address.setValue(child_element.getValue())
-            ipv6_address.setIpv6AddressMask(address)
+        ipv6_address.setIpv6Address(self.getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS"))
+        ipv6_address.setIpv6AddressMask(self.getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS-MASK"))
 
     def readStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: StreamFilterIEEE1722Tp):
         self.readARObject(element, tp_rule)
@@ -15640,16 +15612,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             config = Ipv4DhcpServerConfiguration()
             self.readDescribable(child_element, config)
-            config.setAddressRangeLowerBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
-            config.setAddressRangeUpperBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
-            config.setDefaultGateway(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
+            config.setAddressRangeLowerBound(self.getChildElementOptionalIp4AddressString(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
+            config.setAddressRangeUpperBound(self.getChildElementOptionalIp4AddressString(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
+            config.setDefaultGateway(self.getChildElementOptionalIp4AddressString(child_element, "DEFAULT-GATEWAY"))
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
-                literal = ARLiteral()
-                self.readARType(address, literal)
-                literal.setValue(address.text)
-                config.addDnsServerAddress(cast(Optional[Ip4AddressString], literal))
-            config.setNetworkMask(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK")))
+                dns_address = Ip4AddressString()
+                self.readARType(address, dns_address)
+                dns_address.setValue(address.text)
+                config.addDnsServerAddress(dns_address)
+            config.setNetworkMask(self.getChildElementOptionalIp4AddressString(child_element, "NETWORK-MASK"))
         return config
 
     def getPduActivationRoutingGroup(self, element: ET.Element) -> Optional[PduActivationRoutingGroup]:
@@ -15691,16 +15663,16 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             config = Ipv6DhcpServerConfiguration()
             self.readDescribable(child_element, config)
-            config.setAddressRangeLowerBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
-            config.setAddressRangeUpperBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
-            config.setDefaultGateway(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
+            config.setAddressRangeLowerBound(self.getChildElementOptionalIp6AddressString(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
+            config.setAddressRangeUpperBound(self.getChildElementOptionalIp6AddressString(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
+            config.setDefaultGateway(self.getChildElementOptionalIp6AddressString(child_element, "DEFAULT-GATEWAY"))
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
-                literal = ARLiteral()
-                self.readARType(address, literal)
-                literal.setValue(address.text)
-                config.addDnsServerAddress(cast(Optional[Ip6AddressString], literal))
-            config.setNetworkMask(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK")))
+                dns_address = Ip6AddressString()
+                self.readARType(address, dns_address)
+                dns_address.setValue(address.text)
+                config.addDnsServerAddress(dns_address)
+            config.setNetworkMask(self.getChildElementOptionalIp6AddressString(child_element, "NETWORK-MASK"))
         return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
@@ -19357,16 +19329,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readIpv4Rule(self, element: ET.Element, rule: Ipv4Rule):
         self.readARObject(element, rule)
         rule.setChecksumVerification(self.getChildElementOptionalBooleanValue(element, "CHECKSUM-VERIFICATION"))
-        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
-        if destination_ip_address is not None:
-            ip4_address = Ip4AddressString()
-            ip4_address.setValue(destination_ip_address.getValue())
-            rule.setDestinationIpAddress(ip4_address)
-        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
-        if destination_network_mask is not None:
-            ip4_address = Ip4AddressString()
-            ip4_address.setValue(destination_network_mask.getValue())
-            rule.setDestinationNetworkMask(ip4_address)
+        rule.setDestinationIpAddress(self.getChildElementOptionalIp4AddressString(element, "DESTINATION-IP-ADDRESS"))
+        rule.setDestinationNetworkMask(self.getChildElementOptionalIp4AddressString(element, "DESTINATION-NETWORK-MASK"))
         rule.setDifferentiatedServiceCodePoint(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-CODE-POINT"))
         rule.setDoNotFragment(self.getChildElementOptionalBooleanValue(element, "DO-NOT-FRAGMENT"))
         rule.setExplicitCongestionNotification(self.getChildElementOptionalPositiveInteger(element, "EXPLICIT-CONGESTION-NOTIFICATION"))
@@ -19378,31 +19342,15 @@ class ARXMLParser(AbstractARXMLParser):
         rule.setInternetHeaderLength(self.getChildElementOptionalPositiveInteger(element, "INTERNET-HEADER-LENGTH"))
         rule.setMoreFragments(self.getChildElementOptionalBooleanValue(element, "MORE-FRAGMENTS"))
         rule.setProtocol(self.getChildElementOptionalPositiveInteger(element, "PROTOCOL"))
-        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
-        if source_ip_address is not None:
-            ip4_address = Ip4AddressString()
-            ip4_address.setValue(source_ip_address.getValue())
-            rule.setSourceIpAddress(ip4_address)
-        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
-        if source_network_mask is not None:
-            ip4_address = Ip4AddressString()
-            ip4_address.setValue(source_network_mask.getValue())
-            rule.setSourceNetworkMask(ip4_address)
+        rule.setSourceIpAddress(self.getChildElementOptionalIp4AddressString(element, "SOURCE-IP-ADDRESS"))
+        rule.setSourceNetworkMask(self.getChildElementOptionalIp4AddressString(element, "SOURCE-NETWORK-MASK"))
         rule.setTtlMax(self.getChildElementOptionalPositiveInteger(element, "TTL-MAX"))
         rule.setTtlMin(self.getChildElementOptionalPositiveInteger(element, "TTL-MIN"))
 
     def readIpv6Rule(self, element: ET.Element, rule: Ipv6Rule):
         self.readARObject(element, rule)
-        destination_ip_address = self.getChildElementOptionalLiteral(element, "DESTINATION-IP-ADDRESS")
-        if destination_ip_address is not None:
-            ip6_address = Ip6AddressString()
-            ip6_address.setValue(destination_ip_address.getValue())
-            rule.setDestinationIpAddress(ip6_address)
-        destination_network_mask = self.getChildElementOptionalLiteral(element, "DESTINATION-NETWORK-MASK")
-        if destination_network_mask is not None:
-            ip6_address = Ip6AddressString()
-            ip6_address.setValue(destination_network_mask.getValue())
-            rule.setDestinationNetworkMask(ip6_address)
+        rule.setDestinationIpAddress(self.getChildElementOptionalIp6AddressString(element, "DESTINATION-IP-ADDRESS"))
+        rule.setDestinationNetworkMask(self.getChildElementOptionalIp6AddressString(element, "DESTINATION-NETWORK-MASK"))
         rule.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
         rule.setHopLimit(self.getChildElementOptionalPositiveInteger(element, "HOP-LIMIT"))
         child = self.find(element, "ICMP-RULE")
@@ -19411,16 +19359,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIcmpRule(child, icmp_rule)
             rule.setIcmpRule(icmp_rule)
         rule.setNextHeader(self.getChildElementOptionalPositiveInteger(element, "NEXT-HEADER"))
-        source_ip_address = self.getChildElementOptionalLiteral(element, "SOURCE-IP-ADDRESS")
-        if source_ip_address is not None:
-            ip6_address = Ip6AddressString()
-            ip6_address.setValue(source_ip_address.getValue())
-            rule.setSourceIpAddress(ip6_address)
-        source_network_mask = self.getChildElementOptionalLiteral(element, "SOURCE-NETWORK-MASK")
-        if source_network_mask is not None:
-            ip6_address = Ip6AddressString()
-            ip6_address.setValue(source_network_mask.getValue())
-            rule.setSourceNetworkMask(ip6_address)
+        rule.setSourceIpAddress(self.getChildElementOptionalIp6AddressString(element, "SOURCE-IP-ADDRESS"))
+        rule.setSourceNetworkMask(self.getChildElementOptionalIp6AddressString(element, "SOURCE-NETWORK-MASK"))
         rule.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
 
     def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
@@ -19579,12 +19519,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readPlatformModuleEthernetEndpointConfiguration(self, element: ET.Element, configuration: PlatformModuleEthernetEndpointConfiguration):
         self.readIdentifiable(element, configuration)
         configuration.setCommunicationConnectorRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CONNECTOR-REF"))
-        ipv4_address = self.getChildElementOptionalLiteral(element, "IPV-4-MULTICAST-IP-ADDRESS")
-        if ipv4_address is not None:
-            configuration.setIpv4MulticastIpAddress(Ip4AddressString().setValue(ipv4_address.getValue()))
-        ipv6_address = self.getChildElementOptionalLiteral(element, "IPV-6-MULTICAST-IP-ADDRESS")
-        if ipv6_address is not None:
-            configuration.setIpv6MulticastIpAddress(Ip6AddressString().setValue(ipv6_address.getValue()))
+        configuration.setIpv4MulticastIpAddress(self.getChildElementOptionalIp4AddressString(element, "IPV-4-MULTICAST-IP-ADDRESS"))
+        configuration.setIpv6MulticastIpAddress(self.getChildElementOptionalIp6AddressString(element, "IPV-6-MULTICAST-IP-ADDRESS"))
 
     def readMcFunction(self, element: ET.Element, func: McFunction):
         self.readIdentifiable(element, func)

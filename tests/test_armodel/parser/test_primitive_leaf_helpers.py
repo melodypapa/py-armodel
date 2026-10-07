@@ -11,6 +11,8 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
     DiagRequirementIdString,
+    Ip4AddressString,
+    Ip6AddressString,
     McdIdentifier,
     SymbolString,
 )
@@ -82,3 +84,29 @@ class TestDiagRequirementIdStringLeaf:
         element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
 
         assert ARXMLParser().getChildElementOptionalDiagRequirementIdString(element, "DIAG-REQUIREMENT") is None
+
+
+class TestIpAddressStringLeaf:
+    def test_reads_concrete_ip4_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><IPV-4-ADDRESS T='2023-10-10T00:00:00Z'>192.168.0.1</IPV-4-ADDRESS></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS")
+
+        assert isinstance(value, Ip4AddressString)
+        assert value.getValue() == "192.168.0.1"
+        assert value.timestamp == "2023-10-10T00:00:00Z"
+
+    def test_reads_concrete_ip6_type_and_t(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'><IPV-6-ADDRESS T='2023-10-10T00:00:00Z'>fe80::1</IPV-6-ADDRESS></ROOT>")
+
+        value = ARXMLParser().getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS")
+
+        assert isinstance(value, Ip6AddressString)
+        assert value.getValue() == "fe80::1"
+        assert value.timestamp == "2023-10-10T00:00:00Z"
+
+    def test_missing_returns_none(self):
+        element = ET.fromstring(f"<ROOT xmlns='{NS}'/>")
+
+        assert ARXMLParser().getChildElementOptionalIp4AddressString(element, "IPV-4-ADDRESS") is None
+        assert ARXMLParser().getChildElementOptionalIp6AddressString(element, "IPV-6-ADDRESS") is None
