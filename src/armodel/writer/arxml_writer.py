@@ -9827,13 +9827,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         resource_mappings = mapping_set.getTdCpSoftwareClusterResourceToTdMappings()
         if len(resource_mappings) > 0:
             mappings_tag = ET.SubElement(child_element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-TO-TD-MAPPINGS")
-            for mapping in resource_mappings:
-                self.writeTDCpSoftwareClusterResourceMapping(mappings_tag, mapping)
+            for resource_mapping in resource_mappings:
+                self.writeTDCpSoftwareClusterResourceMapping(mappings_tag, resource_mapping)
         cluster_mappings = mapping_set.getTdCpSoftwareClusterToTdMappings()
         if len(cluster_mappings) > 0:
             mappings_tag = ET.SubElement(child_element, "TD-CP-SOFTWARE-CLUSTER-TO-TD-MAPPINGS")
-            for mapping in cluster_mappings:
-                self.writeTDCpSoftwareClusterMapping(mappings_tag, mapping)
+            for cluster_mapping in cluster_mappings:
+                self.writeTDCpSoftwareClusterMapping(mappings_tag, cluster_mapping)
 
     def writeVfbTiming(self, element: ET.Element, timing: VfbTiming):
         self.logger.debug("writeVfbTiming %s" % timing.getShortName())

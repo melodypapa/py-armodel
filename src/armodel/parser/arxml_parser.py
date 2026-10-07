@@ -10178,11 +10178,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read TDCpSoftwareClusterMappingSet <%s>" % mapping_set.getShortName())
         self.readIdentifiable(element, mapping_set)
         for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-RESOURCE-MAPPING"):
-            mapping = mapping_set.createTdCpSoftwareClusterResourceToTdMapping(self.getShortName(child_element))
-            self.readTDCpSoftwareClusterResourceMapping(child_element, mapping)
+            resource_mapping = mapping_set.createTdCpSoftwareClusterResourceToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterResourceMapping(child_element, resource_mapping)
         for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-MAPPING"):
-            mapping = mapping_set.createTdCpSoftwareClusterToTdMapping(self.getShortName(child_element))
-            self.readTDCpSoftwareClusterMapping(child_element, mapping)
+            cluster_mapping = mapping_set.createTdCpSoftwareClusterToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterMapping(child_element, cluster_mapping)
 
     def readVfbTiming(self, element: ET.Element, timing: VfbTiming):
         self.logger.debug("Read VfbTiming <%s>" % timing.getShortName())
@@ -18392,23 +18392,23 @@ class ARXMLParser(AbstractARXMLParser):
                 timing = parent.createSwcTiming(self.getShortName(child_element))
                 self.readSwcTiming(child_element, timing)
             elif tag_name == "VFB-TIMING":
-                timing = parent.createVfbTiming(self.getShortName(child_element))
-                self.readVfbTiming(child_element, timing)
+                vfb_timing = parent.createVfbTiming(self.getShortName(child_element))
+                self.readVfbTiming(child_element, vfb_timing)
             elif tag_name == "SYSTEM-TIMING":
-                timing = parent.createSystemTiming(self.getShortName(child_element))
-                self.readSystemTiming(child_element, timing)
+                system_timing = parent.createSystemTiming(self.getShortName(child_element))
+                self.readSystemTiming(child_element, system_timing)
             elif tag_name == "BSW-MODULE-TIMING":
-                timing = parent.createBswModuleTiming(self.getShortName(child_element))
-                self.readBswModuleTiming(child_element, timing)
+                bsw_module_timing = parent.createBswModuleTiming(self.getShortName(child_element))
+                self.readBswModuleTiming(child_element, bsw_module_timing)
             elif tag_name == "BSW-COMPOSITION-TIMING":
-                timing = parent.createBswCompositionTiming(self.getShortName(child_element))
-                self.readBswCompositionTiming(child_element, timing)
+                bsw_composition_timing = parent.createBswCompositionTiming(self.getShortName(child_element))
+                self.readBswCompositionTiming(child_element, bsw_composition_timing)
             elif tag_name == "ECU-TIMING":
-                timing = parent.createEcuTiming(self.getShortName(child_element))
-                self.readEcuTiming(child_element, timing)
+                ecu_timing = parent.createEcuTiming(self.getShortName(child_element))
+                self.readEcuTiming(child_element, ecu_timing)
             elif tag_name == "TD-CP-SOFTWARE-CLUSTER-MAPPING-SET":
-                mapping_set = parent.createTDCpSoftwareClusterMappingSet(self.getShortName(child_element))
-                self.readTDCpSoftwareClusterMappingSet(child_element, mapping_set)
+                td_cp_mapping_set = parent.createTDCpSoftwareClusterMappingSet(self.getShortName(child_element))
+                self.readTDCpSoftwareClusterMappingSet(child_element, td_cp_mapping_set)
             elif tag_name == "LIN-CLUSTER":
                 cluster = parent.createLinCluster(self.getShortName(child_element))
                 self.readLinCluster(child_element, cluster)

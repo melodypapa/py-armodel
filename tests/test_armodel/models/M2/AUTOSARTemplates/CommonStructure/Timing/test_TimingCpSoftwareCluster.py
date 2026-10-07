@@ -11,7 +11,6 @@ TDCpSoftwareClusterMapping / TDCpSoftwareClusterResourceMapping model classes.
 import ast
 import importlib
 import inspect
-import typing
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import (

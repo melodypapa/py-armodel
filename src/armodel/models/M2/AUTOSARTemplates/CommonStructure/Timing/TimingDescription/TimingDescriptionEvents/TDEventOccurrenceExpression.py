@@ -20,7 +20,6 @@ class TDEventOccurrenceExpressionFormula(FormulaExpression):
 
     # TDEventOccurrenceExpressionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.51, p.84
-    # Spec verified: R23-11
     # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
     # (Referrable base dropped — spec Base row ARObject, FormulaExpression)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
