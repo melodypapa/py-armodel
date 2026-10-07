@@ -327,6 +327,31 @@ class TestCouplingPortDetailsCouplingPortStructuralElements:
         assert elements[0].getShortName() == "sched1"
         assert elements[0].getPortScheduler() is not None
 
+    def test_creates_shaper(self, parser):
+        from armodel.models import CouplingPortDetails
+
+        details = CouplingPortDetails()
+        element = _snip(
+            "<COUPLING-PORT-STRUCTURAL-ELEMENTS>"
+            "<COUPLING-PORT-SHAPER>"
+            "<SHORT-NAME>shaper1</SHORT-NAME>"
+            "<IDLE-SLOPE>12500000</IDLE-SLOPE>"
+            "<PREDECESSOR-FIFO-REF DEST='COUPLING-PORT-FIFO'>/Clusters/Switch/Fifo1</PREDECESSOR-FIFO-REF>"
+            "</COUPLING-PORT-SHAPER>"
+            "</COUPLING-PORT-STRUCTURAL-ELEMENTS>"
+        )
+        parser.readCouplingPortDetailsCouplingPortStructuralElements(element, details)
+        elements = details.getCouplingPortStructuralElements()
+        assert len(elements) == 1
+        from armodel.models import CouplingPortShaper
+
+        assert isinstance(elements[0], CouplingPortShaper)
+        assert elements[0].getShortName() == "shaper1"
+        assert elements[0].getIdleSlope() is not None
+        assert elements[0].getIdleSlope().getValue() == 12500000
+        assert elements[0].getPredecessorFifoRef() is not None
+        assert elements[0].getPredecessorFifoRef().getValue() == "/Clusters/Switch/Fifo1"
+
     def test_unsupported_branch_raises_by_default(self, parser):
         from armodel.models import CouplingPortDetails
 
