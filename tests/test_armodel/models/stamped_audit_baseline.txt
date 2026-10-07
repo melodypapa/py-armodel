@@ -69,12 +69,6 @@ CanFrameRxBehaviorEnum
 CanFrameTriggering
 CanFrameTxBehaviorEnum
 CanNmEcu
-CanTpAddress
-CanTpAddressingFormatType
-CanTpChannel
-CanTpConnection
-CanTpEcu
-CanTpNode
 CanXlFrameTriggeringProps
 CanXlProps
 Caption
@@ -254,7 +248,6 @@ MultiLanguagePlainText
 MultidimensionalTime
 NPdu
 NativeDeclarationString
-NetworkTargetAddressType
 NmCluster
 NmCoordinatorRoleEnum
 NmNode
