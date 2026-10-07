@@ -14,19 +14,18 @@ class MlFormula(Paginateable, VariationPointCapable):
 
     # MlFormula method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.26, p.310
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFormulaCaption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFormulaCaption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getGenericMath     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGenericMath     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addLGraphic        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLGraphics       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTexMath         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTexMath         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVerbatim        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVerbatim        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFormulaCaption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFormulaCaption  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGenericMath     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGenericMath     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLGraphic        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLGraphics       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTexMath         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTexMath         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVerbatim        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVerbatim        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

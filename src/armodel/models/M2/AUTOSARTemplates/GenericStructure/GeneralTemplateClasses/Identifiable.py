@@ -55,14 +55,17 @@ class Referrable(ARObject, ABC):
     """
 
     # Referrable method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.38, p.1002
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addShortNameFragment         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortNameFragments        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getShortName                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getParent                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFullName                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.10, p.63
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] shortName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] shortName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getShortName           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getParent              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] full_name              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFullName            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addShortNameFragment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortNameFragments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
@@ -386,7 +389,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category
 
-    def setCategory(self, value: Union[CategoryString, str]) -> Identifiable:
+    def setCategory(self, value: Optional[Union[CategoryString, str]]) -> Identifiable:
         """
         The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. Only sets the value if it is not None.
         """

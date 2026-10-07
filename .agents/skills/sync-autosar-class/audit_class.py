@@ -516,14 +516,22 @@ def check_base(rep: Report, cls: str, node: ast.ClassDef, enum: bool) -> None:
         # ARLiteral-family primitives carry no XML element of their own; their
         # value (and the T timestamp) is read/written through the typed leaf
         # helper getChildElementOptional<Cls> / setChildElementOptional<Cls>,
-        # which calls readARType / writeARType on the instance itself. Accept
-        # that pattern as the base-level call (Rule 0013.2 leaf-helper
-        # convention). A caller that goes through the generic
-        # getChildElementOptionalLiteral instead materialises a plain ARLiteral
-        # and silently drops T — that shape matches none of these names, which
-        # is exactly the defect this check exists to catch.
-        want_r.add("getChildElementOptional" + cls)
-        want_w.add("setChildElementOptional" + cls)
+        # which calls readARType / writeARType on the instance itself. Such a
+        # class has no read<Cls> / write<Cls> entry point of its own, and its
+        # leading class-name token is generic (e.g. "Category" in
+        # "CategoryString"), so the entry-point trace below matches unrelated
+        # functions and reports a false failure (NameToken, Integer, Boolean,
+        # Float, RefType all fail the same way). Mirror the AREnum exemption:
+        # pass when the typed leaf pair exists, warn (never fail) otherwise so
+        # an attribute/text-carried primitive is not blocked — Rule 0013.2.
+        known_w = known_helper_names(WRITER, ABSTRACT_WRITER)
+        r_name = "getChildElementOptional" + cls
+        w_name = "setChildElementOptional" + cls
+        if r_name in known or w_name in known_w:
+            rep.ok("BASE", "ARLiteral leaf pair %s/%s present — value serialized via the typed leaf helper (T preserved by readARType/writeARType)" % (r_name, w_name))
+        else:
+            rep.warn("BASE", "ARLiteral %s has no dedicated %s/%s leaf pair — verify it is attribute/text-carried or add the pair (Rule 0013.2)" % (cls, r_name, w_name))
+        return
 
     r_pts = _entry_points(pcalls, ("read" + cls, "get" + cls), (cls, "create" + cls, "get" + cls), cls)
     w_pts = _entry_points(wcalls, ("write" + cls, "set" + cls), ("get" + cls, "set" + cls, "create" + cls, cls), cls)

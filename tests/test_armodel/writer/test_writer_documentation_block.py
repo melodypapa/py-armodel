@@ -2,6 +2,7 @@
 
 import os
 import tempfile
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
@@ -202,3 +203,19 @@ class TestDocumentationBlockRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestDocumentationBlockArObjectState:
+    def test_write_documentation_block_writes_s_and_t(self):
+        """writeDocumentationBlock must call writeARObject so the inherited S/T state is emitted (Rule 0025)."""
+        block = DocumentationBlock()
+        block.setChecksum(String().setValue("cs-db"))
+        block.setTimestamp(DateTime().setValue("2023-04-04T00:00:00Z"))
+
+        element = ET.Element("ROOT")
+        ARXMLWriter().writeDocumentationBlock(element, "INTRODUCTION", block)
+
+        written = element.find("INTRODUCTION")
+        assert written is not None
+        assert written.attrib["S"] == "cs-db"
+        assert written.attrib["T"] == "2023-04-04T00:00:00Z"

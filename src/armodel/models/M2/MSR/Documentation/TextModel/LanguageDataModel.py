@@ -464,19 +464,18 @@ class MixedContentForLongName(ARObject, AtpMixedString, ABC):
 
     # MixedContentForLongName method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.9, p.63
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getE         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setE         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIe        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIe        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSub       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTt        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTt        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getE         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIe        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIe        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSub       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTt        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTt        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (getMixedString/setMixedString inherited from the AtpMixedString mixin — stereotype-inherent, no spec rows;
     #  XSD group MIXED-CONTENT-FOR-LONG-NAME appinfo stereotypes "atpMixedString,atpObject" — 2026-09-27 unification)
 
@@ -933,12 +932,11 @@ class LLongName(MixedContentForLongName, LanguageSpecific):
     """
 
     # LLongName method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.7, p.62
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.8, p.62
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

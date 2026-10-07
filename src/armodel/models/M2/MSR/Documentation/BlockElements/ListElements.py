@@ -132,10 +132,9 @@ class ItemLabelPosEnum(AREnum):
 
     # ItemLabelPosEnum method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.14, p.297
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on IndentSample.itemLabelPos
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The label is renders in a new line. Tags: atp.EnumerationLiteralIndex=0
     NEWLINE = "NEWLINE"
@@ -161,13 +160,12 @@ class IndentSample(ARObject):
 
     # IndentSample method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.13, p.297
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemLabelPos  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addL2            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getL2s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getItemLabelPos  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemLabelPos  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addL2            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL2s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -226,15 +224,14 @@ class LabeledItem(ARObject, VariationPointCapable):
 
     # LabeledItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.12, p.296
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getItemContents     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemContents     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getItemLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setItemLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHelpEntry        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemContents     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemContents     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getItemLabel        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setItemLabel        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -316,13 +313,12 @@ class LabeledList(ARObject, VariationPointCapable):
 
     # LabeledList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.11, p.296
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIndentSample     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addLabeledItem      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLabeledItems     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIndentSample     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndentSample     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLabeledItem      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLabeledItems     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -381,13 +377,12 @@ class DefItem(ARObject, VariationPointCapable):
 
     # DefItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.16, p.298
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -434,11 +429,10 @@ class DefList(ARObject, VariationPointCapable):
 
     # DefList method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.15, p.298
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addDefItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDefItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()

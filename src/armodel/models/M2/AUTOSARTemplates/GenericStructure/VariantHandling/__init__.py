@@ -114,15 +114,14 @@ class PredefinedVariant(ARElement):
 
     # PredefinedVariant method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.24, p.258
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIncludedVariantRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addIncludedVariantRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantCriterionValueSetRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPostBuildVariantCriterionValueSetRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwSystemconstantValueSetRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSwSystemconstantValueSetRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIncludedVariantRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIncludedVariantRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPostBuildVariantCriterionValueSetRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPostBuildVariantCriterionValueSetRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwSystemconstantValueSetRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwSystemconstantValueSetRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

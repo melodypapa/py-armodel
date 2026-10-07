@@ -14,11 +14,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARType,
     Boolean,
+    CategoryString,
     CIdentifier,
     CseCodeType,
     DateTime,
+    DiagRequirementIdString,
     Identifier,
+    Ip4AddressString,
+    Ip6AddressString,
     MacAddressString,
+    McdIdentifier,
     NameToken,
     Numerical,
     PositiveUnlimitedInteger,
@@ -26,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     String,
+    SymbolString,
     TimeValue,
     UriString,
     VerbatimString,
@@ -162,6 +168,31 @@ class AbstractARXMLWriter(ABC):
 
     def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: Optional[CIdentifier]):
         self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalCategoryString(self, element: ET.Element, key: str, literal: Optional[CategoryString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalMcdIdentifier(self, element: ET.Element, key: str, literal: Optional[McdIdentifier]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalDiagRequirementIdString(self, element: ET.Element, key: str, literal: Optional[DiagRequirementIdString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalIp4AddressString(self, element: ET.Element, key: str, literal: Optional[Ip4AddressString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalIp6AddressString(self, element: ET.Element, key: str, literal: Optional[Ip6AddressString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalSymbolString(self, element: ET.Element, key: str, value: Optional[SymbolString]) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARType(child_element, value)
+            name_pattern = value.getNamePattern()
+            if name_pattern is not None:
+                child_element.attrib["NAME-PATTERN"] = name_pattern
+            child_element.text = value.getText()
+        return element
 
     def setChildElementOptionalString(self, element: ET.Element, key: str, value: Optional[String]):
         self.setChildElementOptionalLiteral(element, key, value)

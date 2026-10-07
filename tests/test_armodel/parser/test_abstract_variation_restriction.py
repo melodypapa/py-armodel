@@ -62,3 +62,15 @@ class TestReadAbstractVariationRestriction:
 
         assert restriction.getVariation() is None
         assert restriction.getValidBindingTimes() == []
+
+    def test_read_s_and_t(self, parser):
+        """readARObject must run so the inherited S/T state round-trips (Rule 0025)."""
+        element = ET.fromstring(f"""<RESTRICTION xmlns='{NS}' S="cs-2" T="2023-02-02T00:00:00Z"/>""")
+
+        restriction = _Derived()
+        parser.readAbstractVariationRestriction(element, restriction)
+
+        assert restriction.getChecksum() is not None
+        assert restriction.getChecksum().getValue() == "cs-2"
+        assert restriction.getTimestamp() is not None
+        assert restriction.getTimestamp().getValue() == "2023-02-02T00:00:00Z"

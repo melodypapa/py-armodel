@@ -23,11 +23,10 @@ class Traceable(Identifiable, ABC):
 
     # Traceable method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.29, p.313
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is Traceable:

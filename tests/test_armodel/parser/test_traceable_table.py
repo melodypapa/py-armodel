@@ -59,3 +59,18 @@ class TestTraceableTable:
         element = ET.fromstring('<ROOT xmlns="http://autosar.org/schema/r4.0" />')
 
         assert ARXMLParser().getTraceableTable(element, "TRACEABLE-TABLE") is None
+
+
+class TestTraceableTableUuidRegistration:
+    def test_read_traceable_table_registers_uuid_once(self):
+        """readTraceableTable must reach readIdentifiable exactly once (rules 0013.1/0025)."""
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+
+        AUTOSAR.getInstance().clear()
+        element = ET.fromstring('<TRACEABLE-TABLE xmlns="http://autosar.org/schema/r4.0" S="checksum" T="timestamp" UUID="uuid-tt-dup">' "<SHORT-NAME>tt</SHORT-NAME></TRACEABLE-TABLE>")
+
+        ARXMLParser().readTraceableTable(element, TraceableTable(None, "tt"))
+
+        objects = AUTOSAR.getInstance().getARObjectByUUID("uuid-tt-dup")
+        assert len(objects) == 1
+        assert objects[0].getUuid().getValue() == "uuid-tt-dup"
