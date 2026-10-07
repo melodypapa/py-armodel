@@ -78,7 +78,7 @@ def test_write_data_prototype_transformation_props_all_fields(writer):
     dp_ref = dp_tp.find("DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
     assert dp_ref is not None
     assert dp_ref.find("TAG-ID").text == "5"
-    cs_ref = dp_ref.find("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+    cs_ref = dp_ref.find("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
     assert cs_ref is not None
     assert cs_ref.find("BASE").text == "/Cs"
     assert cs_ref.find("ROOT-DATA-PROTOTYPE-IN-CS").text == "/Cs/Root"

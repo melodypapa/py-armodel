@@ -1527,6 +1527,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationKindEnum,
@@ -1537,6 +1538,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
@@ -1544,6 +1546,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationISignalProps,
     TransformationTechnology,
     TransformerClassEnum,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -14362,13 +14365,30 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setWindowSizeInvalid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INVALID"))
         desc.setWindowSizeValid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-VALID"))
 
+    def readSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        self.readTransformationDescription(element, desc)
+        desc.setAlignment(self.getChildElementOptionalPositiveInteger(element, "ALIGNMENT"))
+        desc.setByteOrder(self._readEnumToken(element, "BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
+        desc.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(element, "INTERFACE-VERSION"))
+
+    def readUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        self.readTransformationDescription(element, desc)
+
     def readTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         for child_element in self.findall(element, "TRANSFORMATION-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-DESCRIPTION":
-                desc = EndToEndTransformationDescription()
-                self.readEndToEndTransformationDescription(child_element, desc)
-                tech.setTransformationDescription(desc)
+                e2e_desc = EndToEndTransformationDescription()
+                self.readEndToEndTransformationDescription(child_element, e2e_desc)
+                tech.setTransformationDescription(e2e_desc)
+            elif tag_name == "SOMEIP-TRANSFORMATION-DESCRIPTION":
+                someip_desc = SOMEIPTransformationDescription()
+                self.readSOMEIPTransformationDescription(child_element, someip_desc)
+                tech.setTransformationDescription(someip_desc)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-DESCRIPTION":
+                user_defined_desc = UserDefinedTransformationDescription()
+                self.readUserDefinedTransformationDescription(child_element, user_defined_desc)
+                tech.setTransformationDescription(user_defined_desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % tag_name)
 
@@ -16604,14 +16624,22 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DataPrototypeTransformationProps %s" % self.getTagName(child_element))
 
-    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+    def readDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
         self.readARObject(element, ref)
         ref.setTagId(self.getChildElementOptionalPositiveInteger(element, "TAG-ID"))
-        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+
+    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        self.readDataPrototypeReference(element, ref)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         if child_element is not None:
             cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()
             self.readDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
             ref.setDataPrototypeInClientServerInterface(cs_ref)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
+        if child_element is not None:
+            sr_ref = DataPrototypeInSenderReceiverInterfaceInstanceRef()
+            self.readDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
+            ref.setDataPrototypeInSenderReceiverInterface(sr_ref)
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObject(element, iref)

@@ -1275,6 +1275,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
@@ -1282,12 +1283,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
     TransformationDescription,
     TransformationISignalProps,
     TransformationTechnology,
+    UserDefinedTransformationDescription,
     UserDefinedTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -15580,16 +15583,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dp_props in dp_props_list:
                 self.writeDataPrototypeTransformationProps(child_element, dp_props)
 
+    def writeDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
+        self.writeARObject(element, ref)
+        self.setChildElementOptionalPositiveInteger(element, "TAG-ID", cast(Integer, ref.getTagId()))
+
     def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
-        self.writeARObject(child_element, ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", cast(Integer, ref.getTagId()))
+        self.writeDataPrototypeReference(child_element, ref)
         cs_ref = ref.getDataPrototypeInClientServerInterface()
         if cs_ref is not None:
             self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+        sr_ref = ref.getDataPrototypeInSenderReceiverInterface()
+        if sr_ref is not None:
+            self.writeDataPrototypeInSenderReceiverInterfaceInstanceRef(child_element, sr_ref)
 
     def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-REF")
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-IREF")
         self.writeARObject(child_element, iref)
         self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
         for ctx in iref.getContextDataPrototypeInSrRefs():
@@ -15599,7 +15608,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
 
     def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
-        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
         self.writeARObject(child_element, iref)
         self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
         for ctx in iref.getContextDataPrototypeInCsRefs():
@@ -18503,12 +18512,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", cast(Integer, desc.getWindowSizeInvalid()))
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", cast(Integer, desc.getWindowSizeValid()))
 
+    def writeSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "SOMEIP-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+            self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", cast(Integer, desc.getAlignment()))
+            self._writeEnumToken(child_element, "BYTE-ORDER", desc.getByteOrder(), BYTE_ORDER_XML_MAP)
+            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", cast(Integer, desc.getInterfaceVersion()))
+
+    def writeUserDefinedTransformationDescription(self, element: ET.Element, desc: UserDefinedTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "USER-DEFINED-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+
     def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         desc = tech.getTransformationDescription()
         if desc is not None:
             child_element = ET.SubElement(element, "TRANSFORMATION-DESCRIPTIONS")
             if isinstance(desc, EndToEndTransformationDescription):
                 self.writeEndToEndTransformationDescription(child_element, desc)
+            elif isinstance(desc, SOMEIPTransformationDescription):
+                self.writeSOMEIPTransformationDescription(child_element, desc)
+            elif isinstance(desc, UserDefinedTransformationDescription):
+                self.writeUserDefinedTransformationDescription(child_element, desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % type(desc))
 

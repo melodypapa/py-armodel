@@ -62,7 +62,6 @@ BswTimingEvent
 BuildEngineeringObject
 BurstPatternEventTriggering
 BusspecificNmEcu
-CSTransformerErrorReactionEnum
 CanAddressingModeType
 CanFrame
 CanFrameRxBehaviorEnum
@@ -108,12 +107,9 @@ CryptoCertificateFormatEnum
 CycleRepetitionType
 DataDumpEntry
 DataFilter
-DataIdModeEnum
 DataPrototype
 DataPrototypeInClientServerInterfaceInstanceRef
-DataPrototypeInPortInterfaceRef
 DataPrototypeInSenderReceiverInterfaceInstanceRef
-DataPrototypeReference
 DataPrototypeTransformationProps
 DataTypePolicyEnum
 Describable
@@ -138,8 +134,6 @@ EOCEventRef
 EOCExecutableEntityRef
 EOCExecutableEntityRefAbstract
 EOCExecutableEntityRefGroup
-EndToEndProfileBehaviorEnum
-EndToEndTransformationDescription
 EngineeringObject
 ErrorTracerNeeds
 EventGroupControlTypeEnum
