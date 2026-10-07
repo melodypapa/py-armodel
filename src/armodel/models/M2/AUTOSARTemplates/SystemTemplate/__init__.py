@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartition,
     ApplicationPartitionToEcuPartitionMapping,
     EcuResourceEstimation,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     MappingScopeEnum,
     SwcToApplicationPartitionMapping,
@@ -46,10 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
     SystemSignalGroupToCommunicationResourceMapping,
     SystemSignalToCommunicationResourceMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-    J1939ControllerApplicationToJ1939NmNodeMapping,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,

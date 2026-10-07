@@ -2668,7 +2668,7 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping",
         "J1939ControllerApplicationToJ1939NmNodeMapping",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",

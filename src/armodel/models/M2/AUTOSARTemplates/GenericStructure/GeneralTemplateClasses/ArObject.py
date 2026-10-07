@@ -3264,10 +3264,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
-    pass
-
-
 class J1939TpConfig(ARObject):
     pass
 

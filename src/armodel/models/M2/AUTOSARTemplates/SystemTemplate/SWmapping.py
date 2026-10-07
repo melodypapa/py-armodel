@@ -632,3 +632,59 @@ class ComponentSeparation(MappingConstraint):
         The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
         """
         return self.separatedComponentIRefs
+
+
+class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
+    """
+    This meta-class represents the ability to map a J1939ControllerApplication to a J1939NmNode. Note that this is similar but not identical to the mapping of SwComponentPrototypes to EcuInstances; for J1939 the semantics of an EcuInstance itself is basically replaced by a J1939NmNode.
+    """
+
+    # J1939ControllerApplicationToJ1939NmNodeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.12, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getJ1939ControllerApplicationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setJ1939ControllerApplicationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getJ1939NmNodeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setJ1939NmNodeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+        self.j1939ControllerApplicationRef: Optional[RefType] = None
+
+        # J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+        self.j1939NmNodeRef: Optional[RefType] = None
+
+    def getJ1939ControllerApplicationRef(self) -> Optional[RefType]:
+        """
+        Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+        """
+        return self.j1939ControllerApplicationRef
+
+    def setJ1939ControllerApplicationRef(self, value: Optional[RefType]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+        """
+        Reference to the J1939 Controller Application that is mapped to the referenced J1939NmNode.
+
+        A None value is a no-op and does not overwrite an existing j1939ControllerApplicationRef.
+        """
+        if value is not None:
+            self.j1939ControllerApplicationRef = value
+        return self
+
+    def getJ1939NmNodeRef(self) -> Optional[RefType]:
+        """
+        J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+        """
+        return self.j1939NmNodeRef
+
+    def setJ1939NmNodeRef(self, value: Optional[RefType]) -> "J1939ControllerApplicationToJ1939NmNodeMapping":
+        """
+        J1939NmNode that is the target of the J1939ControllerApplicationTo1939NmNodeMapping.
+
+        A None value is a no-op and does not overwrite an existing j1939NmNodeRef.
+        """
+        if value is not None:
+            self.j1939NmNodeRef = value
+        return self

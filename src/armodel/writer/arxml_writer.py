@@ -1276,6 +1276,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ComponentClustering,
     ComponentSeparation,
     EcuResourceEstimation,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     SwcToApplicationPartitionMapping,
     SwcToImplMapping,
@@ -14231,8 +14232,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(j1939_mappings) > 0:
             mappings_tag = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS")
             for j1939_mapping in j1939_mappings:
-                child_element = ET.SubElement(mappings_tag, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING")
-                self.writeARObject(child_element, j1939_mapping)
+                self.writeJ1939ControllerApplicationToJ1939NmNodeMapping(mappings_tag, j1939_mapping)
+
+    def writeJ1939ControllerApplicationToJ1939NmNodeMapping(self, element: ET.Element, j1939_mapping: J1939ControllerApplicationToJ1939NmNodeMapping):
+        child_element = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING")
+        self.writeARObject(child_element, j1939_mapping)
+        self.setChildElementOptionalRefType(child_element, "J-1939-CONTROLLER-APPLICATION-REF", j1939_mapping.getJ1939ControllerApplicationRef())
+        self.setChildElementOptionalRefType(child_element, "J-1939-NM-NODE-REF", j1939_mapping.getJ1939NmNodeRef())
 
     def writeMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
         self.writeARObject(element, mapping_constraint)

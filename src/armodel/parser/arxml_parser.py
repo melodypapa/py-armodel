@@ -594,7 +594,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
-    J1939ControllerApplicationToJ1939NmNodeMapping,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1528,6 +1527,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ComponentClustering,
     ComponentSeparation,
     EcuResourceEstimation,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     MappingScopeEnum,
     SwcToApplicationPartitionMapping,
@@ -17515,8 +17515,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS/J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING"):
             node_mapping = J1939ControllerApplicationToJ1939NmNodeMapping()
-            self.readARObject(child_element, node_mapping)
+            self.readJ1939ControllerApplicationToJ1939NmNodeMapping(child_element, node_mapping)
             mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping(node_mapping)
+
+    def readJ1939ControllerApplicationToJ1939NmNodeMapping(self, element: ET.Element, node_mapping: J1939ControllerApplicationToJ1939NmNodeMapping):
+        self.readARObject(element, node_mapping)
+        node_mapping.setJ1939ControllerApplicationRef(self.getChildElementOptionalRefType(element, "J-1939-CONTROLLER-APPLICATION-REF"))
+        node_mapping.setJ1939NmNodeRef(self.getChildElementOptionalRefType(element, "J-1939-NM-NODE-REF"))
 
     def readMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
         self.readARObject(element, mapping_constraint)

@@ -2236,15 +2236,57 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939ControllerApplicationToJ1939NmNodeMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.12, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration). Base row verified = `ARObject`
+    (queue dash said ARObject — correct; `__init__(self)` shape, no parent/short_name). XSD
+    complexType sequence = AR-OBJECT group + J-1939-...-MAPPING group, NO VARIATION-POINT
+    anchor → no VariationPointCapable mixin. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped Table 5.4–5.11
+    family (same MOVE precedent as SwcToApplicationPartitionMapping); the ArObject.py module
+    hint is wrong; stub-guard tuple + consumer imports (SystemTemplate/__init__.py,
+    arxml_parser.py) re-pointed. 2 attribute rows (displayed order), both `0..1 ref` →
+    `Optional[RefType]` with the Rule 0001.5 Ref suffix: j1939ControllerApplication →
+    j1939ControllerApplicationRef (ref target J1939ControllerApplication — existing ARElement
+    stub ARPackage.py:11530, queued Table 5.13 next; RefType per the family precedent), and
+    j1939NmNode → j1939NmNodeRef (ref target J1939NmNode — fully synced,
+    SystemTemplate/NetworkManagement.py). XSD element order = J-1939-CONTROLLER-APPLICATION-REF,
+    J-1939-NM-NODE-REF (same as displayed order). The j1939NmNode Note's
+    "J1939Controller ApplicationTo1939NmNodeMapping" is the markdown wrap of
+    "J1939ControllerApplicationTo1939NmNodeMapping" (joined per the 6ddfdbb3f
+    ComponentInSystemInstanceRef precedent) keeping the spec's own missing-J typo, which both
+    markdown and XSD carry verbatim.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.12 — both attributes modeled (0..1 ref →
+    Optional[RefType] with the Rule 0001.5 Ref suffix), verbatim Notes, full reader+writer
+    coverage at the dedicated read/write level (read/writeJ1939ControllerApplicationToJ1939Nm
+    NodeMapping calling readARObject/writeARObject once per side; SystemMapping dispatch
+    upgraded from the 1fa8787ea identity-only debt). No stale legacy marker existed (the
+    pre-sync stub was a bare `pass` in ArObject.py — no checklist, no `# Spec verified:` line,
+    so Rule 0023 removal was a no-op); the checklist is fresh 6-column format. Placement MOVE
+    per Rule 0007 (not a deviation): ArObject.py hint → SystemTemplate/SWmapping.py (Package
+    row `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped Table
+    5.4–5.11 family already lives there); imports re-pointed in SystemTemplate/__init__.py,
+    arxml_parser.py (writer gained its first SWmapping-type import for the writer annotation),
+    test_SystemMapping.py, parser/writer test_system_mapping.py, and the
+    test_group21_36_stub_classes.py STUBS tuple module. Referenced-but-missing class (Rule
+    0001.10, reported not blocking): J1939ControllerApplication — ref target of
+    j1939ControllerApplication, exists as an ARElement whole-class stub (ARPackage.py:11530,
+    bare `pass`), queued NEXT in this batch (Table 5.13); the ref stays RefType per the family
+    precedent (SwcToApplicationPartitionMapping.applicationPartitionRef). Remark (not a
+    deviation): the j1939NmNode Note's "J1939Controller ApplicationTo1939NmNodeMapping" is
+    the markdown wrap of "J1939ControllerApplicationTo1939NmNodeMapping" (joined per the
+    6ddfdbb3f ComponentInSystemInstanceRef precedent) keeping the spec's own missing-J typo,
+    carried verbatim by both markdown and XSD. The `# Spec verified:` marker is deferred to
+    the batch 9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22193 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e9177f9a0
 
 - [ ] `J1939ControllerApplication` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.13, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

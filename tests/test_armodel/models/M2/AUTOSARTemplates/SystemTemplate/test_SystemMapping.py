@@ -6,10 +6,7 @@ in the AUTOSAR SystemTemplate module (R23-11, Table 5.1, p.193).
 import typing
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-    J1939ControllerApplicationToJ1939NmNodeMapping,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     PortElementToCommunicationResourceMapping,
@@ -46,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartitionToEcuPartitionMapping,
     ComponentClustering,
     EcuResourceEstimation,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     SwcToApplicationPartitionMapping,
     SwcToEcuMapping,
