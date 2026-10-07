@@ -19,7 +19,8 @@ class StackUsage(Identifiable, VariationPointCapable, ABC):
     """
 
     # StackUsage method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getExecutableEntityRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -123,7 +124,8 @@ class MeasuredStackUsage(StackUsage):
     """
 
     # MeasuredStackUsage method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.11, p.150 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.11, p.150
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAverageMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -217,7 +219,8 @@ class RoughEstimateStackUsage(StackUsage):
     """
 
     # RoughEstimateStackUsage method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.12, p.151 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.12, p.151
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -251,7 +254,8 @@ class WorstCaseStackUsage(StackUsage):
     """
 
     # WorstCaseStackUsage method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.10, p.150 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.10, p.150
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getMemoryConsumption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

@@ -25,8 +25,10 @@ class CryptoObjectTypeEnum(AREnum):
 
     # CryptoObjectTypeEnum method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), enum CryptoObjectTypeEnum, AUTOSAR_00052.xsd line 132716 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CryptoKeySlot.cryptoObjectType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Object type unknown Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
     UNDEFINED = "UNDEFINED"
@@ -66,8 +68,10 @@ class CryptoKeySlotTypeEnum(AREnum):
 
     # CryptoKeySlotTypeEnum method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), enum CryptoKeySlotTypeEnum, AUTOSAR_00052.xsd line 132660 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CryptoKeySlot.slotType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Key slot is used by platform modules only. The application manages the key but is not able to use the key. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
     MACHINE = "MACHINE"
@@ -91,6 +95,7 @@ class CryptoKeySlotAllowedModification(ARObject):
 
     # CryptoKeySlotAllowedModification method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotAllowedModification, AUTOSAR_00052.xsd line 25782 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowContentTypeChange    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -177,6 +182,7 @@ class CryptoKeySlotContentAllowedUsage(ARObject):
 
     # CryptoKeySlotContentAllowedUsage method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class CryptoKeySlotContentAllowedUsage, AUTOSAR_00052.xsd line 25811 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAllowedKeyslotUsage    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

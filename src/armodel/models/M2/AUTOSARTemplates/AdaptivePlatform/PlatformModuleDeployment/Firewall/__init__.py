@@ -31,6 +31,7 @@ class DoIpRule(ARObject):
 
     # DoIpRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class DoIpRule, AUTOSAR_00052.xsd line 49327 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationMaxAddress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -207,6 +208,7 @@ class NetworkLayerRule(ARObject):
 
     # NetworkLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class NetworkLayerRule, AUTOSAR_00052.xsd line 84252 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # (abstract class: the NETWORK-LAYER-RULE group is an empty sequence with no
     #  complexType; the FirewallRule.networkLayerRule element carries a choice of
     #  the concrete subtypes Ipv4Rule/Ipv6Rule (both synced, IPV-4-RULE/IPV-6-RULE
@@ -224,6 +226,7 @@ class IcmpRule(ARObject):
 
     # IcmpRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class IcmpRule, AUTOSAR_00052.xsd line 67721 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getChecksumVerification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -290,6 +293,7 @@ class Ipv4Rule(NetworkLayerRule):
 
     # Ipv4Rule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class Ipv4Rule, AUTOSAR_00052.xsd line 74485 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getChecksumVerification        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -554,6 +558,7 @@ class Ipv6Rule(NetworkLayerRule):
 
     # Ipv6Rule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class Ipv6Rule, AUTOSAR_00052.xsd line 75007 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationIpAddress  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -728,6 +733,7 @@ class PayloadBytePatternRulePart(ARObject):
 
     # PayloadBytePatternRulePart method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class PayloadBytePatternRulePart, AUTOSAR_00052.xsd line 88508 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -776,6 +782,7 @@ class PayloadBytePatternRule(ARObject):
 
     # PayloadBytePatternRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class PayloadBytePatternRule, AUTOSAR_00052.xsd line 88473 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addPayloadBytePatternRulePart  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -806,6 +813,7 @@ class SomeipProtocolRule(ARObject):
 
     # SomeipProtocolRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class SomeipProtocolRule, AUTOSAR_00052.xsd line 110084 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getClientId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -962,6 +970,7 @@ class SomeipSdRule(ARObject):
 
     # SomeipSdRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class SomeipSdRule, AUTOSAR_00052.xsd line 110652 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEntryType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1120,6 +1129,7 @@ class TransportLayerRule(ARObject):
 
     # TransportLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class TransportLayerRule, AUTOSAR_00052.xsd line 126190 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # (abstract class: the TRANSPORT-LAYER-RULE group has no own complexType; the
     #  5 group members below are inherited by the concrete subtypes TcpRule/UdpRule
     #  per the XSD group composition; the class stays instantiable as the bare
@@ -1236,6 +1246,7 @@ class TcpRule(TransportLayerRule):
 
     # TcpRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class TcpRule, AUTOSAR_00052.xsd line 120644 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getNumberOfParallelTcpSessions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1308,6 +1319,7 @@ class UdpRule(TransportLayerRule):
 
     # UdpRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class UdpRule, AUTOSAR_00052.xsd line 127875 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1322,6 +1334,7 @@ class DataLinkLayerRule(ARObject):
 
     # DataLinkLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class DataLinkLayerRule, AUTOSAR_00052.xsd line 27236 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getDestinationMacAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

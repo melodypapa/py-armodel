@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     Identifier,
+    MacAddressString,
     NameToken,
     Numerical,
     PositiveUnlimitedInteger,
@@ -142,6 +143,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, value)
 
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: Optional[RevisionLabelString]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalMacAddressString(self, element: ET.Element, key: str, literal: Optional[MacAddressString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalAxisIndexType(self, element: ET.Element, key: str, value: Optional[AxisIndexType]):

@@ -7403,7 +7403,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalCseCodeType(child_element, "CSE-CODE", value.getCseCode())
             self.setChildElementOptionalIntegerValue(child_element, "CSE-CODE-FACTOR", value.getCseCodeFactor())
 
-    def setHardwareConfiguration(self, element: ET.Element, config):
+    def writeHardwareConfiguration(self, element: ET.Element, config):
         if config is not None:
             child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
             self.writeARObject(child_element, config)
@@ -7411,7 +7411,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
 
-    def setSoftwareContext(self, element: ET.Element, context):
+    def writeSoftwareContext(self, element: ET.Element, context):
         if context is not None:
             child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
             self.writeARObject(child_element, context)
@@ -7422,7 +7422,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, execution_time)
         self.setChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF", execution_time.getExclusiveAreaRef())
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", execution_time.getExecutableEntityRef())
-        self.setHardwareConfiguration(element, execution_time.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, execution_time.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", execution_time.getHwElementRef())
         included_library_refs = execution_time.getIncludedLibraryRefs()
         if len(included_library_refs) > 0:
@@ -7436,7 +7436,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 location_element = ET.SubElement(locations_element, "MEMORY-SECTION-LOCATION")
                 self.setChildElementOptionalRefType(location_element, "PROVIDED-MEMORY-REF", location.getProvidedMemoryRef())
                 self.setChildElementOptionalRefType(location_element, "SOFTWARE-MEMORY-SECTION-REF", location.getSoftwareMemorySectionRef())
-        self.setSoftwareContext(element, execution_time.getSoftwareContext())
+        self.writeSoftwareContext(element, execution_time.getSoftwareContext())
 
     def writeAnalyzedExecutionTime(self, element: ET.Element, execution_time: AnalyzedExecutionTime):
         child_element = ET.SubElement(element, "ANALYZED-EXECUTION-TIME")
@@ -7481,9 +7481,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeHeapUsage(self, element: ET.Element, usage):
         self.writeIdentifiable(element, usage)
-        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
-        self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeSoftwareContext(element, usage.getSoftwareContext())
 
     def writeMeasuredHeapUsage(self, element: ET.Element, usage: MeasuredHeapUsage):
         child_element = ET.SubElement(element, "MEASURED-HEAP-USAGE")
@@ -7539,34 +7539,34 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPointRef())
                         self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
 
-    def setStackUsage(self, element: ET.Element, usage: StackUsage):
+    def writeStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
         self.writeIdentifiable(element, usage, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
-        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
-        self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeSoftwareContext(element, usage.getSoftwareContext())
         self.writeVariationPoint(element, usage.getVariationPoint())
 
-    def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
+    def writeRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
 
-    def setMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
+    def writeMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "MEASURED-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", cast(Integer, usage.getAverageMemoryConsumption()))
             self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMaximumMemoryConsumption()))
             self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMinimumMemoryConsumption()))
             self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
 
-    def setWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
+    def writeWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "WORST-CASE-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
 
     def writeStackUsages(self, element: ET.Element, usages: List[StackUsage]):
@@ -7574,11 +7574,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "STACK-USAGES")
             for usage in usages:
                 if isinstance(usage, RoughEstimateStackUsage):
-                    self.setRoughEstimateStackUsage(child_element, usage)
+                    self.writeRoughEstimateStackUsage(child_element, usage)
                 elif isinstance(usage, MeasuredStackUsage):
-                    self.setMeasuredStackUsage(child_element, usage)
+                    self.writeMeasuredStackUsage(child_element, usage)
                 elif isinstance(usage, WorstCaseStackUsage):
-                    self.setWorstCaseStackUsage(child_element, usage)
+                    self.writeWorstCaseStackUsage(child_element, usage)
                 else:
                     self.notImplemented("Unsupported Stack Usages: <%s>" % type(usage))
 
@@ -12495,8 +12495,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
         if mac_address is not None:
             self.writeARObject(element, mac_address)
-            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS", mac_address.getMacAddress())
-            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK", mac_address.getMacAddressMask())
+            self.setChildElementOptionalMacAddressString(element, "MAC-ADDRESS", mac_address.getMacAddress())
+            self.setChildElementOptionalMacAddressString(element, "MAC-ADDRESS-MASK", mac_address.getMacAddressMask())
 
     def writeStreamFilterRuleDataLinkLayer(self, element: ET.Element, rule: Optional[StreamFilterRuleDataLinkLayer]):
         if rule is not None:
@@ -12652,7 +12652,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
             self.writeIdentifiable(child_element, group)
-            self.setChildElementOptionalLiteral(child_element, "MAC-MULTICAST-ADDRESS", group.getMacMulticastAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "MAC-MULTICAST-ADDRESS", group.getMacMulticastAddress())
 
     def writeEthernetClusterMacMulticastGroups(self, element: ET.Element, cluster: EthernetCluster):
         groups = cluster.getMacMulticastGroups()
@@ -13093,7 +13093,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: Optional[MacSecLocalKayProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
             self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
             self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", cast(Integer, props.getKeyServerPriority()))
             refs = props.getMkaParticipantRefs()
@@ -13102,7 +13102,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
             self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
-            self.setChildElementOptionalLiteral(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+            self.setChildElementOptionalMacAddressString(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
 
     def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
         if props is not None:
@@ -13269,7 +13269,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(cond_tag, "CAN-XL-CONFIG-REF", controller.getCanXlConfigRef())
         self.writeEthernetCommunicationControllerCouplingPorts(cond_tag, controller)
         self.setChildElementOptionalLiteral(cond_tag, "MAC-LAYER-TYPE", controller.getMacLayerType())
-        self.setChildElementOptionalLiteral(cond_tag, "MAC-UNICAST-ADDRESS", controller.getMacUnicastAddress())
+        self.setChildElementOptionalMacAddressString(cond_tag, "MAC-UNICAST-ADDRESS", controller.getMacUnicastAddress())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-RECEIVE-BUFFER-LENGTH", controller.getMaximumReceiveBufferLength())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-TRANSMIT-BUFFER-LENGTH", controller.getMaximumTransmitBufferLength())
         self.setChildElementOptionalBooleanValue(cond_tag, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE", controller.getSlaveActAsPassiveCommunicationSlave())
@@ -19382,11 +19382,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataLinkLayerRule(self, element: ET.Element, rule: Optional[DataLinkLayerRule]):
         if rule is not None:
             self.writeARObject(element, rule)
-            self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
-            self.setChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS", rule.getDestinationMacAddress())
+            self.setChildElementOptionalMacAddressString(element, "DESTINATION-MAC-ADDRESS-MASK", rule.getDestinationMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
-            self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
-            self.setChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS", rule.getSourceMacAddress())
+            self.setChildElementOptionalMacAddressString(element, "SOURCE-MAC-ADDRESS-MASK", rule.getSourceMacAddressMask())
             self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
             self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
 

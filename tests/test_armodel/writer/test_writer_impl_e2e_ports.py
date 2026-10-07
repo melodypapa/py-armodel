@@ -233,7 +233,7 @@ class TestWriteMemorySections:
 class TestSetRoughEstimateStackUsage:
     def test_set_rough_estimate_stack_usage_none(self, writer):
         parent = _parent()
-        writer.setRoughEstimateStackUsage(parent, None)
+        writer.writeRoughEstimateStackUsage(parent, None)
         assert len(parent) == 0
 
     def test_set_rough_estimate_stack_usage_with_value(self, writer):
@@ -243,7 +243,7 @@ class TestSetRoughEstimateStackUsage:
         usage = consumption.createRoughEstimateStackUsage("U1")
         usage.setMemoryConsumption(_make_positive_int("256"))
         parent = _parent()
-        writer.setRoughEstimateStackUsage(parent, usage)
+        writer.writeRoughEstimateStackUsage(parent, usage)
         assert len(parent) == 1
         rough = parent[0]
         assert rough.tag == "ROUGH-ESTIMATE-STACK-USAGE"
@@ -256,7 +256,7 @@ class TestSetRoughEstimateStackUsage:
         consumption = ResourceConsumption(pkg, "RC")
         usage = consumption.createRoughEstimateStackUsage("Direct")
         parent = _parent()
-        writer.setStackUsage(parent, usage)
+        writer.writeStackUsage(parent, usage)
         assert parent.find("SHORT-NAME").text == "Direct"
 
 

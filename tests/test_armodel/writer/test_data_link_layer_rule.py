@@ -132,3 +132,27 @@ class TestWriteFirewallRuleDataLinkLayerRule:
         assert dlr.getSourceMacAddressMask().getValue() == "FF:FF:00:00:00:00"
         assert dlr.getVlanId().getValue() == 100
         assert dlr.getVlanPriority().getValue() == 3
+
+    def test_write_and_reparse_preserves_mac_address_timestamp(self):
+        writer = _make_writer()
+        rule = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
+        dlr = DataLinkLayerRule()
+        mac = _mac("AA:BB:CC:DD:EE:FF")
+        mac.timestamp = "2021-02-03T04:05:06+00:00"
+        dlr.setDestinationMacAddress(mac)
+        rule.setDataLinkLayerRule(dlr)
+
+        root = ET.Element("AR-PACKAGE")
+        writer.writeFirewallRule(root, rule)
+        assert root.find("FIREWALL-RULE/DATA-LINK-LAYER-RULE/DESTINATION-MAC-ADDRESS").attrib["T"] == "2021-02-03T04:05:06+00:00"
+
+        inner = ET.tostring(root).decode("utf-8")
+        element = ET.fromstring(f"<AUTOSAR xmlns='{QNS}'>{inner}</AUTOSAR>")[0][0]
+
+        recovered = FirewallRule(AUTOSAR.getInstance().createARPackage("AUTOSAR"), "Rule1")
+        ARXMLParser(options={"warning": True}).readFirewallRule(element, recovered)
+
+        recovered_mac = recovered.getDataLinkLayerRule().getDestinationMacAddress()
+        assert isinstance(recovered_mac, MacAddressString)
+        assert recovered_mac.getValue() == "AA:BB:CC:DD:EE:FF"
+        assert recovered_mac.timestamp == "2021-02-03T04:05:06+00:00"

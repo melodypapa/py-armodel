@@ -18,6 +18,7 @@ class MemorySection(Identifiable, VariationPointCapable):
 
     # MemorySection method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.2, p.144 (R23-11)
+    # Spec verified: R23-11
     # Spec: R4.3.1/AUTOSAR_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.2, p.145 (R4.3.1)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -192,7 +193,8 @@ class SectionNamePrefix(ImplementationProps, VariationPointCapable):
     """
 
     # SectionNamePrefix method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.8, p.147 (R23-11)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.8, p.147
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getImplementedInRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

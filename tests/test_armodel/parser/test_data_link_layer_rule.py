@@ -101,3 +101,16 @@ class TestReadFirewallRuleDataLinkLayerRule:
         assert dlr.getDestinationMacAddress() is None
         assert dlr.getEtherType() is None
         assert dlr.getVlanId() is None
+
+    def test_read_mac_address_timestamp(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "<SHORT-NAME>Rule1</SHORT-NAME>" "<DATA-LINK-LAYER-RULE>" "<DESTINATION-MAC-ADDRESS T='2021-02-03T04:05:06+00:00'>AA:BB:CC:DD:EE:FF</DESTINATION-MAC-ADDRESS>" "</DATA-LINK-LAYER-RULE>"
+        )
+        rule = _rule()
+        parser.readFirewallRule(element, rule)
+
+        mac = rule.getDataLinkLayerRule().getDestinationMacAddress()
+        assert isinstance(mac, MacAddressString)
+        assert mac.getValue() == "AA:BB:CC:DD:EE:FF"
+        assert mac.timestamp == "2021-02-03T04:05:06+00:00"
