@@ -1543,7 +1543,6 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.127, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a89d0bb5c
   - Step 1 finding: Table 3.127 is NOT page-split — single fragment (markdown lines
     4807-4814: body renders before the caption, same rendering quirk as Table 3.126).
     Header Enumeration → AREnum. Package
@@ -1589,7 +1588,7 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecLocalKayProps already emits ROLE with the facet value)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — 9a passed 2026-10-07 (22000 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a89d0bb5c
 
 - [ ] `MacSecFailPermissiveModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.128, p.178
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
