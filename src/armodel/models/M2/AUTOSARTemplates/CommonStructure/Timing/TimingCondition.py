@@ -261,22 +261,22 @@ class TimingConditionFormula(FormulaExpression):
 
     # TimingConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.8, p.35
-    # Spec verified: R23-11
-    # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
-    # (Referrable base dropped — XSD complexType composes AR-OBJECT + FORMULA-EXPRESSION only, no SHORT-NAME)
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Base per spec = FormulaExpression (most-derived; 2026-09-25 drift fix, Rule 0012.3 — see
+    # docs/plan/atp_mixed_string_hierarchy.md; Referrable base dropped — XSD complexType composes
+    # AR-OBJECT + FORMULA-EXPRESSION only, no SHORT-NAME).
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
-    # [x] getTimingArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingConditionRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingConditionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingModeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingModeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingVariableRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingVariableRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingArgumentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingArgumentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingConditionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingConditionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingModeRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingModeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimingVariableRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingVariableRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -297,51 +297,81 @@ class TimingConditionFormula(FormulaExpression):
         self.timingVariableRef: Optional[RefType] = None
 
     def getTimingArgumentRef(self) -> Optional[RefType]:
-        """This refers to an argument of an operation call."""
+        """
+        This refers to an argument of an operation call.
+        """
         return self.timingArgumentRef
 
     def setTimingArgumentRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to an argument of an operation call. A None value is a no-op and does not overwrite an existing timingArgumentRef."""
+        """
+        This refers to an argument of an operation call.
+
+        A None value is a no-op and does not overwrite an existing timingArgumentRef.
+        """
         if value is not None:
             self.timingArgumentRef = value
         return self
 
     def getTimingConditionRef(self) -> Optional[RefType]:
-        """This refers to a timing condition that is part of an expression describing the dependency on a specific condition."""
+        """
+        This refers to a timing condition that is part of an expression describing the dependency on a specific condition.
+        """
         return self.timingConditionRef
 
     def setTimingConditionRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a timing condition that is part of an expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing timingConditionRef."""
+        """
+        This refers to a timing condition that is part of an expression describing the dependency on a specific condition.
+
+        A None value is a no-op and does not overwrite an existing timingConditionRef.
+        """
         if value is not None:
             self.timingConditionRef = value
         return self
 
     def getTimingEventRef(self) -> Optional[RefType]:
-        """This refers to a timing event."""
+        """
+        This refers to a timing event.
+        """
         return self.timingEventRef
 
     def setTimingEventRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a timing event. A None value is a no-op and does not overwrite an existing timingEventRef."""
+        """
+        This refers to a timing event.
+
+        A None value is a no-op and does not overwrite an existing timingEventRef.
+        """
         if value is not None:
             self.timingEventRef = value
         return self
 
     def getTimingModeRef(self) -> Optional[RefType]:
-        """This refers to a mode declaration."""
+        """
+        This refers to a mode declaration.
+        """
         return self.timingModeRef
 
     def setTimingModeRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a mode declaration. A None value is a no-op and does not overwrite an existing timingModeRef."""
+        """
+        This refers to a mode declaration.
+
+        A None value is a no-op and does not overwrite an existing timingModeRef.
+        """
         if value is not None:
             self.timingModeRef = value
         return self
 
     def getTimingVariableRef(self) -> Optional[RefType]:
-        """This refers to a variable."""
+        """
+        This refers to a variable.
+        """
         return self.timingVariableRef
 
     def setTimingVariableRef(self, value: Optional[RefType]) -> TimingConditionFormula:
-        """This refers to a variable. A None value is a no-op and does not overwrite an existing timingVariableRef."""
+        """
+        This refers to a variable.
+
+        A None value is a no-op and does not overwrite an existing timingVariableRef.
+        """
         if value is not None:
             self.timingVariableRef = value
         return self

@@ -150,15 +150,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TimingConditionFormula` — FormulaExpression — R23-11 CP_TPS_TimingExtensions Table 3.8, p.35
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule-0023 re-sync — stale marker removed, 6-column block. DEFECT FIXED: readTimingConditionFormula /
+    writeTimingConditionFormula never called readARObject/writeARObject (audit BASE fail — silent S/T loss on
+    the AR-OBJECT attributeGroup); both calls added with an S/T round-trip pin test. Docstrings re-written
+    multi-line verbatim (Notes were already verbatim-correct). Base stays FormulaExpression (2026-09-25 drift
+    fix, XSD composes AR-OBJECT + FORMULA-EXPRESSION only).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `TimingExtensionResource` — ARObject — R23-11 CP_TPS_TimingExtensions Table 3.9, p.36
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition.py

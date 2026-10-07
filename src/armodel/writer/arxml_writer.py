@@ -6007,6 +6007,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.text = text
 
     def writeTimingConditionFormula(self, element: ET.Element, tcf: TimingConditionFormula):
+        self.writeARObject(element, tcf)
         self.setChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF", tcf.getTimingArgumentRef())
         self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", tcf.getTimingConditionRef())
         self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())

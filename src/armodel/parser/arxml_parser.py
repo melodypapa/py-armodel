@@ -4507,6 +4507,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTimingConditionFormula(self, element: ET.Element) -> TimingConditionFormula:
         tcf = TimingConditionFormula()
+        self.readARObject(element, tcf)
         tcf.setTimingArgumentRef(self.getChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF"))
         tcf.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
         tcf.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
