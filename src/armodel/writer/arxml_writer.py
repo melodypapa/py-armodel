@@ -3965,6 +3965,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDocumentationBlock(self, element: ET.Element, key: str, block: Optional[DocumentationBlock]):
         if block is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, block)
             self.writeDocumentationBlockContent(child_element, block)
 
     def writeDocumentationBlockContent(self, element: ET.Element, block: Optional[DocumentationBlock]):

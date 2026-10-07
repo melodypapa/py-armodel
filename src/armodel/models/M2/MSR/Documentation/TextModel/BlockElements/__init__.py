@@ -23,31 +23,30 @@ class DocumentationBlock(ARObject):
 
     # DocumentationBlock method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.1, p.285
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefList           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefList           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addFigure            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFigures           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLabeledList       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLabeledList       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addList              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLists             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMsrQueryP2        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMsrQueryP2        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNote              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNote              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addP                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getStructuredReq     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setStructuredReq     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTrace             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrace             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVerbatim          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVerbatim          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDefList           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefList           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFigure            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFigures           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLabeledList       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLabeledList       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addList              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLists             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMsrQueryP2        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryP2        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNote              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNote              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addP                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getStructuredReq     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStructuredReq     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrace             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrace             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVerbatim          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVerbatim          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
