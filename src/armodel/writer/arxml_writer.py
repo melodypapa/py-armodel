@@ -7216,7 +7216,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalCseCodeType(child_element, "CSE-CODE", value.getCseCode())
             self.setChildElementOptionalIntegerValue(child_element, "CSE-CODE-FACTOR", value.getCseCodeFactor())
 
-    def setHardwareConfiguration(self, element: ET.Element, config):
+    def writeHardwareConfiguration(self, element: ET.Element, config):
         if config is not None:
             child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
             self.writeARObject(child_element, config)
@@ -7224,7 +7224,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
             self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
 
-    def setSoftwareContext(self, element: ET.Element, context):
+    def writeSoftwareContext(self, element: ET.Element, context):
         if context is not None:
             child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
             self.writeARObject(child_element, context)
@@ -7235,7 +7235,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, execution_time)
         self.setChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF", execution_time.getExclusiveAreaRef())
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", execution_time.getExecutableEntityRef())
-        self.setHardwareConfiguration(element, execution_time.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, execution_time.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", execution_time.getHwElementRef())
         included_library_refs = execution_time.getIncludedLibraryRefs()
         if len(included_library_refs) > 0:
@@ -7249,7 +7249,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 location_element = ET.SubElement(locations_element, "MEMORY-SECTION-LOCATION")
                 self.setChildElementOptionalRefType(location_element, "PROVIDED-MEMORY-REF", location.getProvidedMemoryRef())
                 self.setChildElementOptionalRefType(location_element, "SOFTWARE-MEMORY-SECTION-REF", location.getSoftwareMemorySectionRef())
-        self.setSoftwareContext(element, execution_time.getSoftwareContext())
+        self.writeSoftwareContext(element, execution_time.getSoftwareContext())
 
     def writeAnalyzedExecutionTime(self, element: ET.Element, execution_time: AnalyzedExecutionTime):
         child_element = ET.SubElement(element, "ANALYZED-EXECUTION-TIME")
@@ -7294,9 +7294,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeHeapUsage(self, element: ET.Element, usage):
         self.writeIdentifiable(element, usage)
-        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
-        self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeSoftwareContext(element, usage.getSoftwareContext())
 
     def writeMeasuredHeapUsage(self, element: ET.Element, usage: MeasuredHeapUsage):
         child_element = ET.SubElement(element, "MEASURED-HEAP-USAGE")
@@ -7352,34 +7352,34 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPointRef())
                         self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
 
-    def setStackUsage(self, element: ET.Element, usage: StackUsage):
+    def writeStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
         self.writeIdentifiable(element, usage, write_variation_point=False)
         self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
-        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.writeHardwareConfiguration(element, usage.getHardwareConfiguration())
         self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
-        self.setSoftwareContext(element, usage.getSoftwareContext())
+        self.writeSoftwareContext(element, usage.getSoftwareContext())
         self.writeVariationPoint(element, usage.getVariationPoint())
 
-    def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
+    def writeRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
 
-    def setMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
+    def writeMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "MEASURED-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", cast(Integer, usage.getAverageMemoryConsumption()))
             self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMaximumMemoryConsumption()))
             self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", cast(Integer, usage.getMinimumMemoryConsumption()))
             self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
 
-    def setWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
+    def writeWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "WORST-CASE-STACK-USAGE")
-            self.setStackUsage(child_element, usage)
+            self.writeStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", cast(Integer, usage.getMemoryConsumption()))
 
     def writeStackUsages(self, element: ET.Element, usages: List[StackUsage]):
@@ -7387,11 +7387,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "STACK-USAGES")
             for usage in usages:
                 if isinstance(usage, RoughEstimateStackUsage):
-                    self.setRoughEstimateStackUsage(child_element, usage)
+                    self.writeRoughEstimateStackUsage(child_element, usage)
                 elif isinstance(usage, MeasuredStackUsage):
-                    self.setMeasuredStackUsage(child_element, usage)
+                    self.writeMeasuredStackUsage(child_element, usage)
                 elif isinstance(usage, WorstCaseStackUsage):
-                    self.setWorstCaseStackUsage(child_element, usage)
+                    self.writeWorstCaseStackUsage(child_element, usage)
                 else:
                     self.notImplemented("Unsupported Stack Usages: <%s>" % type(usage))
 

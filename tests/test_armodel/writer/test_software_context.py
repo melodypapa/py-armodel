@@ -1,4 +1,4 @@
-"""Writer tests for SoftwareContext (setSoftwareContext) and the write→parse round-trip."""
+"""Writer tests for SoftwareContext (writeSoftwareContext) and the write→parse round-trip."""
 
 import xml.etree.ElementTree as ET
 
@@ -44,7 +44,7 @@ def _qualify_namespaces(element):
 class TestWriteSoftwareContext:
     def test_write_field_values(self, writer):
         parent = ET.Element("PARENT")
-        writer.setSoftwareContext(parent, _full_context())
+        writer.writeSoftwareContext(parent, _full_context())
         assert len(parent) == 1
         element = parent[0]
         assert element.tag == "SOFTWARE-CONTEXT"
@@ -54,18 +54,18 @@ class TestWriteSoftwareContext:
     def test_write_xsd_element_order(self, writer):
         """Children follow the XSD sequence of group SOFTWARE-CONTEXT (AUTOSAR_00052.xsd L109295)."""
         parent = ET.Element("PARENT")
-        writer.setSoftwareContext(parent, _full_context())
+        writer.writeSoftwareContext(parent, _full_context())
         tags = [child.tag for child in parent[0]]
         assert tags == ["INPUT", "STATE"]
 
     def test_write_none_context(self, writer):
         parent = ET.Element("PARENT")
-        writer.setSoftwareContext(parent, None)
+        writer.writeSoftwareContext(parent, None)
         assert len(parent) == 0
 
     def test_round_trip(self, writer):
         parent = ET.Element("PARENT")
-        writer.setSoftwareContext(parent, _full_context())
+        writer.writeSoftwareContext(parent, _full_context())
         parsed_parent = ET.fromstring(ET.tostring(_qualify_namespaces(parent), default_namespace=NS))
         context_2 = SoftwareContext()
         ARXMLParser().readSoftwareContext(parsed_parent[0], context_2)

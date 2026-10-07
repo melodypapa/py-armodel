@@ -1,4 +1,4 @@
-"""Writer tests for HardwareConfiguration (setHardwareConfiguration) and the write→parse round-trip."""
+"""Writer tests for HardwareConfiguration (writeHardwareConfiguration) and the write→parse round-trip."""
 
 import xml.etree.ElementTree as ET
 
@@ -45,7 +45,7 @@ def _qualify_namespaces(element):
 class TestWriteHardwareConfiguration:
     def test_write_field_values(self, writer):
         parent = ET.Element("PARENT")
-        writer.setHardwareConfiguration(parent, _full_config())
+        writer.writeHardwareConfiguration(parent, _full_config())
         assert len(parent) == 1
         element = parent[0]
         assert element.tag == "HARDWARE-CONFIGURATION"
@@ -56,18 +56,18 @@ class TestWriteHardwareConfiguration:
     def test_write_xsd_element_order(self, writer):
         """Children follow the XSD sequence of group HARDWARE-CONFIGURATION (AUTOSAR_00052.xsd L65234)."""
         parent = ET.Element("PARENT")
-        writer.setHardwareConfiguration(parent, _full_config())
+        writer.writeHardwareConfiguration(parent, _full_config())
         tags = [child.tag for child in parent[0]]
         assert tags == ["ADDITIONAL-INFORMATION", "PROCESSOR-MODE", "PROCESSOR-SPEED"]
 
     def test_write_none_config(self, writer):
         parent = ET.Element("PARENT")
-        writer.setHardwareConfiguration(parent, None)
+        writer.writeHardwareConfiguration(parent, None)
         assert len(parent) == 0
 
     def test_round_trip(self, writer):
         parent = ET.Element("PARENT")
-        writer.setHardwareConfiguration(parent, _full_config())
+        writer.writeHardwareConfiguration(parent, _full_config())
         parsed_parent = ET.fromstring(ET.tostring(_qualify_namespaces(parent), default_namespace=NS))
         config_2 = HardwareConfiguration()
         ARXMLParser().readHardwareConfiguration(parsed_parent[0], config_2)

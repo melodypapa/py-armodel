@@ -1,4 +1,4 @@
-"""Writer tests for the StackUsage family (setStackUsage dispatch) and the write→parse round-trip."""
+"""Writer tests for the StackUsage family (writeStackUsage dispatch) and the write→parse round-trip."""
 
 import xml.etree.cElementTree as ET
 
@@ -129,7 +129,7 @@ class TestWriteStackUsages:
         """Children follow the XSD sequence of complexType MEASURED-STACK-USAGE (AUTOSAR_00052.xsd L80881):
         IDENTIFIABLE group, STACK-USAGE group (VARIATION-POINT last, seqOffset 10000), subclass group."""
         parent = ET.Element("PARENT")
-        writer.setMeasuredStackUsage(parent, _full_measured())
+        writer.writeMeasuredStackUsage(parent, _full_measured())
         usage = parent[0]
         assert [c.tag for c in usage] == [
             "SHORT-NAME",
@@ -146,7 +146,7 @@ class TestWriteStackUsages:
 
     def test_write_variation_point(self, writer):
         parent = ET.Element("PARENT")
-        writer.setMeasuredStackUsage(parent, _full_measured())
+        writer.writeMeasuredStackUsage(parent, _full_measured())
         vp = parent[0].find("VARIATION-POINT")
         assert vp is not None
         assert vp.find("SHORT-LABEL").text == "VP1"
@@ -156,7 +156,7 @@ class TestWriteStackUsages:
 
         usage = WorstCaseStackUsage(AUTOSAR.getInstance().createARPackage("Pkg"), "WSU")
         parent = ET.Element("PARENT")
-        writer.setWorstCaseStackUsage(parent, usage)
+        writer.writeWorstCaseStackUsage(parent, usage)
         assert [c.tag for c in parent[0]] == ["SHORT-NAME"]
 
     def test_write_empty_list(self, writer):
