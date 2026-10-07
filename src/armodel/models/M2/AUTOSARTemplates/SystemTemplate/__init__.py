@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping, TriggerToSignalMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import CryptoServiceMapping, SecOcCryptoServiceMapping, TlsCryptoServiceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import (
     AppOsTaskProxyToEcuTaskProxyMapping,
@@ -141,7 +142,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
     # [ ] addCryptoServiceMapping      [x] impl  [ ] docstring  [ ] test
     # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
     # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
+    # [ ] getDdsISignalToTopicMappings  [x] impl  [ ] docstring  [ ] test
     # [ ] addDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
     # [ ] getEcuResourceMappings       [x] impl  [ ] docstring  [ ] test
     # [ ] createECUMapping             [x] impl  [ ] docstring  [ ] test
@@ -189,7 +190,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
         self.comManagementMappings: List[ComManagementMapping] = []
         self.cryptoServiceMappings: List[CryptoServiceMapping] = []
         self.dataMappings: List[DataMapping] = []
-        self.ddsISignalToTopicMappings: List = []
+        self.ddsISignalToTopicMappings: List[DdsCpISignalToDdsTopicMapping] = []
         self.ecuResourceMappings: List[ECUMapping] = []
         self.j1939ControllerApplicationToJ1939NmNodeMappings: List = []
         self.mappingConstraints: List = []
@@ -279,7 +280,7 @@ class SystemMapping(Identifiable, VariationPointCapable):
         self.dataMappings.append(value)
         return self
 
-    def getDdsISignalToTopicMapping(self):
+    def getDdsISignalToTopicMappings(self) -> List[DdsCpISignalToDdsTopicMapping]:
         return self.ddsISignalToTopicMappings
 
     def addDdsISignalToTopicMapping(self, value):

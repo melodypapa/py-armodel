@@ -1232,6 +1232,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
     CouplingPortRatePolicyActionEnum,
@@ -16292,6 +16293,17 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setTriggerIRef(self.getTriggerInSystemInstanceRef(cast(ET.Element, self.find(element, "TRIGGER-IREF"))))
         mapping.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
 
+    def readDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
+        self.readARObject(element, mapping)
+        mapping.setDdsTopicRef(self.getChildElementOptionalRefType(element, "DDS-TOPIC-REF"))
+        mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+
+    def readSystemMappingDdsISignalToTopicMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "DDS-I-SIGNAL-TO-TOPIC-MAPPINGS/DDS-CP-I-SIGNAL-TO-DDS-TOPIC-MAPPING"):
+            topic_mapping = DdsCpISignalToDdsTopicMapping()
+            self.readDdsCpISignalToDdsTopicMapping(child_element, topic_mapping)
+            mapping.addDdsISignalToTopicMapping(topic_mapping)
+
     def readSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
         self.readARObject(element, signal)
         for child_element in self.findall(element, "DATA-ELEMENT-IREFS/DATA-ELEMENT-IREF"):
@@ -16872,6 +16884,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingComManagementMappings(element, mapping)
         self.readSystemMappingCryptoServiceMappings(element, mapping)
         self.readSystemMappingDataMappings(element, mapping)
+        self.readSystemMappingDdsISignalToTopicMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingPncMappings(element, mapping)
         self.readSystemMappingResourceEstimations(element, mapping)

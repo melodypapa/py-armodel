@@ -2326,10 +2326,6 @@ class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
     pass
 
 
-class DdsCpISignalToDdsTopicMapping(ARObject):
-    pass
-
-
 class DdsCpProvidedServiceInstance(ARObject):
     pass
 

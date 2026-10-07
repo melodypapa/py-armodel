@@ -1086,6 +1086,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import DefaultValueElement, FrameMapping, Gateway, IPduMapping, ISignalMapping, TargetIPduRef
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
@@ -13115,6 +13116,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setTriggerInSystemInstanceRef(child_element, "TRIGGER-IREF", mapping.getTriggerIRef())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
 
+    def writeDdsCpISignalToDdsTopicMapping(self, element: ET.Element, mapping: DdsCpISignalToDdsTopicMapping):
+        child_element = ET.SubElement(element, "DDS-CP-I-SIGNAL-TO-DDS-TOPIC-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "DDS-TOPIC-REF", mapping.getDdsTopicRef())
+        self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+
+    def writeSystemMappingDdsISignalToTopicMappings(self, element: ET.Element, system_mapping: SystemMapping):
+        topic_mappings = system_mapping.getDdsISignalToTopicMappings()
+        if len(topic_mappings) > 0:
+            child_element = ET.SubElement(element, "DDS-I-SIGNAL-TO-TOPIC-MAPPINGS")
+            for topic_mapping in topic_mappings:
+                if isinstance(topic_mapping, DdsCpISignalToDdsTopicMapping):
+                    self.writeDdsCpISignalToDdsTopicMapping(child_element, topic_mapping)
+                else:
+                    self.notImplemented("Unsupported DdsISignalToTopicMapping %s" % type(topic_mapping))
+
     def writeSwcToSwcSignal(self, element: ET.Element, signal: SwcToSwcSignal):
         child_element = ET.SubElement(element, "SWC-TO-SWC-SIGNAL")
         self.writeARObject(child_element, signal)
@@ -13761,6 +13778,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingComManagementMappings(child_element, mapping)
         self.writeSystemMappingCryptoServiceMappings(child_element, mapping)
         self.writeSystemMappingDataMappings(child_element, mapping)
+        self.writeSystemMappingDdsISignalToTopicMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingPncMappings(child_element, mapping)
         self.writeSystemMappingResourceEstimations(child_element, mapping)
