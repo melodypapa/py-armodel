@@ -773,6 +773,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CIdentifier,
     DateTime,
     DdsDurabilityKindEnum,
+    FrArTpAckType,
+    MaximumMessageLengthType,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
     DdsHistoryKindEnum,
@@ -14364,6 +14366,46 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
         self.readARObject(element, channel)
+        ack_type_literal = self.getChildElementOptionalLiteral(element, "ACK-TYPE")
+        if ack_type_literal is not None:
+            ack_type = FrArTpAckType()
+            ack_type.setValue(ack_type_literal.getValue())
+            channel.setAckType(ack_type)
+        channel.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
+        channel.setExtendedAddressing(self.getChildElementOptionalBooleanValue(element, "EXTENDED-ADDRESSING"))
+        channel.setMaxAr(self.getChildElementOptionalIntegerValue(element, "MAX-AR"))
+        channel.setMaxAs(self.getChildElementOptionalIntegerValue(element, "MAX-AS"))
+        channel.setMaxBs(self.getChildElementOptionalIntegerValue(element, "MAX-BS"))
+        channel.setMaxFcWait(self.getChildElementOptionalPositiveInteger(element, "MAX-FC-WAIT"))
+        maximum_message_length_literal = self.getChildElementOptionalLiteral(element, "MAXIMUM-MESSAGE-LENGTH")
+        if maximum_message_length_literal is not None:
+            maximum_message_length = MaximumMessageLengthType()
+            maximum_message_length.setValue(maximum_message_length_literal.getValue())
+            channel.setMaximumMessageLength(maximum_message_length)
+        channel.setMaxRetries(self.getChildElementOptionalIntegerValue(element, "MAX-RETRIES"))
+        channel.setMinimumMulticastSeperationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-MULTICAST-SEPERATION-TIME"))
+        channel.setMinimumSeparationTime(self.getChildElementOptionalTimeValue(element, "MINIMUM-SEPARATION-TIME"))
+        channel.setMulticastSegmentation(self.getChildElementOptionalBooleanValue(element, "MULTICAST-SEGMENTATION"))
+        for ref in self.getChildElementRefTypeList(element, "N-PDU-REFS/N-PDU-REF"):
+            channel.addNPduRef(ref)
+        channel.setTimeBr(self.getChildElementOptionalTimeValue(element, "TIME-BR"))
+        channel.setTimeCs(self.getChildElementOptionalTimeValue(element, "TIME-CS"))
+        channel.setTimeoutAr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AR"))
+        channel.setTimeoutAs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-AS"))
+        channel.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
+        channel.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))
+        self.readFlexrayArTpChannelTpConnections(element, channel)
+        self.readVariationPointCapable(element, channel)
+
+    def readFlexrayArTpChannelTpConnections(self, element: ET.Element, channel: FlexrayArTpChannel):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-AR-TP-CONNECTION":
+                connection = FlexrayArTpConnection()
+                self.readFlexrayArTpConnection(child_element, connection)
+                channel.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
 
     def readFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
         self.readTpConnection(element, connection)

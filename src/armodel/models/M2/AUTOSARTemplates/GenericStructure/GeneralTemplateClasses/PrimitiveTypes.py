@@ -2829,7 +2829,31 @@ class FMFeatureSelectionState(AREnum):
 
 
 class FrArTpAckType(AREnum):
-    pass
+    """Type of Acknowledgement."""
+
+    # FrArTpAckType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.249, p.604
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayArTpChannel.ackType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Acknowledgement with retry. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_ACK_WITH_RT = "ACK-WITH-RT"
+
+    # Acknowledgement without retry. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_ACK_WITHOUT_RT = "ACK-WITHOUT-RT"
+
+    # No acknowledgement. Tags: atp.EnumerationLiteralIndex=2
+    ENUM_NO_ACK = "NO-ACK"
+
+    def __init__(self):
+        super().__init__(
+            [
+                FrArTpAckType.ENUM_ACK_WITH_RT,
+                FrArTpAckType.ENUM_ACK_WITHOUT_RT,
+                FrArTpAckType.ENUM_NO_ACK,
+            ]
+        )
 
 
 class GlobalTimeCrcSupportEnum(AREnum):
@@ -2901,7 +2925,31 @@ class MappingScopeEnum(AREnum):
 
 
 class MaximumMessageLengthType(AREnum):
-    pass
+    """Type of Acknowledgement."""
+
+    # MaximumMessageLengthType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.250, p.604
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on FlexrayArTpChannel.maximumMessageLength
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # SF-E allowed (SF of arbitrary length depending on FrTpPduLength), up to (2**32)-1 byte message length (all FF-x allowed). Tags: atp.EnumerationLiteralIndex=0
+    ENUM_I4G = "I-4-G"
+
+    # Up to (2**12)-1 Byte message length (No FF-Ex or SF-E or AF shall be used and recognized). Tags: atp.EnumerationLiteralIndex=1
+    ENUM_ISO = "ISO"
+
+    # As ISO, but the maximum payload length is limited to 6 byte (SF-I, FF-I, CF). This is necessary to route TP on CAN when using Extended Addressing or Mixed Addressing on CAN. Tags: atp.EnumerationLiteralIndex=2
+    ENUM_ISO6 = "ISO-6"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MaximumMessageLengthType.ENUM_I4G,
+                MaximumMessageLengthType.ENUM_ISO,
+                MaximumMessageLengthType.ENUM_ISO6,
+            ]
+        )
 
 
 class MirroringProtocolEnum(AREnum):

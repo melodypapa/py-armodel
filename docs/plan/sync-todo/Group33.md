@@ -254,16 +254,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpChannel` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.246, p.602
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py
+  - note: rehoused from the ArObject.py stub to TransportProtocols.py (spec Package row =
+    SystemTemplate::TransportProtocols, Rule 0007); the ARObject base hint is confirmed by both the
+    PDF Base row and the XSD complexType (AR-OBJECT group only). XSD group FLEXRAY-AR-TP-CHANNEL
+    carries VARIATION-POINT, so VariationPointCapable is mixed in and read/writeVariationPointCapable
+    are called. All 20 spec attrs modeled in displayed order across the 3 page chunks (ackType,
+    cancellation, extendedAddressing, maxAr, maxAs, maxBs, maxFcWait, maximumMessageLength, maxRetries,
+    minimumMulticastSeperationTime — spec's own spelling kept, minimumSeparationTime,
+    multicastSegmentation, nPdu `*` ref → nPduRefs with the N-PDU-REFS wrapper, timeBr, timeCs,
+    timeoutAr, timeoutAs, timeoutBs, timeoutCr, tpConnection `*` aggr → tpConnections); the deferred
+    FLEXRAY-AR-TP-CONNECTION dispatch is wired in this commit (reader TP-CONNECTIONS branch creates
+    FlexrayArTpConnection, writer emits TP-CONNECTIONS). XSD-only extras (FLOW-CONTROL-PDU-REF with
+    atp.Status="removed", MAX-BUFFER-REQUEST, MAX-FR-IF, TIME-BUFFER, TIME-FR-IF, PDU-POOLS/N-PDU
+    aggregation, TRANSMIT-CANCELLATION) are absent from the PDF table and NOT modeled (Rule 0015).
+    Referenced stub enums FrArTpAckType/MaximumMessageLengthType synced in the same commit
+    (Rule 0001.10); their literal members were not yet defined, so the placeholder-free typed read
+    (ACK-TYPE/MAXIMUM-MESSAGE-LENGTH value form) needed them first.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `FlexrayArTpNode` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.247, p.603
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -301,27 +317,39 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `FrArTpAckType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.249, p.604
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: synced in the FlexrayArTpChannel commit as a Rule 0001.10 dependency (FlexrayArTpChannel.ackType
+    types this enum and the stub was not instantiable). Literals ACK-WITH-RT/ACK-WITHOUT-RT/NO-ACK
+    verified against the XSD `FR-AR-TP-ACK-TYPE--SIMPLE` facets; __init__ tuple in XSD facet order
+    (ACK-WITH-RT first per the XSD, though the markdown literal-index order starts at
+    ackWithoutRt — XSD facet order wins per Rule 0011). Standalone enum — Steps 5/6 N/A, serialized as
+    value form on FlexrayArTpChannel.ackType.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MaximumMessageLengthType` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.250, p.604
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - note: synced in the FlexrayArTpChannel commit as a Rule 0001.10 dependency
+    (FlexrayArTpChannel.maximumMessageLength types this enum and the stub was not instantiable).
+    Literals I-4-G/ISO/ISO-6 verified against the XSD `MAXIMUM-MESSAGE-LENGTH-TYPE--SIMPLE` facets;
+    class docstring reproduces the markdown Note verbatim ("Type of Acknowledgement." — the spec
+    table's own copy-paste quirk). Standalone enum — Steps 5/6 N/A, serialized as value form on
+    FlexrayArTpChannel.maximumMessageLength.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanTpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.251, p.607
   - module: M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py

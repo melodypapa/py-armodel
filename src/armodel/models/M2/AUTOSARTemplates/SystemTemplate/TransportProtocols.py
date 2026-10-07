@@ -14,9 +14,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
     SomeipTpChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    FrArTpAckType,
+    Integer,
+    MaximumMessageLengthType,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, SomeipTpConnection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, SomeipTpConnection
 
 
 class TpConfig(FibexElement, ABC):
@@ -2304,6 +2313,433 @@ class FlexrayArTpConfig(TpConfig):
             self.addReferrableElement(node)
             self.tpNodes.append(node)
         return cast(FlexrayArTpNode, self.getReferrableElement(short_name, FlexrayArTpNode))
+
+
+class FlexrayArTpChannel(ARObject, VariationPointCapable):
+    """
+    A channel is a group of connections sharing several properties. The FlexRay AutosarTransport Layer supports several channels. These channels can work concurrently, thus each of them requires its own state machine and management data structures and its own PDU-IDs.
+
+    [constr_9238] Existence of FlexrayArTpChannel.ackType: For each FlexrayArTpChannel, the attribute ackType shall exist at the time when the System Description is complete.
+
+    [constr_9239] Existence of FlexrayArTpChannel.extendedAddressing: For each FlexrayArTpChannel, the attribute extendedAddressing shall exist at the time when the System Description is complete.
+
+    [constr_9240] Existence of FlexrayArTpChannel.maximumMessageLength: For each FlexrayArTpChannel, the attribute maximumMessageLength shall exist at the time when the System Description is complete.
+
+    [constr_9241] Existence of FlexrayArTpChannel.minimumSeparationTime: For each FlexrayArTpChannel, the attribute minimumSeparationTime shall exist at the time when the System Description is complete.
+
+    [constr_9242] Existence of FlexrayArTpChannel.multicastSegmentation: For each FlexrayArTpChannel, the attribute multicastSegmentation shall exist at the time when the System Description is complete.
+
+    [constr_9243] Existence of FlexrayArTpChannel.tpConnection: For each FlexrayArTpChannel, the aggregation of FlexrayArTpConnection in the role tpConnection shall exist at least once at the time when the System Description is complete.
+    """
+
+    # FlexrayArTpChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.246, p.602
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAckType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAckType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCancellation                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCancellation                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExtendedAddressing              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExtendedAddressing              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxAr                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxAr                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxAs                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxAs                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxBs                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBs                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxFcWait                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxFcWait                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumMessageLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumMessageLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxRetries                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxRetries                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumMulticastSeperationTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumMulticastSeperationTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumSeparationTime           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumSeparationTime           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastSegmentation           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastSegmentation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addNPduRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNPduRefs                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTimeBr                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeBr                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeCs                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeCs                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAr                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAr                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutAs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutAs                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutBs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutBs                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCr                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCr                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTpConnection                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Base = ARObject)
+
+    def __init__(self):
+        super().__init__()
+
+        # Type of Acknowledgement.
+        self.ackType: Optional[FrArTpAckType] = None
+
+        # With this switch Tx and Rx Cancellation can be turned on or off.
+        self.cancellation: Optional[Boolean] = None
+
+        # Adressing Type of this connection: true: Two Bytes false: One Byte
+        self.extendedAddressing: Optional[Boolean] = None
+
+        # This attribute defines the maximum number of trying to send a frame when a TIMEOUT AR occurs (depending on whether retry is configured).
+        self.maxAr: Optional[Integer] = None
+
+        # This attribute defines the maximum number of trying to send a frame when a TIMEOUT AS occurs (depending on whether retry is configured).
+        self.maxAs: Optional[Integer] = None
+
+        # This attribute defines the number of consecutive CFs between two FCs (block size). Valid values are 1 .. 16 when retry is activated, and 0 .. 255 otherwise.
+        self.maxBs: Optional[Integer] = None
+
+        # This attribute defines the maximal number of wait frames to be sent for a pending connection. Range is 0..255.
+        self.maxFcWait: Optional[PositiveInteger] = None
+
+        # This specifies the maximum message length for the particular channel.
+        self.maximumMessageLength: Optional[MaximumMessageLengthType] = None
+
+        # This attribute defines the maximum number of retries (if retry is configured for the particular channel).
+        self.maxRetries: Optional[Integer] = None
+
+        # This attribute defines the minimum amount of time between two succeeding CFs of a 1:n segmented transmission in seconds. Valid values are 0, 100µs, 200µs ... 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. minimumMulticastSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumMulticastSeparationTime = n * cycle * m, where n is an integer >= 0, cycle is Flexray Cluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumMulticastSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle. Range: 0 .. 0.127
+        self.minimumMulticastSeperationTime: Optional[TimeValue] = None
+
+        # This attribute defines the minimum amount of time between two succeeding CFs of a 1:1 segmented transmission in seconds. Valid values are 0, 100µs, 200µs .. 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. The minimumSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumSeparationTime = n * cycle * m, where n is an integer >=0, cycle is FlexrayCluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle.
+        self.minimumSeparationTime: Optional[TimeValue] = None
+
+        # This attribute defines whether segmentation within a 1:n connection is allowed or not.
+        self.multicastSegmentation: Optional[Boolean] = None
+
+        # A FlexRayTpChannel references a set of NPdus. These NPdus are logically assembled into a pool of Rx NPdus and another pool of Tx NPdus. It shall be ensured that a second channel either references all NPdus of such a pool, or none.
+        self.nPduRefs: List[RefType] = []
+
+        # This attribute defines the time in seconds between receiving the last CF of a block or an FF-x (or SF-x) and sending out an FC or AF.
+        self.timeBr: Optional[TimeValue] = None
+
+        # This attribute defines the time in seconds between the sending of two consecutive frames or between a consecutive frame and a flow control (for Transmit Cancellation) or between reception of an flow control or Acknowledgement Frame and sending of the next consecutive frame or a flow control (for Transmit Cancellation).
+        self.timeCs: Optional[TimeValue] = None
+
+        # This attribute states the timeout in seconds between the PDU transmit request of the Transport Layer to the Flex Ray Interface and the corresponding confirmation of the FlexRay Interface on the receiver side (for FC or AF).
+        self.timeoutAr: Optional[TimeValue] = None
+
+        # This attribute states the timeout in seconds between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the FlexRay Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF).
+        self.timeoutAs: Optional[TimeValue] = None
+
+        # This attribute defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        self.timeoutBs: Optional[TimeValue] = None
+
+        # This attribute defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side.
+        self.timeoutCr: Optional[TimeValue] = None
+
+        # Group of connections that can be used in this channel.
+        self.tpConnections: List[FlexrayArTpConnection] = []
+
+    def getAckType(self) -> Optional[FrArTpAckType]:
+        """
+        Type of Acknowledgement.
+        """
+        return self.ackType
+
+    def setAckType(self, value: Optional[FrArTpAckType]) -> FlexrayArTpChannel:
+        """
+        Type of Acknowledgement.
+        A None value is a no-op and does not overwrite an existing ackType.
+        """
+        if value is not None:
+            self.ackType = value
+        return self
+
+    def getCancellation(self) -> Optional[Boolean]:
+        """
+        With this switch Tx and Rx Cancellation can be turned on or off.
+        """
+        return self.cancellation
+
+    def setCancellation(self, value: Optional[Boolean]) -> FlexrayArTpChannel:
+        """
+        With this switch Tx and Rx Cancellation can be turned on or off.
+        A None value is a no-op and does not overwrite an existing cancellation.
+        """
+        if value is not None:
+            self.cancellation = value
+        return self
+
+    def getExtendedAddressing(self) -> Optional[Boolean]:
+        """
+        Adressing Type of this connection: true: Two Bytes false: One Byte
+        """
+        return self.extendedAddressing
+
+    def setExtendedAddressing(self, value: Optional[Boolean]) -> FlexrayArTpChannel:
+        """
+        Adressing Type of this connection: true: Two Bytes false: One Byte
+        A None value is a no-op and does not overwrite an existing extendedAddressing.
+        """
+        if value is not None:
+            self.extendedAddressing = value
+        return self
+
+    def getMaxAr(self) -> Optional[Integer]:
+        """
+        This attribute defines the maximum number of trying to send a frame when a TIMEOUT AR occurs (depending on whether retry is configured).
+        """
+        return self.maxAr
+
+    def setMaxAr(self, value: Optional[Integer]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the maximum number of trying to send a frame when a TIMEOUT AR occurs (depending on whether retry is configured).
+        A None value is a no-op and does not overwrite an existing maxAr.
+        """
+        if value is not None:
+            self.maxAr = value
+        return self
+
+    def getMaxAs(self) -> Optional[Integer]:
+        """
+        This attribute defines the maximum number of trying to send a frame when a TIMEOUT AS occurs (depending on whether retry is configured).
+        """
+        return self.maxAs
+
+    def setMaxAs(self, value: Optional[Integer]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the maximum number of trying to send a frame when a TIMEOUT AS occurs (depending on whether retry is configured).
+        A None value is a no-op and does not overwrite an existing maxAs.
+        """
+        if value is not None:
+            self.maxAs = value
+        return self
+
+    def getMaxBs(self) -> Optional[Integer]:
+        """
+        This attribute defines the number of consecutive CFs between two FCs (block size). Valid values are 1 .. 16 when retry is activated, and 0 .. 255 otherwise.
+        """
+        return self.maxBs
+
+    def setMaxBs(self, value: Optional[Integer]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the number of consecutive CFs between two FCs (block size). Valid values are 1 .. 16 when retry is activated, and 0 .. 255 otherwise.
+        A None value is a no-op and does not overwrite an existing maxBs.
+        """
+        if value is not None:
+            self.maxBs = value
+        return self
+
+    def getMaxFcWait(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the maximal number of wait frames to be sent for a pending connection. Range is 0..255.
+        """
+        return self.maxFcWait
+
+    def setMaxFcWait(self, value: Optional[PositiveInteger]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the maximal number of wait frames to be sent for a pending connection. Range is 0..255.
+        A None value is a no-op and does not overwrite an existing maxFcWait.
+        """
+        if value is not None:
+            self.maxFcWait = value
+        return self
+
+    def getMaximumMessageLength(self) -> Optional[MaximumMessageLengthType]:
+        """
+        This specifies the maximum message length for the particular channel.
+        """
+        return self.maximumMessageLength
+
+    def setMaximumMessageLength(self, value: Optional[MaximumMessageLengthType]) -> FlexrayArTpChannel:
+        """
+        This specifies the maximum message length for the particular channel.
+        A None value is a no-op and does not overwrite an existing maximumMessageLength.
+        """
+        if value is not None:
+            self.maximumMessageLength = value
+        return self
+
+    def getMaxRetries(self) -> Optional[Integer]:
+        """
+        This attribute defines the maximum number of retries (if retry is configured for the particular channel).
+        """
+        return self.maxRetries
+
+    def setMaxRetries(self, value: Optional[Integer]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the maximum number of retries (if retry is configured for the particular channel).
+        A None value is a no-op and does not overwrite an existing maxRetries.
+        """
+        if value is not None:
+            self.maxRetries = value
+        return self
+
+    def getMinimumMulticastSeperationTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the minimum amount of time between two succeeding CFs of a 1:n segmented transmission in seconds. Valid values are 0, 100µs, 200µs ... 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. minimumMulticastSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumMulticastSeparationTime = n * cycle * m, where n is an integer >= 0, cycle is Flexray Cluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumMulticastSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle. Range: 0 .. 0.127
+        """
+        return self.minimumMulticastSeperationTime
+
+    def setMinimumMulticastSeperationTime(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the minimum amount of time between two succeeding CFs of a 1:n segmented transmission in seconds. Valid values are 0, 100µs, 200µs ... 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. minimumMulticastSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumMulticastSeparationTime = n * cycle * m, where n is an integer >= 0, cycle is Flexray Cluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumMulticastSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle. Range: 0 .. 0.127
+        A None value is a no-op and does not overwrite an existing minimumMulticastSeperationTime.
+        """
+        if value is not None:
+            self.minimumMulticastSeperationTime = value
+        return self
+
+    def getMinimumSeparationTime(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the minimum amount of time between two succeeding CFs of a 1:1 segmented transmission in seconds. Valid values are 0, 100µs, 200µs .. 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. The minimumSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumSeparationTime = n * cycle * m, where n is an integer >=0, cycle is FlexrayCluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle.
+        """
+        return self.minimumSeparationTime
+
+    def setMinimumSeparationTime(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the minimum amount of time between two succeeding CFs of a 1:1 segmented transmission in seconds. Valid values are 0, 100µs, 200µs .. 900µs, 1ms, 2ms .. 127ms. The value can be changed at runtime using the FrArTp_ChangeParameter interface. The minimumSeparationTime shall be an integer multiple of the cycle length multiplied with the multiplexing factor, i.e. minimumSeparationTime = n * cycle * m, where n is an integer >=0, cycle is FlexrayCluster.cycle, and m is the cycle multiplexor of those cycles where PDUs of the PDU pool are scheduled. Please note: Due to the scheduling strategies of FrTp, minimumSeparationTime can only be kept to a degree defined by the maximum temporal distance of the PDUs of a PDU pool within one FlexRay cycle.
+        A None value is a no-op and does not overwrite an existing minimumSeparationTime.
+        """
+        if value is not None:
+            self.minimumSeparationTime = value
+        return self
+
+    def getMulticastSegmentation(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether segmentation within a 1:n connection is allowed or not.
+        """
+        return self.multicastSegmentation
+
+    def setMulticastSegmentation(self, value: Optional[Boolean]) -> FlexrayArTpChannel:
+        """
+        This attribute defines whether segmentation within a 1:n connection is allowed or not.
+        A None value is a no-op and does not overwrite an existing multicastSegmentation.
+        """
+        if value is not None:
+            self.multicastSegmentation = value
+        return self
+
+    def addNPduRef(self, value: Optional[RefType]) -> FlexrayArTpChannel:
+        """
+        A FlexRayTpChannel references a set of NPdus. These NPdus are logically assembled into a pool of Rx NPdus and another pool of Tx NPdus. It shall be ensured that a second channel either references all NPdus of such a pool, or none.
+        A None value is a no-op and is not appended to nPduRefs.
+        """
+        if value is not None:
+            self.nPduRefs.append(value)
+        return self
+
+    def getNPduRefs(self) -> List[RefType]:
+        """
+        A FlexRayTpChannel references a set of NPdus. These NPdus are logically assembled into a pool of Rx NPdus and another pool of Tx NPdus. It shall be ensured that a second channel either references all NPdus of such a pool, or none.
+        """
+        return self.nPduRefs
+
+    def getTimeBr(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the time in seconds between receiving the last CF of a block or an FF-x (or SF-x) and sending out an FC or AF.
+        """
+        return self.timeBr
+
+    def setTimeBr(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the time in seconds between receiving the last CF of a block or an FF-x (or SF-x) and sending out an FC or AF.
+        A None value is a no-op and does not overwrite an existing timeBr.
+        """
+        if value is not None:
+            self.timeBr = value
+        return self
+
+    def getTimeCs(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the time in seconds between the sending of two consecutive frames or between a consecutive frame and a flow control (for Transmit Cancellation) or between reception of an flow control or Acknowledgement Frame and sending of the next consecutive frame or a flow control (for Transmit Cancellation).
+        """
+        return self.timeCs
+
+    def setTimeCs(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the time in seconds between the sending of two consecutive frames or between a consecutive frame and a flow control (for Transmit Cancellation) or between reception of an flow control or Acknowledgement Frame and sending of the next consecutive frame or a flow control (for Transmit Cancellation).
+        A None value is a no-op and does not overwrite an existing timeCs.
+        """
+        if value is not None:
+            self.timeCs = value
+        return self
+
+    def getTimeoutAr(self) -> Optional[TimeValue]:
+        """
+        This attribute states the timeout in seconds between the PDU transmit request of the Transport Layer to the Flex Ray Interface and the corresponding confirmation of the FlexRay Interface on the receiver side (for FC or AF).
+        """
+        return self.timeoutAr
+
+    def setTimeoutAr(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute states the timeout in seconds between the PDU transmit request of the Transport Layer to the Flex Ray Interface and the corresponding confirmation of the FlexRay Interface on the receiver side (for FC or AF).
+        A None value is a no-op and does not overwrite an existing timeoutAr.
+        """
+        if value is not None:
+            self.timeoutAr = value
+        return self
+
+    def getTimeoutAs(self) -> Optional[TimeValue]:
+        """
+        This attribute states the timeout in seconds between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the FlexRay Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF).
+        """
+        return self.timeoutAs
+
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute states the timeout in seconds between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the FlexRay Interface and the corresponding confirmation of the FlexRay Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF).
+        A None value is a no-op and does not overwrite an existing timeoutAs.
+        """
+        if value is not None:
+            self.timeoutAs = value
+        return self
+
+    def getTimeoutBs(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        """
+        return self.timeoutBs
+
+    def setTimeoutBs(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the timeout in seconds for waiting for an FC or AF on the sender side in a 1:1 connection.
+        A None value is a no-op and does not overwrite an existing timeoutBs.
+        """
+        if value is not None:
+            self.timeoutBs = value
+        return self
+
+    def getTimeoutCr(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side.
+        """
+        return self.timeoutCr
+
+    def setTimeoutCr(self, value: Optional[TimeValue]) -> FlexrayArTpChannel:
+        """
+        This attribute defines the timeout value in seconds for waiting for a CF or FF-x (in case of retry) after receiving the last CF or after sending an FC or AF on the receiver side.
+        A None value is a no-op and does not overwrite an existing timeoutCr.
+        """
+        if value is not None:
+            self.timeoutCr = value
+        return self
+
+    def addTpConnection(self, value: Optional[FlexrayArTpConnection]) -> FlexrayArTpChannel:
+        """
+        Group of connections that can be used in this channel.
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self
+
+    def getTpConnections(self) -> List[FlexrayArTpConnection]:
+        """
+        Group of connections that can be used in this channel.
+        """
+        return self.tpConnections
 
 
 class FlexrayArTpConnection(TpConnection):

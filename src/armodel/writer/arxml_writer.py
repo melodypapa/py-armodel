@@ -10584,6 +10584,47 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(element, "FLEXRAY-AR-TP-CHANNEL")
             self.writeARObject(child_element, channel)
+            ack_type = channel.getAckType()
+            if ack_type is not None:
+                ack_type_element = ET.SubElement(child_element, "ACK-TYPE")
+                ack_type_element.text = ack_type.getValue()
+            self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", channel.getCancellation())
+            self.setChildElementOptionalBooleanValue(child_element, "EXTENDED-ADDRESSING", channel.getExtendedAddressing())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-AR", channel.getMaxAr())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-AS", channel.getMaxAs())
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-BS", channel.getMaxBs())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-FC-WAIT", channel.getMaxFcWait())
+            maximum_message_length = channel.getMaximumMessageLength()
+            if maximum_message_length is not None:
+                maximum_message_length_element = ET.SubElement(child_element, "MAXIMUM-MESSAGE-LENGTH")
+                maximum_message_length_element.text = maximum_message_length.getValue()
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-RETRIES", channel.getMaxRetries())
+            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-MULTICAST-SEPERATION-TIME", channel.getMinimumMulticastSeperationTime())
+            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-SEPARATION-TIME", channel.getMinimumSeparationTime())
+            self.setChildElementOptionalBooleanValue(child_element, "MULTICAST-SEGMENTATION", channel.getMulticastSegmentation())
+            refs = channel.getNPduRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "N-PDU-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "N-PDU-REF", ref)
+            self.setChildElementOptionalTimeValue(child_element, "TIME-BR", channel.getTimeBr())
+            self.setChildElementOptionalTimeValue(child_element, "TIME-CS", channel.getTimeCs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AR", channel.getTimeoutAr())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-AS", channel.getTimeoutAs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BS", channel.getTimeoutBs())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CR", channel.getTimeoutCr())
+            self.writeFlexrayArTpChannelTpConnections(child_element, channel)
+            self.writeVariationPointCapable(child_element, channel)
+
+    def writeFlexrayArTpChannelTpConnections(self, element: ET.Element, channel: FlexrayArTpChannel):
+        connections = channel.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, FlexrayArTpConnection):
+                    self.writeFlexrayArTpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
 
     def writeFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
         if connection is not None:

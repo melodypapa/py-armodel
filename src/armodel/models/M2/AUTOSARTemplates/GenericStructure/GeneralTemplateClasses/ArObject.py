@@ -3228,10 +3228,6 @@ class EthTSynSubTlvConfig(ARObject):
     pass
 
 
-class FlexrayArTpChannel(ARObject):
-    pass
-
-
 class GlobalTimeCorrectionProps(ARObject):
     pass
 
