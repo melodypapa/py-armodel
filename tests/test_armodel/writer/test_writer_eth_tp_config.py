@@ -5,8 +5,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import EthTpConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import EthTpConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import EthTpConfig, EthTpConnection
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

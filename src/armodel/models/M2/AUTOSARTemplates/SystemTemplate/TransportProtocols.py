@@ -7,7 +7,7 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import EthTpConnection, FlexrayTpConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FlexrayArTpNode,
@@ -1562,6 +1562,208 @@ class FlexrayTpConfig(TpConfig):
         return cast(FlexrayTpNode, self.getReferrableElement(short_name, FlexrayTpNode))
 
 
+class FlexrayTpConnection(TpConnection, VariationPointCapable):
+    """
+    A connection identifies the sender and the receiver of this particular communication. The FlexRayTp module routes a Pdu through this connection. In a System Description the references to the PduPools are mandatory. In an ECU Extract these references can be optional: On unicast connections these references are always mandatory. On multicast the txPduPool is mandatory on the sender side. The rxPduPool is mandatory on the receiver side. On Gateway ECUs both references are mandatory.
+
+    [constr_9231] Existence of FlexrayTpConnection.directTpSdu: For each FlexrayTpConnection, the reference to IPdu in the role directTpSdu shall exist at the time when the System Description is complete.
+
+    [constr_9233] Existence of FlexrayTpConnection.receiver: For each FlexrayTpConnection, the reference to FlexrayTpNode in the role receiver shall exist at least once at the time when the System Description is complete.
+
+    [constr_9234] Existence of FlexrayTpConnection.tpConnectionControl: For each FlexrayTpConnection, the reference to FlexrayTpConnectionControl in the role tpConnectionControl shall exist at the time when the System Description is complete.
+
+    [constr_9235] Existence of FlexrayTpConnection.transmitter: For each FlexrayTpConnection, the reference to FlexrayTpNode in the role transmitter shall exist at the time when the System Description is complete.
+    """
+
+    # FlexrayTpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.241, p.594
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBandwidthLimitation          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBandwidthLimitation          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDirectTpSduRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirectTpSduRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addReceiverRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getReversedTpSduRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReversedTpSduRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxPduPoolRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxPduPoolRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnectionControlRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpConnectionControlRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmitterRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmitterRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTxPduPoolRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTxPduPoolRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies whether the connection requires a bandwidth limitation or not.
+        self.bandwidthLimitation: Optional[Boolean] = None
+
+        # Reference to the IPdu that is segmented by the Transport Protocol.
+        self.directTpSduRef: Optional[RefType] = None
+
+        # TP address for 1:n connections.
+        self.multicastRef: Optional[RefType] = None
+
+        # The target of the TP connection.
+        self.receiverRefs: List[RefType] = []
+
+        # Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction.
+        self.reversedTpSduRef: Optional[RefType] = None
+
+        # A connection has a reference to a set of NPdus (FrTpRx PduPool) which are defined for receiving data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the rxPduPool holds the actually received NPdus. In case this connection is applied to the receiver the rxPduPool holds the actually sent NPdus.
+        self.rxPduPoolRef: Optional[RefType] = None
+
+        # Reference to the connection control.
+        self.tpConnectionControlRef: Optional[RefType] = None
+
+        # The source of the TP connection.
+        self.transmitterRef: Optional[RefType] = None
+
+        # A connection has a reference to a set of NPdus (FrTpTx PduPool) which are defined for sending data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the txPduPool holds the actually sent NPdus. In case this connection is applied to the receiver the txPduPool holds the actually received NPdus.
+        self.txPduPoolRef: Optional[RefType] = None
+
+    def getBandwidthLimitation(self) -> Optional[Boolean]:
+        """
+        Specifies whether the connection requires a bandwidth limitation or not.
+        """
+        return self.bandwidthLimitation
+
+    def setBandwidthLimitation(self, value: Optional[Boolean]) -> FlexrayTpConnection:
+        """
+        Specifies whether the connection requires a bandwidth limitation or not.
+        A None value is a no-op and does not overwrite an existing bandwidthLimitation.
+        """
+        if value is not None:
+            self.bandwidthLimitation = value
+        return self
+
+    def getDirectTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol.
+        """
+        return self.directTpSduRef
+
+    def setDirectTpSduRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol.
+        A None value is a no-op and does not overwrite an existing directTpSduRef.
+        """
+        if value is not None:
+            self.directTpSduRef = value
+        return self
+
+    def getMulticastRef(self) -> Optional[RefType]:
+        """
+        TP address for 1:n connections.
+        """
+        return self.multicastRef
+
+    def setMulticastRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        TP address for 1:n connections.
+        A None value is a no-op and does not overwrite an existing multicastRef.
+        """
+        if value is not None:
+            self.multicastRef = value
+        return self
+
+    def addReceiverRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        The target of the TP connection.
+        A None value is a no-op and is not appended to receiverRefs.
+        """
+        if value is not None:
+            self.receiverRefs.append(value)
+        return self
+
+    def getReceiverRefs(self) -> List[RefType]:
+        """
+        The target of the TP connection.
+        """
+        return self.receiverRefs
+
+    def getReversedTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction.
+        """
+        return self.reversedTpSduRef
+
+    def setReversedTpSduRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction.
+        A None value is a no-op and does not overwrite an existing reversedTpSduRef.
+        """
+        if value is not None:
+            self.reversedTpSduRef = value
+        return self
+
+    def getRxPduPoolRef(self) -> Optional[RefType]:
+        """
+        A connection has a reference to a set of NPdus (FrTpRx PduPool) which are defined for receiving data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the rxPduPool holds the actually received NPdus. In case this connection is applied to the receiver the rxPduPool holds the actually sent NPdus.
+        """
+        return self.rxPduPoolRef
+
+    def setRxPduPoolRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        A connection has a reference to a set of NPdus (FrTpRx PduPool) which are defined for receiving data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the rxPduPool holds the actually received NPdus. In case this connection is applied to the receiver the rxPduPool holds the actually sent NPdus.
+        A None value is a no-op and does not overwrite an existing rxPduPoolRef.
+        """
+        if value is not None:
+            self.rxPduPoolRef = value
+        return self
+
+    def getTpConnectionControlRef(self) -> Optional[RefType]:
+        """
+        Reference to the connection control.
+        """
+        return self.tpConnectionControlRef
+
+    def setTpConnectionControlRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        Reference to the connection control.
+        A None value is a no-op and does not overwrite an existing tpConnectionControlRef.
+        """
+        if value is not None:
+            self.tpConnectionControlRef = value
+        return self
+
+    def getTransmitterRef(self) -> Optional[RefType]:
+        """
+        The source of the TP connection.
+        """
+        return self.transmitterRef
+
+    def setTransmitterRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        The source of the TP connection.
+        A None value is a no-op and does not overwrite an existing transmitterRef.
+        """
+        if value is not None:
+            self.transmitterRef = value
+        return self
+
+    def getTxPduPoolRef(self) -> Optional[RefType]:
+        """
+        A connection has a reference to a set of NPdus (FrTpTx PduPool) which are defined for sending data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the txPduPool holds the actually sent NPdus. In case this connection is applied to the receiver the txPduPool holds the actually received NPdus.
+        """
+        return self.txPduPoolRef
+
+    def setTxPduPoolRef(self, value: Optional[RefType]) -> FlexrayTpConnection:
+        """
+        A connection has a reference to a set of NPdus (FrTpTx PduPool) which are defined for sending data via this particular connection. The following constraint is valid only for the System Extract/ECU Extract: In case this connection is applied to the transmitter the txPduPool holds the actually sent NPdus. In case this connection is applied to the receiver the txPduPool holds the actually received NPdus.
+        A None value is a no-op and does not overwrite an existing txPduPoolRef.
+        """
+        if value is not None:
+            self.txPduPoolRef = value
+        return self
+
+
 class FlexrayArTpConfig(TpConfig):
     """
     This element defines exactly one FlexRay Autosar TP Configuration. One FlexrayArTpConfig element shall be created for each FlexRay Network in the System that uses Flex Ray Autosar TP. Tags: atp.recommendedPackage=TpConfigs
@@ -1639,6 +1841,10 @@ class FlexrayArTpConfig(TpConfig):
         return cast(FlexrayArTpNode, self.getReferrableElement(short_name, FlexrayArTpNode))
 
 
+class FlexrayArTpConnection(TpConnection):
+    pass
+
+
 class EthTpConfig(TpConfig):
     """
     This element defines which PduTriggerings shall be handled using "TP" semantics. Tags: atp.recommendedPackage=TpConfigs
@@ -1672,6 +1878,10 @@ class EthTpConfig(TpConfig):
         if value is not None:
             self.tpConnections.append(value)
         return self
+
+
+class EthTpConnection(TpConnection):
+    pass
 
 
 class SomeipTpConfig(TpConfig):

@@ -10265,7 +10265,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "IDENT")
             self.writeReferrable(child_element, ident)
 
-    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, LinTpConnection]):
+    def writeTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
         refs = connection.getReceiverRefs()
         if len(refs) > 0:
             child_element = ET.SubElement(element, "RECEIVER-REFS")
@@ -10458,6 +10458,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "FLEXRAY-TP-CONNECTION")
             self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalBooleanValue(child_element, "BANDWIDTH-LIMITATION", connection.getBandwidthLimitation())
+            self.setChildElementOptionalRefType(child_element, "DIRECT-TP-SDU-REF", connection.getDirectTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "MULTICAST-REF", connection.getMulticastRef())
+            self.writeTpConnectionReceiverRefs(child_element, connection)
+            self.setChildElementOptionalRefType(child_element, "REVERSED-TP-SDU-REF", connection.getReversedTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "RX-PDU-POOL-REF", connection.getRxPduPoolRef())
+            self.setChildElementOptionalRefType(child_element, "TP-CONNECTION-CONTROL-REF", connection.getTpConnectionControlRef())
+            self.setChildElementOptionalRefType(child_element, "TRANSMITTER-REF", connection.getTransmitterRef())
+            self.setChildElementOptionalRefType(child_element, "TX-PDU-POOL-REF", connection.getTxPduPoolRef())
+            self.writeVariationPointCapable(child_element, connection)
 
     def writeFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
         connections = config.getTpConnections()

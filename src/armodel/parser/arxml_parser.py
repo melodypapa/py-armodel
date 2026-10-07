@@ -14086,7 +14086,7 @@ class ARXMLParser(AbstractARXMLParser):
             ident = connection.createTpConnectionIdent(self.getShortName(child_element))
             self.readReferrable(child_element, ident)
 
-    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: CanTpConnection):
+    def readTpConnectionReceiverRefs(self, element: ET.Element, connection: Union[CanTpConnection, FlexrayTpConnection, LinTpConnection]):
         for ref in self.getChildElementRefTypeList(element, "RECEIVER-REFS/RECEIVER-REF"):
             connection.addReceiverRef(ref)
 
@@ -14254,6 +14254,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayTpConnection(self, element: ET.Element, connection: FlexrayTpConnection):
         self.readTpConnection(element, connection)
+        connection.setBandwidthLimitation(self.getChildElementOptionalBooleanValue(element, "BANDWIDTH-LIMITATION"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        self.readTpConnectionReceiverRefs(element, connection)
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setRxPduPoolRef(self.getChildElementOptionalRefType(element, "RX-PDU-POOL-REF"))
+        connection.setTpConnectionControlRef(self.getChildElementOptionalRefType(element, "TP-CONNECTION-CONTROL-REF"))
+        connection.setTransmitterRef(self.getChildElementOptionalRefType(element, "TRANSMITTER-REF"))
+        connection.setTxPduPoolRef(self.getChildElementOptionalRefType(element, "TX-PDU-POOL-REF"))
+        self.readVariationPointCapable(element, connection)
 
     def readFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
         for child_element in self.findall(element, "TP-CONNECTIONS/*"):

@@ -2095,7 +2095,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "EthTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
     (
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__",
         "EthernetFrameTriggering",
@@ -2222,14 +2221,12 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "ARObject",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "FlexrayArTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "FlexrayArTpNode",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "FlexrayTpConnection", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection", "TpConnection"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "FlexrayTpConnectionControl",
