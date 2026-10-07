@@ -1527,6 +1527,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ComponentClustering,
     ComponentSeparation,
     EcuResourceEstimation,
+    J1939ControllerApplication,
     J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     MappingScopeEnum,
@@ -11281,6 +11282,11 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setRequest2Support(self.getChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT"))
             cluster.setUsesAddressArbitration(self.getChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION"))
 
+    def readJ1939ControllerApplication(self, element: ET.Element, controller_application: J1939ControllerApplication):
+        self.readIdentifiable(element, controller_application)
+        controller_application.setFunctionId(self.getChildElementOptionalPositiveInteger(element, "FUNCTION-ID"))
+        controller_application.setSwComponentPrototypeIRef(self.getComponentInSystemInstanceRef(cast(ET.Element, self.find(element, "SW-COMPONENT-PROTOTYPE-IREF"))))
+
     def readUdpProps(self, element: ET.Element, props: UdpProps):
         """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
@@ -18531,6 +18537,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readTtcanCluster(child_element, parent.createTtcanCluster(self.getShortName(child_element)))
             elif tag_name == "J-1939-CLUSTER":
                 self.readJ1939Cluster(child_element, parent.createJ1939Cluster(self.getShortName(child_element)))
+            elif tag_name == "J-1939-CONTROLLER-APPLICATION":
+                self.readJ1939ControllerApplication(child_element, parent.createJ1939ControllerApplication(self.getShortName(child_element)))
             elif tag_name == "USER-DEFINED-CLUSTER":
                 self.readUserDefinedCluster(child_element, parent.createUserDefinedCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-FRAME":

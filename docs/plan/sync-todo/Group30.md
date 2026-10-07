@@ -2290,13 +2290,57 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `J1939ControllerApplication` — ARElement — R23-11 CP_TPS_SystemTemplate Table 5.13, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration; p.207 via pdf_page.py). Package
+    row `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement is the
+    leaf-package module `SystemTemplate/SWmapping.py` next to the stamped Table 5.2–5.12
+    family and the ARElement sibling ApplicationPartition (9241a3d9f) — same MOVE precedent;
+    the ARPackage.py module hint is wrong. Whole-class stub (ARPackage.py:11530, bare
+    `pass`) + its `__all__` entry (ARPackage.py:410) move out; stub-guard tuple in
+    test_group21_36_stub_classes.py re-pointed to SWmapping; ARPackage gains
+    `createJ1939ControllerApplication` factory + bottom import; SystemTemplate/__init__.py
+    gains the import + `__all__` entry. Base row verified = `ARElement` (most-derived of
+    ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable,
+    PackageableElement, Referrable) → `__init__(self, parent, short_name)`. Aggregated by
+    `ARPackage.element` → readARPackageElements + writeARPackageElement branches. No
+    VARIATION-POINT anchor in the complexType → no VariationPointCapable mixin. 2 attribute
+    rows (displayed order): functionId (PositiveInteger, 0..1, attr) → `Optional[
+    PositiveInteger]` get/setFunctionId; swComponentPrototype (SwComponentPrototype, 0..1,
+    iref, Note ends "InstanceRef implemented by: ComponentInSystem InstanceRef" — wrap
+    joined per the 6ddfdbb3f precedent) → `swComponentPrototypeIRef: Optional[
+    ComponentInSystemInstanceRef]` get/setSwComponentPrototypeIRef (same-file precedent
+    SwcToApplicationPartitionMapping). XSD group J-1939-CONTROLLER-APPLICATION
+    (AUTOSAR_00052.xsd l.75176): FUNCTION-ID, SW-COMPONENT-PROTOTYPE-IREF — same as
+    displayed order. constr_5493 (Existence of J1939ControllerApplication.functionId)
+    targets this class → appended to the class docstring per Rule 0012.2.4;
+    constr_3239/constr_3240 target the Table 5.12 mapping's roles (its own sync did not
+    absorb them — kept consistent). No stale legacy `# Spec verified:` marker (the stub is
+    a bare `pass` — Rule 0023 removal is a no-op).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.13 — both attribute rows modeled (functionId
+    0..1 attr → `Optional[PositiveInteger]`; swComponentPrototype 0..1 iref →
+    `swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef]`, concrete InstanceRef
+    type per the Note's "InstanceRef implemented by:" and the SwcToApplicationPartitionMapping
+    same-file precedent), verbatim Notes (class Note + constr_5493 appended per Rule 0012.2.4),
+    full reader+writer coverage at the dedicated read/write level
+    (read/writeJ1939ControllerApplication calling readIdentifiable/writeIdentifiable once per
+    side; own fields in XSD order FUNCTION-ID, SW-COMPONENT-PROTOTYPE-IREF). No aggregator
+    dispatch needed upgrading: no J-1939-CONTROLLER-APPLICATION-REFS wrapper exists in the XSD
+    or on J1939NmNode; SystemMapping's mapping refs are RefType-typed per the family precedent.
+    No stale legacy `# Spec verified:` marker existed (pre-sync stub was a bare `pass` — Rule
+    0023 removal a no-op); checklist is fresh 6-column format. Placement MOVE per Rule 0007
+    (not a deviation): ARPackage.py hint → SystemTemplate/SWmapping.py (Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, leaf package, stamped family + ARElement
+    sibling ApplicationPartition already live there); ARPackage `__all__` entry removed,
+    `createJ1939ControllerApplication` factory + bottom import added,
+    SystemTemplate/__init__.py import + `__all__` entry added, stub-guard tuple re-pointed.
+    The `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22211 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8621619bd
 

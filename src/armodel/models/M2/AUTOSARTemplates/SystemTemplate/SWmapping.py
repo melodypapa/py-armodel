@@ -6,7 +6,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -687,4 +687,62 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         """
         if value is not None:
             self.j1939NmNodeRef = value
+        return self
+
+
+class J1939ControllerApplication(ARElement):
+    """
+    This element represents a J1939 controller application. Tags: atp.recommendedPackage=J1939ControllerApplications
+
+    [constr_5493] Existence of J1939ControllerApplication.functionId: For each J1939ControllerApplication, the attribute functionId shall exist at the time when the System Description is complete.
+    """
+
+    # J1939ControllerApplication method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.13, p.207
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFunctionId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwComponentPrototypeIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the numerical function id of the J1939 controller application.
+        self.functionId: Optional[PositiveInteger] = None
+
+        # This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.swComponentPrototypeIRef: Optional[ComponentInSystemInstanceRef] = None
+
+    def getFunctionId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the numerical function id of the J1939 controller application.
+        """
+        return self.functionId
+
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> "J1939ControllerApplication":
+        """
+        This attribute represents the numerical function id of the J1939 controller application.
+
+        A None value is a no-op and does not overwrite an existing functionId.
+        """
+        if value is not None:
+            self.functionId = value
+        return self
+
+    def getSwComponentPrototypeIRef(self) -> Optional[ComponentInSystemInstanceRef]:
+        """
+        This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.swComponentPrototypeIRef
+
+    def setSwComponentPrototypeIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "J1939ControllerApplication":
+        """
+        This represents the SwComponentPrototype (which is typically typed by a CompositionSwComponentType) that corresponds to the J1939ControllerApplication. InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not overwrite an existing swComponentPrototypeIRef.
+        """
+        if value is not None:
+            self.swComponentPrototypeIRef = value
         return self

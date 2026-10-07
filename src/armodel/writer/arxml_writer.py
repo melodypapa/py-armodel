@@ -1276,6 +1276,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ComponentClustering,
     ComponentSeparation,
     EcuResourceEstimation,
+    J1939ControllerApplication,
     J1939ControllerApplicationToJ1939NmNodeMapping,
     MappingConstraint,
     SwcToApplicationPartitionMapping,
@@ -11586,6 +11587,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "REQUEST-2-SUPPORT", cluster.getRequest2Support())
             self.setChildElementOptionalBooleanValue(child_element, "USES-ADDRESS-ARBITRATION", cluster.getUsesAddressArbitration())
 
+    def writeJ1939ControllerApplication(self, element: ET.Element, controller_application: J1939ControllerApplication):
+        if controller_application is not None:
+            child_element = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION")
+            self.writeIdentifiable(child_element, controller_application)
+            self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", controller_application.getFunctionId())
+            self.setComponentInSystemInstanceRef(child_element, "SW-COMPONENT-PROTOTYPE-IREF", controller_application.getSwComponentPrototypeIRef())
+
     def writeUdpProps(self, element: ET.Element, props: Optional[UdpProps]):
         """Write an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         if props is not None:
@@ -18876,6 +18884,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTtcanCluster(element, ar_element)
         elif isinstance(ar_element, J1939Cluster):
             self.writeJ1939Cluster(element, ar_element)
+        elif isinstance(ar_element, J1939ControllerApplication):
+            self.writeJ1939ControllerApplication(element, ar_element)
         elif isinstance(ar_element, UserDefinedCluster):
             self.writeUserDefinedCluster(element, ar_element)
         elif isinstance(ar_element, CanFrame):

@@ -407,7 +407,6 @@ __all__ = [
     "IEEE1722TpRvfConnection",
     "IPSecConfigProps",
     "IPv6ExtHeaderFilterSet",
-    "J1939ControllerApplication",
     "LogAndTraceMessageCollectionSet",
     "MacSecGlobalKayProps",
     "MacSecParticipantSet",
@@ -2351,6 +2350,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             cluster = J1939Cluster(self, short_name)
             self.addReferrableElement(cluster)
         return cast(J1939Cluster, self.getReferrableElement(short_name, J1939Cluster))
+
+    def createJ1939ControllerApplication(self, short_name: str) -> J1939ControllerApplication:
+
+        if not self.IsReferrableElementExists(short_name, J1939ControllerApplication):
+            controller_application = J1939ControllerApplication(self, short_name)
+            self.addReferrableElement(controller_application)
+        return cast(J1939ControllerApplication, self.getReferrableElement(short_name, J1939ControllerApplication))
 
     def createTtcanCluster(self, short_name: str) -> TtcanCluster:
 
@@ -5050,7 +5056,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartition, J1939ControllerApplication  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
@@ -11524,10 +11530,6 @@ class IEEE1722TpConnection(ARElement, ABC):
 
 
 class IPv6ExtHeaderFilterSet(ARElement):
-    pass
-
-
-class J1939ControllerApplication(ARElement):
     pass
 
 
