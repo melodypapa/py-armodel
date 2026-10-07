@@ -2186,3 +2186,83 @@ class Test_CommunicationController:
         hints = typing.get_type_hints(CommunicationController.setWakeUpByControllerSupported)
         assert hints["value"] == typing.Optional[Boolean]
         _assert_return_is(hints, CommunicationController)
+
+
+COMM_CONNECTOR_PORT_CLASS_NOTE = (
+    "The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. "
+    "For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. "
+    "An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). "
+    "If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created."
+)
+
+COMM_CONNECTOR_PORT_DIRECTION_NOTE = "Communication Direction of the Connector Port (input or output Port)."
+
+
+class TestCommConnectorPort:
+    """Test cases for CommConnectorPort (SystemTemplate Table 6.1, p.303)."""
+
+    MEMBERS = [
+        "communicationDirection",
+    ]
+
+    def test_inheritance(self):
+        assert issubclass(CommConnectorPort, Identifiable)
+        assert issubclass(CommConnectorPort, VariationPointCapable)
+        assert issubclass(CommConnectorPort, ARObject)
+
+    def test_abstract_guard(self):
+        with pytest.raises(TypeError, match="CommConnectorPort is an abstract class"):
+            CommConnectorPort(MockParent(), "test_comm_connector_port")
+
+    def test_class_docstring_note(self):
+        expected = (
+            COMM_CONNECTOR_PORT_CLASS_NOTE
+            + "\n\n[constr_9103] Existence of communicationDirection: For each CommConnectorPort, the attribute communicationDirection shall exist at the time when the System Description is complete."
+        )
+        assert inspect.cleandoc(CommConnectorPort.__doc__) == expected
+
+    def test_init_docless(self):
+        assert CommConnectorPort.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        # Abstract class — defaults + base accessors exercised through the concrete
+        # FramePort subclass (Rule 0006); the same contract is inherited by
+        # IPduPort and ISignalPort.
+        port = FramePort(MockParent(), "fp")
+        assert port.getCommunicationDirection() is None
+
+    def test_member_order(self):
+        port = FramePort(MockParent(), "fp")
+        members = [k for k in vars(port) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_communication_direction(self):
+        port = FramePort(MockParent(), "fp")
+        direction = CommunicationDirectionType()
+        direction.setValue(CommunicationDirectionType.IN)
+
+        assert port == port.setCommunicationDirection(direction)
+        assert port.getCommunicationDirection() is direction
+        assert port.getCommunicationDirection().getValue() == "IN"
+
+        assert port == port.setCommunicationDirection(None)  # None no-op
+        assert port.getCommunicationDirection() is direction  # unchanged
+
+    def test_docstrings_verbatim(self):
+        getter = CommConnectorPort.getCommunicationDirection.__doc__
+        setter = CommConnectorPort.setCommunicationDirection.__doc__
+        assert getter is not None
+        assert getter.strip() == COMM_CONNECTOR_PORT_DIRECTION_NOTE
+        assert COMM_CONNECTOR_PORT_DIRECTION_NOTE in setter
+        assert "A None value is a no-op and does not overwrite an existing communicationDirection." in setter
+
+    def test_type_hints(self):
+        # CommunicationDirectionType lives in CoreCommunication (spec package) while
+        # CommConnectorPort lives in CoreTopology - a runtime import there would
+        # create a circular import, so resolve via localns.
+        localns = {"CommunicationDirectionType": CommunicationDirectionType}
+        hints = typing.get_type_hints(CommConnectorPort.getCommunicationDirection, localns=localns)
+        assert hints["return"] == typing.Optional[CommunicationDirectionType]
+        hints = typing.get_type_hints(CommConnectorPort.setCommunicationDirection, localns=localns)
+        assert hints["value"] == typing.Optional[CommunicationDirectionType]
+        _assert_return_is(hints, CommConnectorPort)

@@ -12757,8 +12757,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeFrame(child_element, frame)
 
     def writeCommConnectorPort(self, element: ET.Element, port: CommConnectorPort):
-        self.writeIdentifiable(element, port)
+        # VARIATION-POINT is emitted after the COMM-CONNECTOR-PORT group attributes
+        # (xml.sequenceOffset="10000" in AUTOSAR_00052.xsd group COMM-CONNECTOR-PORT).
+        self.writeIdentifiable(element, port, write_variation_point=False)
         self.setChildElementOptionalLiteral(element, "COMMUNICATION-DIRECTION", port.getCommunicationDirection())
+        self.writeVariationPointCapable(element, port)
 
     def writeFramePort(self, element: ET.Element, port: FramePort):
         child_element = ET.SubElement(element, "FRAME-PORT")

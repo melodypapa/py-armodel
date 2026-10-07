@@ -301,15 +301,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CommConnectorPort` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.1, p.303
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreTopology, leaf → CoreTopology.py — no move);
+    abstract Class → ABC + instantiation guard; Base most-derived modeled ancestor = Identifiable;
+    VARIATION-POINT is inside the XSD COMM-CONNECTOR-PORT group (sequenceOffset=10000, last) →
+    VariationPointCapable mixin is correct. Legacy 5-column checklist + stale `# Spec verified: R23-11`
+    marker found (Rule 0023) — marker removed at session start, full re-sync at the 6-column bar.
+    Writer order gap: VARIATION-POINT was emitted before COMMUNICATION-DIRECTION.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (22229 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ce43303b9
 
 - [ ] `IPduPort` — CommConnectorPort — R23-11 CP_TPS_SystemTemplate Table 6.3, p.304
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

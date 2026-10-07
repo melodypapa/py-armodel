@@ -84,7 +84,6 @@ ChapterOrMsrQuery
 ClientIdRange
 ClientServerApplicationErrorMapping
 ClientServerOperationMapping
-CommConnectorPort
 CommunicationCluster
 CommunicationControllerMapping
 CompositionSwComponentType
