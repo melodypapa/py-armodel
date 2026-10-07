@@ -2470,10 +2470,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class Ipv6NdpProps(ARObject):
-    pass
-
-
 class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
     pass
 

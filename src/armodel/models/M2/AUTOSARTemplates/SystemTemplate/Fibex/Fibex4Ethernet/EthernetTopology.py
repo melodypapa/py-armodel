@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5683,9 +5683,8 @@ class EthIpProps(ARElement):
     # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
     # Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
     # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
-    # Dhcpv6Props (Table 3.107) and Ipv6FragmentationProps (Table 3.106) fully round-trip
-    # since their syncs; Ipv6NdpProps is still a queued stub and round-trips presence-only
-    # until its sync lands.
+    # Dhcpv6Props (Table 3.107), Ipv6FragmentationProps (Table 3.106) and Ipv6NdpProps
+    # (Table 3.108) fully round-trip since their syncs.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -6263,6 +6262,518 @@ class Ipv6FragmentationProps(ARObject):
         return self
 
 
+class Ipv6NdpProps(ARObject):
+    """This meta-class specifies the configuration options for the Neighbor Discovery Protocol for IPv6."""
+
+    # Ipv6NdpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.108, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultReachableTime                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultReachableTime                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultRetransTimer                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultRetransTimer                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultRouterListSize                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultRouterListSize                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefensiveProcessing                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefensiveProcessing                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDelayFirstProbeTimeValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDelayFirstProbeTimeValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDestinationCacheSize                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDestinationCacheSize                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicHopLimitEnabled                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicHopLimitEnabled                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicMtuEnabled                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicMtuEnabled                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicReachableTimeEnabled             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicReachableTimeEnabled             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicRetransTimeEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicRetransTimeEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRandomFactor                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRandomFactor                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRtrSolicitationDelay                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRtrSolicitationDelay                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRtrSolicitations                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRtrSolicitations                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMinRandomFactor                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMinRandomFactor                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNeighborUnreachabilityDetectionEnabled  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNeighborUnreachabilityDetectionEnabled  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNumMulticastSolicitations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNumMulticastSolicitations               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNumUnicastSolicitations                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNumUnicastSolicitations                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpPacketQueueEnabled                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpPacketQueueEnabled                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpPrefixListSize                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpPrefixListSize                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRandomReachableTimeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRandomReachableTimeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRndRtrSolicitationDelayEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRndRtrSolicitationDelayEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRtrSolicitationInterval                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRtrSolicitationInterval                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDadNumberOfTransmissions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDadNumberOfTransmissions           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDadRetransmissionDelay             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDadRetransmissionDelay             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDelayEnabled                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDelayEnabled                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacOptimisticDadEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacOptimisticDadEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables].
+        self.tcpIpNdpDefaultReachableTime: Optional[TimeValue] = None
+
+        # Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables].
+        self.tcpIpNdpDefaultRetransTimer: Optional[TimeValue] = None
+
+        # Maximum number of default router entries.
+        self.tcpIpNdpDefaultRouterListSize: Optional[PositiveInteger] = None
+
+        # If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+        self.tcpIpNdpDefensiveProcessing: Optional[Boolean] = None
+
+        # Delay before sending the first NUD probe in (s).
+        self.tcpIpNdpDelayFirstProbeTimeValue: Optional[TimeValue] = None
+
+        # Maximum number of entries in the destination cache.
+        self.tcpIpNdpDestinationCacheSize: Optional[PositiveInteger] = None
+
+        # If enabled the default hop limit may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicHopLimitEnabled: Optional[Boolean] = None
+
+        # Allow dynamic reconfiguration of link MTU via Router Advertisements.
+        self.tcpIpNdpDynamicMtuEnabled: Optional[Boolean] = None
+
+        # If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicReachableTimeEnabled: Optional[Boolean] = None
+
+        # If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicRetransTimeEnabled: Optional[Boolean] = None
+
+        # Maximum random factor used for randomization
+        self.tcpIpNdpMaxRandomFactor: Optional[PositiveInteger] = None
+
+        # Maximum delay before the first Router Solicitation will be sent after interface initialization in (s).
+        self.tcpIpNdpMaxRtrSolicitationDelay: Optional[TimeValue] = None
+
+        # Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received.
+        self.tcpIpNdpMaxRtrSolicitations: Optional[PositiveInteger] = None
+
+        # Minimum random factor used for randomization
+        self.tcpIpNdpMinRandomFactor: Optional[PositiveInteger] = None
+
+        # Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on.
+        self.tcpIpNdpNeighborUnreachabilityDetectionEnabled: Optional[Boolean] = None
+
+        # Maximum number of multicast solicitations that will be sent when performing address resolution.
+        self.tcpIpNdpNumMulticastSolicitations: Optional[PositiveInteger] = None
+
+        # Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection.
+        self.tcpIpNdpNumUnicastSolicitations: Optional[PositiveInteger] = None
+
+        # Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2.
+        self.tcpIpNdpPacketQueueEnabled: Optional[Boolean] = None
+
+        # Maximum number of entries in the on-link prefix list.
+        self.tcpIpNdpPrefixListSize: Optional[PositiveInteger] = None
+
+        # If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+        self.tcpIpNdpRandomReachableTimeEnabled: Optional[Boolean] = None
+
+        # If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+        self.tcpIpNdpRndRtrSolicitationDelayEnabled: Optional[Boolean] = None
+
+        # Interval between consecutive Router Solicitations in (s).
+        self.tcpIpNdpRtrSolicitationInterval: Optional[TimeValue] = None
+
+        # Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state.
+        self.tcpIpNdpSlaacDadNumberOfTransmissions: Optional[PositiveInteger] = None
+
+        # Sets the maximum value for the address configuration delay (s).
+        self.tcpIpNdpSlaacDadRetransmissionDelay: Optional[TimeValue] = None
+
+        # If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY].
+        self.tcpIpNdpSlaacDelayEnabled: Optional[Boolean] = None
+
+        # Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429.
+        self.tcpIpNdpSlaacOptimisticDadEnabled: Optional[Boolean] = None
+
+    def getTcpIpNdpDefaultReachableTime(self) -> Optional[TimeValue]:
+        """Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables]."""
+        return self.tcpIpNdpDefaultReachableTime
+
+    def setTcpIpNdpDefaultReachableTime(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultReachableTime.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultReachableTime = value
+        return self
+
+    def getTcpIpNdpDefaultRetransTimer(self) -> Optional[TimeValue]:
+        """Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables]."""
+        return self.tcpIpNdpDefaultRetransTimer
+
+    def setTcpIpNdpDefaultRetransTimer(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultRetransTimer.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultRetransTimer = value
+        return self
+
+    def getTcpIpNdpDefaultRouterListSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of default router entries."""
+        return self.tcpIpNdpDefaultRouterListSize
+
+    def setTcpIpNdpDefaultRouterListSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of default router entries.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultRouterListSize.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultRouterListSize = value
+        return self
+
+    def getTcpIpNdpDefensiveProcessing(self) -> Optional[Boolean]:
+        """
+        If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+        """
+        return self.tcpIpNdpDefensiveProcessing
+
+    def setTcpIpNdpDefensiveProcessing(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefensiveProcessing.
+        """
+        if value is not None:
+            self.tcpIpNdpDefensiveProcessing = value
+        return self
+
+    def getTcpIpNdpDelayFirstProbeTimeValue(self) -> Optional[TimeValue]:
+        """Delay before sending the first NUD probe in (s)."""
+        return self.tcpIpNdpDelayFirstProbeTimeValue
+
+    def setTcpIpNdpDelayFirstProbeTimeValue(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Delay before sending the first NUD probe in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDelayFirstProbeTimeValue.
+        """
+        if value is not None:
+            self.tcpIpNdpDelayFirstProbeTimeValue = value
+        return self
+
+    def getTcpIpNdpDestinationCacheSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of entries in the destination cache."""
+        return self.tcpIpNdpDestinationCacheSize
+
+    def setTcpIpNdpDestinationCacheSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of entries in the destination cache.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDestinationCacheSize.
+        """
+        if value is not None:
+            self.tcpIpNdpDestinationCacheSize = value
+        return self
+
+    def getTcpIpNdpDynamicHopLimitEnabled(self) -> Optional[Boolean]:
+        """If enabled the default hop limit may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicHopLimitEnabled
+
+    def setTcpIpNdpDynamicHopLimitEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default hop limit may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicHopLimitEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicHopLimitEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicMtuEnabled(self) -> Optional[Boolean]:
+        """Allow dynamic reconfiguration of link MTU via Router Advertisements."""
+        return self.tcpIpNdpDynamicMtuEnabled
+
+    def setTcpIpNdpDynamicMtuEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Allow dynamic reconfiguration of link MTU via Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicMtuEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicMtuEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicReachableTimeEnabled(self) -> Optional[Boolean]:
+        """If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicReachableTimeEnabled
+
+    def setTcpIpNdpDynamicReachableTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicReachableTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicReachableTimeEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicRetransTimeEnabled(self) -> Optional[Boolean]:
+        """If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicRetransTimeEnabled
+
+    def setTcpIpNdpDynamicRetransTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicRetransTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicRetransTimeEnabled = value
+        return self
+
+    def getTcpIpNdpMaxRandomFactor(self) -> Optional[PositiveInteger]:
+        """Maximum random factor used for randomization"""
+        return self.tcpIpNdpMaxRandomFactor
+
+    def setTcpIpNdpMaxRandomFactor(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum random factor used for randomization
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRandomFactor.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRandomFactor = value
+        return self
+
+    def getTcpIpNdpMaxRtrSolicitationDelay(self) -> Optional[TimeValue]:
+        """Maximum delay before the first Router Solicitation will be sent after interface initialization in (s)."""
+        return self.tcpIpNdpMaxRtrSolicitationDelay
+
+    def setTcpIpNdpMaxRtrSolicitationDelay(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Maximum delay before the first Router Solicitation will be sent after interface initialization in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRtrSolicitationDelay.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRtrSolicitationDelay = value
+        return self
+
+    def getTcpIpNdpMaxRtrSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received."""
+        return self.tcpIpNdpMaxRtrSolicitations
+
+    def setTcpIpNdpMaxRtrSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRtrSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRtrSolicitations = value
+        return self
+
+    def getTcpIpNdpMinRandomFactor(self) -> Optional[PositiveInteger]:
+        """Minimum random factor used for randomization"""
+        return self.tcpIpNdpMinRandomFactor
+
+    def setTcpIpNdpMinRandomFactor(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Minimum random factor used for randomization
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMinRandomFactor.
+        """
+        if value is not None:
+            self.tcpIpNdpMinRandomFactor = value
+        return self
+
+    def getTcpIpNdpNeighborUnreachabilityDetectionEnabled(self) -> Optional[Boolean]:
+        """Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on."""
+        return self.tcpIpNdpNeighborUnreachabilityDetectionEnabled
+
+    def setTcpIpNdpNeighborUnreachabilityDetectionEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNeighborUnreachabilityDetectionEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpNeighborUnreachabilityDetectionEnabled = value
+        return self
+
+    def getTcpIpNdpNumMulticastSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of multicast solicitations that will be sent when performing address resolution."""
+        return self.tcpIpNdpNumMulticastSolicitations
+
+    def setTcpIpNdpNumMulticastSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of multicast solicitations that will be sent when performing address resolution.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNumMulticastSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpNumMulticastSolicitations = value
+        return self
+
+    def getTcpIpNdpNumUnicastSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection."""
+        return self.tcpIpNdpNumUnicastSolicitations
+
+    def setTcpIpNdpNumUnicastSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNumUnicastSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpNumUnicastSolicitations = value
+        return self
+
+    def getTcpIpNdpPacketQueueEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2."""
+        return self.tcpIpNdpPacketQueueEnabled
+
+    def setTcpIpNdpPacketQueueEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpPacketQueueEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpPacketQueueEnabled = value
+        return self
+
+    def getTcpIpNdpPrefixListSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of entries in the on-link prefix list."""
+        return self.tcpIpNdpPrefixListSize
+
+    def setTcpIpNdpPrefixListSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of entries in the on-link prefix list.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpPrefixListSize.
+        """
+        if value is not None:
+            self.tcpIpNdpPrefixListSize = value
+        return self
+
+    def getTcpIpNdpRandomReachableTimeEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+        """
+        return self.tcpIpNdpRandomReachableTimeEnabled
+
+    def setTcpIpNdpRandomReachableTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRandomReachableTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpRandomReachableTimeEnabled = value
+        return self
+
+    def getTcpIpNdpRndRtrSolicitationDelayEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+        """
+        return self.tcpIpNdpRndRtrSolicitationDelayEnabled
+
+    def setTcpIpNdpRndRtrSolicitationDelayEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRndRtrSolicitationDelayEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpRndRtrSolicitationDelayEnabled = value
+        return self
+
+    def getTcpIpNdpRtrSolicitationInterval(self) -> Optional[TimeValue]:
+        """Interval between consecutive Router Solicitations in (s)."""
+        return self.tcpIpNdpRtrSolicitationInterval
+
+    def setTcpIpNdpRtrSolicitationInterval(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Interval between consecutive Router Solicitations in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRtrSolicitationInterval.
+        """
+        if value is not None:
+            self.tcpIpNdpRtrSolicitationInterval = value
+        return self
+
+    def getTcpIpNdpSlaacDadNumberOfTransmissions(self) -> Optional[PositiveInteger]:
+        """Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state."""
+        return self.tcpIpNdpSlaacDadNumberOfTransmissions
+
+    def setTcpIpNdpSlaacDadNumberOfTransmissions(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDadNumberOfTransmissions.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDadNumberOfTransmissions = value
+        return self
+
+    def getTcpIpNdpSlaacDadRetransmissionDelay(self) -> Optional[TimeValue]:
+        """Sets the maximum value for the address configuration delay (s)."""
+        return self.tcpIpNdpSlaacDadRetransmissionDelay
+
+    def setTcpIpNdpSlaacDadRetransmissionDelay(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Sets the maximum value for the address configuration delay (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDadRetransmissionDelay.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDadRetransmissionDelay = value
+        return self
+
+    def getTcpIpNdpSlaacDelayEnabled(self) -> Optional[Boolean]:
+        """If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY]."""
+        return self.tcpIpNdpSlaacDelayEnabled
+
+    def setTcpIpNdpSlaacDelayEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDelayEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDelayEnabled = value
+        return self
+
+    def getTcpIpNdpSlaacOptimisticDadEnabled(self) -> Optional[Boolean]:
+        """Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429."""
+        return self.tcpIpNdpSlaacOptimisticDadEnabled
+
+    def setTcpIpNdpSlaacOptimisticDadEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacOptimisticDadEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacOptimisticDadEnabled = value
+        return self
+
+
 class Ipv6Props(ARObject):
     """This meta-class specifies the configuration options for IPv6."""
 
@@ -6278,10 +6789,10 @@ class Ipv6Props(ARObject):
     # [x] setNdpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # The FRAGMENTATION-PROPS child fully round-trips via the readIpv6FragmentationProps/
-    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106)
-    # and the DHCP-PROPS child via the readDhcpv6Props/writeDhcpv6Props level since the
-    # Dhcpv6Props sync (Table 3.107); Ipv6NdpProps (Table 3.108) is still a queued stub, so
-    # the NDP-PROPS child round-trips presence-only until its sync lands.
+    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106),
+    # the DHCP-PROPS child via the readDhcpv6Props/writeDhcpv6Props level since the
+    # Dhcpv6Props sync (Table 3.107) and the NDP-PROPS child via the
+    # readIpv6NdpProps/writeIpv6NdpProps level since the Ipv6NdpProps sync (Table 3.108).
 
     def __init__(self):
         super().__init__()

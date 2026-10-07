@@ -896,15 +896,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ipv6NdpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.108, p.151
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.108 is a page-split table (p.150 header + first 12 attribute rows,
+    p.151 remaining 14 rows + caption; pdf_page.py cites p.151) — 26 `0..1` attr rows synced in
+    displayed order, all TimeValue/PositiveInteger/Boolean per the PDF. Placement per Rule 0007
+    (spec Package row `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub
+    to `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (between
+    Ipv6FragmentationProps and Ipv6Props; stub-guard tuple removed from
+    tests/test_armodel/models/test_group21_36_stub_classes.py). The XSD IPV-6-NDP-PROPS group
+    carries one extra element, `TCP-IP-NDP-DELAY-FIRST-PROBE-TIME`, marked
+    `atp.Status="removed"` and absent from the PDF table — deprecated (atp.Status=removed),
+    not implemented (the modeled `tcpIpNdpDelayFirstProbeTimeValue` is the PDF row). Instance
+    element tag under IPV-6-PROPS verified as `NDP-PROPS` (XSD type AR:IPV-6-NDP-PROPS).
+    Ipv6Props' NDP-PROPS dispatch upgraded from identity-only to the full
+    readIpv6NdpProps/writeIpv6NdpProps level — all three Ipv6Props children now fully wired.
+    No referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20906 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `EthernetWakeupSleepOnDatalineConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.115, p.159
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

@@ -5,8 +5,8 @@ XML element order per XSD IPV-6-PROPS group: DHCP-PROPS, FRAGMENTATION-PROPS,
 NDP-PROPS (unwrapped direct children of IPV-6-PROPS). The FRAGMENTATION-PROPS child
 fully round-trips via writeIpv6FragmentationProps since the Ipv6FragmentationProps
 sync (Table 3.106) and the DHCP-PROPS child via writeDhcpv6Props since the
-Dhcpv6Props sync (Table 3.107); Ipv6NdpProps (Table 3.108) is still a queued stub
-and round-trips presence-only until its sync lands.
+Dhcpv6Props sync (Table 3.107) and the NDP-PROPS child via writeIpv6NdpProps since
+the Ipv6NdpProps sync (Table 3.108).
 writeIpv6Props calls writeARObject on the IPV-6-PROPS element exactly once.
 """
 
@@ -15,9 +15,8 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Dhcpv6Props, Ipv6FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Dhcpv6Props, Ipv6FragmentationProps, Ipv6NdpProps, Ipv6Props
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

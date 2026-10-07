@@ -11,7 +11,6 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     Dhcpv6Props,
     EthIpProps,
@@ -20,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6FragmentationProps,
+    Ipv6NdpProps,
     Ipv6Props,
 )
 from armodel.parser.arxml_parser import ARXMLParser

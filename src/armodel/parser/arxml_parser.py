@@ -577,7 +577,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv6NdpProps,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1177,6 +1176,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
     Ipv6FragmentationProps,
+    Ipv6NdpProps,
     Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
@@ -11067,7 +11067,39 @@ class ARXMLParser(AbstractARXMLParser):
             props.setFragmentationProps(fragmentation_props)
         child_element = self.find(element, "NDP-PROPS")
         if child_element is not None:
-            props.setNdpProps(Ipv6NdpProps())
+            ndp_props = Ipv6NdpProps()
+            self.readIpv6NdpProps(child_element, ndp_props)
+            props.setNdpProps(ndp_props)
+
+    def readIpv6NdpProps(self, element: ET.Element, props: Ipv6NdpProps):
+        """Read an R23-11 <NDP-PROPS> element (Table 3.108, p.151): 26 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpNdpDefaultReachableTime(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DEFAULT-REACHABLE-TIME"))
+        props.setTcpIpNdpDefaultRetransTimer(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DEFAULT-RETRANS-TIMER"))
+        props.setTcpIpNdpDefaultRouterListSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-DEFAULT-ROUTER-LIST-SIZE"))
+        props.setTcpIpNdpDefensiveProcessing(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DEFENSIVE-PROCESSING"))
+        props.setTcpIpNdpDelayFirstProbeTimeValue(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DELAY-FIRST-PROBE-TIME-VALUE"))
+        props.setTcpIpNdpDestinationCacheSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-DESTINATION-CACHE-SIZE"))
+        props.setTcpIpNdpDynamicHopLimitEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-HOP-LIMIT-ENABLED"))
+        props.setTcpIpNdpDynamicMtuEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-MTU-ENABLED"))
+        props.setTcpIpNdpDynamicReachableTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-REACHABLE-TIME-ENABLED"))
+        props.setTcpIpNdpDynamicRetransTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-RETRANS-TIME-ENABLED"))
+        props.setTcpIpNdpMaxRandomFactor(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MAX-RANDOM-FACTOR"))
+        props.setTcpIpNdpMaxRtrSolicitationDelay(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-MAX-RTR-SOLICITATION-DELAY"))
+        props.setTcpIpNdpMaxRtrSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MAX-RTR-SOLICITATIONS"))
+        props.setTcpIpNdpMinRandomFactor(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MIN-RANDOM-FACTOR"))
+        props.setTcpIpNdpNeighborUnreachabilityDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-NEIGHBOR-UNREACHABILITY-DETECTION-ENABLED"))
+        props.setTcpIpNdpNumMulticastSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-NUM-MULTICAST-SOLICITATIONS"))
+        props.setTcpIpNdpNumUnicastSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-NUM-UNICAST-SOLICITATIONS"))
+        props.setTcpIpNdpPacketQueueEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-PACKET-QUEUE-ENABLED"))
+        props.setTcpIpNdpPrefixListSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-PREFIX-LIST-SIZE"))
+        props.setTcpIpNdpRandomReachableTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-RANDOM-REACHABLE-TIME-ENABLED"))
+        props.setTcpIpNdpRndRtrSolicitationDelayEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-RND-RTR-SOLICITATION-DELAY-ENABLED"))
+        props.setTcpIpNdpRtrSolicitationInterval(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-RTR-SOLICITATION-INTERVAL"))
+        props.setTcpIpNdpSlaacDadNumberOfTransmissions(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-SLAAC-DAD-NUMBER-OF-TRANSMISSIONS"))
+        props.setTcpIpNdpSlaacDadRetransmissionDelay(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-SLAAC-DAD-RETRANSMISSION-DELAY"))
+        props.setTcpIpNdpSlaacDelayEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-SLAAC-DELAY-ENABLED"))
+        props.setTcpIpNdpSlaacOptimisticDadEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-SLAAC-OPTIMISTIC-DAD-ENABLED"))
 
     def readDhcpv6Props(self, element: ET.Element, props: Dhcpv6Props):
         """Read an R23-11 <DHCP-PROPS> element (Table 3.107, p.149): 6 optional attributes in XSD order."""

@@ -5,9 +5,8 @@ XML element order per XSD ETH-IP-PROPS group: IPV-4-PROPS, IPV-6-PROPS.
 The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since
 the Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
 readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
-Dhcpv6Props fully round-trips since its sync (Table 3.107) and Ipv6FragmentationProps
-since its sync (Table 3.106); Ipv6NdpProps is still a queued stub and round-trips
-presence-only until its sync lands.
+Dhcpv6Props fully round-trips since its sync (Table 3.107), Ipv6FragmentationProps
+since its sync (Table 3.106) and Ipv6NdpProps since its sync (Table 3.108).
 writeEthIpProps calls writeIdentifiable on the ETH-IP-PROPS element exactly once.
 """
 
@@ -16,7 +15,6 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     Dhcpv6Props,
     EthIpProps,
@@ -25,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6FragmentationProps,
+    Ipv6NdpProps,
     Ipv6Props,
 )
 from armodel.parser.arxml_parser import ARXMLParser
