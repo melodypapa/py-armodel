@@ -965,6 +965,7 @@ class SomeipSdRule(ARObject):
 
     # SomeipSdRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class SomeipSdRule, AUTOSAR_00052.xsd line 110652 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getEntryType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
