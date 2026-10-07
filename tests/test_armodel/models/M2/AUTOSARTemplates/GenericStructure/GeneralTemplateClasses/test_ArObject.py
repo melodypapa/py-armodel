@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+    BusMirrorCanIdRangeMapping,
     CalibrationParameterValue,
     DdsCpProvidedServiceInstance,
     DdsCpServiceInstanceEvent,
@@ -4301,3 +4302,83 @@ class TestDdsHistory:
         assert inspect.cleandoc(DdsHistory.setHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "historyKind")
         assert inspect.cleandoc(DdsHistory.getHistoryOrderDepth.__doc__) == self.HISTORY_ORDER_DEPTH_NOTE
         assert inspect.cleandoc(DdsHistory.setHistoryOrderDepth.__doc__) == (self.HISTORY_ORDER_DEPTH_NOTE + none_no_op % "historyOrderDepth")
+
+
+class TestBusMirrorCanIdRangeMapping:
+    """
+    Test class for BusMirrorCanIdRangeMapping functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.329, p.702
+    """
+
+    CLASS_NOTE = "This element defines a rule for remapping a set of CAN IDs."
+    DESTINATION_BASE_ID_NOTE = "Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID."
+    SOURCE_CAN_ID_CODE_NOTE = "Value to match masked original CAN IDs."
+    SOURCE_CAN_ID_MASK_NOTE = "Mask applied to original CAN IDs before comparison."
+
+    def _create_mapping(self) -> BusMirrorCanIdRangeMapping:
+        return BusMirrorCanIdRangeMapping()
+
+    def test_initialization(self):
+        obj = self._create_mapping()
+
+        assert obj.getDestinationBaseId() is None
+        assert obj.getSourceCanIdCode() is None
+        assert obj.getSourceCanIdMask() is None
+
+    def test_is_ar_object_subclass(self):
+        assert issubclass(BusMirrorCanIdRangeMapping, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert BusMirrorCanIdRangeMapping.__init__.__doc__ is None
+
+    def test_get_set_destination_base_id(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("16")
+        assert obj.setDestinationBaseId(value) is obj
+        assert obj.getDestinationBaseId() is value
+        assert obj.getDestinationBaseId().getValue() == 16
+
+        obj.setDestinationBaseId(None)
+        assert obj.getDestinationBaseId() is value
+
+    def test_get_set_source_can_id_code(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("40")
+        assert obj.setSourceCanIdCode(value) is obj
+        assert obj.getSourceCanIdCode() is value
+        assert obj.getSourceCanIdCode().getValue() == 40
+
+        obj.setSourceCanIdCode(None)
+        assert obj.getSourceCanIdCode() is value
+
+    def test_get_set_source_can_id_mask(self):
+        obj = self._create_mapping()
+
+        value = PositiveInteger().setValue("7")
+        assert obj.setSourceCanIdMask(value) is obj
+        assert obj.getSourceCanIdMask() is value
+        assert obj.getSourceCanIdMask().getValue() == 7
+
+        obj.setSourceCanIdMask(None)
+        assert obj.getSourceCanIdMask() is value
+
+    def test_accessor_docstrings_are_spec_note_verbatim(self):
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getDestinationBaseId.__doc__) == self.DESTINATION_BASE_ID_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setDestinationBaseId.__doc__) == (self.DESTINATION_BASE_ID_NOTE + none_no_op % "destinationBaseId")
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getSourceCanIdCode.__doc__) == self.SOURCE_CAN_ID_CODE_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setSourceCanIdCode.__doc__) == (self.SOURCE_CAN_ID_CODE_NOTE + none_no_op % "sourceCanIdCode")
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.getSourceCanIdMask.__doc__) == self.SOURCE_CAN_ID_MASK_NOTE
+        assert inspect.cleandoc(BusMirrorCanIdRangeMapping.setSourceCanIdMask.__doc__) == (self.SOURCE_CAN_ID_MASK_NOTE + none_no_op % "sourceCanIdMask")
+
+    def test_type_hints_are_optional_positive_integer(self):
+        getter_hints = typing.get_type_hints(BusMirrorCanIdRangeMapping.getDestinationBaseId)
+        setter_hints = typing.get_type_hints(BusMirrorCanIdRangeMapping.setDestinationBaseId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]

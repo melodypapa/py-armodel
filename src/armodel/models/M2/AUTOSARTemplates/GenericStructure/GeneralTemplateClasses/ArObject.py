@@ -2283,7 +2283,80 @@ class BinaryManifestResource(ARObject, ABC):
 
 
 class BusMirrorCanIdRangeMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a set of CAN IDs.
+    """
+
+    # BusMirrorCanIdRangeMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.329, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationBaseId     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationBaseId     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceCanIdCode       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceCanIdCode       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceCanIdMask       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceCanIdMask       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+        self.destinationBaseId: Optional[PositiveInteger] = None
+
+        # Value to match masked original CAN IDs.
+        self.sourceCanIdCode: Optional[PositiveInteger] = None
+
+        # Mask applied to original CAN IDs before comparison.
+        self.sourceCanIdMask: Optional[PositiveInteger] = None
+
+    def getDestinationBaseId(self) -> Optional[PositiveInteger]:
+        """
+        Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+        """
+        return self.destinationBaseId
+
+    def setDestinationBaseId(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Base ID merged with the masked parts of the original CAN ID to form the mapped CAN ID.
+
+        A None value is a no-op and does not overwrite an existing destinationBaseId.
+        """
+        if value is not None:
+            self.destinationBaseId = value
+        return self
+
+    def getSourceCanIdCode(self) -> Optional[PositiveInteger]:
+        """
+        Value to match masked original CAN IDs.
+        """
+        return self.sourceCanIdCode
+
+    def setSourceCanIdCode(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Value to match masked original CAN IDs.
+
+        A None value is a no-op and does not overwrite an existing sourceCanIdCode.
+        """
+        if value is not None:
+            self.sourceCanIdCode = value
+        return self
+
+    def getSourceCanIdMask(self) -> Optional[PositiveInteger]:
+        """
+        Mask applied to original CAN IDs before comparison.
+        """
+        return self.sourceCanIdMask
+
+    def setSourceCanIdMask(self, value: Optional[PositiveInteger]) -> BusMirrorCanIdRangeMapping:
+        """
+        Mask applied to original CAN IDs before comparison.
+
+        A None value is a no-op and does not overwrite an existing sourceCanIdMask.
+        """
+        if value is not None:
+            self.sourceCanIdMask = value
+        return self
 
 
 class BusMirrorCanIdToCanIdMapping(ARObject):

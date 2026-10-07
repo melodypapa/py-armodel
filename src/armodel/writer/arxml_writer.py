@@ -1205,6 +1205,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -9807,6 +9808,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(parent, key)
             self.writeARObject(child_element, channel)
+
+    def writeBusMirrorCanIdRangeMapping(self, element: ET.Element, mapping: BusMirrorCanIdRangeMapping):
+        child_element = ET.SubElement(element, "BUS-MIRROR-CAN-ID-RANGE-MAPPING")
+        self.writeARObject(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "DESTINATION-BASE-ID", mapping.getDestinationBaseId())
+        self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-CAN-ID-CODE", mapping.getSourceCanIdCode())
+        self.setChildElementOptionalPositiveInteger(child_element, "SOURCE-CAN-ID-MASK", mapping.getSourceCanIdMask())
 
     def writeBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
         self.logger.debug("Write BusMirrorChannelMapping %s" % mapping.getShortName())
