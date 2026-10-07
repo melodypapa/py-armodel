@@ -1003,8 +1003,8 @@ class CSTransformerErrorReactionEnum(AREnum):
 
     # CSTransformerErrorReactionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.9, p.773
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
     APPLICATION_ONLY = "APPLICATION-ONLY"
