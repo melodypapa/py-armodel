@@ -6,6 +6,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -1624,61 +1625,104 @@ class TestServiceVersionAcceptanceKindEnum:
 
 
 class TestPduActivationRoutingGroup:
-    """
-    Test cases for PduActivationRoutingGroup (Table 6.161).
-    """
+    """Spec-sync tests for PduActivationRoutingGroup (R23-11 CP_TPS_SystemTemplate, Table 6.161, p.489)."""
 
-    def test_initialization(self):
-        """
-        Test initialization and Identifiable base.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
+    MEMBERS = [
+        "eventGroupControlType",
+        "iPduIdentifierTcpRefs",
+        "iPduIdentifierUdpRefs",
+    ]
+
+    EVENT_GROUP_CONTROL_TYPE_NOTE = (
+        "This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. "
+        "And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. "
+        "Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."
+    )
+    IPDU_IDENTIFIER_TCP_NOTE = "PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated."
+    IPDU_IDENTIFIER_UDP_NOTE = "PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated."
+
+    def _group(self, short_name="Group1"):
+        return PduActivationRoutingGroup(MockParent(), short_name)
+
+    def test_inheritance(self):
+        group = self._group()
 
         assert isinstance(group, Identifiable)
-        assert group.getShortName() == "Group1"
+        assert isinstance(group, VariationPointCapable)
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(PduActivationRoutingGroup.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        assert typing.get_type_hints(PduActivationRoutingGroup.getEventGroupControlType)["return"] == typing.Optional[EventGroupControlTypeEnum]
+        assert typing.get_type_hints(PduActivationRoutingGroup.getIPduIdentifierTcpRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(PduActivationRoutingGroup.getIPduIdentifierUdpRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        group = self._group()
+
         assert group.getEventGroupControlType() is None
         assert group.getIPduIdentifierTcpRefs() == []
         assert group.getIPduIdentifierUdpRefs() == []
 
-    def test_event_group_control_type(self):
-        """
-        Test eventGroupControlType round-trip and None no-op.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
+    def test_member_order(self):
+        group = self._group()
+
+        members = [k for k in vars(group) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_event_group_control_type(self):
+        group = self._group()
         control_type = EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST)
 
-        result = group.setEventGroupControlType(control_type)
+        assert group.setEventGroupControlType(control_type) is group
         assert group.getEventGroupControlType() is control_type
-        assert result == group  # method chaining
+        assert group.getEventGroupControlType().getValue() == "ACTIVATION-AND-TRIGGER-UNICAST"
 
-        # None no-op
-        result = group.setEventGroupControlType(None)
+        group.setEventGroupControlType(None)
         assert group.getEventGroupControlType() is control_type
 
-    def test_ipdu_identifier_refs(self):
-        """
-        Test iPduIdentifierTcp/Udp ref lists, append semantics and None no-op.
-        """
-        parent = MockParent()
-        group = PduActivationRoutingGroup(parent, "Group1")
-        ref_tcp = RefType()
-        ref_udp = RefType()
+    def test_add_get_ipdu_identifier_tcp_refs(self):
+        group = self._group()
+        ref1 = _ref("/SoCon/IPduTcp1")
+        ref2 = _ref("/SoCon/IPduTcp2")
 
-        result = group.addIPduIdentifierTcpRef(ref_tcp)
-        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
-        assert result == group  # method chaining
+        assert group.addIPduIdentifierTcpRef(ref1) is group
+        group.addIPduIdentifierTcpRef(ref2)
+        assert group.getIPduIdentifierTcpRefs() == [ref1, ref2]
 
         group.addIPduIdentifierTcpRef(None)
-        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
+        assert group.getIPduIdentifierTcpRefs() == [ref1, ref2]
 
-        result = group.addIPduIdentifierUdpRef(ref_udp)
-        assert group.getIPduIdentifierUdpRefs() == [ref_udp]
-        assert result == group  # method chaining
+    def test_add_get_ipdu_identifier_udp_refs(self):
+        group = self._group()
+        ref1 = _ref("/SoCon/IPduUdp1")
+        ref2 = _ref("/SoCon/IPduUdp2")
+
+        assert group.addIPduIdentifierUdpRef(ref1) is group
+        group.addIPduIdentifierUdpRef(ref2)
+        assert group.getIPduIdentifierUdpRefs() == [ref1, ref2]
 
         group.addIPduIdentifierUdpRef(None)
-        assert group.getIPduIdentifierUdpRefs() == [ref_udp]
+        assert group.getIPduIdentifierUdpRefs() == [ref1, ref2]
+
+    def test_class_docstring_note(self):
+        expected = "Group of Pdus that can be activated or deactivated for transmission over a socket connection."
+        assert inspect.cleandoc(PduActivationRoutingGroup.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        accessors = {
+            self.EVENT_GROUP_CONTROL_TYPE_NOTE: ("getEventGroupControlType", "setEventGroupControlType"),
+            self.IPDU_IDENTIFIER_TCP_NOTE: ("addIPduIdentifierTcpRef", "getIPduIdentifierTcpRefs"),
+            self.IPDU_IDENTIFIER_UDP_NOTE: ("addIPduIdentifierUdpRef", "getIPduIdentifierUdpRefs"),
+        }
+        for note, (first, second) in accessors.items():
+            assert inspect.cleandoc(getattr(PduActivationRoutingGroup, first).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(PduActivationRoutingGroup, second).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(PduActivationRoutingGroup.__init__)
 
 
 class TestStaticSocketConnection:
