@@ -1676,6 +1676,12 @@ class TestEventGroupControlTypeEnum:
         assert result == enum  # method chaining
         assert enum.getValue() == EventGroupControlTypeEnum.ACTIVATION_MULTICAST
 
+    def test_class_docstring_note(self):
+        """
+        Class docstring is the spec Note verbatim (Table 6.162).
+        """
+        assert inspect.cleandoc(EventGroupControlTypeEnum.__doc__) == "Types of a RoutingGroups for the event communication."
+
 
 class TestTcpRoleEnum:
     """
@@ -1976,10 +1982,7 @@ class TestSoConIPduIdentifier:
         assert identifier.getPduTriggeringRef() is ref
 
     def test_class_docstring_note(self):
-        expected = (
-            "Identification of Pdu content on a socket connection. This Identifier is required in case that multiple "
-            "Pdus are transmitted over the same socket connection."
-        )
+        expected = "Identification of Pdu content on a socket connection. This Identifier is required in case that multiple " "Pdus are transmitted over the same socket connection."
         assert inspect.cleandoc(SoConIPduIdentifier.__doc__) == expected
 
     def test_rehoused_to_spec_package(self):

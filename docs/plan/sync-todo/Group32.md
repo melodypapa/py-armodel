@@ -548,15 +548,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `EventGroupControlTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.162, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown renders this table PRE-caption (body sits under the Table 6.161 caption;
+    the body following the 6.162 caption belongs to SoConIPduIdentifier). Literals/values verified
+    against EVENT-GROUP-CONTROL-TYPE-ENUM--SIMPLE facets (ACTIVATION-AND-TRIGGER-UNICAST …
+    TRIGGER-UNICAST) — impl already matched, no field change. Rule 0023 drift: stale
+    `# Spec verified:` marker removed; legacy 5-column block rewritten 6-column (no marker — 9b
+    deferred). Round-trip via consuming class PduActivationRoutingGroup.eventGroupControlType
+    (reader/writer already cover EVENT-GROUP-CONTROL-TYPE); SoAdRoutingGroup consumes it too.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone AREnum — serialized as
+      attribute value on PduActivationRoutingGroup.eventGroupControlType; existing consuming-class
+      reader/writer tests pin the round-trip)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone AREnum — see Step 5)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoConIPduIdentifier` — Referrable — R23-11 CP_TPS_SystemTemplate Table 6.163, p.490
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
