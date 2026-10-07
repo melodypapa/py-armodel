@@ -1304,7 +1304,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    BusMirrorChannel,
+    BusMirrorChannelMapping,
+    BusMirrorChannelMappingCan,
+    BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingUserDefined,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
@@ -10196,6 +10202,24 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
             mapping.addTargetPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
+    def readBusMirrorChannelMappingCan(self, element: ET.Element, mapping: BusMirrorChannelMappingCan):
+        self.logger.debug("Read BusMirrorChannelMappingCan <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        for child_element in self.findall(element, "CAN-ID-RANGE-MAPPINGS/BUS-MIRROR-CAN-ID-RANGE-MAPPING"):
+            range_mapping = BusMirrorCanIdRangeMapping()
+            self.readBusMirrorCanIdRangeMapping(child_element, range_mapping)
+            mapping.addCanIdRangeMapping(range_mapping)
+        for child_element in self.findall(element, "CAN-ID-TO-CAN-ID-MAPPINGS/BUS-MIRROR-CAN-ID-TO-CAN-ID-MAPPING"):
+            id_mapping = BusMirrorCanIdToCanIdMapping()
+            self.readBusMirrorCanIdToCanIdMapping(child_element, id_mapping)
+            mapping.addCanIdToCanIdMapping(id_mapping)
+        for child_element in self.findall(element, "LIN-PID-TO-CAN-ID-MAPPINGS/BUS-MIRROR-LIN-PID-TO-CAN-ID-MAPPING"):
+            lin_mapping = BusMirrorLinPidToCanIdMapping()
+            self.readBusMirrorLinPidToCanIdMapping(child_element, lin_mapping)
+            mapping.addLinPidToCanIdMapping(lin_mapping)
+        mapping.setMirrorSourceLinToCanRangeBaseId(self.getChildElementOptionalPositiveInteger(element, "MIRROR-SOURCE-LIN-TO-CAN-RANGE-BASE-ID"))
+        mapping.setMirrorStatusCanId(self.getChildElementOptionalPositiveInteger(element, "MIRROR-STATUS-CAN-ID"))
+
     def readBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
         self.logger.debug("Read BusMirrorChannelMappingFlexray <%s>" % mapping.getShortName())
         self.readBusMirrorChannelMapping(element, mapping)
@@ -18953,6 +18977,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
             scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
             self.readRapidPrototypingScenario(child_element, scenario)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-CAN":
+            can_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingCan, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingCan(child_element, can_mapping)
         elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY":
             flexray_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingFlexray, self.getShortName(child_element))
             self.readBusMirrorChannelMappingFlexray(child_element, flexray_mapping)

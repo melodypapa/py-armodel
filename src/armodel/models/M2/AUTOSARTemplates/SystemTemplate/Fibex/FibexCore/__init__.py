@@ -7,9 +7,15 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, BusMirrorChannel
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+    BusMirrorCanIdRangeMapping,
+    BusMirrorCanIdToCanIdMapping,
+    BusMirrorChannel,
+    BusMirrorLinPidToCanIdMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import PackageableElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum, PositiveInteger, RefType, TimeValue
 
 
 class FibexElement(PackageableElement, ABC):
@@ -129,6 +135,125 @@ class BusMirrorChannelMapping(FibexElement, ABC):
         Reference to the PduTriggering that is used for transmission of the mirrored frames on the targetChannel. Please note that on FlexRay several targetPduTriggerings may be used. For all other communication channels only a single targetPduTriggering is supported. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=targetPduTriggering.pduTriggering, target PduTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
         return self.targetPduTriggeringRefs
+
+
+class BusMirrorChannelMappingCan(BusMirrorChannelMapping):
+    """
+    This element defines the bus mirroring between a CAN or LIN sourceChannel and a CAN targetChannel. Tags: atp.recommendedPackage=BusMirrorChannelMappings
+    """
+
+    # BusMirrorChannelMappingCan method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.328, p.701
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCanIdRangeMapping                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanIdRangeMappings               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCanIdToCanIdMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanIdToCanIdMappings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLinPidToCanIdMapping             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinPidToCanIdMappings            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMirrorSourceLinToCanRangeBaseId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMirrorSourceLinToCanRangeBaseId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMirrorStatusCanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMirrorStatusCanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Rules for remapping of a set of CAN IDs.
+        self.canIdRangeMappings: List[BusMirrorCanIdRangeMapping] = []
+
+        # Rules for remapping of single CanIds.
+        self.canIdToCanIdMappings: List[BusMirrorCanIdToCanIdMapping] = []
+
+        # Rules for remapping of single LIN Frames.
+        self.linPidToCanIdMappings: List[BusMirrorLinPidToCanIdMapping] = []
+
+        # Base ID merged with the LIN frame ID to form the CAN ID. Only required when a BusMirrorChannel that refers to a LinPhysicalChannel in the role channel is referenced in the role sourceChannel.
+        self.mirrorSourceLinToCanRangeBaseId: Optional[PositiveInteger] = None
+
+        # CAN ID of the CAN status frame. If configured, a status frame will be sent on the CAN destination bus that contains the state of all active source buses.
+        self.mirrorStatusCanId: Optional[PositiveInteger] = None
+
+    def addCanIdRangeMapping(self, value: Optional[BusMirrorCanIdRangeMapping]) -> BusMirrorChannelMappingCan:
+        """
+        Rules for remapping of a set of CAN IDs.
+
+        A None value is a no-op and does not append a canIdRangeMapping.
+        """
+        if value is not None:
+            self.canIdRangeMappings.append(value)
+        return self
+
+    def getCanIdRangeMappings(self) -> List[BusMirrorCanIdRangeMapping]:
+        """
+        Rules for remapping of a set of CAN IDs.
+        """
+        return self.canIdRangeMappings
+
+    def addCanIdToCanIdMapping(self, value: Optional[BusMirrorCanIdToCanIdMapping]) -> BusMirrorChannelMappingCan:
+        """
+        Rules for remapping of single CanIds.
+
+        A None value is a no-op and does not append a canIdToCanIdMapping.
+        """
+        if value is not None:
+            self.canIdToCanIdMappings.append(value)
+        return self
+
+    def getCanIdToCanIdMappings(self) -> List[BusMirrorCanIdToCanIdMapping]:
+        """
+        Rules for remapping of single CanIds.
+        """
+        return self.canIdToCanIdMappings
+
+    def addLinPidToCanIdMapping(self, value: Optional[BusMirrorLinPidToCanIdMapping]) -> BusMirrorChannelMappingCan:
+        """
+        Rules for remapping of single LIN Frames.
+
+        A None value is a no-op and does not append a linPidToCanIdMapping.
+        """
+        if value is not None:
+            self.linPidToCanIdMappings.append(value)
+        return self
+
+    def getLinPidToCanIdMappings(self) -> List[BusMirrorLinPidToCanIdMapping]:
+        """
+        Rules for remapping of single LIN Frames.
+        """
+        return self.linPidToCanIdMappings
+
+    def getMirrorSourceLinToCanRangeBaseId(self) -> Optional[PositiveInteger]:
+        """
+        Base ID merged with the LIN frame ID to form the CAN ID. Only required when a BusMirrorChannel that refers to a LinPhysicalChannel in the role channel is referenced in the role sourceChannel.
+        """
+        return self.mirrorSourceLinToCanRangeBaseId
+
+    def setMirrorSourceLinToCanRangeBaseId(self, value: Optional[PositiveInteger]) -> BusMirrorChannelMappingCan:
+        """
+        Base ID merged with the LIN frame ID to form the CAN ID. Only required when a BusMirrorChannel that refers to a LinPhysicalChannel in the role channel is referenced in the role sourceChannel.
+
+        A None value is a no-op and does not overwrite an existing mirrorSourceLinToCanRangeBaseId.
+        """
+        if value is not None:
+            self.mirrorSourceLinToCanRangeBaseId = value
+        return self
+
+    def getMirrorStatusCanId(self) -> Optional[PositiveInteger]:
+        """
+        CAN ID of the CAN status frame. If configured, a status frame will be sent on the CAN destination bus that contains the state of all active source buses.
+        """
+        return self.mirrorStatusCanId
+
+    def setMirrorStatusCanId(self, value: Optional[PositiveInteger]) -> BusMirrorChannelMappingCan:
+        """
+        CAN ID of the CAN status frame. If configured, a status frame will be sent on the CAN destination bus that contains the state of all active source buses.
+
+        A None value is a no-op and does not overwrite an existing mirrorStatusCanId.
+        """
+        if value is not None:
+            self.mirrorStatusCanId = value
+        return self
 
 
 class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):

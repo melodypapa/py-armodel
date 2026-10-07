@@ -2419,10 +2419,6 @@ class BusMirrorChannel(ARObject):
     pass
 
 
-class BusMirrorChannelMappingCan(ARObject):
-    pass
-
-
 class BusMirrorChannelMappingIp(ARObject):
     pass
 
@@ -3586,3 +3582,24 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     String,
     TimeValue,
 )
+
+
+# BusMirrorChannelMappingCan is defined in SystemTemplate::Fibex::FibexCore (its spec
+# Base chain reaches FibexElement there); an eager import from this module would close
+# an import-time cycle (FibexCore imports this module for ARObject/PackageableElement),
+# so the name is re-exported lazily via PEP 562; `from ArObject import X` and wildcard
+# imports keep working because __getattr__ only fires for names missing from module globals.
+from importlib import import_module as _import_module  # noqa: E402
+
+_LAZY_IMPORTS = {
+    "BusMirrorChannelMappingCan": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore",
+}
+
+
+def __getattr__(name):
+    module_path = _LAZY_IMPORTS.get(name)
+    if module_path is None:
+        raise AttributeError("module %r has no attribute %r" % (__name__, name))
+    value = getattr(_import_module(module_path), name)
+    globals()[name] = value
+    return value

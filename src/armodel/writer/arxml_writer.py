@@ -1204,7 +1204,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    BusMirrorChannel,
+    BusMirrorChannelMapping,
+    BusMirrorChannelMappingCan,
+    BusMirrorChannelMappingFlexray,
+    BusMirrorChannelMappingUserDefined,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorCanIdRangeMapping, BusMirrorCanIdToCanIdMapping, BusMirrorLinPidToCanIdMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
@@ -9840,6 +9846,28 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 child_element = ET.SubElement(triggerings_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", ref)
+
+    def writeBusMirrorChannelMappingCan(self, element: ET.Element, mapping: BusMirrorChannelMappingCan):
+        self.logger.debug("Write BusMirrorChannelMappingCan %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-CAN")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        range_mappings = mapping.getCanIdRangeMappings()
+        if len(range_mappings) > 0:
+            ranges_tag = ET.SubElement(child_element, "CAN-ID-RANGE-MAPPINGS")
+            for range_mapping in range_mappings:
+                self.writeBusMirrorCanIdRangeMapping(ranges_tag, range_mapping)
+        id_mappings = mapping.getCanIdToCanIdMappings()
+        if len(id_mappings) > 0:
+            ids_tag = ET.SubElement(child_element, "CAN-ID-TO-CAN-ID-MAPPINGS")
+            for id_mapping in id_mappings:
+                self.writeBusMirrorCanIdToCanIdMapping(ids_tag, id_mapping)
+        lin_mappings = mapping.getLinPidToCanIdMappings()
+        if len(lin_mappings) > 0:
+            lins_tag = ET.SubElement(child_element, "LIN-PID-TO-CAN-ID-MAPPINGS")
+            for lin_mapping in lin_mappings:
+                self.writeBusMirrorLinPidToCanIdMapping(lins_tag, lin_mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "MIRROR-SOURCE-LIN-TO-CAN-RANGE-BASE-ID", mapping.getMirrorSourceLinToCanRangeBaseId())
+        self.setChildElementOptionalPositiveInteger(child_element, "MIRROR-STATUS-CAN-ID", mapping.getMirrorStatusCanId())
 
     def writeBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
         self.logger.debug("Write BusMirrorChannelMappingFlexray %s" % mapping.getShortName())
@@ -19140,6 +19168,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeGroup(element, ar_element)
         elif isinstance(ar_element, RunnableEntityGroup):
             self.writeRunnableEntityGroup(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingCan):
+            self.writeBusMirrorChannelMappingCan(element, ar_element)
         elif isinstance(ar_element, BusMirrorChannelMappingFlexray):
             self.writeBusMirrorChannelMappingFlexray(element, ar_element)
         elif isinstance(ar_element, BusMirrorChannelMappingUserDefined):
