@@ -2428,7 +2428,59 @@ class BusMirrorChannelMappingIp(ARObject):
 
 
 class BusMirrorLinPidToCanIdMapping(ARObject):
-    pass
+    """
+    This element defines a rule for remapping a single LIN Frame.
+    """
+
+    # BusMirrorLinPidToCanIdMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.331, p.702
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRemappedCanId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemappedCanId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceLinPidRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceLinPidRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the CanId on the targetChannel.
+        self.remappedCanId: Optional[PositiveInteger] = None
+
+        # This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        self.sourceLinPidRef: Optional[RefType] = None
+
+    def getRemappedCanId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the CanId on the targetChannel.
+        """
+        return self.remappedCanId
+
+    def setRemappedCanId(self, value: Optional[PositiveInteger]) -> BusMirrorLinPidToCanIdMapping:
+        """
+        This attribute defines the CanId on the targetChannel.
+
+        A None value is a no-op and does not overwrite an existing remappedCanId.
+        """
+        if value is not None:
+            self.remappedCanId = value
+        return self
+
+    def getSourceLinPidRef(self) -> Optional[RefType]:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+        """
+        return self.sourceLinPidRef
+
+    def setSourceLinPidRef(self, value: Optional[RefType]) -> BusMirrorLinPidToCanIdMapping:
+        """
+        This reference points to the sourceFrame with sourceCan Id on the sourceChannel.
+
+        A None value is a no-op and does not overwrite an existing sourceLinPidRef.
+        """
+        if value is not None:
+            self.sourceLinPidRef = value
+        return self
 
 
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
