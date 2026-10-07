@@ -1447,15 +1447,50 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecConfidentialityOffsetEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.125, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.125 is a page-split table — fragment A (markdown lines 4756-4763:
+    Enumeration header, Package `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`,
+    Note "This enum defines the MACsec capability options. Tags: atp.Status=candidate",
+    Aggregated by MacSecCryptoAlgoConfig.confidentialityOffset, Literal/Description header +
+    literals _0/_30) renders before the Table 3.124 caption, fragment B (lines 4790-4792:
+    repeated Enumeration header + literal _50) after it; the caption sits at line 4794;
+    pdf_page.py cites p.177. Header Enumeration → AREnum. Three literals in displayed/
+    atp.EnumerationLiteralIndex order (Confidentiality Offset_0/_30/_50) — member names
+    UPPER_SNAKE of the spec literals, values the exact XSD
+    MAC-SEC-CONFIDENTIALITY-OFFSET-ENUM--SIMPLE facets (AUTOSAR_00052.xsd lines 139970-139989):
+    CONFIDENTIALITY-OFFSET--0 / --30 / --50 (double hyphen before the number — XSD spelling
+    quirk kept verbatim per Rule 0011; the markdown xml.name tags show the single-hyphen form
+    CONFIDENTIALITY-OFFSET-0 and are kept verbatim in the literal comments as the text
+    source). No atp.Status=removed facets — nothing deprecated to drop. Consumer
+    MacSecCryptoAlgoConfig.confidentialityOffset already typed
+    Optional[MacSecConfidentialityOffsetEnum] (Table 3.123 sync) with the parser level
+    (arxml_parser.py readMacSecCryptoAlgoConfig) and writer CONFIDENTIALITY-OFFSET element
+    wired; its model/writer tests already use the real constants — no placeholder doubles to
+    upgrade. Placement per Rule 0007 (spec Package row): class already sat in
+    SecureCommunication.py; per batch instruction it MOVES to its spec-table-order slot
+    directly after MacSecCipherSuiteConfig (Table 3.124 → 3.125 order; safe — the module is
+    PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7). Entry-time audit
+    FAILed ROWS (1 method vs 0 rows) + STAMP warn as expected. Docstring lacked the
+    `Tags: atp.Status=candidate` tail — the Step 2 spec-contract test went RED exactly
+    there (1 failed / 2 passed; fields and literal values already matched Table 3.125).
+    Leaves tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer
+    a stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.125; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecCryptoAlgoConfig exists). The `# Spec verified:
+    R23-11` marker is deferred to the batch 9b stamp per user instruction; the entry-time
+    stale legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecCryptoAlgoConfig.confidentialityOffset; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecCryptoAlgoConfig already emits CONFIDENTIALITY-OFFSET with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21994 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 33a3a6917
 
 - [ ] `MacSecCapabilityEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.126, p.177
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

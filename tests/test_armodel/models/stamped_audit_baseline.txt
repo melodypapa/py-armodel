@@ -214,7 +214,6 @@ Linker
 LinkerSymbolValue
 LogTraceDefaultLogLevelEnum
 MacSecCapabilityEnum
-MacSecConfidentialityOffsetEnum
 MacSecFailPermissiveModeEnum
 MacSecRoleEnum
 MaxCommModeEnum

@@ -1,3 +1,5 @@
+import inspect
+
 import pytest
 
 from armodel.models import AUTOSAR
@@ -251,6 +253,34 @@ class Test_MacSecEnums:
         e.setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50)
         assert e.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
         assert e.getText() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
+
+
+class TestMacSecConfidentialityOffsetEnum:
+    """Test cases for MacSecConfidentialityOffsetEnum (CP_TPS_SystemTemplate Table 3.125, p.177, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0 == "CONFIDENTIALITY-OFFSET--0"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30 == "CONFIDENTIALITY-OFFSET--30"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50 == "CONFIDENTIALITY-OFFSET--50"
+        assert list(MacSecConfidentialityOffsetEnum().getEnumValues()) == [
+            "CONFIDENTIALITY-OFFSET--0",
+            "CONFIDENTIALITY-OFFSET--30",
+            "CONFIDENTIALITY-OFFSET--50",
+        ]
+
+    def test_instantiability_round_trip(self):
+        offset_0 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0)
+        assert offset_0.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0
+
+        offset_30 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30)
+        assert offset_30.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30
+
+        offset_50 = MacSecConfidentialityOffsetEnum().setValue(MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50)
+        assert offset_50.getValue() == MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50
+
+    def test_class_docstring_note(self):
+        note = "This enum defines the MACsec capability options. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecConfidentialityOffsetEnum.__doc__) == note
 
 
 class Test_MacSecLocalKayProps:
