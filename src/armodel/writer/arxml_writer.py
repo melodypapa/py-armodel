@@ -1314,6 +1314,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpPduPool,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10768,6 +10769,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "UNIQUE-STREAM-ID", cast(Integer, connection.getUniqueStreamId()))
         self.setChildElementOptionalPositiveInteger(element, "VERSION", cast(Integer, connection.getVersion()))
         self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", cast(Integer, connection.getVlanPriority()))
+
+    def writeIEEE1722TpAvConnection(self, element: ET.Element, connection: IEEE1722TpAvConnection):
+        self.writeIEEE1722TpConnection(element, connection)
+        self.setChildElementOptionalTimeValue(element, "MAX-TRANSIT-TIME", connection.getMaxTransitTime())
+        refs = connection.getSduRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "SDU-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "SDU-REF", ref)
 
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)

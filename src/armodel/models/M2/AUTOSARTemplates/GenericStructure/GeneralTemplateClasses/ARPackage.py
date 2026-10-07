@@ -5114,6 +5114,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayTpConfig,
     IEEE1722TpConfig,
     IEEE1722TpConnection,
+    IEEE1722TpAvConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11552,10 +11553,6 @@ class VfbTiming(ARElement):
 
 
 class IEEE1722TpAcfConnection(IEEE1722TpConnection):
-    pass
-
-
-class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     pass
 
 

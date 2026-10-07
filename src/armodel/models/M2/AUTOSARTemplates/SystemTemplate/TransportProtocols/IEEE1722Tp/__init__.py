@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MacAddressString,
     PositiveInteger,
     RefType,
+    TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import TpConfig
 
@@ -188,3 +189,61 @@ class IEEE1722TpConnection(ARElement, ABC):
         if value is not None:
             self.vlanPriority = value
         return self
+
+
+class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
+    """
+    AV IEEE1722Tp connection. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpAvConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.276, p.639
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaxTransitTime     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxTransitTime     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSduRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSduRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # (Abstract; Base row: ARElement, ARObject, CollectableElement, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is IEEE1722TpAvConnection:
+            raise TypeError("IEEE1722TpAvConnection is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Defines the time offset that is added to the current time at the producer in order to get the "presentation time" (in seconds) when content shall be presented at the consumers.
+        self.maxTransitTime: Optional[TimeValue] = None
+
+        # Reference to the upper layer Sdu used for the transport of the payload of the IEEE1722Tp. Tags: atp.Status=candidate
+        self.sduRefs: List[RefType] = []
+
+    def getMaxTransitTime(self) -> Optional[TimeValue]:
+        """
+        Defines the time offset that is added to the current time at the producer in order to get the "presentation time" (in seconds) when content shall be presented at the consumers.
+        """
+        return self.maxTransitTime
+
+    def setMaxTransitTime(self, value: Optional[TimeValue]) -> IEEE1722TpAvConnection:
+        """
+        Defines the time offset that is added to the current time at the producer in order to get the "presentation time" (in seconds) when content shall be presented at the consumers.
+        A None value is a no-op and does not overwrite an existing maxTransitTime.
+        """
+        if value is not None:
+            self.maxTransitTime = value
+        return self
+
+    def addSduRef(self, value: Optional[RefType]) -> IEEE1722TpAvConnection:
+        """
+        Reference to the upper layer Sdu used for the transport of the payload of the IEEE1722Tp. Tags: atp.Status=candidate
+        A None value is a no-op and is not appended to sduRefs.
+        """
+        if value is not None:
+            self.sduRefs.append(value)
+        return self
+
+    def getSduRefs(self) -> List[RefType]:
+        """
+        Reference to the upper layer Sdu used for the transport of the payload of the IEEE1722Tp. Tags: atp.Status=candidate
+        """
+        return self.sduRefs
