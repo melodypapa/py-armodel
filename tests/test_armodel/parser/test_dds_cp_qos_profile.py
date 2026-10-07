@@ -28,7 +28,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
-    DdsHistory,
     DdsLatencyBudget,
     DdsLifespan,
     DdsLiveliness,

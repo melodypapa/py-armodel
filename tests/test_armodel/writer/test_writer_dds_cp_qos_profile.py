@@ -33,9 +33,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
-    DdsDestinationOrderKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
