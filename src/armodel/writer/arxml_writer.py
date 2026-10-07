@@ -1079,6 +1079,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     SecOcCryptoServiceMapping,
     TlsCryptoCipherSuite,
@@ -13073,6 +13074,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             for value in vlans:
                 self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", cast(Integer, value))
 
+    def writeMacSecParticipantSet(self, element: ET.Element, participant_set: MacSecParticipantSet):
+        child_element = ET.SubElement(element, "MAC-SEC-PARTICIPANT-SET")
+        self.writeARElement(child_element, participant_set)
+        self.setChildElementOptionalRefType(child_element, "ETHERNET-CLUSTER-REF", participant_set.getEthernetClusterRef())
+        participants = participant_set.getMkaParticipants()
+        if len(participants) > 0:
+            wrapper = ET.SubElement(child_element, "MKA-PARTICIPANTS")
+            for participant in participants:
+                self.writeMacSecKayParticipant(wrapper, participant)
+
     def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
         self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
@@ -18793,6 +18804,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthernetWakeupSleepOnDatalineConfigSet(element, ar_element)
         elif isinstance(ar_element, MacSecGlobalKayProps):
             self.writeMacSecGlobalKayProps(element, ar_element)
+        elif isinstance(ar_element, MacSecParticipantSet):
+            self.writeMacSecParticipantSet(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):

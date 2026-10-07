@@ -2778,6 +2778,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(props)
         return cast(MacSecGlobalKayProps, self.getReferrableElement(short_name, MacSecGlobalKayProps))
 
+    def createMacSecParticipantSet(self, short_name: str) -> MacSecParticipantSet:
+
+        if not self.IsReferrableElementExists(short_name, MacSecParticipantSet):
+            participant_set = MacSecParticipantSet(self, short_name)
+            self.addReferrableElement(participant_set)
+        return cast(MacSecParticipantSet, self.getReferrableElement(short_name, MacSecParticipantSet))
+
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
         Creates a new DiagnosticAging with the given short name,
@@ -5081,6 +5088,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoSignatureScheme,
     IPSecConfigProps,
     MacSecGlobalKayProps,
+    MacSecParticipantSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,
@@ -11513,10 +11521,6 @@ class J1939ControllerApplication(ARElement):
 
 
 class LogAndTraceMessageCollectionSet(ARElement):
-    pass
-
-
-class MacSecParticipantSet(ARElement):
     pass
 
 

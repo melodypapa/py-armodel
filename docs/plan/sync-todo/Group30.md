@@ -1192,15 +1192,50 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecParticipantSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.121, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.121 is a single-page table (no page-split; pdf_page.py cites
+    p.174) — Class header (concrete), Base chain ARElement, ARObject, CollectableElement,
+    Identifiable, MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement (Uploadable* have no model classes —
+    interface realizations; the primary chain's most-derived model ancestor is ARElement),
+    Aggregated by ARPackage.element. Two rows in displayed order (ethernetCluster —
+    EthernetCluster — 0..1 — ref; mkaParticipant — MacSecKayParticipant — * — aggr); XSD
+    group MAC-SEC-PARTICIPANT-SET (AUTOSAR_00052.xsd line 79236) carries the identical
+    child order ETHERNET-CLUSTER-REF (0..1) → MKA-PARTICIPANTS (wrapper, unbounded
+    MAC-SEC-KAY-PARTICIPANT items, pureMM.maxOccurs="-1"; wrapper emitted only when
+    non-empty), so member order and XML order coincide. ARElement instance tag
+    MAC-SEC-PARTICIPANT-SET in the ARPackage element choice (line 5360). Every Note (class
+    + attributes) carries the `Tags: atp.Status=candidate` tail — the class Note
+    additionally carries `atp.recommendedPackage=MacSecKayParticipantSets` — kept verbatim
+    at every level (Rule 0012.2.5.3); the ethernetCluster Note has no period before the
+    tail ("…are located Tags: …") — preserved verbatim. Placement per Rule 0007 (spec
+    Package row `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class MOVED
+    from the ARPackage.py stub to `M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py`
+    at its spec-table-order slot (directly after MacSecGlobalKayProps Table 3.120, before
+    MacSecKayParticipant Table 3.122) — the MacSecGlobalKayProps precedent (same
+    Aggregated-by ARPackage.element, same SecureCommunication package row); stub-guard
+    tuple re-pointed at the new defining module. Member typing: ref-kind row per codebase
+    convention (`ethernetCluster` → `ethernetClusterRef: Optional[RefType]`,
+    MacSecLocalKayProps.globalKayPropsRef precedent); `mkaParticipant` is an Identifiable
+    `*` aggr → dedicated `List[MacSecKayParticipant]` field +
+    `createMacSecKayParticipant(short_name)` factory + `getMkaParticipants()`
+    (EthernetWakeupSleepOnDatalineConfigSet precedent; spec-`*` singular name → plural
+    field/accessors); MacSecKayParticipant is queued later in this batch (Table 3.122) —
+    stub-typed-field pattern, and its dedicated readMacSecKayParticipant/
+    writeMacSecKayParticipant levels already exist fully populated, so the Set's
+    reader/writer dispatch each child via them (no placeholder needed).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - No deviations from Table 3.121; no missing referenced classes (EthernetCluster and
+    MacSecKayParticipant both exist — MacSecKayParticipant re-syncs later in this batch
+    as Table 3.122; the ref-kind `ethernetCluster` → `ethernetClusterRef` field name is
+    the sanctioned Rule 0001.5 Kind-suffix convention, not a deviation).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21966 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d7cb05c3
 
 - [ ] `MacSecKayParticipant` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.122, p.175
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py

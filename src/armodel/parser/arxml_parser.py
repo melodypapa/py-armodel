@@ -1287,6 +1287,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     MacSecRoleEnum,
     IPsecDpdActionEnum,
@@ -15525,6 +15526,14 @@ class ARXMLParser(AbstractARXMLParser):
                     value.setValue(child_element.text)
                     props.addBypassVlan(value)
 
+    def readMacSecParticipantSet(self, element: ET.Element, participant_set: MacSecParticipantSet):
+        self.logger.debug("Read MacSecParticipantSet <%s>" % participant_set.getShortName())
+        self.readIdentifiable(element, participant_set)
+        participant_set.setEthernetClusterRef(self.getChildElementOptionalRefType(element, "ETHERNET-CLUSTER-REF"))
+        for child_element in self.findall(element, "MKA-PARTICIPANTS/MAC-SEC-KAY-PARTICIPANT"):
+            participant = participant_set.createMacSecKayParticipant(self.getShortName(child_element))
+            self.readMacSecKayParticipant(child_element, participant)
+
     def readMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
         self.logger.debug("Read MacSecCipherSuiteConfig")
         config.setCipherSuite(self.getChildElementOptionalString(element, "CIPHER-SUITE"))
@@ -18460,6 +18469,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthernetWakeupSleepOnDatalineConfigSet(child_element, parent.createEthernetWakeupSleepOnDatalineConfigSet(self.getShortName(child_element)))
             elif tag_name == "MAC-SEC-GLOBAL-KAY-PROPS":
                 self.readMacSecGlobalKayProps(child_element, parent.createMacSecGlobalKayProps(self.getShortName(child_element)))
+            elif tag_name == "MAC-SEC-PARTICIPANT-SET":
+                self.readMacSecParticipantSet(child_element, parent.createMacSecParticipantSet(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)

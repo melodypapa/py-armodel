@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecGlobalKayProps,
     MacSecKayParticipant,
     MacSecLocalKayProps,
+    MacSecParticipantSet,
     MacSecProps,
     MacSecRoleEnum,
     SecOcCryptoServiceMapping,
@@ -551,6 +552,79 @@ class Test_MacSecGlobalKayProps:
 
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
+
+
+class Test_MacSecParticipantSet:
+    def test_initialization_defaults(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        assert isinstance(participant_set, ARElement)
+        assert participant_set.getEthernetClusterRef() is None
+        assert participant_set.getMkaParticipants() == []
+
+    def test_get_set_ethernet_cluster_ref(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        result = participant_set.setEthernetClusterRef(_ref("/Clusters/EthernetCluster"))
+
+        assert result is participant_set
+        assert participant_set.getEthernetClusterRef().getValue() == "/Clusters/EthernetCluster"
+
+        participant_set.setEthernetClusterRef(_ref("/Clusters/Other"))
+        assert participant_set.getEthernetClusterRef().getValue() == "/Clusters/Other"
+
+    def test_create_mka_participants(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        participant = participant_set.createMacSecKayParticipant("MKA1")
+
+        assert isinstance(participant, MacSecKayParticipant)
+        assert participant_set.getMkaParticipants() == [participant]
+
+        again = participant_set.createMacSecKayParticipant("MKA1")
+        assert again is participant
+        assert len(participant_set.getMkaParticipants()) == 1
+
+        second = participant_set.createMacSecKayParticipant("MKA2")
+        assert participant_set.getMkaParticipants() == [participant, second]
+
+    def test_ar_package_create_factory(self):
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Sec")
+        participant_set = pkg.createMacSecParticipantSet("MPS")
+
+        assert isinstance(participant_set, MacSecParticipantSet)
+        assert participant_set.getShortName() == "MPS"
+
+        again = pkg.createMacSecParticipantSet("MPS")
+        assert again is participant_set
+
+    def test_none_is_noop(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+        cluster_ref = _ref("/Clusters/EthernetCluster")
+        participant_set.setEthernetClusterRef(cluster_ref)
+        participant = participant_set.createMacSecKayParticipant("MKA1")
+
+        participant_set.setEthernetClusterRef(None)
+
+        assert participant_set.getEthernetClusterRef() is cluster_ref
+        assert participant_set.getMkaParticipants() == [participant]
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        participant_set = MacSecParticipantSet(parent, "test_participant_set")
+
+        participant_set.setEthernetClusterRef(None)
+
+        assert participant_set.getEthernetClusterRef() is None
+        assert participant_set.getMkaParticipants() == []
 
 
 class Test_MacSecCipherSuiteConfig:

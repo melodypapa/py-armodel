@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -1794,6 +1794,58 @@ class MacSecGlobalKayProps(ARElement):
     def getBypassVlans(self) -> List[PositiveInteger]:
         """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate"""
         return self.bypassVlans
+
+
+class MacSecParticipantSet(ARElement):
+    """
+    Collection of MACsec Kay Participants on an Ethernet Link. Tags: atp.Status=candidate atp.recommendedPackage=MacSecKayParticipantSets
+    """
+
+    # MacSecParticipantSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.121, p.174
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEthernetClusterRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEthernetClusterRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMacSecKayParticipant  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMkaParticipants          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate
+        self.ethernetClusterRef: Optional[RefType] = None
+
+        # Configuration of a MKA Participant. Tags: atp.Status=candidate
+        self.mkaParticipants: List[MacSecKayParticipant] = []
+
+    def getEthernetClusterRef(self) -> Optional[RefType]:
+        """Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate"""
+        return self.ethernetClusterRef
+
+    def setEthernetClusterRef(self, value: Optional[RefType]) -> MacSecParticipantSet:
+        """
+        Reference to the EthernetCluster (Link) on which the KaY participants are located Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing ethernetClusterRef.
+        """
+        if value is not None:
+            self.ethernetClusterRef = value
+        return self
+
+    def createMacSecKayParticipant(self, short_name: str) -> MacSecKayParticipant:
+        """
+        Configuration of a MKA Participant. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, MacSecKayParticipant):
+            participant = MacSecKayParticipant(self, short_name)
+            self.addReferrableElement(participant)
+            self.mkaParticipants.append(participant)
+        return cast(MacSecKayParticipant, self.getReferrableElement(short_name, MacSecKayParticipant))
+
+    def getMkaParticipants(self) -> List[MacSecKayParticipant]:
+        """Configuration of a MKA Participant. Tags: atp.Status=candidate"""
+        return self.mkaParticipants
 
 
 class MacSecCipherSuiteConfig(ARObject):
