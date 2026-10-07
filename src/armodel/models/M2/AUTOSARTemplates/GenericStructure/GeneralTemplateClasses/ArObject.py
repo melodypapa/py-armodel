@@ -3316,10 +3316,6 @@ class SomeipTpConnection(ARObject):
     pass
 
 
-class TDCpSoftwareClusterMappingSet(ARObject):
-    pass
-
-
 class TransformationProps(ARObject, ABC):
     pass
 

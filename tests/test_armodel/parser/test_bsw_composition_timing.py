@@ -42,10 +42,10 @@ class TestReadBswCompositionTiming:
     def test_read_sets_implementation_refs(self, parser):
         timing = self._read(
             parser,
-            '<IMPLEMENTATION-REFS>'
+            "<IMPLEMENTATION-REFS>"
             '<IMPLEMENTATION-REF DEST="BSW-IMPLEMENTATION">/BswImplementations/Impl1</IMPLEMENTATION-REF>'
             '<IMPLEMENTATION-REF DEST="BSW-IMPLEMENTATION">/BswImplementations/Impl2</IMPLEMENTATION-REF>'
-            '</IMPLEMENTATION-REFS>',
+            "</IMPLEMENTATION-REFS>",
         )
 
         refs = timing.getImplementationRefs()

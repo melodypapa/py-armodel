@@ -2365,6 +2365,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(EcuTiming, self.getReferrableElement(short_name, EcuTiming))
 
+    def createTDCpSoftwareClusterMappingSet(self, short_name: str) -> TDCpSoftwareClusterMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, TDCpSoftwareClusterMappingSet):
+            mapping_set = TDCpSoftwareClusterMappingSet(self, short_name)
+            self.addReferrableElement(mapping_set)
+        return cast(TDCpSoftwareClusterMappingSet, self.getReferrableElement(short_name, TDCpSoftwareClusterMappingSet))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -4973,6 +4980,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402

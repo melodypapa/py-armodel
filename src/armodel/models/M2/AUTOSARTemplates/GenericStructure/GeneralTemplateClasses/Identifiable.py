@@ -1446,14 +1446,6 @@ class SpecificationDocumentScope(SpecElementScope):
     pass
 
 
-class TDCpSoftwareClusterMapping(Identifiable):
-    pass
-
-
-class TDCpSoftwareClusterResourceMapping(Identifiable):
-    pass
-
-
 class BinaryManifestItem(Identifiable):
     pass
 

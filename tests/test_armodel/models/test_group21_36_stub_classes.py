@@ -3314,21 +3314,21 @@ STUBS = [
         "TimingExtension",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
         "TDCpSoftwareClusterMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
         "TDCpSoftwareClusterMappingSet",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
-        "ARObject",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
+        "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
         "TDCpSoftwareClusterResourceMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster",
         "Identifiable",
     ),
     (

@@ -88,8 +88,7 @@ class TestTimingExtensionResource:
         import inspect
 
         assert inspect.cleandoc(TimingExtensionResource.__doc__) == (
-            "A TimingExtensionResource provides the capability to contain instance references "
-            "referred from within a timing condition formula."
+            "A TimingExtensionResource provides the capability to contain instance references " "referred from within a timing condition formula."
         )
 
     def test_member_docstrings_are_verbatim_spec_notes(self):

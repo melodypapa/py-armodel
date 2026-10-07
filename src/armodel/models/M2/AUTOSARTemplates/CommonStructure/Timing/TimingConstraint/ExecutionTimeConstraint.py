@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
@@ -29,10 +30,9 @@ class ExecutionTimeTypeEnum(AREnum):
 
     # ExecutionTimeTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.76, p.131
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on ExecutionTimeConstraint.executionTimeType
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITH external calls.
     # Tags: atp.EnumerationLiteralIndex=0
@@ -43,9 +43,6 @@ class ExecutionTimeTypeEnum(AREnum):
     NET = "NET"
 
     def __init__(self):
-        """
-        Initializes the ExecutionTimeTypeEnum with valid values.
-        """
         super().__init__(
             (
                 ExecutionTimeTypeEnum.GROSS,
@@ -61,19 +58,18 @@ class ExecutionTimeConstraint(TimingConstraint):
 
     # ExecutionTimeConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.75, p.130
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getComponentIRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setComponentIRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExecutableRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExecutableRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExecutionTimeType        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setExecutionTimeType        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximum                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximum                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinimum                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimum                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getComponentIRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setComponentIRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExecutableRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecutableRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExecutionTimeType          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExecutionTimeType          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximum                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximum                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimum                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimum                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -94,51 +90,79 @@ class ExecutionTimeConstraint(TimingConstraint):
         self.minimum: Optional[MultidimensionalTime] = None
 
     def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
-        """The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef"""
+        """
+        The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef
+        """
         return self.componentIRef
 
     def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "ExecutionTimeConstraint":
-        """The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
+        """
+        The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef.
+
+        A None value is a no-op and does not overwrite an existing componentIRef.
+        """
         if value is not None:
             self.componentIRef = value
         return self
 
     def getExecutableRef(self) -> Optional[RefType]:
-        """The referenced ExecutableEntity for the ExecutionTime Constraint."""
+        """
+        The referenced ExecutableEntity for the ExecutionTime Constraint.
+        """
         return self.executableRef
 
     def setExecutableRef(self, value: Optional[RefType]) -> "ExecutionTimeConstraint":
-        """The referenced ExecutableEntity for the ExecutionTime Constraint. A None value is a no-op and does not overwrite an existing executable."""
+        """
+        The referenced ExecutableEntity for the ExecutionTime Constraint.
+
+        A None value is a no-op and does not overwrite an existing executable.
+        """
         if value is not None:
             self.executableRef = value
         return self
 
     def getExecutionTimeType(self) -> Optional[ExecutionTimeTypeEnum]:
-        """Specifies the type of the execution time constrained by ExecutionTimeConstraint,"""
+        """
+        Specifies the type of the execution time constrained by ExecutionTimeConstraint,
+        """
         return self.executionTimeType
 
     def setExecutionTimeType(self, value: Optional[ExecutionTimeTypeEnum]) -> "ExecutionTimeConstraint":
-        """Specifies the type of the execution time constrained by ExecutionTimeConstraint, A None value is a no-op and does not overwrite an existing executionTimeType."""
+        """
+        Specifies the type of the execution time constrained by ExecutionTimeConstraint, A None value is a no-op and does not overwrite an existing executionTimeType.
+        """
         if value is not None:
             self.executionTimeType = value
         return self
 
     def getMaximum(self) -> Optional[MultidimensionalTime]:
-        """The maximum execution time."""
+        """
+        The maximum execution time.
+        """
         return self.maximum
 
     def setMaximum(self, value: Optional[MultidimensionalTime]) -> "ExecutionTimeConstraint":
-        """The maximum execution time. A None value is a no-op and does not overwrite an existing maximum."""
+        """
+        The maximum execution time.
+
+        A None value is a no-op and does not overwrite an existing maximum.
+        """
         if value is not None:
             self.maximum = value
         return self
 
     def getMinimum(self) -> Optional[MultidimensionalTime]:
-        """The minimum execution time."""
+        """
+        The minimum execution time.
+        """
         return self.minimum
 
     def setMinimum(self, value: Optional[MultidimensionalTime]) -> "ExecutionTimeConstraint":
-        """The minimum execution time. A None value is a no-op and does not overwrite an existing minimum."""
+        """
+        The minimum execution time.
+
+        A None value is a no-op and does not overwrite an existing minimum.
+        """
         if value is not None:
             self.minimum = value
         return self

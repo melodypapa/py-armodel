@@ -116,17 +116,25 @@ class TestTimingConditionFormula:
         import inspect
 
         assert inspect.cleandoc(TimingConditionFormula.__doc__) == (
-            "A TimingConditionFormula describes a specific dependency. The expression shall be a boolean "
-            "expression addressing modes, variables, arguments, and/or events."
+            "A TimingConditionFormula describes a specific dependency. The expression shall be a boolean " "expression addressing modes, variables, arguments, and/or events."
         )
 
     def test_member_docstrings_are_verbatim_spec_notes(self):
         import inspect
 
         assert inspect.cleandoc(TimingConditionFormula.getTimingArgumentRef.__doc__) == "This refers to an argument of an operation call."
-        assert inspect.cleandoc(TimingConditionFormula.setTimingArgumentRef.__doc__) == "This refers to an argument of an operation call.\n\nA None value is a no-op and does not overwrite an existing timingArgumentRef."
-        assert inspect.cleandoc(TimingConditionFormula.getTimingConditionRef.__doc__) == "This refers to a timing condition that is part of an expression describing the dependency on a specific condition."
-        assert inspect.cleandoc(TimingConditionFormula.setTimingConditionRef.__doc__) == "This refers to a timing condition that is part of an expression describing the dependency on a specific condition.\n\nA None value is a no-op and does not overwrite an existing timingConditionRef."
+        assert (
+            inspect.cleandoc(TimingConditionFormula.setTimingArgumentRef.__doc__)
+            == "This refers to an argument of an operation call.\n\nA None value is a no-op and does not overwrite an existing timingArgumentRef."
+        )
+        assert (
+            inspect.cleandoc(TimingConditionFormula.getTimingConditionRef.__doc__)
+            == "This refers to a timing condition that is part of an expression describing the dependency on a specific condition."
+        )
+        assert (
+            inspect.cleandoc(TimingConditionFormula.setTimingConditionRef.__doc__)
+            == "This refers to a timing condition that is part of an expression describing the dependency on a specific condition.\n\nA None value is a no-op and does not overwrite an existing timingConditionRef."
+        )
         assert inspect.cleandoc(TimingConditionFormula.getTimingEventRef.__doc__) == "This refers to a timing event."
         assert inspect.cleandoc(TimingConditionFormula.setTimingEventRef.__doc__) == "This refers to a timing event.\n\nA None value is a no-op and does not overwrite an existing timingEventRef."
         assert inspect.cleandoc(TimingConditionFormula.getTimingModeRef.__doc__) == "This refers to a mode declaration."

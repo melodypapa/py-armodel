@@ -402,6 +402,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMapping, TDCpSoftwareClusterMappingSet, TDCpSoftwareClusterResourceMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
@@ -4875,6 +4876,7 @@ class ARXMLParser(AbstractARXMLParser):
         sync_accuracy.setUpperRef(self.getChildElementOptionalRefType(element, "UPPER-REF"))
 
     def readEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        self.readIdentifiable(element, obj)
         for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):
             obj.addDirectSuccessorRef(ref)
 
@@ -4885,7 +4887,6 @@ class ARXMLParser(AbstractARXMLParser):
         return None
 
     def readEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
-        self.readIdentifiable(element, entity_ref)
         self.readEOCExecutableEntityRefAbstract(element, entity_ref)
         entity_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
         entity_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
@@ -4894,7 +4895,6 @@ class ARXMLParser(AbstractARXMLParser):
             entity_ref.addSuccessorRef(ref)
 
     def readEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
-        self.readIdentifiable(element, event_ref)
         self.readEOCExecutableEntityRefAbstract(element, event_ref)
         event_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
         event_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
@@ -4903,7 +4903,6 @@ class ARXMLParser(AbstractARXMLParser):
             event_ref.addSuccessorRef(ref)
 
     def readEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
-        self.readIdentifiable(element, group)
         self.readEOCExecutableEntityRefAbstract(element, group)
         literal = self.getChildElementOptionalLiteral(element, "LET-DATA-EXCHANGE-PARADIGM")
         if literal is not None:
@@ -10158,6 +10157,32 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, timing)
         self.readTimingExtension(element, timing)
         timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+
+    def readTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
+        self.logger.debug("Read TDCpSoftwareClusterMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setProviderRef(self.getChildElementOptionalRefType(element, "PROVIDER-REF"))
+        for ref in self.getChildElementRefTypeList(element, "REQUESTOR-REFS/REQUESTOR-REF"):
+            mapping.addRequestorRef(ref)
+        mapping.setTimingDescriptionRef(self.getChildElementOptionalRefType(element, "TIMING-DESCRIPTION-REF"))
+        self.readVariationPointCapable(element, mapping)
+
+    def readTDCpSoftwareClusterResourceMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterResourceMapping):
+        self.logger.debug("Read TDCpSoftwareClusterResourceMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
+        mapping.setTimingDescriptionRef(self.getChildElementOptionalRefType(element, "TIMING-DESCRIPTION-REF"))
+        self.readVariationPointCapable(element, mapping)
+
+    def readTDCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: TDCpSoftwareClusterMappingSet):
+        self.logger.debug("Read TDCpSoftwareClusterMappingSet <%s>" % mapping_set.getShortName())
+        self.readIdentifiable(element, mapping_set)
+        for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-RESOURCE-MAPPING"):
+            mapping = mapping_set.createTdCpSoftwareClusterResourceToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterResourceMapping(child_element, mapping)
+        for child_element in self.findall(element, "TD-CP-SOFTWARE-CLUSTER-TO-TD-MAPPINGS/TD-CP-SOFTWARE-CLUSTER-MAPPING"):
+            mapping = mapping_set.createTdCpSoftwareClusterToTdMapping(self.getShortName(child_element))
+            self.readTDCpSoftwareClusterMapping(child_element, mapping)
 
     def readVfbTiming(self, element: ET.Element, timing: VfbTiming):
         self.logger.debug("Read VfbTiming <%s>" % timing.getShortName())
@@ -18381,6 +18406,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECU-TIMING":
                 timing = parent.createEcuTiming(self.getShortName(child_element))
                 self.readEcuTiming(child_element, timing)
+            elif tag_name == "TD-CP-SOFTWARE-CLUSTER-MAPPING-SET":
+                mapping_set = parent.createTDCpSoftwareClusterMappingSet(self.getShortName(child_element))
+                self.readTDCpSoftwareClusterMappingSet(child_element, mapping_set)
             elif tag_name == "LIN-CLUSTER":
                 cluster = parent.createLinCluster(self.getShortName(child_element))
                 self.readLinCluster(child_element, cluster)

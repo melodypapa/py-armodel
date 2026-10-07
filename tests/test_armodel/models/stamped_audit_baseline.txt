@@ -7,7 +7,6 @@ AbstractRequiredPortPrototype
 AbstractServiceInstance
 AccessCountSet
 AdminData
-AgeConstraint
 AliasNameAssignment
 AliasNameSet
 Annotation
@@ -17,7 +16,6 @@ AnyVersionString
 ApplicationCompositeElementInPortInterfaceInstanceRef
 ApplicationEndpoint
 ApplicationInterface
-ArbitraryEventTriggering
 ArgumentDirectionEnum
 ArrayValueSpecification
 AsamRecordLayoutSemantics
@@ -59,7 +57,6 @@ BswSchedulerNamePrefix
 BswServiceDependencyIdent
 BswTimingEvent
 BuildEngineeringObject
-BurstPatternEventTriggering
 BusspecificNmEcu
 CSTransformerErrorReactionEnum
 CanAddressingModeType
@@ -93,9 +90,7 @@ CompuRationalCoeffs
 CompuScaleConstantContents
 CompuScaleContents
 CompuScaleRationalFormula
-ConcretePatternEventTriggering
 ConditionalChangeNad
-ConfidenceInterval
 ConsumedEventGroup
 ConsumedServiceInstance
 ContainedIPduProps
@@ -133,26 +128,16 @@ DoIpTpConfig
 DocRevision
 Documentation
 DynamicPartAlternative
-EOCEventRef
-EOCExecutableEntityRef
-EOCExecutableEntityRefAbstract
-EOCExecutableEntityRefGroup
 EndToEndProfileBehaviorEnum
 EndToEndTransformationDescription
 EngineeringObject
 ErrorTracerNeeds
 EventGroupControlTypeEnum
 EventHandler
-EventOccurrenceKindEnum
-EventTriggeringConstraint
 ExclusiveArea
 ExclusiveAreaNestingOrder
 ExecutableEntity
-ExecutionOrderConstraint
-ExecutionOrderConstraintTypeEnum
 ExecutionTime
-ExecutionTimeConstraint
-ExecutionTimeTypeEnum
 FMFormulaByFeaturesAndAttributes
 FMFormulaByFeaturesAndSwSystemconsts
 FibexElement
@@ -200,9 +185,6 @@ Ipv6Configuration
 J1939NmEcu
 LEnum
 LanguageSpecific
-LatencyConstraintTypeEnum
-LatencyTimingConstraint
-LetDataExchangeParadigmEnum
 LifeCyclePeriod
 LinConfigurationEntry
 LinFrame
@@ -270,7 +252,6 @@ Pdu
 PduActivationRoutingGroup
 PduToFrameMapping
 PduTriggering
-PeriodicEventTriggering
 PlcaProps
 PortDefinedArgumentValue
 PortPrototype
@@ -330,7 +311,6 @@ SomeipSdClientEventGroupTimingConfig
 SomeipSdClientServiceInstanceConfig
 SomeipSdServerEventGroupTimingConfig
 SomeipServiceVersion
-SporadicEventTriggering
 StaticSocketConnection
 String
 StringValue
@@ -347,8 +327,6 @@ SwSystemconstDependentFormula
 SwSystemconstValue
 SwSystemconstantValueSet
 SwcInternalBehavior
-SynchronizationPointConstraint
-SynchronizationTypeEnum
 SystemSignalGroup
 TDEventBsw
 TDEventSLLET

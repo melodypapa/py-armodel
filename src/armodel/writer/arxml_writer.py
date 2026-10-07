@@ -274,6 +274,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCpSoftwareCluster import TDCpSoftwareClusterMapping, TDCpSoftwareClusterMappingSet, TDCpSoftwareClusterResourceMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
@@ -6282,6 +6283,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "SUCCESSOR-REF", successor_ref)
 
     def writeEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        self.writeIdentifiable(element, obj)
         direct_successor_refs = obj.getDirectSuccessorRefs()
         if len(direct_successor_refs) > 0:
             refs_tag = ET.SubElement(element, "DIRECT-SUCCESSOR-REFS")
@@ -6295,7 +6297,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
         child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")
-        self.writeIdentifiable(child_element, entity_ref)
         self.writeEOCExecutableEntityRefAbstract(child_element, entity_ref)
         self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", entity_ref.getBswModuleInstanceRef())
         self.writeEOCComponentIRef(child_element, entity_ref.getComponentIRef())
@@ -6304,7 +6305,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
         child_element = ET.SubElement(element, "EOC-EVENT-REF")
-        self.writeIdentifiable(child_element, event_ref)
         self.writeEOCExecutableEntityRefAbstract(child_element, event_ref)
         self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", event_ref.getBswModuleInstanceRef())
         self.writeEOCComponentIRef(child_element, event_ref.getComponentIRef())
@@ -6313,7 +6313,6 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
         child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF-GROUP")
-        self.writeIdentifiable(child_element, group)
         self.writeEOCExecutableEntityRefAbstract(child_element, group)
         self.setChildElementOptionalLiteral(child_element, "LET-DATA-EXCHANGE-PARADIGM", group.getLetDataExchangeParadigm())
         let_interval_refs = group.getLetIntervalRefs()
@@ -9802,6 +9801,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, timing)
         self.writeTimingExtension(child_element, timing)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
+
+    def writeTDCpSoftwareClusterMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterMapping):
+        child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "PROVIDER-REF", mapping.getProviderRef())
+        refs = mapping.getRequestorRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "REQUESTOR-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "REQUESTOR-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "TIMING-DESCRIPTION-REF", mapping.getTimingDescriptionRef())
+        self.writeVariationPointCapable(child_element, mapping)
+
+    def writeTDCpSoftwareClusterResourceMapping(self, element: ET.Element, mapping: TDCpSoftwareClusterResourceMapping):
+        child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "RESOURCE-REF", mapping.getResourceRef())
+        self.setChildElementOptionalRefType(child_element, "TIMING-DESCRIPTION-REF", mapping.getTimingDescriptionRef())
+        self.writeVariationPointCapable(child_element, mapping)
+
+    def writeTDCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: TDCpSoftwareClusterMappingSet):
+        child_element = ET.SubElement(element, "TD-CP-SOFTWARE-CLUSTER-MAPPING-SET")
+        self.writeIdentifiable(child_element, mapping_set)
+        resource_mappings = mapping_set.getTdCpSoftwareClusterResourceToTdMappings()
+        if len(resource_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "TD-CP-SOFTWARE-CLUSTER-RESOURCE-TO-TD-MAPPINGS")
+            for mapping in resource_mappings:
+                self.writeTDCpSoftwareClusterResourceMapping(mappings_tag, mapping)
+        cluster_mappings = mapping_set.getTdCpSoftwareClusterToTdMappings()
+        if len(cluster_mappings) > 0:
+            mappings_tag = ET.SubElement(child_element, "TD-CP-SOFTWARE-CLUSTER-TO-TD-MAPPINGS")
+            for mapping in cluster_mappings:
+                self.writeTDCpSoftwareClusterMapping(mappings_tag, mapping)
 
     def writeVfbTiming(self, element: ET.Element, timing: VfbTiming):
         self.logger.debug("writeVfbTiming %s" % timing.getShortName())
@@ -18750,6 +18782,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBswCompositionTiming(element, ar_element)
         elif isinstance(ar_element, EcuTiming):
             self.writeEcuTiming(element, ar_element)
+        elif isinstance(ar_element, TDCpSoftwareClusterMappingSet):
+            self.writeTDCpSoftwareClusterMappingSet(element, ar_element)
         elif isinstance(ar_element, LinUnconditionalFrame):
             self.writeLinUnconditionalFrame(element, ar_element)
         elif isinstance(ar_element, NmConfig):
