@@ -64,7 +64,7 @@ class TestWriteSomeipSdServerServiceInstanceConfig:
         parent = ET.Element("PARENT")
         ARXMLWriter().writeARPackageElements(parent, package)
 
-        node = parent.find("ELEMENTS/SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
+        node = parent.find("ELEMENTS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
         assert node is not None
         assert node.find("SHORT-NAME").text == "ServerConfig"
         assert node.findtext("INITIAL-OFFER-BEHAVIOR/INITIAL-DELAY-MAX-VALUE") == "0.1"
@@ -81,7 +81,7 @@ class TestWriteSomeipSdServerServiceInstanceConfig:
         parent = ET.Element("PARENT")
         ARXMLWriter().writeARPackageElements(parent, package)
 
-        node = parent.find("ELEMENTS/SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
+        node = parent.find("ELEMENTS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
         assert node is not None
         assert node.find("INITIAL-OFFER-BEHAVIOR") is None
         assert node.find("OFFER-CYCLIC-DELAY") is None

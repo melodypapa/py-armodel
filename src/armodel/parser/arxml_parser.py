@@ -18977,14 +18977,14 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "I-PV-6-EXT-HEADER-FILTER-SET":
             ipv6_ext_header_filter_set = parent.createIPv6ExtHeaderFilterSet(self.getShortName(child_element))
             self.readIPv6ExtHeaderFilterSet(child_element, ipv6_ext_header_filter_set)
-        elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
+        elif tag_name == "SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
             config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdClientServiceInstanceConfig(child_element, config)
         elif tag_name == "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
             self.readSomeipSdClientEventGroupTimingConfig(child_element, parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element)))
         elif tag_name == "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
             self.readSomeipSdServerEventGroupTimingConfig(child_element, parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element)))
-        elif tag_name == "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
+        elif tag_name == "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
             server_config = parent.createSomeipSdServerServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdServerServiceInstanceConfig(child_element, server_config)
         elif tag_name == "SERVICE-INSTANCE-COLLECTION-SET":

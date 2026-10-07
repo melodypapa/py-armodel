@@ -11332,7 +11332,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
         self.logger.debug("Write SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
-        child_element = ET.SubElement(element, "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
+        child_element = ET.SubElement(element, "SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, config.getPriority()))
@@ -11355,7 +11355,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSomeipSdServerServiceInstanceConfig(self, element: ET.Element, config: SomeipSdServerServiceInstanceConfig):
         self.logger.debug("Write SomeipSdServerServiceInstanceConfig <%s>" % config.getShortName())
-        child_element = ET.SubElement(element, "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
+        child_element = ET.SubElement(element, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
         self.writeIdentifiable(child_element, config)
         self.setInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR", config.getInitialOfferBehavior())
         self.setChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY", config.getOfferCyclicDelay())

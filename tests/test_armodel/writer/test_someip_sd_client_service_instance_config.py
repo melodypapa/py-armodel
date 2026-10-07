@@ -53,7 +53,7 @@ class TestWriteSomeipSdClientServiceInstanceConfig:
         parent = _parent()
         writer.writeSomeipSdClientServiceInstanceConfig(parent, _full_config())
 
-        el = parent.find("SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
+        el = parent.find("SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
         assert el is not None
         assert el.find("SHORT-NAME").text == "MySdConfig"
         assert el.find("PRIORITY").text == "5"
@@ -113,4 +113,4 @@ _NS = "http://autosar.org/schema/r4.0"
 
 
 def _namespaced_snip(inner):
-    return ET.fromstring(f"<SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG xmlns='{_NS}'>{inner}</SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG>")
+    return ET.fromstring(f"<SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG xmlns='{_NS}'>{inner}</SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG>")

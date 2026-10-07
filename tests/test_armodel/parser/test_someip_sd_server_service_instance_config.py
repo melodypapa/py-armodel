@@ -56,7 +56,7 @@ ALL_ATTRS = (
 
 def test_read_someip_sd_server_service_instance_config_all_attrs(parser):
     config = SomeipSdServerServiceInstanceConfig(parser, "sd_server_config")
-    element = ET.fromstring(f"<SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG xmlns='{NS}'>{ALL_ATTRS}</SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG>")
+    element = ET.fromstring(f"<SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG xmlns='{NS}'>{ALL_ATTRS}</SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG>")
     parser.readSomeipSdServerServiceInstanceConfig(element, config)
 
     assert config.getShortName() == "sd_server_config"
@@ -75,7 +75,7 @@ def test_read_someip_sd_server_service_instance_config_all_attrs(parser):
 
 def test_read_empty_element_leaves_defaults(parser):
     config = SomeipSdServerServiceInstanceConfig(parser, "sd_server_config")
-    element = ET.fromstring(f"<SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG xmlns='{NS}'><SHORT-NAME>sd_server_config</SHORT-NAME></SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG>")
+    element = ET.fromstring(f"<SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG xmlns='{NS}'><SHORT-NAME>sd_server_config</SHORT-NAME></SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG>")
     parser.readSomeipSdServerServiceInstanceConfig(element, config)
 
     assert config.getInitialOfferBehavior() is None
@@ -86,9 +86,7 @@ def test_read_empty_element_leaves_defaults(parser):
 
 
 def test_arpackage_elements_dispatch_instantiates_class(parser):
-    root = _snip(
-        "<ELEMENTS>" "<SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG>" "<SHORT-NAME>ServerConfig</SHORT-NAME>" "<PRIORITY>4</PRIORITY>" "</SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG>" "</ELEMENTS>"
-    )
+    root = _snip("<ELEMENTS>" "<SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG>" "<SHORT-NAME>ServerConfig</SHORT-NAME>" "<PRIORITY>4</PRIORITY>" "</SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG>" "</ELEMENTS>")
     package = AUTOSAR.getInstance().createARPackage("Pkg")
     parser.readARPackageElements(root, package)
 
