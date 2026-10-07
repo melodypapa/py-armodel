@@ -5,7 +5,7 @@ in the GenericStructure module.
 
 from abc import ABC
 import re
-from typing import List, Optional, Sequence, Union, Any
+from typing import List, Optional, Sequence, Union
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
@@ -17,49 +17,11 @@ class ARType(ABC):
 
     # ARType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
     # [x] getText                      [x] impl  [x] docstring  [x] test
 
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
-        self._value: Optional[Any] = None
         self.shortLabel: Optional[str] = None
-
-    @property
-    def value(self) -> Optional[Any]:
-        """Optional[Any]: The current value of this AUTOSAR type."""
-        return self._value
-
-    @value.setter
-    def value(self, val: Optional[Any]):
-        self._value = val
-
-    def getValue(self) -> Optional[Any]:
-        """
-        Gets the current value of this AUTOSAR type.
-
-        Returns:
-            The current value, or None if not set
-        """
-        return self.value
-
-    def setValue(self, val: Optional[Any]):
-        """
-        Sets the value of this AUTOSAR type.
-        Only sets the value if it is not None.
-
-        Args:
-            val: The value to set
-
-        Returns:
-            self for method chaining
-        """
-        if val is not None:
-            self.value = val
-        return self
 
     def getText(self) -> str:
         """
@@ -107,23 +69,26 @@ class ARLiteral(ARType):
     # [ ] value                        [x] impl  [x] docstring  [ ] test
     # [ ] __str__                      [x] impl  [x] docstring  [ ] test
     # [ ] upper                        [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
 
     def __init__(self) -> None:
         super().__init__()
 
+        self._value: Optional[str] = None
+
     @property
-    def value(self) -> Any:
-        """Any: The literal value (str for ARLiteral, numeric for subclasses such as Numerical)."""
+    def value(self) -> str:
+        """str: The literal value (empty string if unset)."""
         if self._value is None:
             return ""
         return self._value
 
     @value.setter
-    def value(self, val: Any):
-        if isinstance(val, str):
-            self._value = val
-        else:
-            self._value = str(val)
+    def value(self, val: str):
+        if not isinstance(val, str):
+            raise ValueError("Unsupported Type <%s>" % type(val))
+        self._value = val
 
     def __str__(self) -> str:
         return self.value
@@ -137,8 +102,18 @@ class ARLiteral(ARType):
         """
         return self.value.upper()
 
+    def getValue(self) -> str:
+        """Gets the literal value (empty string if unset)."""
+        return self.value
 
-class Numerical(ARLiteral):
+    def setValue(self, val: Optional[str]):
+        """Sets the literal value if val is not None; returns self for chaining."""
+        if val is not None:
+            self.value = val
+        return self
+
+
+class Numerical(ARType):
     """
     This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation.
 
@@ -153,13 +128,16 @@ class Numerical(ARLiteral):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # (ARNumerical merged into Numerical (2026-09-27): _convertStringToNumberValue/value/__str__
-    #  moved here from the removed ARNumerical class; base of Float, PositiveInteger, Integer)
+    # (ARNumerical merged into Numerical (2026-09-27); base of Float, PositiveInteger, Integer.
+    #  Derives from ARType, not ARLiteral: numeric value domain, while ARLiteral is str-only.)
+    # [ ] getValue     [x] impl  [x] docstring  [ ] test  [—] reader  [—] writer
+    # [ ] setValue     [x] impl  [x] docstring  [ ] test  [—] reader  [—] writer
 
     def __init__(self) -> None:
         super().__init__()
 
         self._text: Optional[str] = None
+        self._value: Optional[float] = None
 
     def _convertStringToNumberValue(self, value: str) -> Union[int, float]:
         """
@@ -194,13 +172,15 @@ class Numerical(ARLiteral):
             raise ValueError("Invalid Numerical Type <%s>" % value)
 
     @property
-    def value(self) -> Optional[Union[int, float]]:
-        """Optional[Union[int, float]]: The numerical value."""
+    def value(self) -> Optional[float]:
+        """Optional[float]: The numerical value."""
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Any]):
+    def value(self, val: Union[int, float, str]):
         if isinstance(val, int):
+            self._value = val
+        elif isinstance(val, float):
             self._value = val
         elif isinstance(val, str):
             self._text = val
@@ -214,6 +194,16 @@ class Numerical(ARLiteral):
         else:
             return str(self._value)
 
+    def getValue(self) -> Optional[float]:
+        """Gets the numerical value, or None if not set."""
+        return self._value
+
+    def setValue(self, val: Optional[Union[int, float, str]]):
+        """Sets the numerical value if val is not None; returns self for chaining."""
+        if val is not None:
+            self.value = val
+        return self
+
 
 class Float(Numerical):
     """
@@ -225,10 +215,8 @@ class Float(Numerical):
     """
 
     # Float method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
-    # (_text/_convertStringToNumberValue/__str__ inherited from Numerical)
+    # (_text/_convertStringToNumberValue/__str__/getValue/setValue inherited from Numerical)
 
     @property
     def value(self) -> Optional[float]:
@@ -236,11 +224,11 @@ class Float(Numerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Any]):
-        if isinstance(val, float):
-            self._value = val
-        elif isinstance(val, int):
+    def value(self, val: Union[int, float, str]):
+        if isinstance(val, int):
             self._value = val * 1.0
+        elif isinstance(val, float):
+            self._value = val
         elif isinstance(val, str):
             self._text = val
             self._value = self._convertStringToNumberValue(val)
@@ -542,10 +530,12 @@ class PositiveInteger(Numerical):
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [ ] value                        [x] impl  [x] docstring  [ ] test  [—] reader  [—] writer
-    # (_text/_convertStringToNumberValue/__str__ inherited from Numerical)
+    # (_text/_convertStringToNumberValue/__str__/getValue/setValue inherited from Numerical)
 
     def __init__(self) -> None:
         super().__init__()
+
+        self._value: Optional[int] = None
 
     @property
     def value(self) -> Optional[int]:
@@ -553,14 +543,17 @@ class PositiveInteger(Numerical):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Any]):
+    def value(self, val: Union[int, float, str]):
         if isinstance(val, int):
             if val < 0:
                 raise ValueError("Invalid Positive Integer <%s>" % val)
             self._value = val
         elif isinstance(val, str):
+            converted = self._convertStringToNumberValue(val)
+            if converted != int(converted):
+                raise ValueError("Invalid Positive Integer <%s>" % val)
             self._text = val
-            self._value = self._convertStringToNumberValue(val)
+            self._value = int(converted)
         else:
             raise ValueError("Unsupported Type <%s>", type(val))
 
@@ -582,11 +575,14 @@ class Boolean(ARType):
     # [x] _convertStringToBoolean      [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
     # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
 
     def __init__(self) -> None:
         super().__init__()
 
         self._text: Optional[str] = None
+        self._value: Optional[bool] = None
 
     def _convertNumberToBoolean(self, value: int) -> bool:
         """
@@ -646,6 +642,16 @@ class Boolean(ARType):
                 return "true"
             else:
                 return "false"
+
+    def getValue(self) -> Optional[bool]:
+        """Gets the boolean value, or None if not set."""
+        return self._value
+
+    def setValue(self, val: Optional[Union[bool, int, str]]):
+        """Sets the boolean value (bool, 0/1, "true"/"false" are converted) if val is not None; returns self for chaining."""
+        if val is not None:
+            self.value = val
+        return self
 
 
 class NameToken(ARLiteral):
