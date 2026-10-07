@@ -250,15 +250,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SocketAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.118, p.453
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: legacy 5-column checklist with stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block re-written 6-column without stamp. Rule 0001.6 drift fixed: `addStaticSocketConnection(value)` migrated to `createStaticSocketConnection(short_name)` (StaticSocketConnection Base = Identifiable) with registry dup-check + dedicated field append; parser switched to create+`readStaticSocketConnection(element, obj)` (was constructing with a None parent in `getStaticSocketConnection`), writer helper renamed `setStaticSocketConnection` → `writeStaticSocketConnection` (Rule 0013.2 matched pair). `Stereotypes:`/`Tags:` tails restored verbatim on multicastConnector + staticSocketConnection notes (Rule 0012.2.5.3). Removed IP-ADDRESS/PORT-ADDRESS stay unmodeled (atp.Status="removed", XSD-only). Referenced types all exist: ApplicationEndpoint (own Table 6.124 = separate queued row), StaticSocketConnection (Table 6.201, legacy 5-col checklist — drift candidate for its own pass; consumed as-is), IPv6ExtHeaderFilterList/TcpOptionFilterList/EthernetCommunicationConnector (ref'd via RefType). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `UdpChecksumCalculationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.119, p.454
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

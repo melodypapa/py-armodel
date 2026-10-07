@@ -11420,7 +11420,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(connections) > 0:
             wrapper = ET.SubElement(child_element, "STATIC-SOCKET-CONNECTIONS")
             for connection in connections:
-                self.setStaticSocketConnection(wrapper, connection)
+                self.writeStaticSocketConnection(wrapper, connection)
         self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", address.getUdpChecksumHandling())
 
     def writeSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):
@@ -13164,7 +13164,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
 
-    def setStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
+    def writeStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if connection is not None:
             child_element = ET.SubElement(element, "STATIC-SOCKET-CONNECTION")
             self.writeIdentifiable(child_element, connection)

@@ -561,106 +561,6 @@ class Test_Fibex4EthernetServiceInstances:
         assert isinstance(provided_instance, ProvidedServiceInstance)
         assert len(endpoint.getProvidedServiceInstances()) == 1
 
-    def test_SocketAddress(self):
-        """Test SocketAddress class functionality."""
-        parent = MockParent()
-        address = SocketAddress(parent, "test_socket_address")
-
-        assert isinstance(address, Identifiable)
-
-        # Test default values
-        assert address.getAllowedIPv6ExtHeadersRef() is None
-        assert address.getAllowedTcpOptionsRef() is None
-        assert address.getApplicationEndpoint() is None
-        assert address.getConnectorRef() is None
-        assert address.getDifferentiatedServiceField() is None
-        assert address.getFlowLabel() is None
-        assert address.getMulticastConnectorRefs() == []
-        assert address.getPathMtuDiscoveryEnabled() is None
-        assert address.getPduCollectionMaxBufferSize() is None
-        assert address.getPduCollectionTimeout() is None
-        assert address.getStaticSocketConnections() == []
-        assert address.getUdpChecksumHandling() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert address == address.setAllowedIPv6ExtHeadersRef(None)  # Test method chaining with None
-        assert address.getAllowedIPv6ExtHeadersRef() is None  # Should remain None
-
-        assert address == address.setAllowedTcpOptionsRef(None)  # Test method chaining with None
-        assert address.getAllowedTcpOptionsRef() is None  # Should remain None
-
-        assert address == address.setConnectorRef(None)  # Test method chaining with None
-        assert address.getConnectorRef() is None  # Should remain None
-
-        assert address == address.setDifferentiatedServiceField(None)  # Test method chaining with None
-        assert address.getDifferentiatedServiceField() is None  # Should remain None
-
-        assert address == address.setFlowLabel(None)  # Test method chaining with None
-        assert address.getFlowLabel() is None  # Should remain None
-
-        assert address == address.setPathMtuDiscoveryEnabled(None)  # Test method chaining with None
-        assert address.getPathMtuDiscoveryEnabled() is None  # Should remain None
-
-        assert address == address.setPduCollectionMaxBufferSize(None)  # Test method chaining with None
-        assert address.getPduCollectionMaxBufferSize() is None  # Should remain None
-
-        assert address == address.setPduCollectionTimeout(None)  # Test method chaining with None
-        assert address.getPduCollectionTimeout() is None  # Should remain None
-
-        assert address == address.setUdpChecksumHandling(None)  # Test method chaining with None
-        assert address.getUdpChecksumHandling() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual values
-        address.setAllowedIPv6ExtHeadersRef("ipv6_ext_ref")
-        assert address.getAllowedIPv6ExtHeadersRef() == "ipv6_ext_ref"
-        assert address == address.setAllowedIPv6ExtHeadersRef("ipv6_ext_ref")  # Test method chaining
-
-        address.setAllowedTcpOptionsRef("tcp_options_ref")
-        assert address.getAllowedTcpOptionsRef() == "tcp_options_ref"
-        assert address == address.setAllowedTcpOptionsRef("tcp_options_ref")  # Test method chaining
-
-        address.setConnectorRef("connector_ref")
-        assert address.getConnectorRef() == "connector_ref"
-        assert address == address.setConnectorRef("connector_ref")  # Test method chaining
-
-        address.setDifferentiatedServiceField(46)
-        assert address.getDifferentiatedServiceField() == 46
-        assert address == address.setDifferentiatedServiceField(46)  # Test method chaining
-
-        address.setFlowLabel(12345)
-        assert address.getFlowLabel() == 12345
-        assert address == address.setFlowLabel(12345)  # Test method chaining
-
-        address.setPathMtuDiscoveryEnabled(True)
-        assert address.getPathMtuDiscoveryEnabled() is True
-        assert address == address.setPathMtuDiscoveryEnabled(True)  # Test method chaining
-
-        address.setPduCollectionMaxBufferSize(1024)
-        assert address.getPduCollectionMaxBufferSize() == 1024
-        assert address == address.setPduCollectionMaxBufferSize(1024)  # Test method chaining
-
-        address.setPduCollectionTimeout(5000)
-        assert address.getPduCollectionTimeout() == 5000
-        assert address == address.setPduCollectionTimeout(5000)  # Test method chaining
-
-        address.setUdpChecksumHandling("udp_checksum")
-        assert address.getUdpChecksumHandling() == "udp_checksum"
-        assert address == address.setUdpChecksumHandling("udp_checksum")  # Test method chaining
-
-        # Test add methods
-        address.addMulticastConnectorRef("multicast_connector_ref")
-        assert "multicast_connector_ref" in address.getMulticastConnectorRefs()
-        assert address == address.addMulticastConnectorRef("multicast_connector_ref")  # Test method chaining
-
-        address.addStaticSocketConnection("static_connection")
-        assert "static_connection" in address.getStaticSocketConnections()
-        assert address == address.addStaticSocketConnection("static_connection")  # Test method chaining
-
-        # Test create method for application endpoint
-        app_endpoint = address.createApplicationEndpoint("test_app_endpoint")
-        assert isinstance(app_endpoint, ApplicationEndpoint)
-        assert address.getApplicationEndpoint() == app_endpoint
-
     def test_SoAdConfig(self):
         """
         Test SoAdConfig class functionality (Table 6.117).
@@ -1508,18 +1408,17 @@ class TestSocketAddress:
         address.setPduCollectionTimeout(None)
         assert address.getPduCollectionTimeout() is value
 
-    def test_add_get_staticSocketConnections(self):
-        """Test add/get staticSocketConnections (placeholder child type) and None no-op."""
+    def test_create_get_staticSocketConnections(self):
+        """Test create/get staticSocketConnections append, duplicate returns existing, and None-registry safety."""
         address = self._address()
-        connection1 = MockParent()
-        connection2 = MockParent()
+        connection1 = address.createStaticSocketConnection("SSC1")
+        connection2 = address.createStaticSocketConnection("SSC2")
 
-        assert address.addStaticSocketConnection(connection1) is address
-        assert address.addStaticSocketConnection(connection2) is address
+        assert isinstance(connection1, StaticSocketConnection)
+        assert isinstance(connection2, StaticSocketConnection)
         assert address.getStaticSocketConnections() == [connection1, connection2]
-
-        address.addStaticSocketConnection(None)
-        assert address.getStaticSocketConnections() == [connection1, connection2]
+        assert address.createStaticSocketConnection("SSC1") is connection1
+        assert connection1.getShortName() == "SSC1"
 
     def test_get_set_udpChecksumHandling(self):
         """Test get/set udpChecksumHandling with chaining and None no-op."""

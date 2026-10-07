@@ -64,7 +64,7 @@ def _new_connection(short_name="Conn1"):
 class TestWriteStaticSocketConnection:
     def test_write_all_fields(self, writer):
         parent = ET.Element("PARENT")
-        writer.setStaticSocketConnection(parent, _new_connection())
+        writer.writeStaticSocketConnection(parent, _new_connection())
         node = parent.find("STATIC-SOCKET-CONNECTION")
         assert node is not None
         ipdu_refs = node.findall("I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF")
@@ -79,7 +79,7 @@ class TestWriteStaticSocketConnection:
 
     def test_write_empty_fields(self, writer):
         parent = ET.Element("PARENT")
-        writer.setStaticSocketConnection(parent, StaticSocketConnection(MockParent(), "Empty"))
+        writer.writeStaticSocketConnection(parent, StaticSocketConnection(MockParent(), "Empty"))
         node = parent.find("STATIC-SOCKET-CONNECTION")
         assert node is not None
         assert node.find("SHORT-NAME").text == "Empty"
@@ -92,10 +92,11 @@ class TestWriteStaticSocketConnection:
 class TestStaticSocketConnectionRoundTrip:
     def test_round_trip_preserves_all_values(self, writer, parser):
         parent = ET.Element("PARENT")
-        writer.setStaticSocketConnection(parent, _new_connection())
+        writer.writeStaticSocketConnection(parent, _new_connection())
         inner = ET.tostring(parent).decode("utf-8")
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
-        parsed = parser.getStaticSocketConnection(root[0][0])
+        parsed = StaticSocketConnection(MockParent(), "Conn1")
+        parser.readStaticSocketConnection(root[0][0], parsed)
         assert isinstance(parsed, StaticSocketConnection)
         assert parsed.getShortName() == "Conn1"
         ipdu_refs = parsed.getIPduIdentifierRefs()
@@ -108,7 +109,8 @@ class TestStaticSocketConnectionRoundTrip:
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<STATIC-SOCKET-CONNECTION xmlns='%s'><SHORT-NAME>Empty</SHORT-NAME></STATIC-SOCKET-CONNECTION>" % NS)
-        parsed = parser.getStaticSocketConnection(element)
+        parsed = StaticSocketConnection(MockParent(), "Empty")
+        parser.readStaticSocketConnection(element, parsed)
         assert isinstance(parsed, StaticSocketConnection)
         assert parsed.getShortName() == "Empty"
         assert parsed.getIPduIdentifierRefs() == []

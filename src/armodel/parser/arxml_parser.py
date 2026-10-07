@@ -11123,7 +11123,8 @@ class ARXMLParser(AbstractARXMLParser):
         address.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
         address.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
         for child_element in self.findall(element, "STATIC-SOCKET-CONNECTIONS/STATIC-SOCKET-CONNECTION"):
-            address.addStaticSocketConnection(self.getStaticSocketConnection(child_element))
+            connection = address.createStaticSocketConnection(self.getShortName(child_element))
+            self.readStaticSocketConnection(child_element, connection)
         behavior_literal = self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING")
         if behavior_literal is not None:
             behavior = UdpChecksumCalculationEnum()
@@ -15641,10 +15642,8 @@ class ARXMLParser(AbstractARXMLParser):
                 group.addIPduIdentifierUdpRef(ref)
         return group
 
-    def getStaticSocketConnection(self, element: ET.Element) -> Optional[StaticSocketConnection]:
-        connection = None
+    def readStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if element is not None:
-            connection = StaticSocketConnection(cast(ARObject, None), self.getShortName(element))
             self.readIdentifiable(element, connection)
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF"):
                 connection.addIPduIdentifierRef(ref)
@@ -15656,7 +15655,6 @@ class ARXMLParser(AbstractARXMLParser):
                 tcp_role = TcpRoleEnum()
                 tcp_role.setValue(tcp_role_literal.getValue())
                 connection.setTcpRole(tcp_role)
-        return connection
 
     def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
         config = None

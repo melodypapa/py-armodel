@@ -1581,33 +1581,32 @@ class SocketAddress(Identifiable, VariationPointCapable):
 
     # SocketAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.118, p.453
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createApplicationEndpoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getApplicationEndpoint               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getConnectorRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectorRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFlowLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFlowLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMulticastConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMulticastConnectorRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addStaticSocketConnection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getStaticSocketConnections           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createApplicationEndpoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationEndpoint               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getConnectorRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectorRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMulticastConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastConnectorRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createStaticSocketConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticSocketConnections           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1630,7 +1629,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         # The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled.
         self.flowLabel: Optional[PositiveInteger] = None
 
-        # Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination.
+        # Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination. Stereotypes: atpSplitable Tags: atp.Splitkey=multicastConnector
         self.multicastConnectorRefs: List[RefType] = []
 
         # Defines whether the Path MTU Discovery shall be performed for the related socket.
@@ -1642,7 +1641,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         # Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer.
         self.pduCollectionTimeout: Optional[TimeValue] = None
 
-        # Definition of a static SocketConnection.
+        # Definition of a static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticSocketConnection.shortName, staticSocketConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.staticSocketConnections: List[StaticSocketConnection] = []
 
         # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
@@ -1727,7 +1726,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
 
     def addMulticastConnectorRef(self, value: Optional[RefType]) -> SocketAddress:
         """
-        Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination.
+        Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination. Stereotypes: atpSplitable Tags: atp.Splitkey=multicastConnector
         A None value is a no-op and does not append to multicastConnectorRefs.
         """
         if value is not None:
@@ -1735,7 +1734,7 @@ class SocketAddress(Identifiable, VariationPointCapable):
         return self
 
     def getMulticastConnectorRefs(self) -> List[RefType]:
-        """Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination."""
+        """Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination. Stereotypes: atpSplitable Tags: atp.Splitkey=multicastConnector"""
         return self.multicastConnectorRefs
 
     def getPathMtuDiscoveryEnabled(self) -> Optional[Boolean]:
@@ -1777,17 +1776,16 @@ class SocketAddress(Identifiable, VariationPointCapable):
             self.pduCollectionTimeout = value
         return self
 
-    def addStaticSocketConnection(self, value: Optional[StaticSocketConnection]) -> SocketAddress:
-        """
-        Definition of a static SocketConnection.
-        A None value is a no-op and does not append to staticSocketConnections.
-        """
-        if value is not None:
-            self.staticSocketConnections.append(value)
-        return self
+    def createStaticSocketConnection(self, short_name: str) -> StaticSocketConnection:
+        """Definition of a static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticSocketConnection.shortName, staticSocketConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        if not self.IsReferrableElementExists(short_name, StaticSocketConnection):
+            connection = StaticSocketConnection(self, short_name)
+            self.addReferrableElement(connection)
+            self.staticSocketConnections.append(connection)
+        return cast(StaticSocketConnection, self.getReferrableElement(short_name, StaticSocketConnection))
 
     def getStaticSocketConnections(self) -> List[StaticSocketConnection]:
-        """Definition of a static SocketConnection."""
+        """Definition of a static SocketConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticSocketConnection.shortName, staticSocketConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.staticSocketConnections
 
     def getUdpChecksumHandling(self) -> Optional[UdpChecksumCalculationEnum]:

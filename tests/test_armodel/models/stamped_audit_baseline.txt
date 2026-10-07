@@ -315,7 +315,6 @@ SignalServiceTranslationProps
 SignalServiceTranslationPropsSet
 SingleLanguageUnitNames
 SoAdConfig
-SocketAddress
 SocketConnection
 SocketConnectionIpduIdentifier
 SomeipSdClientEventGroupTimingConfig
