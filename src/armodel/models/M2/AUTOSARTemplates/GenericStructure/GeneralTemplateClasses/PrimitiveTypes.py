@@ -882,7 +882,6 @@ class RevisionLabelString(ARLiteral):
     # RevisionLabelString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
 
 class IntervalTypeEnum(AREnum):
