@@ -132,10 +132,9 @@ class ItemLabelPosEnum(AREnum):
 
     # ItemLabelPosEnum method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.14, p.297
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on IndentSample.itemLabelPos
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # The label is renders in a new line. Tags: atp.EnumerationLiteralIndex=0
     NEWLINE = "NEWLINE"
