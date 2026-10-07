@@ -1560,6 +1560,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
     TpAddress,
     TpConfig,
 )
@@ -14090,7 +14091,11 @@ class ARXMLParser(AbstractARXMLParser):
         connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
         connection.setPaddingActivation(self.getChildElementOptionalBooleanValue(element, "PADDING-ACTIVATION"))
         self.readTpConnectionReceiverRefs(element, connection)
-        connection.setTaType(self.getChildElementOptionalLiteral(element, "TA-TYPE"))
+        ta_type_literal = self.getChildElementOptionalLiteral(element, "TA-TYPE")
+        if ta_type_literal is not None:
+            ta_type = NetworkTargetAddressType()
+            ta_type.setValue(ta_type_literal.getValue())
+            connection.setTaType(ta_type)
         connection.setTimeoutBr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BR"))
         connection.setTimeoutBs(self.getChildElementOptionalTimeValue(element, "TIMEOUT-BS"))
         connection.setTimeoutCr(self.getChildElementOptionalTimeValue(element, "TIMEOUT-CR"))

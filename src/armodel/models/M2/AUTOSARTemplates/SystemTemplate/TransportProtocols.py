@@ -10,7 +10,7 @@ from typing import List, Optional, cast
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -206,41 +206,40 @@ class CanTpConnection(TpConnection, VariationPointCapable):
 
     # CanTpConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.253 (with Table 6.252 block), p.608-609
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressingFormat       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressingFormat       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCancellation           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCancellation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCanTpChannelRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanTpChannelRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataPduRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataPduRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFlowControlPduRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFlowControlPduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxBlockSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxBlockSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMulticastRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMulticastRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPaddingActivation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPaddingActivation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getReceiverRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addReceiverRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTaType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTaType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutBr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutBr              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutBs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutBs              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutCr              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutCr              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeoutCs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeoutCs              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpSduRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTpSduRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransmitterRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTransmitterRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressingFormat   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressingFormat   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCancellation       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCancellation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCanTpChannelRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanTpChannelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataPduRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataPduRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowControlPduRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowControlPduRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxBlockSize       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxBlockSize       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPaddingActivation  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPaddingActivation  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceiverRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReceiverRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTaType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTaType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutBr          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutBr          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutBs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutBs          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCr          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCr          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeoutCs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeoutCs          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpSduRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpSduRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransmitterRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmitterRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -273,7 +272,7 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         self.receiverRefs: List[RefType] = []
 
         # Network Target Address type.
-        self.taType: Optional[ARLiteral] = None
+        self.taType: Optional[NetworkTargetAddressType] = None
 
         # Value in seconds of the performance requirement for (N_ Br + N_Ar). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
         self.timeoutBr: Optional[TimeValue] = None
@@ -410,11 +409,11 @@ class CanTpConnection(TpConnection, VariationPointCapable):
             self.receiverRefs.append(value)
         return self
 
-    def getTaType(self) -> Optional[ARLiteral]:
+    def getTaType(self) -> Optional[NetworkTargetAddressType]:
         """Network Target Address type."""
         return self.taType
 
-    def setTaType(self, value: Optional[ARLiteral]) -> CanTpConnection:
+    def setTaType(self, value: Optional[NetworkTargetAddressType]) -> CanTpConnection:
         """
         Network Target Address type.
         A None value is a no-op and does not overwrite an existing taType.
@@ -424,12 +423,12 @@ class CanTpConnection(TpConnection, VariationPointCapable):
         return self
 
     def getTimeoutBr(self) -> Optional[TimeValue]:
-        """Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC."""
+        """Value in seconds of the performance requirement for (N_ Br + N_Ar). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC."""
         return self.timeoutBr
 
     def setTimeoutBr(self, value: Optional[TimeValue]) -> CanTpConnection:
         """
-        Value in seconds of the performance requirement for (``N_ Br`` + ``N_Ar``). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
+        Value in seconds of the performance requirement for (N_ Br + N_Ar). N_Br is the elapsed time between the receiving indication of a FF or CF or the transmit confirmation of a FC, until the transmit request of the next FC.
         A None value is a no-op and does not overwrite an existing timeoutBr.
         """
         if value is not None:

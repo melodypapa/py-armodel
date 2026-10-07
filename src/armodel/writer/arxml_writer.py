@@ -10274,7 +10274,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "MULTICAST-REF", connection.getMulticastRef())
             self.setChildElementOptionalBooleanValue(child_element, "PADDING-ACTIVATION", connection.getPaddingActivation())
             self.writeTpConnectionReceiverRefs(child_element, connection)
-            self.setChildElementOptionalLiteral(child_element, "TA-TYPE", connection.getTaType())
+            ta_type = connection.getTaType()
+            if ta_type is not None:
+                ta_type_element = ET.SubElement(child_element, "TA-TYPE")
+                ta_type_element.text = ta_type.getValue()
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BR", connection.getTimeoutBr())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-BS", connection.getTimeoutBs())
             self.setChildElementOptionalTimeValue(child_element, "TIMEOUT-CR", connection.getTimeoutCr())

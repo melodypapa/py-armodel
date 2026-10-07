@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
     TpAddress,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -633,7 +634,7 @@ class TestWriteCanTpConnection:
         conn.setMulticastRef(_ref("I-PDU", "/mc"))
         conn.setPaddingActivation(_bool("false"))
         conn.addReceiverRef(_ref("ECU-INSTANCE", "/r1"))
-        conn.setTaType(_literal("PHYSICAL"))
+        conn.setTaType(NetworkTargetAddressType().setValue(NetworkTargetAddressType.ENUM_PHYSICAL))
         conn.setTimeoutBr(_time("0.1"))
         conn.setTimeoutBs(_time("0.2"))
         conn.setTimeoutCr(_time("0.3"))
@@ -678,7 +679,7 @@ class TestWriteCanTpConnection:
         conn.setPaddingActivation(_bool("false"))
         conn.addReceiverRef(_ref("ECU-INSTANCE", "/r1"))
         conn.addReceiverRef(_ref("ECU-INSTANCE", "/r2"))
-        conn.setTaType(_literal("PHYSICAL"))
+        conn.setTaType(NetworkTargetAddressType().setValue(NetworkTargetAddressType.ENUM_PHYSICAL))
         conn.setTimeoutBr(_time("0.1"))
         conn.setTimeoutBs(_time("0.2"))
         conn.setTimeoutCr(_time("0.3"))
@@ -706,6 +707,7 @@ class TestWriteCanTpConnection:
         assert reloaded.getPaddingActivation().getValue() is False
         refs = [r.getValue() for r in reloaded.getReceiverRefs()]
         assert refs == ["/r1", "/r2"]
+        assert isinstance(reloaded.getTaType(), NetworkTargetAddressType)
         assert reloaded.getTaType().getValue() == "PHYSICAL"
         assert reloaded.getTimeoutBr().getValue() == 0.1
         assert reloaded.getTimeoutBs().getValue() == 0.2

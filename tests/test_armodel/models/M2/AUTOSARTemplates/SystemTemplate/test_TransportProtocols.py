@@ -6,7 +6,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -202,8 +202,7 @@ class Test_TransportProtocols:
         assert connection == connection.setPaddingActivation(None)
         assert connection.getPaddingActivation().getValue() is False
 
-        ta = ARLiteral()
-        ta.setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
+        ta = NetworkTargetAddressType().setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
         assert connection == connection.setTaType(ta)
         assert connection.getTaType() == ta
         assert connection == connection.setTaType(None)
