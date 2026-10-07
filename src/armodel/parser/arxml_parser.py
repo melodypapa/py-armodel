@@ -1561,6 +1561,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     EthTpConnection,
     FlexrayArTpChannel,
     FlexrayArTpConfig,
+    FlexrayArTpConnection,
     FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
@@ -14333,6 +14334,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayArTpChannel(self, element: ET.Element, channel: FlexrayArTpChannel):
         self.readARObject(element, channel)
+
+    def readFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
+        self.readTpConnection(element, connection)
+        connection.setConnectionPrioPdus(self.getChildElementOptionalIntegerValue(element, "CONNECTION-PRIO-PDUS"))
+        connection.setDirectTpSduRef(self.getChildElementOptionalRefType(element, "DIRECT-TP-SDU-REF"))
+        connection.setMulticastRef(self.getChildElementOptionalRefType(element, "MULTICAST-REF"))
+        connection.setReversedTpSduRef(self.getChildElementOptionalRefType(element, "REVERSED-TP-SDU-REF"))
+        connection.setSourceRef(self.getChildElementOptionalRefType(element, "SOURCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "TARGET-REFS/TARGET-REF"):
+            connection.addTargetRef(ref)
 
     def readFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
         for child_element in self.findall(element, "TP-CHANNELS/*"):

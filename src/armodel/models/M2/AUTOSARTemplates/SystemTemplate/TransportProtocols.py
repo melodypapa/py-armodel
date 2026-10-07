@@ -1842,7 +1842,143 @@ class FlexrayArTpConfig(TpConfig):
 
 
 class FlexrayArTpConnection(TpConnection):
-    pass
+    """
+    A connection within a channel identifies the sender and the receiver of this particular communication. The FlexRay Autosar Tp module routes a Pdu through this connection.
+
+    [constr_9244] Existence of FlexrayArTpConnection.directTpSdu: For each FlexrayArTpConnection, the reference to IPdu in the role directTpSdu shall exist at the time when the System Description is complete.
+
+    [constr_9245] Existence of FlexrayArTpConnection.source: For each FlexrayArTpConnection, the reference to FlexrayArTpNode in the role source shall exist at the time when the System Description is complete.
+
+    [constr_9246] Existence of FlexrayArTpConnection.target: For each FlexrayArTpConnection, at least one reference to FlexrayArTpNode in the role target shall exist at the time when the System Description is complete.
+    """
+
+    # FlexrayArTpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.248, p.603
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionPrioPdus  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionPrioPdus  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDirectTpSduRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDirectTpSduRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMulticastRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMulticastRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReversedTpSduRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReversedTpSduRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTargetRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This parameter defines the number of PDUs that shall be reserved for this connection when it is active. The range is 1-255.
+        self.connectionPrioPdus: Optional[Integer] = None
+
+        # Reference to the IPdu that is segmented by the Transport Protocol. The source address of the transmitted NPdu is determined by the configured source Communication Connector. The target address of the transmitted NPdu is determined by the configured target Communication Connector.
+        self.directTpSduRef: Optional[RefType] = None
+
+        # TP address for 1:n connections.
+        self.multicastRef: Optional[RefType] = None
+
+        # Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction. The source address of the transmitted NPdu is determined by the configured target Communication Connector. The target address of the transmitted NPdu is determined by the configured source Communication Connector.
+        self.reversedTpSduRef: Optional[RefType] = None
+
+        # The source of the TP connection.
+        self.sourceRef: Optional[RefType] = None
+
+        # The target of the TP connection.
+        self.targetRefs: List[RefType] = []
+
+    def getConnectionPrioPdus(self) -> Optional[Integer]:
+        """
+        This parameter defines the number of PDUs that shall be reserved for this connection when it is active. The range is 1-255.
+        """
+        return self.connectionPrioPdus
+
+    def setConnectionPrioPdus(self, value: Optional[Integer]) -> FlexrayArTpConnection:
+        """
+        This parameter defines the number of PDUs that shall be reserved for this connection when it is active. The range is 1-255.
+        A None value is a no-op and does not overwrite an existing connectionPrioPdus.
+        """
+        if value is not None:
+            self.connectionPrioPdus = value
+        return self
+
+    def getDirectTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. The source address of the transmitted NPdu is determined by the configured source Communication Connector. The target address of the transmitted NPdu is determined by the configured target Communication Connector.
+        """
+        return self.directTpSduRef
+
+    def setDirectTpSduRef(self, value: Optional[RefType]) -> FlexrayArTpConnection:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. The source address of the transmitted NPdu is determined by the configured source Communication Connector. The target address of the transmitted NPdu is determined by the configured target Communication Connector.
+        A None value is a no-op and does not overwrite an existing directTpSduRef.
+        """
+        if value is not None:
+            self.directTpSduRef = value
+        return self
+
+    def getMulticastRef(self) -> Optional[RefType]:
+        """
+        TP address for 1:n connections.
+        """
+        return self.multicastRef
+
+    def setMulticastRef(self, value: Optional[RefType]) -> FlexrayArTpConnection:
+        """
+        TP address for 1:n connections.
+        A None value is a no-op and does not overwrite an existing multicastRef.
+        """
+        if value is not None:
+            self.multicastRef = value
+        return self
+
+    def getReversedTpSduRef(self) -> Optional[RefType]:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction. The source address of the transmitted NPdu is determined by the configured target Communication Connector. The target address of the transmitted NPdu is determined by the configured source Communication Connector.
+        """
+        return self.reversedTpSduRef
+
+    def setReversedTpSduRef(self, value: Optional[RefType]) -> FlexrayArTpConnection:
+        """
+        Reference to the IPdu that is segmented by the Transport Protocol. If support of both sending and receiving is used, this association references the IPdu used for the additional second direction. The source address of the transmitted NPdu is determined by the configured target Communication Connector. The target address of the transmitted NPdu is determined by the configured source Communication Connector.
+        A None value is a no-op and does not overwrite an existing reversedTpSduRef.
+        """
+        if value is not None:
+            self.reversedTpSduRef = value
+        return self
+
+    def getSourceRef(self) -> Optional[RefType]:
+        """
+        The source of the TP connection.
+        """
+        return self.sourceRef
+
+    def setSourceRef(self, value: Optional[RefType]) -> FlexrayArTpConnection:
+        """
+        The source of the TP connection.
+        A None value is a no-op and does not overwrite an existing sourceRef.
+        """
+        if value is not None:
+            self.sourceRef = value
+        return self
+
+    def addTargetRef(self, value: Optional[RefType]) -> FlexrayArTpConnection:
+        """
+        The target of the TP connection.
+        A None value is a no-op and is not appended to targetRefs.
+        """
+        if value is not None:
+            self.targetRefs.append(value)
+        return self
+
+    def getTargetRefs(self) -> List[RefType]:
+        """
+        The target of the TP connection.
+        """
+        return self.targetRefs
 
 
 class EthTpConfig(TpConfig):

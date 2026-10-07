@@ -1304,6 +1304,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     EthTpConnection,
     FlexrayArTpChannel,
     FlexrayArTpConfig,
+    FlexrayArTpConnection,
     FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
@@ -10549,6 +10550,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         if channel is not None:
             child_element = ET.SubElement(element, "FLEXRAY-AR-TP-CHANNEL")
             self.writeARObject(child_element, channel)
+
+    def writeFlexrayArTpConnection(self, element: ET.Element, connection: FlexrayArTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-AR-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+            self.setChildElementOptionalIntegerValue(child_element, "CONNECTION-PRIO-PDUS", connection.getConnectionPrioPdus())
+            self.setChildElementOptionalRefType(child_element, "DIRECT-TP-SDU-REF", connection.getDirectTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "MULTICAST-REF", connection.getMulticastRef())
+            self.setChildElementOptionalRefType(child_element, "REVERSED-TP-SDU-REF", connection.getReversedTpSduRef())
+            self.setChildElementOptionalRefType(child_element, "SOURCE-REF", connection.getSourceRef())
+            target_refs = connection.getTargetRefs()
+            if len(target_refs) > 0:
+                targets_element = ET.SubElement(child_element, "TARGET-REFS")
+                for ref in target_refs:
+                    self.setChildElementOptionalRefType(targets_element, "TARGET-REF", ref)
 
     def writeFlexrayArTpConfigTpChannels(self, element: ET.Element, config: FlexrayArTpConfig):
         channels = config.getTpChannels()
