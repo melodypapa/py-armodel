@@ -812,7 +812,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
-    MappingScopeEnum,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
@@ -1530,6 +1529,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ComponentSeparation,
     EcuResourceEstimation,
     MappingConstraint,
+    MappingScopeEnum,
     SwcToApplicationPartitionMapping,
     SwcToImplMapping,
 )
@@ -17534,7 +17534,7 @@ class ARXMLParser(AbstractARXMLParser):
             clustering.addClusteredComponentIRef(self.getComponentInSystemInstanceRef(child_element))
         mapping_scope = self.getChildElementOptionalLiteral(element, "MAPPING-SCOPE")
         if mapping_scope is not None:
-            e: ARLiteral = MappingScopeEnum(("MAPPING-SCOPE-CORE", "MAPPING-SCOPE-ECU", "MAPPING-SCOPE-PARTITION"))
+            e: ARLiteral = MappingScopeEnum()
             e.setValue(mapping_scope.getValue())
             clustering.setMappingScope(cast(Optional[MappingScopeEnum], e))
 

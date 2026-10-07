@@ -13,11 +13,11 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MappingScopeEnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation, MappingScopeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
@@ -53,7 +53,7 @@ def _ref(value: str, dest: str) -> RefType:
 
 
 def _mapping_scope(value: str) -> MappingScopeEnum:
-    scope = MappingScopeEnum(("MAPPING-SCOPE-CORE", "MAPPING-SCOPE-ECU", "MAPPING-SCOPE-PARTITION"))
+    scope = MappingScopeEnum()
     scope.setValue(value)
     return scope
 
@@ -154,7 +154,7 @@ class TestWriteComponentClustering:
         clustering.setIntroduction(_introduction("The clustering introduction."))
         clustering.addClusteredComponentIRef(self._clustered_component_iref("/CanSystem/TopLevelComposition", "/DemoApplication/SWC_ModifyEcho"))
         clustering.addClusteredComponentIRef(self._clustered_component_iref(None, "/DemoApplication/SWC_CyclicCounter"))
-        clustering.setMappingScope(_mapping_scope("MAPPING-SCOPE-ECU"))
+        clustering.setMappingScope(_mapping_scope(MappingScopeEnum.MAPPING_SCOPE_ECU))
         mapping.addMappingConstraint(clustering)
 
         parent = ET.Element("PARENT")
@@ -195,7 +195,7 @@ class TestWriteComponentClustering:
         """Test that an empty iref list emits no CLUSTERED-COMPONENT-IREFS wrapper while the mappingScope survives the round trip"""
         mapping = SystemMapping(AUTOSAR.getInstance(), "SystemMapping")
         clustering = ComponentClustering()
-        clustering.setMappingScope(_mapping_scope("MAPPING-SCOPE-PARTITION"))
+        clustering.setMappingScope(_mapping_scope(MappingScopeEnum.MAPPING_SCOPE_PARTITION))
         mapping.addMappingConstraint(clustering)
 
         parent = ET.Element("PARENT")

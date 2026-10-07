@@ -4,10 +4,9 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MappingScopeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, MappingConstraint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, MappingConstraint, MappingScopeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -75,8 +74,8 @@ class TestComponentClustering:
         "mappingScope",
     ]
 
-    def _mapping_scope(self, value: str = "MAPPING-SCOPE-CORE") -> MappingScopeEnum:
-        scope = MappingScopeEnum(("MAPPING-SCOPE-CORE", "MAPPING-SCOPE-ECU", "MAPPING-SCOPE-PARTITION"))
+    def _mapping_scope(self, value: str = MappingScopeEnum.MAPPING_SCOPE_CORE) -> MappingScopeEnum:
+        scope = MappingScopeEnum()
         scope.setValue(value)
         return scope
 
@@ -126,15 +125,15 @@ class TestComponentClustering:
 
     def test_get_set_mapping_scope(self):
         clustering = ComponentClustering()
-        scope = self._mapping_scope("MAPPING-SCOPE-ECU")
+        scope = self._mapping_scope(MappingScopeEnum.MAPPING_SCOPE_ECU)
         result = clustering.setMappingScope(scope)
         assert result is clustering
         assert clustering.getMappingScope() is scope
-        assert clustering.getMappingScope().getValue() == "MAPPING-SCOPE-ECU"
+        assert clustering.getMappingScope().getValue() == MappingScopeEnum.MAPPING_SCOPE_ECU
 
     def test_set_mapping_scope_none_no_op(self):
         clustering = ComponentClustering()
-        scope = self._mapping_scope("MAPPING-SCOPE-PARTITION")
+        scope = self._mapping_scope(MappingScopeEnum.MAPPING_SCOPE_PARTITION)
         clustering.setMappingScope(scope)
         clustering.setMappingScope(None)
         assert clustering.getMappingScope() is scope
@@ -164,3 +163,31 @@ class TestComponentClustering:
         hints = typing.get_type_hints(ComponentClustering.setMappingScope)
         assert hints.get("value") == typing.Optional[MappingScopeEnum]
         assert hints.get("return") is ComponentClustering
+
+
+class TestMappingScopeEnum:
+    """Test cases for MappingScopeEnum (CP_TPS_SystemTemplate Table 5.10, p.204, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        assert MappingScopeEnum.MAPPING_SCOPE_CORE == "MAPPING-SCOPE-CORE"
+        assert MappingScopeEnum.MAPPING_SCOPE_ECU == "MAPPING-SCOPE-ECU"
+        assert MappingScopeEnum.MAPPING_SCOPE_PARTITION == "MAPPING-SCOPE-PARTITION"
+        assert list(MappingScopeEnum().getEnumValues()) == [
+            "MAPPING-SCOPE-CORE",
+            "MAPPING-SCOPE-ECU",
+            "MAPPING-SCOPE-PARTITION",
+        ]
+
+    def test_instantiability_round_trip(self):
+        core = MappingScopeEnum().setValue(MappingScopeEnum.MAPPING_SCOPE_CORE)
+        assert core.getValue() == MappingScopeEnum.MAPPING_SCOPE_CORE
+
+        ecu = MappingScopeEnum().setValue(MappingScopeEnum.MAPPING_SCOPE_ECU)
+        assert ecu.getValue() == MappingScopeEnum.MAPPING_SCOPE_ECU
+
+        partition = MappingScopeEnum().setValue(MappingScopeEnum.MAPPING_SCOPE_PARTITION)
+        assert partition.getValue() == MappingScopeEnum.MAPPING_SCOPE_PARTITION
+
+    def test_class_docstring_note(self):
+        note = "Defines the scope for the mapping constraints."
+        assert inspect.cleandoc(MappingScopeEnum.__doc__) == note

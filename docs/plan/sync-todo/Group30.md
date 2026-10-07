@@ -2134,16 +2134,44 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-07 (22161 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 69736e860
 
 - [ ] `MappingScopeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 5.10, p.204
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    PrimitiveTypes.py hint — Rule 0007 Package row decision, see Step 1 finding)
+  - Step 1 finding: Table 5.10 is a page-split table — fragment A (Enumeration header,
+    Package `M2::AUTOSARTemplates::SystemTemplate::SWmapping`, Note "Defines the scope
+    for the mapping constraints.", Aggregated by ComponentClustering.mappingScope,
+    ComponentSeparation.mappingScope, Literal/Description header + literal
+    mappingScopeCore idx0) renders BEFORE the caption under Table 5.9's caption (the
+    6ddfdbb3f page-split fragment), fragment B (repeated Enumeration header +
+    mappingScopeEcu idx1, mappingScopePartition idx2) after it — same shape as Table
+    3.125. Header Enumeration → AREnum. Note has NO Tags:/Stereotypes: tail. Three
+    literals in displayed order = XSD facet order = raw EnumerationLiteralIndex order
+    (all three agree, no Rule 0011 conflict): mappingScopeCore/mappingScopeEcu/
+    mappingScopePartition → member names MAPPING_SCOPE_CORE/MAPPING_SCOPE_ECU/
+    MAPPING_SCOPE_PARTITION, values the exact XSD MAPPING-SCOPE-ENUM--SIMPLE facets
+    (AUTOSAR_00052.xsd lines 140100-140120) "MAPPING-SCOPE-CORE"/"MAPPING-SCOPE-ECU"/
+    "MAPPING-SCOPE-PARTITION" (plain UPPER-KEBAB, no double-hyphen quirk, no xml.name
+    tags, no atp.Status=removed facets). pdf_page.py cites p.204. Placement per Rule
+    0007 (spec Package row): MOVES from the bare AREnum stub in PrimitiveTypes.py to
+    `SystemTemplate/SWmapping.py` next to its consumer ComponentClustering, in
+    spec-table order directly after it (Table 5.9 → 5.10, before Table 5.11
+    ComponentSeparation) — MacSec-enum precedent; safe (module is PEP 563; the
+    SWmapping import line drops the now-local name). Consumer ComponentClustering.
+    mappingScope already typed Optional[MappingScopeEnum]; parser level
+    readComponentClustering still instantiates the raw XSD facet tuple — upgraded to
+    `MappingScopeEnum()` at this sync; writer MAPPING-SCOPE already wired via
+    setChildElementOptionalLiteral — no change. The
+    test_group21_36_stub_classes.py STUBS entry (PrimitiveTypes/MappingScopeEnum/
+    AREnum) is removed with the move (MacSec precedent: stub rows leave at sync).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on ComponentClustering.mappingScope / ComponentSeparation.mappingScope; round-trip covered by the consumer's parser/writer tests, which already assert the MAPPING-SCOPE facet values through write → re-parse)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (writer MAPPING-SCOPE already wired via setChildElementOptionalLiteral; parser readComponentClustering upgraded from the raw XSD facet tuple to `MappingScopeEnum()` at this sync). Consumer test upgrades: TestComponentClustering._mapping_scope helper (model) + writer test _mapping_scope helper now instantiate `MappingScopeEnum()` and pass/compare the real constants MAPPING_SCOPE_CORE/ECU/PARTITION (wire-format XML assertions keep raw facet strings per Rule 0011 exception (a); parser test untouched — already wire-format only)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 5.10 — three literals 1:1 (mappingScopeCore/mappingScopeEcu/mappingScopePartition), values the exact XSD MAPPING-SCOPE-ENUM--SIMPLE facets in facet order, Note verbatim ("Defines the scope for the mapping constraints." — no Tags tail), no atp.Status=removed facets, no missing referenced classes (no Base beyond AREnum; consumers ComponentClustering/ComponentSeparation exist). Placement notes (not spec deviations): (1) module moved from the PrimitiveTypes.py hint to SWmapping.py per the Rule 0007 Package row (see Step 1 finding); (2) within SWmapping.py the enum sits at the top after the imports, BEFORE its consumers — the module is NOT PEP 563 and ComponentClustering's `Optional[MappingScopeEnum]` signatures evaluate at class-definition time, so the spec-table-order slot directly after ComponentClustering (MacSec style, PEP 563 module) is not possible there; precedent SignalPaths.py (SwcToSwcOperationArgumentsDirectionEnum) / RteEventToOsTaskMapping.py (OsTaskPreemptabilityEnum) place the enum before its consumers. No stale legacy marker existed (bare `AREnum` stub — Rule 0023 removal a no-op); fresh 6-column enum checklist, no marker (batch 9b stamps). The test_group21_36_stub_classes.py STUBS row was removed with the move (MacSec precedent). Entry-time audit (pre-sync) would have FAILed ROWS (1 method vs 0 rows); post-sync audit PASS with STAMP INFO (deferred marker) as expected.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22162 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4e3e9b2a2
 
 - [ ] `ComponentSeparation` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.11, p.205
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

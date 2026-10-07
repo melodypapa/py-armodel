@@ -6,11 +6,41 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MappingScopeEnum, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+
+class MappingScopeEnum(AREnum):
+    """
+    Defines the scope for the mapping constraints.
+    """
+
+    # MappingScopeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.10, p.204
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ComponentClustering.mappingScope / ComponentSeparation.mappingScope
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The mapping constraint applies to different Cores. Tags: atp.EnumerationLiteralIndex=0
+    MAPPING_SCOPE_CORE = "MAPPING-SCOPE-CORE"
+
+    # The mapping constraint applies to different Ecus. Tags: atp.EnumerationLiteralIndex=1
+    MAPPING_SCOPE_ECU = "MAPPING-SCOPE-ECU"
+
+    # The mapping constraint applies to different Partitions. Tags: atp.EnumerationLiteralIndex=2
+    MAPPING_SCOPE_PARTITION = "MAPPING-SCOPE-PARTITION"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MappingScopeEnum.MAPPING_SCOPE_CORE,
+                MappingScopeEnum.MAPPING_SCOPE_ECU,
+                MappingScopeEnum.MAPPING_SCOPE_PARTITION,
+            ]
+        )
 
 
 class SwcToImplMapping(Identifiable, VariationPointCapable):
