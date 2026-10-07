@@ -178,9 +178,9 @@ class NetworkTargetAddressType(AREnum):
 
     # NetworkTargetAddressType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.258, p.611
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on CanTpConnection.taType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Functional request type Tags: atp.EnumerationLiteralIndex=0
     ENUM_FUNCTIONAL = "FUNCTIONAL"
