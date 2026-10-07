@@ -439,3 +439,59 @@ class CpSoftwareClusterMappingSet(ARElement):
             self.addReferrableElement(mapping)
             self.swcToApplicationPartitionMappings.append(mapping)
         return cast(SwcToApplicationPartitionMapping, self.getReferrableElement(short_name, SwcToApplicationPartitionMapping))
+
+
+class SystemSignalToCommunicationResourceMapping(Identifiable):
+    """
+    This meta class maps a communication resource to a SystemSignal. This mapping can be used in an early process stage in which the DataMapping linking the Ports and mapped CpSoftwareCluster CommunicationResource(s) to the SystemSignal is not yet available.
+    """
+
+    # SystemSignalToCommunicationResourceMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.51, p.289
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterComResourceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareClusterComResourceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSystemSignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemSignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Communication resource for which the mapping applies.
+        self.softwareClusterComResourceRef: Optional[RefType] = None
+
+        # SystemSignal to which the communication resource is assigned
+        self.systemSignalRef: Optional[RefType] = None
+
+    def getSoftwareClusterComResourceRef(self) -> Optional[RefType]:
+        """
+        Communication resource for which the mapping applies.
+        """
+        return self.softwareClusterComResourceRef
+
+    def setSoftwareClusterComResourceRef(self, value: Optional[RefType]) -> "SystemSignalToCommunicationResourceMapping":
+        """
+        Communication resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing softwareClusterComResourceRef.
+        """
+        if value is not None:
+            self.softwareClusterComResourceRef = value
+        return self
+
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        SystemSignal to which the communication resource is assigned
+        """
+        return self.systemSignalRef
+
+    def setSystemSignalRef(self, value: Optional[RefType]) -> "SystemSignalToCommunicationResourceMapping":
+        """
+        SystemSignal to which the communication resource is assigned
+
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
+        return self

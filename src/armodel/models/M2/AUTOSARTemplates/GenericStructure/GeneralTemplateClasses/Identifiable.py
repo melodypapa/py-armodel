@@ -1579,10 +1579,6 @@ class SystemSignalGroupToCommunicationResourceMapping(Identifiable):
     pass
 
 
-class SystemSignalToCommunicationResourceMapping(Identifiable):
-    pass
-
-
 class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 

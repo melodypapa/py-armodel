@@ -903,6 +903,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import Cp
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterMappingSet
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import SystemSignalToCommunicationResourceMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -13825,6 +13826,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
+        self.writeSystemMappingSystemSignalToComResourceMappings(child_element, mapping)
 
     def writeSystemMappings(self, element: ET.Element, system: System):
         mappings = system.getMappings()
@@ -14030,6 +14032,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCpSoftwareClusterToApplicationPartitionMapping(mappings_tag, sc_mapping)
                 else:
                     self.notImplemented("Unsupported SoftwareClusterToApplicationPartitionMapping %s" % type(sc_mapping))
+
+    def writeSystemSignalToCommunicationResourceMapping(self, element: ET.Element, mapping: SystemSignalToCommunicationResourceMapping):
+        child_element = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COMMUNICATION-RESOURCE-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "SOFTWARE-CLUSTER-COM-RESOURCE-REF", mapping.getSoftwareClusterComResourceRef())
+        self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", mapping.getSystemSignalRef())
+
+    def writeSystemMappingSystemSignalToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getSystemSignalToComResourceMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SYSTEM-SIGNAL-TO-COM-RESOURCE-MAPPINGS")
+            for signal_mapping in mappings:
+                if isinstance(signal_mapping, SystemSignalToCommunicationResourceMapping):
+                    self.writeSystemSignalToCommunicationResourceMapping(mappings_tag, signal_mapping)
+                else:
+                    self.notImplemented("Unsupported SystemSignalToComResourceMapping %s" % type(signal_mapping))
 
     def writeCpSoftwareClusterMappingSet(self, element: ET.Element, mapping_set: CpSoftwareClusterMappingSet):
         child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-MAPPING-SET")
