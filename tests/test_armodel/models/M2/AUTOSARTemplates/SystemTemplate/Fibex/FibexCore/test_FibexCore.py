@@ -7,7 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import BusMirrorChannel
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping, BusMirrorChannelMappingFlexray
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
 
 
 class _ConcreteMapping(BusMirrorChannelMapping):
@@ -82,6 +82,27 @@ class TestBusMirrorChannelMappingFlexray:
 
     def test_get_set_transmission_deadline(self):
         mapping = BusMirrorChannelMappingFlexray(None, "FlexrayMapping")
+        deadline = TimeValue().setValue("0.5")
+
+        assert mapping.setTransmissionDeadline(deadline) is mapping
+        assert mapping.getTransmissionDeadline() is deadline
+        assert mapping.getTransmissionDeadline().getValue() == 0.5
+
+        mapping.setTransmissionDeadline(None)
+        assert mapping.getTransmissionDeadline() is deadline
+
+
+class TestBusMirrorChannelMappingUserDefined:
+    def test_initialization(self):
+        mapping = BusMirrorChannelMappingUserDefined(None, "UserDefinedMapping")
+
+        assert isinstance(mapping, BusMirrorChannelMapping)
+        assert mapping.getShortName() == "UserDefinedMapping"
+        assert mapping.getTransmissionDeadline() is None
+        assert mapping.getMirroringProtocol() is None
+
+    def test_get_set_transmission_deadline(self):
+        mapping = BusMirrorChannelMappingUserDefined(None, "UserDefinedMapping")
         deadline = TimeValue().setValue("0.5")
 
         assert mapping.setTransmissionDeadline(deadline) is mapping

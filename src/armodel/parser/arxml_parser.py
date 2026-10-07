@@ -1304,7 +1304,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray, BusMirrorChannelMappingUserDefined
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
@@ -10184,6 +10184,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBusMirrorChannelMapping(element, mapping)
         mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
 
+    def readBusMirrorChannelMappingUserDefined(self, element: ET.Element, mapping: BusMirrorChannelMappingUserDefined):
+        self.logger.debug("Read BusMirrorChannelMappingUserDefined <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
+
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
         for ref in self.getChildElementRefTypeList(element, "FRAME-PORT-REFS/FRAME-PORT-REF"):
@@ -18934,6 +18939,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY":
             flexray_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingFlexray, self.getShortName(child_element))
             self.readBusMirrorChannelMappingFlexray(child_element, flexray_mapping)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-USER-DEFINED":
+            user_defined_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingUserDefined, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingUserDefined(child_element, user_defined_mapping)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

@@ -167,7 +167,38 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
 
 class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
-    pass
+    """
+    This element defines the bus mirroring between a CAN, LIN or FlexRay sourceChannel and a User Defined targetChannel. Tags: atp.recommendedPackage=BusMirrorChannelMappings
+    """
+
+    # BusMirrorChannelMappingUserDefined method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.334, p.707
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransmissionDeadline      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransmissionDeadline      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Time in seconds after which the collection of source frames into the destination frame is stopped and the frame is sent at the latest. If omitted, destination frames are only sent when full or when the time stamp overflows.
+        self.transmissionDeadline: Optional[TimeValue] = None
+
+    def getTransmissionDeadline(self) -> Optional[TimeValue]:
+        """
+        Time in seconds after which the collection of source frames into the destination frame is stopped and the frame is sent at the latest. If omitted, destination frames are only sent when full or when the time stamp overflows.
+        """
+        return self.transmissionDeadline
+
+    def setTransmissionDeadline(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingUserDefined:
+        """
+        Time in seconds after which the collection of source frames into the destination frame is stopped and the frame is sent at the latest. If omitted, destination frames are only sent when full or when the time stamp overflows.
+
+        A None value is a no-op and does not overwrite an existing transmissionDeadline.
+        """
+        if value is not None:
+            self.transmissionDeadline = value
+        return self
 
 
 class EthTpConfig(FibexElement):
