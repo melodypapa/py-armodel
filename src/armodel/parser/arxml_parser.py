@@ -401,7 +401,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     SynchronizationTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, SystemTiming, TimingExtension, VfbTiming
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
@@ -10162,6 +10162,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingExtension(element, timing)
         timing.setComponentRef(self.getChildElementOptionalRefType(element, "COMPONENT-REF"))
 
+    def readSystemTiming(self, element: ET.Element, timing: SystemTiming):
+        self.logger.debug("Read SystemTiming <%s>" % timing.getShortName())
+        self.readIdentifiable(element, timing)
+        self.readTimingExtension(element, timing)
+        timing.setSystemRef(self.getChildElementOptionalRefType(element, "SYSTEM-REF"))
+
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
         for ref in self.getChildElementRefTypeList(element, "FRAME-PORT-REFS/FRAME-PORT-REF"):
@@ -18341,6 +18347,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "VFB-TIMING":
                 timing = parent.createVfbTiming(self.getShortName(child_element))
                 self.readVfbTiming(child_element, timing)
+            elif tag_name == "SYSTEM-TIMING":
+                timing = parent.createSystemTiming(self.getShortName(child_element))
+                self.readSystemTiming(child_element, timing)
             elif tag_name == "LIN-CLUSTER":
                 cluster = parent.createLinCluster(self.getShortName(child_element))
                 self.readLinCluster(child_element, cluster)

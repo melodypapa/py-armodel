@@ -2337,6 +2337,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(timing)
         return cast(VfbTiming, self.getReferrableElement(short_name, VfbTiming))
 
+    def createSystemTiming(self, short_name: str) -> SystemTiming:
+
+        if not self.IsReferrableElementExists(short_name, SystemTiming):
+            timing = SystemTiming(self, short_name)
+            self.addReferrableElement(timing)
+        return cast(SystemTiming, self.getReferrableElement(short_name, SystemTiming))
+
     def createLinCluster(self, short_name: str) -> LinCluster:
 
         if not self.IsReferrableElementExists(short_name, LinCluster):
@@ -4944,7 +4951,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, VfbTiming  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, SystemTiming, VfbTiming  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticAuthenticationClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticCustomServiceClass, DiagnosticServiceInstance, DiagnosticSessionControlClass  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticEcuResetClass  # noqa: E402

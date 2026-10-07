@@ -230,3 +230,38 @@ class SwcTiming(TimingExtension):
         if value is not None:
             self.behaviorRef = value
         return self
+
+
+class SystemTiming(TimingExtension):
+    """
+    A model element used to refine timing descriptions and constraints (from a VfbTiming) at System level, utilizing information about topology, software deployment, and signal mapping described in the System Template. TimingDescriptions aggregated by SystemTiming are restricted to events which are derived from the class TDEventVfb, TDEventSwcInternalBehavior and TDEventCom. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # SystemTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.3, p.27
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystemRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSystemRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.systemRef: Optional[RefType] = None
+
+    def getSystemRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.systemRef
+
+    def setSystemRef(self, value: Optional[RefType]) -> "SystemTiming":
+        """
+        This defines the scope of a SystemTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing systemRef.
+        """
+        if value is not None:
+            self.systemRef = value
+        return self
