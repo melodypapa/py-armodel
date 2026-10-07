@@ -341,15 +341,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ipv6Configuration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.139, p.466
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 9 Table 6.139 attrs modeled in displayed order (`assignmentPriority`, `defaultRouter`, `dnsServerAddress` * → `dnsServerAddresses`, `enableAnycast`, `hopCount`, `ipAddressKeepBehavior`, `ipAddressPrefixLength`, `ipv6Address`, `ipv6AddressSource`); Base most-derived = `NetworkEndpointAddress` ✓. Drift found and fixed: (1) legacy 5-column checklist + stale `# Spec verified: R23-11` (Rule 0023) — marker removed, block rewritten 6-column, no stamp (9b deferred); (2) accessor order had `getDnsServerAddresses` before `addDnsServerAddress` (Rule 0001.11 mutator-first) — swapped; (3) `Tags: xml.namePlural=DNS-SERVER-ADDRESSES` tail missing on the dnsServerAddress inline comment + getter/adder docstrings (Rule 0012.2.5.3) — added (Red→Green via new docstring-pin test); (4) Rule 0025 BASE: reader `getIpv6Configuration`/writer `setIpv6Configuration` never called `readARObject`/`writeARObject` (silent S/T loss; XSD complexType IPV-6-CONFIGURATION carries the AR-OBJECT group) — added on both sides, pinned by a new S/T round-trip assertion. Reader/writer XML order already matches the XSD `sequenceOffset`. New model test `test_Ipv6Configuration.py` (12 tests). No unresolved deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MacMulticastConfiguration` — NetworkEndpointAddress — R23-11 CP_TPS_SystemTemplate Table 6.141, p.467
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

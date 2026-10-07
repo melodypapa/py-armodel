@@ -10835,6 +10835,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIpv6Configuration(self, element: ET.Element, configuration: Ipv6Configuration):
         if configuration is not None:
             child_element = ET.SubElement(element, "IPV-6-CONFIGURATION")
+            self.writeARObject(child_element, configuration)
             self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", cast(Integer, configuration.getAssignmentPriority()))
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-ROUTER", configuration.getDefaultRouter())
             addresses = configuration.getDnsServerAddresses()

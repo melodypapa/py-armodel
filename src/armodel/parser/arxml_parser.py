@@ -10563,6 +10563,7 @@ class ARXMLParser(AbstractARXMLParser):
         configuration = None
         if element is not None:
             configuration = Ipv6Configuration()
+            self.readARObject(element, configuration)
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
             configuration.setDefaultRouter(self.getChildElementOptionalIp6AddressString(element, "DEFAULT-ROUTER"))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):

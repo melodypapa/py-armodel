@@ -4108,27 +4108,26 @@ class Ipv6Configuration(NetworkEndpointAddress):
 
     # Ipv6Configuration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.139, p.466
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -4139,7 +4138,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         # IP address of the default router.
         self.defaultRouter: Optional[Ip6AddressString] = None
 
-        # IP addresses of pre configured DNS servers.
+        # IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip6AddressString] = []
 
         # This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
@@ -4186,18 +4185,18 @@ class Ipv6Configuration(NetworkEndpointAddress):
             self.defaultRouter = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
-        """IP addresses of pre configured DNS servers."""
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> Ipv6Configuration:
         """
-        IP addresses of pre configured DNS servers.
+        IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and does not append to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of pre configured DNS servers. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"""
+        return self.dnsServerAddresses
 
     def getEnableAnycast(self) -> Optional[Boolean]:
         """This attribute is used to enable anycast addressing (i.e. to one of multiple receivers)."""
