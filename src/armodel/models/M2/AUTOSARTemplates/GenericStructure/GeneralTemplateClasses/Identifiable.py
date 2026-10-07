@@ -1463,10 +1463,6 @@ class CouplingElementAbstractDetails(Identifiable, ABC):
     pass
 
 
-class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
-    pass
-
-
 class CpSoftwareClusterToResourceMapping(Identifiable):
     pass
 

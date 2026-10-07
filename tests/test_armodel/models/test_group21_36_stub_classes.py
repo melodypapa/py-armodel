@@ -490,9 +490,9 @@ STUBS = [
         "CpSoftwareClusterResource",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "CpSoftwareClusterToApplicationPartitionMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "Identifiable",
     ),
     (

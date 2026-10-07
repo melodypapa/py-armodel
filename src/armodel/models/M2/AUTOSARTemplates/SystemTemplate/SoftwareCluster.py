@@ -2,7 +2,9 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
@@ -258,4 +260,60 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
         """
         if value is not None:
             self.resourceRef = value
+        return self
+
+
+class CpSoftwareClusterToApplicationPartitionMapping(Identifiable):
+    """
+    This meta class defines ApplicationPartitions that are applicable for the CpSoftwareCluster.
+    """
+
+    # CpSoftwareClusterToApplicationPartitionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.50, p.287
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addApplicationPartitionRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareClusterRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareClusterRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of ApplicationPartitions available in the Cp SoftwareCluster
+        self.applicationPartitionRefs: List[RefType] = []
+
+        # Software Cluster Resource for which the mapping applies
+        self.softwareClusterRef: Optional[RefType] = None
+
+    def getApplicationPartitionRefs(self) -> List[RefType]:
+        """
+        Collection of ApplicationPartitions available in the Cp SoftwareCluster
+        """
+        return self.applicationPartitionRefs
+
+    def addApplicationPartitionRef(self, value: Optional[RefType]) -> "CpSoftwareClusterToApplicationPartitionMapping":
+        """
+        Collection of ApplicationPartitions available in the Cp SoftwareCluster
+
+        A None value is a no-op and does not add to applicationPartitionRefs.
+        """
+        if value is not None:
+            self.applicationPartitionRefs.append(value)
+        return self
+
+    def getSoftwareClusterRef(self) -> Optional[RefType]:
+        """
+        Software Cluster Resource for which the mapping applies
+        """
+        return self.softwareClusterRef
+
+    def setSoftwareClusterRef(self, value: Optional[RefType]) -> "CpSoftwareClusterToApplicationPartitionMapping":
+        """
+        Software Cluster Resource for which the mapping applies
+
+        A None value is a no-op and does not overwrite an existing softwareClusterRef.
+        """
+        if value is not None:
+            self.softwareClusterRef = value
         return self

@@ -26,7 +26,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.PncMapping import PncMapping, PncMappingIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import CommonSignalPath, SignalPathConstraint, SwcToSwcOperationArguments, SwcToSwcOperationArgumentsDirectionEnum, SwcToSwcSignal
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ApplicationPartitionToEcuPartitionMapping, SwcToEcuMapping, SwcToImplMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareCluster, CpSoftwareClusterResourceToApplicationPartitionMapping, CpSoftwareClusterToEcuInstanceMapping, SwComponentPrototypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
+    CpSoftwareCluster,
+    CpSoftwareClusterResourceToApplicationPartitionMapping,
+    CpSoftwareClusterToApplicationPartitionMapping,
+    CpSoftwareClusterToEcuInstanceMapping,
+    SwComponentPrototypeAssignment,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -970,6 +976,7 @@ __all__ = [
     "SwcToSwcSignal",
     "CpSoftwareClusterToEcuInstanceMapping",
     "CpSoftwareClusterResourceToApplicationPartitionMapping",
+    "CpSoftwareClusterToApplicationPartitionMapping",
     "TriggerInSystemInstanceRef",
     "TriggerToSignalMapping",
     "CpSoftwareCluster",
