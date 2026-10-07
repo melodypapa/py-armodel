@@ -2365,6 +2365,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: Optional[EmphasisText]):
         if emphasis is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, emphasis)
             color_value = emphasis.getColor()
             if color_value is not None:
                 child_element.attrib["COLOR"] = cast(str, color_value.getValue())

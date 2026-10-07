@@ -2642,6 +2642,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
+        self.readARObject(element, emphasis)
         if element.text is not None:
             emphasis.setValue(String().setValue(element.text))
         if "COLOR" in element.attrib:
