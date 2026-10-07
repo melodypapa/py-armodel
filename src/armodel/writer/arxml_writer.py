@@ -1204,7 +1204,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -9820,6 +9820,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 child_element = ET.SubElement(triggerings_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", ref)
+
+    def writeBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
+        self.logger.debug("Write BusMirrorChannelMappingFlexray %s" % mapping.getShortName())
+        child_element = ET.SubElement(element, "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY")
+        self.writeBusMirrorChannelMapping(child_element, mapping)
+        self.setChildElementOptionalTimeValue(child_element, "TRANSMISSION-DEADLINE", mapping.getTransmissionDeadline())
 
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()
@@ -19108,6 +19114,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeGroup(element, ar_element)
         elif isinstance(ar_element, RunnableEntityGroup):
             self.writeRunnableEntityGroup(element, ar_element)
+        elif isinstance(ar_element, BusMirrorChannelMappingFlexray):
+            self.writeBusMirrorChannelMappingFlexray(element, ar_element)
         elif isinstance(ar_element, FirewallRule):
             self.writeFirewallRule(element, ar_element)
         elif isinstance(ar_element, BlueprintMappingSet):

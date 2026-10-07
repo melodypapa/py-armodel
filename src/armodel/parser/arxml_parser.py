@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import Any, List, Optional, Union, cast
+from typing import Any, List, Optional, Type, TypeVar, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.validation import ARXMLValidator
@@ -1304,7 +1304,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping, BusMirrorChannelMappingFlexray
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
@@ -2125,6 +2125,8 @@ DIAGNOSTIC_OPERATION_CYCLE_TYPE_XML_MAP = {
     "OTHER": "OTHER",
     "WARMUP": "WARMUP",
 }
+
+_ReferrableT = TypeVar("_ReferrableT", bound=Referrable)
 
 
 class ARXMLParser(AbstractARXMLParser):
@@ -10176,6 +10178,11 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setTargetChannel(self.getBusMirrorChannel(element, "TARGET-CHANNEL"))
         for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
             mapping.addTargetPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
+
+    def readBusMirrorChannelMappingFlexray(self, element: ET.Element, mapping: BusMirrorChannelMappingFlexray):
+        self.logger.debug("Read BusMirrorChannelMappingFlexray <%s>" % mapping.getShortName())
+        self.readBusMirrorChannelMapping(element, mapping)
+        mapping.setTransmissionDeadline(self.getChildElementOptionalTimeValue(element, "TRANSMISSION-DEADLINE"))
 
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
@@ -18539,6 +18546,13 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.readARPackageElementsRest(tag_name, child_element, parent)
 
+    def _getOrCreateReferrableElement(self, parent: ARPackage, cls: Type[_ReferrableT], short_name: str) -> _ReferrableT:
+        if parent.IsReferrableElementExists(short_name, cls):
+            return cast(_ReferrableT, parent.getReferrableElement(short_name, cls))
+        element = cls(parent, short_name)
+        parent.addReferrableElement(element)
+        return element
+
     def readARPackageElementsRest(self, tag_name: str, child_element: ET.Element, parent: ARPackage):
         if tag_name == "DIAGNOSTIC-SECURITY-ACCESS":
             security_access = parent.createDiagnosticSecurityAccess(self.getShortName(child_element))
@@ -18917,6 +18931,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "RAPID-PROTOTYPING-SCENARIO":
             scenario = parent.createRapidPrototypingScenario(self.getShortName(child_element))
             self.readRapidPrototypingScenario(child_element, scenario)
+        elif tag_name == "BUS-MIRROR-CHANNEL-MAPPING-FLEXRAY":
+            flexray_mapping = self._getOrCreateReferrableElement(parent, BusMirrorChannelMappingFlexray, self.getShortName(child_element))
+            self.readBusMirrorChannelMappingFlexray(child_element, flexray_mapping)
         else:
             self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
