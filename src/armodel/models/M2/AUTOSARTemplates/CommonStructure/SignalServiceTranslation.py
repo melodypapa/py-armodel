@@ -229,6 +229,7 @@ class SignalServiceTranslationEventProps(Identifiable):
 class SignalServiceTranslationProps(Identifiable):
     """
     This element allows to define the properties which are applicable for the signal/service translation service.
+    """
 
     # SignalServiceTranslationProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.340, p.731
@@ -244,7 +245,6 @@ class SignalServiceTranslationProps(Identifiable):
     # [x] setServiceControl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createSignalServiceTranslationEventProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getSignalServiceTranslationEventProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    """
 
     def __init__(self, parent: Identifiable, short_name: str):
         super().__init__(parent, short_name)
