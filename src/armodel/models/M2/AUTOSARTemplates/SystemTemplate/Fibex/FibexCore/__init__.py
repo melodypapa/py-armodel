@@ -54,9 +54,5 @@ class FlexrayTpConfig(FibexElement):
     pass
 
 
-class ServiceInstanceCollectionSet(FibexElement):
-    pass
-
-
 class SomeipTpConfig(FibexElement):
     pass

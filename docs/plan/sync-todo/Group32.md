@@ -563,16 +563,45 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServiceInstanceCollectionSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.157, p.476
-  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — rehoused from the FibexCore stub to the spec `Package` row
+    Fibex4Ethernet::ServiceInstances (Rule 0007; stub tuple removed from
+    test_group21_36_stub_classes.py). Table 6.157 lists exactly ONE attribute row
+    (serviceInstance, `*`, aggr, type AbstractServiceInstance) — no other rows (no
+    clientIdentifierRange or similar); verified against XSD group SERVICE-INSTANCE-COLLECTION-SET
+    (AUTOSAR_00052.xsd l.105332, complexType l.105357 — FIBEX-ELEMENT group is EMPTY, no
+    VARIATION-POINT anchor, not VP-capable). The SERVICE-INSTANCES wrapper carries an unbounded
+    XSD choice of CONSUMED-SERVICE-INSTANCE / DDS-CP-CONSUMED-SERVICE-INSTANCE /
+    DDS-CP-PROVIDED-SERVICE-INSTANCE / PROVIDED-SERVICE-INSTANCE → full polymorphic five-place
+    dispatch over the four concrete subtypes (all synced on this branch). Member typing:
+    List[Union[ConsumedServiceInstance, DdsCpConsumedServiceInstance, DdsCpProvidedServiceInstance,
+    ProvidedServiceInstance]] instead of the PDF's AbstractServiceInstance — the wave-1 DdsCp*
+    pinning (0babf1fb0) leaves DdsCpProvidedServiceInstance(ARObject) and
+    DdsCpConsumedServiceInstance(DdsCpServiceInstance) OFF the AbstractServiceInstance hierarchy,
+    so List[AbstractServiceInstance] fails mypy; family-consistent arbitration recorded
+    (DdsCpServiceInstance row precedent), collapses to the spec type on the family's own re-base
+    pass — not a Table 6.157 deviation. DdsCpProvidedServiceInstance is a plain ARObject child
+    (no short name) → addDdsCpProvidedServiceInstance(value) per Rule 0001.6; the other three get
+    createXxx(short_name) factories. Markdown mid-token wrap "service Instance.variationPoint"
+    reconciled to the XSD appinfo "serviceInstance.variationPoint" (Splitkey tag). Base
+    most-derived AVAILABLE = FibexElement (empty group; SocketConnectionIpduIdentifierSet
+    precedent 6aaa3b06b) — reader/writer call read/writeIdentifiable exactly once.
+  - Note: Step 8 — no deviations: the single Table 6.157 attr (serviceInstance) fully modeled
+    (field + accessors + reader dispatch + writer dispatch + dispatch tests asserting field
+    values); wave-1 identity-debt resolved — the Dds rows' "aggregator hook-in
+    ServiceInstanceCollectionSet.serviceInstance pending" notes are satisfied by the real
+    dispatch in this commit (no identity-only placeholder existed, grep clean; no wave-1 file
+    edits needed). Wrapper-element empty-list case covered both sides (parse yields [] / writer
+    omits SERVICE-INSTANCES).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `AbstractServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.158, p.477
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

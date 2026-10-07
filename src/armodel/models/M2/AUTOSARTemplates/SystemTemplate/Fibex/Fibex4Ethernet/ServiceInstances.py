@@ -5,7 +5,7 @@ from __future__ import annotations
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING, cast
+from typing import List, Optional, TYPE_CHECKING, Union, cast
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyServiceInstanceId,
@@ -16,9 +16,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpConsumedServiceInstance, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, DdsCpProvidedServiceInstance
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -2210,6 +2210,63 @@ class SocketConnectionIpduIdentifierSet(FibexElement):
     def getIPduIdentifiers(self) -> List[SoConIPduIdentifier]:
         """Collection of IPduIdentifiers that are transmitted over Socket Connections. Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier.shortName"""
         return self.iPduIdentifiers
+
+
+class ServiceInstanceCollectionSet(FibexElement):
+    """Collection of ServiceInstances Tags: atp.recommendedPackage=ServiceInstanceCollectionSets"""
+
+    # ServiceInstanceCollectionSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.157, p.476
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createConsumedServiceInstance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDdsCpConsumedServiceInstance  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDdsCpProvidedServiceInstance     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createProvidedServiceInstance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.serviceInstances: List[Union[ConsumedServiceInstance, DdsCpConsumedServiceInstance, DdsCpProvidedServiceInstance, ProvidedServiceInstance]] = []
+
+    def createConsumedServiceInstance(self, short_name: str) -> ConsumedServiceInstance:
+        """ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        if not self.IsReferrableElementExists(short_name, ConsumedServiceInstance):
+            instance = ConsumedServiceInstance(self, short_name)
+            self.addReferrableElement(instance)
+            self.serviceInstances.append(instance)
+        return cast(ConsumedServiceInstance, self.getReferrableElement(short_name, ConsumedServiceInstance))
+
+    def createDdsCpConsumedServiceInstance(self, short_name: str) -> DdsCpConsumedServiceInstance:
+        """ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        if not self.IsReferrableElementExists(short_name, DdsCpConsumedServiceInstance):
+            instance = DdsCpConsumedServiceInstance(self, short_name)
+            self.addReferrableElement(instance)
+            self.serviceInstances.append(instance)
+        return cast(DdsCpConsumedServiceInstance, self.getReferrableElement(short_name, DdsCpConsumedServiceInstance))
+
+    def addDdsCpProvidedServiceInstance(self, value: Optional[DdsCpProvidedServiceInstance]) -> ServiceInstanceCollectionSet:
+        """
+        ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not append to serviceInstances.
+        """
+        if value is not None:
+            self.serviceInstances.append(value)
+        return self
+
+    def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
+        """ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        if not self.IsReferrableElementExists(short_name, ProvidedServiceInstance):
+            instance = ProvidedServiceInstance(self, short_name)
+            self.addReferrableElement(instance)
+            self.serviceInstances.append(instance)
+        return cast(ProvidedServiceInstance, self.getReferrableElement(short_name, ProvidedServiceInstance))
+
+    def getServiceInstances(self) -> List[Union[ConsumedServiceInstance, DdsCpConsumedServiceInstance, DdsCpProvidedServiceInstance, ProvidedServiceInstance]]:
+        """ServiceInstances that are part of the collection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceInstance.shortName, serviceInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        return self.serviceInstances
 
 
 # Runtime import breaking the ServiceInstances <-> EthernetTopology cycle: it sits below InitialSdDelayConfig and

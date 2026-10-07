@@ -1122,6 +1122,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
+    ServiceInstanceCollectionSet,
     SoAdConfig,
     SoConIPduIdentifier,
     StaticSocketConnection,
@@ -13240,6 +13241,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
 
+    def writeServiceInstanceCollectionSet(self, element: ET.Element, collection_set: ServiceInstanceCollectionSet):
+        self.logger.debug("Write ServiceInstanceCollectionSet <%s>" % collection_set.getShortName())
+        child_element = ET.SubElement(element, "SERVICE-INSTANCE-COLLECTION-SET")
+        self.writeIdentifiable(child_element, collection_set)
+        instances = collection_set.getServiceInstances()
+        if len(instances) > 0:
+            wrapper = ET.SubElement(child_element, "SERVICE-INSTANCES")
+            for instance in instances:
+                if isinstance(instance, ConsumedServiceInstance):
+                    self.writeConsumedServiceInstance(wrapper, instance)
+                elif isinstance(instance, DdsCpConsumedServiceInstance):
+                    self.writeDdsCpConsumedServiceInstance(wrapper, instance)
+                elif isinstance(instance, DdsCpProvidedServiceInstance):
+                    self.writeDdsCpProvidedServiceInstance(wrapper, instance)
+                elif isinstance(instance, ProvidedServiceInstance):
+                    self.writeProvidedServiceInstance(wrapper, instance)
+
     def writeSocketConnectionIpduIdentifierSet(self, element: ET.Element, identifier_set: SocketConnectionIpduIdentifierSet):
         self.logger.debug("Write SocketConnectionIpduIdentifierSet <%s>" % identifier_set.getShortName())
         child_element = ET.SubElement(element, "SOCKET-CONNECTION-IPDU-IDENTIFIER-SET")
@@ -19173,6 +19191,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCanXlProps(element, ar_element)
         elif isinstance(ar_element, SomeipSdServerServiceInstanceConfig):
             self.writeSomeipSdServerServiceInstanceConfig(element, ar_element)
+        elif isinstance(ar_element, ServiceInstanceCollectionSet):
+            self.writeServiceInstanceCollectionSet(element, ar_element)
         elif isinstance(ar_element, SocketConnectionIpduIdentifierSet):
             self.writeSocketConnectionIpduIdentifierSet(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):

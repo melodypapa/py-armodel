@@ -3067,12 +3067,6 @@ STUBS = [
         "SignalPathConstraint",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "ServiceInstanceCollectionSet",
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__",
-        "FibexElement",
-    ),
-    (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",
         "SeverityEnum",
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes",

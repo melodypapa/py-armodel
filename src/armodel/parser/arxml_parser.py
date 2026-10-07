@@ -1357,6 +1357,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SoAdConfig,
     SocketAddress,
     SoConIPduIdentifier,
+    ServiceInstanceCollectionSet,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -15812,6 +15813,27 @@ class ARXMLParser(AbstractARXMLParser):
                 group.addIPduIdentifierUdpRef(ref)
         return group
 
+    def readServiceInstanceCollectionSet(self, element: ET.Element, collection_set: ServiceInstanceCollectionSet):
+        self.logger.debug("Read ServiceInstanceCollectionSet <%s>" % collection_set.getShortName())
+        self.readIdentifiable(element, collection_set)
+        for child_element in self.findall(element, "SERVICE-INSTANCES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CONSUMED-SERVICE-INSTANCE":
+                consumed_instance = collection_set.createConsumedServiceInstance(self.getShortName(child_element))
+                self.readConsumedServiceInstance(child_element, consumed_instance)
+            elif tag_name == "DDS-CP-CONSUMED-SERVICE-INSTANCE":
+                dds_consumed_instance = collection_set.createDdsCpConsumedServiceInstance(self.getShortName(child_element))
+                self.readDdsCpConsumedServiceInstance(child_element, dds_consumed_instance)
+            elif tag_name == "DDS-CP-PROVIDED-SERVICE-INSTANCE":
+                dds_provided_instance = DdsCpProvidedServiceInstance()
+                self.readDdsCpProvidedServiceInstance(child_element, dds_provided_instance)
+                collection_set.addDdsCpProvidedServiceInstance(dds_provided_instance)
+            elif tag_name == "PROVIDED-SERVICE-INSTANCE":
+                provided_instance = collection_set.createProvidedServiceInstance(self.getShortName(child_element))
+                self.readProvidedServiceInstance(child_element, provided_instance)
+            else:
+                self.notImplemented("Unsupported ServiceInstances <%s>" % tag_name)
+
     def readSoConIPduIdentifier(self, element: ET.Element, identifier: SoConIPduIdentifier):
         self.logger.debug("Read SoConIPduIdentifier <%s>" % identifier.getShortName())
         self.readReferrable(element, identifier)
@@ -18965,6 +18987,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
             server_config = parent.createSomeipSdServerServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdServerServiceInstanceConfig(child_element, server_config)
+        elif tag_name == "SERVICE-INSTANCE-COLLECTION-SET":
+            collection_set = parent.createServiceInstanceCollectionSet(self.getShortName(child_element))
+            self.readServiceInstanceCollectionSet(child_element, collection_set)
         elif tag_name == "SOCKET-CONNECTION-IPDU-IDENTIFIER-SET":
             identifier_set = parent.createSocketConnectionIpduIdentifierSet(self.getShortName(child_element))
             self.readSocketConnectionIpduIdentifierSet(child_element, identifier_set)
