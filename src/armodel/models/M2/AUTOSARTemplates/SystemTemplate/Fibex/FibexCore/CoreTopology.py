@@ -42,6 +42,7 @@ if TYPE_CHECKING:
         ISignalTriggering,
         PduTriggering,
     )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedPhysicalChannel
 
     # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
     # satisfy the forward annotations and are never executed at runtime.
@@ -569,6 +570,18 @@ class CommunicationCluster(FibexElement, ABC):
             self.addReferrableElement(channel)
             self.physicalChannel.append(channel)
         return cast(TtcanPhysicalChannel, self.getReferrableElement(short_name, TtcanPhysicalChannel))
+
+    def createUserDefinedPhysicalChannel(self, short_name: str) -> UserDefinedPhysicalChannel:
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedPhysicalChannel
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedPhysicalChannel):
+            channel = UserDefinedPhysicalChannel(self, short_name)
+            self.addReferrableElement(channel)
+            self.physicalChannel.append(channel)
+        return cast(UserDefinedPhysicalChannel, self.getReferrableElement(short_name, UserDefinedPhysicalChannel))
 
     def getProtocolName(self) -> Optional[String]:
         """
@@ -1803,8 +1816,4 @@ class TtcanCluster(AbstractCanCluster):
 
 
 class UserDefinedCommunicationController(CommunicationController):
-    pass
-
-
-class UserDefinedPhysicalChannel(PhysicalChannel):
     pass

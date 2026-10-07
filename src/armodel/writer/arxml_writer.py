@@ -1222,7 +1222,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
@@ -11473,6 +11473,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
         self.setChildElementOptionalLiteral(child_element, "CHANNEL-NAME", channel.getChannelName())
 
+    def writeUserDefinedPhysicalChannel(self, element: ET.Element, channel: UserDefinedPhysicalChannel):
+        if channel is not None:
+            self.logger.debug("UserDefinedPhysicalChannel %s" % channel.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-PHYSICAL-CHANNEL")
+            self.writePhysicalChannel(child_element, channel)
+
     def writeCommunicationClusterPhysicalChannels(self, element: ET.Element, cluster: CommunicationCluster):
         channels = cluster.getPhysicalChannels()
         if len(channels) > 0:
@@ -11488,6 +11494,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEthernetPhysicalChannel(child_element, channel)
                 elif isinstance(channel, FlexrayPhysicalChannel):
                     self.writeFlexrayPhysicalChannel(child_element, channel)
+                elif isinstance(channel, UserDefinedPhysicalChannel):
+                    self.writeUserDefinedPhysicalChannel(child_element, channel)
                 else:
                     self.notImplemented("Unsupported Physical Channel <%s>" % type(channel))
 

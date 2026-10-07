@@ -1692,15 +1692,54 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `UserDefinedPhysicalChannel` — PhysicalChannel — R23-11 CP_TPS_SystemTemplate Table 3.130, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.130 is a page-split table — its fragment (markdown lines
+    4869-4877: Class `UserDefinedPhysicalChannel`, Package
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport`, Note
+    `This element allows the modeling of arbitrary Physical Channels.` with NO Tags
+    tail, Base chain `ARObject , Identifiable , MultilanguageReferrable ,
+    PhysicalChannel , Referrable`, Aggregated by `CommunicationCluster
+    .physicalChannel`, Attribute header) renders before the caption (line 4878); NO
+    attribute rows — pdf_page.py cites p.179. Header Class → model class; the XSD own
+    group USER-DEFINED-PHYSICAL-CHANNEL (AUTOSAR_00052.xsd lines 128980-128988) is an
+    EMPTY `<xsd:sequence/>` — no atpVariation VARIANTS wrapper, unlike the
+    UserDefinedCluster sibling — zero own fields/accessors (Rule 0001.3). Base
+    most-derived MODELED ancestor = `PhysicalChannel` (Table 3.7, abstract). Placement
+    per Rule 0007 (spec Package row): class MOVES from its legacy stub slot in
+    CoreTopology.py into the EXISTING leaf module `SystemTemplate/Fibex/CddSupport.py`
+    next to UserDefinedCluster (spec-table order); stub-guard tuple updated; the
+    models export chain needs no edit (CddSupport wildcard import already added by the
+    UserDefinedCluster commit). Wiring: CommunicationCluster-level aggregator —
+    `createUserDefinedPhysicalChannel` factory (alongside createCanPhysicalChannel
+    et al., Table 3.130 Aggregated-by row), parser `USER-DEFINED-PHYSICAL-CHANNEL`
+    tag branch in `readCommunicationClusterPhysicalChannels` +
+    `readUserDefinedPhysicalChannel` (readIdentifiable on the outer element +
+    readPhysicalChannel exactly once), writer isinstance branch in
+    `writeCommunicationClusterPhysicalChannels` + `writeUserDefinedPhysicalChannel`
+    (writeIdentifiable + writePhysicalChannel once) — the 1:1 sibling precedent is the
+    CanPhysicalChannel dispatch shape (empty own XSD group, coverage flows through the
+    concrete dispatch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No deviations from Table 3.130 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the PhysicalChannel
+    reader/writer helper called exactly once per side (Rule 0025, pinned by tests).
+    No referenced-but-missing classes: PhysicalChannel is stamped `R23-11` and all
+    inherited accessors exist. Remark (not a deviation): the reader/writer entry
+    points call ONLY the base helper (readPhysicalChannel/writePhysicalChannel owns
+    the Identifiable level — the readCanPhysicalChannel/writeCanPhysicalChannel
+    leveling); an extra readIdentifiable/writeIdentifiable at the entry point was
+    tried first and correctly dropped as the Rule 0013.1 double-call (duplicate
+    SHORT-NAME caught by the round-trip tests). The `# Spec verified:` marker is
+    deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
+    checklist without it; audit STAMP INFO expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22042 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fb84a1520
 
 - [ ] `UserDefinedCommunicationConnector` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.131, p.180
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

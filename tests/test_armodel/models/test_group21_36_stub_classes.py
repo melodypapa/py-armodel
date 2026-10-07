@@ -3410,7 +3410,7 @@ STUBS = [
         "Identifiable",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedPhysicalChannel",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "PhysicalChannel",

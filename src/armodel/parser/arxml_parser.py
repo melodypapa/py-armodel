@@ -1470,7 +1470,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
@@ -10371,6 +10371,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannelManagedPhysicalChannelRefs(element, channel)
         self.readPhysicalChannelPduTriggerings(element, channel)
 
+    def readUserDefinedPhysicalChannel(self, element: ET.Element, channel: UserDefinedPhysicalChannel):
+        self.logger.debug("Read UserDefinedPhysicalChannel <%s>" % channel.getShortName())
+        self.readPhysicalChannel(element, channel)
+
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)
 
@@ -11194,6 +11198,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FLEXRAY-PHYSICAL-CHANNEL":
                 channel = cluster.createFlexrayPhysicalChannel(self.getShortName(child_element))
                 self.readFlexrayPhysicalChannel(child_element, channel)
+            elif tag_name == "USER-DEFINED-PHYSICAL-CHANNEL":
+                channel = cluster.createUserDefinedPhysicalChannel(self.getShortName(child_element))
+                self.readUserDefinedPhysicalChannel(child_element, channel)
             else:
                 self.notImplemented("Unsupported Physical Channel <%s>" % tag_name)
 
