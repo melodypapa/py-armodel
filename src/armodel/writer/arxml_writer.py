@@ -972,6 +972,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
+    EthernetWakeupSleepOnDatalineConfig,
     DhcpServerConfiguration,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
@@ -11474,6 +11475,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", cast(Integer, props.getTcpIpIcmpV6HopLimit()))
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
+
+    def writeEthernetWakeupSleepOnDatalineConfig(self, element: ET.Element, config: Optional[EthernetWakeupSleepOnDatalineConfig]):
+        if config is not None:
+            self.writeIdentifiable(element, config)
+            self.setChildElementOptionalTimeValue(element, "SLEEP-MODE-EXECUTION-DELAY", config.getSleepModeExecutionDelay())
+            self.setChildElementOptionalTimeValue(element, "SLEEP-REPETITION-DELAY-OF-SLEEP-REQUEST", config.getSleepRepetitionDelayOfSleepRequest())
+            self.setChildElementOptionalPositiveInteger(element, "SLEEP-REPETITIONS-OF-SLEEP-REQUEST", config.getSleepRepetitionsOfSleepRequest())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-LOCAL-ENABLED", config.getWakeupForwardLocalEnabled())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-REMOTE-ENABLED", config.getWakeupForwardRemoteEnabled())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DETECTION-TIME", config.getWakeupLocalDetectionTime())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DURATION-TIME", config.getWakeupLocalDurationTime())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-LOCAL-ENABLED", config.getWakeupLocalEnabled())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED", config.getWakeupRemoteEnabled())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST", config.getWakeupRepetitionDelayOfWakeupRequest())
+            self.setChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST", config.getWakeupRepetitionsOfWakeupRequest())
 
     def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""

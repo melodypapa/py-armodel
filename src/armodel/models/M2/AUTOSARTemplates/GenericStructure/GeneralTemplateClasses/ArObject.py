@@ -2426,10 +2426,6 @@ class EthTSynSubTlvConfig(ARObject):
     pass
 
 
-class EthernetWakeupSleepOnDatalineConfig(ARObject):
-    pass
-
-
 class FlexrayArTpChannel(ARObject):
     pass
 

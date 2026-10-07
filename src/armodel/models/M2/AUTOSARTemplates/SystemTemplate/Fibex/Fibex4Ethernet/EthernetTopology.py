@@ -4864,6 +4864,255 @@ class DoIpEntityRoleEnum(AREnum):
         )
 
 
+class EthernetWakeupSleepOnDatalineConfig(Identifiable):
+    """
+    EthernetWakeupSleepOnDatalineConfigSet is the main element that aggregates different config set regarding the wakeup and sleep on data line. An EthernetWakeupSleepOnDatalineConfigSet could aggregate multiple different configurations regarding the wakeup and sleep on dataline (EthernetWakeupSleepOnDatalineConfig).
+
+    [constr_3601] Mandatory attributes of EthernetWakeupSleepOnDatalineConfig: The following attributes of EthernetWakeupSleepOnDatalineConfig shall be defined at the time when the Ecu Extract is complete:
+    - wakeupLocalEnabled
+    - wakeupRemoteEnabled
+    """
+
+    # EthernetWakeupSleepOnDatalineConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.115, p.159
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSleepModeExecutionDelay                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepModeExecutionDelay                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSleepRepetitionDelayOfSleepRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepRepetitionDelayOfSleepRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSleepRepetitionsOfSleepRequest          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepRepetitionsOfSleepRequest          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupForwardLocalEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupForwardLocalEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupForwardRemoteEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupForwardRemoteEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalDetectionTime                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalDetectionTime                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalDurationTime                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalDurationTime                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalEnabled                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalEnabled                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRemoteEnabled                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRemoteEnabled                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRepetitionDelayOfWakeupRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRepetitionDelayOfWakeupRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRepetitionsOfWakeupRequest        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRepetitionsOfWakeupRequest        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+        self.sleepModeExecutionDelay: Optional[TimeValue] = None
+
+        # Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+        self.sleepRepetitionDelayOfSleepRequest: Optional[TimeValue] = None
+
+        # Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+        self.sleepRepetitionsOfSleepRequest: Optional[PositiveInteger] = None
+
+        # If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+        self.wakeupForwardLocalEnabled: Optional[Boolean] = None
+
+        # If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+        self.wakeupForwardRemoteEnabled: Optional[Boolean] = None
+
+        # Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+        self.wakeupLocalDetectionTime: Optional[TimeValue] = None
+
+        # Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+        self.wakeupLocalDurationTime: Optional[TimeValue] = None
+
+        # If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+        self.wakeupLocalEnabled: Optional[Boolean] = None
+
+        # If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+        self.wakeupRemoteEnabled: Optional[Boolean] = None
+
+        # Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+        self.wakeupRepetitionDelayOfWakeupRequest: Optional[TimeValue] = None
+
+        # Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+        self.wakeupRepetitionsOfWakeupRequest: Optional[PositiveInteger] = None
+
+    def getSleepModeExecutionDelay(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+        """
+        return self.sleepModeExecutionDelay
+
+    def setSleepModeExecutionDelay(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+
+        A None value is a no-op and does not overwrite an existing sleepModeExecutionDelay.
+        """
+        if value is not None:
+            self.sleepModeExecutionDelay = value
+        return self
+
+    def getSleepRepetitionDelayOfSleepRequest(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+        """
+        return self.sleepRepetitionDelayOfSleepRequest
+
+    def setSleepRepetitionDelayOfSleepRequest(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+
+        A None value is a no-op and does not overwrite an existing sleepRepetitionDelayOfSleepRequest.
+        """
+        if value is not None:
+            self.sleepRepetitionDelayOfSleepRequest = value
+        return self
+
+    def getSleepRepetitionsOfSleepRequest(self) -> Optional[PositiveInteger]:
+        """
+        Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+        """
+        return self.sleepRepetitionsOfSleepRequest
+
+    def setSleepRepetitionsOfSleepRequest(self, value: Optional[PositiveInteger]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+
+        A None value is a no-op and does not overwrite an existing sleepRepetitionsOfSleepRequest.
+        """
+        if value is not None:
+            self.sleepRepetitionsOfSleepRequest = value
+        return self
+
+    def getWakeupForwardLocalEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+        """
+        return self.wakeupForwardLocalEnabled
+
+    def setWakeupForwardLocalEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+
+        A None value is a no-op and does not overwrite an existing wakeupForwardLocalEnabled.
+        """
+        if value is not None:
+            self.wakeupForwardLocalEnabled = value
+        return self
+
+    def getWakeupForwardRemoteEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+        """
+        return self.wakeupForwardRemoteEnabled
+
+    def setWakeupForwardRemoteEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+
+        A None value is a no-op and does not overwrite an existing wakeupForwardRemoteEnabled.
+        """
+        if value is not None:
+            self.wakeupForwardRemoteEnabled = value
+        return self
+
+    def getWakeupLocalDetectionTime(self) -> Optional[TimeValue]:
+        """
+        Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+        """
+        return self.wakeupLocalDetectionTime
+
+    def setWakeupLocalDetectionTime(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalDetectionTime.
+        """
+        if value is not None:
+            self.wakeupLocalDetectionTime = value
+        return self
+
+    def getWakeupLocalDurationTime(self) -> Optional[TimeValue]:
+        """
+        Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+        """
+        return self.wakeupLocalDurationTime
+
+    def setWakeupLocalDurationTime(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalDurationTime.
+        """
+        if value is not None:
+            self.wakeupLocalDurationTime = value
+        return self
+
+    def getWakeupLocalEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+        """
+        return self.wakeupLocalEnabled
+
+    def setWakeupLocalEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalEnabled.
+        """
+        if value is not None:
+            self.wakeupLocalEnabled = value
+        return self
+
+    def getWakeupRemoteEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+        """
+        return self.wakeupRemoteEnabled
+
+    def setWakeupRemoteEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupRemoteEnabled.
+        """
+        if value is not None:
+            self.wakeupRemoteEnabled = value
+        return self
+
+    def getWakeupRepetitionDelayOfWakeupRequest(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+        """
+        return self.wakeupRepetitionDelayOfWakeupRequest
+
+    def setWakeupRepetitionDelayOfWakeupRequest(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+
+        A None value is a no-op and does not overwrite an existing wakeupRepetitionDelayOfWakeupRequest.
+        """
+        if value is not None:
+            self.wakeupRepetitionDelayOfWakeupRequest = value
+        return self
+
+    def getWakeupRepetitionsOfWakeupRequest(self) -> Optional[PositiveInteger]:
+        """
+        Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+        """
+        return self.wakeupRepetitionsOfWakeupRequest
+
+    def setWakeupRepetitionsOfWakeupRequest(self, value: Optional[PositiveInteger]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupRepetitionsOfWakeupRequest.
+        """
+        if value is not None:
+            self.wakeupRepetitionsOfWakeupRequest = value
+        return self
+
+
 class PlcaProps(ARObject):
     """
     This meta-class allows to configure the PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the CouplingPort (PHY).

@@ -1165,6 +1165,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCouplingPortSchedulerEnum,
     EthernetPriorityRegeneration,
     EthernetSwitchVlanEgressTaggingEnum,
+    EthernetWakeupSleepOnDatalineConfig,
     FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
@@ -11189,6 +11190,20 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpIpIcmpV6HopLimit(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-6-HOP-LIMIT"))
         props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
         props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
+
+    def readEthernetWakeupSleepOnDatalineConfig(self, element: ET.Element, config: EthernetWakeupSleepOnDatalineConfig):
+        self.readIdentifiable(element, config)
+        config.setSleepModeExecutionDelay(self.getChildElementOptionalTimeValue(element, "SLEEP-MODE-EXECUTION-DELAY"))
+        config.setSleepRepetitionDelayOfSleepRequest(self.getChildElementOptionalTimeValue(element, "SLEEP-REPETITION-DELAY-OF-SLEEP-REQUEST"))
+        config.setSleepRepetitionsOfSleepRequest(self.getChildElementOptionalPositiveInteger(element, "SLEEP-REPETITIONS-OF-SLEEP-REQUEST"))
+        config.setWakeupForwardLocalEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-LOCAL-ENABLED"))
+        config.setWakeupForwardRemoteEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-REMOTE-ENABLED"))
+        config.setWakeupLocalDetectionTime(self.getChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DETECTION-TIME"))
+        config.setWakeupLocalDurationTime(self.getChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DURATION-TIME"))
+        config.setWakeupLocalEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-LOCAL-ENABLED"))
+        config.setWakeupRemoteEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED"))
+        config.setWakeupRepetitionDelayOfWakeupRequest(self.getChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST"))
+        config.setWakeupRepetitionsOfWakeupRequest(self.getChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST"))
 
     def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
