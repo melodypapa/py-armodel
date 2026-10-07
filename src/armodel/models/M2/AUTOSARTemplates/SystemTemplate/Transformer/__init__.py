@@ -1263,11 +1263,10 @@ class DataPrototypeReference(ARObject, ABC):
 
     # DataPrototypeReference method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.18, p.787
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTagId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTagId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTagId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTagId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DataPrototypeReference:

@@ -1527,6 +1527,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationKindEnum,
@@ -16604,9 +16605,12 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DataPrototypeTransformationProps %s" % self.getTagName(child_element))
 
-    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+    def readDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
         self.readARObject(element, ref)
         ref.setTagId(self.getChildElementOptionalPositiveInteger(element, "TAG-ID"))
+
+    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        self.readDataPrototypeReference(element, ref)
         child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
         if child_element is not None:
             cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()

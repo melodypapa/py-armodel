@@ -1275,6 +1275,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeReference,
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
@@ -15580,10 +15581,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dp_props in dp_props_list:
                 self.writeDataPrototypeTransformationProps(child_element, dp_props)
 
+    def writeDataPrototypeReference(self, element: ET.Element, ref: DataPrototypeReference):
+        self.writeARObject(element, ref)
+        self.setChildElementOptionalPositiveInteger(element, "TAG-ID", cast(Integer, ref.getTagId()))
+
     def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
-        self.writeARObject(child_element, ref)
-        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", cast(Integer, ref.getTagId()))
+        self.writeDataPrototypeReference(child_element, ref)
         cs_ref = ref.getDataPrototypeInClientServerInterface()
         if cs_ref is not None:
             self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
