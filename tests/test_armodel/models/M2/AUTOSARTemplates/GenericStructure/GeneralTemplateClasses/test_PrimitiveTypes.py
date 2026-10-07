@@ -95,6 +95,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RegularExpression,
     RevisionLabelString,
     SectionInitializationPolicyType,
+    SendIndicationEnum,
     String,
     SymbolString,
     TimeValue,
@@ -3865,3 +3866,46 @@ class TestGlobalTimePortRoleEnum:
         enum.setValue(GlobalTimePortRoleEnum.TIME_MASTER)
 
         assert enum.getValue() == GlobalTimePortRoleEnum.TIME_MASTER
+
+
+class TestSendIndicationEnum:
+    """
+    Test class for SendIndicationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.13, p.904
+    """
+
+    def test_initialization(self):
+        """
+        Test SendIndicationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = SendIndicationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            SendIndicationEnum.ANY_SEND_OPERATION,
+            SendIndicationEnum.NONE,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test SendIndicationEnum member values.
+        """
+        enum = SendIndicationEnum()
+
+        assert SendIndicationEnum.ANY_SEND_OPERATION == "ANY-SEND-OPERATION"
+        assert SendIndicationEnum.NONE == "NONE"
+
+        assert enum.validateEnumValue("ANY-SEND-OPERATION") is True
+        assert enum.validateEnumValue("NONE") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test SendIndicationEnum instantiability and getValue.
+        """
+        enum = SendIndicationEnum()
+        enum.setValue(SendIndicationEnum.ANY_SEND_OPERATION)
+
+        assert enum.getValue() == SendIndicationEnum.ANY_SEND_OPERATION

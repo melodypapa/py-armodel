@@ -3091,7 +3091,29 @@ class SecurityEventReportingModeEnum(AREnum):
 
 
 class SendIndicationEnum(AREnum):
-    pass
+    """
+    This meta-class provides a way to specify in which way redundancy shall be applied on collection level.
+
+    # SendIndicationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.13, p.904
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute sendIndication)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # This value represents the requirement that any send operation of the Software Cluster is indicated. Tags: atp.EnumerationLiteralIndex=2
+    ANY_SEND_OPERATION = "ANY-SEND-OPERATION"
+
+    # This value represents the requirement that send operations of the Software Cluster are not indicated. Tags: atp.EnumerationLiteralIndex=1
+    NONE = "NONE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SendIndicationEnum.ANY_SEND_OPERATION,
+                SendIndicationEnum.NONE,
+            ]
+        )
 
 
 class SeverityEnum(AREnum):
