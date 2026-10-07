@@ -196,19 +196,18 @@ class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
 
     # MultiLanguageVerbatim method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.5, p.291
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAllowBreak    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowBreak    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFloat         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFloat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addL5            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getL5s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPgwide        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPgwide        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAllowBreak    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAllowBreak    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFloat         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFloat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addL5            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL5s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPgwide        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgwide        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
