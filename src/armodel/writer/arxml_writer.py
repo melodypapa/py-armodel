@@ -273,7 +273,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import BswCompositionTiming, BswModuleTiming, EcuTiming, SwcTiming, SystemTiming, TimingExtension, VfbTiming
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import (
     DiagnosticAuthenticationClass,
@@ -9832,6 +9832,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "IMPLEMENTATION-REF", ref)
 
+    def writeEcuTiming(self, element: ET.Element, timing: EcuTiming):
+        self.logger.debug("writeEcuTiming %s" % timing.getShortName())
+        child_element = ET.SubElement(element, "ECU-TIMING")
+        self.writeIdentifiable(child_element, timing)
+        self.writeTimingExtension(child_element, timing)
+        self.setChildElementOptionalRefType(child_element, "ECU-CONFIGURATION-REF", timing.getEcuConfigurationRef())
+
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()
         if len(mappings) > 0:
@@ -18738,6 +18745,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeBswModuleTiming(element, ar_element)
         elif isinstance(ar_element, BswCompositionTiming):
             self.writeBswCompositionTiming(element, ar_element)
+        elif isinstance(ar_element, EcuTiming):
+            self.writeEcuTiming(element, ar_element)
         elif isinstance(ar_element, LinUnconditionalFrame):
             self.writeLinUnconditionalFrame(element, ar_element)
         elif isinstance(ar_element, NmConfig):

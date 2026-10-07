@@ -333,3 +333,38 @@ class BswCompositionTiming(TimingExtension):
         This defines the scope of a BswCompositionTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
         """
         return self.implementationRefs
+
+
+class EcuTiming(TimingExtension):
+    """
+    A model element used to define timing descriptions and constraints within the scope of one ECU configuration. TimingDescriptions aggregated by EcuTiming are allowed to use all events derived from the class TimingDescriptionEvent. Tags: atp.recommendedPackage=TimingExtensions
+    """
+
+    # EcuTiming method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.6, p.30
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuConfigurationRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuConfigurationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        self.ecuConfigurationRef: Optional[RefType] = None
+
+    def getEcuConfigurationRef(self) -> Optional[RefType]:
+        """
+        This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+        """
+        return self.ecuConfigurationRef
+
+    def setEcuConfigurationRef(self, value: Optional[RefType]) -> "EcuTiming":
+        """
+        This defines the scope of an EcuTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
+
+        A None value is a no-op and does not overwrite an existing ecuConfigurationRef.
+        """
+        if value is not None:
+            self.ecuConfigurationRef = value
+        return self
