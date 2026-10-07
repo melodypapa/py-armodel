@@ -507,13 +507,12 @@ class CanTpEcu(ARObject, VariationPointCapable):
 
     # CanTpEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.256, p.610
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCycleTimeMainFunction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCycleTimeMainFunction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcuInstanceRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcuInstanceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCycleTimeMainFunction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCycleTimeMainFunction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
