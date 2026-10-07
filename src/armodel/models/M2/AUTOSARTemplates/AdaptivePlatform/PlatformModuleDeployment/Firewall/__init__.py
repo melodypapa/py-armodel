@@ -1121,6 +1121,7 @@ class TransportLayerRule(ARObject):
 
     # TransportLayerRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class TransportLayerRule, AUTOSAR_00052.xsd line 126190 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # (abstract class: the TRANSPORT-LAYER-RULE group has no own complexType; the
     #  5 group members below are inherited by the concrete subtypes TcpRule/UdpRule
     #  per the XSD group composition; the class stays instantiable as the bare
