@@ -1593,15 +1593,52 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecFailPermissiveModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.128, p.178
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.128 is a page-split table — fragment A (markdown lines 4818-4824:
+    Enumeration header, Package `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`,
+    Note "Behavior options of the Port Access Entity in case MACsec does not succeed.
+    Tags: atp.Status=candidate", Aggregated by MacSecProps.onFailPermissiveMode,
+    Literal/Description header + literal never) renders before the Table 3.128 caption
+    (line 4830), fragment B (lines 4834-4836: repeated Enumeration header + literal timeout)
+    after it — same rendering quirk as Tables 3.125-3.127; pdf_page.py cites p.178. Header
+    Enumeration → AREnum. Two literals in displayed/XSD-facet order (NEVER idx0 first,
+    TIMEOUT idx1 second — the XSD facet order AUTOSAR_00052.xsd lines 140004-140024 agrees
+    with the markdown displayed order AND the raw EnumerationLiteralIndex order, so no
+    reorder needed). Member names UPPER_SNAKE of the spec literals (never → NEVER,
+    timeout → TIMEOUT); values the exact XSD MAC-SEC-FAIL-PERMISSIVE-MODE-ENUM--SIMPLE
+    facets (UPPER-KEBAB, no double-hyphen quirk). No atp.Status=removed facets, no xml.name
+    tags on the facets — nothing deprecated to drop. Consumer MacSecProps.onFailPermissiveMode
+    already typed Optional[MacSecFailPermissiveModeEnum] (Table 3.118 sync) with the parser
+    level (arxml_parser.py readMacSecProps ON-FAIL-PERMISSIVE-MODE) and writer
+    ON-FAIL-PERMISSIVE-MODE element (arxml_writer.py setChildElementOptionalLiteral) wired;
+    the parser/writer tests already use the real constants and facet values — no placeholder
+    doubles to upgrade. Placement per Rule 0007 (spec Package row) + batch instruction:
+    class MOVES from its legacy slot (between CryptoCertificateFormatEnum and
+    IPsecIpProtocolEnum) to its spec-table-order slot directly after MacSecRoleEnum
+    (Table 3.127 → 3.128 order; safe — the module is PEP 563).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 5-column checklist with zero method rows — both
+    retired at session start (marker removed per Rule 0023, batch 9b re-stamps; checklist
+    rewritten to the 6-column format with the `__init__` row at Step 7, e609bd926
+    precedent). Entry-time audit FAILed ROWS (1 method vs 0 rows) + STAMP warn as expected.
+    The legacy body's literal members/values/order already matched Table 3.128 (NEVER →
+    TIMEOUT, XSD facet order) and the literal comments carried the verbatim descriptions
+    with their `Tags:` tails — the only spec-text drift was the class docstring missing the
+    `Tags: atp.Status=candidate` tail; the Step 2 spec-contract test goes RED exactly there.
+    Leaves tests/test_armodel/models/stamped_audit_baseline.txt (marker removed → no longer
+    a stamped target; ratchet drain is exactly this one line).
+  - No deviations from Table 3.128; no missing referenced classes (the enum has no Base
+    beyond AREnum and its consumer MacSecProps exists). The `# Spec verified: R23-11`
+    marker is deferred to the batch 9b stamp per user instruction; the entry-time stale
+    legacy marker was removed (Rule 0023).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum, no own XML element (serialized as an attribute value on MacSecProps.onFailPermissiveMode; round-trip covered there)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum, no own XML element (parser/writer wiring on MacSecProps already emits ON-FAIL-PERMISSIVE-MODE with the facet value)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22003 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 16ff33753
 
 - [ ] `UserDefinedCluster` — CommunicationCluster — R23-11 CP_TPS_SystemTemplate Table 3.129, p.179
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py

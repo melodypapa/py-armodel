@@ -213,7 +213,6 @@ LinUnconditionalFrame
 Linker
 LinkerSymbolValue
 LogTraceDefaultLogLevelEnum
-MacSecFailPermissiveModeEnum
 MaxCommModeEnum
 McDataAccessDetails
 McDataInstance

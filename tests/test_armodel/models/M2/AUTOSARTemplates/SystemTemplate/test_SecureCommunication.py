@@ -331,6 +331,30 @@ class TestMacSecRoleEnum:
         assert inspect.cleandoc(MacSecRoleEnum.__doc__) == note
 
 
+class TestMacSecFailPermissiveModeEnum:
+    """Test cases for MacSecFailPermissiveModeEnum (CP_TPS_SystemTemplate Table 3.128, p.178, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        # spec literal names per Table 3.128 (never idx0, timeout idx1)
+        assert MacSecFailPermissiveModeEnum.NEVER == "NEVER"
+        assert MacSecFailPermissiveModeEnum.TIMEOUT == "TIMEOUT"
+        assert list(MacSecFailPermissiveModeEnum().getEnumValues()) == [
+            "NEVER",
+            "TIMEOUT",
+        ]
+
+    def test_instantiability_round_trip(self):
+        never = MacSecFailPermissiveModeEnum().setValue(MacSecFailPermissiveModeEnum.NEVER)
+        assert never.getValue() == MacSecFailPermissiveModeEnum.NEVER
+
+        timeout = MacSecFailPermissiveModeEnum().setValue(MacSecFailPermissiveModeEnum.TIMEOUT)
+        assert timeout.getValue() == MacSecFailPermissiveModeEnum.TIMEOUT
+
+    def test_class_docstring_note(self):
+        note = "Behavior options of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(MacSecFailPermissiveModeEnum.__doc__) == note
+
+
 class Test_MacSecLocalKayProps:
     def test_initialization_defaults(self):
         props = MacSecLocalKayProps()

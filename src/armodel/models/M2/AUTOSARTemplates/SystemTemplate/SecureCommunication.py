@@ -880,32 +880,6 @@ class CryptoCertificateFormatEnum(AREnum):
         )
 
 
-class MacSecFailPermissiveModeEnum(AREnum):
-    """
-    Behavior options of the Port Access Entity in case MACsec does not succeed.
-    """
-
-    # MacSecFailPermissiveModeEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.128, p.178
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on MacSecProps.onFailPermissiveMode
-
-    # The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel. Tags: atp.EnumerationLiteralIndex=0
-    NEVER = "NEVER"
-
-    # The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value (onFailPermissiveModeTimeout) is reached and the following conditions apply: - A participant belonging to the same CA was recognized and authenticated. - A secure channel could be established. - Both participants can transmit and receive MACsec protected traffic through the SC. Tags: atp.EnumerationLiteralIndex=1
-    TIMEOUT = "TIMEOUT"
-
-    def __init__(self):
-        super().__init__(
-            [
-                MacSecFailPermissiveModeEnum.NEVER,
-                MacSecFailPermissiveModeEnum.TIMEOUT,
-            ]
-        )
-
-
 class IPsecIpProtocolEnum(AREnum):
     """
     Definition of supported TcpIp protocols that are supported in Security Policy Database (SPD) entries in IPSec configurations.
@@ -1997,6 +1971,32 @@ class MacSecRoleEnum(AREnum):
             [
                 MacSecRoleEnum.KEY_SERVER,
                 MacSecRoleEnum.PEER,
+            ]
+        )
+
+
+class MacSecFailPermissiveModeEnum(AREnum):
+    """
+    Behavior options of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
+    """
+
+    # MacSecFailPermissiveModeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.128, p.178
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecProps.onFailPermissiveMode
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The controlled port will never be set to enabled if the participants cannot establish and successfully use a MACsec Secure Channel. Tags: atp.EnumerationLiteralIndex=0
+    NEVER = "NEVER"
+
+    # The controlled port will be set to enabled and MACsec will not be used in the port if the timeout value (onFailPermissiveModeTimeout) is reached and the following conditions apply: - A participant belonging to the same CA was recognized and authenticated. - A secure channel could be established. - Both participants can transmit and receive MACsec protected traffic through the SC. Tags: atp.EnumerationLiteralIndex=1
+    TIMEOUT = "TIMEOUT"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecFailPermissiveModeEnum.NEVER,
+                MacSecFailPermissiveModeEnum.TIMEOUT,
             ]
         )
 
