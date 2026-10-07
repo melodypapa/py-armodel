@@ -290,7 +290,8 @@ class SdgAggregationWithVariation(SdgElementWithGid, SdgAttribute, AbstractVaria
         Returns:
             self for method chaining
         """
-        self.subSdgRef = value
+        if value is not None:
+            self.subSdgRef = value
         return self
 
 
