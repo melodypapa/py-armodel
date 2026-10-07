@@ -1283,6 +1283,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
@@ -18510,12 +18511,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-INVALID", cast(Integer, desc.getWindowSizeInvalid()))
             self.setChildElementOptionalPositiveInteger(child_element, "WINDOW-SIZE-VALID", cast(Integer, desc.getWindowSizeValid()))
 
+    def writeSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        if desc is not None:
+            child_element = ET.SubElement(element, "SOMEIP-TRANSFORMATION-DESCRIPTION")
+            self.writeTransformationDescription(child_element, desc)
+            self.setChildElementOptionalPositiveInteger(child_element, "ALIGNMENT", cast(Integer, desc.getAlignment()))
+            self._writeEnumToken(child_element, "BYTE-ORDER", desc.getByteOrder(), BYTE_ORDER_XML_MAP)
+            self.setChildElementOptionalPositiveInteger(child_element, "INTERFACE-VERSION", cast(Integer, desc.getInterfaceVersion()))
+
     def writeTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         desc = tech.getTransformationDescription()
         if desc is not None:
             child_element = ET.SubElement(element, "TRANSFORMATION-DESCRIPTIONS")
             if isinstance(desc, EndToEndTransformationDescription):
                 self.writeEndToEndTransformationDescription(child_element, desc)
+            elif isinstance(desc, SOMEIPTransformationDescription):
+                self.writeSOMEIPTransformationDescription(child_element, desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % type(desc))
 

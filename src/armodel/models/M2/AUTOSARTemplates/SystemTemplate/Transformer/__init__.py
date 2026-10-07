@@ -7,7 +7,7 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, ByteOrderEnum, Integer, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
@@ -2082,7 +2082,81 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
 
 
 class SOMEIPTransformationDescription(TransformationDescription):
-    pass
+    """
+    The SOMEIPTransformationDescription is used to specify SOME/IP transformer specific attributes.
+
+    [constr_9282] Existence of SOMEIPTransformationDescription . alignment: For each SOMEIPTransformationDescription , the attribute alignment shall exist at the time when the System Description is complete . ()
+    [constr_9283] Existence of SOMEIPTransformationDescription . byteOrder: For each SOMEIPTransformationDescription , the attribute byteOrder shall exist at the time when the System Description is complete . ()
+    [constr_9284] Existence of SOMEIPTransformationDescription . interfaceVersion: For each SOMEIPTransformationDescription , the attribute interfaceVersion shall exist at the time when the System Description is complete . ()
+    """
+
+    # SOMEIPTransformationDescription method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.10, p.777
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlignment              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlignment              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getByteOrder              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setByteOrder              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInterfaceVersion       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInterfaceVersion       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        self.alignment: Optional[PositiveInteger] = None
+
+        # Defines which byte order shall be serialized by the SOME/IP transformer
+        self.byteOrder: Optional[ByteOrderEnum] = None
+
+        # The interface version the SOME/IP transformer shall use.
+        self.interfaceVersion: Optional[PositiveInteger] = None
+
+    def getAlignment(self) -> Optional[PositiveInteger]:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        """
+        return self.alignment
+
+    def setAlignment(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
+        """
+        Defines the padding for alignment purposes that will be added by the SOME/IP transformer after the serialized data of the variable data length data element. The alignment shall be specified in Bits.
+        A None value is a no-op and does not overwrite an existing alignment.
+        """
+        if value is not None:
+            self.alignment = value
+        return self
+
+    def getByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        Defines which byte order shall be serialized by the SOME/IP transformer
+        """
+        return self.byteOrder
+
+    def setByteOrder(self, value: Optional[ByteOrderEnum]) -> SOMEIPTransformationDescription:
+        """
+        Defines which byte order shall be serialized by the SOME/IP transformer
+        A None value is a no-op and does not overwrite an existing byteOrder.
+        """
+        if value is not None:
+            self.byteOrder = value
+        return self
+
+    def getInterfaceVersion(self) -> Optional[PositiveInteger]:
+        """
+        The interface version the SOME/IP transformer shall use.
+        """
+        return self.interfaceVersion
+
+    def setInterfaceVersion(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
+        """
+        The interface version the SOME/IP transformer shall use.
+        A None value is a no-op and does not overwrite an existing interfaceVersion.
+        """
+        if value is not None:
+            self.interfaceVersion = value
+        return self
 
 
 class UserDefinedTransformationDescription(TransformationDescription):

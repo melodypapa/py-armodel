@@ -1538,6 +1538,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     SOMEIPMessageTypeEnum,
+    SOMEIPTransformationDescription,
     SOMEIPTransformationISignalProps,
     TlvDataIdDefinition,
     TlvDataIdDefinitionSet,
@@ -14363,13 +14364,23 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setWindowSizeInvalid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INVALID"))
         desc.setWindowSizeValid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-VALID"))
 
+    def readSOMEIPTransformationDescription(self, element: ET.Element, desc: SOMEIPTransformationDescription):
+        self.readTransformationDescription(element, desc)
+        desc.setAlignment(self.getChildElementOptionalPositiveInteger(element, "ALIGNMENT"))
+        desc.setByteOrder(self._readEnumToken(element, "BYTE-ORDER", ByteOrderEnum, BYTE_ORDER_XML_MAP))
+        desc.setInterfaceVersion(self.getChildElementOptionalPositiveInteger(element, "INTERFACE-VERSION"))
+
     def readTransformationTechnologyTransformationDescriptions(self, element: ET.Element, tech: TransformationTechnology):
         for child_element in self.findall(element, "TRANSFORMATION-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "END-TO-END-TRANSFORMATION-DESCRIPTION":
-                desc = EndToEndTransformationDescription()
-                self.readEndToEndTransformationDescription(child_element, desc)
-                tech.setTransformationDescription(desc)
+                e2e_desc = EndToEndTransformationDescription()
+                self.readEndToEndTransformationDescription(child_element, e2e_desc)
+                tech.setTransformationDescription(e2e_desc)
+            elif tag_name == "SOMEIP-TRANSFORMATION-DESCRIPTION":
+                someip_desc = SOMEIPTransformationDescription()
+                self.readSOMEIPTransformationDescription(child_element, someip_desc)
+                tech.setTransformationDescription(someip_desc)
             else:
                 self.notImplemented("Unsupported TransformationDescription <%s>" % tag_name)
 
