@@ -360,7 +360,12 @@ def check_doc_tail(rep: Report, node: ast.ClassDef, lines: Sequence[str], start:
     getter and the setter. A tail that reaches the comment but not the accessors is
     still a verbatim-fidelity defect, and one no existing check can see.
     """
-    tail = re.compile(r"\b(?:Tags|Stereotypes):(.*)$")
+    # Two patterns on purpose. A docstring's tail sits on an inner line, so the
+    # presence test must not be `$`-anchored (that was a real false-positive bug:
+    # it failed every accessor whose tail was followed by a Returns: block).
+    # The content pattern is only ever applied to a single comment line.
+    tail_line = re.compile(r"\b(?:Tags|Stereotypes):(.*)$")
+    tail_any = re.compile(r"\b(?:Tags|Stereotypes):")
     init = init_line(lines, start, end)
     if init == -1:
         return
@@ -378,7 +383,7 @@ def check_doc_tail(rep: Report, node: ast.ClassDef, lines: Sequence[str], start:
         while j > init and lines[j].strip().startswith("#"):
             comment = lines[j].strip() + " " + comment
             j -= 1
-        tm = tail.search(comment)
+        tm = tail_line.search(comment)
         if not tm:
             continue
         member = m.group(1)
@@ -386,7 +391,7 @@ def check_doc_tail(rep: Report, node: ast.ClassDef, lines: Sequence[str], start:
         names = [n for n in ("get" + acc, "set" + acc, "add" + acc) if any(isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef)) and f.name == n for f in node.body)]
         for n in names:
             doc = _docstring_of(node, n) or ""
-            if tail.search(doc):
+            if tail_any.search(doc):
                 continue
             # atp.* / Stereotypes: carry meaning (enum indexes, stereotypes, split
             # keys) and are part of the verbatim Note, so dropping them is a real

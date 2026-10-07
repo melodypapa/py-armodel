@@ -5,7 +5,6 @@ AbstractEnumerationValueVariationPoint
 AbstractProvidedPortPrototype
 AbstractRequiredPortPrototype
 AbstractServiceInstance
-AccessCount
 AccessCountSet
 AdminData
 AgeConstraint
@@ -15,7 +14,6 @@ Annotation
 AnyInstanceRef
 AnyServiceInstanceId
 AnyVersionString
-ApplicationCompositeElementDataPrototype
 ApplicationCompositeElementInPortInterfaceInstanceRef
 ApplicationEndpoint
 ApplicationInterface
@@ -59,7 +57,6 @@ BswOsTaskExecutionEvent
 BswSchedulableEntity
 BswScheduleEvent
 BswSchedulerNamePrefix
-BswServiceDependency
 BswServiceDependencyIdent
 BswTimingEvent
 BuildEngineeringObject
@@ -90,8 +87,6 @@ ClientServerOperationMapping
 CommConnectorPort
 CommunicationCluster
 CommunicationControllerMapping
-ComponentInCompositionInstanceRef
-ComponentInSystemInstanceRef
 CompositionSwComponentType
 CompuConstContent
 CompuNominatorDenominator
@@ -102,7 +97,6 @@ CompuScaleRationalFormula
 ConcretePatternEventTriggering
 ConditionalChangeNad
 ConfidenceInterval
-ConstantSpecification
 ConsumedEventGroup
 ConsumedServiceInstance
 ContainedIPduProps
@@ -111,7 +105,6 @@ CouplingPortCreditBasedShaper
 CouplingPortRoleEnum
 CryptoCertificateAlgorithmFamilyEnum
 CryptoCertificateFormatEnum
-CryptoKeySlot
 CycleRepetitionType
 DataDumpEntry
 DataFilter
@@ -126,13 +119,11 @@ DataTypePolicyEnum
 Describable
 DiagEventDebounceAlgorithm
 DiagEventDebounceCounterBased
-DiagnosticAccessPermission
 DiagnosticAuthRoleProxy
 DiagnosticEnvironmentalCondition
 DiagnosticEventNeeds
 DiagnosticIoControlNeeds
 DiagnosticServiceInstance
-DiagnosticServiceTable
 DisplayFormatString
 DltConfig
 DltDefaultTraceStateEnum
@@ -147,12 +138,6 @@ EOCEventRef
 EOCExecutableEntityRef
 EOCExecutableEntityRefAbstract
 EOCExecutableEntityRefGroup
-EcucBooleanParamDef
-EcucFloatParamDef
-EcucQueryExpression
-EcucReferenceDef
-EcucSymbolicNameReferenceDef
-EcucUriReferenceDef
 EndToEndProfileBehaviorEnum
 EndToEndTransformationDescription
 EngineeringObject
@@ -196,13 +181,11 @@ IPduTiming
 ISignal
 ISignalGroup
 ISignalIPdu
-ISignalPort
 ISignalProps
 ISignalToIPduMapping
 ISignalTriggering
 ISignalTypeEnum
 Identifiable
-IdsPlatformInstantiation
 ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
 InfrastructureServices
@@ -217,7 +200,6 @@ Ipv4Configuration
 Ipv6Configuration
 J1939NmEcu
 LEnum
-LOverviewParagraph
 LanguageSpecific
 LatencyConstraintTypeEnum
 LatencyTimingConstraint
@@ -275,19 +257,14 @@ NPdu
 NativeDeclarationString
 NetworkTargetAddressType
 NmCluster
-NmConfig
 NmCoordinatorRoleEnum
 NmNode
 NmPdu
 Numerical
-NumericalValueSpecification
 OperationArgumentInComponentInstanceRef
-OperationInAtomicSwcInstanceRef
-OperationInSystemInstanceRef
 OrderedMaster
 OsTaskPreemptabilityEnum
 PModeInSystemInstanceRef
-PRPortPrototype
 PTriggerInAtomicSwcTypeInstanceRef
 ParameterDataPrototype
 ParameterValue
@@ -298,7 +275,6 @@ PduTriggering
 PeriodicEventTriggering
 PlcaProps
 PortDefinedArgumentValue
-PortGroupInSystemInstanceRef
 PortPrototype
 PositiveInteger
 PostBuildVariantCondition
@@ -311,7 +287,6 @@ ProvidedServiceInstance
 RModeInAtomicSwcInstanceRef
 RVariableInAtomicSwcInstanceRef
 RecordLayoutIteratorPoint
-RecordValueSpecification
 Ref
 ResourceConsumption
 RoleBasedDataTypeAssignment
@@ -329,7 +304,6 @@ RunnableEntityArgument
 RunnableEntityInCompositionInstanceRef
 RxIdentifierRange
 SOMEIPMessageTypeEnum
-SOMEIPTransformationISignalProps
 SaveConfigurationEntry
 ScaleConstr
 ScheduleTableEntry
@@ -371,7 +345,6 @@ SwPointerTargetProps
 SwRecordLayoutV
 SwServiceArg
 SwServiceImplPolicyEnum
-SwSystemconst
 SwSystemconstDependentFormula
 SwSystemconstValue
 SwSystemconstantValueSet
@@ -379,7 +352,6 @@ SwcInternalBehavior
 SwcTiming
 SynchronizationPointConstraint
 SynchronizationTypeEnum
-SystemSignal
 SystemSignalGroup
 TDEventBsw
 TDEventBswInternalBehavior
@@ -445,18 +417,14 @@ TlsPskIdentity
 TlsVersionEnum
 TlvDataIdDefinition
 Topic1
-TopicContent
 TopicOrMsrQuery
 TpConfig
 TpConnection
 TpConnectionIdent
-TpPort
 TraceableTable
 TraceableText
 TracedFailure
-TransformationISignalProps
 TransientFault
-TriggerInAtomicSwcInstanceRef
 TriggerMapping
 TtcanAbsolutelyScheduledTiming
 TtcanTriggerType
@@ -466,7 +434,6 @@ UdpProps
 UnassignFrameId
 VariableAccessInEcuInstanceRef
 VariableDataPrototypeInCompositionInstanceRef
-VariableDataPrototypeInSystemInstanceRef
 VariableInComponentInstanceRef
 VerbatimString
 WhitespaceControlled
