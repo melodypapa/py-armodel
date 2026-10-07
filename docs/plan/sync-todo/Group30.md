@@ -1858,15 +1858,60 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SystemMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.1, p.193
   - module: M2/AUTOSARTemplates/SystemTemplate/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Base row verified = `ARObject, Identifiable, MultilanguageReferrable,
+    Referrable` (queue dash said ARObject — the most-derived MODELED ancestor is
+    `Identifiable`, kept as the Python base alongside the `VariationPointCapable` mixin:
+    the XSD SYSTEM-MAPPING group ends with VARIATION-POINT and readIdentifiable/
+    writeIdentifiable handle it for VariationPointCapable instances). Table 5.1 carries
+    24 `* aggr` Attribute rows split across 4 page fragments (lines 5091-5148); R23-11
+    Note/classifier text identical to R4.3.1 Table 5.1 (p.126), whose 11 attribute rows
+    are a STRICT SUBSET of R23-11's 24 — the Rule 0019 COMBINE CASE DOES NOT APPLY (no
+    attribute documented in the older corpus is absent from the target table). The
+    "SystemMapping legacy" flag materialized as a Rule 0023 legacy 4-column checklist
+    (rows ending at `test`, no `# Spec:` line, no stale `# Spec verified:` marker to
+    remove) plus a legacy sync with: 15 bare-`List` untyped fields, a Rule 0004
+    registry-filter alias getter `getSwcToEcuMappings` (REMOVED — swMapping's getter is
+    `getSwMappings`; no external callers, legacy co-located test updated), a plural
+    `addSwcToApplicationPartitionMappings` naming deviation (RENAMED singular, Rule
+    0001.5), and 4 of 24 attributes with NO reader/writer coverage
+    (j1939ControllerApplicationToJ1939NmNodeMapping, mappingConstraint,
+    portElementToComResourceMapping, swcToApplicationPartitionMapping — all four wired
+    this pass in XSD sequenceOffset order: J-1939-...-MAPPINGS and MAPPING-CONSTRAINTS
+    after ECU-RESOURCE-MAPPINGS, PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS before
+    RESOURCE-ESTIMATIONS, SWC-TO-APPLICATION-PARTITION-MAPPINGS after SW-MAPPINGS).
+    Class member/checklist order = markdown displayed order (attr 1
+    applicationPartitionToEcuPartitionMapping first); reader/writer XML order = XSD
+    order (APP-OS-TASK-... first) — the two orders differ only in the first two rows
+    and are kept independent per Rule 0001.11. Placement per Rule 0007 confirmed:
+    Package row `M2::AUTOSARTemplates::SystemTemplate` is non-leaf → the class stays
+    in `SystemTemplate/__init__.py`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No accepted deviations from Table 5.1 — all 24 attributes modeled with
+    dedicated typed list fields (Rule 0004), verbatim Notes incl. Stereotypes:/Tags:
+    tails (Rule 0012.2.5.3), reader+writer coverage for every attribute (Rule 0001.7).
+    Referenced-but-missing class (Rule 0001.10, reported not blocking):
+    SwcToEcuMappingConstraint — third member of the XSD MAPPING-CONSTRAINTS choice
+    (AUTOSAR_00052.xsd line 118057), no model class exists; the reader branch warns
+    notImplemented and lands with the MappingConstraint-family sync (Table 5.8 queue
+    row). Remark (not a deviation, Rule 0001.7 identity-only debt): the concrete
+    MappingConstraint stubs ComponentClustering/ComponentSeparation (queued Table
+    5.9/5.11) and the ARObject stub J1939ControllerApplicationToJ1939NmNodeMapping
+    (queued Table 5.12) are serialized identity-only — reader instantiates +
+    readARObject (S/T preserved), writer emits the element + writeARObject; the
+    Identifiable stubs PortElementToCommunicationResourceMapping and
+    SwcToApplicationPartitionMapping round-trip at the Identifiable level
+    (SHORT-NAME/UUID) until their own Table 5.4-family syncs replace the placeholder.
+    Remark (not a deviation): the `# Spec verified:` marker is deferred to the batch
+    9b stamp per user instruction (Step 7 wrote the 6-column checklist without it;
+    audit STAMP INFO as expected).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22099 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit a9b3162cc
 
 - [ ] `SwcToApplicationPartitionMapping` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 5.4, p.200
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

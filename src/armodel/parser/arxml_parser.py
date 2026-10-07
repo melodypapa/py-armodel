@@ -594,6 +594,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
+    ComponentClustering,
+    ComponentSeparation,
+    J1939ControllerApplicationToJ1939NmNodeMapping,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -17498,6 +17501,36 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported EcuResourceMapping <%s>" % tag_name)
 
+    def readSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS/J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING"):
+            node_mapping = J1939ControllerApplicationToJ1939NmNodeMapping()
+            self.readARObject(child_element, node_mapping)
+            mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping(node_mapping)
+
+    def readSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "MAPPING-CONSTRAINTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COMPONENT-CLUSTERING":
+                clustering = ComponentClustering()
+                self.readARObject(child_element, clustering)
+                mapping.addMappingConstraint(clustering)
+            elif tag_name == "COMPONENT-SEPARATION":
+                separation = ComponentSeparation()
+                self.readARObject(child_element, separation)
+                mapping.addMappingConstraint(separation)
+            else:
+                self.notImplemented("Unsupported MappingConstraint %s" % tag_name)
+
+    def readSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS/PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING"):
+            port_mapping = mapping.createPortElementToComResourceMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, port_mapping)
+
+    def readSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS/SWC-TO-APPLICATION-PARTITION-MAPPING"):
+            swc_mapping = mapping.createSwcToApplicationPartitionMapping(self.getShortName(child_element))
+            self.readIdentifiable(child_element, swc_mapping)
+
     def readSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         self.readIdentifiable(element, mapping)
         mapping.setComponentImplementationRef(self.getChildElementOptionalRefType(element, "COMPONENT-IMPLEMENTATION-REF"))
@@ -17755,7 +17788,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingDataMappings(element, mapping)
         self.readSystemMappingDdsISignalToTopicMappings(element, mapping)
         self.readSystemMappingEcuResourceMappings(element, mapping)
+        self.readSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(element, mapping)
+        self.readSystemMappingMappingConstraints(element, mapping)
         self.readSystemMappingPncMappings(element, mapping)
+        self.readSystemMappingPortElementToComResourceMappings(element, mapping)
         self.readSystemMappingResourceEstimations(element, mapping)
         self.readSystemMappingResourceToApplicationPartitionMappings(element, mapping)
         self.readSystemMappingRteEventSeparations(element, mapping)
@@ -17765,6 +17801,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingSwClusterMappings(element, mapping)
         self.readSystemMappingSwImplMappings(element, mapping)
         self.readSystemMappingSwMappings(element, mapping)
+        self.readSystemMappingSwcToApplicationPartitionMappings(element, mapping)
         self.readSystemMappingSystemSignalGroupToComResourceMappings(element, mapping)
         self.readSystemMappingSystemSignalToComResourceMappings(element, mapping)
 

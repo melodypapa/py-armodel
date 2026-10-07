@@ -572,6 +572,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsReliability,
     DdsTopicData,
     DdsTransportPriority,
+    ComponentClustering,
+    ComponentSeparation,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -14213,6 +14215,44 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Sw Mapping %s" % type(ecu_resource_mapping))
 
+    def writeSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(self, element: ET.Element, mapping: SystemMapping):
+        j1939_mappings = mapping.getJ1939ControllerApplicationToJ1939NmNodeMappings()
+        if len(j1939_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPINGS")
+            for j1939_mapping in j1939_mappings:
+                child_element = ET.SubElement(mappings_tag, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING")
+                self.writeARObject(child_element, j1939_mapping)
+
+    def writeSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
+        constraints = mapping.getMappingConstraints()
+        if len(constraints) > 0:
+            mappings_tag = ET.SubElement(element, "MAPPING-CONSTRAINTS")
+            for constraint in constraints:
+                if isinstance(constraint, ComponentClustering):
+                    child_element = ET.SubElement(mappings_tag, "COMPONENT-CLUSTERING")
+                    self.writeARObject(child_element, constraint)
+                elif isinstance(constraint, ComponentSeparation):
+                    child_element = ET.SubElement(mappings_tag, "COMPONENT-SEPARATION")
+                    self.writeARObject(child_element, constraint)
+                else:
+                    self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
+
+    def writeSystemMappingPortElementToComResourceMappings(self, element: ET.Element, mapping: SystemMapping):
+        port_mappings = mapping.getPortElementToComResourceMappings()
+        if len(port_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "PORT-ELEMENT-TO-COM-RESOURCE-MAPPINGS")
+            for port_mapping in port_mappings:
+                child_element = ET.SubElement(mappings_tag, "PORT-ELEMENT-TO-COMMUNICATION-RESOURCE-MAPPING")
+                self.writeIdentifiable(child_element, port_mapping)
+
+    def writeSystemMappingSwcToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        swc_mappings = mapping.getSwcToApplicationPartitionMappings()
+        if len(swc_mappings) > 0:
+            mappings_tag = ET.SubElement(element, "SWC-TO-APPLICATION-PARTITION-MAPPINGS")
+            for swc_mapping in swc_mappings:
+                child_element = ET.SubElement(mappings_tag, "SWC-TO-APPLICATION-PARTITION-MAPPING")
+                self.writeIdentifiable(child_element, swc_mapping)
+
     def writeSwcToImplMapping(self, element: ET.Element, mapping: SwcToImplMapping):
         if mapping is not None:
             child_element = ET.SubElement(element, "SWC-TO-IMPL-MAPPING")
@@ -14481,7 +14521,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingDataMappings(child_element, mapping)
         self.writeSystemMappingDdsISignalToTopicMappings(child_element, mapping)
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
+        self.writeSystemMappingJ1939ControllerApplicationToJ1939NmNodeMappings(child_element, mapping)
+        self.writeSystemMappingMappingConstraints(child_element, mapping)
         self.writeSystemMappingPncMappings(child_element, mapping)
+        self.writeSystemMappingPortElementToComResourceMappings(child_element, mapping)
         self.writeSystemMappingResourceEstimations(child_element, mapping)
         self.writeSystemMappingResourceToApplicationPartitionMappings(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
@@ -14491,6 +14534,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingSwClusterMappings(child_element, mapping)
         self.writeSystemMappingSwImplMappings(child_element, mapping)
         self.writeSystemMappingSwMappings(child_element, mapping)
+        self.writeSystemMappingSwcToApplicationPartitionMappings(child_element, mapping)
         self.writeSystemMappingSystemSignalGroupToComResourceMappings(child_element, mapping)
         self.writeSystemMappingSystemSignalToComResourceMappings(child_element, mapping)
 
