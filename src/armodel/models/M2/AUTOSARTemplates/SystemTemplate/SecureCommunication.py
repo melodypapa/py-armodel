@@ -1748,31 +1748,30 @@ class IPSecConfigProps(ARElement):
 
 class MacSecGlobalKayProps(ARElement):
     """
-    Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
+    Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations. Tags: atp.Status=candidate atp.recommendedPackage=MacSecGlobalKayProps
     """
 
     # MacSecGlobalKayProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.120, p.174
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addBypassEtherType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBypassEtherTypes        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addBypassVlan              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBypassVlans             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBypassEtherType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBypassEtherTypes [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addBypassVlan       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBypassVlans      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        # This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate
         self.bypassEtherTypes: List[PositiveInteger] = []
 
-        # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate
         self.bypassVlans: List[PositiveInteger] = []
 
     def addBypassEtherType(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
-        This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate
         A None value is a no-op and does not append to bypassEtherTypes.
         """
         if value is not None:
@@ -1780,12 +1779,12 @@ class MacSecGlobalKayProps(ARElement):
         return self
 
     def getBypassEtherTypes(self) -> List[PositiveInteger]:
-        """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected."""
+        """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected. Tags: atp.Status=candidate"""
         return self.bypassEtherTypes
 
     def addBypassVlan(self, value: Optional[PositiveInteger]) -> MacSecGlobalKayProps:
         """
-        This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate
         A None value is a no-op and does not append to bypassVlans.
         """
         if value is not None:
@@ -1793,7 +1792,7 @@ class MacSecGlobalKayProps(ARElement):
         return self
 
     def getBypassVlans(self) -> List[PositiveInteger]:
-        """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)"""
+        """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic) Tags: atp.Status=candidate"""
         return self.bypassVlans
 
 

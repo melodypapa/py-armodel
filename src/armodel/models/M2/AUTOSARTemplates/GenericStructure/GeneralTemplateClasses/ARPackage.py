@@ -410,6 +410,7 @@ __all__ = [
     "IPv6ExtHeaderFilterSet",
     "J1939ControllerApplication",
     "LogAndTraceMessageCollectionSet",
+    "MacSecGlobalKayProps",
     "MacSecParticipantSet",
     "SocketConnectionIpduIdentifierSet",
     "TransformationPropsSet",
@@ -2770,6 +2771,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(config_set)
         return cast(EthernetWakeupSleepOnDatalineConfigSet, self.getReferrableElement(short_name, EthernetWakeupSleepOnDatalineConfigSet))
 
+    def createMacSecGlobalKayProps(self, short_name: str) -> MacSecGlobalKayProps:
+
+        if not self.IsReferrableElementExists(short_name, MacSecGlobalKayProps):
+            props = MacSecGlobalKayProps(self, short_name)
+            self.addReferrableElement(props)
+        return cast(MacSecGlobalKayProps, self.getReferrableElement(short_name, MacSecGlobalKayProps))
+
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
         Creates a new DiagnosticAging with the given short name,
@@ -5072,6 +5080,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     CryptoServicePrimitive,
     CryptoSignatureScheme,
     IPSecConfigProps,
+    MacSecGlobalKayProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (  # noqa: E402
     DataTransformationSet,

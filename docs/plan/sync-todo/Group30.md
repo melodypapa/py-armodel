@@ -1135,15 +1135,60 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `MacSecGlobalKayProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.120, p.174
   - module: M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.120 is a single contiguous table (caption above the table body;
+    pdf_page.py cites p.174) — Class header (concrete), Base chain ARElement, ARObject,
+    CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable,
+    UploadableDesignElement, UploadablePackageElement (Uploadable* have no model classes —
+    interface realizations; the primary chain's most-derived model ancestor is ARElement),
+    Aggregated by ARPackage.element. Two 0..255 attr rows in displayed order (bypassEtherType,
+    bypassVlan — PositiveInteger bounded many → plural List fields + add/get accessors); XSD
+    group MAC-SEC-GLOBAL-KAY-PROPS (AUTOSAR_00052.xsd line 79032) carries the identical child
+    order BYPASS-ETHER-TYPES (wrapper, choice max 255 BYPASS-ETHER-TYPE POSITIVE-INTEGER items)
+    → BYPASS-VLANS (wrapper, BYPASS-VLAN items), so member order and XML order coincide.
+    ARElement instance tag MAC-SEC-GLOBAL-KAY-PROPS in the ARPackage element choice (line 5359).
+    Every Note (class + attributes) carries the `Tags: atp.Status=candidate` tail — the class
+    Note additionally carries `atp.recommendedPackage=MacSecGlobalKayProps` — kept verbatim at
+    every level (Rule 0012.2.5.3). Placement per Rule 0007 (spec Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SecureCommunication`): class already sits in
+    SecureCommunication.py at its legacy slot (directly before MacSecCipherSuiteConfig;
+    sibling 3.118/3.119 precedent — no move needed).
+  - Legacy upgrade: the class was a prior legacy sync carrying the stale
+    `# Spec verified: R23-11` marker + a 4-column checklist (rows end at the writer column,
+    no per-row release token) — both retired at session start (marker removed per Rule 0023,
+    batch 9b re-stamps; checklist rewritten to the 6-column format at Step 7). The class
+    docstring/attr comments/accessor docstrings also lacked the `Tags:` tails — rewritten
+    verbatim at Step 4. Model fields already matched Table 3.120 (names, types, order,
+    quota shapes), so the Step 2 model tests extended the legacy suite to the current-bar
+    matrix (per-adder round-trip + chaining + None-no-op retention) — the field-matrix RED
+    was not observable at model level; the honest model RED was the ARPackage factory test
+    (`AttributeError: no attribute 'createMacSecGlobalKayProps'`, 1 failed / 5 passed).
+  - Reader/writer wiring upgrade: dedicated readMacSecGlobalKayProps (calls
+    readIdentifiable once) / writeMacSecGlobalKayProps (calls writeARElement) helpers
+    already existed but had NO call sites — identity-only debt per Rule 0001.7. The
+    ARPackage.element aggregator dispatch was wired this pass: `createMacSecGlobalKayProps`
+    factory in ARPackage.py (bottom import + `__all__`), parser `readARPackageElements`
+    branch (tag MAC-SEC-GLOBAL-KAY-PROPS, after ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET),
+    writer `writeARPackageElement` isinstance branch — both dispatch sites call the
+    pre-existing dedicated levels, whose base-helper calls were already correct (no Rule
+    0025 upgrade needed). Honest reader/writer RED: 3 dispatch tests failed (parser load
+    found 0 props; writer raised `NotImplementedError: Unsupported Elements of ARPackage`)
+    with the 8 dedicated-level tests passing. Legacy writer test
+    (test_armodel/writer/test_mac_sec_global_kay_props.py) kept and extended (deprecated
+    cElementTree import modernized to ElementTree per PlcaProps precedent; XSD child-order
+    assertion added; new ARPackage save→load round-trip + empty-props cases); new parser
+    tests (test_armodel/parser/test_mac_sec_global_kay_props.py) assert field values, the
+    Identifiable base level (UUID + S/T), XSD child order, partial/empty-wrapper cases and
+    the ARPackage-level load dispatch.
+  - No deviations from Table 3.120; no missing referenced classes (PositiveInteger exists).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (21948 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 88ba77f8f
 
 - [ ] `MacSecParticipantSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.121, p.174
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

@@ -18791,6 +18791,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, EthernetWakeupSleepOnDatalineConfigSet):
             self.writeEthernetWakeupSleepOnDatalineConfigSet(element, ar_element)
+        elif isinstance(ar_element, MacSecGlobalKayProps):
+            self.writeMacSecGlobalKayProps(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
             self.writeISignalIPduGroup(element, ar_element)
         elif isinstance(ar_element, PdurIPduGroup):

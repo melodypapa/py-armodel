@@ -18458,6 +18458,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG-SET":
                 self.readEthernetWakeupSleepOnDatalineConfigSet(child_element, parent.createEthernetWakeupSleepOnDatalineConfigSet(self.getShortName(child_element)))
+            elif tag_name == "MAC-SEC-GLOBAL-KAY-PROPS":
+                self.readMacSecGlobalKayProps(child_element, parent.createMacSecGlobalKayProps(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":
                 can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
                 self.readCanXlProps(child_element, can_xl_props)

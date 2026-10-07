@@ -1,5 +1,6 @@
 import pytest
 
+from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -477,27 +478,77 @@ class Test_MacSecProps:
 
 
 class Test_MacSecGlobalKayProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
+
         assert isinstance(props, ARElement)
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
 
-    def test_add_and_get(self):
+    def test_add_bypass_ether_types(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
-        props.addBypassEtherType(_pos_int("88"))
-        props.addBypassEtherType(_pos_int("90"))
-        props.addBypassVlan(_pos_int("100"))
+        first = _pos_int("88")
+
+        result = props.addBypassEtherType(first)
+
+        assert result is props
+        assert props.getBypassEtherTypes() == [first]
+
+        second = _pos_int("90")
+        props.addBypassEtherType(second)
         assert [v.getValue() for v in props.getBypassEtherTypes()] == [88, 90]
-        assert [v.getValue() for v in props.getBypassVlans()] == [100]
+
+    def test_add_bypass_vlans(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+        first = _pos_int("100")
+
+        result = props.addBypassVlan(first)
+
+        assert result is props
+        assert props.getBypassVlans() == [first]
+
+        second = _pos_int("200")
+        props.addBypassVlan(second)
+        assert [v.getValue() for v in props.getBypassVlans()] == [100, 200]
+
+    def test_ar_package_create_factory(self):
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+
+        pkg = document.createARPackage("Sec")
+        props = pkg.createMacSecGlobalKayProps("GKP")
+
+        assert isinstance(props, MacSecGlobalKayProps)
+        assert props.getShortName() == "GKP"
+
+        again = pkg.createMacSecGlobalKayProps("GKP")
+        assert again is props
 
     def test_none_is_noop(self):
         parent = MockParent()
         props = MacSecGlobalKayProps(parent, "test_global_kay")
+        ether_type = _pos_int("88")
+        vlan = _pos_int("100")
+        props.addBypassEtherType(ether_type)
+        props.addBypassVlan(vlan)
+
         props.addBypassEtherType(None)
         props.addBypassVlan(None)
+
+        assert props.getBypassEtherTypes() == [ether_type]
+        assert props.getBypassVlans() == [vlan]
+
+    def test_none_noop_on_fresh_instance(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+
+        props.addBypassEtherType(None)
+        props.addBypassVlan(None)
+
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
 
