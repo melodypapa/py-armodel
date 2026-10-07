@@ -319,15 +319,29 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `IPduPort` — CommConnectorPort — R23-11 CP_TPS_SystemTemplate Table 6.3, p.304
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: placement verified per Package row (CoreCommunication, non-leaf →
+    `__init__.py` — no move); concrete Class, Base most-derived modeled ancestor =
+    `CommConnectorPort` (Table 6.1, synced ca22bc0a8). Legacy 5-column checklist +
+    stale `# Spec verified: R23-11` marker found (Rule 0023) — marker removed at
+    session start, full re-sync at the 6-column bar. XSD I-PDU-PORT group also has
+    KEY-ID (atp.Status="removed" in 4.4.0, absent from Table 6.3) — not modeled.
+    VARIATION-POINT sits in the base COMM-CONNECTOR-PORT group (sequenceOffset=10000,
+    last) — inherited via readCommConnectorPort/writeCommConnectorPort.
+  - Deviation: keyId — present in XSD group I-PDU-PORT with atp.Status="removed"
+    (atp.StatusRevisionBegin="4.4.0"), absent from Table 6.3 → deprecated
+    (atp.Status=removed), not implemented (Rule 0001.3); reader tolerance pinned by
+    tests/test_armodel/parser/test_arxml_parser_network_handlers.py::TestReadIPduPort
+    (test_readIPduPort_keyId_removed_upstream). No other deviations; referenced member
+    type IPduSignalProcessingEnum exists with XSD-verified facets (own row next).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22256 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit b4e23166c
 
 - [ ] `IPduSignalProcessingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.4, p.305
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication/__init__.py

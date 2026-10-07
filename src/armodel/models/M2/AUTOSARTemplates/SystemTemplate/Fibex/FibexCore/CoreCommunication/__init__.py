@@ -3412,17 +3412,16 @@ class IPduPort(CommConnectorPort):
 
     # IPduPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.3, p.304
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxSecurityVerification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRxSecurityVerification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIPduSignalProcessing        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIPduSignalProcessing        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxSecurityVerification      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxSecurityVerification      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseAuthDataFreshness        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseAuthDataFreshness        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

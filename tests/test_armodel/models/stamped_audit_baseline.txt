@@ -175,7 +175,6 @@ HwElement
 HwPortMapping
 IPSecConfig
 IPdu
-IPduPort
 IPduTiming
 ISignal
 ISignalGroup
