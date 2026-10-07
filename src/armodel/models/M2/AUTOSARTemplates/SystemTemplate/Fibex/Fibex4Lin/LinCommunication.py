@@ -601,19 +601,18 @@ class ConditionalChangeNad(LinConfigurationEntry):
 
     # ConditionalChangeNad method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.105, p.438
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getByte         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setByte         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInvert       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInvert       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMask         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMask         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getByte      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setByte      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInvert    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInvert    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMask      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMask      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNewNad    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNewNad    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
 
     def __init__(self):

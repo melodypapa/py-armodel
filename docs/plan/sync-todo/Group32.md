@@ -13,15 +13,21 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ConditionalChangeNad` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.105, p.438
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the pre-existing class content already spec-correct (byte/id/invert/mask/newNad
+    Integer/PositiveInteger 0..1 in displayed row order, Base = LinConfigurationEntry) — the drift was the
+    legacy 5-column checklist carrying a stale `# Spec verified: R23-11` marker (Rule 0023); marker removed
+    and block re-written 6-column without stamp. Reader `getConditionalChangeNad`/writer
+    `setConditionalChangeNad` pre-existed; XML order verified against XSD group CONDITIONAL-CHANGE-NAD
+    (BYTE, ID, INVERT, MASK, NEW-NAD after the SCHEDULE-TABLE-ENTRY/LIN-CONFIGURATION-ENTRY groups).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SaveConfigurationEntry` — LinConfigurationEntry — R23-11 CP_TPS_SystemTemplate Table 6.106, p.439
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py

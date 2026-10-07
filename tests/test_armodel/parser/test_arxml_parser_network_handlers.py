@@ -367,6 +367,39 @@ class TestLinClusterHandlers:
     def test_getApplicationEntry_none_element_returns_none(self, parser):
         assert parser.getApplicationEntry(None, "APPLICATION-ENTRY") is None
 
+    def test_getConditionalChangeNad_all_attrs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ConditionalChangeNad
+
+        element = _snip(
+            "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>"
+            "<ASSIGNED-CONTROLLER-REF DEST='LIN-SLAVE'>/cluster/slave</ASSIGNED-CONTROLLER-REF>"
+            "<BYTE>1</BYTE><ID>2</ID><INVERT>3</INVERT><MASK>4</MASK><NEW-NAD>5</NEW-NAD>",
+            root_tag="CONDITIONAL-CHANGE-NAD",
+        )
+        entry = parser.getConditionalChangeNad(element)
+        assert entry is not None
+        assert isinstance(entry, ConditionalChangeNad)
+        assert entry.getPositionInTable().getValue() == 1
+        assert entry.getAssignedControllerRef().getValue() == "/cluster/slave"
+        assert entry.getByte().getValue() == 1
+        assert entry.getId().getValue() == 2
+        assert entry.getInvert().getValue() == 3
+        assert entry.getMask().getValue() == 4
+        assert entry.getNewNad().getValue() == 5
+
+    def test_getConditionalChangeNad_absent_elements(self, parser):
+        element = _snip("<SHORT-NAME>e</SHORT-NAME>", root_tag="CONDITIONAL-CHANGE-NAD")
+        entry = parser.getConditionalChangeNad(element)
+        assert entry is not None
+        assert entry.getByte() is None
+        assert entry.getId() is None
+        assert entry.getInvert() is None
+        assert entry.getMask() is None
+        assert entry.getNewNad() is None
+
+    def test_getConditionalChangeNad_none_element_returns_none(self, parser):
+        assert parser.getConditionalChangeNad(None) is None
+
 
 class TestFlexrayClusterHandlers:
     def test_readFlexrayCluster_sets_short_name(self, parser):
