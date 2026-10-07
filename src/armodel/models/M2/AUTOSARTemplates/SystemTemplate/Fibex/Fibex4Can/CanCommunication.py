@@ -222,14 +222,13 @@ class RxIdentifierRange(ARObject):
 
 class CanFrame(Frame):
     """
-    CAN specific Frame element. This element shall also be used for TTCan.
+    CAN specific Frame element. This element shall also be used for TTCan. Tags: atp.recommendedPackage=Frames
     """
 
     # CanFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.109, p.442
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):

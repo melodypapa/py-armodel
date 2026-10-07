@@ -449,3 +449,29 @@ class TestCanFrameTxBehaviorEnum:
         assert enum.getValue() == "CAN-FD"
 
         assert enum.getEnumValues() == ["CAN-20", "CAN-FD"]
+
+
+CAN_FRAME_CLASS_NOTE = "CAN specific Frame element. This element shall also be used for TTCan. Tags: atp.recommendedPackage=Frames"
+
+
+class TestCanFrame:
+    """Test cases for CanFrame (Table 6.109, p.442)."""
+
+    def test_inheritance(self):
+        """Test the most-derived base from the Base chain (Table 6.109: Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)"""
+        assert issubclass(CanFrame, Frame)
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim including the Tags tail (Table 6.109)"""
+        assert inspect.cleandoc(CanFrame.__doc__).strip() == CAN_FRAME_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """Test that __init__ carries no docstring"""
+        assert CanFrame.__init__.__doc__ is None
+
+    def test_initialization(self):
+        parent = MockParent()
+        frame = CanFrame(parent, "CanFrame")
+
+        assert isinstance(frame, Frame)
+        assert frame.getShortName() == "CanFrame"

@@ -86,15 +86,24 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CanFrame` — Frame — R23-11 CP_TPS_SystemTemplate Table 6.109, p.442
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found the class content already spec-correct (no own attributes — XSD group
+    CAN-FRAME has an empty sequence; Base most-derived = Frame) — the drift was the legacy
+    5-column checklist carrying a stale `# Spec verified: R23-11` marker whose `__init__` row
+    wrongly claimed reader/writer `[x]` (Rule 0023/0002: `__init__` is `[—]/[—]`); marker removed
+    and block re-written 6-column without stamp. Step 4 fix: class docstring re-written to carry
+    the Note verbatim including the `Tags: atp.recommendedPackage=Frames` tail (Rule 0012.2.5.3).
+    Reader `readCanFrame`→`readFrame` / writer `writeCanFrame`→`writeFrame` pre-existed (BASE
+    clean); round-trip covered by tests/test_armodel/parser/test_frame.py +
+    tests/test_armodel/writer/test_writer_frame.py.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CanFrameTriggering` — FrameTriggering — R23-11 CP_TPS_SystemTemplate Table 6.110, p.443
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py
