@@ -2896,10 +2896,6 @@ class IEEE1722TpCrfPullEnum(AREnum):
     pass
 
 
-class IEEE1722TpCrfTypeEnum(AREnum):
-    pass
-
-
 class IEEE1722TpRvfColorSpaceEnum(AREnum):
     pass
 

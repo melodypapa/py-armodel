@@ -247,3 +247,8 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
         Reference to the upper layer Sdu used for the transport of the payload of the IEEE1722Tp. Tags: atp.Status=candidate
         """
         return self.sduRefs
+
+
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (  # noqa: E402
+    IEEE1722TpCrfTypeEnum as IEEE1722TpCrfTypeEnum,
+)

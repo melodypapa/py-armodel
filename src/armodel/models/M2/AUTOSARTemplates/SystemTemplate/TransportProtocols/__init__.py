@@ -3066,3 +3066,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE17
     IEEE1722TpConnection as IEEE1722TpConnection,
     IEEE1722TpAvConnection as IEEE1722TpAvConnection,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (  # noqa: E402
+    IEEE1722TpCrfTypeEnum as IEEE1722TpCrfTypeEnum,
+)
