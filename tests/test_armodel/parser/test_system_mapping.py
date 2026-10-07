@@ -11,15 +11,13 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ComponentClustering,
-    ComponentSeparation,
     J1939ControllerApplicationToJ1939NmNodeMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     PortElementToCommunicationResourceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System, SystemMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToApplicationPartitionMapping, SwcToEcuMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation, SwcToApplicationPartitionMapping, SwcToEcuMapping
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"

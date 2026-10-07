@@ -1,6 +1,7 @@
 # This module contains AUTOSAR System Template classes for software component mapping
 # It defines mappings between software components and their implementations or partitions
 
+from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -450,3 +451,50 @@ class EcuResourceEstimation(ARObject):
         References to SwcToEcuMappings that have been taken into account for the resource estimations. This way it is possible to define dfferent EcuResourceEstimations with diifferent mappings, e.g. before and after mapping an additional SW component.
         """
         return self.swCompToEcuMappingRefs
+
+
+class MappingConstraint(ARObject, VariationPointCapable, ABC):
+    """
+    Different constraints that may be used to limit the mapping of SW components to applicable ECUs, Partitions or Cores depending on the mappingScope attribute.
+    """
+
+    # MappingConstraint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.8, p.202
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIntroduction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) — no spec row (stereotype-inherent)
+
+    def __init__(self):
+        if type(self) is MappingConstraint:
+            raise TypeError("MappingConstraint is an abstract class.")
+
+        super().__init__()
+
+        # This represents introductory documentation about the mapping constraint.
+        self.introduction: Optional[DocumentationBlock] = None
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the mapping constraint.
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "MappingConstraint":
+        """
+        This represents introductory documentation about the mapping constraint.
+
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
+        return self
+
+
+class ComponentClustering(MappingConstraint):
+    pass
+
+
+class ComponentSeparation(MappingConstraint):
+    pass

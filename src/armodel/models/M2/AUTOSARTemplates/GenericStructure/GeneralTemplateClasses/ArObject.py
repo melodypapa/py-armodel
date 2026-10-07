@@ -3280,10 +3280,6 @@ class J1939TpPg(ARObject):
     pass
 
 
-class MappingConstraint(ARObject, ABC):
-    pass
-
-
 class NetworkSegmentIdentification(ARObject):
     pass
 
@@ -3345,14 +3341,6 @@ class CanGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 
 
 class ClientServerOperationComProps(CpSoftwareClusterCommunicationResourceProps):
-    pass
-
-
-class ComponentClustering(MappingConstraint):
-    pass
-
-
-class ComponentSeparation(MappingConstraint):
     pass
 
 

@@ -594,8 +594,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
-    ComponentClustering,
-    ComponentSeparation,
     J1939ControllerApplicationToJ1939NmNodeMapping,
     PhysicalDimensionMapping,
 )
@@ -1527,7 +1525,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartition,
     ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
+    ComponentSeparation,
     EcuResourceEstimation,
+    MappingConstraint,
     SwcToApplicationPartitionMapping,
     SwcToImplMapping,
 )
@@ -17516,16 +17517,26 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObject(child_element, node_mapping)
             mapping.addJ1939ControllerApplicationToJ1939NmNodeMapping(node_mapping)
 
+    def readMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
+        self.readARObject(element, mapping_constraint)
+        mapping_constraint.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(mapping_constraint, VariationPointCapable):
+                mapping_constraint.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
     def readSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "MAPPING-CONSTRAINTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COMPONENT-CLUSTERING":
                 clustering = ComponentClustering()
-                self.readARObject(child_element, clustering)
+                self.readMappingConstraint(child_element, clustering)
                 mapping.addMappingConstraint(clustering)
             elif tag_name == "COMPONENT-SEPARATION":
                 separation = ComponentSeparation()
-                self.readARObject(child_element, separation)
+                self.readMappingConstraint(child_element, separation)
                 mapping.addMappingConstraint(separation)
             else:
                 self.notImplemented("Unsupported MappingConstraint %s" % tag_name)

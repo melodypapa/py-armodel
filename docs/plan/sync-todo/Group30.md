@@ -2027,16 +2027,58 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 9 — 9a passed 2026-10-07 (22128 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9271a2285
 
 - [ ] `MappingConstraint` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.8, p.202
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/SWmapping.py (moved from the
+    ArObject.py hint)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    MappingConstraint (abstract)`. Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → Rule 0007 placement MOVE out
+    of the ArObject.py stub to the leaf module `SystemTemplate/SWmapping.py` (same
+    precedent as SwcToApplicationPartitionMapping commit 8323feb0a /
+    ApplicationPartition commit 9241a3d9f; stamped siblings Tables 5.2-5.6 already
+    live there). Base row verified = `ARObject` (queue dash correct) — most-derived
+    MODELED ancestor ARObject; spec marks the class abstract → ABC base + the
+    `type(self) is MappingConstraint` TypeError guard (SignalPathConstraint
+    precedent). VP-capable per Rule 0020 XSD anchor: the MAPPING-CONSTRAINT group
+    (AUTOSAR_00052.xsd l.79829) ends with VARIATION-POINT ("Applicable for:
+    SystemMapping.mappingConstraint", sequenceOffset=10000) → `VariationPointCapable`
+    mixin, base order `(ARObject, VariationPointCapable, ABC)`; no checklist rows for
+    the mixin accessors. Table 5.8 carries exactly ONE attribute row (no page split):
+    introduction (DocumentationBlock, 0..1, aggr), Note without Tags:/Stereotypes:
+    tail. XSD element order (reader/writer): INTRODUCTION, VARIATION-POINT (last).
+    The subclass stubs ComponentClustering/ComponentSeparation (queued Tables
+    5.9/5.11, Base `ARObject , MappingConstraint`, Package rows SWmapping) moved with
+    the base into SWmapping.py — keeping them in ArObject.py would need a circular
+    import (ArObject→SWmapping→ArObject) since they subclass MappingConstraint; the
+    stub-guard STUBS tuple in tests/test_armodel/models/test_group21_36_stub_classes.py
+    was updated for all three.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.8 — the single attribute (introduction)
+    modeled as Optional[DocumentationBlock] with verbatim Notes (no tails), PEP 526
+    annotated assignment, full reader+writer coverage. No stale legacy marker existed
+    (the pre-sync stub was a bare `pass` in ArObject.py — no checklist, no
+    `# Spec verified:` line, so Rule 0023 removal was a no-op); the checklist is fresh
+    6-column format. Placement MOVE per Rule 0007 (not a deviation): ArObject.py hint →
+    SystemTemplate/SWmapping.py; imports re-pointed in SystemTemplate/__init__.py,
+    arxml_parser.py, arxml_writer.py, test_SystemMapping.py, and the parser/writer
+    system_mapping tests. Wiring upgrade (clears the identity-only debt the
+    SystemMapping row Step 8 recorded for this pair):
+    readMappingConstraint/writeMappingConstraint abstract-level helpers added and the
+    SystemMapping MAPPING-CONSTRAINTS dispatch now routes the ComponentClustering/
+    ComponentSeparation choice members through them (INTRODUCTION + VARIATION-POINT
+    round-trip). Referenced-but-missing class (Rule 0001.10, reported not blocking):
+    SwcToEcuMappingConstraint — third member of the XSD MAPPING-CONSTRAINTS choice
+    (AUTOSAR_00052.xsd line 118057), no model class exists; the reader/writer
+    else-branch warns notImplemented and stays. The `# Spec verified:` marker is
+    deferred to the batch 9b stamp per user instruction (Step 7 wrote the 6-column
+    checklist without it; audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22143 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit db9713318
 
 - [ ] `ComponentClustering` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.9, p.203
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

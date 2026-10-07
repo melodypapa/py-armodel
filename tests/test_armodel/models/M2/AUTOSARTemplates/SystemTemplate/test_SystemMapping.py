@@ -8,9 +8,7 @@ import typing
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
-    ComponentClustering,
     J1939ControllerApplicationToJ1939NmNodeMapping,
-    MappingConstraint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
@@ -46,7 +44,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
     EcuResourceEstimation,
+    MappingConstraint,
     SwcToApplicationPartitionMapping,
     SwcToEcuMapping,
     SwcToImplMapping,

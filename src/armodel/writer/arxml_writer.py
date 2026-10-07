@@ -572,8 +572,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsReliability,
     DdsTopicData,
     DdsTransportPriority,
-    ComponentClustering,
-    ComponentSeparation,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -1275,7 +1273,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
     ApplicationPartition,
     ApplicationPartitionToEcuPartitionMapping,
+    ComponentClustering,
+    ComponentSeparation,
     EcuResourceEstimation,
+    MappingConstraint,
     SwcToApplicationPartitionMapping,
     SwcToImplMapping,
 )
@@ -14233,6 +14234,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(mappings_tag, "J-1939-CONTROLLER-APPLICATION-TO-J-1939-NM-NODE-MAPPING")
                 self.writeARObject(child_element, j1939_mapping)
 
+    def writeMappingConstraint(self, element: ET.Element, mapping_constraint: MappingConstraint):
+        self.writeARObject(element, mapping_constraint)
+        self.writeDocumentationBlock(element, "INTRODUCTION", mapping_constraint.getIntroduction())
+        self.writeVariationPoint(element, mapping_constraint.getVariationPoint())
+
     def writeSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         constraints = mapping.getMappingConstraints()
         if len(constraints) > 0:
@@ -14240,10 +14246,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for constraint in constraints:
                 if isinstance(constraint, ComponentClustering):
                     child_element = ET.SubElement(mappings_tag, "COMPONENT-CLUSTERING")
-                    self.writeARObject(child_element, constraint)
+                    self.writeMappingConstraint(child_element, constraint)
                 elif isinstance(constraint, ComponentSeparation):
                     child_element = ET.SubElement(mappings_tag, "COMPONENT-SEPARATION")
-                    self.writeARObject(child_element, constraint)
+                    self.writeMappingConstraint(child_element, constraint)
                 else:
                     self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
 
