@@ -4273,8 +4273,9 @@ class ARXMLParser(AbstractARXMLParser):
             event.setTdEventType(enum)
 
     def readTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
-        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
+        self.readARObject(element, header_id_range)
         header_id_range.setMaxHeaderId(self.getChildElementOptionalIntegerValue(element, "MAX-HEADER-ID"))
+        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
 
     def readTDEventFrameEthernet(self, element: ET.Element, event: "TDEventFrameEthernet"):
         self.readTDEventCom(element, event)
@@ -4497,6 +4498,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTDEventOccurrenceExpressionFormula(self, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
         formula = TDEventOccurrenceExpressionFormula()
+        self.readARObject(element, formula)
         formula.setArgumentRef(self.getChildElementOptionalRefType(element, "ARGUMENT-REF"))
         formula.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
         formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))

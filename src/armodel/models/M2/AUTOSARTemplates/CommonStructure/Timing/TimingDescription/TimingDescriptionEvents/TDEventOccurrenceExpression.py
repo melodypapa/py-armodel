@@ -24,16 +24,16 @@ class TDEventOccurrenceExpressionFormula(FormulaExpression):
     # 2026-09-25 drift fix (Rule 0012.3): re-parented to FormulaExpression per spec Base row (most-derived) — see docs/plan/atp_mixed_string_hierarchy.md
     # (Referrable base dropped — spec Base row ARObject, FormulaExpression)
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # getMixedString / setMixedString provided by the AtpMixedString base (mixin) — no spec row (stereotype-inherent)
-    # [x] getArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVariableRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVariableRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArgumentRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArgumentRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariableRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -51,41 +51,65 @@ class TDEventOccurrenceExpressionFormula(FormulaExpression):
         self.variableRef: Optional[RefType] = None
 
     def getArgumentRef(self) -> Optional[RefType]:
-        """This is one particular argument value used in the expression formula."""
+        """
+        This is one particular argument value used in the expression formula.
+        """
         return self.argumentRef
 
     def setArgumentRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
-        """This is one particular argument value used in the expression formula. A None value is a no-op and does not overwrite an existing argumentRef."""
+        """
+        This is one particular argument value used in the expression formula.
+
+        A None value is a no-op and does not overwrite an existing argumentRef.
+        """
         if value is not None:
             self.argumentRef = value
         return self
 
     def getEventRef(self) -> Optional[RefType]:
-        """This is one particular timing description event used in the expression formula."""
+        """
+        This is one particular timing description event used in the expression formula.
+        """
         return self.eventRef
 
     def setEventRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
-        """This is one particular timing description event used in the expression formula. A None value is a no-op and does not overwrite an existing eventRef."""
+        """
+        This is one particular timing description event used in the expression formula.
+
+        A None value is a no-op and does not overwrite an existing eventRef.
+        """
         if value is not None:
             self.eventRef = value
         return self
 
     def getModeRef(self) -> Optional[RefType]:
-        """This is one particular mode used in the expression formula."""
+        """
+        This is one particular mode used in the expression formula.
+        """
         return self.modeRef
 
     def setModeRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
-        """This is one particular mode used in the expression formula. A None value is a no-op and does not overwrite an existing modeRef."""
+        """
+        This is one particular mode used in the expression formula.
+
+        A None value is a no-op and does not overwrite an existing modeRef.
+        """
         if value is not None:
             self.modeRef = value
         return self
 
     def getVariableRef(self) -> Optional[RefType]:
-        """This is one particular variable value used in the expression formula."""
+        """
+        This is one particular variable value used in the expression formula.
+        """
         return self.variableRef
 
     def setVariableRef(self, value: Optional[RefType]) -> TDEventOccurrenceExpressionFormula:
-        """This is one particular variable value used in the expression formula. A None value is a no-op and does not overwrite an existing variableRef."""
+        """
+        This is one particular variable value used in the expression formula.
+
+        A None value is a no-op and does not overwrite an existing variableRef.
+        """
         if value is not None:
             self.variableRef = value
         return self
@@ -100,19 +124,19 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
     # Spec: (XSD-only - AUTOSAR_00052.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group; no own AUTOSAR table)
     # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextComponentRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextComponentRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextPortPrototypeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextPortPrototypeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextOperationRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextOperationRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootArgumentDataPrototypeRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootArgumentDataPrototypeRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextOperationRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextOperationRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootArgumentDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootArgumentDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -136,61 +160,93 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         self.targetDataPrototypeRef: Optional[RefType] = None
 
     def getContextComponentRefs(self) -> List[RefType]:
-        """Specifies the SW component prototype representing the context."""
+        """
+        Specifies the SW component prototype representing the context.
+        """
         return self.contextComponentRefs
 
     def addContextComponentRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
+        """
+        Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.contextComponentRefs.append(value)
         return self
 
     def getContextPortPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the port prototype representing the context."""
+        """
+        Specifies the port prototype representing the context.
+        """
         return self.contextPortPrototypeRef
 
     def setContextPortPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortPrototypeRef."""
+        """
+        Specifies the port prototype representing the context.
+
+        A None value is a no-op and does not overwrite an existing contextPortPrototypeRef.
+        """
         if value is not None:
             self.contextPortPrototypeRef = value
         return self
 
     def getContextOperationRef(self) -> Optional[RefType]:
-        """Specifies the client server operation representing the context."""
+        """
+        Specifies the client server operation representing the context.
+        """
         return self.contextOperationRef
 
     def setContextOperationRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the client server operation representing the context. A None value is a no-op and does not overwrite an existing contextOperationRef."""
+        """
+        Specifies the client server operation representing the context.
+
+        A None value is a no-op and does not overwrite an existing contextOperationRef.
+        """
         if value is not None:
             self.contextOperationRef = value
         return self
 
     def getRootArgumentDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the root argument data prototype representing the context."""
+        """
+        Specifies the root argument data prototype representing the context.
+        """
         return self.rootArgumentDataPrototypeRef
 
     def setRootArgumentDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the root argument data prototype representing the context. A None value is a no-op and does not overwrite an existing rootArgumentDataPrototypeRef."""
+        """
+        Specifies the root argument data prototype representing the context.
+
+        A None value is a no-op and does not overwrite an existing rootArgumentDataPrototypeRef.
+        """
         if value is not None:
             self.rootArgumentDataPrototypeRef = value
         return self
 
     def getContextDataPrototypeRefs(self) -> List[RefType]:
-        """Specifies the application composite element data prototype representing the context."""
+        """
+        Specifies the application composite element data prototype representing the context.
+        """
         return self.contextDataPrototypeRefs
 
     def addContextDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything."""
+        """
+        Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
         return self
 
     def getTargetDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the target data prototype (the argument instance target)."""
+        """
+        Specifies the target data prototype (the argument instance target).
+        """
         return self.targetDataPrototypeRef
 
     def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> OperationArgumentInComponentInstanceRef:
-        """Specifies the target data prototype (the argument instance target). A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
+        """
+        Specifies the target data prototype (the argument instance target).
+
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeRef.
+        """
         if value is not None:
             self.targetDataPrototypeRef = value
         return self
@@ -210,18 +266,22 @@ class AutosarOperationArgumentInstance(Identifiable, VariationPointCapable):
     # [x] getOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef
         self.operationArgumentInstanceIRef: Optional[OperationArgumentInComponentInstanceRef] = None
 
     def getOperationArgumentInstanceIRef(self) -> Optional[OperationArgumentInComponentInstanceRef]:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef"""
+        """
+        This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef
+        """
         return self.operationArgumentInstanceIRef
 
     def setOperationArgumentInstanceIRef(self, value: Optional[OperationArgumentInComponentInstanceRef]) -> AutosarOperationArgumentInstance:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef."""
+        """
+        This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef.
+        """
         if value is not None:
             self.operationArgumentInstanceIRef = value
         return self
@@ -236,17 +296,17 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
     # Spec: (XSD-only - AUTOSAR_00052.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group; no own AUTOSAR table)
     # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextComponentRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextComponentRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextPortPrototypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextPortPrototypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootVariableDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootVariableDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextComponentRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextComponentRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootVariableDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootVariableDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -267,51 +327,77 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         self.targetDataPrototypeRef: Optional[RefType] = None
 
     def getContextComponentRefs(self) -> List[RefType]:
-        """Specifies the SW component prototype representing the context."""
+        """
+        Specifies the SW component prototype representing the context.
+        """
         return self.contextComponentRefs
 
     def addContextComponentRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
-        """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
+        """
+        Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.contextComponentRefs.append(value)
         return self
 
     def getContextPortPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the port prototype representing the context."""
+        """
+        Specifies the port prototype representing the context.
+        """
         return self.contextPortPrototypeRef
 
     def setContextPortPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
-        """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortPrototypeRef."""
+        """
+        Specifies the port prototype representing the context.
+
+        A None value is a no-op and does not overwrite an existing contextPortPrototypeRef.
+        """
         if value is not None:
             self.contextPortPrototypeRef = value
         return self
 
     def getRootVariableDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the root variable data prototype representing the context."""
+        """
+        Specifies the root variable data prototype representing the context.
+        """
         return self.rootVariableDataPrototypeRef
 
     def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
-        """Specifies the root variable data prototype representing the context. A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef."""
+        """
+        Specifies the root variable data prototype representing the context.
+
+        A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef.
+        """
         if value is not None:
             self.rootVariableDataPrototypeRef = value
         return self
 
     def getContextDataPrototypeRefs(self) -> List[RefType]:
-        """Specifies the application composite element data prototype representing the context."""
+        """
+        Specifies the application composite element data prototype representing the context.
+        """
         return self.contextDataPrototypeRefs
 
     def addContextDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
-        """Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything."""
+        """
+        Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.contextDataPrototypeRefs.append(value)
         return self
 
     def getTargetDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the target data prototype (the variable instance target)."""
+        """
+        Specifies the target data prototype (the variable instance target).
+        """
         return self.targetDataPrototypeRef
 
     def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> VariableInComponentInstanceRef:
-        """Specifies the target data prototype (the variable instance target). A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
+        """
+        Specifies the target data prototype (the variable instance target).
+
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeRef.
+        """
         if value is not None:
             self.targetDataPrototypeRef = value
         return self
@@ -324,25 +410,30 @@ class AutosarVariableInstance(Identifiable, VariationPointCapable):
 
     # AutosarVariableInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.52, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # variableInstanceIRef is an InstanceRef (VariableInComponentInstanceRef), read/written via its own reader/writer.
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getVariableInstanceIRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setVariableInstanceIRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVariableInstanceIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariableInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef
         self.variableInstanceIRef: Optional[VariableInComponentInstanceRef] = None
 
     def getVariableInstanceIRef(self) -> Optional[VariableInComponentInstanceRef]:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef."""
+        """
+        This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef.
+        """
         return self.variableInstanceIRef
 
     def setVariableInstanceIRef(self, value: Optional[VariableInComponentInstanceRef]) -> AutosarVariableInstance:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef. A None value is a no-op and does not overwrite an existing variableInstanceIRef."""
+        """
+        This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef.
+
+        A None value is a no-op and does not overwrite an existing variableInstanceIRef.
+        """
         if value is not None:
             self.variableInstanceIRef = value
         return self
@@ -355,17 +446,16 @@ class TDEventOccurrenceExpression(ARObject):
 
     # TDEventOccurrenceExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.50, p.84
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createArgument                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFormula                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFormula                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMode                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModes                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createVariable                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariables                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -383,7 +473,9 @@ class TDEventOccurrenceExpression(ARObject):
         self.variables: List[AutosarVariableInstance] = []
 
     def createArgument(self, parent, short_name: str) -> AutosarOperationArgumentInstance:
-        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression.
+        """
         for argument in self.arguments:
             if argument.getShortName() == short_name:
                 return argument
@@ -392,21 +484,31 @@ class TDEventOccurrenceExpression(ARObject):
         return argument
 
     def getArguments(self) -> List[AutosarOperationArgumentInstance]:
-        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression.
+        """
         return self.arguments
 
     def getFormula(self) -> Optional[TDEventOccurrenceExpressionFormula]:
-        """This is the expression formula which is used to describe the occurrence expression."""
+        """
+        This is the expression formula which is used to describe the occurrence expression.
+        """
         return self.formula
 
     def setFormula(self, value: Optional[TDEventOccurrenceExpressionFormula]) -> TDEventOccurrenceExpression:
-        """This is the expression formula which is used to describe the occurrence expression. A None value is a no-op and does not overwrite an existing formula."""
+        """
+        This is the expression formula which is used to describe the occurrence expression.
+
+        A None value is a no-op and does not overwrite an existing formula.
+        """
         if value is not None:
             self.formula = value
         return self
 
     def createMode(self, parent, short_name: str) -> TimingModeInstance:
-        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression.
+        """
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
 
         for mode in self.modes:
@@ -417,11 +519,15 @@ class TDEventOccurrenceExpression(ARObject):
         return mode
 
     def getModes(self) -> List[TimingModeInstance]:
-        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression.
+        """
         return self.modes
 
     def createVariable(self, parent, short_name: str) -> AutosarVariableInstance:
-        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression.
+        """
         for variable in self.variables:
             if variable.getShortName() == short_name:
                 return variable
@@ -430,5 +536,7 @@ class TDEventOccurrenceExpression(ARObject):
         return variable
 
     def getVariables(self) -> List[AutosarVariableInstance]:
-        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        """
+        An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression.
+        """
         return self.variables

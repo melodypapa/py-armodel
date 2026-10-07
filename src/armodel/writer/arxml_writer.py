@@ -5855,6 +5855,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(element, "TD-EVENT-TYPE", enum)
 
     def writeTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
+        self.writeARObject(element, header_id_range)
         self.setChildElementOptionalIntegerValue(element, "MAX-HEADER-ID", header_id_range.getMaxHeaderId())
         self.setChildElementOptionalIntegerValue(element, "MIN-HEADER-ID", header_id_range.getMinHeaderId())
 
@@ -5998,6 +5999,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeAutosarVariableInstance(variable_tag, variable)
 
     def writeTDEventOccurrenceExpressionFormula(self, element: ET.Element, formula: TDEventOccurrenceExpressionFormula):
+        self.writeARObject(element, formula)
         self.setChildElementOptionalRefType(element, "ARGUMENT-REF", formula.getArgumentRef())
         self.setChildElementOptionalRefType(element, "EVENT-REF", formula.getEventRef())
         self.setChildElementOptionalRefType(element, "MODE-REF", formula.getModeRef())
