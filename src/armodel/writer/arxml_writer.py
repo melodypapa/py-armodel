@@ -1315,6 +1315,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10779,6 +10780,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "SDU-REF", ref)
 
+    def writeIEEE1722TpCrfConnection(self, element: ET.Element, connection: IEEE1722TpCrfConnection):
+        self.logger.debug("Write IEEE1722TpCrfConnection <%s>" % connection.getShortName())
+        child_element = ET.SubElement(element, "IEEE-1722-TP-CRF-CONNECTION")
+        self.writeIEEE1722TpAvConnection(child_element, connection)
+        self.setChildElementOptionalPositiveInteger(child_element, "BASE-FREQUENCY", cast(Integer, connection.getBaseFrequency()))
+        crf_pull = connection.getCrfPull()
+        if crf_pull is not None:
+            crf_pull_element = ET.SubElement(child_element, "CRF-PULL")
+            crf_pull_element.text = crf_pull.getValue()
+        crf_type = connection.getCrfType()
+        if crf_type is not None:
+            crf_type_element = ET.SubElement(child_element, "CRF-TYPE")
+            crf_type_element.text = crf_type.getValue()
+        self.setChildElementOptionalBooleanValue(child_element, "FRAME-SYNC-ENABLED", connection.getFrameSyncEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "TIMESTAMP-INTERVAL", cast(Integer, connection.getTimestampInterval()))
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -19083,6 +19100,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEthTpConfig(element, ar_element)
         elif isinstance(ar_element, SomeipTpConfig):
             self.writeSomeipTpConfig(element, ar_element)
+        elif isinstance(ar_element, IEEE1722TpCrfConnection):
+            self.writeIEEE1722TpCrfConnection(element, ar_element)
         elif isinstance(ar_element, IEEE1722TpConfig):
             self.writeIEEE1722TpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):

@@ -3,7 +3,15 @@
 
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+    Boolean,
+    PositiveInteger,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp import IEEE1722TpAvConnection
 
 
 class IEEE1722TpCrfTypeEnum(AREnum):
@@ -84,3 +92,118 @@ class IEEE1722TpCrfPullEnum(AREnum):
                 IEEE1722TpCrfPullEnum.ENUM_25_24,
             ]
         )
+
+
+class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
+    """
+    AV IEEE1722Tp CRF connection. Tags: atp.Status=candidate atp.recommendedPackage=IEEE1722TpConnections
+    """
+
+    # IEEE1722TpCrfConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.277, p.640
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseFrequency         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseFrequency         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrfPull               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrfPull               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCrfType               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCrfType               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrameSyncEnabled      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrameSyncEnabled      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimestampInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimestampInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base row: ARElement, ARObject, CollectableElement, IEEE1722TpAvConnection, IEEE1722TpConnection, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # CRF base frequency in Hz. Tags: atp.Status=candidate
+        self.baseFrequency: Optional[PositiveInteger] = None
+
+        # Definition of the CRF stream pull value.
+        self.crfPull: Optional[IEEE1722TpCrfPullEnum] = None
+
+        # Definition of the CRF stream type.
+        self.crfType: Optional[IEEE1722TpCrfTypeEnum] = None
+
+        # Defines whether the "fs" (frame sync) shall be enabled. Tags: atp.Status=candidate
+        self.frameSyncEnabled: Optional[Boolean] = None
+
+        # CRF timestamp interval as multiple of the baseFrequency. Tags: atp.Status=candidate
+        self.timestampInterval: Optional[PositiveInteger] = None
+
+    def getBaseFrequency(self) -> Optional[PositiveInteger]:
+        """
+        CRF base frequency in Hz. Tags: atp.Status=candidate
+        """
+        return self.baseFrequency
+
+    def setBaseFrequency(self, value: Optional[PositiveInteger]) -> IEEE1722TpCrfConnection:
+        """
+        CRF base frequency in Hz. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing baseFrequency.
+        """
+        if value is not None:
+            self.baseFrequency = value
+        return self
+
+    def getCrfPull(self) -> Optional[IEEE1722TpCrfPullEnum]:
+        """
+        Definition of the CRF stream pull value.
+        """
+        return self.crfPull
+
+    def setCrfPull(self, value: Optional[IEEE1722TpCrfPullEnum]) -> IEEE1722TpCrfConnection:
+        """
+        Definition of the CRF stream pull value.
+        A None value is a no-op and does not overwrite an existing crfPull.
+        """
+        if value is not None:
+            self.crfPull = value
+        return self
+
+    def getCrfType(self) -> Optional[IEEE1722TpCrfTypeEnum]:
+        """
+        Definition of the CRF stream type.
+        """
+        return self.crfType
+
+    def setCrfType(self, value: Optional[IEEE1722TpCrfTypeEnum]) -> IEEE1722TpCrfConnection:
+        """
+        Definition of the CRF stream type.
+        A None value is a no-op and does not overwrite an existing crfType.
+        """
+        if value is not None:
+            self.crfType = value
+        return self
+
+    def getFrameSyncEnabled(self) -> Optional[Boolean]:
+        """
+        Defines whether the "fs" (frame sync) shall be enabled. Tags: atp.Status=candidate
+        """
+        return self.frameSyncEnabled
+
+    def setFrameSyncEnabled(self, value: Optional[Boolean]) -> IEEE1722TpCrfConnection:
+        """
+        Defines whether the "fs" (frame sync) shall be enabled. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing frameSyncEnabled.
+        """
+        if value is not None:
+            self.frameSyncEnabled = value
+        return self
+
+    def getTimestampInterval(self) -> Optional[PositiveInteger]:
+        """
+        CRF timestamp interval as multiple of the baseFrequency. Tags: atp.Status=candidate
+        """
+        return self.timestampInterval
+
+    def setTimestampInterval(self, value: Optional[PositiveInteger]) -> IEEE1722TpCrfConnection:
+        """
+        CRF timestamp interval as multiple of the baseFrequency. Tags: atp.Status=candidate
+        A None value is a no-op and does not overwrite an existing timestampInterval.
+        """
+        if value is not None:
+            self.timestampInterval = value
+        return self

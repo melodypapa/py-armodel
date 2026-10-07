@@ -2456,6 +2456,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(IEEE1722TpConfig, self.getReferrableElement(short_name, IEEE1722TpConfig))
 
+    def createIEEE1722TpCrfConnection(self, short_name: str) -> IEEE1722TpCrfConnection:
+
+        if not self.IsReferrableElementExists(short_name, IEEE1722TpCrfConnection):
+            element = IEEE1722TpCrfConnection(self, short_name)
+            self.addReferrableElement(element)
+        return cast(IEEE1722TpCrfConnection, self.getReferrableElement(short_name, IEEE1722TpCrfConnection))
+
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
         Creates a new CAN Frame with the given short name,
@@ -5115,6 +5122,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData  # noqa: E402
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod  # noqa: E402
@@ -11557,10 +11565,6 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
 
 
 class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
-    pass
-
-
-class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
     pass
 
 

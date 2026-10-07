@@ -1574,6 +1574,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     IEEE1722TpConfig,
     IEEE1722TpConnection,
     IEEE1722TpAvConnection,
+    IEEE1722TpCrfConnection,
+    IEEE1722TpCrfPullEnum,
+    IEEE1722TpCrfTypeEnum,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14528,6 +14531,22 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "SDU-REFS/SDU-REF"):
             connection.addSduRef(ref)
 
+    def readIEEE1722TpCrfConnection(self, element: ET.Element, connection: IEEE1722TpCrfConnection):
+        self.readIEEE1722TpAvConnection(element, connection)
+        connection.setBaseFrequency(self.getChildElementOptionalPositiveInteger(element, "BASE-FREQUENCY"))
+        crf_pull_literal = self.getChildElementOptionalLiteral(element, "CRF-PULL")
+        if crf_pull_literal is not None:
+            crf_pull = IEEE1722TpCrfPullEnum()
+            crf_pull.setValue(crf_pull_literal.getValue())
+            connection.setCrfPull(crf_pull)
+        crf_type_literal = self.getChildElementOptionalLiteral(element, "CRF-TYPE")
+        if crf_type_literal is not None:
+            crf_type = IEEE1722TpCrfTypeEnum()
+            crf_type.setValue(crf_type_literal.getValue())
+            connection.setCrfType(crf_type)
+        connection.setFrameSyncEnabled(self.getChildElementOptionalBooleanValue(element, "FRAME-SYNC-ENABLED"))
+        connection.setTimestampInterval(self.getChildElementOptionalPositiveInteger(element, "TIMESTAMP-INTERVAL"))
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18676,6 +18695,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
             elif tag_name == "IEEE-1722-TP-CONFIG":
                 self.readIEEE1722TpConfig(child_element, parent.createIEEE1722TpConfig(self.getShortName(child_element)))
+            elif tag_name == "IEEE-1722-TP-CRF-CONNECTION":
+                self.readIEEE1722TpCrfConnection(child_element, parent.createIEEE1722TpCrfConnection(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)
