@@ -423,34 +423,30 @@ class SdgDef(ARElement):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.24, p.99
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getSdgClasses   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addSdgClass     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgClasses   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # The owned sdgClasses which define the structure of the Sdgs
+        # The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
         self.sdgClasses: List[SdgClass] = []
+
+    def addSdgClass(self, value: SdgClass):
+        """
+        The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.sdgClasses.append(value)
+        return self
 
     def getSdgClasses(self) -> List[SdgClass]:
         """
-        The owned sdgClasses which define the structure of the Sdgs
+        The owned sdgClasses which define the structure of the Sdgs Tags: xml.namePlural=SDG-CLASSES
 
         Returns:
             The list of owned Sdg classes
         """
         return self.sdgClasses
-
-    def addSdgClass(self, value: SdgClass):
-        """
-        The owned sdgClasses which define the structure of the Sdgs
-
-        Args:
-            value: The Sdg class to append
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.sdgClasses.append(value)
-        return self
