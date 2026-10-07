@@ -4,8 +4,8 @@ Writer tests for DDS-CP-QOS-PROFILE elements — DdsCpQosProfile, Table 6.179 (p
 writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
 (AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
-elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability children serialize
-fully.
+elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService
+children serialize fully.
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -15,9 +15,9 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsHistory, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DdsDurabilityKindEnum, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DdsDurabilityKindEnum, DdsDurabilityServiceHistoryKindEnum, Float, PositiveInteger, String
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -37,6 +37,11 @@ def _new_profile() -> DdsCpQosProfile:
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
+    durability_service = DdsDurabilityService()
+    durability_service.setDurabilityServiceCleanupDelay(Float().setValue("2.5"))
+    durability_service.setDurabilityServiceHistoryKind(DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST))
+    durability_service.setDurabilityServiceMaxSamples(PositiveInteger().setValue("16"))
+    profile.setDurabilityService(durability_service)
     profile.setHistory(DdsHistory())
     topic_data = DdsTopicData()
     topic_data.setTopicData(String().setValue("raw payload"))
@@ -73,6 +78,17 @@ class TestWriteDdsCpQosProfile:
         assert durability_node is not None
         assert durability_node.find("DURABILITY-KIND").text == "TRANSIENT-LOCAL"
 
+    def test_write_emits_durability_service_fully(self):
+        """Test that the synced DdsDurabilityService child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        durability_service_node = node.find("DURABILITY-SERVICE")
+        assert durability_service_node is not None
+        assert durability_service_node.find("DURABILITY-SERVICE-CLEANUP-DELAY").text == "2.5"
+        assert durability_service_node.find("DURABILITY-SERVICE-HISTORY-KIND").text == "KEEP-LAST"
+        assert durability_service_node.find("DURABILITY-SERVICE-MAX-SAMPLES").text == "16"
+
     def test_write_emits_topic_data_fully(self):
         """Test that the synced DdsTopicData child serializes with its values."""
         parent = ET.Element("PARENT")
@@ -104,5 +120,9 @@ class TestWriteDdsCpQosProfile:
         assert isinstance(reloaded.getDurability(), DdsDurability)
         assert reloaded.getDurability().getDurabilityKind() is not None
         assert reloaded.getDurability().getDurabilityKind().getValue() == "TRANSIENT-LOCAL"
+        assert isinstance(reloaded.getDurabilityService(), DdsDurabilityService)
+        assert reloaded.getDurabilityService().getDurabilityServiceCleanupDelay().getValue() == 2.5
+        assert reloaded.getDurabilityService().getDurabilityServiceHistoryKind().getValue() == "KEEP-LAST"
+        assert reloaded.getDurabilityService().getDurabilityServiceMaxSamples().getValue() == 16
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

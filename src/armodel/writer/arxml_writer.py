@@ -560,6 +560,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDurability,
+    DdsDurabilityService,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -1358,6 +1359,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
     "TRANSIENT": "TRANSIENT",
     "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
     "VOLATILE": "VOLATILE",
+}
+
+#: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -15680,7 +15688,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getDurability() is not None:
             self.writeDdsDurability(child_element, profile.getDurability())
         if profile.getDurabilityService() is not None:
-            ET.SubElement(child_element, "DURABILITY-SERVICE")
+            self.writeDdsDurabilityService(child_element, profile.getDurabilityService())
         if profile.getHistory() is not None:
             ET.SubElement(child_element, "HISTORY")
         if profile.getLatencyBudget() is not None:
@@ -15717,6 +15725,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DURABILITY")
         self.writeARObject(child_element, durability)
         self._writeEnumToken(child_element, "DURABILITY-KIND", durability.getDurabilityKind(), DDS_DURABILITY_KIND_XML_MAP)
+
+    def writeDdsDurabilityService(self, element: ET.Element, durability_service: DdsDurabilityService):
+        child_element = ET.SubElement(element, "DURABILITY-SERVICE")
+        self.writeARObject(child_element, durability_service)
+        self.setChildElementOptionalFloatValue(child_element, "DURABILITY-SERVICE-CLEANUP-DELAY", durability_service.getDurabilityServiceCleanupDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-HISTORY-DEPTH", durability_service.getDurabilityServiceHistoryDepth())
+        self._writeEnumToken(child_element, "DURABILITY-SERVICE-HISTORY-KIND", durability_service.getDurabilityServiceHistoryKind(), DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-INSTANCES", durability_service.getDurabilityServiceMaxInstances())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES", durability_service.getDurabilityServiceMaxSamples())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE", durability_service.getDurabilityServiceMaxSamplesPerInstance())
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

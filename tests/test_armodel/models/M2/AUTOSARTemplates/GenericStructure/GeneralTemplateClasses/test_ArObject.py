@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsCpServiceInstanceEvent,
     DdsCpServiceInstanceOperation,
     DdsDurability,
+    DdsDurabilityService,
     DdsTopicData,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
@@ -46,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ByteOrderEnum,
     DateTime,
     DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -61,6 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    Float,
     NameToken,
     PositiveInteger,
     RefType,
@@ -3419,3 +3422,167 @@ class TestDdsDurability:
         """
         assert inspect.cleandoc(DdsDurability.getDurabilityKind.__doc__) == self.DURABILITY_KIND_NOTE
         assert inspect.cleandoc(DdsDurability.setDurabilityKind.__doc__) == (self.DURABILITY_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing durabilityKind.")
+
+
+class TestDdsDurabilityService:
+    """
+    Test class for DdsDurabilityService functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.183, p.531
+    """
+
+    CLASS_NOTE = "Describes the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate"
+    CLEANUP_DELAY_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate'
+    HISTORY_DEPTH_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    HISTORY_KIND_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_INSTANCES_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_SAMPLES_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+    MAX_SAMPLES_PER_INSTANCE_NOTE = 'See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate'
+
+    def _create_durability_service(self) -> DdsDurabilityService:
+        return DdsDurabilityService()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsDurabilityService initializes all attributes to their defaults.
+        """
+        obj = self._create_durability_service()
+
+        assert obj.getDurabilityServiceCleanupDelay() is None
+        assert obj.getDurabilityServiceHistoryDepth() is None
+        assert obj.getDurabilityServiceHistoryKind() is None
+        assert obj.getDurabilityServiceMaxInstances() is None
+        assert obj.getDurabilityServiceMaxSamples() is None
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsDurabilityService derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsDurabilityService, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsDurabilityService.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsDurabilityService.__init__.__doc__ is None
+
+    def test_get_set_durability_service_cleanup_delay(self):
+        """
+        Test getDurabilityServiceCleanupDelay and setDurabilityServiceCleanupDelay round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = Float().setValue("1.5")
+        result = obj.setDurabilityServiceCleanupDelay(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceCleanupDelay() is value
+        assert obj.getDurabilityServiceCleanupDelay().getValue() == 1.5
+
+        result = obj.setDurabilityServiceCleanupDelay(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceCleanupDelay() is value  # None is a no-op
+
+    def test_get_set_durability_service_history_depth(self):
+        """
+        Test getDurabilityServiceHistoryDepth and setDurabilityServiceHistoryDepth round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setDurabilityServiceHistoryDepth(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceHistoryDepth() is value
+        assert obj.getDurabilityServiceHistoryDepth().getValue() == 4
+
+        result = obj.setDurabilityServiceHistoryDepth(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceHistoryDepth() is value  # None is a no-op
+
+    def test_get_set_durability_service_history_kind(self):
+        """
+        Test getDurabilityServiceHistoryKind and setDurabilityServiceHistoryKind round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST)
+        result = obj.setDurabilityServiceHistoryKind(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceHistoryKind() is value
+        assert obj.getDurabilityServiceHistoryKind().getValue() == DdsDurabilityServiceHistoryKindEnum.KEEP_LAST
+
+        result = obj.setDurabilityServiceHistoryKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceHistoryKind() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_instances(self):
+        """
+        Test getDurabilityServiceMaxInstances and setDurabilityServiceMaxInstances round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("8")
+        result = obj.setDurabilityServiceMaxInstances(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxInstances() is value
+        assert obj.getDurabilityServiceMaxInstances().getValue() == 8
+
+        result = obj.setDurabilityServiceMaxInstances(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxInstances() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_samples(self):
+        """
+        Test getDurabilityServiceMaxSamples and setDurabilityServiceMaxSamples round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("16")
+        result = obj.setDurabilityServiceMaxSamples(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxSamples() is value
+        assert obj.getDurabilityServiceMaxSamples().getValue() == 16
+
+        result = obj.setDurabilityServiceMaxSamples(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxSamples() is value  # None is a no-op
+
+    def test_get_set_durability_service_max_samples_per_instance(self):
+        """
+        Test getDurabilityServiceMaxSamplesPerInstance and setDurabilityServiceMaxSamplesPerInstance round-trip and None no-op.
+        """
+        obj = self._create_durability_service()
+
+        value = PositiveInteger().setValue("32")
+        result = obj.setDurabilityServiceMaxSamplesPerInstance(value)
+        assert result is obj  # method chaining
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is value
+        assert obj.getDurabilityServiceMaxSamplesPerInstance().getValue() == 32
+
+        result = obj.setDurabilityServiceMaxSamplesPerInstance(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDurabilityServiceMaxSamplesPerInstance() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceCleanupDelay.__doc__) == self.CLEANUP_DELAY_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceCleanupDelay.__doc__) == (self.CLEANUP_DELAY_NOTE + none_no_op % "durabilityServiceCleanupDelay")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceHistoryDepth.__doc__) == self.HISTORY_DEPTH_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceHistoryDepth.__doc__) == (self.HISTORY_DEPTH_NOTE + none_no_op % "durabilityServiceHistoryDepth")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceHistoryKind.__doc__) == self.HISTORY_KIND_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "durabilityServiceHistoryKind")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxInstances.__doc__) == self.MAX_INSTANCES_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxInstances.__doc__) == (self.MAX_INSTANCES_NOTE + none_no_op % "durabilityServiceMaxInstances")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxSamples.__doc__) == self.MAX_SAMPLES_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamples.__doc__) == (self.MAX_SAMPLES_NOTE + none_no_op % "durabilityServiceMaxSamples")
+        assert inspect.cleandoc(DdsDurabilityService.getDurabilityServiceMaxSamplesPerInstance.__doc__) == self.MAX_SAMPLES_PER_INSTANCE_NOTE
+        assert inspect.cleandoc(DdsDurabilityService.setDurabilityServiceMaxSamplesPerInstance.__doc__) == (self.MAX_SAMPLES_PER_INSTANCE_NOTE + none_no_op % "durabilityServiceMaxSamplesPerInstance")

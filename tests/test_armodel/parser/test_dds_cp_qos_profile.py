@@ -9,9 +9,9 @@ read via readIdentifiable; group members DEADLINE, DESTINATION-ORDER, DURABILITY
 DURABILITY-SERVICE, HISTORY, LATENCY-BUDGET, LIFESPAN, LIVELINESS, OWNERSHIP,
 OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY).
 
-The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, and DdsDurability,
-synced Table 6.181) are still unsynced stubs — the reader serializes them identity-only
-(Rule 0001.7 debt).
+The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, DdsDurability,
+synced Table 6.181, and DdsDurabilityService, synced Table 6.183) are still unsynced stubs —
+the reader serializes them identity-only (Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -21,7 +21,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsHistory, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 
 NS = "http://autosar.org/schema/r4.0"
@@ -63,6 +63,21 @@ class TestReadDdsCpQosProfile:
         assert isinstance(profile.getDurability(), DdsDurability)
         assert profile.getDurability().getDurabilityKind() is not None
         assert profile.getDurability().getDurabilityKind().getValue() == "TRANSIENT-LOCAL"
+
+    def test_read_sets_durability_service_with_values(self, parser):
+        """Test that the synced DdsDurabilityService child is read with its field values."""
+        profile = self._read(
+            parser,
+            "<DURABILITY-SERVICE>"
+            "<DURABILITY-SERVICE-CLEANUP-DELAY>2.5</DURABILITY-SERVICE-CLEANUP-DELAY>"
+            "<DURABILITY-SERVICE-HISTORY-KIND>KEEP-LAST</DURABILITY-SERVICE-HISTORY-KIND>"
+            "<DURABILITY-SERVICE-MAX-SAMPLES>16</DURABILITY-SERVICE-MAX-SAMPLES>"
+            "</DURABILITY-SERVICE>",
+        )
+        assert isinstance(profile.getDurabilityService(), DdsDurabilityService)
+        assert profile.getDurabilityService().getDurabilityServiceCleanupDelay().getValue() == 2.5
+        assert profile.getDurabilityService().getDurabilityServiceHistoryKind().getValue() == "KEEP-LAST"
+        assert profile.getDurabilityService().getDurabilityServiceMaxSamples().getValue() == 16
 
     def test_read_sets_topic_data_with_values(self, parser):
         """Test that the synced DdsTopicData child is read with its field values (TOPIC-DATA nested same-name shape)."""

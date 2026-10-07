@@ -774,6 +774,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CategoryString,
     DateTime,
     DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -1637,6 +1638,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
     "TRANSIENT": "TRANSIENT",
     "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
     "VOLATILE": "VOLATILE",
+}
+
+#: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -11918,8 +11926,11 @@ class ARXMLParser(AbstractARXMLParser):
             durability = DdsDurability()
             self.readDdsDurability(durability_element, durability)
             profile.setDurability(durability)
-        if self.find(element, "DURABILITY-SERVICE") is not None:
-            profile.setDurabilityService(DdsDurabilityService())
+        durability_service_element = self.find(element, "DURABILITY-SERVICE")
+        if durability_service_element is not None:
+            durability_service = DdsDurabilityService()
+            self.readDdsDurabilityService(durability_service_element, durability_service)
+            profile.setDurabilityService(durability_service)
         if self.find(element, "HISTORY") is not None:
             profile.setHistory(DdsHistory())
         if self.find(element, "LATENCY-BUDGET") is not None:
@@ -11959,6 +11970,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsDurability")
         self.readARObject(element, durability)
         durability.setDurabilityKind(self._readEnumToken(element, "DURABILITY-KIND", DdsDurabilityKindEnum, DDS_DURABILITY_KIND_XML_MAP))
+
+    def readDdsDurabilityService(self, element: ET.Element, durability_service: DdsDurabilityService):
+        self.logger.debug("Read DdsDurabilityService")
+        self.readARObject(element, durability_service)
+        durability_service.setDurabilityServiceCleanupDelay(self.getChildElementOptionalFloatValue(element, "DURABILITY-SERVICE-CLEANUP-DELAY"))
+        durability_service.setDurabilityServiceHistoryDepth(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-HISTORY-DEPTH"))
+        durability_service.setDurabilityServiceHistoryKind(
+            self._readEnumToken(element, "DURABILITY-SERVICE-HISTORY-KIND", DdsDurabilityServiceHistoryKindEnum, DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP)
+        )
+        durability_service.setDurabilityServiceMaxInstances(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-INSTANCES"))
+        durability_service.setDurabilityServiceMaxSamples(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES"))
+        durability_service.setDurabilityServiceMaxSamplesPerInstance(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

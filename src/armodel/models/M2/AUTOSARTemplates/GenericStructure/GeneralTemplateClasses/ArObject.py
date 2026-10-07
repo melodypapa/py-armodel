@@ -2649,7 +2649,143 @@ class DdsDurability(ARObject):
 
 
 class DdsDurabilityService(ARObject):
-    pass
+    """
+    Describes the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDurabilityService method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.183, p.531
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceCleanupDelay          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceCleanupDelay          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceHistoryDepth          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceHistoryDepth          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceHistoryKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceHistoryKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxInstances          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxSamples            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxSamples            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxSamplesPerInstance [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxSamplesPerInstance [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.durabilityServiceCleanupDelay: Optional[Float] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceHistoryDepth: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceHistoryKind: Optional[DdsDurabilityServiceHistoryKindEnum] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxInstances: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxSamples: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxSamplesPerInstance: Optional[PositiveInteger] = None
+
+    def getDurabilityServiceCleanupDelay(self) -> Optional[Float]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceCleanupDelay
+
+    def setDurabilityServiceCleanupDelay(self, value: Optional[Float]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceCleanupDelay.
+        """
+        if value is not None:
+            self.durabilityServiceCleanupDelay = value
+        return self
+
+    def getDurabilityServiceHistoryDepth(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceHistoryDepth
+
+    def setDurabilityServiceHistoryDepth(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceHistoryDepth.
+        """
+        if value is not None:
+            self.durabilityServiceHistoryDepth = value
+        return self
+
+    def getDurabilityServiceHistoryKind(self) -> Optional[DdsDurabilityServiceHistoryKindEnum]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceHistoryKind
+
+    def setDurabilityServiceHistoryKind(self, value: Optional[DdsDurabilityServiceHistoryKindEnum]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceHistoryKind.
+        """
+        if value is not None:
+            self.durabilityServiceHistoryKind = value
+        return self
+
+    def getDurabilityServiceMaxInstances(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxInstances
+
+    def setDurabilityServiceMaxInstances(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxInstances.
+        """
+        if value is not None:
+            self.durabilityServiceMaxInstances = value
+        return self
+
+    def getDurabilityServiceMaxSamples(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxSamples
+
+    def setDurabilityServiceMaxSamples(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxSamples.
+        """
+        if value is not None:
+            self.durabilityServiceMaxSamples = value
+        return self
+
+    def getDurabilityServiceMaxSamplesPerInstance(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxSamplesPerInstance
+
+    def setDurabilityServiceMaxSamplesPerInstance(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxSamplesPerInstance.
+        """
+        if value is not None:
+            self.durabilityServiceMaxSamplesPerInstance = value
+        return self
 
 
 class DdsHistory(ARObject):
@@ -2991,6 +3127,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -3006,6 +3143,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    Float,
     Identifier,
     NameToken,
     PositiveInteger,
