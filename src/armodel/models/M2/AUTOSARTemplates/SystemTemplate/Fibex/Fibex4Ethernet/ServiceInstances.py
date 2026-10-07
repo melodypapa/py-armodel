@@ -1085,17 +1085,16 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
 
     # SomeipSdClientEventGroupTimingConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.173, p.521
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRequestResponseDelay               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequestResponseDelay               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubscribeEventgroupRetryDelay      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSubscribeEventgroupRetryDelay      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSubscribeEventgroupRetryMax        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSubscribeEventgroupRetryMax        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeToLive                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeToLive                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequestResponseDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestResponseDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubscribeEventgroupRetryDelay   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubscribeEventgroupRetryDelay   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSubscribeEventgroupRetryMax     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSubscribeEventgroupRetryMax     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeToLive                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeToLive                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

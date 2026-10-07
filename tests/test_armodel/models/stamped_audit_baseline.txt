@@ -305,7 +305,6 @@ SignalServiceTranslationPropsSet
 SingleLanguageUnitNames
 SocketConnection
 SocketConnectionIpduIdentifier
-SomeipSdClientEventGroupTimingConfig
 SomeipSdClientServiceInstanceConfig
 SomeipServiceVersion
 SporadicEventTriggering

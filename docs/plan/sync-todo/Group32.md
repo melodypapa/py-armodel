@@ -775,15 +775,30 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SomeipSdClientEventGroupTimingConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.173, p.521
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification + drift pass. Field-to-spec cross-check (both directions) clean: all 4 Table 6.173
+    attrs modeled in displayed order (requestResponseDelay RequestResponseDelay 0..1 aggr — non-Referrable
+    child → set/get shape; subscribeEventgroupRetryDelay TimeValue; subscribeEventgroupRetryMax
+    PositiveInteger; timeToLive PositiveInteger); Base most-derived = ARElement ✓; class/attr `Note`s
+    verbatim incl. the `Tags: atp.recommendedPackage=SomeipSdTimingConfigs` tail; not VP-capable (no
+    VARIATION-POINT in XSD group, l.110389). Aggregated by ARPackage.element — factory/reader/writer
+    dispatch pre-existed. Drift fixed: (1) Rule 0023 legacy 5-column checklist with stale
+    `# Spec verified: R23-11` — marker removed, block rewritten 6-column, no stamp (9b deferred);
+    (2) parser/writer element tag `SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG` corrected to the XSD name
+    `SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG` (AUTOSAR_00052.xsd l.5465/l.110424) in the
+    readARPackageElementsRest branch, writeSomeipSdClientEventGroupTimingConfig, and the writer/dispatch
+    tests. Identity debt (Rule 0001.7) resolved: ConsumedEventGroup sdClientTimerConfigRef round-trip test
+    upgraded to also serialize the referenced config element and assert its field values (writer
+    test_someip_sd_client_event_group_timing_config.py). Audit PASS (STAMP INFO = expected pre-9b state);
+    stamped-audit baseline refreshed (entry drained). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.175, p.526
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
