@@ -7684,7 +7684,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         self.writeIdentifiable(element, instance)
         self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", cast(Integer, instance.getArraySize()))
-        self.setChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER", instance.getDisplayIdentifier())
+        self.setChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER", instance.getDisplayIdentifier())
         self.setChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF", instance.getFlatMapEntryRef())
         instance_in_memory = instance.getInstanceInMemory()
         if instance_in_memory is not None:

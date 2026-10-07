@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     IntervalTypeEnum,
     Limit,
     MacAddressString,
+    McdIdentifier,
     NameToken,
     Numerical,
     PositiveInteger,
@@ -254,6 +255,15 @@ class AbstractARXMLParser(ABC):
             self.readARType(child_element, category)
             category.setValue("" if child_element.text is None else child_element.text)
         return category
+
+    def getChildElementOptionalMcdIdentifier(self, element: ET.Element, key: str) -> Optional[McdIdentifier]:
+        child_element = self.find(element, key)
+        identifier = None
+        if child_element is not None:
+            identifier = McdIdentifier()
+            self.readARType(child_element, identifier)
+            identifier.setValue("" if child_element.text is None else child_element.text)
+        return identifier
 
     def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> Optional[NameToken]:
         child_element = self.find(element, key)

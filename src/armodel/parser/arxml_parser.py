@@ -812,7 +812,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip4AddressString,
     Ip6AddressString,
     Limit,
-    McdIdentifier,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
@@ -6102,7 +6101,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
-        instance.setDisplayIdentifier(cast(Optional[McdIdentifier], self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER")))
+        instance.setDisplayIdentifier(self.getChildElementOptionalMcdIdentifier(element, "DISPLAY-IDENTIFIER"))
         instance.setFlatMapEntryRef(self.getChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF"))
         instance_in_memory_element = self.find(element, "INSTANCE-IN-MEMORY")
         if instance_in_memory_element is not None:
