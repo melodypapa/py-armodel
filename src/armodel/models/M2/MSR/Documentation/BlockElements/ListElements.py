@@ -377,13 +377,12 @@ class DefItem(ARObject, VariationPointCapable):
 
     # DefItem method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.16, p.298
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
