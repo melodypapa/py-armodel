@@ -129,7 +129,8 @@ class SdgClass(SdgElementWithGid, Identifiable):
         Returns:
             self for method chaining
         """
-        self.extendsMetaClass = value
+        if value is not None:
+            self.extendsMetaClass = value
         return self
 
     def getCaption(self) -> Optional[Boolean]:
@@ -151,7 +152,8 @@ class SdgClass(SdgElementWithGid, Identifiable):
         Returns:
             self for method chaining
         """
-        self.caption = value
+        if value is not None:
+            self.caption = value
         return self
 
     def getAttributes(self) -> List[SdgAttribute]:
@@ -173,7 +175,8 @@ class SdgClass(SdgElementWithGid, Identifiable):
         Returns:
             self for method chaining
         """
-        self.attributes.append(value)
+        if value is not None:
+            self.attributes.append(value)
         return self
 
     def getSdgConstraintRefs(self) -> List[RefType]:
@@ -195,7 +198,8 @@ class SdgClass(SdgElementWithGid, Identifiable):
         Returns:
             self for method chaining
         """
-        self.sdgConstraintRefs.append(value)
+        if value is not None:
+            self.sdgConstraintRefs.append(value)
         return self
 
 
