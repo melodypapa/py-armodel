@@ -1222,7 +1222,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
@@ -12927,6 +12927,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(cond_tag, "TIME-TRIGGERED-CAN-LEVEL", cast(Integer, controller.getTimeTriggeredCanLevel()))
         self.setChildElementOptionalIntegerValue(cond_tag, "TX-ENABLE-WINDOW-LENGTH", cast(Integer, controller.getTxEnableWindowLength()))
 
+    def writeUserDefinedCommunicationController(self, element: ET.Element, controller: UserDefinedCommunicationController):
+        if controller is not None:
+            self.logger.debug("Write UserDefinedCommunicationController %s" % controller.getShortName())
+            child_element = ET.SubElement(element, "USER-DEFINED-COMMUNICATION-CONTROLLER")
+            self.writeIdentifiable(child_element, controller)
+
+            child_element = ET.SubElement(child_element, "USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS")
+            child_element = ET.SubElement(child_element, "USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL")
+            self.writeCommunicationController(child_element, controller)
+
     def writeCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.writeIdentifiable(element, item)
 
@@ -13343,6 +13353,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFlexrayCommunicationController(child_element, controller)
                 elif isinstance(controller, TtcanCommunicationController):
                     self.writeTtcanCommunicationController(child_element, controller)
+                elif isinstance(controller, UserDefinedCommunicationController):
+                    self.writeUserDefinedCommunicationController(child_element, controller)
                 else:
                     self.notImplemented("Unsupported Communication Controller <%s>" % type(controller))
 

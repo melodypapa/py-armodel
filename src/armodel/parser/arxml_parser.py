@@ -1470,7 +1470,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
@@ -15372,6 +15372,13 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setTimeTriggeredCanLevel(self.getChildElementOptionalIntegerValue(child_element, "TIME-TRIGGERED-CAN-LEVEL"))
             controller.setTxEnableWindowLength(self.getChildElementOptionalIntegerValue(child_element, "TX-ENABLE-WINDOW-LENGTH"))
 
+    def readUserDefinedCommunicationController(self, element: ET.Element, controller: UserDefinedCommunicationController):
+        self.logger.debug("Read UserDefinedCommunicationController %s" % controller.getShortName())
+        self.readIdentifiable(element, controller)
+        child_element = self.find(element, "USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS/USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        if child_element is not None:
+            self.readCommunicationController(child_element, controller)
+
     def readCouplingPortSchedulerCouplingPortStructuralElement(self, element: ET.Element, item: CouplingPortStructuralElement):
         self.readIdentifiable(element, item)
 
@@ -15925,6 +15932,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlexrayCommunicationController(child_element, instance.createFlexrayCommunicationController(self.getShortName(child_element)))
             elif tag_name == "TTCAN-COMMUNICATION-CONTROLLER":
                 self.readTtcanCommunicationController(child_element, instance.createTtcanCommunicationController(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-COMMUNICATION-CONTROLLER":
+                self.readUserDefinedCommunicationController(child_element, instance.createUserDefinedCommunicationController(self.getShortName(child_element)))
             else:
                 self.raiseError("Unsupported Communication Controller <%s>" % tag_name)
 

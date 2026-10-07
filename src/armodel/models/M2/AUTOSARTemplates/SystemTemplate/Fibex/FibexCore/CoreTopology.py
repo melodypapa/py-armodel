@@ -42,7 +42,7 @@ if TYPE_CHECKING:
         ISignalTriggering,
         PduTriggering,
     )
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 
     # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
     # satisfy the forward annotations and are never executed at runtime.
@@ -1007,6 +1007,7 @@ class EcuInstance(FibexElement):
     # [x] createLinMaster                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinSlave                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTtcanCommunicationController                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedCommunicationController              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getCommControllers                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] createCanCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createEthernetCommunicationConnector                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1353,6 +1354,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(controller)
             self.commControllers.append(controller)
         return cast(TtcanCommunicationController, self.getReferrableElement(short_name, TtcanCommunicationController))
+
+    def createUserDefinedCommunicationController(self, short_name: str) -> UserDefinedCommunicationController:
+        """
+        CommunicationControllers of the ECU.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationController
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCommunicationController):
+            controller = UserDefinedCommunicationController(self, short_name)
+            self.addReferrableElement(controller)
+            self.commControllers.append(controller)
+        return cast(UserDefinedCommunicationController, self.getReferrableElement(short_name, UserDefinedCommunicationController))
 
     def getCommControllers(self) -> List[CommunicationController]:
         """
@@ -1826,7 +1839,3 @@ class TtcanCluster(AbstractCanCluster):
         if value is not None:
             self.operationMode = value
         return self
-
-
-class UserDefinedCommunicationController(CommunicationController):
-    pass

@@ -3386,7 +3386,7 @@ STUBS = [
         "CommunicationConnector",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport",
         "UserDefinedCommunicationController",
         "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
         "CommunicationController",

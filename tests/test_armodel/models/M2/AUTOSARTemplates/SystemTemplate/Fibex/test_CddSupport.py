@@ -1,4 +1,4 @@
-"""Unit tests for the Fibex CddSupport module (UserDefinedCluster, UserDefinedPhysicalChannel, UserDefinedCommunicationConnector).
+"""Unit tests for the Fibex CddSupport module (UserDefinedCluster, UserDefinedPhysicalChannel, UserDefinedCommunicationConnector, UserDefinedCommunicationController).
 
 Table 3.129 (p.179) is a page-split table whose fragment A renders the
 Class/Package/Note/Base/Aggregated by rows before the caption and carries NO
@@ -17,6 +17,12 @@ UserDefinedCommunicationConnector adds no own fields or accessors beyond its
 CommunicationConnector base; the XSD own group USER-DEFINED-COMMUNICATION-CONNECTOR
 (AUTOSAR_00052.xsd lines 128603-128611) is an empty sequence (no atpVariation
 wrapper).
+Table 3.132 (p.180) is the atpVariation sibling whose table carries NO Attribute
+rows — UserDefinedCommunicationController adds no own fields or accessors beyond
+its CommunicationController base; the XSD own group USER-DEFINED-COMMUNICATION-
+CONTROLLER (AUTOSAR_00052.xsd lines 128630-128650) holds only the atpVariation
+USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS/USER-DEFINED-COMMUNICATION-
+CONTROLLER-CONDITIONAL wrapper.
 Spec placement per Rule 0007: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport.
 """
 
@@ -31,11 +37,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveUnlimitedInteger,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedCommunicationController, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FramePort, IPduPort, ISignalPort, ISignalTriggering, PduTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, EcuInstance, PhysicalChannel, PncGatewayTypeEnum
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+    EcuInstance,
+    PhysicalChannel,
+    PncGatewayTypeEnum,
+)
 
 
 class MockParent(ARObject):
@@ -297,3 +310,58 @@ class TestUserDefinedCommunicationConnector:
         duplicate = ecu.createUserDefinedCommunicationConnector("Connector")
         assert duplicate is connector
         assert len(ecu.getConnectors()) == 1
+
+
+USER_DEFINED_COMMUNICATION_CONTROLLER_CLASS_NOTE = "This element allows the modeling of arbitrary Communication Controllers."
+
+
+class TestUserDefinedCommunicationController:
+    """Test cases for UserDefinedCommunicationController (Table 3.132, p.180)."""
+
+    def test_inheritance(self):
+        assert issubclass(UserDefinedCommunicationController, CommunicationController)
+        assert issubclass(UserDefinedCommunicationController, Identifiable)
+        assert issubclass(UserDefinedCommunicationController, ARObject)
+
+    def test_concrete_instantiation(self):
+        controller = UserDefinedCommunicationController(MockParent(), "controller")  # Table 3.132 carries no abstract stereotype
+
+        assert isinstance(controller, CommunicationController)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(UserDefinedCommunicationController.__doc__) == USER_DEFINED_COMMUNICATION_CONTROLLER_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert UserDefinedCommunicationController.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        # Table 3.132's Attribute rows render none — UserDefinedCommunicationController adds no fields or accessors beyond its CommunicationController base (Rule 0001.3)
+        own = [name for name, value in vars(UserDefinedCommunicationController).items() if not name.startswith("_")]
+        assert own == []
+
+    def test_initialization_defaults(self):
+        controller = UserDefinedCommunicationController(MockParent(), "controller")
+
+        assert controller.getWakeUpByControllerSupported() is None
+
+    def test_inherited_accessors_round_trip(self):
+        controller = UserDefinedCommunicationController(MockParent(), "controller")
+        wakeup_flag = Boolean()
+        wakeup_flag.setValue(True)
+
+        assert controller == controller.setWakeUpByControllerSupported(wakeup_flag)
+        assert controller.getWakeUpByControllerSupported() is wakeup_flag
+        assert controller.getWakeUpByControllerSupported().getValue() is True
+        assert controller == controller.setWakeUpByControllerSupported(None)  # None no-op
+        assert controller.getWakeUpByControllerSupported() is wakeup_flag  # unchanged
+
+    def test_ecu_factory_creates_and_appends(self):
+        ecu = EcuInstance(MockParent(), "Ecu")
+
+        controller = ecu.createUserDefinedCommunicationController("Controller")
+        assert isinstance(controller, UserDefinedCommunicationController)
+        assert ecu.getCommControllers() == [controller]
+
+        duplicate = ecu.createUserDefinedCommunicationController("Controller")
+        assert duplicate is controller
+        assert len(ecu.getCommControllers()) == 1

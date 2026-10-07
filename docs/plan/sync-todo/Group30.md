@@ -1796,15 +1796,65 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `UserDefinedCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.132, p.180
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: no Attribute rows — the class adds no own fields/accessors
+    (Rule 0001.3). Base most-derived MODELED ancestor = `CommunicationController`
+    (Table 3.3, abstract, CoreTopology.py). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport` → per Rule 0007 the
+    class MOVES from its legacy stub slot in CoreTopology.py into the EXISTING leaf
+    module `SystemTemplate/Fibex/CddSupport.py` next to UserDefinedCluster/
+    UserDefinedPhysicalChannel/UserDefinedCommunicationConnector (spec-table order
+    = last of the four); stub-guard tuple updated; models export chain needs no
+    edit (CddSupport wildcard import already in models/__init__.py line 113).
+    Unlike the 3.131 connector sibling, the header carries `<<atpVariation>>`:
+    the XSD own group USER-DEFINED-COMMUNICATION-CONTROLLER (AUTOSAR_00052.xsd
+    lines 128630-128650) holds an optional
+    USER-DEFINED-COMMUNICATION-CONTROLLER-VARIANTS wrapper (atpSplitable) whose
+    unbounded choice of USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL carries
+    the inherited COMMUNICATION-CONTROLLER-CONTENT (WAKE-UP-BY-CONTROLLER-SUPPORTED)
+    + an empty own CONTENT group + an optional VARIATION-POINT — the
+    readUserDefinedCluster leveling (readIdentifiable at top level, inherited base
+    helper on the CONDITIONAL) applies. Wiring: EcuInstance-level aggregator —
+    `createUserDefinedCommunicationController` factory on EcuInstance (alongside
+    createCanCommunicationController et al.), parser USER-DEFINED-COMMUNICATION-
+    CONTROLLER branch in `readEcuInstanceCommControllers` +
+    `readUserDefinedCommunicationController` (readCommunicationController exactly
+    once, on the CONDITIONAL), writer isinstance branch in
+    `writeEcuInstanceCommControllers` + `writeUserDefinedCommunicationController`
+    (the entry point creates the SubElement itself, mirroring the
+    writeCanCommunicationController shape shared by every CONTROLLERS dispatch
+    branch — the dispatch passes the COMM-CONTROLLERS wrapper element;
+    VARIANTS/CONDITIONAL emitted unconditionally per the writeUserDefinedCluster
+    shape). Aggregated-by row also
+    lists `MachineDesign.communicationController` — MachineDesign is NOT modeled
+    anywhere (same as the 3.131 connector sibling); collected as
+    referenced-but-missing for Step 8, no branch hookable there yet.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No deviations from Table 3.132 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions); inherited levels
+    round-trip through the CommunicationController reader/writer helper called
+    exactly once per side, on the USER-DEFINED-COMMUNICATION-CONTROLLER-CONDITIONAL
+    (XSD COMMUNICATION-CONTROLLER-CONTENT lives inside the atpVariation conditional;
+    readUserDefinedCluster leveling). Referenced-but-missing class (Rule 0001.10,
+    reported not blocking): MachineDesign — the Aggregated-by row lists
+    `MachineDesign.communicationController`, but MachineDesign is not modeled
+    anywhere in the codebase (no class, no parser/writer handling); the
+    EcuInstance.commController branch is fully wired and the MachineDesign dispatch
+    lands when MachineDesign gets its own sync. Remark (not a deviation): the
+    `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+    Remark (not a deviation): the new EcuInstance-level factory required one new row
+    `createUserDefinedCommunicationController` (reader [x] / writer [—]) in the
+    stamped EcuInstance checklist (Table 3.1) so its ROWS audit stays green —
+    spec-grounded via the Aggregated-by row `EcuInstance.commController` (the
+    ff537256b precedent: grow the row, no baseline drain).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22082 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d5745e8f7
 
 - [ ] `SystemMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.1, p.193
   - module: M2/AUTOSARTemplates/SystemTemplate/__init__.py
