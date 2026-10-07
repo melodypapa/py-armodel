@@ -9,12 +9,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     PositiveInteger,
     RefType,
+    TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     ApplicationEndpoint,
+    PduCollectionSemanticsEnum,
+    PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -168,3 +172,64 @@ class TestWriteProvidedServiceInstance:
         assert [r.getValue() for r in recovered.getAllowedServiceConsumerRefs()] == ["/nep1"]
         assert recovered.getAutoAvailable().getValue() is True
         assert recovered.getServiceIdentifier().getValue() == 25
+
+
+class TestWriteSoConIPduIdentifier:
+    def test_write_and_read_back_so_con_ipdu_identifier(self, writer, parser):
+        identifier = SoConIPduIdentifier(parent=None, short_name="ipdu_id1")
+        header_id = PositiveInteger()
+        header_id.setValue("4")
+        timeout = TimeValue()
+        timeout.setValue("0.5")
+        semantics = PduCollectionSemanticsEnum().setValue(PduCollectionSemanticsEnum.QUEUED)
+        trigger = PduCollectionTriggerEnum().setValue(PduCollectionTriggerEnum.ALWAYS)
+        ref = RefType()
+        ref.setDest("PDU-TRIGGERING")
+        ref.setValue("/PduTriggerings/pt1")
+        identifier.setHeaderId(header_id)
+        identifier.setPduCollectionPduTimeout(timeout)
+        identifier.setPduCollectionSemantics(semantics)
+        identifier.setPduCollectionTrigger(trigger)
+        identifier.setPduTriggeringRef(ref)
+
+        parent = _parent()
+        writer.writeSoConIPduIdentifier(parent, identifier)
+        element = _serialize_and_wrap(parent)
+
+        assert element.find(f"{{{NS}}}HEADER-ID").text == "4"
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-PDU-TIMEOUT").text == "0.5"
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-SEMANTICS").text == "QUEUED"
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-TRIGGER").text == "ALWAYS"
+        triggering_ref = element.find(f"{{{NS}}}PDU-TRIGGERING-REF")
+        assert triggering_ref.text == "/PduTriggerings/pt1"
+        assert triggering_ref.get("DEST") == "PDU-TRIGGERING"
+
+        recovered = SoConIPduIdentifier(parent=None, short_name="ipdu_id1")
+        parser.readSoConIPduIdentifier(element, recovered)
+        assert recovered.getHeaderId().getValue() == 4
+        assert recovered.getPduCollectionPduTimeout().getValue() == 0.5
+        assert recovered.getPduCollectionSemantics().getValue() == PduCollectionSemanticsEnum.QUEUED
+        assert recovered.getPduCollectionTrigger().getValue() == PduCollectionTriggerEnum.ALWAYS
+        assert recovered.getPduTriggeringRef().getValue() == "/PduTriggerings/pt1"
+        assert recovered.getPduTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+    def test_write_so_con_ipdu_identifier_empty_omits_elements(self, writer, parser):
+        identifier = SoConIPduIdentifier(parent=None, short_name="ipdu_id1")
+
+        parent = _parent()
+        writer.writeSoConIPduIdentifier(parent, identifier)
+        element = _serialize_and_wrap(parent)
+
+        assert element.find(f"{{{NS}}}HEADER-ID") is None
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-PDU-TIMEOUT") is None
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-SEMANTICS") is None
+        assert element.find(f"{{{NS}}}PDU-COLLECTION-TRIGGER") is None
+        assert element.find(f"{{{NS}}}PDU-TRIGGERING-REF") is None
+
+        recovered = SoConIPduIdentifier(parent=None, short_name="ipdu_id1")
+        parser.readSoConIPduIdentifier(element, recovered)
+        assert recovered.getHeaderId() is None
+        assert recovered.getPduCollectionPduTimeout() is None
+        assert recovered.getPduCollectionSemantics() is None
+        assert recovered.getPduCollectionTrigger() is None
+        assert recovered.getPduTriggeringRef() is None

@@ -1345,11 +1345,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
+    PduCollectionSemanticsEnum,
     PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -15719,6 +15721,23 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
                 group.addIPduIdentifierUdpRef(ref)
         return group
+
+    def readSoConIPduIdentifier(self, element: ET.Element, identifier: SoConIPduIdentifier):
+        self.logger.debug("Read SoConIPduIdentifier <%s>" % identifier.getShortName())
+        self.readReferrable(element, identifier)
+        identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
+        identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
+        semantics_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS")
+        if semantics_literal is not None:
+            semantics = PduCollectionSemanticsEnum()
+            semantics.setValue(semantics_literal.getValue())
+            identifier.setPduCollectionSemantics(semantics)
+        trigger_literal = self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER")
+        if trigger_literal is not None:
+            trigger = PduCollectionTriggerEnum()
+            trigger.setValue(trigger_literal.getValue())
+            identifier.setPduCollectionTrigger(trigger)
+        identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
 
     def readStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if element is not None:

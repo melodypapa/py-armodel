@@ -16,7 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -2075,6 +2075,108 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
         This reference assigns a set of ConsumedServiceInstances to the ConsumedProvidedServiceInstanceGroup.
         """
         return self.providedServiceInstanceRefs
+
+
+class SoConIPduIdentifier(Referrable):
+    """Identification of Pdu content on a socket connection. This Identifier is required in case that multiple Pdus are transmitted over the same socket connection."""
+
+    # SoConIPduIdentifier method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.163, p.490
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHeaderId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduCollectionPduTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduCollectionPduTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduCollectionSemantics   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduCollectionSemantics   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduCollectionTrigger     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduCollectionTrigger     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPduTriggeringRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPduTriggeringRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # If multiple Pdus are transmitted over the same connection this headerId can be used to distinguish between the different Pdus. For the constraints on constructing the headerId for SOME/IP also see PRS_SOMEIP_00245.
+        self.headerId: Optional[PositiveInteger] = None
+
+        # Defines the timeout in seconds the PDU collection shall be transmitted at the latest after this PDU has been put into the buffer.
+        self.pduCollectionPduTimeout: Optional[TimeValue] = None
+
+        # Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed.
+        self.pduCollectionSemantics: Optional[PduCollectionSemanticsEnum] = None
+
+        # Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket.
+        self.pduCollectionTrigger: Optional[PduCollectionTriggerEnum] = None
+
+        # Reference to a Pdu that is transmitted over a socket connection.
+        self.pduTriggeringRef: Optional[RefType] = None
+
+    def getHeaderId(self) -> Optional[PositiveInteger]:
+        """If multiple Pdus are transmitted over the same connection this headerId can be used to distinguish between the different Pdus. For the constraints on constructing the headerId for SOME/IP also see PRS_SOMEIP_00245."""
+        return self.headerId
+
+    def setHeaderId(self, value: Optional[PositiveInteger]) -> SoConIPduIdentifier:
+        """
+        If multiple Pdus are transmitted over the same connection this headerId can be used to distinguish between the different Pdus. For the constraints on constructing the headerId for SOME/IP also see PRS_SOMEIP_00245.
+        A None value is a no-op and does not overwrite an existing headerId.
+        """
+        if value is not None:
+            self.headerId = value
+        return self
+
+    def getPduCollectionPduTimeout(self) -> Optional[TimeValue]:
+        """Defines the timeout in seconds the PDU collection shall be transmitted at the latest after this PDU has been put into the buffer."""
+        return self.pduCollectionPduTimeout
+
+    def setPduCollectionPduTimeout(self, value: Optional[TimeValue]) -> SoConIPduIdentifier:
+        """
+        Defines the timeout in seconds the PDU collection shall be transmitted at the latest after this PDU has been put into the buffer.
+        A None value is a no-op and does not overwrite an existing pduCollectionPduTimeout.
+        """
+        if value is not None:
+            self.pduCollectionPduTimeout = value
+        return self
+
+    def getPduCollectionSemantics(self) -> Optional[PduCollectionSemanticsEnum]:
+        """Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed."""
+        return self.pduCollectionSemantics
+
+    def setPduCollectionSemantics(self, value: Optional[PduCollectionSemanticsEnum]) -> SoConIPduIdentifier:
+        """
+        Specifies if the referenced PduTriggering shall be collected using a queued (i.e. all PDU instances) or last-is-best (i.e. only the last PDU instance) semantics. If this attribute is not present the behavior of "queued" is assumed.
+        A None value is a no-op and does not overwrite an existing pduCollectionSemantics.
+        """
+        if value is not None:
+            self.pduCollectionSemantics = value
+        return self
+
+    def getPduCollectionTrigger(self) -> Optional[PduCollectionTriggerEnum]:
+        """Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket."""
+        return self.pduCollectionTrigger
+
+    def setPduCollectionTrigger(self, value: Optional[PduCollectionTriggerEnum]) -> SoConIPduIdentifier:
+        """
+        Defines whether the referenced Pdu contributes to the triggering of the socket transmission if Pdu collection is enabled for this socket.
+        A None value is a no-op and does not overwrite an existing pduCollectionTrigger.
+        """
+        if value is not None:
+            self.pduCollectionTrigger = value
+        return self
+
+    def getPduTriggeringRef(self) -> Optional[RefType]:
+        """Reference to a Pdu that is transmitted over a socket connection."""
+        return self.pduTriggeringRef
+
+    def setPduTriggeringRef(self, value: Optional[RefType]) -> SoConIPduIdentifier:
+        """
+        Reference to a Pdu that is transmitted over a socket connection.
+        A None value is a no-op and does not overwrite an existing pduTriggeringRef.
+        """
+        if value is not None:
+            self.pduTriggeringRef = value
+        return self
 
 
 # Runtime import breaking the ServiceInstances <-> EthernetTopology cycle: it sits below InitialSdDelayConfig and

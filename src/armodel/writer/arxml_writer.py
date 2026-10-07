@@ -1117,6 +1117,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SoAdConfig,
+    SoConIPduIdentifier,
     StaticSocketConnection,
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
@@ -13231,6 +13232,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_element = ET.SubElement(child_element, "I-PDU-IDENTIFIER-UDP-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
+
+    def writeSoConIPduIdentifier(self, element: ET.Element, identifier: SoConIPduIdentifier):
+        if identifier is not None:
+            child_element = ET.SubElement(element, "SO-CON-I-PDU-IDENTIFIER")
+            self.writeReferrable(child_element, identifier)
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID", cast(Integer, identifier.getHeaderId()))
+            self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-PDU-TIMEOUT", identifier.getPduCollectionPduTimeout())
+            self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-SEMANTICS", identifier.getPduCollectionSemantics())
+            self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-TRIGGER", identifier.getPduCollectionTrigger())
+            self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", identifier.getPduTriggeringRef())
 
     def writeStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if connection is not None:

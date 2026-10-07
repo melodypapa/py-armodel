@@ -4,7 +4,7 @@ import typing
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
@@ -29,11 +29,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     InitialSdDelayConfig,
     PduActivationRoutingGroup,
+    PduCollectionSemanticsEnum,
+    PduCollectionTriggerEnum,
     ProvidedServiceInstance,
     RequestResponseDelay,
     ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -1862,3 +1865,124 @@ class Test_ConsumedProvidedServiceInstanceGroup:
 
         group.addProvidedServiceInstanceRef(None)
         assert group.getProvidedServiceInstanceRefs() == [ref]
+
+
+class TestSoConIPduIdentifier:
+    """Test cases for SoConIPduIdentifier (R23-11 CP_TPS_SystemTemplate, Table 6.163, p.490)."""
+
+    MEMBERS = [
+        "headerId",
+        "pduCollectionPduTimeout",
+        "pduCollectionSemantics",
+        "pduCollectionTrigger",
+        "pduTriggeringRef",
+    ]
+
+    def _new_identifier(self):
+        return SoConIPduIdentifier(MockParent(), "so_con_ipdu_identifier")
+
+    def test_inheritance(self):
+        identifier = self._new_identifier()
+
+        assert isinstance(identifier, Referrable)
+        assert isinstance(identifier, SoConIPduIdentifier)
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(SoConIPduIdentifier.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        hints = {
+            "getHeaderId": PositiveInteger,
+            "getPduCollectionPduTimeout": TimeValue,
+            "getPduCollectionSemantics": PduCollectionSemanticsEnum,
+            "getPduCollectionTrigger": PduCollectionTriggerEnum,
+            "getPduTriggeringRef": RefType,
+        }
+        for getter, expected in hints.items():
+            assert typing.get_type_hints(getattr(SoConIPduIdentifier, getter))["return"] == typing.Optional[expected]
+
+    def test_initialization_defaults(self):
+        identifier = self._new_identifier()
+
+        assert identifier.getHeaderId() is None
+        assert identifier.getPduCollectionPduTimeout() is None
+        assert identifier.getPduCollectionSemantics() is None
+        assert identifier.getPduCollectionTrigger() is None
+        assert identifier.getPduTriggeringRef() is None
+
+    def test_member_order(self):
+        identifier = self._new_identifier()
+
+        members = [k for k in vars(identifier) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_get_set_header_id(self):
+        identifier = self._new_identifier()
+        header_id = PositiveInteger()
+        header_id.setValue("4")
+
+        assert identifier.setHeaderId(header_id) is identifier
+        assert identifier.getHeaderId() is header_id
+
+        identifier.setHeaderId(None)
+        assert identifier.getHeaderId() is header_id
+
+    def test_get_set_pdu_collection_pdu_timeout(self):
+        identifier = self._new_identifier()
+        timeout = TimeValue()
+        timeout.setValue("0.5")
+
+        assert identifier.setPduCollectionPduTimeout(timeout) is identifier
+        assert identifier.getPduCollectionPduTimeout() is timeout
+
+        identifier.setPduCollectionPduTimeout(None)
+        assert identifier.getPduCollectionPduTimeout() is timeout
+
+    def test_get_set_pdu_collection_semantics(self):
+        identifier = self._new_identifier()
+        semantics = PduCollectionSemanticsEnum().setValue(PduCollectionSemanticsEnum.QUEUED)
+
+        assert identifier.setPduCollectionSemantics(semantics) is identifier
+        assert identifier.getPduCollectionSemantics() is semantics
+        assert identifier.getPduCollectionSemantics().getValue() == PduCollectionSemanticsEnum.QUEUED
+
+        identifier.setPduCollectionSemantics(None)
+        assert identifier.getPduCollectionSemantics() is semantics
+
+    def test_get_set_pdu_collection_trigger(self):
+        identifier = self._new_identifier()
+        trigger = PduCollectionTriggerEnum().setValue(PduCollectionTriggerEnum.ALWAYS)
+
+        assert identifier.setPduCollectionTrigger(trigger) is identifier
+        assert identifier.getPduCollectionTrigger() is trigger
+        assert identifier.getPduCollectionTrigger().getValue() == PduCollectionTriggerEnum.ALWAYS
+
+        identifier.setPduCollectionTrigger(None)
+        assert identifier.getPduCollectionTrigger() is trigger
+
+    def test_get_set_pdu_triggering_ref(self):
+        identifier = self._new_identifier()
+        ref = RefType()
+        ref.setValue("/PduTriggerings/pt1")
+
+        assert identifier.setPduTriggeringRef(ref) is identifier
+        assert identifier.getPduTriggeringRef() is ref
+        assert identifier.getPduTriggeringRef().getValue() == "/PduTriggerings/pt1"
+
+        identifier.setPduTriggeringRef(None)
+        assert identifier.getPduTriggeringRef() is ref
+
+    def test_class_docstring_note(self):
+        expected = (
+            "Identification of Pdu content on a socket connection. This Identifier is required in case that multiple "
+            "Pdus are transmitted over the same socket connection."
+        )
+        assert inspect.cleandoc(SoConIPduIdentifier.__doc__) == expected
+
+    def test_rehoused_to_spec_package(self):
+        module = inspect.getmodule(SoConIPduIdentifier).__name__
+
+        assert module == "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances"

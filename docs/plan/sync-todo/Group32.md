@@ -559,16 +559,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `SoConIPduIdentifier` — Referrable — R23-11 CP_TPS_SystemTemplate Table 6.163, p.490
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    GenericStructure/GeneralTemplateClasses/Identifiable.py stub (Rule 0007; stub removed there and its
+    tuple dropped from test_group21_36_stub_classes.py). XSD complexType = SO-CON-I-PDU-IDENTIFIER
+    (AR-OBJECT + REFERRABLE + group) — sibling obsolete SOCKET-CONNECTION-IPDU-IDENTIFIER
+    (SocketConnectionIpduIdentifier, ObsoleteModel) is a DIFFERENT class, not touched. Markdown renders
+    this table pre-caption under Table 6.162 + post-image continuation; attribute names reconciled
+    against the XSD group (pduCollectionPduTimeout etc.). Aggregator SocketConnectionIpduIdentifierSet
+    (Table 6.164) still queued — read/writeSoConIPduIdentifier helpers land with full coverage now,
+    dispatch wiring is that row's pass.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SocketConnectionIpduIdentifierSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.164, p.490
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

@@ -1437,10 +1437,6 @@ class SecurityEventThresholdFilter(AbstractSecurityEventFilter):
     pass
 
 
-class SoConIPduIdentifier(Referrable):
-    pass
-
-
 class SpecificationDocumentScope(SpecElementScope):
     pass
 

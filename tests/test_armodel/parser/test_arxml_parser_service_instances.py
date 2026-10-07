@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ProvidedServiceInstance,
     SoAdConfig,
     SocketAddress,
+    SoConIPduIdentifier,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -105,3 +106,40 @@ class TestReadProvidedServiceInstance:
         assert instance.getAllowedServiceConsumerRefs() == []
         assert instance.getAutoAvailable() is None
         assert instance.getSdServerTimerConfigRef() is None
+
+
+def _so_con_snip(inner: str) -> ET.Element:
+    return ET.fromstring(f"<SO-CON-I-PDU-IDENTIFIER xmlns='{NS}'>{inner}</SO-CON-I-PDU-IDENTIFIER>")
+
+
+class TestReadSoConIPduIdentifier:
+    def _identifier(self):
+        return SoConIPduIdentifier(parent=None, short_name="ipdu_id1")
+
+    def test_read_so_con_ipdu_identifier_all_attrs(self, parser):
+        identifier = self._identifier()
+        element = _so_con_snip(
+            "<SHORT-NAME>ipdu_id1</SHORT-NAME>"
+            "<HEADER-ID>4</HEADER-ID>"
+            "<PDU-COLLECTION-PDU-TIMEOUT>0.5</PDU-COLLECTION-PDU-TIMEOUT>"
+            "<PDU-COLLECTION-SEMANTICS>QUEUED</PDU-COLLECTION-SEMANTICS>"
+            "<PDU-COLLECTION-TRIGGER>ALWAYS</PDU-COLLECTION-TRIGGER>"
+            "<PDU-TRIGGERING-REF DEST='PDU-TRIGGERING'>/PduTriggerings/pt1</PDU-TRIGGERING-REF>"
+        )
+        parser.readSoConIPduIdentifier(element, identifier)
+        assert identifier.getHeaderId().getValue() == 4
+        assert identifier.getPduCollectionPduTimeout().getValue() == 0.5
+        assert identifier.getPduCollectionSemantics().getValue() == "QUEUED"
+        assert identifier.getPduCollectionTrigger().getValue() == "ALWAYS"
+        assert identifier.getPduTriggeringRef().getValue() == "/PduTriggerings/pt1"
+        assert identifier.getPduTriggeringRef().getDest() == "PDU-TRIGGERING"
+
+    def test_read_so_con_ipdu_identifier_empty(self, parser):
+        identifier = self._identifier()
+        element = _so_con_snip("<SHORT-NAME>ipdu_id1</SHORT-NAME>")
+        parser.readSoConIPduIdentifier(element, identifier)
+        assert identifier.getHeaderId() is None
+        assert identifier.getPduCollectionPduTimeout() is None
+        assert identifier.getPduCollectionSemantics() is None
+        assert identifier.getPduCollectionTrigger() is None
+        assert identifier.getPduTriggeringRef() is None
