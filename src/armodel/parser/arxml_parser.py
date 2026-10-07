@@ -1207,6 +1207,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    CouplingElement,
+    CouplingElementAbstractDetails,
+    CouplingElementSwitchDetails,
     CouplingPort,
     CouplingPortAbstractShaper,
     CouplingPortAsynchronousTrafficShaper,
@@ -1216,9 +1219,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortRatePolicy,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
+    EthIpProps,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     EthernetCluster,
@@ -1227,14 +1232,39 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCouplingPortSchedulerEnum,
     EthernetPriorityRegeneration,
     EthernetSwitchVlanEgressTaggingEnum,
+    EthernetWakeupSleepOnDatalineConfig,
+    FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
+    Dhcpv6Props,
+    Ipv4ArpProps,
+    Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
+    Ipv4FragmentationProps,
+    Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6FragmentationProps,
+    Ipv6NdpProps,
+    Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIEEE1722Tp,
+    StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
+    StreamFilterMACAddress,
+    StreamFilterPortRange,
+    StreamFilterRuleDataLinkLayer,
+    StreamFilterRuleIpTp,
+    SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
+    SwitchStreamFilterActionDestPortModification,
+    SwitchStreamFilterActionPortModificationEnum,
+    SwitchStreamFilterEntry,
+    SwitchStreamFilterRule,
+    SwitchStreamGateEntry,
+    SwitchStreamIdentification,
     TcpIpIcmpv4Props,
     TcpIpIcmpv6Props,
     TcpProps,
@@ -1283,6 +1313,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingElementEnum,
     CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     DoIpEntity,
@@ -11245,6 +11276,129 @@ class ARXMLParser(AbstractARXMLParser):
         """Read an R23-11 <UDP-PROPS> element (Table 3.110, p.154): single optional UDP-TTL."""
         props.setUdpTtl(self.getChildElementOptionalPositiveInteger(element, "UDP-TTL"))
 
+    def readEthIpProps(self, element: ET.Element, props: EthIpProps):
+        """Read an R23-11 <ETH-IP-PROPS> element (Table 3.100, p.146): SHORT-NAME, IPV-4-PROPS, IPV-6-PROPS."""
+        self.readIdentifiable(element, props)
+        child_element = self.find(element, "IPV-4-PROPS")
+        if child_element is not None:
+            ipv4_props = Ipv4Props()
+            self.readIpv4Props(child_element, ipv4_props)
+            props.setIpv4Props(ipv4_props)
+        child_element = self.find(element, "IPV-6-PROPS")
+        if child_element is not None:
+            ipv6_props = Ipv6Props()
+            self.readIpv6Props(child_element, ipv6_props)
+            props.setIpv6Props(ipv6_props)
+
+    def readIpv4Props(self, element: ET.Element, props: Ipv4Props):
+        """Read an R23-11 <IPV-4-PROPS> element (Table 3.101, p.146): ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS."""
+        self.readARObject(element, props)
+        child_element = self.find(element, "ARP-PROPS")
+        if child_element is not None:
+            arp_props = Ipv4ArpProps()
+            self.readIpv4ArpProps(child_element, arp_props)
+            props.setArpProps(arp_props)
+        child_element = self.find(element, "AUTO-IP-PROPS")
+        if child_element is not None:
+            auto_ip_props = Ipv4AutoIpProps()
+            self.readIpv4AutoIpProps(child_element, auto_ip_props)
+            props.setAutoIpProps(auto_ip_props)
+        child_element = self.find(element, "FRAGMENTATION-PROPS")
+        if child_element is not None:
+            fragmentation_props = Ipv4FragmentationProps()
+            self.readIpv4FragmentationProps(child_element, fragmentation_props)
+            props.setFragmentationProps(fragmentation_props)
+
+    def readIpv6Props(self, element: ET.Element, props: Ipv6Props):
+        """Read an R23-11 <IPV-6-PROPS> element (Table 3.105, p.148): DHCP-PROPS, FRAGMENTATION-PROPS, NDP-PROPS."""
+        self.readARObject(element, props)
+        child_element = self.find(element, "DHCP-PROPS")
+        if child_element is not None:
+            dhcp_props = Dhcpv6Props()
+            self.readDhcpv6Props(child_element, dhcp_props)
+            props.setDhcpProps(dhcp_props)
+        child_element = self.find(element, "FRAGMENTATION-PROPS")
+        if child_element is not None:
+            fragmentation_props = Ipv6FragmentationProps()
+            self.readIpv6FragmentationProps(child_element, fragmentation_props)
+            props.setFragmentationProps(fragmentation_props)
+        child_element = self.find(element, "NDP-PROPS")
+        if child_element is not None:
+            ndp_props = Ipv6NdpProps()
+            self.readIpv6NdpProps(child_element, ndp_props)
+            props.setNdpProps(ndp_props)
+
+    def readIpv6NdpProps(self, element: ET.Element, props: Ipv6NdpProps):
+        """Read an R23-11 <NDP-PROPS> element (Table 3.108, p.151): 26 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpNdpDefaultReachableTime(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DEFAULT-REACHABLE-TIME"))
+        props.setTcpIpNdpDefaultRetransTimer(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DEFAULT-RETRANS-TIMER"))
+        props.setTcpIpNdpDefaultRouterListSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-DEFAULT-ROUTER-LIST-SIZE"))
+        props.setTcpIpNdpDefensiveProcessing(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DEFENSIVE-PROCESSING"))
+        props.setTcpIpNdpDelayFirstProbeTimeValue(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-DELAY-FIRST-PROBE-TIME-VALUE"))
+        props.setTcpIpNdpDestinationCacheSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-DESTINATION-CACHE-SIZE"))
+        props.setTcpIpNdpDynamicHopLimitEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-HOP-LIMIT-ENABLED"))
+        props.setTcpIpNdpDynamicMtuEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-MTU-ENABLED"))
+        props.setTcpIpNdpDynamicReachableTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-REACHABLE-TIME-ENABLED"))
+        props.setTcpIpNdpDynamicRetransTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-DYNAMIC-RETRANS-TIME-ENABLED"))
+        props.setTcpIpNdpMaxRandomFactor(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MAX-RANDOM-FACTOR"))
+        props.setTcpIpNdpMaxRtrSolicitationDelay(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-MAX-RTR-SOLICITATION-DELAY"))
+        props.setTcpIpNdpMaxRtrSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MAX-RTR-SOLICITATIONS"))
+        props.setTcpIpNdpMinRandomFactor(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-MIN-RANDOM-FACTOR"))
+        props.setTcpIpNdpNeighborUnreachabilityDetectionEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-NEIGHBOR-UNREACHABILITY-DETECTION-ENABLED"))
+        props.setTcpIpNdpNumMulticastSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-NUM-MULTICAST-SOLICITATIONS"))
+        props.setTcpIpNdpNumUnicastSolicitations(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-NUM-UNICAST-SOLICITATIONS"))
+        props.setTcpIpNdpPacketQueueEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-PACKET-QUEUE-ENABLED"))
+        props.setTcpIpNdpPrefixListSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-PREFIX-LIST-SIZE"))
+        props.setTcpIpNdpRandomReachableTimeEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-RANDOM-REACHABLE-TIME-ENABLED"))
+        props.setTcpIpNdpRndRtrSolicitationDelayEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-RND-RTR-SOLICITATION-DELAY-ENABLED"))
+        props.setTcpIpNdpRtrSolicitationInterval(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-RTR-SOLICITATION-INTERVAL"))
+        props.setTcpIpNdpSlaacDadNumberOfTransmissions(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-NDP-SLAAC-DAD-NUMBER-OF-TRANSMISSIONS"))
+        props.setTcpIpNdpSlaacDadRetransmissionDelay(self.getChildElementOptionalTimeValue(element, "TCP-IP-NDP-SLAAC-DAD-RETRANSMISSION-DELAY"))
+        props.setTcpIpNdpSlaacDelayEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-SLAAC-DELAY-ENABLED"))
+        props.setTcpIpNdpSlaacOptimisticDadEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-NDP-SLAAC-OPTIMISTIC-DAD-ENABLED"))
+
+    def readDhcpv6Props(self, element: ET.Element, props: Dhcpv6Props):
+        """Read an R23-11 <DHCP-PROPS> element (Table 3.107, p.149): 6 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpDhcpV6CnfDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-CNF-DELAY-MAX"))
+        props.setTcpIpDhcpV6CnfDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-CNF-DELAY-MIN"))
+        props.setTcpIpDhcpV6InfDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-INF-DELAY-MAX"))
+        props.setTcpIpDhcpV6InfDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-INF-DELAY-MIN"))
+        props.setTcpIpDhcpV6SolDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-SOL-DELAY-MAX"))
+        props.setTcpIpDhcpV6SolDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-SOL-DELAY-MIN"))
+
+    def readIpv6FragmentationProps(self, element: ET.Element, props: Ipv6FragmentationProps):
+        """Read an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpIpReassemblyBufferCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-BUFFER-COUNT"))
+        props.setTcpIpIpReassemblyBufferSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-BUFFER-SIZE"))
+        props.setTcpIpIpReassemblySegmentCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT"))
+        props.setTcpIpIpReassemblyTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-IP-REASSEMBLY-TIMEOUT"))
+        props.setTcpIpIpTxFragmentBufferCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT"))
+        props.setTcpIpIpTxFragmentBufferSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE"))
+
+    def readIpv4ArpProps(self, element: ET.Element, props: Ipv4ArpProps):
+        """Read an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpArpNumGratuitousArpOnStartup(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ARP-NUM-GRATUITOUS-ARP-ON-STARTUP"))
+        props.setTcpIpArpPacketQueueEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ARP-PACKET-QUEUE-ENABLED"))
+        props.setTcpIpArpRequestTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-REQUEST-TIMEOUT"))
+        props.setTcpIpArpTableEntryTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-ARP-TABLE-ENTRY-TIMEOUT"))
+
+    def readIpv4AutoIpProps(self, element: ET.Element, props: Ipv4AutoIpProps):
+        """Read an R23-11 <AUTO-IP-PROPS> element (Table 3.103, p.147): 1 optional attribute in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpAutoIpInitTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-AUTO-IP-INIT-TIMEOUT"))
+
+    def readIpv4FragmentationProps(self, element: ET.Element, props: Ipv4FragmentationProps):
+        """Read an R23-11 <IPV-4-FRAGMENTATION-PROPS> element (Table 3.104, p.147): 4 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpIpFragmentationRxEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-IP-FRAGMENTATION-RX-ENABLED"))
+        props.setTcpIpIpNumFragments(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-NUM-FRAGMENTS"))
+        props.setTcpIpIpNumReassDgrams(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-NUM-REASS-DGRAMS"))
+        props.setTcpIpIpReassTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-IP-REASS-TIMEOUT"))
+
     def readEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Read an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
         self.readIdentifiable(element, props)
@@ -11292,6 +11446,20 @@ class ARXMLParser(AbstractARXMLParser):
         props.setTcpIpIcmpV6HopLimit(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-ICMP-V-6-HOP-LIMIT"))
         props.setTcpIpIcmpV6MsgDestinationUnreachableEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED"))
         props.setTcpIpIcmpV6MsgParameterProblemEnabled(self.getChildElementOptionalBooleanValue(element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED"))
+
+    def readEthernetWakeupSleepOnDatalineConfig(self, element: ET.Element, config: EthernetWakeupSleepOnDatalineConfig):
+        self.readIdentifiable(element, config)
+        config.setSleepModeExecutionDelay(self.getChildElementOptionalTimeValue(element, "SLEEP-MODE-EXECUTION-DELAY"))
+        config.setSleepRepetitionDelayOfSleepRequest(self.getChildElementOptionalTimeValue(element, "SLEEP-REPETITION-DELAY-OF-SLEEP-REQUEST"))
+        config.setSleepRepetitionsOfSleepRequest(self.getChildElementOptionalPositiveInteger(element, "SLEEP-REPETITIONS-OF-SLEEP-REQUEST"))
+        config.setWakeupForwardLocalEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-LOCAL-ENABLED"))
+        config.setWakeupForwardRemoteEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-REMOTE-ENABLED"))
+        config.setWakeupLocalDetectionTime(self.getChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DETECTION-TIME"))
+        config.setWakeupLocalDurationTime(self.getChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DURATION-TIME"))
+        config.setWakeupLocalEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-LOCAL-ENABLED"))
+        config.setWakeupRemoteEnabled(self.getChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED"))
+        config.setWakeupRepetitionDelayOfWakeupRequest(self.getChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST"))
+        config.setWakeupRepetitionsOfWakeupRequest(self.getChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST"))
 
     def readEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Read an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
@@ -11376,6 +11544,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
     def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
+        self.readARObject(element, connection)
         connection.setFirstPortRef(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
         for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
             connection.addNodePortRef(ref)
@@ -11392,6 +11561,253 @@ class ARXMLParser(AbstractARXMLParser):
                 cluster.addCouplingPortConnection(connection)
             else:
                 self.notImplemented("Unsupported CouplingPortConnection <%s>" % tag_name)
+
+    def readCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
+        self.readIdentifiable(element, details)
+
+    def readSwitchStreamIdentification(self, element: ET.Element, stream_identification: SwitchStreamIdentification):
+        self.readIdentifiable(element, stream_identification)
+        for ref in self.getChildElementRefTypeList(element, "EGRESS-PORT-REFS/EGRESS-PORT-REF"):
+            stream_identification.addEgressPortRef(ref)
+        stream_identification.setFilterActionBlockSource(self.getChildElementOptionalBooleanValue(element, "FILTER-ACTION-BLOCK-SOURCE"))
+        child_element = self.find(element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
+        if child_element is not None:
+            modification = stream_identification.createFilterActionDestPortModification(self.getShortName(child_element))
+            self.readSwitchStreamFilterActionDestPortModification(child_element, modification)
+        stream_identification.setFilterActionDropFrame(self.getChildElementOptionalBooleanValue(element, "FILTER-ACTION-DROP-FRAME"))
+        stream_identification.setFilterActionVlanModification(self.getChildElementOptionalPositiveInteger(element, "FILTER-ACTION-VLAN-MODIFICATION"))
+        for ref in self.getChildElementRefTypeList(element, "INGRESS-PORT-REFS/INGRESS-PORT-REF"):
+            stream_identification.addIngressPortRef(ref)
+        child_element = self.find(element, "STREAM-FILTER-RULE")
+        if child_element is not None:
+            stream_filter_rule = stream_identification.createStreamFilterRule(self.getShortName(child_element))
+            self.readSwitchStreamFilterRule(child_element, stream_filter_rule)
+
+    def readSwitchStreamFilterActionDestPortModification(self, element: ET.Element, modification: SwitchStreamFilterActionDestPortModification):
+        self.readIdentifiable(element, modification)
+        for ref in self.getChildElementRefTypeList(element, "EGRESS-PORT-REFS/EGRESS-PORT-REF"):
+            modification.addEgressPortRef(ref)
+        modification_literal = self.getChildElementOptionalLiteral(element, "MODIFICATION")
+        if modification_literal is not None:
+            value = SwitchStreamFilterActionPortModificationEnum()
+            value.setValue(modification_literal.getValue())
+            modification.setModification(value)
+
+    def readSwitchStreamFilterEntry(self, element: ET.Element, stream_filter: SwitchStreamFilterEntry):
+        self.readIdentifiable(element, stream_filter)
+        stream_filter.setAsynchronousTrafficShaperRef(self.getChildElementOptionalRefType(element, "ASYNCHRONOUS-TRAFFIC-SHAPER-REF"))
+        stream_filter.setFilterPriority(self.getChildElementOptionalPositiveInteger(element, "FILTER-PRIORITY"))
+        stream_filter.setFlowMeteringRef(self.getChildElementOptionalRefType(element, "FLOW-METERING-REF"))
+        stream_filter.setMaxSduSize(self.getChildElementOptionalPositiveInteger(element, "MAX-SDU-SIZE"))
+        stream_filter.setStreamGateRef(self.getChildElementOptionalRefType(element, "STREAM-GATE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "STREAM-IDENTIFICATION-HANDLE-REFS/STREAM-IDENTIFICATION-HANDLE-REF"):
+            stream_filter.addStreamIdentificationHandleRef(ref)
+        stream_filter.setStreamIdentificationWildcard(self.getChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD"))
+
+    def readSwitchAsynchronousTrafficShaperGroupEntry(self, element: ET.Element, traffic_shaper_group: SwitchAsynchronousTrafficShaperGroupEntry):
+        self.readIdentifiable(element, traffic_shaper_group)
+        traffic_shaper_group.setMaximumResidenceTime(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME"))
+
+    def readSwitchFlowMeteringEntry(self, element: ET.Element, flow_metering: SwitchFlowMeteringEntry):
+        self.readIdentifiable(element, flow_metering)
+        flow_metering.setColorMode(cast(Optional[FlowMeteringColorModeEnum], self.getChildElementOptionalLiteral(element, "COLOR-MODE")))
+        flow_metering.setCommittedBurstSize(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE"))
+        flow_metering.setCommittedInformationRate(self.getChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE"))
+        flow_metering.setCouplingFlag(self.getChildElementOptionalBooleanValue(element, "COUPLING-FLAG"))
+        flow_metering.setExcessBurstSize(self.getChildElementOptionalPositiveInteger(element, "EXCESS-BURST-SIZE"))
+        flow_metering.setExcessInformationRate(self.getChildElementOptionalPositiveInteger(element, "EXCESS-INFORMATION-RATE"))
+
+    def readSwitchStreamGateEntry(self, element: ET.Element, stream_gate: SwitchStreamGateEntry):
+        self.readIdentifiable(element, stream_gate)
+        stream_gate.setInternalPriorityValue(self.getChildElementOptionalPositiveInteger(element, "INTERNAL-PRIORITY-VALUE"))
+
+    def readStreamFilterMACAddress(self, element: ET.Element, mac_address: StreamFilterMACAddress):
+        self.readARObject(element, mac_address)
+        child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS")
+        if child_element is not None:
+            address = MacAddressString()
+            address.setValue(child_element.getValue())
+            mac_address.setMacAddress(address)
+        child_element = self.getChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK")
+        if child_element is not None:
+            address = MacAddressString()
+            address.setValue(child_element.getValue())
+            mac_address.setMacAddressMask(address)
+
+    def readStreamFilterRuleDataLinkLayer(self, element: ET.Element, rule: StreamFilterRuleDataLinkLayer):
+        self.readARObject(element, rule)
+        child_element = self.find(element, "DESTINATION-MAC-ADDRESS")
+        if child_element is not None:
+            mac_address = StreamFilterMACAddress()
+            self.readStreamFilterMACAddress(child_element, mac_address)
+            rule.setDestinationMacAddress(mac_address)
+        rule.setEtherType(self.getChildElementOptionalPositiveInteger(element, "ETHER-TYPE"))
+        child_element = self.find(element, "SOURCE-MAC-ADDRESS")
+        if child_element is not None:
+            mac_address = StreamFilterMACAddress()
+            self.readStreamFilterMACAddress(child_element, mac_address)
+            rule.setSourceMacAddress(mac_address)
+        rule.setVlanId(self.getChildElementOptionalPositiveInteger(element, "VLAN-ID"))
+        rule.setVlanPriority(self.getChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY"))
+
+    def readStreamFilterRuleIpTp(self, element: ET.Element, rule: StreamFilterRuleIpTp):
+        self.readARObject(element, rule)
+        child_element = self.find(element, "DESTINATION-IPV-4-ADDRESS")
+        if child_element is not None:
+            ipv4_address = StreamFilterIpv4Address()
+            self.readStreamFilterIpv4Address(child_element, ipv4_address)
+            rule.setDestinationIpv4Address(ipv4_address)
+        child_element = self.find(element, "DESTINATION-IPV-6-ADDRESS")
+        if child_element is not None:
+            ipv6_address = StreamFilterIpv6Address()
+            self.readStreamFilterIpv6Address(child_element, ipv6_address)
+            rule.setDestinationIpv6Address(ipv6_address)
+        ports_element = self.find(element, "DESTINATION-PORTS")
+        if ports_element is not None:
+            for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
+                port_range = StreamFilterPortRange()
+                self.readStreamFilterPortRange(child_element, port_range)
+                rule.addDestinationPort(port_range)
+        child_element = self.find(element, "SOURCE-IPV-4-ADDRESS")
+        if child_element is not None:
+            ipv4_address = StreamFilterIpv4Address()
+            self.readStreamFilterIpv4Address(child_element, ipv4_address)
+            rule.setSourceIpv4Address(ipv4_address)
+        child_element = self.find(element, "SOURCE-IPV-6-ADDRESS")
+        if child_element is not None:
+            ipv6_address = StreamFilterIpv6Address()
+            self.readStreamFilterIpv6Address(child_element, ipv6_address)
+            rule.setSourceIpv6Address(ipv6_address)
+        ports_element = self.find(element, "SOURCE-PORTS")
+        if ports_element is not None:
+            for child_element in self.findall(ports_element, "STREAM-FILTER-PORT-RANGE"):
+                port_range = StreamFilterPortRange()
+                self.readStreamFilterPortRange(child_element, port_range)
+                rule.addSourcePort(port_range)
+
+    def readStreamFilterPortRange(self, element: ET.Element, port_range: StreamFilterPortRange):
+        self.readARObject(element, port_range)
+        port_range.setMax(self.getChildElementOptionalPositiveInteger(element, "MAX"))
+        port_range.setMin(self.getChildElementOptionalPositiveInteger(element, "MIN"))
+
+    def readStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: StreamFilterIpv4Address):
+        self.readARObject(element, ipv4_address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS")
+        if child_element is not None:
+            address = Ip4AddressString()
+            address.setValue(child_element.getValue())
+            ipv4_address.setIpv4Address(address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK")
+        if child_element is not None:
+            address = Ip4AddressString()
+            address.setValue(child_element.getValue())
+            ipv4_address.setIpv4AddressMask(address)
+
+    def readStreamFilterIpv6Address(self, element: ET.Element, ipv6_address: StreamFilterIpv6Address):
+        self.readARObject(element, ipv6_address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS")
+        if child_element is not None:
+            address = Ip6AddressString()
+            address.setValue(child_element.getValue())
+            ipv6_address.setIpv6Address(address)
+        child_element = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK")
+        if child_element is not None:
+            address = Ip6AddressString()
+            address.setValue(child_element.getValue())
+            ipv6_address.setIpv6AddressMask(address)
+
+    def readStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: StreamFilterIEEE1722Tp):
+        self.readARObject(element, tp_rule)
+        tp_rule.setStreamId(self.getChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID"))
+
+    def readSwitchStreamFilterRule(self, element: ET.Element, stream_filter_rule: SwitchStreamFilterRule):
+        self.readIdentifiable(element, stream_filter_rule)
+        child_element = self.find(element, "DATA-LINK-LAYER-RULE")
+        if child_element is not None:
+            data_link_layer_rule = StreamFilterRuleDataLinkLayer()
+            self.readStreamFilterRuleDataLinkLayer(child_element, data_link_layer_rule)
+            stream_filter_rule.setDataLinkLayerRule(data_link_layer_rule)
+        child_element = self.find(element, "IEEE-1722-TP-RULE")
+        if child_element is not None:
+            tp_rule = StreamFilterIEEE1722Tp()
+            self.readStreamFilterIEEE1722Tp(child_element, tp_rule)
+            stream_filter_rule.setIeee1722TpRule(tp_rule)
+        child_element = self.find(element, "IP-TP-RULE")
+        if child_element is not None:
+            ip_tp_rule = StreamFilterRuleIpTp()
+            self.readStreamFilterRuleIpTp(child_element, ip_tp_rule)
+            stream_filter_rule.setIpTpRule(ip_tp_rule)
+
+    def readCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
+        self.readCouplingElementAbstractDetails(element, details)
+        for child_element in self.findall(element, "FLOW-METERINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-FLOW-METERING-ENTRY":
+                flow_metering = details.createFlowMetering(self.getShortName(child_element))
+                self.readSwitchFlowMeteringEntry(child_element, flow_metering)
+            else:
+                self.notImplemented("Unsupported SwitchFlowMeteringEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "STREAM-FILTERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-FILTER-ENTRY":
+                stream_filter = details.createStreamFilter(self.getShortName(child_element))
+                self.readSwitchStreamFilterEntry(child_element, stream_filter)
+            else:
+                self.notImplemented("Unsupported SwitchStreamFilterEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "STREAM-GATES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-GATE-ENTRY":
+                stream_gate = details.createStreamGate(self.getShortName(child_element))
+                self.readSwitchStreamGateEntry(child_element, stream_gate)
+            else:
+                self.notImplemented("Unsupported SwitchStreamGateEntry <%s>" % tag_name)
+        for child_element in self.findall(element, "SWITCH-STREAM-IDENTIFICATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-STREAM-IDENTIFICATION":
+                stream_identification = details.createSwitchStreamIdentification(self.getShortName(child_element))
+                self.readSwitchStreamIdentification(child_element, stream_identification)
+            else:
+                self.notImplemented("Unsupported SwitchStreamIdentification <%s>" % tag_name)
+        for child_element in self.findall(element, "TRAFFIC-SHAPER-GROUPS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY":
+                traffic_shaper_group = details.createTrafficShaperGroup(self.getShortName(child_element))
+                self.readSwitchAsynchronousTrafficShaperGroupEntry(child_element, traffic_shaper_group)
+            else:
+                self.notImplemented("Unsupported SwitchAsynchronousTrafficShaperGroupEntry <%s>" % tag_name)
+
+    def readCouplingElementCouplingElementDetails(self, element: ET.Element, coupling_element: CouplingElement):
+        for child_element in self.findall(element, "COUPLING-ELEMENT-DETAILS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-ELEMENT-SWITCH-DETAILS":
+                details = coupling_element.createCouplingElementSwitchDetails(self.getShortName(child_element))
+                self.readCouplingElementSwitchDetails(child_element, details)
+            else:
+                self.notImplemented("Unsupported CouplingElementDetails <%s>" % tag_name)
+
+    def readCouplingElementCouplingPorts(self, element: ET.Element, coupling_element: CouplingElement):
+        for child_element in self.findall(element, "COUPLING-PORTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT":
+                port = coupling_element.createCouplingPort(self.getShortName(child_element))
+                self.readCouplingPort(child_element, port)
+            else:
+                self.notImplemented("Unsupported CouplingPort <%s>" % tag_name)
+
+    def readCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
+        self.logger.debug("Read CouplingElement <%s>" % coupling_element.getShortName())
+        self.readIdentifiable(element, coupling_element)
+        coupling_element.setCommunicationClusterRef(self.getChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF"))
+        self.readCouplingElementCouplingElementDetails(element, coupling_element)
+        self.readCouplingElementCouplingPorts(element, coupling_element)
+        coupling_type = self.getChildElementOptionalLiteral(element, "COUPLING-TYPE")
+        if coupling_type is not None:
+            e: ARLiteral = CouplingElementEnum()
+            e.setValue(coupling_type.getValue())
+            coupling_element.setCouplingType(cast(Optional[CouplingElementEnum], e))
+        coupling_element.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "FIREWALL-RULE-REFS/FIREWALL-RULE-REF"):
+            coupling_element.addFirewallRuleRef(ref)
 
     def readEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Read EthernetCluster <%s>" % cluster.getShortName())
@@ -14982,7 +15398,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, item)
 
     def readCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
-        self.readCouplingPortSchedulerCouplingPortStructuralElement(element, fifo)
+        self.readIdentifiable(element, fifo)
         for item in self.findall(element, "ASSIGNED-TRAFFIC-CLASSS/ASSIGNED-TRAFFIC-CLASS"):
             value = PositiveInteger()
             value.setValue(item.text)
@@ -15029,6 +15445,13 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "PREDECESSOR-REFS/PREDECESSOR-REF"):
             scheduler.addPredecessorRef(ref)
 
+    def readCouplingPortShaper(self, element: ET.Element, shaper: CouplingPortShaper):
+        self.readIdentifiable(element, shaper)
+        shaper.setIdleSlope(self.getChildElementOptionalPositiveInteger(element, "IDLE-SLOPE"))
+        refs = self.getChildElementRefTypeList(element, "PREDECESSOR-FIFO-REF")
+        if len(refs) > 0:
+            shaper.setPredecessorFifoRef(refs[0])
+
     def readCouplingPortDetailsCouplingPortStructuralElements(self, item: ET.Element, details: CouplingPortDetails):
         for child_element in self.findall(item, "COUPLING-PORT-STRUCTURAL-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
@@ -15038,6 +15461,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COUPLING-PORT-SCHEDULER":
                 scheduler_item = details.createCouplingPortScheduler(self.getShortName(child_element))
                 self.readCouplingPortScheduler(child_element, scheduler_item)
+            elif tag_name == "COUPLING-PORT-SHAPER":
+                shaper_item = details.createCouplingPortShaper(self.getShortName(child_element))
+                self.readCouplingPortShaper(child_element, shaper_item)
             else:
                 self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % tag_name)
 
@@ -15057,7 +15483,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
         self.readReferrable(element, assignment)
-        for child_element in self.findall(element, "PRIORITY"):
+        for child_element in self.findall(element, "PRIORITYS/PRIORITY"):
             priority = PositiveInteger()
             self.readARType(child_element, priority)
             priority.setValue(child_element.text)
@@ -15085,6 +15511,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported CouplingPortRatePolicy <%s>" % tag_name)
 
     def readCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
+        self.readARObject(element, policy)
         policy.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
         literal = self.getChildElementOptionalLiteral(element, "POLICY-ACTION")
         if literal is not None:
@@ -15213,6 +15640,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             details = CouplingPortDetails()
+            self.readARObject(child_element, details)
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
@@ -15226,6 +15654,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = DhcpServerConfiguration()
+            self.readARObject(child_element, config)
             config.setIpv4DhcpServerConfiguration(self.getIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION"))
             config.setIpv6DhcpServerConfiguration(self.getIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION"))
         return config
@@ -15235,6 +15664,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = Ipv4DhcpServerConfiguration()
+            self.readDescribable(child_element, config)
             config.setAddressRangeLowerBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
             config.setAddressRangeUpperBound(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
             config.setDefaultGateway(cast(Optional[Ip4AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
@@ -15285,6 +15715,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = Ipv6DhcpServerConfiguration()
+            self.readDescribable(child_element, config)
             config.setAddressRangeLowerBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND")))
             config.setAddressRangeUpperBound(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND")))
             config.setDefaultGateway(cast(Optional[Ip6AddressString], self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY")))
@@ -15322,7 +15753,7 @@ class ARXMLParser(AbstractARXMLParser):
             port.setConnectionNegotiationBehavior(cast(Optional[EthernetConnectionNegotiationEnum], e))
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
         port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
-        for child_element in self.findall(element, "MAC-SEC-PROPS"):
+        for child_element in self.findall(element, "MAC-SEC-PROPSS/MAC-SEC-PROPS"):
             props = self.getMacSecProps(child_element)
             if props is not None:
                 port.addMacSecProps(props)
@@ -15385,6 +15816,7 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
             controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
+            controller.setSlaveQualifiedUnexpectedLinkDownTime(self.getChildElementOptionalTimeValue(child_element, "SLAVE-QUALIFIED-UNEXPECTED-LINK-DOWN-TIME"))
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)
@@ -18023,6 +18455,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readSignalServiceTranslationPropsSet(child_element, props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 self.readEcucValueCollection(child_element, parent.createEcucValueCollection(self.getShortName(child_element)))
+            elif tag_name == "ETH-IP-PROPS":
+                self.readEthIpProps(child_element, parent.createEthIpProps(self.getShortName(child_element)))
             elif tag_name == "ETH-TCP-IP-PROPS":
                 props = parent.createEthTcpIpProps(self.getShortName(child_element))
                 self.readEthTcpIpProps(child_element, props)
@@ -18056,6 +18490,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlatMap(child_element, map)
             elif tag_name == "PORT-INTERFACE-MAPPING-SET":
                 self.readPortInterfaceMappingSet(child_element, parent.createPortInterfaceMappingSet(self.getShortName(child_element)))
+            elif tag_name == "COUPLING-ELEMENT":
+                self.readCouplingElement(child_element, parent.createCouplingElement(self.getShortName(child_element)))
             elif tag_name == "ETHERNET-CLUSTER":
                 self.readEthernetCluster(child_element, parent.createEthernetCluster(self.getShortName(child_element)))
             elif tag_name == "CAN-XL-PROPS":

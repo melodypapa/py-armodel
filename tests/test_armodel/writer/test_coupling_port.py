@@ -9,11 +9,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     Boolean,
+    Identifier,
     MacAddressString,
     PositiveInteger,
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
@@ -165,7 +167,7 @@ class TestWriteCouplingPort:
         writer.writeCouplingPort(parent, port)
 
         node = parent.find("COUPLING-PORT")
-        mac_sec = node.find("MAC-SEC-PROPS")
+        mac_sec = node.find("MAC-SEC-PROPSS/MAC-SEC-PROPS")
         assert mac_sec is not None
         assert mac_sec.find("AUTO-START").text == "true"
         kay = mac_sec.find("MAC-SEC-KAY-CONFIG")
@@ -198,7 +200,7 @@ class TestWriteCouplingPort:
             "DEFAULT-VLAN-REF",
             "MAC-LAYER-TYPE",
             "MAC-MULTICAST-ADDRESS-REFS",
-            "MAC-SEC-PROPS",
+            "MAC-SEC-PROPSS",
             "PHYSICAL-LAYER-TYPE",
             "PLCA-PROPS",
             "PNC-MAPPING-REFS",
@@ -209,6 +211,58 @@ class TestWriteCouplingPort:
         ]
         emitted = [child.tag for child in node if child.tag in xsd_order]
         assert emitted == xsd_order
+
+    def test_write_mac_sec_props_items_nested_in_wrapper(self, writer):
+        port = _new_port()
+        port.addMacSecProps(_new_mac_sec_props())
+        port.addMacSecProps(_new_mac_sec_props())
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        node = parent.find("COUPLING-PORT")
+        wrapper = node.find("MAC-SEC-PROPSS")
+        assert wrapper is not None
+        items = wrapper.findall("MAC-SEC-PROPS")
+        assert len(items) == 2
+        assert node.findall("MAC-SEC-PROPS") == []
+
+    def test_write_variation_point_last_matches_xsd(self, writer):
+        port = _new_port()
+        variation_point = VariationPoint()
+        short_label = Identifier()
+        short_label.setValue("variantA")
+        variation_point.setShortLabel(short_label)
+        port.setVariationPoint(variation_point)
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        node = parent.find("COUPLING-PORT")
+        tags = [child.tag for child in node]
+        assert "VARIATION-POINT" in tags
+        assert tags[-1] == "VARIATION-POINT"
+        assert tags.index("VARIATION-POINT") > tags.index("WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF")
+
+    def test_round_trip_variation_point(self, writer, parser, tmp_path):
+        port = _new_port()
+        variation_point = VariationPoint()
+        short_label = Identifier()
+        short_label.setValue("variantA")
+        variation_point.setShortLabel(short_label)
+        port.setVariationPoint(variation_point)
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        out_file = str(tmp_path / "coupling_port_vp.arxml")
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(ET.tostring(_wrap(parent), encoding="unicode"))
+
+        tree = ET.parse(out_file)
+        recovered = CouplingPort(MockParent(), "CP1")
+        parser.readCouplingPort(tree.getroot()[0][0], recovered)
+
+        recovered_vp = recovered.getVariationPoint()
+        assert recovered_vp is not None
+        assert recovered_vp.getShortLabel().getValue() == "variantA"
 
 
 class TestCouplingPortRoundTrip:

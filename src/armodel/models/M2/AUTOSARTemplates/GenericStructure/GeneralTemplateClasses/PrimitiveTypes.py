@@ -1693,10 +1693,6 @@ class AdditionalBindingTimeEnum(AREnum):
         )
 
 
-class CouplingElementEnum(AREnum):
-    pass
-
-
 class CryptoServiceKeyGenerationEnum(AREnum):
     pass
 
@@ -2827,10 +2823,6 @@ class FMFeatureSelectionState(AREnum):
     pass
 
 
-class FlowMeteringColorModeEnum(AREnum):
-    pass
-
-
 class FrArTpAckType(AREnum):
     pass
 
@@ -2924,8 +2916,4 @@ class SendIndicationEnum(AREnum):
 
 
 class SeverityEnum(AREnum):
-    pass
-
-
-class SwitchStreamFilterActionPortModificationEnum(AREnum):
     pass

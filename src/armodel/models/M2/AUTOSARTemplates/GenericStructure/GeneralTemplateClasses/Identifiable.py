@@ -1474,10 +1474,6 @@ class BinaryManifestResourceDefinition(Identifiable):
     pass
 
 
-class CouplingElementAbstractDetails(Identifiable, ABC):
-    pass
-
-
 class CpSoftwareClusterToResourceMapping(Identifiable):
     pass
 
@@ -1933,43 +1929,11 @@ class SwcToApplicationPartitionMapping(Identifiable):
     pass
 
 
-class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
-    pass
-
-
-class SwitchFlowMeteringEntry(Identifiable):
-    pass
-
-
-class SwitchStreamFilterActionDestPortModification(Identifiable):
-    pass
-
-
-class SwitchStreamFilterEntry(Identifiable):
-    pass
-
-
-class SwitchStreamFilterRule(Identifiable):
-    pass
-
-
-class SwitchStreamGateEntry(Identifiable):
-    pass
-
-
-class SwitchStreamIdentification(Identifiable):
-    pass
-
-
 class UserDefinedGlobalTimeSlave(Identifiable):
     pass
 
 
 class UserDefinedTransformationProps(Identifiable):
-    pass
-
-
-class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
     pass
 
 

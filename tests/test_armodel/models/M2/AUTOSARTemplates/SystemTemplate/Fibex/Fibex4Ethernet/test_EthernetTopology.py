@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
@@ -35,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetConnectionNegotiationEnum,
+    EthernetCouplingPortSchedulerEnum,
     EthernetMacLayerTypeEnum,
     EthernetPhysicalChannel,
     EthernetPhysicalLayerTypeEnum,
@@ -215,6 +217,26 @@ class TestEthernetTopology:
         fifo = CouplingPortFifo(MockParent(), "TestFifo")
         assert not hasattr(fifo, "trafficClassPreemptionSupport")
 
+    def test_coupling_port_fifo_docstrings_are_spec_notes(self):
+        """Accessors carry the Table 3.68 (p.124) Notes verbatim, incl. the shaper Tags tail."""
+        class_note = "Defines a FIFO for the CouplingPort egress structure."
+        assigned_note = "Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7"
+        minimum_note = "FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."
+        shaper_note = "Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate"
+        assert inspect.cleandoc(CouplingPortFifo.__doc__).strip() == class_note
+        assert inspect.cleandoc(CouplingPortFifo.addAssignedTrafficClass.__doc__).strip() == assigned_note + "\nA None value is a no-op and does not append to assignedTrafficClasses."
+        assert inspect.cleandoc(CouplingPortFifo.getAssignedTrafficClasses.__doc__).strip() == assigned_note
+        assert inspect.cleandoc(CouplingPortFifo.getMinimumFifoLength.__doc__).strip() == minimum_note
+        assert inspect.cleandoc(CouplingPortFifo.setMinimumFifoLength.__doc__).strip() == minimum_note + "\nA None value is a no-op and does not overwrite an existing minimumFifoLength."
+        assert inspect.cleandoc(CouplingPortFifo.getShaper.__doc__).strip() == shaper_note
+        assert inspect.cleandoc(CouplingPortFifo.setShaper.__doc__).strip() == shaper_note + "\nA None value is a no-op and does not overwrite an existing shaper."
+
+    def test_coupling_port_fifo_member_order_matches_spec(self):
+        """Member order matches the Table 3.68 (p.124) displayed order."""
+        source = inspect.getsource(CouplingPortFifo.__init__)
+        indexes = [source.index("self.%s:" % member) for member in ("assignedTrafficClasses", "minimumFifoLength", "shaper")]
+        assert indexes == sorted(indexes)
+
     def test_coupling_port_scheduler(self):
         """
         Test the CouplingPortScheduler class initialization and methods (Table 3.65, p.123).
@@ -279,16 +301,6 @@ class TestEthernetTopology:
         scheduler.addPredecessorRef(ref1)
         scheduler.addPredecessorRef(None)
         assert len(scheduler.getPredecessorRefs()) == 1
-
-    def test_ethernet_coupling_port_scheduler_enum(self):
-        """EthernetCouplingPortSchedulerEnum members and wire values (Table 3.66, p.123)."""
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCouplingPortSchedulerEnum
-
-        value = EthernetCouplingPortSchedulerEnum()
-        value.setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
-        assert value.getValue() == "DEFICIT-ROUND-ROBIN"
-        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
-        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
 
     def test_ethernet_priority_regeneration(self):
         """
@@ -438,14 +450,24 @@ class TestEthernetTopology:
         assert membership.getDhcpAddressAssignment() is config
 
     def test_ethernet_switch_vlan_egress_tagging_enum(self):
-        """EthernetSwitchVlanEgressTaggingEnum members and wire values (Table 3.78, p.130)."""
+        """EthernetSwitchVlanEgressTaggingEnum members, wire values and docstring (Table 3.78, p.130, R23-11)."""
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetSwitchVlanEgressTaggingEnum
 
-        value = EthernetSwitchVlanEgressTaggingEnum()
-        value.setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
-        assert value.getValue() == "NOT-SENT"
+        assert EthernetSwitchVlanEgressTaggingEnum.NOT_SENT == "NOT-SENT"
         assert EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED == "SENT-TAGGED"
         assert EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED == "SENT-UNTAGGED"
+        assert list(EthernetSwitchVlanEgressTaggingEnum().getEnumValues()) == ["NOT-SENT", "SENT-TAGGED", "SENT-UNTAGGED"]
+
+        not_sent = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.NOT_SENT)
+        assert not_sent.getValue() == EthernetSwitchVlanEgressTaggingEnum.NOT_SENT
+
+        sent_tagged = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED)
+        assert sent_tagged.getValue() == EthernetSwitchVlanEgressTaggingEnum.SENT_TAGGED
+
+        sent_untagged = EthernetSwitchVlanEgressTaggingEnum().setValue(EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED)
+        assert sent_untagged.getValue() == EthernetSwitchVlanEgressTaggingEnum.SENT_UNTAGGED
+
+        assert inspect.cleandoc(EthernetSwitchVlanEgressTaggingEnum.__doc__) == "Defines the VLAN tag sending behavior."
 
     def test_coupling_port(self):
         """
@@ -1044,13 +1066,26 @@ class TestSdClientConfigSpecSync:
 
 
 class TestEthernetConnectionNegotiationEnum:
-    """Test cases for EthernetConnectionNegotiationEnum (Table 3.55, p.110)."""
+    """Test cases for EthernetConnectionNegotiationEnum (CP_TPS_SystemTemplate Table 3.55, p.110, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["AUTO", "MASTER", "SLAVE"]
+    def test_member_presence_and_values(self):
         assert EthernetConnectionNegotiationEnum.AUTO == "AUTO"
         assert EthernetConnectionNegotiationEnum.MASTER == "MASTER"
         assert EthernetConnectionNegotiationEnum.SLAVE == "SLAVE"
+        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["AUTO", "MASTER", "SLAVE"]
+
+    def test_instantiability_round_trip(self):
+        auto = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.AUTO)
+        assert auto.getValue() == EthernetConnectionNegotiationEnum.AUTO
+
+        master = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.MASTER)
+        assert master.getValue() == EthernetConnectionNegotiationEnum.MASTER
+
+        slave = EthernetConnectionNegotiationEnum().setValue(EthernetConnectionNegotiationEnum.SLAVE)
+        assert slave.getValue() == EthernetConnectionNegotiationEnum.SLAVE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetConnectionNegotiationEnum.__doc__) == "Specifies connection negotiation types of Ethernet transceiver links."
 
 
 class TestCouplingPortRoleEnum:
@@ -1064,13 +1099,49 @@ class TestCouplingPortRoleEnum:
 
 
 class TestEthernetMacLayerTypeEnum:
-    """Test cases for EthernetMacLayerTypeEnum (Table 3.56, p.110)."""
+    """Test cases for EthernetMacLayerTypeEnum (CP_TPS_SystemTemplate Table 3.56, p.110, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["X-MII", "XG-MII", "XXG-MII"]
-        assert EthernetMacLayerTypeEnum.XGMII == "XG-MII"
+    def test_member_presence_and_values(self):
         assert EthernetMacLayerTypeEnum.XMII == "X-MII"
+        assert EthernetMacLayerTypeEnum.XGMII == "XG-MII"
         assert EthernetMacLayerTypeEnum.XXGMII == "XXG-MII"
+        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["X-MII", "XG-MII", "XXG-MII"]
+
+    def test_instantiability_round_trip(self):
+        xmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XMII)
+        assert xmii.getValue() == EthernetMacLayerTypeEnum.XMII
+
+        xgmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XGMII)
+        assert xgmii.getValue() == EthernetMacLayerTypeEnum.XGMII
+
+        xxgmii = EthernetMacLayerTypeEnum().setValue(EthernetMacLayerTypeEnum.XXGMII)
+        assert xxgmii.getValue() == EthernetMacLayerTypeEnum.XXGMII
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetMacLayerTypeEnum.__doc__) == "Specifies MAC (Media Access Control) Layer types."
+
+
+class TestEthernetCouplingPortSchedulerEnum:
+    """Test cases for EthernetCouplingPortSchedulerEnum (CP_TPS_SystemTemplate Table 3.66, p.123, R23-11)."""
+
+    def test_member_presence_and_values(self):
+        assert EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN == "DEFICIT-ROUND-ROBIN"
+        assert EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY == "STRICT-PRIORITY"
+        assert EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN == "WEIGHTED-ROUND-ROBIN"
+        assert list(EthernetCouplingPortSchedulerEnum().getEnumValues()) == ["DEFICIT-ROUND-ROBIN", "STRICT-PRIORITY", "WEIGHTED-ROUND-ROBIN"]
+
+    def test_instantiability_round_trip(self):
+        deficit_round_robin = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN)
+        assert deficit_round_robin.getValue() == EthernetCouplingPortSchedulerEnum.DEFICIT_ROUND_ROBIN
+
+        strict_priority = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY)
+        assert strict_priority.getValue() == EthernetCouplingPortSchedulerEnum.STRICT_PRIORITY
+
+        weighted_round_robin = EthernetCouplingPortSchedulerEnum().setValue(EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN)
+        assert weighted_round_robin.getValue() == EthernetCouplingPortSchedulerEnum.WEIGHTED_ROUND_ROBIN
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetCouplingPortSchedulerEnum.__doc__) == "Defines the schedule algorithm to be used."
 
 
 class Test_Fibex4EthernetNetworkEndpoint:
@@ -1395,9 +1466,15 @@ class Test_Fibex4EthernetNetworkEndpoint:
 
 
 class TestEthernetPhysicalLayerTypeEnum:
-    """Test cases for EthernetPhysicalLayerTypeEnum (Table 3.57, p.111)."""
+    """Test cases for EthernetPhysicalLayerTypeEnum (Table 3.57, p.111, R23-11)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T == "1000BASE-T"
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T1 == "1000BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_T1 == "100BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
+        assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
+        assert EthernetPhysicalLayerTypeEnum.IEEE802_11P == "IEEE802-11P"
         assert list(EthernetPhysicalLayerTypeEnum().getEnumValues()) == [
             "1000BASE-T",
             "1000BASE-T1",
@@ -1406,24 +1483,41 @@ class TestEthernetPhysicalLayerTypeEnum:
             "10BASE-T1S",
             "IEEE802-11P",
         ]
-        assert EthernetPhysicalLayerTypeEnum._1000BASE_T == "1000BASE-T"
-        assert EthernetPhysicalLayerTypeEnum._1000BASE_T1 == "1000BASE-T1"
-        assert EthernetPhysicalLayerTypeEnum._100BASE_T1 == "100BASE-T1"
-        assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
-        assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
-        assert EthernetPhysicalLayerTypeEnum.I_EEE802_11P == "IEEE802-11P"
+
+    def test_instantiability_round_trip(self):
+        t1 = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum._1000BASE_T)
+        assert t1.getValue() == EthernetPhysicalLayerTypeEnum._1000BASE_T
+
+        t1s = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum._10BASE_T1S)
+        assert t1s.getValue() == EthernetPhysicalLayerTypeEnum._10BASE_T1S
+
+        ieee = EthernetPhysicalLayerTypeEnum().setValue(EthernetPhysicalLayerTypeEnum.IEEE802_11P)
+        assert ieee.getValue() == EthernetPhysicalLayerTypeEnum.IEEE802_11P
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetPhysicalLayerTypeEnum.__doc__) == "Specifies physical layer types of Ethernet transceiver links."
 
 
 class TestEthernetSwitchVlanIngressTagEnum:
-    """Test cases for EthernetSwitchVlanIngressTagEnum (Table 3.58, p.111)."""
+    """Test cases for EthernetSwitchVlanIngressTagEnum (Table 3.58, p.111, R23-11)."""
 
-    def test_enum_values(self):
-        assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
-            EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
-            EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
-        ]
-        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "FORWARD-AS-IS"
+    def test_member_presence_and_values(self):
         assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "DROP-UNTAGGED"
+        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "FORWARD-AS-IS"
+        assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
+            EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
+            EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
+        ]
+
+    def test_instantiability_round_trip(self):
+        drop = EthernetSwitchVlanIngressTagEnum().setValue(EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED)
+        assert drop.getValue() == EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED
+
+        forward = EthernetSwitchVlanIngressTagEnum().setValue(EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS)
+        assert forward.getValue() == EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(EthernetSwitchVlanIngressTagEnum.__doc__) == "Defines the possible tagging behavior at an ingress port."
 
 
 class TestTimeSyncTechnologyEnum:
@@ -1457,20 +1551,25 @@ class TestDoIpEntityRoleEnum:
 
 
 class TestCouplingPortRatePolicyActionEnum:
-    """Test cases for CouplingPortRatePolicyActionEnum (Table 3.70, p.125)."""
+    """Test cases for CouplingPortRatePolicyActionEnum (CP_TPS_SystemTemplate Table 3.70, p.125, R23-11)."""
 
-    def test_enum_values(self):
+    def test_member_presence_and_values(self):
+        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "DROP-FRAME"
+        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "BLOCK-SOURCE"
         assert list(CouplingPortRatePolicyActionEnum().getEnumValues()) == [
             CouplingPortRatePolicyActionEnum.DROP_FRAME,
             CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
         ]
-        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "DROP-FRAME"
-        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "BLOCK-SOURCE"
 
-    def test_instantiation(self):
-        enum = CouplingPortRatePolicyActionEnum()
-        assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
-        assert enum.getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
+    def test_instantiability_round_trip(self):
+        drop_frame = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.DROP_FRAME)
+        assert drop_frame.getValue() == CouplingPortRatePolicyActionEnum.DROP_FRAME
+
+        block_source = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE)
+        assert block_source.getValue() == CouplingPortRatePolicyActionEnum.BLOCK_SOURCE
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(CouplingPortRatePolicyActionEnum.__doc__) == "Defines the action to be performed when a rate policy is violated."
 
 
 class TestCouplingPortRatePolicy:
@@ -1917,3 +2016,170 @@ class TestEthernetCluster:
     def test_mac_multicast_group_docstrings_are_spec_note(self):
         self._assert_docstring(EthernetCluster.createMacMulticastGroup, MAC_MULTICAST_GROUP_NOTE)
         self._assert_docstring(EthernetCluster.getMacMulticastGroups, MAC_MULTICAST_GROUP_NOTE)
+
+
+COUPLING_PORT_CLASS_NOTE = "A CouplingPort is used to connect a CouplingElement with an EcuInstance or two CouplingElements with each other via a CouplingPortConnection. Optionally, the CouplingPort may also have a reference to a macMulticastGroup and a defaultVLAN."
+DEFAULT_VLAN_NOTE = "The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity)."
+PNC_MAPPING_NOTE = "Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping"
+
+
+class TestCouplingPortSpecSync:
+    """Spec-sync checks for CouplingPort (R23-11 CP_TPS_SystemTemplate, Table 3.54, p.110)."""
+
+    MEMBERS = [
+        "connectionNegotiationBehavior",
+        "couplingPortDetails",
+        "couplingPortRole",
+        "defaultVlanRef",
+        "macLayerType",
+        "macMulticastAddressRefs",
+        "macSecProps",
+        "physicalLayerType",
+        "plcaProps",
+        "pncMappingRefs",
+        "receiveActivity",
+        "vlanMemberships",
+        "vlanModifierRef",
+        "wakeupSleepOnDatalineConfigRef",
+    ]
+
+    def _make(self) -> CouplingPort:
+        return CouplingPort(MockParent(), "test_coupling_port")
+
+    def test_inheritance(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+
+        assert issubclass(CouplingPort, Identifiable)
+        assert issubclass(CouplingPort, VariationPointCapable)
+        assert issubclass(CouplingPort, ARObject)
+
+    def test_class_docstring_is_spec_note(self):
+        assert CouplingPort.__doc__.strip() == COUPLING_PORT_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert CouplingPort.__init__.__doc__ is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(CouplingPort.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_coupling_port_speed_removed_not_modelled(self):
+        port = self._make()
+        assert not hasattr(port, "couplingPortSpeed")
+
+    def test_default_vlan_docstrings_are_spec_note(self):
+        noop = "A None value is a no-op and does not overwrite an existing defaultVlanRef."
+        assert CouplingPort.getDefaultVlanRef.__doc__.strip() == DEFAULT_VLAN_NOTE
+        assert inspect.cleandoc(CouplingPort.setDefaultVlanRef.__doc__).strip() == DEFAULT_VLAN_NOTE + "\n" + noop
+
+    def test_pnc_mapping_docstrings_carry_stereotype_tail(self):
+        noop = "A None value is a no-op and does not append to pncMappingRefs."
+        assert inspect.cleandoc(CouplingPort.addPncMappingRef.__doc__).strip() == PNC_MAPPING_NOTE + "\n" + noop
+        assert CouplingPort.getPncMappingRefs.__doc__.strip() == PNC_MAPPING_NOTE
+
+    def test_reader_round_trips_mac_sec_props_wrapper(self, tmp_path):
+        import xml.etree.cElementTree as ET
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        element = ET.fromstring(
+            "<COUPLING-PORT xmlns='http://autosar.org/schema/r4.0'>"
+            "<SHORT-NAME>CP1</SHORT-NAME>"
+            "<MAC-SEC-PROPSS><MAC-SEC-PROPS><AUTO-START>true</AUTO-START></MAC-SEC-PROPS></MAC-SEC-PROPSS>"
+            "</COUPLING-PORT>"
+        )
+        recovered = CouplingPort(MockParent(), "CP1")
+        ARXMLParser().readCouplingPort(element, recovered)
+        props = recovered.getMacSecProps()
+        assert len(props) == 1
+        assert props[0].getAutoStart().getValue() is True
+
+
+COUPLING_PORT_SHAPER_CLASS_NOTE = "Defines a shaper for the CouplingPort egress structure. Tags: atp.Status=obsolete"
+IDLE_SLOPE_NOTE = "Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete"
+PREDECESSOR_FIFO_NOTE = "Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete"
+
+
+class TestCouplingPortShaper:
+    """Test cases for CouplingPortShaper (Table 3.67, p.123)."""
+
+    MEMBERS = [
+        "idleSlope",
+        "predecessorFifoRef",
+    ]
+
+    def _make(self) -> CouplingPortShaper:
+        return CouplingPortShaper(MockParent(), "test_coupling_port_shaper")
+
+    def _assert_docstring(self, method, note, noop=None):
+        expected = note if noop is None else note + "\n" + noop
+        assert method.__doc__ is not None
+        assert inspect.cleandoc(method.__doc__).strip() == expected
+
+    def _pin(self, getter, setter, typ, owner):
+        getter_hints = get_type_hints(getter)
+        assert getter_hints.get("return") == typ
+        setter_hints = get_type_hints(setter)
+        assert setter_hints.get("value") == typ
+        assert setter_hints.get("return") is owner
+
+    def test_inheritance(self):
+        assert issubclass(CouplingPortShaper, CouplingPortStructuralElement)
+        assert issubclass(CouplingPortShaper, Identifiable)
+        assert issubclass(CouplingPortShaper, ARObject)
+
+    def test_concrete_instantiation(self):
+        shaper = self._make()
+
+        assert shaper.getShortName() == "test_coupling_port_shaper"
+
+    def test_initialization_defaults(self):
+        shaper = self._make()
+
+        assert shaper.getIdleSlope() is None
+        assert shaper.getPredecessorFifoRef() is None
+
+    def test_member_order_matches_spec(self):
+        source = inspect.getsource(CouplingPortShaper.__init__)
+        indexes = [source.index("self.%s:" % member) for member in self.MEMBERS]
+        assert indexes == sorted(indexes)
+
+    def test_class_docstring_is_spec_note(self):
+        assert inspect.cleandoc(CouplingPortShaper.__doc__).strip() == COUPLING_PORT_SHAPER_CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        assert CouplingPortShaper.__init__.__doc__ is None
+
+    def test_get_set_idle_slope(self):
+        shaper = self._make()
+        value = PositiveInteger().setValue("12500000")
+        assert shaper.setIdleSlope(value) is shaper
+        assert shaper.getIdleSlope() is value
+        shaper.setIdleSlope(None)
+        assert shaper.getIdleSlope().getValue() == 12500000
+        self._pin(CouplingPortShaper.getIdleSlope, CouplingPortShaper.setIdleSlope, Optional[PositiveInteger], CouplingPortShaper)
+
+    def test_idle_slope_docstrings_are_spec_note(self):
+        self._assert_docstring(CouplingPortShaper.getIdleSlope, IDLE_SLOPE_NOTE)
+        self._assert_docstring(CouplingPortShaper.setIdleSlope, IDLE_SLOPE_NOTE, "A None value is a no-op and does not overwrite an existing idleSlope.")
+
+    def test_get_set_predecessor_fifo_ref(self):
+        shaper = self._make()
+        ref = RefType().setValue("/Clusters/Switch/CouplingPort/Fifo1").setDest("COUPLING-PORT-FIFO")
+        assert shaper.setPredecessorFifoRef(ref) is shaper
+        assert shaper.getPredecessorFifoRef() is ref
+        shaper.setPredecessorFifoRef(None)
+        assert shaper.getPredecessorFifoRef() is ref
+        self._pin(CouplingPortShaper.getPredecessorFifoRef, CouplingPortShaper.setPredecessorFifoRef, Optional[RefType], CouplingPortShaper)
+
+    def test_predecessor_fifo_ref_docstrings_are_spec_note(self):
+        self._assert_docstring(CouplingPortShaper.getPredecessorFifoRef, PREDECESSOR_FIFO_NOTE)
+        self._assert_docstring(CouplingPortShaper.setPredecessorFifoRef, PREDECESSOR_FIFO_NOTE, "A None value is a no-op and does not overwrite an existing predecessorFifoRef.")
+
+    def test_details_create_coupling_port_shaper_appends(self):
+        details = CouplingPortDetails()
+        shaper = details.createCouplingPortShaper("Shaper1")
+
+        assert shaper.getShortName() == "Shaper1"
+        assert details.getCouplingPortStructuralElements() == [shaper]

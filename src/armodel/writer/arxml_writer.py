@@ -1006,6 +1006,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    CouplingElement,
+    CouplingElementAbstractDetails,
+    CouplingElementSwitchDetails,
+    EthIpProps,
     EthTcpIpIcmpProps,
     EthTcpIpProps,
     CouplingPort,
@@ -1016,20 +1020,44 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortRatePolicy,
     CouplingPortScheduler,
+    CouplingPortShaper,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     EthernetCluster,
     GlobalTimeCouplingPortProps,
+    Dhcpv6Props,
     PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
+    EthernetWakeupSleepOnDatalineConfig,
     DhcpServerConfiguration,
+    Ipv4ArpProps,
+    Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
+    Ipv4FragmentationProps,
+    Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6FragmentationProps,
+    Ipv6NdpProps,
+    Ipv6Props,
     MacMulticastGroup,
     SdClientConfig,
     SdServerConfig,
+    StreamFilterIEEE1722Tp,
+    StreamFilterIpv4Address,
+    StreamFilterIpv6Address,
+    StreamFilterMACAddress,
+    StreamFilterPortRange,
+    StreamFilterRuleDataLinkLayer,
+    StreamFilterRuleIpTp,
+    SwitchAsynchronousTrafficShaperGroupEntry,
+    SwitchFlowMeteringEntry,
+    SwitchStreamFilterActionDestPortModification,
+    SwitchStreamFilterEntry,
+    SwitchStreamFilterRule,
+    SwitchStreamGateEntry,
+    SwitchStreamIdentification,
     VlanMembership,
     TcpProps,
     UdpProps,
@@ -11533,6 +11561,131 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-PROPS")
             self.setChildElementOptionalPositiveInteger(child_element, "UDP-TTL", cast(Integer, props.getUdpTtl()))
 
+    def writeEthIpProps(self, element: ET.Element, props: EthIpProps):
+        """Write an R23-11 <ETH-IP-PROPS> element (Table 3.100, p.146): SHORT-NAME, IPV-4-PROPS, IPV-6-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ETH-IP-PROPS")
+            self.writeIdentifiable(child_element, props)
+            ipv4Props_value = props.getIpv4Props()
+            if ipv4Props_value is not None:
+                self.writeIpv4Props(child_element, ipv4Props_value)
+            ipv6Props_value = props.getIpv6Props()
+            if ipv6Props_value is not None:
+                self.writeIpv6Props(child_element, ipv6Props_value)
+
+    def writeIpv4Props(self, element: ET.Element, props: Optional[Ipv4Props]):
+        """Write an R23-11 <IPV-4-PROPS> element (Table 3.101, p.146): ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "IPV-4-PROPS")
+            self.writeARObject(child_element, props)
+            arpProps_value = props.getArpProps()
+            if arpProps_value is not None:
+                self.writeIpv4ArpProps(child_element, arpProps_value)
+            autoIpProps_value = props.getAutoIpProps()
+            if autoIpProps_value is not None:
+                self.writeIpv4AutoIpProps(child_element, autoIpProps_value)
+            fragmentationProps_value = props.getFragmentationProps()
+            if fragmentationProps_value is not None:
+                self.writeIpv4FragmentationProps(child_element, fragmentationProps_value)
+
+    def writeIpv6Props(self, element: ET.Element, props: Optional[Ipv6Props]):
+        """Write an R23-11 <IPV-6-PROPS> element (Table 3.105, p.148): DHCP-PROPS, FRAGMENTATION-PROPS, NDP-PROPS."""
+        if props is not None:
+            child_element = ET.SubElement(element, "IPV-6-PROPS")
+            self.writeARObject(child_element, props)
+            dhcpProps_value = props.getDhcpProps()
+            if dhcpProps_value is not None:
+                self.writeDhcpv6Props(child_element, dhcpProps_value)
+            fragmentationProps_value = props.getFragmentationProps()
+            if fragmentationProps_value is not None:
+                self.writeIpv6FragmentationProps(child_element, fragmentationProps_value)
+            ndpProps_value = props.getNdpProps()
+            if ndpProps_value is not None:
+                self.writeIpv6NdpProps(child_element, ndpProps_value)
+
+    def writeIpv6NdpProps(self, element: ET.Element, props: Optional[Ipv6NdpProps]):
+        """Write an R23-11 <NDP-PROPS> element (Table 3.108, p.151): 26 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "NDP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-DEFAULT-REACHABLE-TIME", props.getTcpIpNdpDefaultReachableTime())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-DEFAULT-RETRANS-TIMER", props.getTcpIpNdpDefaultRetransTimer())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-DEFAULT-ROUTER-LIST-SIZE", props.getTcpIpNdpDefaultRouterListSize())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-DEFENSIVE-PROCESSING", props.getTcpIpNdpDefensiveProcessing())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-DELAY-FIRST-PROBE-TIME-VALUE", props.getTcpIpNdpDelayFirstProbeTimeValue())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-DESTINATION-CACHE-SIZE", props.getTcpIpNdpDestinationCacheSize())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-DYNAMIC-HOP-LIMIT-ENABLED", props.getTcpIpNdpDynamicHopLimitEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-DYNAMIC-MTU-ENABLED", props.getTcpIpNdpDynamicMtuEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-DYNAMIC-REACHABLE-TIME-ENABLED", props.getTcpIpNdpDynamicReachableTimeEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-DYNAMIC-RETRANS-TIME-ENABLED", props.getTcpIpNdpDynamicRetransTimeEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-MAX-RANDOM-FACTOR", props.getTcpIpNdpMaxRandomFactor())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-MAX-RTR-SOLICITATION-DELAY", props.getTcpIpNdpMaxRtrSolicitationDelay())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-MAX-RTR-SOLICITATIONS", props.getTcpIpNdpMaxRtrSolicitations())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-MIN-RANDOM-FACTOR", props.getTcpIpNdpMinRandomFactor())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-NEIGHBOR-UNREACHABILITY-DETECTION-ENABLED", props.getTcpIpNdpNeighborUnreachabilityDetectionEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-NUM-MULTICAST-SOLICITATIONS", props.getTcpIpNdpNumMulticastSolicitations())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-NUM-UNICAST-SOLICITATIONS", props.getTcpIpNdpNumUnicastSolicitations())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-PACKET-QUEUE-ENABLED", props.getTcpIpNdpPacketQueueEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-PREFIX-LIST-SIZE", props.getTcpIpNdpPrefixListSize())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-RANDOM-REACHABLE-TIME-ENABLED", props.getTcpIpNdpRandomReachableTimeEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-RND-RTR-SOLICITATION-DELAY-ENABLED", props.getTcpIpNdpRndRtrSolicitationDelayEnabled())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-RTR-SOLICITATION-INTERVAL", props.getTcpIpNdpRtrSolicitationInterval())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-NDP-SLAAC-DAD-NUMBER-OF-TRANSMISSIONS", props.getTcpIpNdpSlaacDadNumberOfTransmissions())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-NDP-SLAAC-DAD-RETRANSMISSION-DELAY", props.getTcpIpNdpSlaacDadRetransmissionDelay())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-SLAAC-DELAY-ENABLED", props.getTcpIpNdpSlaacDelayEnabled())
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-NDP-SLAAC-OPTIMISTIC-DAD-ENABLED", props.getTcpIpNdpSlaacOptimisticDadEnabled())
+
+    def writeDhcpv6Props(self, element: ET.Element, props: Optional[Dhcpv6Props]):
+        """Write an R23-11 <DHCP-PROPS> element (Table 3.107, p.149): 6 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "DHCP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-CNF-DELAY-MAX", props.getTcpIpDhcpV6CnfDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-CNF-DELAY-MIN", props.getTcpIpDhcpV6CnfDelayMin())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-INF-DELAY-MAX", props.getTcpIpDhcpV6InfDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-INF-DELAY-MIN", props.getTcpIpDhcpV6InfDelayMin())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-SOL-DELAY-MAX", props.getTcpIpDhcpV6SolDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-SOL-DELAY-MIN", props.getTcpIpDhcpV6SolDelayMin())
+
+    def writeIpv6FragmentationProps(self, element: ET.Element, props: Optional[Ipv6FragmentationProps]):
+        """Write an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "FRAGMENTATION-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-BUFFER-COUNT", props.getTcpIpIpReassemblyBufferCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-BUFFER-SIZE", props.getTcpIpIpReassemblyBufferSize())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT", props.getTcpIpIpReassemblySegmentCount())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-IP-REASSEMBLY-TIMEOUT", props.getTcpIpIpReassemblyTimeout())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT", props.getTcpIpIpTxFragmentBufferCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE", props.getTcpIpIpTxFragmentBufferSize())
+
+    def writeIpv4ArpProps(self, element: ET.Element, props: Optional[Ipv4ArpProps]):
+        """Write an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "ARP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ARP-NUM-GRATUITOUS-ARP-ON-STARTUP", cast(Integer, props.getTcpIpArpNumGratuitousArpOnStartup()))
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ARP-PACKET-QUEUE-ENABLED", props.getTcpIpArpPacketQueueEnabled())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-ARP-REQUEST-TIMEOUT", props.getTcpIpArpRequestTimeout())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-ARP-TABLE-ENTRY-TIMEOUT", props.getTcpIpArpTableEntryTimeout())
+
+    def writeIpv4AutoIpProps(self, element: ET.Element, props: Optional[Ipv4AutoIpProps]):
+        """Write an R23-11 <AUTO-IP-PROPS> element (Table 3.103, p.147): 1 optional attribute in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "AUTO-IP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-AUTO-IP-INIT-TIMEOUT", props.getTcpIpAutoIpInitTimeout())
+
+    def writeIpv4FragmentationProps(self, element: ET.Element, props: Optional[Ipv4FragmentationProps]):
+        """Write an R23-11 <FRAGMENTATION-PROPS> element (Table 3.104, p.147): 4 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "FRAGMENTATION-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-IP-FRAGMENTATION-RX-ENABLED", props.getTcpIpIpFragmentationRxEnabled())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-NUM-FRAGMENTS", props.getTcpIpIpNumFragments())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-NUM-REASS-DGRAMS", props.getTcpIpIpNumReassDgrams())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-IP-REASS-TIMEOUT", props.getTcpIpIpReassTimeout())
+
     def writeEthTcpIpProps(self, element: ET.Element, props: EthTcpIpProps):
         """Write an R23-11 <ETH-TCP-IP-PROPS> element (Table 3.109, p.153): SHORT-NAME, TCP-PROPS, UDP-PROPS."""
         if props is not None:
@@ -11584,6 +11737,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-ICMP-V-6-HOP-LIMIT", cast(Integer, props.getTcpIpIcmpV6HopLimit()))
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-DESTINATION-UNREACHABLE-ENABLED", props.getTcpIpIcmpV6MsgDestinationUnreachableEnabled())
             self.setChildElementOptionalBooleanValue(child_element, "TCP-IP-ICMP-V-6-MSG-PARAMETER-PROBLEM-ENABLED", props.getTcpIpIcmpV6MsgParameterProblemEnabled())
+
+    def writeEthernetWakeupSleepOnDatalineConfig(self, element: ET.Element, config: Optional[EthernetWakeupSleepOnDatalineConfig]):
+        if config is not None:
+            self.writeIdentifiable(element, config)
+            self.setChildElementOptionalTimeValue(element, "SLEEP-MODE-EXECUTION-DELAY", config.getSleepModeExecutionDelay())
+            self.setChildElementOptionalTimeValue(element, "SLEEP-REPETITION-DELAY-OF-SLEEP-REQUEST", config.getSleepRepetitionDelayOfSleepRequest())
+            self.setChildElementOptionalPositiveInteger(element, "SLEEP-REPETITIONS-OF-SLEEP-REQUEST", config.getSleepRepetitionsOfSleepRequest())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-LOCAL-ENABLED", config.getWakeupForwardLocalEnabled())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-FORWARD-REMOTE-ENABLED", config.getWakeupForwardRemoteEnabled())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DETECTION-TIME", config.getWakeupLocalDetectionTime())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-LOCAL-DURATION-TIME", config.getWakeupLocalDurationTime())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-LOCAL-ENABLED", config.getWakeupLocalEnabled())
+            self.setChildElementOptionalBooleanValue(element, "WAKEUP-REMOTE-ENABLED", config.getWakeupRemoteEnabled())
+            self.setChildElementOptionalTimeValue(element, "WAKEUP-REPETITION-DELAY-OF-WAKEUP-REQUEST", config.getWakeupRepetitionDelayOfWakeupRequest())
+            self.setChildElementOptionalPositiveInteger(element, "WAKEUP-REPETITIONS-OF-WAKEUP-REQUEST", config.getWakeupRepetitionsOfWakeupRequest())
 
     def writeEthTcpIpIcmpProps(self, element: ET.Element, props: EthTcpIpIcmpProps):
         """Write an R23-11 <ETH-TCP-IP-ICMP-PROPS> element (Table 3.112, p.156): SHORT-NAME, ICMP-V-4-PROPS, ICMP-V-6-PROPS."""
@@ -12251,6 +12419,235 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
 
+    def writeCouplingElementAbstractDetails(self, element: ET.Element, details: CouplingElementAbstractDetails):
+        self.writeIdentifiable(element, details)
+
+    def writeSwitchStreamIdentification(self, element: ET.Element, stream_identification: SwitchStreamIdentification):
+        child_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATION")
+        self.writeIdentifiable(child_element, stream_identification)
+        egress_port_refs = stream_identification.getEgressPortRefs()
+        if len(egress_port_refs) > 0:
+            egress_port_refs_element = ET.SubElement(child_element, "EGRESS-PORT-REFS")
+            for ref in egress_port_refs:
+                self.setChildElementOptionalRefType(egress_port_refs_element, "EGRESS-PORT-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "FILTER-ACTION-BLOCK-SOURCE", stream_identification.getFilterActionBlockSource())
+        modification = stream_identification.getFilterActionDestPortModification()
+        if modification is not None:
+            modification_element = ET.SubElement(child_element, "FILTER-ACTION-DEST-PORT-MODIFICATION")
+            self.writeSwitchStreamFilterActionDestPortModification(modification_element, modification)
+        self.setChildElementOptionalBooleanValue(child_element, "FILTER-ACTION-DROP-FRAME", stream_identification.getFilterActionDropFrame())
+        self.setChildElementOptionalPositiveInteger(child_element, "FILTER-ACTION-VLAN-MODIFICATION", stream_identification.getFilterActionVlanModification())
+        ingress_port_refs = stream_identification.getIngressPortRefs()
+        if len(ingress_port_refs) > 0:
+            ingress_port_refs_element = ET.SubElement(child_element, "INGRESS-PORT-REFS")
+            for ref in ingress_port_refs:
+                self.setChildElementOptionalRefType(ingress_port_refs_element, "INGRESS-PORT-REF", ref)
+        stream_filter_rule = stream_identification.getStreamFilterRule()
+        if stream_filter_rule is not None:
+            stream_filter_rule_element = ET.SubElement(child_element, "STREAM-FILTER-RULE")
+            self.writeSwitchStreamFilterRule(stream_filter_rule_element, stream_filter_rule)
+
+    def writeSwitchStreamFilterActionDestPortModification(self, element: ET.Element, modification: Optional[SwitchStreamFilterActionDestPortModification]):
+        if modification is not None:
+            self.writeIdentifiable(element, modification)
+            egress_port_refs = modification.getEgressPortRefs()
+            if len(egress_port_refs) > 0:
+                egress_port_refs_element = ET.SubElement(element, "EGRESS-PORT-REFS")
+                for ref in egress_port_refs:
+                    self.setChildElementOptionalRefType(egress_port_refs_element, "EGRESS-PORT-REF", ref)
+            self.setChildElementOptionalLiteral(element, "MODIFICATION", modification.getModification())
+
+    def writeSwitchStreamFilterEntry(self, element: ET.Element, stream_filter: Optional[SwitchStreamFilterEntry]):
+        if stream_filter is not None:
+            self.writeIdentifiable(element, stream_filter)
+            self.setChildElementOptionalRefType(element, "ASYNCHRONOUS-TRAFFIC-SHAPER-REF", stream_filter.getAsynchronousTrafficShaperRef())
+            self.setChildElementOptionalPositiveInteger(element, "FILTER-PRIORITY", stream_filter.getFilterPriority())
+            self.setChildElementOptionalRefType(element, "FLOW-METERING-REF", stream_filter.getFlowMeteringRef())
+            self.setChildElementOptionalPositiveInteger(element, "MAX-SDU-SIZE", stream_filter.getMaxSduSize())
+            self.setChildElementOptionalRefType(element, "STREAM-GATE-REF", stream_filter.getStreamGateRef())
+            stream_identification_handle_refs = stream_filter.getStreamIdentificationHandleRefs()
+            if len(stream_identification_handle_refs) > 0:
+                stream_identification_handle_refs_element = ET.SubElement(element, "STREAM-IDENTIFICATION-HANDLE-REFS")
+                for ref in stream_identification_handle_refs:
+                    self.setChildElementOptionalRefType(stream_identification_handle_refs_element, "STREAM-IDENTIFICATION-HANDLE-REF", ref)
+            self.setChildElementOptionalBooleanValue(element, "STREAM-IDENTIFICATION-WILDCARD", stream_filter.getStreamIdentificationWildcard())
+
+    def writeSwitchAsynchronousTrafficShaperGroupEntry(self, element: ET.Element, traffic_shaper_group: Optional[SwitchAsynchronousTrafficShaperGroupEntry]):
+        if traffic_shaper_group is not None:
+            self.writeIdentifiable(element, traffic_shaper_group)
+            self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-RESIDENCE-TIME", traffic_shaper_group.getMaximumResidenceTime())
+
+    def writeSwitchFlowMeteringEntry(self, element: ET.Element, flow_metering: Optional[SwitchFlowMeteringEntry]):
+        if flow_metering is not None:
+            self.writeIdentifiable(element, flow_metering)
+            self.setChildElementOptionalLiteral(element, "COLOR-MODE", flow_metering.getColorMode())
+            self.setChildElementOptionalPositiveInteger(element, "COMMITTED-BURST-SIZE", flow_metering.getCommittedBurstSize())
+            self.setChildElementOptionalPositiveInteger(element, "COMMITTED-INFORMATION-RATE", flow_metering.getCommittedInformationRate())
+            self.setChildElementOptionalBooleanValue(element, "COUPLING-FLAG", flow_metering.getCouplingFlag())
+            self.setChildElementOptionalPositiveInteger(element, "EXCESS-BURST-SIZE", flow_metering.getExcessBurstSize())
+            self.setChildElementOptionalPositiveInteger(element, "EXCESS-INFORMATION-RATE", flow_metering.getExcessInformationRate())
+
+    def writeSwitchStreamGateEntry(self, element: ET.Element, stream_gate: Optional[SwitchStreamGateEntry]):
+        if stream_gate is not None:
+            self.writeIdentifiable(element, stream_gate)
+            self.setChildElementOptionalPositiveInteger(element, "INTERNAL-PRIORITY-VALUE", stream_gate.getInternalPriorityValue())
+
+    def writeStreamFilterMACAddress(self, element: ET.Element, mac_address: Optional[StreamFilterMACAddress]):
+        if mac_address is not None:
+            self.writeARObject(element, mac_address)
+            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS", mac_address.getMacAddress())
+            self.setChildElementOptionalLiteral(element, "MAC-ADDRESS-MASK", mac_address.getMacAddressMask())
+
+    def writeStreamFilterRuleDataLinkLayer(self, element: ET.Element, rule: Optional[StreamFilterRuleDataLinkLayer]):
+        if rule is not None:
+            self.writeARObject(element, rule)
+            destination_mac_address = rule.getDestinationMacAddress()
+            if destination_mac_address is not None:
+                destination_mac_address_element = ET.SubElement(element, "DESTINATION-MAC-ADDRESS")
+                self.writeStreamFilterMACAddress(destination_mac_address_element, destination_mac_address)
+            self.setChildElementOptionalPositiveInteger(element, "ETHER-TYPE", rule.getEtherType())
+            source_mac_address = rule.getSourceMacAddress()
+            if source_mac_address is not None:
+                source_mac_address_element = ET.SubElement(element, "SOURCE-MAC-ADDRESS")
+                self.writeStreamFilterMACAddress(source_mac_address_element, source_mac_address)
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-ID", rule.getVlanId())
+            self.setChildElementOptionalPositiveInteger(element, "VLAN-PRIORITY", rule.getVlanPriority())
+
+    def writeStreamFilterRuleIpTp(self, element: ET.Element, rule: Optional[StreamFilterRuleIpTp]):
+        if rule is not None:
+            self.writeARObject(element, rule)
+            destination_ipv4_address = rule.getDestinationIpv4Address()
+            if destination_ipv4_address is not None:
+                destination_ipv4_address_element = ET.SubElement(element, "DESTINATION-IPV-4-ADDRESS")
+                self.writeStreamFilterIpv4Address(destination_ipv4_address_element, destination_ipv4_address)
+            destination_ipv6_address = rule.getDestinationIpv6Address()
+            if destination_ipv6_address is not None:
+                destination_ipv6_address_element = ET.SubElement(element, "DESTINATION-IPV-6-ADDRESS")
+                self.writeStreamFilterIpv6Address(destination_ipv6_address_element, destination_ipv6_address)
+            destination_ports = rule.getDestinationPorts()
+            if len(destination_ports) > 0:
+                destination_ports_element = ET.SubElement(element, "DESTINATION-PORTS")
+                for port_range in destination_ports:
+                    port_range_element = ET.SubElement(destination_ports_element, "STREAM-FILTER-PORT-RANGE")
+                    self.writeStreamFilterPortRange(port_range_element, port_range)
+            source_ipv4_address = rule.getSourceIpv4Address()
+            if source_ipv4_address is not None:
+                source_ipv4_address_element = ET.SubElement(element, "SOURCE-IPV-4-ADDRESS")
+                self.writeStreamFilterIpv4Address(source_ipv4_address_element, source_ipv4_address)
+            source_ipv6_address = rule.getSourceIpv6Address()
+            if source_ipv6_address is not None:
+                source_ipv6_address_element = ET.SubElement(element, "SOURCE-IPV-6-ADDRESS")
+                self.writeStreamFilterIpv6Address(source_ipv6_address_element, source_ipv6_address)
+            source_ports = rule.getSourcePorts()
+            if len(source_ports) > 0:
+                source_ports_element = ET.SubElement(element, "SOURCE-PORTS")
+                for port_range in source_ports:
+                    port_range_element = ET.SubElement(source_ports_element, "STREAM-FILTER-PORT-RANGE")
+                    self.writeStreamFilterPortRange(port_range_element, port_range)
+
+    def writeStreamFilterPortRange(self, element: ET.Element, port_range: Optional[StreamFilterPortRange]):
+        if port_range is not None:
+            self.writeARObject(element, port_range)
+            self.setChildElementOptionalPositiveInteger(element, "MAX", port_range.getMax())
+            self.setChildElementOptionalPositiveInteger(element, "MIN", port_range.getMin())
+
+    def writeStreamFilterIpv4Address(self, element: ET.Element, ipv4_address: Optional[StreamFilterIpv4Address]):
+        if ipv4_address is not None:
+            self.writeARObject(element, ipv4_address)
+            self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS", ipv4_address.getIpv4Address())
+            self.setChildElementOptionalLiteral(element, "IPV-4-ADDRESS-MASK", ipv4_address.getIpv4AddressMask())
+
+    def writeStreamFilterIpv6Address(self, element: ET.Element, ipv6_address: Optional[StreamFilterIpv6Address]):
+        if ipv6_address is not None:
+            self.writeARObject(element, ipv6_address)
+            self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS", ipv6_address.getIpv6Address())
+            self.setChildElementOptionalLiteral(element, "IPV-6-ADDRESS-MASK", ipv6_address.getIpv6AddressMask())
+
+    def writeStreamFilterIEEE1722Tp(self, element: ET.Element, tp_rule: Optional[StreamFilterIEEE1722Tp]):
+        if tp_rule is not None:
+            self.writeARObject(element, tp_rule)
+            self.setChildElementOptionalPositiveUnlimitedInteger(element, "STREAM-ID", tp_rule.getStreamId())
+
+    def writeSwitchStreamFilterRule(self, element: ET.Element, stream_filter_rule: Optional[SwitchStreamFilterRule]):
+        if stream_filter_rule is not None:
+            self.writeIdentifiable(element, stream_filter_rule)
+            data_link_layer_rule = stream_filter_rule.getDataLinkLayerRule()
+            if data_link_layer_rule is not None:
+                data_link_layer_rule_element = ET.SubElement(element, "DATA-LINK-LAYER-RULE")
+                self.writeStreamFilterRuleDataLinkLayer(data_link_layer_rule_element, data_link_layer_rule)
+            ieee_1722_tp_rule = stream_filter_rule.getIeee1722TpRule()
+            if ieee_1722_tp_rule is not None:
+                ieee_1722_tp_rule_element = ET.SubElement(element, "IEEE-1722-TP-RULE")
+                self.writeStreamFilterIEEE1722Tp(ieee_1722_tp_rule_element, ieee_1722_tp_rule)
+            ip_tp_rule = stream_filter_rule.getIpTpRule()
+            if ip_tp_rule is not None:
+                ip_tp_rule_element = ET.SubElement(element, "IP-TP-RULE")
+                self.writeStreamFilterRuleIpTp(ip_tp_rule_element, ip_tp_rule)
+
+    def writeCouplingElementSwitchDetails(self, element: ET.Element, details: CouplingElementSwitchDetails):
+        self.writeCouplingElementAbstractDetails(element, details)
+        flow_meterings = details.getFlowMeterings()
+        if len(flow_meterings) > 0:
+            flow_meterings_element = ET.SubElement(element, "FLOW-METERINGS")
+            for flow_metering in flow_meterings:
+                flow_metering_element = ET.SubElement(flow_meterings_element, "SWITCH-FLOW-METERING-ENTRY")
+                self.writeSwitchFlowMeteringEntry(flow_metering_element, flow_metering)
+        stream_filters = details.getStreamFilters()
+        if len(stream_filters) > 0:
+            stream_filters_element = ET.SubElement(element, "STREAM-FILTERS")
+            for stream_filter in stream_filters:
+                stream_filter_element = ET.SubElement(stream_filters_element, "SWITCH-STREAM-FILTER-ENTRY")
+                self.writeSwitchStreamFilterEntry(stream_filter_element, stream_filter)
+        stream_gates = details.getStreamGates()
+        if len(stream_gates) > 0:
+            stream_gates_element = ET.SubElement(element, "STREAM-GATES")
+            for stream_gate in stream_gates:
+                stream_gate_element = ET.SubElement(stream_gates_element, "SWITCH-STREAM-GATE-ENTRY")
+                self.writeSwitchStreamGateEntry(stream_gate_element, stream_gate)
+        switch_stream_identifications = details.getSwitchStreamIdentifications()
+        if len(switch_stream_identifications) > 0:
+            switch_stream_identifications_element = ET.SubElement(element, "SWITCH-STREAM-IDENTIFICATIONS")
+            for switch_stream_identification in switch_stream_identifications:
+                if isinstance(switch_stream_identification, SwitchStreamIdentification):
+                    self.writeSwitchStreamIdentification(switch_stream_identifications_element, switch_stream_identification)
+                else:
+                    self.notImplemented("Unsupported SwitchStreamIdentification <%s>" % type(switch_stream_identification))
+        traffic_shaper_groups = details.getTrafficShaperGroups()
+        if len(traffic_shaper_groups) > 0:
+            traffic_shaper_groups_element = ET.SubElement(element, "TRAFFIC-SHAPER-GROUPS")
+            for traffic_shaper_group in traffic_shaper_groups:
+                traffic_shaper_group_element = ET.SubElement(traffic_shaper_groups_element, "SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY")
+                self.writeSwitchAsynchronousTrafficShaperGroupEntry(traffic_shaper_group_element, traffic_shaper_group)
+
+    def writeCouplingElement(self, element: ET.Element, coupling_element: CouplingElement):
+        self.logger.debug("Set CouplingElement %s" % coupling_element.getShortName())
+        child_element = ET.SubElement(element, "COUPLING-ELEMENT")
+        self.writeIdentifiable(child_element, coupling_element)
+        self.setChildElementOptionalRefType(child_element, "COMMUNICATION-CLUSTER-REF", coupling_element.getCommunicationClusterRef())
+        details = coupling_element.getCouplingElementDetails()
+        if details is not None:
+            details_element = ET.SubElement(child_element, "COUPLING-ELEMENT-DETAILS")
+            if isinstance(details, CouplingElementSwitchDetails):
+                switch_details_element = ET.SubElement(details_element, "COUPLING-ELEMENT-SWITCH-DETAILS")
+                self.writeCouplingElementSwitchDetails(switch_details_element, details)
+            else:
+                self.notImplemented("Unsupported CouplingElementDetails <%s>" % type(details))
+        ports = coupling_element.getCouplingPorts()
+        if len(ports) > 0:
+            ports_element = ET.SubElement(child_element, "COUPLING-PORTS")
+            for port in ports:
+                if isinstance(port, CouplingPort):
+                    self.writeCouplingPort(ports_element, port)
+                else:
+                    self.notImplemented("Unsupported CouplingPort <%s>" % type(port))
+        self.setChildElementOptionalLiteral(child_element, "COUPLING-TYPE", coupling_element.getCouplingType())
+        self.setChildElementOptionalRefType(child_element, "ECU-INSTANCE-REF", coupling_element.getEcuInstanceRef())
+        firewall_rule_refs = coupling_element.getFirewallRuleRefs()
+        if len(firewall_rule_refs) > 0:
+            firewall_rule_refs_element = ET.SubElement(child_element, "FIREWALL-RULE-REFS")
+            for ref in firewall_rule_refs:
+                self.setChildElementOptionalRefType(firewall_rule_refs_element, "FIREWALL-RULE-REF", ref)
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -12269,6 +12666,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
         child_element = ET.SubElement(element, "COUPLING-PORT-CONNECTION")
+        self.writeARObject(child_element, connection)
         self.setChildElementOptionalRefType(child_element, "FIRST-PORT-REF", connection.getFirstPortRef())
         node_ports = connection.getNodePortRefs()
         if len(node_ports) > 0:
@@ -12502,7 +12900,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
         if fifo is not None:
             child_element = ET.SubElement(element, "COUPLING-PORT-FIFO")
-            self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, fifo)
+            self.writeIdentifiable(child_element, fifo)
             classes = fifo.getAssignedTrafficClasses()
             if len(classes) > 0:
                 classes_element = ET.SubElement(child_element, "ASSIGNED-TRAFFIC-CLASSS")
@@ -12550,6 +12948,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "PREDECESSOR-REF", ref)
 
+    def writeCouplingPortShaper(self, element: ET.Element, shaper: CouplingPortShaper):
+        if shaper is not None:
+            child_element = ET.SubElement(element, "COUPLING-PORT-SHAPER")
+            self.writeIdentifiable(child_element, shaper)
+            self.setChildElementOptionalPositiveInteger(child_element, "IDLE-SLOPE", cast(Integer, shaper.getIdleSlope()))
+            self.setChildElementOptionalRefType(child_element, "PREDECESSOR-FIFO-REF", shaper.getPredecessorFifoRef())
+
     def writeCouplingPortDetailsCouplingPortStructuralElements(self, element: ET.Element, details: CouplingPortDetails):
         items = details.getCouplingPortStructuralElements()
         if len(items) > 0:
@@ -12559,6 +12964,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCouplingPortFifo(child_element, item)
                 elif isinstance(item, CouplingPortScheduler):
                     self.writeCouplingPortScheduler(child_element, item)
+                elif isinstance(item, CouplingPortShaper):
+                    self.writeCouplingPortShaper(child_element, item)
                 else:
                     self.notImplemented("Unsupported CouplingPortStructuralElement <%s>" % type(item))
 
@@ -12582,8 +12989,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
         child_element = ET.SubElement(element, "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
         self.writeReferrable(child_element, assignment)
-        for priority in assignment.getPriorities():
-            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, priority))
+        priorities = assignment.getPriorities()
+        if len(priorities) > 0:
+            priorities_element = ET.SubElement(child_element, "PRIORITYS")
+            for priority in priorities:
+                self.setChildElementOptionalPositiveInteger(priorities_element, "PRIORITY", cast(Integer, priority))
         self.setChildElementOptionalPositiveInteger(child_element, "TRAFFIC-CLASS", cast(Integer, assignment.getTrafficClass()))
 
     def writeCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
@@ -12608,6 +13018,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
         child_element = ET.SubElement(element, "COUPLING-PORT-RATE-POLICY")
+        self.writeARObject(child_element, policy)
         self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", cast(Integer, policy.getDataLength()))
         self.setChildElementOptionalLiteral(child_element, "POLICY-ACTION", policy.getPolicyAction())
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, policy.getPriority()))
@@ -12705,6 +13116,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: Optional[CouplingPortDetails]):
         if details is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, details)
             self.writeCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
@@ -12715,12 +13127,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: Optional[DhcpServerConfiguration]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, config)
             self.setIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION", config.getIpv4DhcpServerConfiguration())
             self.setIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION", config.getIpv6DhcpServerConfiguration())
 
     def setIpv4DhcpServerConfiguration(self, element: ET.Element, key: str, config: Optional[Ipv4DhcpServerConfiguration]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeDescribable(child_element, config)
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND", config.getAddressRangeLowerBound())
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND", config.getAddressRangeUpperBound())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", config.getDefaultGateway())
@@ -12769,6 +13183,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setIpv6DhcpServerConfiguration(self, element: ET.Element, key: str, config: Optional[Ipv6DhcpServerConfiguration]):
         if config is not None:
             child_element = ET.SubElement(element, key)
+            self.writeDescribable(child_element, config)
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND", config.getAddressRangeLowerBound())
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND", config.getAddressRangeUpperBound())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", config.getDefaultGateway())
@@ -12800,7 +13215,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPort(self, element: ET.Element, port: CouplingPort):
         child_element = ET.SubElement(element, "COUPLING-PORT")
-        self.writeIdentifiable(child_element, port)
+        # VARIATION-POINT is emitted after the COUPLING-PORT group attributes
+        # (xml.sequenceOffset="10000" in AUTOSAR_00052.xsd group COUPLING-PORT).
+        self.writeIdentifiable(child_element, port, write_variation_point=False)
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
@@ -12813,8 +13230,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_element, "MAC-MULTICAST-ADDRESS-REF", ref)
 
-        for props in port.getMacSecProps():
-            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
+        props_list = port.getMacSecProps()
+        if len(props_list) > 0:
+            props_element = ET.SubElement(child_element, "MAC-SEC-PROPSS")
+            for props in props_list:
+                self.setMacSecProps(props_element, "MAC-SEC-PROPS", props)
         self.setChildElementOptionalLiteral(child_element, "PHYSICAL-LAYER-TYPE", port.getPhysicalLayerType())
         self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
 
@@ -12827,6 +13247,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCouplingPortVlanMemberships(child_element, port)
         self.setChildElementOptionalRefType(child_element, "VLAN-MODIFIER-REF", port.getVlanModifierRef())
         self.setChildElementOptionalRefType(child_element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF", port.getWakeupSleepOnDatalineConfigRef())
+        self.writeVariationPointCapable(child_element, port)
 
     def writeEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
         ports = controller.getCouplingPorts()
@@ -12852,6 +13273,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-RECEIVE-BUFFER-LENGTH", controller.getMaximumReceiveBufferLength())
         self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-TRANSMIT-BUFFER-LENGTH", controller.getMaximumTransmitBufferLength())
         self.setChildElementOptionalBooleanValue(cond_tag, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE", controller.getSlaveActAsPassiveCommunicationSlave())
+        self.setChildElementOptionalTimeValue(cond_tag, "SLAVE-QUALIFIED-UNEXPECTED-LINK-DOWN-TIME", controller.getSlaveQualifiedUnexpectedLinkDownTime())
 
     def writeEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         controllers = instance.getCommControllers()
@@ -18334,6 +18756,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFlatMap(element, ar_element)
         elif isinstance(ar_element, PortInterfaceMappingSet):
             self.writePortInterfaceMappingSet(element, ar_element)
+        elif isinstance(ar_element, CouplingElement):
+            self.writeCouplingElement(element, ar_element)
         elif isinstance(ar_element, EthernetCluster):
             self.writeEthernetCluster(element, ar_element)
         elif isinstance(ar_element, ISignalIPduGroup):
@@ -18609,6 +19033,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModuleConfiguration(element, ar_element)
         elif isinstance(ar_element, EcucValueCollection):
             self.writeEcucValueCollection(element, ar_element)
+        elif isinstance(ar_element, EthIpProps):
+            self.writeEthIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpProps):
             self.writeEthTcpIpProps(element, ar_element)
         elif isinstance(ar_element, EthTcpIpIcmpProps):

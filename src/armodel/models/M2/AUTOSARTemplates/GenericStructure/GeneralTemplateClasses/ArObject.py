@@ -2306,10 +2306,6 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     pass
 
 
-class CouplingElement(ARObject):
-    pass
-
-
 class CpSoftwareClusterCommunicationResourceProps(ARObject, ABC):
     pass
 
@@ -3220,10 +3216,6 @@ class DdsTransportPriority(ARObject):
         return self
 
 
-class Dhcpv6Props(ARObject):
-    pass
-
-
 class EthGlobalTimeManagedCouplingPort(ARObject):
     pass
 
@@ -3233,10 +3225,6 @@ class EthTSynCrcFlags(ARObject):
 
 
 class EthTSynSubTlvConfig(ARObject):
-    pass
-
-
-class EthernetWakeupSleepOnDatalineConfig(ARObject):
     pass
 
 
@@ -3273,34 +3261,6 @@ class IdsmInstance(ARObject):
 
 
 class IdsmTrafficLimitation(ARObject):
-    pass
-
-
-class Ipv4ArpProps(ARObject):
-    pass
-
-
-class Ipv4AutoIpProps(ARObject):
-    pass
-
-
-class Ipv4FragmentationProps(ARObject):
-    pass
-
-
-class Ipv4Props(ARObject):
-    pass
-
-
-class Ipv6FragmentationProps(ARObject):
-    pass
-
-
-class Ipv6NdpProps(ARObject):
-    pass
-
-
-class Ipv6Props(ARObject):
     pass
 
 
@@ -3357,34 +3317,6 @@ class SomeipSdServerServiceInstanceConfig(ARObject):
 
 
 class SomeipTpConnection(ARObject):
-    pass
-
-
-class StreamFilterIEEE1722Tp(ARObject):
-    pass
-
-
-class StreamFilterIpv4Address(ARObject):
-    pass
-
-
-class StreamFilterIpv6Address(ARObject):
-    pass
-
-
-class StreamFilterMACAddress(ARObject):
-    pass
-
-
-class StreamFilterPortRange(ARObject):
-    pass
-
-
-class StreamFilterRuleDataLinkLayer(ARObject):
-    pass
-
-
-class StreamFilterRuleIpTp(ARObject):
     pass
 
 
