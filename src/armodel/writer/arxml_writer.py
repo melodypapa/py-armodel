@@ -582,6 +582,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpQosProfile,
+    DdsCpServiceInstance,
     DdsCpTopic,
     PortElementToCommunicationResourceMapping,
     SwcToApplicationPartitionMapping,
@@ -16834,6 +16835,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, topic)
         self.setChildElementOptionalRefType(child_element, "DDS-PARTITION-REF", topic.getDdsPartitionRef())
         self.setChildElementOptionalString(child_element, "TOPIC-NAME", topic.getTopicName())
+
+    def writeDdsCpServiceInstance(self, element: ET.Element, instance: DdsCpServiceInstance):
+        if instance is not None:
+            self.writeIdentifiable(element, instance)
+            self.setChildElementOptionalRefType(element, "DDS-FIELD-REPLY-TOPIC-REF", instance.getDdsFieldReplyTopicRef())
+            self.setChildElementOptionalRefType(element, "DDS-FIELD-REQUEST-TOPIC-REF", instance.getDdsFieldRequestTopicRef())
+            self.setChildElementOptionalRefType(element, "DDS-METHOD-REPLY-TOPIC-REF", instance.getDdsMethodReplyTopicRef())
+            self.setChildElementOptionalRefType(element, "DDS-METHOD-REQUEST-TOPIC-REF", instance.getDdsMethodRequestTopicRef())
+            self.setChildElementOptionalRefType(element, "DDS-SERVICE-QOS-PROFILE-REF", instance.getDdsServiceQosProfileRef())
+            self.setChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID", cast(Integer, instance.getServiceInstanceId()))
+            self.setChildElementOptionalString(element, "SERVICE-INTERFACE-ID", instance.getServiceInterfaceId())
 
     def writeDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
         child_element = ET.SubElement(element, "TOPIC-DATA")

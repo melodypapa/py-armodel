@@ -1486,7 +1486,167 @@ class DdsCpPartition(Identifiable):
 
 
 class DdsCpServiceInstance(Identifiable, ABC):
-    pass
+    """
+    Provided and Consumed Dds Service Instances that are available at the ApplicationEndpoint. Tags: atp.Status=candidate
+    """
+
+    # DdsCpServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.152, p.472
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsFieldReplyTopicRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsFieldReplyTopicRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsFieldRequestTopicRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsFieldRequestTopicRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsMethodReplyTopicRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsMethodReplyTopicRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsMethodRequestTopicRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setDdsMethodRequestTopicRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsServiceQosProfileRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsServiceQosProfileRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInstanceId         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInstanceId         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceInterfaceId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceInterfaceId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DdsCpServiceInstance:
+            raise TypeError("DdsCpServiceInstance is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+        self.ddsFieldReplyTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+        self.ddsFieldRequestTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+        self.ddsMethodReplyTopicRef: Optional[RefType] = None
+
+        # Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+        self.ddsMethodRequestTopicRef: Optional[RefType] = None
+
+        # Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+        self.ddsServiceQosProfileRef: Optional[RefType] = None
+
+        # Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+        self.serviceInstanceId: Optional[PositiveInteger] = None
+
+        # Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+        self.serviceInterfaceId: Optional[String] = None
+
+    def getDdsFieldReplyTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+        """
+        return self.ddsFieldReplyTopicRef
+
+    def setDdsFieldReplyTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsFieldReplyTopicRef.
+        """
+        if value is not None:
+            self.ddsFieldReplyTopicRef = value
+        return self
+
+    def getDdsFieldRequestTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+        """
+        return self.ddsFieldRequestTopicRef
+
+    def setDdsFieldRequestTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsFieldRequestTopicRef.
+        """
+        if value is not None:
+            self.ddsFieldRequestTopicRef = value
+        return self
+
+    def getDdsMethodReplyTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+        """
+        return self.ddsMethodReplyTopicRef
+
+    def setDdsMethodReplyTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsMethodReplyTopicRef.
+        """
+        if value is not None:
+            self.ddsMethodReplyTopicRef = value
+        return self
+
+    def getDdsMethodRequestTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+        """
+        return self.ddsMethodRequestTopicRef
+
+    def setDdsMethodRequestTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsMethodRequestTopicRef.
+        """
+        if value is not None:
+            self.ddsMethodRequestTopicRef = value
+        return self
+
+    def getDdsServiceQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+        """
+        return self.ddsServiceQosProfileRef
+
+    def setDdsServiceQosProfileRef(self, value: Optional[RefType]) -> DdsCpServiceInstance:
+        """
+        Reference to the QOS Profile used for the service. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsServiceQosProfileRef.
+        """
+        if value is not None:
+            self.ddsServiceQosProfileRef = value
+        return self
+
+    def getServiceInstanceId(self) -> Optional[PositiveInteger]:
+        """
+        Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+        """
+        return self.serviceInstanceId
+
+    def setServiceInstanceId(self, value: Optional[PositiveInteger]) -> DdsCpServiceInstance:
+        """
+        Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing serviceInstanceId.
+        """
+        if value is not None:
+            self.serviceInstanceId = value
+        return self
+
+    def getServiceInterfaceId(self) -> Optional[String]:
+        """
+        Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+        """
+        return self.serviceInterfaceId
+
+    def setServiceInterfaceId(self, value: Optional[String]) -> DdsCpServiceInstance:
+        """
+        Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing serviceInterfaceId.
+        """
+        if value is not None:
+            self.serviceInterfaceId = value
+        return self
 
 
 class DdsCpTopic(Identifiable):

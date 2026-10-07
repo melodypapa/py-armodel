@@ -407,15 +407,45 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.152, p.472
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from the bare `pass` stub. Package arbitration: spec `Package` row =
+    Fibex4Ethernet::Dds, but the class STAYS in Identifiable.py per the wave-1 DdsCp* Identifiable-family
+    runtime-cycle precedent 0babf1fb0 (the stub subclass DdsCpConsumedServiceInstance(
+    DdsCpServiceInstance) lives here; rehousing the base out of Identifiable.py recreates the
+    Identifiable.py↔Fibex4Ethernet import cycle that precedent removed — Rule 0007 deviation noted, not
+    rehoused). Base arbitration: spec `Base` row = ARObject, AbstractServiceInstance, Identifiable,
+    MultilanguageReferrable, Referrable → most-derived SPEC class AbstractServiceInstance (synced,
+    ServiceInstances.py) is unreachable at runtime from Identifiable.py (ServiceInstances.py imports
+    Identifiable.py) → synced base = Identifiable per the row label + brief; XSD has NO own complexType
+    (abstract class — element GROUP DDS-CP-SERVICE-INSTANCE only, AUTOSAR_00052.xsd l.29079; group content
+    sits after IDENTIFIABLE inside the subclass complexTypes), consistent with the Identifiable level.
+    Abstract (spec "(abstract)") → instantiation guard kept; concrete stub subclass
+    DdsCpConsumedServiceInstance inherits the 7 new fields for free (its own Table 6.154 row queued).
+    All 7 Table 6.152 attrs modeled in displayed order (= XSD group order), all 0..1 → Optional:
+    ddsFieldReplyTopic/ddsFieldRequestTopic/ddsMethodReplyTopic/ddsMethodRequestTopic (DdsCpTopic refs,
+    Kind ref → RefType-typed +Ref suffix) / ddsServiceQosProfile (DdsCpQosProfile ref → RefType) /
+    serviceInstanceId PositiveInteger / serviceInterfaceId String — ref fields RefType-typed so the
+    synced ref targets need no import (DdsCpProvidedServiceInstance precedent); Notes verbatim incl.
+    `Tags: atp.Status=candidate` tails. Nested reusable helpers read/writeDdsCpServiceInstance added
+    (AbstractServiceInstance abstract-base pattern: writer writes INTO the caller's element, base helpers
+    readIdentifiable/writeIdentifiable exactly once — audit BASE/PASS; exercised via
+    DdsCpConsumedServiceInstance); aggregator hook-in (ServiceInstanceCollectionSet.serviceInstance —
+    Table 6.157 queued) still pending. Wave-1 identity-debt check (Rule 0001.7): DdsCpProvidedServiceInstance/
+    DdsCpServiceInstanceEvent/DdsCpServiceInstanceOperation hold NO identity-only placeholders pointing at
+    Table 6.152 (their helpers emit real content for their own groups only); DdsCpProvidedServiceInstance
+    (wave-1, ArObject.py) keeps its ARObject base — re-basing onto this class is blocked by the
+    ArObject.py↔Identifiable.py runtime cycle, so its reader/writer does not yet round-trip the inherited
+    ABSTRACT-SERVICE-INSTANCE + DDS-CP-SERVICE-INSTANCE group content — pending that class's own
+    re-base/rehouse pass (recorded, not a Table 6.152 deviation). Stub tuple removed from
+    test_group21_36_stub_classes.py; `armodel.DdsCpServiceInstance` export chain verified. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.153, p.473
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

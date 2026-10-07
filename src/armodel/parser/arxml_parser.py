@@ -741,6 +741,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
     DdsCpQosProfile,
+    DdsCpServiceInstance,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -12564,6 +12565,17 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, topic)
         topic.setDdsPartitionRef(self.getChildElementOptionalRefType(element, "DDS-PARTITION-REF"))
         topic.setTopicName(self.getChildElementOptionalString(element, "TOPIC-NAME"))
+
+    def readDdsCpServiceInstance(self, element: ET.Element, instance: DdsCpServiceInstance):
+        self.logger.debug("Read DdsCpServiceInstance")
+        self.readIdentifiable(element, instance)
+        instance.setDdsFieldReplyTopicRef(self.getChildElementOptionalRefType(element, "DDS-FIELD-REPLY-TOPIC-REF"))
+        instance.setDdsFieldRequestTopicRef(self.getChildElementOptionalRefType(element, "DDS-FIELD-REQUEST-TOPIC-REF"))
+        instance.setDdsMethodReplyTopicRef(self.getChildElementOptionalRefType(element, "DDS-METHOD-REPLY-TOPIC-REF"))
+        instance.setDdsMethodRequestTopicRef(self.getChildElementOptionalRefType(element, "DDS-METHOD-REQUEST-TOPIC-REF"))
+        instance.setDdsServiceQosProfileRef(self.getChildElementOptionalRefType(element, "DDS-SERVICE-QOS-PROFILE-REF"))
+        instance.setServiceInstanceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-INSTANCE-ID"))
+        instance.setServiceInterfaceId(self.getChildElementOptionalString(element, "SERVICE-INTERFACE-ID"))
 
     def readDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
         self.logger.debug("Read DdsTopicData")

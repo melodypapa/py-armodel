@@ -33,7 +33,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpConsumedServiceInstance,
     DdsCpQosProfile,
+    DdsCpServiceInstance,
     DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
@@ -2174,3 +2176,153 @@ class TestDdsCpQosProfile:
             field_name = name[0].lower() + name[1:]
             assert inspect.cleandoc(getter.__doc__) == self.NOTES[name], name
             assert inspect.cleandoc(setter.__doc__) == (self.NOTES[name] + f"\n\nA None value is a no-op and does not overwrite an existing {field_name}."), name
+
+
+class TestDdsCpServiceInstance:
+    """
+    Test class for DdsCpServiceInstance functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.152, p.472 (abstract; Base most-derived
+    synced = Identifiable — AbstractServiceInstance is cycle-blocked from Identifiable.py,
+    wave-1 DdsCp* precedent 0babf1fb0). Concrete subclass DdsCpConsumedServiceInstance is
+    used where an instance is required.
+    """
+
+    CLASS_NOTE = "Provided and Consumed Dds Service Instances that are available at the ApplicationEndpoint. Tags: atp.Status=candidate"
+    FIELD_REPLY_NOTE = "Reference to the DdsTopic used as fragment for the topic name of field setters. Tags: atp.Status=candidate"
+    FIELD_REQUEST_NOTE = "Reference to the DdsTopic used as fragment for the topic name of field getters. Tags: atp.Status=candidate"
+    METHOD_REPLY_NOTE = "Reference to the DdsTopic used as fragment for the topic name of method replies. Tags: atp.Status=candidate"
+    METHOD_REQUEST_NOTE = "Reference to the DdsTopic used as fragment for the topic name of method requests. Tags: atp.Status=candidate"
+    QOS_PROFILE_NOTE = "Reference to the QOS Profile used for the service. Tags: atp.Status=candidate"
+    INSTANCE_ID_NOTE = "Identification number that is used by DDS to identify DomainParticipants associated with an instance of the service. Tags: atp.Status=candidate"
+    INTERFACE_ID_NOTE = "Unique Identifier that identifies the ServiceInterface in DDS. This Identifier is encoded in the USER_DATA QoS of the DomainParticipant associated with the Service Instance and its value is propagated by DDS Discovery messages. Tags: atp.Status=candidate"
+
+    def _create_instance(self):
+        return DdsCpConsumedServiceInstance(AUTOSAR.getInstance(), "DdsInstance1")
+
+    def test_abstract_instantiation_blocked(self):
+        """
+        Test that the abstract DdsCpServiceInstance cannot be instantiated directly.
+        """
+        with pytest.raises(TypeError):
+            DdsCpServiceInstance(AUTOSAR.getInstance(), "Abstract1")
+
+    def test_subclass_inherits_identifiable(self):
+        """
+        Test that DdsCpServiceInstance derives from Identifiable and the concrete subclass inherits it.
+        """
+        assert issubclass(DdsCpServiceInstance, Identifiable)
+        assert issubclass(DdsCpServiceInstance, ARObject)
+        assert issubclass(DdsCpConsumedServiceInstance, DdsCpServiceInstance)
+
+    def test_initialization(self):
+        """
+        Test that a new DdsCpServiceInstance subclass initializes all attributes to their defaults.
+        """
+        obj = self._create_instance()
+
+        assert obj.getShortName() == "DdsInstance1"
+        assert obj.getDdsFieldReplyTopicRef() is None
+        assert obj.getDdsFieldRequestTopicRef() is None
+        assert obj.getDdsMethodReplyTopicRef() is None
+        assert obj.getDdsMethodRequestTopicRef() is None
+        assert obj.getDdsServiceQosProfileRef() is None
+        assert obj.getServiceInstanceId() is None
+        assert obj.getServiceInterfaceId() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsCpServiceInstance.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsCpServiceInstance.__init__.__doc__ is None
+
+    def _check_ref(self, getter_name, setter_name, dest):
+        obj = self._create_instance()
+        getter = getattr(obj, getter_name)
+        setter = getattr(obj, setter_name)
+        value = RefType().setDest(dest).setValue("/DdsCpConfig/Topics/Topic1")
+        assert setter(value) is obj
+        assert getter() is value
+        assert getter().getDest() == dest
+        assert setter(None) is obj
+        assert getter() is value
+
+    def test_get_set_dds_field_reply_topic_ref(self):
+        """Test get/setDdsFieldReplyTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsFieldReplyTopicRef", "setDdsFieldReplyTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_field_request_topic_ref(self):
+        """Test get/setDdsFieldRequestTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsFieldRequestTopicRef", "setDdsFieldRequestTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_method_reply_topic_ref(self):
+        """Test get/setDdsMethodReplyTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsMethodReplyTopicRef", "setDdsMethodReplyTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_method_request_topic_ref(self):
+        """Test get/setDdsMethodRequestTopicRef round-trip and None no-op."""
+        self._check_ref("getDdsMethodRequestTopicRef", "setDdsMethodRequestTopicRef", "DDS-CP-TOPIC")
+
+    def test_get_set_dds_service_qos_profile_ref(self):
+        """Test get/setDdsServiceQosProfileRef round-trip and None no-op."""
+        self._check_ref("getDdsServiceQosProfileRef", "setDdsServiceQosProfileRef", "DDS-CP-QOS-PROFILE")
+
+    def test_get_set_service_instance_id(self):
+        """
+        Test getServiceInstanceId/setServiceInstanceId round-trip and None no-op.
+        """
+        obj = self._create_instance()
+        value = PositiveInteger().setValue("42")
+        assert obj.setServiceInstanceId(value) is obj
+        assert obj.getServiceInstanceId() is value
+        assert obj.getServiceInstanceId().getValue() == 42
+        obj.setServiceInstanceId(None)
+        assert obj.getServiceInstanceId() is value
+
+    def test_get_set_service_interface_id(self):
+        """
+        Test getServiceInterfaceId/setServiceInterfaceId round-trip and None no-op.
+        """
+        obj = self._create_instance()
+        value = String().setValue("MyServiceInterface")
+        assert obj.setServiceInterfaceId(value) is obj
+        assert obj.getServiceInterfaceId() is value
+        assert obj.getServiceInterfaceId().getValue() == "MyServiceInterface"
+        obj.setServiceInterfaceId(None)
+        assert obj.getServiceInterfaceId() is value
+
+    def test_type_annotations(self):
+        """
+        Getter returns and setter parameters match the spec multiplicity (all 0..1 → Optional).
+        """
+        assert typing.get_type_hints(DdsCpServiceInstance.setDdsFieldReplyTopicRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpServiceInstance.setDdsServiceQosProfileRef)["value"] == typing.Optional[RefType]
+        assert typing.get_type_hints(DdsCpServiceInstance.setServiceInstanceId)["value"] == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(DdsCpServiceInstance.setServiceInterfaceId)["value"] == typing.Optional[String]
+        assert typing.get_type_hints(DdsCpServiceInstance.getServiceInterfaceId)["return"] == typing.Optional[String]
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        pairs = [
+            ("DdsFieldReplyTopicRef", self.FIELD_REPLY_NOTE),
+            ("DdsFieldRequestTopicRef", self.FIELD_REQUEST_NOTE),
+            ("DdsMethodReplyTopicRef", self.METHOD_REPLY_NOTE),
+            ("DdsMethodRequestTopicRef", self.METHOD_REQUEST_NOTE),
+            ("DdsServiceQosProfileRef", self.QOS_PROFILE_NOTE),
+            ("ServiceInstanceId", self.INSTANCE_ID_NOTE),
+            ("ServiceInterfaceId", self.INTERFACE_ID_NOTE),
+        ]
+        for suffix, note in pairs:
+            getter = getattr(DdsCpServiceInstance, f"get{suffix}")
+            setter = getattr(DdsCpServiceInstance, f"set{suffix}")
+            field_name = suffix[0].lower() + suffix[1:]
+            assert inspect.cleandoc(getter.__doc__) == note, suffix
+            assert inspect.cleandoc(setter.__doc__) == (note + f"\n\nA None value is a no-op and does not overwrite an existing {field_name}."), suffix
