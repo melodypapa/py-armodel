@@ -1535,7 +1535,7 @@ class McdIdentifier(ARLiteral):
     This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured.
 
     McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points ('.') and brackets ( '[',']' ).
-    However, the following limitations apply: the first character must be a letter or an underscore, brackets must occur in pairs at the end of a partial string and must contain a number or an alpha-numerical string (description of the index of an array element).
+    However, the following limitations apply: the first character shall be a letter or an underscore, brackets shall occur in pairs at the end of a partial string and shall contain a number or an alpha-numerical string (description of the index of an array element).
 
     Tags:
         * xml.xsd.customType=MCD-IDENTIFIER
