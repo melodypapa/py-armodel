@@ -1,4 +1,4 @@
-"""Unit tests for the Fibex CddSupport module (UserDefinedCluster, UserDefinedPhysicalChannel).
+"""Unit tests for the Fibex CddSupport module (UserDefinedCluster, UserDefinedPhysicalChannel, UserDefinedCommunicationConnector).
 
 Table 3.129 (p.179) is a page-split table whose fragment A renders the
 Class/Package/Note/Base/Aggregated by rows before the caption and carries NO
@@ -11,6 +11,12 @@ caption and likewise carries NO Attribute rows — UserDefinedPhysicalChannel ad
 no own fields or accessors beyond its PhysicalChannel base; the XSD own group
 USER-DEFINED-PHYSICAL-CHANNEL (AUTOSAR_00052.xsd lines 128980-128988) is an empty
 sequence (no atpVariation wrapper).
+Table 3.131 (p.180) is the page-split sibling whose Class/Package/Note/Base
+fragment renders before its caption and likewise carries NO Attribute rows —
+UserDefinedCommunicationConnector adds no own fields or accessors beyond its
+CommunicationConnector base; the XSD own group USER-DEFINED-COMMUNICATION-CONNECTOR
+(AUTOSAR_00052.xsd lines 128603-128611) is an empty sequence (no atpVariation
+wrapper).
 Spec placement per Rule 0007: M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport.
 """
 
@@ -20,14 +26,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    Boolean,
+    PositiveInteger,
     PositiveUnlimitedInteger,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering, PduTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, PhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FramePort, IPduPort, ISignalPort, ISignalTriggering, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, EcuInstance, PhysicalChannel, PncGatewayTypeEnum
 
 
 class MockParent(ARObject):
@@ -182,3 +190,110 @@ class TestUserDefinedPhysicalChannel:
         duplicate = cluster.createUserDefinedPhysicalChannel("Channel")
         assert duplicate is channel
         assert len(cluster.getPhysicalChannels()) == 1
+
+
+USER_DEFINED_COMMUNICATION_CONNECTOR_CLASS_NOTE = "This element allows the modeling of arbitrary Communication Connectors."
+
+
+class TestUserDefinedCommunicationConnector:
+    """Test cases for UserDefinedCommunicationConnector (Table 3.131, p.180)."""
+
+    def test_inheritance(self):
+        assert issubclass(UserDefinedCommunicationConnector, CommunicationConnector)
+        assert issubclass(UserDefinedCommunicationConnector, Identifiable)
+        assert issubclass(UserDefinedCommunicationConnector, ARObject)
+
+    def test_concrete_instantiation(self):
+        connector = UserDefinedCommunicationConnector(MockParent(), "connector")  # Table 3.131 carries no abstract stereotype
+
+        assert isinstance(connector, CommunicationConnector)
+
+    def test_class_docstring_note(self):
+        assert inspect.cleandoc(UserDefinedCommunicationConnector.__doc__) == USER_DEFINED_COMMUNICATION_CONNECTOR_CLASS_NOTE
+
+    def test_init_docless(self):
+        assert UserDefinedCommunicationConnector.__init__.__doc__ is None
+
+    def test_no_own_members(self):
+        # Table 3.131's Attribute rows render none — UserDefinedCommunicationConnector adds no fields or accessors beyond its CommunicationConnector base (Rule 0001.3)
+        own = [name for name, value in vars(UserDefinedCommunicationConnector).items() if not name.startswith("_")]
+        assert own == []
+
+    def test_initialization_defaults(self):
+        connector = UserDefinedCommunicationConnector(MockParent(), "connector")
+
+        assert connector.getCommControllerRef() is None
+        assert connector.getCreateEcuWakeupSource() is None
+        assert connector.getDynamicPncToChannelMappingEnabled() is None
+        assert connector.getEcuCommPortInstances() == []
+        assert connector.getPncFilterArrayMasks() == []
+        assert connector.getPncGatewayType() is None
+
+    def test_inherited_accessors_round_trip(self):
+        connector = UserDefinedCommunicationConnector(MockParent(), "connector")
+        comm_controller_ref = RefType()
+        comm_controller_ref.setValue("/EcuInst/Conn")
+        wakeup_flag = Boolean()
+        wakeup_flag.setValue(True)
+        gateway_type = PncGatewayTypeEnum()
+        gateway_type.setValue(PncGatewayTypeEnum.ACTIVE)
+
+        assert connector == connector.setCommControllerRef(comm_controller_ref)
+        assert connector.getCommControllerRef() is comm_controller_ref
+        assert connector.getCommControllerRef().getValue() == "/EcuInst/Conn"
+        assert connector == connector.setCommControllerRef(None)  # None no-op
+        assert connector.getCommControllerRef() is comm_controller_ref  # unchanged
+
+        assert connector == connector.setCreateEcuWakeupSource(wakeup_flag)
+        assert connector.getCreateEcuWakeupSource() is wakeup_flag
+        assert connector.getCreateEcuWakeupSource().getValue() is True
+        assert connector == connector.setCreateEcuWakeupSource(None)  # None no-op
+        assert connector.getCreateEcuWakeupSource() is wakeup_flag  # unchanged
+
+        assert connector == connector.setPncGatewayType(gateway_type)
+        assert connector.getPncGatewayType() is gateway_type
+        assert connector.getPncGatewayType().getValue() == "ACTIVE"
+        assert connector == connector.setPncGatewayType(None)  # None no-op
+        assert connector.getPncGatewayType() is gateway_type  # unchanged
+
+    def test_inherited_port_factories_append(self):
+        connector = UserDefinedCommunicationConnector(MockParent(), "connector")
+
+        frame_port = connector.createFramePort("FramePort")
+        assert isinstance(frame_port, FramePort)
+        assert connector.getEcuCommPortInstances() == [frame_port]
+
+        ipdu_port = connector.createIPduPort("IPduPort")
+        assert isinstance(ipdu_port, IPduPort)
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port]
+
+        isignal_port = connector.createISignalPort("ISignalPort")
+        assert isinstance(isignal_port, ISignalPort)
+        assert connector.getEcuCommPortInstances() == [frame_port, ipdu_port, isignal_port]
+
+        assert connector.createFramePort("FramePort") is frame_port
+        assert connector.createIPduPort("IPduPort") is ipdu_port
+        assert connector.createISignalPort("ISignalPort") is isignal_port
+        assert len(connector.getEcuCommPortInstances()) == 3
+
+    def test_inherited_pnc_filter_array_masks_append(self):
+        connector = UserDefinedCommunicationConnector(MockParent(), "connector")
+        mask = PositiveInteger()
+        mask.setValue("255")
+
+        assert connector == connector.addPncFilterArrayMask(mask)
+        assert connector.getPncFilterArrayMasks() == [mask]
+        assert connector.getPncFilterArrayMasks()[0].getValue() == 255
+        assert connector == connector.addPncFilterArrayMask(None)  # None no-op
+        assert connector.getPncFilterArrayMasks() == [mask]  # unchanged
+
+    def test_ecu_factory_creates_and_appends(self):
+        ecu = EcuInstance(MockParent(), "Ecu")
+
+        connector = ecu.createUserDefinedCommunicationConnector("Connector")
+        assert isinstance(connector, UserDefinedCommunicationConnector)
+        assert ecu.getConnectors() == [connector]
+
+        duplicate = ecu.createUserDefinedCommunicationConnector("Connector")
+        assert duplicate is connector
+        assert len(ecu.getConnectors()) == 1

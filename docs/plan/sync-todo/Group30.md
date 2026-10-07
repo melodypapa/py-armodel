@@ -1743,15 +1743,56 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `UserDefinedCommunicationConnector` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.131, p.180
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: page-split table — the Class/Package/Note/Base fragment renders
+    BEFORE the caption (markdown lines 4880-4884) and the Aggregated-by/Attribute
+    fragment after it (lines 4894-4898); NO attribute rows — the class adds no own
+    fields/accessors (Rule 0001.3). Base most-derived MODELED ancestor =
+    `CommunicationConnector` (Table 3.4, abstract, CoreTopology.py). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::Fibex::CddSupport` → per Rule 0007 the
+    class MOVES from its legacy stub slot in ArObject.py into the EXISTING leaf
+    module `SystemTemplate/Fibex/CddSupport.py` next to UserDefinedCluster/
+    UserDefinedPhysicalChannel (spec-table order = last); stub-guard tuple updated;
+    models export chain needs no edit (CddSupport wildcard import already in
+    models/__init__.py line 113). XSD own group USER-DEFINED-COMMUNICATION-CONNECTOR
+    (AUTOSAR_00052.xsd lines 128603-128611) is an EMPTY `<xsd:sequence/>` — no
+    atpVariation wrapper (header carries no <<atpVariation>> stereotype). Wiring:
+    EcuInstance-level aggregator — `createUserDefinedCommunicationConnector` factory
+    on EcuInstance (alongside createCanCommunicationConnector et al.), parser
+    USER-DEFINED-COMMUNICATION-CONNECTOR branch in `readEcuInstanceConnectors` +
+    `readUserDefinedCommunicationConnector` (readCommunicationConnector exactly
+    once — the TtcanCommunicationConnector leveling), writer isinstance branch in
+    `writeEcuInstanceConnectors` + `writeUserDefinedCommunicationConnector`
+    (dispatch creates the SubElement, mirroring the writeTtcanCommunicationConnector
+    family shape). Aggregated-by row also lists `MachineDesign
+    .communicationConnector` — MachineDesign is NOT modeled anywhere (no class, no
+    parser/writer handling); collected as referenced-but-missing for Step 8, no
+    branch hookable there yet.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - Step 8: No deviations from Table 3.131 — the table carries zero Attribute rows, so
+    the class models no own fields (Rule 0001.3 both directions: nothing fabricated,
+    nothing missing); inherited levels round-trip through the CommunicationConnector
+    reader/writer helper called exactly once per side (Rule 0025, pinned by the
+    direct-children SHORT-NAME exactly-once assertions in the round-trip tests).
+    Referenced-but-missing class (Rule 0001.10, reported not blocking): MachineDesign
+    — the Aggregated-by row lists `MachineDesign.communicationConnector`, but
+    MachineDesign is not modeled anywhere in the codebase (no class, no parser/writer
+    handling); the EcuInstance.connector branch is fully wired and the MachineDesign
+    dispatch lands when MachineDesign gets its own sync. Remark (not a deviation): the
+    `# Spec verified:` marker is deferred to the batch 9b stamp per user instruction
+    (Step 7 wrote the 6-column checklist without it; audit STAMP INFO as expected).
+    Remark (not a deviation): the new EcuInstance-level factory required one new row
+    `createUserDefinedCommunicationConnector` (reader [x] / writer [—]) in the stamped
+    EcuInstance checklist (Table 3.1) so its ROWS audit stays green — spec-grounded via
+    the Aggregated-by row `EcuInstance.connector`; the stamped-audit ratchet test
+    caught the omission and passes after the row was added (no baseline drain).
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22074 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4d8cdef45
 
 - [ ] `UserDefinedCommunicationController` — CommunicationController — R23-11 CP_TPS_SystemTemplate Table 3.132, p.180
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py

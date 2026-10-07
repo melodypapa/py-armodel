@@ -42,7 +42,7 @@ if TYPE_CHECKING:
         ISignalTriggering,
         PduTriggering,
     )
-    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedPhysicalChannel
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
 
     # Rule 0001.10 placeholders - referenced classes not yet implemented; TYPE_CHECKING imports
     # satisfy the forward annotations and are never executed at runtime.
@@ -1013,6 +1013,7 @@ class EcuInstance(FibexElement):
     # [x] createFlexrayCommunicationConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createLinCommunicationConnector                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] createTtcanCommunicationConnector                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createUserDefinedCommunicationConnector              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getConnectors                                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] getDltConfig                                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDltConfig                                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -1418,6 +1419,18 @@ class EcuInstance(FibexElement):
             self.addReferrableElement(connector)
             self.connectors.append(connector)
         return cast(TtcanCommunicationConnector, self.getReferrableElement(short_name, TtcanCommunicationConnector))
+
+    def createUserDefinedCommunicationConnector(self, short_name: str) -> UserDefinedCommunicationConnector:
+        """
+        All channels controlled by a single controller.
+        """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCommunicationConnector
+
+        if not self.IsReferrableElementExists(short_name, UserDefinedCommunicationConnector):
+            connector = UserDefinedCommunicationConnector(self, short_name)
+            self.addReferrableElement(connector)
+            self.connectors.append(connector)
+        return cast(UserDefinedCommunicationConnector, self.getReferrableElement(short_name, UserDefinedCommunicationConnector))
 
     def getConnectors(self) -> List[CommunicationConnector]:
         """

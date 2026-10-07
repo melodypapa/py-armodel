@@ -3332,10 +3332,6 @@ class TransformationProps(ARObject, ABC):
     pass
 
 
-class UserDefinedCommunicationConnector(ARObject):
-    pass
-
-
 class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
     pass
 

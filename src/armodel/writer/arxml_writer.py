@@ -1222,7 +1222,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltLogChannel
@@ -13372,6 +13372,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write TtcanCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
 
+    def writeUserDefinedCommunicationConnector(self, element: ET.Element, connector: UserDefinedCommunicationConnector):
+        self.logger.debug("Write UserDefinedCommunicationConnector %s" % connector.getShortName())
+        self.writeCommunicationConnector(element, connector)
+
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
@@ -13423,6 +13427,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(connector, FlexrayCommunicationConnector):
                     child_element = ET.SubElement(connectors_tag, "FLEXRAY-COMMUNICATION-CONNECTOR")
                     self.writeFlexrayCommunicationConnector(child_element, connector)
+                elif isinstance(connector, UserDefinedCommunicationConnector):
+                    child_element = ET.SubElement(connectors_tag, "USER-DEFINED-COMMUNICATION-CONNECTOR")
+                    self.writeUserDefinedCommunicationConnector(child_element, connector)
                 else:
                     self.notImplemented("Unsupported Communication connector <%s>" % type(connector))
 

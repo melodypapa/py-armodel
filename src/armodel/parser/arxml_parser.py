@@ -1470,7 +1470,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.CddSupport import UserDefinedCluster, UserDefinedCommunicationConnector, UserDefinedPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.LogAndTraceExtract import DltApplication, DltArgument, DltContext, DltEcu, DltMessage, PrivacyLevel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Dlt import DltConfig, DltDefaultTraceStateEnum, DltLogChannel, LogTraceDefaultLogLevelEnum
@@ -15989,6 +15989,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read TtcanCommunicationConnector %s" % connector.getShortName())
         self.readCommunicationConnector(element, connector)
 
+    def readUserDefinedCommunicationConnector(self, element: ET.Element, connector: UserDefinedCommunicationConnector):
+        self.logger.debug("Read UserDefinedCommunicationConnector %s" % connector.getShortName())
+        self.readCommunicationConnector(element, connector)
+
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
         connector.setEthIpPropsRef(self.getChildElementOptionalRefType(element, "ETH-IP-PROPS-REF"))
@@ -16030,6 +16034,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readLinCommunicationConnector(child_element, instance.createLinCommunicationConnector(self.getShortName(child_element)))
             elif tag_name == "FLEXRAY-COMMUNICATION-CONNECTOR":
                 self.readFlexrayCommunicationConnector(child_element, instance.createFlexrayCommunicationConnector(self.getShortName(child_element)))
+            elif tag_name == "USER-DEFINED-COMMUNICATION-CONNECTOR":
+                self.readUserDefinedCommunicationConnector(child_element, instance.createUserDefinedCommunicationConnector(self.getShortName(child_element)))
             else:
                 self.notImplemented("Unsupported Communication Connector <%s>" % tag_name)
 

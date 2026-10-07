@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, PhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 
 
 class UserDefinedCluster(CommunicationCluster):
@@ -24,6 +24,19 @@ class UserDefinedPhysicalChannel(PhysicalChannel):
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable; reader/writer coverage flows through the concrete USER-DEFINED-PHYSICAL-CHANNEL dispatch — XSD group USER-DEFINED-PHYSICAL-CHANNEL, AUTOSAR_00052.xsd line 128980, is an empty sequence)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class UserDefinedCommunicationConnector(CommunicationConnector):
+    """This element allows the modeling of arbitrary Communication Connectors."""
+
+    # UserDefinedCommunicationConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.131, p.180
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (no own attributes; Base = ARObject, CommunicationConnector, Identifiable, MultilanguageReferrable, Referrable; reader/writer coverage flows through the concrete USER-DEFINED-COMMUNICATION-CONNECTOR dispatch — XSD group USER-DEFINED-COMMUNICATION-CONNECTOR, AUTOSAR_00052.xsd line 128603, is an empty sequence)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
