@@ -2327,67 +2327,835 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
 
 
 class DdsCpProvidedServiceInstance(ARObject):
-    pass
+    """
+    This meta-class represents the ability to describe the existence and configuration of a provided service instance in a concrete implementation on top of DDS.
+    """
+
+    # DdsCpProvidedServiceInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.153, p.473
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLocalUnicastAddressRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLocalUnicastAddressRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinorVersion                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinorVersion                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addProvidedDdsOperation               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedDdsOperations              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addProvidedDdsServiceInstanceEvent    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedDdsServiceInstanceEvents   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getStaticRemoteMulticastAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStaticRemoteMulticastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addStaticRemoteUnicastAddressRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStaticRemoteUnicastAddressRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The local address over which the Service is provided. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        self.localUnicastAddressRef: Optional[RefType] = None
+
+        # Minor Version of the Service that is provided by this Dds CpProvidedServiceInstance.
+        self.minorVersion: Optional[PositiveInteger] = None
+
+        # Collection of provided operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsOperation, providedDds Operation.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        self.providedDdsOperations: List[DdsCpServiceInstanceOperation] = []
+
+        # Collection of provided events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsServiceInstanceEvent, provided DdsServiceInstanceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        self.providedDdsServiceInstanceEvents: List[DdsCpServiceInstanceEvent] = []
+
+        # This reference defines the remote multicast address of Service consumers. This reference shall ONLY be used if the remote multicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        self.staticRemoteMulticastAddressRef: Optional[RefType] = None
+
+        # This reference defines the remote unicast addresses of Service consumers. This reference shall ONLY be used if the remote unicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        self.staticRemoteUnicastAddressRefs: List[RefType] = []
+
+    def getLocalUnicastAddressRef(self) -> Optional[RefType]:
+        """
+        The local address over which the Service is provided. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+        """
+        return self.localUnicastAddressRef
+
+    def setLocalUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpProvidedServiceInstance:
+        """
+        The local address over which the Service is provided. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=LOCAL-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing localUnicastAddressRef.
+        """
+        if value is not None:
+            self.localUnicastAddressRef = value
+        return self
+
+    def getMinorVersion(self) -> Optional[PositiveInteger]:
+        """
+        Minor Version of the Service that is provided by this Dds CpProvidedServiceInstance.
+        """
+        return self.minorVersion
+
+    def setMinorVersion(self, value: Optional[PositiveInteger]) -> DdsCpProvidedServiceInstance:
+        """
+        Minor Version of the Service that is provided by this Dds CpProvidedServiceInstance.
+
+        A None value is a no-op and does not overwrite an existing minorVersion.
+        """
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+    def addProvidedDdsOperation(self, value: Optional[DdsCpServiceInstanceOperation]) -> DdsCpProvidedServiceInstance:
+        """
+        Collection of provided operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsOperation, providedDds Operation.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not extend the providedDdsOperations list.
+        """
+        if value is not None:
+            self.providedDdsOperations.append(value)
+        return self
+
+    def getProvidedDdsOperations(self) -> List[DdsCpServiceInstanceOperation]:
+        """
+        Collection of provided operations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsOperation, providedDds Operation.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        return self.providedDdsOperations
+
+    def addProvidedDdsServiceInstanceEvent(self, value: Optional[DdsCpServiceInstanceEvent]) -> DdsCpProvidedServiceInstance:
+        """
+        Collection of provided events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsServiceInstanceEvent, provided DdsServiceInstanceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+
+        A None value is a no-op and does not extend the providedDdsServiceInstanceEvents list.
+        """
+        if value is not None:
+            self.providedDdsServiceInstanceEvents.append(value)
+        return self
+
+    def getProvidedDdsServiceInstanceEvents(self) -> List[DdsCpServiceInstanceEvent]:
+        """
+        Collection of provided events. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=providedDdsServiceInstanceEvent, provided DdsServiceInstanceEvent.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime
+        """
+        return self.providedDdsServiceInstanceEvents
+
+    def getStaticRemoteMulticastAddressRef(self) -> Optional[RefType]:
+        """
+        This reference defines the remote multicast address of Service consumers. This reference shall ONLY be used if the remote multicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+        """
+        return self.staticRemoteMulticastAddressRef
+
+    def setStaticRemoteMulticastAddressRef(self, value: Optional[RefType]) -> DdsCpProvidedServiceInstance:
+        """
+        This reference defines the remote multicast address of Service consumers. This reference shall ONLY be used if the remote multicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteMulticastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES
+
+        A None value is a no-op and does not overwrite an existing staticRemoteMulticastAddressRef.
+        """
+        if value is not None:
+            self.staticRemoteMulticastAddressRef = value
+        return self
+
+    def addStaticRemoteUnicastAddressRef(self, value: Optional[RefType]) -> DdsCpProvidedServiceInstance:
+        """
+        This reference defines the remote unicast addresses of Service consumers. This reference shall ONLY be used if the remote unicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+
+        A None value is a no-op and does not extend the staticRemoteUnicastAddressRefs list.
+        """
+        if value is not None:
+            self.staticRemoteUnicastAddressRefs.append(value)
+        return self
+
+    def getStaticRemoteUnicastAddressRefs(self) -> List[RefType]:
+        """
+        This reference defines the remote unicast addresses of Service consumers. This reference shall ONLY be used if the remote unicast address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticRemoteUnicastAddress.application Endpoint, staticRemoteMulticastAddress.variation Point.shortLabel atp.Status=candidate vh.latestBindingTime=systemDesignTime xml.namePlural=STATIC-REMOTE-UNICAST-ADDRESSES
+        """
+        return self.staticRemoteUnicastAddressRefs
 
 
-class DdsCpQosProfile(ARObject):
-    pass
+class DdsCpServiceInstanceEvent(ARObject, VariationPointCapable):
+    """
+    This element represents an event as part of the Provided Service Instance. Tags: atp.Status=candidate
+    """
+
+    # DdsCpServiceInstanceEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.155, p.475
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsEventRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsEventQosProfileRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventQosProfileRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsEventTopicRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsEventTopicRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) —
+    # no spec rows (XSD group DDS-CP-SERVICE-INSTANCE-EVENT carries VARIATION-POINT, Rule 0020).
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+        self.ddsEventRef: Optional[RefType] = None
+
+        # Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+        self.ddsEventQosProfileRef: Optional[RefType] = None
+
+        # Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+        self.ddsEventTopicRef: Optional[RefType] = None
+
+    def getDdsEventRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+        """
+        return self.ddsEventRef
+
+    def setDdsEventRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the PduTriggerung used for the upper layer transport of this DdsEvent message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventRef.
+        """
+        if value is not None:
+            self.ddsEventRef = value
+        return self
+
+    def getDdsEventQosProfileRef(self) -> Optional[RefType]:
+        """
+        Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+        """
+        return self.ddsEventQosProfileRef
+
+    def setDdsEventQosProfileRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the QOS Profile used for this Event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventQosProfileRef.
+        """
+        if value is not None:
+            self.ddsEventQosProfileRef = value
+        return self
+
+    def getDdsEventTopicRef(self) -> Optional[RefType]:
+        """
+        Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+        """
+        return self.ddsEventTopicRef
+
+    def setDdsEventTopicRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceEvent:
+        """
+        Reference to the DDS Topic used for this Event. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsEventTopicRef.
+        """
+        if value is not None:
+            self.ddsEventTopicRef = value
+        return self
 
 
-class DdsCpServiceInstanceEvent(ARObject):
-    pass
+class DdsCpServiceInstanceOperation(ARObject, VariationPointCapable):
+    """
+    This element represents an operation as part of the Provided Service Instance. Tags: atp.Status=candidate
+    """
 
+    # DdsCpServiceInstanceOperation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.156, p.476
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDdsOperationRequestTriggeringRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsOperationRequestTriggeringRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsOperationResponseTriggeringRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsOperationResponseTriggeringRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # getVariationPoint / setVariationPoint provided by the VariationPointCapable base (mixin) —
+    # no spec rows (XSD group DDS-CP-SERVICE-INSTANCE-OPERATION carries VARIATION-POINT, Rule 0020).
 
-class DdsCpServiceInstanceOperation(ARObject):
-    pass
+    def __init__(self):
+        super().__init__()
 
+        # Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+        self.ddsOperationRequestTriggeringRef: Optional[RefType] = None
 
-class DdsCpTopic(ARObject):
-    pass
+        # Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+        self.ddsOperationResponseTriggeringRef: Optional[RefType] = None
+
+    def getDdsOperationRequestTriggeringRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+        """
+        return self.ddsOperationRequestTriggeringRef
+
+    def setDdsOperationRequestTriggeringRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceOperation:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation request message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsOperationRequestTriggeringRef.
+        """
+        if value is not None:
+            self.ddsOperationRequestTriggeringRef = value
+        return self
+
+    def getDdsOperationResponseTriggeringRef(self) -> Optional[RefType]:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+        """
+        return self.ddsOperationResponseTriggeringRef
+
+    def setDdsOperationResponseTriggeringRef(self, value: Optional[RefType]) -> DdsCpServiceInstanceOperation:
+        """
+        Reference to the PduTriggering used for the upper layer transport of this DdsOperation response message. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ddsOperationResponseTriggeringRef.
+        """
+        if value is not None:
+            self.ddsOperationResponseTriggeringRef = value
+        return self
 
 
 class DdsDeadline(ARObject):
-    pass
+    """
+    Describes the DDS DEADLINE QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDeadline method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.185, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDeadlinePeriod   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDeadlinePeriod   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.deadlinePeriod: Optional[Float] = None
+
+    def getDeadlinePeriod(self) -> Optional[Float]:
+        """
+        See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.deadlinePeriod
+
+    def setDeadlinePeriod(self, value: Optional[Float]) -> DdsDeadline:
+        """
+        See "DEADLINE" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing deadlinePeriod.
+        """
+        if value is not None:
+            self.deadlinePeriod = value
+        return self
 
 
 class DdsDestinationOrder(ARObject):
-    pass
+    """
+    Describes the DDS DESTINATION_ORDER QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDestinationOrder method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.196, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationOrderKind      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationOrderKind      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+        self.destinationOrderKind: Optional[DdsDestinationOrderKindEnum] = None
+
+    def getDestinationOrderKind(self) -> Optional[DdsDestinationOrderKindEnum]:
+        """
+        See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.destinationOrderKind
+
+    def setDestinationOrderKind(self, value: Optional[DdsDestinationOrderKindEnum]) -> DdsDestinationOrder:
+        """
+        See "DESTINATION_ORDER" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationOrderKind.
+        """
+        if value is not None:
+            self.destinationOrderKind = value
+        return self
 
 
 class DdsDurability(ARObject):
-    pass
+    """
+    Describes the DDS DURABILITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDurability method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.181, p.530
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDurabilityKind     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityKind     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityKind: Optional[DdsDurabilityKindEnum] = None
+
+    def getDurabilityKind(self) -> Optional[DdsDurabilityKindEnum]:
+        """
+        See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityKind
+
+    def setDurabilityKind(self, value: Optional[DdsDurabilityKindEnum]) -> DdsDurability:
+        """
+        See "DURABILITY" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityKind.
+        """
+        if value is not None:
+            self.durabilityKind = value
+        return self
 
 
 class DdsDurabilityService(ARObject):
-    pass
+    """
+    Describes the DDS DURABILITY_SERVICE QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsDurabilityService method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.183, p.531
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceCleanupDelay          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceCleanupDelay          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceHistoryDepth          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceHistoryDepth          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceHistoryKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceHistoryKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxInstances          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxSamples            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxSamples            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDurabilityServiceMaxSamplesPerInstance [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDurabilityServiceMaxSamplesPerInstance [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.durabilityServiceCleanupDelay: Optional[Float] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceHistoryDepth: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceHistoryKind: Optional[DdsDurabilityServiceHistoryKindEnum] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxInstances: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxSamples: Optional[PositiveInteger] = None
+
+        # See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        self.durabilityServiceMaxSamplesPerInstance: Optional[PositiveInteger] = None
+
+    def getDurabilityServiceCleanupDelay(self) -> Optional[Float]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceCleanupDelay
+
+    def setDurabilityServiceCleanupDelay(self, value: Optional[Float]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceCleanupDelay.
+        """
+        if value is not None:
+            self.durabilityServiceCleanupDelay = value
+        return self
+
+    def getDurabilityServiceHistoryDepth(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceHistoryDepth
+
+    def setDurabilityServiceHistoryDepth(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceHistoryDepth.
+        """
+        if value is not None:
+            self.durabilityServiceHistoryDepth = value
+        return self
+
+    def getDurabilityServiceHistoryKind(self) -> Optional[DdsDurabilityServiceHistoryKindEnum]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceHistoryKind
+
+    def setDurabilityServiceHistoryKind(self, value: Optional[DdsDurabilityServiceHistoryKindEnum]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceHistoryKind.
+        """
+        if value is not None:
+            self.durabilityServiceHistoryKind = value
+        return self
+
+    def getDurabilityServiceMaxInstances(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxInstances
+
+    def setDurabilityServiceMaxInstances(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxInstances.
+        """
+        if value is not None:
+            self.durabilityServiceMaxInstances = value
+        return self
+
+    def getDurabilityServiceMaxSamples(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxSamples
+
+    def setDurabilityServiceMaxSamples(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxSamples.
+        """
+        if value is not None:
+            self.durabilityServiceMaxSamples = value
+        return self
+
+    def getDurabilityServiceMaxSamplesPerInstance(self) -> Optional[PositiveInteger]:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.durabilityServiceMaxSamplesPerInstance
+
+    def setDurabilityServiceMaxSamplesPerInstance(self, value: Optional[PositiveInteger]) -> DdsDurabilityService:
+        """
+        See "DURABILITY_SERVICE" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing durabilityServiceMaxSamplesPerInstance.
+        """
+        if value is not None:
+            self.durabilityServiceMaxSamplesPerInstance = value
+        return self
 
 
 class DdsHistory(ARObject):
-    pass
+    """
+    Describes the DDS HISTORY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsHistory method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.198, p.537
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHistoryKind            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHistoryKind            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHistoryOrderDepth      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHistoryOrderDepth      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        self.historyKind: Optional[DdsHistoryKindEnum] = None
+
+        # See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        self.historyOrderDepth: Optional[PositiveInteger] = None
+
+    def getHistoryKind(self) -> Optional[DdsHistoryKindEnum]:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.historyKind
+
+    def setHistoryKind(self, value: Optional[DdsHistoryKindEnum]) -> DdsHistory:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing historyKind.
+        """
+        if value is not None:
+            self.historyKind = value
+        return self
+
+    def getHistoryOrderDepth(self) -> Optional[PositiveInteger]:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.historyOrderDepth
+
+    def setHistoryOrderDepth(self, value: Optional[PositiveInteger]) -> DdsHistory:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing historyOrderDepth.
+        """
+        if value is not None:
+            self.historyOrderDepth = value
+        return self
 
 
 class DdsLatencyBudget(ARObject):
-    pass
+    """
+    Describes the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLatencyBudget method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.186, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLatencyBudgetDuration   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLatencyBudgetDuration   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.latencyBudgetDuration: Optional[Float] = None
+
+    def getLatencyBudgetDuration(self) -> Optional[Float]:
+        """
+        See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.latencyBudgetDuration
+
+    def setLatencyBudgetDuration(self, value: Optional[Float]) -> DdsLatencyBudget:
+        """
+        See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing latencyBudgetDuration.
+        """
+        if value is not None:
+            self.latencyBudgetDuration = value
+        return self
 
 
 class DdsLifespan(ARObject):
-    pass
+    """
+    Describes the DDS LIFESPAN QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLifespan method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.195, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLifespanDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLifespanDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.lifespanDuration: Optional[Float] = None
+
+    def getLifespanDuration(self) -> Optional[Float]:
+        """
+        See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.lifespanDuration
+
+    def setLifespanDuration(self, value: Optional[Float]) -> DdsLifespan:
+        """
+        See "LIFESPAN" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing lifespanDuration.
+        """
+        if value is not None:
+            self.lifespanDuration = value
+        return self
 
 
 class DdsLiveliness(ARObject):
-    pass
+    """
+    Describes the DDS LIVELINESS QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLiveliness method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.190, p.534
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLivelinessLeaseDuration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLivelinessLeaseDuration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLivenessKind                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLivenessKind                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.livelinessLeaseDuration: Optional[Float] = None
+
+        # See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+        self.livenessKind: Optional[DdsLivenessKindEnum] = None
+
+    def getLivelinessLeaseDuration(self) -> Optional[Float]:
+        """
+        See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.livelinessLeaseDuration
+
+    def setLivelinessLeaseDuration(self, value: Optional[Float]) -> DdsLiveliness:
+        """
+        See "LIVELINESS" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing livelinessLeaseDuration.
+        """
+        if value is not None:
+            self.livelinessLeaseDuration = value
+        return self
+
+    def getLivenessKind(self) -> Optional[DdsLivenessKindEnum]:
+        """
+        See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.livenessKind
+
+    def setLivenessKind(self, value: Optional[DdsLivenessKindEnum]) -> DdsLiveliness:
+        """
+        See "LIVELINESS" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing livenessKind.
+        """
+        if value is not None:
+            self.livenessKind = value
+        return self
 
 
 class DdsOwnership(ARObject):
-    pass
+    """
+    Describes the DDS OWNERSHIP QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnership method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.187, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOwnershipKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnershipKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+        self.ownershipKind: Optional[DdsOwnershipKindEnum] = None
+
+    def getOwnershipKind(self) -> Optional[DdsOwnershipKindEnum]:
+        """
+        See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.ownershipKind
+
+    def setOwnershipKind(self, value: Optional[DdsOwnershipKindEnum]) -> DdsOwnership:
+        """
+        See "OWNERSHIP" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownershipKind.
+        """
+        if value is not None:
+            self.ownershipKind = value
+        return self
 
 
 class DdsOwnershipStrength(ARObject):
-    pass
+    """
+    Describes the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnershipStrength method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.189, p.533
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOwnershipStrength    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnershipStrength    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+        self.ownershipStrength: Optional[PositiveInteger] = None
+
+    def getOwnershipStrength(self) -> Optional[PositiveInteger]:
+        """
+        See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.ownershipStrength
+
+    def setOwnershipStrength(self, value: Optional[PositiveInteger]) -> DdsOwnershipStrength:
+        """
+        See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownershipStrength.
+        """
+        if value is not None:
+            self.ownershipStrength = value
+        return self
 
 
 class DdsReliability(ARObject):
-    pass
+    """
+    Describes the DDS RELIABILITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsReliability method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.192, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReliabilityKind            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliabilityKind            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReliabilityMaxBlockingTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliabilityMaxBlockingTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+        self.reliabilityKind: Optional[DdsReliabilityKindEnum] = None
+
+        # See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.reliabilityMaxBlockingTime: Optional[Float] = None
+
+    def getReliabilityKind(self) -> Optional[DdsReliabilityKindEnum]:
+        """
+        See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.reliabilityKind
+
+    def setReliabilityKind(self, value: Optional[DdsReliabilityKindEnum]) -> DdsReliability:
+        """
+        See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing reliabilityKind.
+        """
+        if value is not None:
+            self.reliabilityKind = value
+        return self
+
+    def getReliabilityMaxBlockingTime(self) -> Optional[Float]:
+        """
+        See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.reliabilityMaxBlockingTime
+
+    def setReliabilityMaxBlockingTime(self, value: Optional[Float]) -> DdsReliability:
+        """
+        See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing reliabilityMaxBlockingTime.
+        """
+        if value is not None:
+            self.reliabilityMaxBlockingTime = value
+        return self
 
 
 class DdsResourceLimits(ARObject):
@@ -2395,11 +3163,73 @@ class DdsResourceLimits(ARObject):
 
 
 class DdsTopicData(ARObject):
-    pass
+    """
+    Describes the DDS TOPIC_DATA QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsTopicData method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.180, p.529
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTopicData   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTopicData   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "TOPIC_DATA" chapter in DDS. Tags: atp.Status=candidate
+        self.topicData: Optional[String] = None
+
+    def getTopicData(self) -> Optional[String]:
+        """
+        See "TOPIC_DATA" chapter in DDS. Tags: atp.Status=candidate
+        """
+        return self.topicData
+
+    def setTopicData(self, value: Optional[String]) -> DdsTopicData:
+        """
+        See "TOPIC_DATA" chapter in DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing topicData.
+        """
+        if value is not None:
+            self.topicData = value
+        return self
 
 
 class DdsTransportPriority(ARObject):
-    pass
+    """
+    Describes the DDS TRANSPORT_PRIORITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsTransportPriority method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.194, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTransportPriority      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportPriority      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+        self.transportPriority: Optional[PositiveInteger] = None
+
+    def getTransportPriority(self) -> Optional[PositiveInteger]:
+        """
+        See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.transportPriority
+
+    def setTransportPriority(self, value: Optional[PositiveInteger]) -> DdsTransportPriority:
+        """
+        See "TRANSPORT_PRIORITY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing transportPriority.
+        """
+        if value is not None:
+            self.transportPriority = value
+        return self
 
 
 class Dhcpv6Props(ARObject):
@@ -2669,6 +3499,13 @@ class FrGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E402
     Boolean,
     ByteOrderEnum,
+    DdsDestinationOrderKindEnum,
+    DdsDurabilityKindEnum,
+    DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
+    DdsLivenessKindEnum,
+    DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -2684,9 +3521,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTypeOfFreezeFrameRecordNumerationEnum,
     DiagnosticUdsSeverityEnum,
     DiagnosticWwhObdDtcClassEnum,
+    Float,
     Identifier,
     NameToken,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )

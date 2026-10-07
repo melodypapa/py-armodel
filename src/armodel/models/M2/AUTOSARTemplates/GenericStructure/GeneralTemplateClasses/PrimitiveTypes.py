@@ -1718,31 +1718,197 @@ class DataExchangePointKind(AREnum):
 
 
 class DdsDestinationOrderKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS DESTINATION_ORDER kind. Tags: atp.Status=candidate
+    """
+
+    # DdsDestinationOrderKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.197, p.536
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsDestinationOrder.destinationOrderKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    BY_RECEPTION_TIMESTAMP = "BY-RECEPTION-TIMESTAMP"
+
+    # See "DESTINATION_ORDER" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BY_SOURCE_TIMESTAMP = "BY-SOURCE-TIMESTAMP"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsDestinationOrderKindEnum.BY_RECEPTION_TIMESTAMP,
+                DdsDestinationOrderKindEnum.BY_SOURCE_TIMESTAMP,
+            ]
+        )
 
 
 class DdsDurabilityKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS DURABILITY kind. Tags: atp.Status=candidate
+    """
+
+    # DdsDurabilityKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.182, p.530
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsDurability.durabilityKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=3 atp.Status=candidate
+    PERSISTENT = "PERSISTENT"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    TRANSIENT = "TRANSIENT"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    TRANSIENT_LOCAL = "TRANSIENT-LOCAL"
+
+    # See "DURABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    VOLATILE = "VOLATILE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsDurabilityKindEnum.PERSISTENT,
+                DdsDurabilityKindEnum.TRANSIENT,
+                DdsDurabilityKindEnum.TRANSIENT_LOCAL,
+                DdsDurabilityKindEnum.VOLATILE,
+            ]
+        )
 
 
 class DdsDurabilityServiceHistoryKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS DURABILITY_SERVICE HISTORY kind. Tags: atp.Status=candidate
+    """
+
+    # DdsDurabilityServiceHistoryKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.184, p.531
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsDurabilityService.durabilityServiceHistoryKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "DURABILITY_SERVICE" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    KEEP_ALL = "KEEP-ALL"
+
+    # See "DURABILITY_SERVICE" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    KEEP_LAST = "KEEP-LAST"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsDurabilityServiceHistoryKindEnum.KEEP_ALL,
+                DdsDurabilityServiceHistoryKindEnum.KEEP_LAST,
+            ]
+        )
 
 
 class DdsHistoryKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS HISTORY kind. Tags: atp.Status=candidate
+    """
+
+    # DdsHistoryKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.199, p.537
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsHistory.historyKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "HISTORY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    KEEP_ALL = "KEEP-ALL"
+
+    # See "HISTORY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    KEEP_LAST = "KEEP-LAST"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsHistoryKindEnum.KEEP_ALL,
+                DdsHistoryKindEnum.KEEP_LAST,
+            ]
+        )
 
 
 class DdsLivenessKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS LIVELINESS kind. Tags: atp.Status=candidate
+    """
+
+    # DdsLivenessKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.191, p.534
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsLiveliness.livenessKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    AUTOMATIC = "AUTOMATIC"
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=2 atp.Status=candidate
+    MANUAL_BY_PARTICIPANT = "MANUAL-BY-PARTICIPANT"
+
+    # See "LIVELINESS" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    MANUAL_BY_TOPIC = "MANUAL-BY-TOPIC"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsLivenessKindEnum.AUTOMATIC,
+                DdsLivenessKindEnum.MANUAL_BY_PARTICIPANT,
+                DdsLivenessKindEnum.MANUAL_BY_TOPIC,
+            ]
+        )
 
 
 class DdsOwnershipKindEnum(AREnum):
-    pass
+    """
+    Defines the DDS OWNERSHIP kind. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnershipKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.188, p.533
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsOwnership.ownershipKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "OWNERSHIP" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    EXCLUSIVE = "EXCLUSIVE"
+
+    # See "OWNERSHIP" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    SHARED = "SHARED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsOwnershipKindEnum.EXCLUSIVE,
+                DdsOwnershipKindEnum.SHARED,
+            ]
+        )
 
 
 class DdsReliabilityKindEnum(AREnum):
-    pass
+    """
+    See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+    """
+
+    # DdsReliabilityKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.193, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on DdsReliability.reliabilityKind members
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # See "RELIABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    BEST_EFFORT = "BEST-EFFORT"
+
+    # See "RELIABILITY" chapter of DDS. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    RELIABLE = "RELIABLE"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DdsReliabilityKindEnum.BEST_EFFORT,
+                DdsReliabilityKindEnum.RELIABLE,
+            ]
+        )
 
 
 class DefaultValueApplicationStrategyEnum(AREnum):

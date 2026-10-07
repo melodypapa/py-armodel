@@ -556,6 +556,22 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
     DiagnosticTestIdentifier,
+    DdsCpProvidedServiceInstance,
+    DdsCpServiceInstanceEvent,
+    DdsCpServiceInstanceOperation,
+    DdsDeadline,
+    DdsDestinationOrder,
+    DdsDurability,
+    DdsDurabilityService,
+    DdsHistory,
+    DdsLatencyBudget,
+    DdsLifespan,
+    DdsLiveliness,
+    DdsOwnership,
+    DdsOwnershipStrength,
+    DdsReliability,
+    DdsTopicData,
+    DdsTransportPriority,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -564,6 +580,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     CpSoftwareClusterResource,
+    DdsCpQosProfile,
+    DdsCpTopic,
     Describable,
     DiagnosticAuthTransmitCertificateEvaluation,
     DiagnosticDataElement,
@@ -1342,6 +1360,58 @@ AUTO_COLLECT_XML_MAP = {
     "REF-ALL": "REF-ALL",
     "REF-NONE": "REF-NONE",
     "REF-NON-STANDARD": "REF-NON-STANDARD",
+}
+
+#: Mapping between DdsDestinationOrderKindEnum literal values and their XML element text
+#: (AR:DDS-DESTINATION-ORDER-KIND-ENUM--SIMPLE).
+DDS_DESTINATION_ORDER_KIND_XML_MAP = {
+    "BY-RECEPTION-TIMESTAMP": "BY-RECEPTION-TIMESTAMP",
+    "BY-SOURCE-TIMESTAMP": "BY-SOURCE-TIMESTAMP",
+}
+
+#: Mapping between DdsDurabilityKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_KIND_XML_MAP = {
+    "PERSISTENT": "PERSISTENT",
+    "TRANSIENT": "TRANSIENT",
+    "TRANSIENT-LOCAL": "TRANSIENT-LOCAL",
+    "VOLATILE": "VOLATILE",
+}
+
+#: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
+DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-HISTORY-KIND-ENUM--SIMPLE).
+DDS_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsLivenessKindEnum literal values and their XML element text
+#: (AR:DDS-LIVENESS-KIND-ENUM--SIMPLE).
+DDS_LIVENESS_KIND_XML_MAP = {
+    "AUTOMATIC": "AUTOMATIC",
+    "MANUAL-BY-PARTICIPANT": "MANUAL-BY-PARTICIPANT",
+    "MANUAL-BY-TOPIC": "MANUAL-BY-TOPIC",
+}
+
+#: Mapping between DdsOwnershipKindEnum literal values and their XML element text
+#: (AR:DDS-OWNERSHIP-KIND-ENUM--SIMPLE).
+DDS_OWNERSHIP_KIND_XML_MAP = {
+    "EXCLUSIVE": "EXCLUSIVE",
+    "SHARED": "SHARED",
+}
+
+#: Mapping between DdsReliabilityKindEnum literal values and their XML element text
+#: (AR:DDS-RELIABILITY-KIND-ENUM--SIMPLE).
+DDS_RELIABILITY_KIND_XML_MAP = {
+    "BEST-EFFORT": "BEST-EFFORT",
+    "RELIABLE": "RELIABLE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -15656,6 +15726,176 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write DiagnosticParameterSupportInfo")
             support_info_element = ET.SubElement(element, "SUPPORT-INFO")
             self.setChildElementOptionalPositiveInteger(support_info_element, "SUPPORT-INFO-BIT", support_info.getSupportInfoBit())
+
+    def writeDdsCpQosProfile(self, element: ET.Element, profile: DdsCpQosProfile):
+        child_element = ET.SubElement(element, "DDS-CP-QOS-PROFILE")
+        self.writeIdentifiable(child_element, profile)
+        deadline = profile.getDeadline()
+        if deadline is not None:
+            self.writeDdsDeadline(child_element, deadline)
+        destination_order = profile.getDestinationOrder()
+        if destination_order is not None:
+            self.writeDdsDestinationOrder(child_element, destination_order)
+        durability = profile.getDurability()
+        if durability is not None:
+            self.writeDdsDurability(child_element, durability)
+        durability_service = profile.getDurabilityService()
+        if durability_service is not None:
+            self.writeDdsDurabilityService(child_element, durability_service)
+        history = profile.getHistory()
+        if history is not None:
+            self.writeDdsHistory(child_element, history)
+        latency_budget = profile.getLatencyBudget()
+        if latency_budget is not None:
+            self.writeDdsLatencyBudget(child_element, latency_budget)
+        lifespan = profile.getLifespan()
+        if lifespan is not None:
+            self.writeDdsLifespan(child_element, lifespan)
+        liveliness = profile.getLiveliness()
+        if liveliness is not None:
+            self.writeDdsLiveliness(child_element, liveliness)
+        ownership = profile.getOwnership()
+        if ownership is not None:
+            self.writeDdsOwnership(child_element, ownership)
+        ownership_strength = profile.getOwnershipStrength()
+        if ownership_strength is not None:
+            self.writeDdsOwnershipStrength(child_element, ownership_strength)
+        reliability = profile.getReliability()
+        if reliability is not None:
+            self.writeDdsReliability(child_element, reliability)
+        if profile.getResourceLimits() is not None:
+            ET.SubElement(child_element, "RESOURCE-LIMITS")
+        topic_data = profile.getTopicData()
+        if topic_data is not None:
+            self.writeDdsTopicData(child_element, topic_data)
+        transport_priority = profile.getTransportPriority()
+        if transport_priority is not None:
+            self.writeDdsTransportPriority(child_element, transport_priority)
+
+    def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
+        child_element = ET.SubElement(element, "DDS-CP-TOPIC")
+        self.writeIdentifiable(child_element, topic)
+        self.setChildElementOptionalRefType(child_element, "DDS-PARTITION-REF", topic.getDdsPartitionRef())
+        self.setChildElementOptionalString(child_element, "TOPIC-NAME", topic.getTopicName())
+
+    def writeDdsTopicData(self, element: ET.Element, topic_data: DdsTopicData):
+        child_element = ET.SubElement(element, "TOPIC-DATA")
+        self.writeARObject(child_element, topic_data)
+        self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsLiveliness(self, element: ET.Element, liveliness: DdsLiveliness):
+        child_element = ET.SubElement(element, "LIVELINESS")
+        self.writeARObject(child_element, liveliness)
+        self.setChildElementOptionalFloatValue(child_element, "LIVELINESS-LEASE-DURATION", liveliness.getLivelinessLeaseDuration())
+        self._writeEnumToken(child_element, "LIVENESS-KIND", liveliness.getLivenessKind(), DDS_LIVENESS_KIND_XML_MAP)
+
+    def writeDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
+        child_element = ET.SubElement(element, "OWNERSHIP-STRENGTH")
+        self.writeARObject(child_element, ownership_strength)
+        self.setChildElementOptionalPositiveInteger(child_element, "OWNERSHIP-STRENGTH", ownership_strength.getOwnershipStrength())
+
+    def writeDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
+        child_element = ET.SubElement(element, "OWNERSHIP")
+        self.writeARObject(child_element, ownership)
+        self._writeEnumToken(child_element, "OWNERSHIP-KIND", ownership.getOwnershipKind(), DDS_OWNERSHIP_KIND_XML_MAP)
+
+    def writeDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
+        child_element = ET.SubElement(element, "LATENCY-BUDGET")
+        self.writeARObject(child_element, latency_budget)
+        self.setChildElementOptionalFloatValue(child_element, "LATENCY-BUDGET-DURATION", latency_budget.getLatencyBudgetDuration())
+
+    def writeDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
+        child_element = ET.SubElement(element, "DEADLINE")
+        self.writeARObject(child_element, deadline)
+        self.setChildElementOptionalFloatValue(child_element, "DEADLINE-PERIOD", deadline.getDeadlinePeriod())
+
+    def writeDdsDurability(self, element: ET.Element, durability: DdsDurability):
+        child_element = ET.SubElement(element, "DURABILITY")
+        self.writeARObject(child_element, durability)
+        self._writeEnumToken(child_element, "DURABILITY-KIND", durability.getDurabilityKind(), DDS_DURABILITY_KIND_XML_MAP)
+
+    def writeDdsDurabilityService(self, element: ET.Element, durability_service: DdsDurabilityService):
+        child_element = ET.SubElement(element, "DURABILITY-SERVICE")
+        self.writeARObject(child_element, durability_service)
+        self.setChildElementOptionalFloatValue(child_element, "DURABILITY-SERVICE-CLEANUP-DELAY", durability_service.getDurabilityServiceCleanupDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-HISTORY-DEPTH", durability_service.getDurabilityServiceHistoryDepth())
+        self._writeEnumToken(child_element, "DURABILITY-SERVICE-HISTORY-KIND", durability_service.getDurabilityServiceHistoryKind(), DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-INSTANCES", durability_service.getDurabilityServiceMaxInstances())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES", durability_service.getDurabilityServiceMaxSamples())
+        self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE", durability_service.getDurabilityServiceMaxSamplesPerInstance())
+
+    def writeDdsReliability(self, element: ET.Element, reliability: DdsReliability):
+        child_element = ET.SubElement(element, "RELIABILITY")
+        self.writeARObject(child_element, reliability)
+        self._writeEnumToken(child_element, "RELIABILITY-KIND", reliability.getReliabilityKind(), DDS_RELIABILITY_KIND_XML_MAP)
+        self.setChildElementOptionalFloatValue(child_element, "RELIABILITY-MAX-BLOCKING-TIME", reliability.getReliabilityMaxBlockingTime())
+
+    def writeDdsTransportPriority(self, element: ET.Element, transport_priority: DdsTransportPriority):
+        child_element = ET.SubElement(element, "TRANSPORT-PRIORITY")
+        self.writeARObject(child_element, transport_priority)
+        self.setChildElementOptionalPositiveInteger(child_element, "TRANSPORT-PRIORITY", transport_priority.getTransportPriority())
+
+    def writeDdsLifespan(self, element: ET.Element, lifespan: DdsLifespan):
+        child_element = ET.SubElement(element, "LIFESPAN")
+        self.writeARObject(child_element, lifespan)
+        self.setChildElementOptionalFloatValue(child_element, "LIFESPAN-DURATION", lifespan.getLifespanDuration())
+
+    def writeDdsDestinationOrder(self, element: ET.Element, destination_order: DdsDestinationOrder):
+        child_element = ET.SubElement(element, "DESTINATION-ORDER")
+        self.writeARObject(child_element, destination_order)
+        self._writeEnumToken(child_element, "DESTINATION-ORDER-KIND", destination_order.getDestinationOrderKind(), DDS_DESTINATION_ORDER_KIND_XML_MAP)
+
+    def writeDdsHistory(self, element: ET.Element, history: DdsHistory):
+        child_element = ET.SubElement(element, "HISTORY")
+        self.writeARObject(child_element, history)
+        self._writeEnumToken(child_element, "HISTORY-KIND", history.getHistoryKind(), DDS_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "HISTORY-ORDER-DEPTH", history.getHistoryOrderDepth())
+
+    def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
+        child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")
+        self.writeARObject(child_element, instance)
+        local_unicast_address_ref = instance.getLocalUnicastAddressRef()
+        if local_unicast_address_ref is not None:
+            local_unicast_addresses_tag = ET.SubElement(child_element, "LOCAL-UNICAST-ADDRESSES")
+            conditional_tag = ET.SubElement(local_unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", local_unicast_address_ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", cast(Integer, instance.getMinorVersion()))
+        operations = instance.getProvidedDdsOperations()
+        if len(operations) > 0:
+            operations_tag = ET.SubElement(child_element, "PROVIDED-DDS-OPERATIONS")
+            for operation in operations:
+                self.writeDdsCpServiceInstanceOperation(operations_tag, operation)
+        events = instance.getProvidedDdsServiceInstanceEvents()
+        if len(events) > 0:
+            events_tag = ET.SubElement(child_element, "PROVIDED-DDS-SERVICE-INSTANCE-EVENTS")
+            for event in events:
+                self.writeDdsCpServiceInstanceEvent(events_tag, event)
+        static_remote_multicast_address_ref = instance.getStaticRemoteMulticastAddressRef()
+        if static_remote_multicast_address_ref is not None:
+            multicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-MULTICAST-ADDRESSES")
+            multicast_conditional_tag = ET.SubElement(multicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(multicast_conditional_tag, "APPLICATION-ENDPOINT-REF", static_remote_multicast_address_ref)
+        unicast_address_refs = instance.getStaticRemoteUnicastAddressRefs()
+        if len(unicast_address_refs) > 0:
+            unicast_addresses_tag = ET.SubElement(child_element, "STATIC-REMOTE-UNICAST-ADDRESSES")
+            for ref in unicast_address_refs:
+                conditional_tag = ET.SubElement(unicast_addresses_tag, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "APPLICATION-ENDPOINT-REF", ref)
+
+    def writeDdsCpServiceInstanceEvent(self, element: ET.Element, event: DdsCpServiceInstanceEvent):
+        child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-EVENT")
+        self.writeARObject(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-QOS-PROFILE-REF", event.getDdsEventQosProfileRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-REF", event.getDdsEventRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-EVENT-TOPIC-REF", event.getDdsEventTopicRef())
+        self.writeVariationPointCapable(child_element, event)
+
+    def writeDdsCpServiceInstanceOperation(self, element: ET.Element, operation: DdsCpServiceInstanceOperation):
+        child_element = ET.SubElement(element, "DDS-CP-SERVICE-INSTANCE-OPERATION")
+        self.writeARObject(child_element, operation)
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-REQUEST-TRIGGERING-REF", operation.getDdsOperationRequestTriggeringRef())
+        self.setChildElementOptionalRefType(child_element, "DDS-OPERATION-RESPONSE-TRIGGERING-REF", operation.getDdsOperationResponseTriggeringRef())
+        self.writeVariationPointCapable(child_element, operation)
 
     def writeDiagnosticParameter(self, element: ET.Element, parameter: DiagnosticParameter):
         child_element = ET.SubElement(element, "DIAGNOSTIC-PARAMETER")
