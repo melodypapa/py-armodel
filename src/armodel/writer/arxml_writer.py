@@ -897,6 +897,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -13811,6 +13812,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSystemMappingEcuResourceMappings(child_element, mapping)
         self.writeSystemMappingPncMappings(child_element, mapping)
         self.writeSystemMappingResourceEstimations(child_element, mapping)
+        self.writeSystemMappingResourceToApplicationPartitionMappings(child_element, mapping)
         self.writeSystemMappingRteEventSeparations(child_element, mapping)
         self.writeSystemMappingRteEventToOsTaskProxyMappings(child_element, mapping)
         self.writeSystemMappingSignalPathConstraints(child_element, mapping)
@@ -13984,6 +13986,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCpSoftwareClusterToEcuInstanceMapping(mappings_tag, sw_cluster_mapping)
                 else:
                     self.notImplemented("Unsupported SwClusterMapping %s" % type(sw_cluster_mapping))
+
+    def writeCpSoftwareClusterResourceToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterResourceToApplicationPartitionMapping):
+        child_element = ET.SubElement(element, "CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING")
+        self.writeIdentifiable(child_element, mapping)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-PARTITION-REF", mapping.getApplicationPartitionRef())
+        self.setChildElementOptionalRefType(child_element, "RESOURCE-REF", mapping.getResourceRef())
+
+    def writeSystemMappingResourceToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        mappings = mapping.getResourceToApplicationPartitionMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS")
+            for resource_mapping in mappings:
+                if isinstance(resource_mapping, CpSoftwareClusterResourceToApplicationPartitionMapping):
+                    self.writeCpSoftwareClusterResourceToApplicationPartitionMapping(mappings_tag, resource_mapping)
+                else:
+                    self.notImplemented("Unsupported ResourceToApplicationPartitionMapping %s" % type(resource_mapping))
 
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())

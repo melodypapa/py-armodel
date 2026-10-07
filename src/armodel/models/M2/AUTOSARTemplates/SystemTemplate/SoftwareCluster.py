@@ -203,3 +203,59 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         if value is not None:
             self.swClusterRefs.append(value)
         return self
+
+
+class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
+    """
+    This meta class maps a Software Cluster resource to an Application Partition to restrict the usage.
+    """
+
+    # CpSoftwareClusterResourceToApplicationPartitionMapping method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.48, p.284
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationPartitionRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResourceRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # ApplicationPartition for which the mapping applies.
+        self.applicationPartitionRef: Optional[RefType] = None
+
+        # Software Cluster Resource for which the mapping applies.
+        self.resourceRef: Optional[RefType] = None
+
+    def getApplicationPartitionRef(self) -> Optional[RefType]:
+        """
+        ApplicationPartition for which the mapping applies.
+        """
+        return self.applicationPartitionRef
+
+    def setApplicationPartitionRef(self, value: Optional[RefType]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
+        """
+        ApplicationPartition for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing applicationPartitionRef.
+        """
+        if value is not None:
+            self.applicationPartitionRef = value
+        return self
+
+    def getResourceRef(self) -> Optional[RefType]:
+        """
+        Software Cluster Resource for which the mapping applies.
+        """
+        return self.resourceRef
+
+    def setResourceRef(self, value: Optional[RefType]) -> "CpSoftwareClusterResourceToApplicationPartitionMapping":
+        """
+        Software Cluster Resource for which the mapping applies.
+
+        A None value is a no-op and does not overwrite an existing resourceRef.
+        """
+        if value is not None:
+            self.resourceRef = value
+        return self

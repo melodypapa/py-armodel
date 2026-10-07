@@ -478,9 +478,9 @@ STUBS = [
         "ARElement",
     ),
     (
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "CpSoftwareClusterResourceToApplicationPartitionMapping",
-        "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
+        "armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster",
         "Identifiable",
     ),
     (

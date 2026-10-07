@@ -1084,6 +1084,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
     SystemMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterToEcuInstanceMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster import CpSoftwareClusterResourceToApplicationPartitionMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     ClientServerToSignalMapping,
     DataMapping,
@@ -16923,6 +16924,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSystemMappingEcuResourceMappings(element, mapping)
         self.readSystemMappingPncMappings(element, mapping)
         self.readSystemMappingResourceEstimations(element, mapping)
+        self.readSystemMappingResourceToApplicationPartitionMappings(element, mapping)
         self.readSystemMappingRteEventSeparations(element, mapping)
         self.readSystemMappingRteEventToOsTaskProxyMappings(element, mapping)
         self.readSystemMappingSignalPathConstraints(element, mapping)
@@ -17056,6 +17058,17 @@ class ARXMLParser(AbstractARXMLParser):
             sw_cluster_mapping = CpSoftwareClusterToEcuInstanceMapping(mapping, self.getShortName(child_element))
             self.readCpSoftwareClusterToEcuInstanceMapping(child_element, sw_cluster_mapping)
             mapping.addSwClusterMapping(sw_cluster_mapping)
+
+    def readCpSoftwareClusterResourceToApplicationPartitionMapping(self, element: ET.Element, mapping: CpSoftwareClusterResourceToApplicationPartitionMapping):
+        self.readIdentifiable(element, mapping)
+        mapping.setApplicationPartitionRef(self.getChildElementOptionalRefType(element, "APPLICATION-PARTITION-REF"))
+        mapping.setResourceRef(self.getChildElementOptionalRefType(element, "RESOURCE-REF"))
+
+    def readSystemMappingResourceToApplicationPartitionMappings(self, element: ET.Element, mapping: SystemMapping):
+        for child_element in self.findall(element, "RESOURCE-TO-APPLICATION-PARTITION-MAPPINGS/CP-SOFTWARE-CLUSTER-RESOURCE-TO-APPLICATION-PARTITION-MAPPING"):
+            resource_mapping = CpSoftwareClusterResourceToApplicationPartitionMapping(mapping, self.getShortName(child_element))
+            self.readCpSoftwareClusterResourceToApplicationPartitionMapping(child_element, resource_mapping)
+            mapping.addResourceToApplicationPartitionMapping(resource_mapping)
 
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
