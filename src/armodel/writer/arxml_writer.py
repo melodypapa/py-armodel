@@ -1204,6 +1204,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     TtcanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery, J1939Cluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
@@ -9801,6 +9802,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, timing)
         self.writeTimingExtension(child_element, timing)
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
+
+    def setBusMirrorChannel(self, parent: ET.Element, key: str, channel: Optional[BusMirrorChannel]):
+        if channel is not None:
+            child_element = ET.SubElement(parent, key)
+            self.writeARObject(child_element, channel)
+
+    def writeBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
+        self.logger.debug("Write BusMirrorChannelMapping %s" % mapping.getShortName())
+        self.writeIdentifiable(element, mapping)
+        self.setChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL", mapping.getMirroringProtocol())
+        self.setBusMirrorChannel(element, "SOURCE-CHANNEL", mapping.getSourceChannel())
+        self.setBusMirrorChannel(element, "TARGET-CHANNEL", mapping.getTargetChannel())
+        refs = mapping.getTargetPduTriggeringRefs()
+        if len(refs) > 0:
+            triggerings_tag = ET.SubElement(element, "TARGET-PDU-TRIGGERINGS")
+            for ref in refs:
+                child_element = ET.SubElement(triggerings_tag, "PDU-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", ref)
 
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()

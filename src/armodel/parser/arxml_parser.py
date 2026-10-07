@@ -1304,6 +1304,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     TlsVersionEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import BusMirrorChannel, BusMirrorChannelMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MirroringProtocolEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import DdsCpISignalToDdsTopicMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -10157,6 +10159,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, timing)
         self.readTimingExtension(element, timing)
         timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
+
+    def getBusMirrorChannel(self, element: ET.Element, key: str) -> Optional[BusMirrorChannel]:
+        channel = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            channel = BusMirrorChannel()
+            self.readARObject(child_element, channel)
+        return channel
+
+    def readBusMirrorChannelMapping(self, element: ET.Element, mapping: BusMirrorChannelMapping):
+        self.logger.debug("Read BusMirrorChannelMapping <%s>" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        mapping.setMirroringProtocol(cast(Optional[MirroringProtocolEnum], self.getChildElementOptionalLiteral(element, "MIRRORING-PROTOCOL")))
+        mapping.setSourceChannel(self.getBusMirrorChannel(element, "SOURCE-CHANNEL"))
+        mapping.setTargetChannel(self.getBusMirrorChannel(element, "TARGET-CHANNEL"))
+        for child_element in self.findall(element, "TARGET-PDU-TRIGGERINGS/PDU-TRIGGERING-REF-CONDITIONAL"):
+            mapping.addTargetPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF"))
 
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
