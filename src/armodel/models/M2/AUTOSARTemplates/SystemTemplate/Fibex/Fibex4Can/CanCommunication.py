@@ -68,9 +68,9 @@ class CanFrameTxBehaviorEnum(AREnum):
 
     # CanFrameTxBehaviorEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.114, p.445
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on consuming classes (Rules 0010-0011)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This CAN frame shall be sent as CAN 2.0 only. Tags: atp.EnumerationLiteralIndex=0
     ENUM_CAN_20 = "CAN-20"

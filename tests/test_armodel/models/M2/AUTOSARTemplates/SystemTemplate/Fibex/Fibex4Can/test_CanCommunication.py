@@ -415,3 +415,37 @@ class TestCanFrameRxBehaviorEnum:
         assert enum.getValue() == "CAN-FD"
 
         assert enum.getEnumValues() == ["ANY", "CAN-20", "CAN-FD"]
+
+
+CAN_FRAME_TX_BEHAVIOR_ENUM_CLASS_NOTE = "Defines different CAN protocols for frame transmission behavior."
+
+
+class TestCanFrameTxBehaviorEnum:
+    """Test cases for CanFrameTxBehaviorEnum (Table 6.114, p.445)."""
+
+    def test_class_docstring_is_spec_note(self):
+        """Test that the class docstring carries the spec Note verbatim (Table 6.114)"""
+        assert CanFrameTxBehaviorEnum.__doc__.strip() == CAN_FRAME_TX_BEHAVIOR_ENUM_CLASS_NOTE
+
+    def test_literal_values_are_xsd_facets(self):
+        """Test the member values are the exact XSD --SIMPLE enumeration facets (Table 6.114)"""
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_20 == "CAN-20"
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_FD == "CAN-FD"
+
+    def test_literal_comments_carry_spec_description_and_tags(self):
+        """Test the literal comments carry the spec description + Tags verbatim (Table 6.114)"""
+        source = inspect.getsource(CanFrameTxBehaviorEnum)
+        assert "This CAN frame shall be sent as CAN 2.0 only. Tags: atp.EnumerationLiteralIndex=0" in source
+        assert "This CAN frame shall be sent as CAN FD. Tags: atp.EnumerationLiteralIndex=1" in source
+
+    def test_instantiability_and_facet_order(self):
+        """Test the enum is instantiable and the tuple follows the XSD facet order (Table 6.114)"""
+        enum = CanFrameTxBehaviorEnum()
+        assert enum.getValue() == ""
+
+        assert enum.setValue(CanFrameTxBehaviorEnum.ENUM_CAN_20) is enum
+        assert enum.getValue() == "CAN-20"
+        assert enum.setValue(CanFrameTxBehaviorEnum.ENUM_CAN_FD) is enum
+        assert enum.getValue() == "CAN-FD"
+
+        assert enum.getEnumValues() == ["CAN-20", "CAN-FD"]
