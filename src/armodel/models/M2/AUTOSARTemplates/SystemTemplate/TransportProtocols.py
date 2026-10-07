@@ -1343,53 +1343,71 @@ class LinTpConfig(TpConfig):
 
     # LinTpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.259, p.614
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTpAddresses               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createTpAddress              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpConnections             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTpConnection              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpNodes                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createLinTpNode              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddresses     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTpAddress    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLinTpNode    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpAddresses: List[TpAddress] = []
 
-        # Configuration of LIN TP channels. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Configuration of LIN TP channels. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpConnections: List[LinTpConnection] = []
 
-        # Senders and receivers of LIN TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Senders and receivers of LIN TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpNodes: List[LinTpNode] = []
 
-    def getTpAddresses(self):
+    def getTpAddresses(self) -> List[TpAddress]:
+        """
+        Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpAddresses
 
-    def createTpAddress(self, short_name: str):
+    def createTpAddress(self, short_name: str) -> TpAddress:
+        """
+        Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, TpAddress):
             address = TpAddress(self, short_name)
             self.addReferrableElement(address)
             self.tpAddresses.append(address)
-        return self.getReferrableElement(short_name, TpAddress)
+        return cast(TpAddress, self.getReferrableElement(short_name, TpAddress))
 
-    def getTpConnections(self):
+    def getTpConnections(self) -> List[LinTpConnection]:
+        """
+        Configuration of LIN TP channels. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpConnections
 
-    def addTpConnection(self, value):
+    def addTpConnection(self, value: Optional[LinTpConnection]) -> LinTpConfig:
+        """
+        Configuration of LIN TP channels. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpConnections.
+        """
         if value is not None:
             self.tpConnections.append(value)
         return self
 
-    def getTpNodes(self):
+    def getTpNodes(self) -> List[LinTpNode]:
+        """
+        Senders and receivers of LIN TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpNodes
 
-    def createLinTpNode(self, short_name: str):
+    def createLinTpNode(self, short_name: str) -> LinTpNode:
+        """
+        Senders and receivers of LIN TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, LinTpNode):
             address = LinTpNode(self, short_name)
             self.addReferrableElement(address)
             self.tpNodes.append(address)
-        return self.getReferrableElement(short_name, LinTpNode)
+        return cast(LinTpNode, self.getReferrableElement(short_name, LinTpNode))
