@@ -2902,7 +2902,38 @@ class DdsOwnership(ARObject):
 
 
 class DdsOwnershipStrength(ARObject):
-    pass
+    """
+    Describes the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsOwnershipStrength method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.189, p.533
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOwnershipStrength    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOwnershipStrength    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+        self.ownershipStrength: Optional[PositiveInteger] = None
+
+    def getOwnershipStrength(self) -> Optional[PositiveInteger]:
+        """
+        See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.ownershipStrength
+
+    def setOwnershipStrength(self, value: Optional[PositiveInteger]) -> DdsOwnershipStrength:
+        """
+        See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ownershipStrength.
+        """
+        if value is not None:
+            self.ownershipStrength = value
+        return self
 
 
 class DdsReliability(ARObject):

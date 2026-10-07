@@ -11,8 +11,9 @@ OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY
 
 The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, DdsDurability,
 synced Table 6.181, DdsDurabilityService, synced Table 6.183, DdsDeadline, synced
-Table 6.185, DdsLatencyBudget, synced Table 6.186, and DdsOwnership, synced Table 6.187) are
-still unsynced stubs — the reader serializes them identity-only (Rule 0001.7 debt).
+Table 6.185, DdsLatencyBudget, synced Table 6.186, DdsOwnership, synced Table 6.187, and
+DdsOwnershipStrength, synced Table 6.189) are still unsynced stubs — the reader serializes
+them identity-only (Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -29,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsHistory,
     DdsLatencyBudget,
     DdsOwnership,
+    DdsOwnershipStrength,
     DdsTopicData,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
@@ -79,6 +81,13 @@ class TestReadDdsCpQosProfile:
         assert isinstance(profile.getDeadline(), DdsDeadline)
         assert profile.getDeadline().getDeadlinePeriod() is not None
         assert profile.getDeadline().getDeadlinePeriod().getValue() == 0.5
+
+    def test_read_sets_ownership_strength_with_values(self, parser):
+        """Test that the synced DdsOwnershipStrength child is read with its field values."""
+        profile = self._read(parser, "<OWNERSHIP-STRENGTH><OWNERSHIP-STRENGTH>5</OWNERSHIP-STRENGTH></OWNERSHIP-STRENGTH>")
+        assert isinstance(profile.getOwnershipStrength(), DdsOwnershipStrength)
+        assert profile.getOwnershipStrength().getOwnershipStrength() is not None
+        assert profile.getOwnershipStrength().getOwnershipStrength().getValue() == 5
 
     def test_read_sets_ownership_with_values(self, parser):
         """Test that the synced DdsOwnership child is read with its field values."""

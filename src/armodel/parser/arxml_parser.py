@@ -11962,8 +11962,11 @@ class ARXMLParser(AbstractARXMLParser):
             ownership = DdsOwnership()
             self.readDdsOwnership(ownership_element, ownership)
             profile.setOwnership(ownership)
-        if self.find(element, "OWNERSHIP-STRENGTH") is not None:
-            profile.setOwnershipStrength(DdsOwnershipStrength())
+        ownership_strength_element = self.find(element, "OWNERSHIP-STRENGTH")
+        if ownership_strength_element is not None:
+            ownership_strength = DdsOwnershipStrength()
+            self.readDdsOwnershipStrength(ownership_strength_element, ownership_strength)
+            profile.setOwnershipStrength(ownership_strength)
         if self.find(element, "RELIABILITY") is not None:
             profile.setReliability(DdsReliability())
         if self.find(element, "RESOURCE-LIMITS") is not None:
@@ -11986,6 +11989,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
+        self.logger.debug("Read DdsOwnershipStrength")
+        self.readARObject(element, ownership_strength)
+        ownership_strength.setOwnershipStrength(self.getChildElementOptionalPositiveInteger(element, "OWNERSHIP-STRENGTH"))
 
     def readDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
         self.logger.debug("Read DdsOwnership")

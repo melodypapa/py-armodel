@@ -5,7 +5,7 @@ writeDdsCpQosProfile emits <DDS-CP-QOS-PROFILE> with the IDENTIFIABLE level
 (writeIdentifiable) and the 14 QoS policy children in XSD sequenceOffset order
 (AUTOSAR_00052.xsd l.29057). Unsynced Dds* children serialize identity-only (empty
 elements, Rule 0001.7 debt); the synced DdsTopicData/DdsDurability/DdsDurabilityService/
-DdsDeadline/DdsLatencyBudget/DdsOwnership children serialize fully.
+DdsDeadline/DdsLatencyBudget/DdsOwnership/DdsOwnershipStrength children serialize fully.
 
 Round-trip counterpart: tests/test_armodel/parser/test_dds_cp_qos_profile.py
 """
@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsHistory,
     DdsLatencyBudget,
     DdsOwnership,
+    DdsOwnershipStrength,
     DdsTopicData,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
@@ -58,6 +59,9 @@ def _new_profile() -> DdsCpQosProfile:
     ownership = DdsOwnership()
     ownership.setOwnershipKind(DdsOwnershipKindEnum().setValue(DdsOwnershipKindEnum.EXCLUSIVE))
     profile.setOwnership(ownership)
+    ownership_strength = DdsOwnershipStrength()
+    ownership_strength.setOwnershipStrength(PositiveInteger().setValue("5"))
+    profile.setOwnershipStrength(ownership_strength)
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
@@ -101,6 +105,15 @@ class TestWriteDdsCpQosProfile:
         deadline_node = node.find("DEADLINE")
         assert deadline_node is not None
         assert deadline_node.find("DEADLINE-PERIOD").text == "0.5"
+
+    def test_write_emits_ownership_strength_fully(self):
+        """Test that the synced DdsOwnershipStrength child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        ownership_strength_node = node.find("OWNERSHIP-STRENGTH")
+        assert ownership_strength_node is not None
+        assert ownership_strength_node.find("OWNERSHIP-STRENGTH").text == "5"
 
     def test_write_emits_ownership_fully(self):
         """Test that the synced DdsOwnership child serializes with its values."""
@@ -181,5 +194,7 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getLatencyBudget().getLatencyBudgetDuration().getValue() == 0.1
         assert isinstance(reloaded.getOwnership(), DdsOwnership)
         assert reloaded.getOwnership().getOwnershipKind().getValue() == "EXCLUSIVE"
+        assert isinstance(reloaded.getOwnershipStrength(), DdsOwnershipStrength)
+        assert reloaded.getOwnershipStrength().getOwnershipStrength().getValue() == 5
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsLatencyBudget,
     DdsOwnership,
+    DdsOwnershipStrength,
     DdsTopicData,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
@@ -3781,3 +3782,68 @@ class TestDdsOwnership:
         """
         assert inspect.cleandoc(DdsOwnership.getOwnershipKind.__doc__) == self.OWNERSHIP_KIND_NOTE
         assert inspect.cleandoc(DdsOwnership.setOwnershipKind.__doc__) == (self.OWNERSHIP_KIND_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ownershipKind.")
+
+
+class TestDdsOwnershipStrength:
+    """
+    Test class for DdsOwnershipStrength functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.189, p.533
+    """
+
+    CLASS_NOTE = "Describes the DDS OWNERSHIP_STRENGTH QoS policy. Tags: atp.Status=candidate"
+    OWNERSHIP_STRENGTH_NOTE = 'See "OWNERSHIP_STRENGTH" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_ownership_strength(self) -> DdsOwnershipStrength:
+        return DdsOwnershipStrength()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsOwnershipStrength initializes all attributes to their defaults.
+        """
+        obj = self._create_ownership_strength()
+
+        assert obj.getOwnershipStrength() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsOwnershipStrength derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsOwnershipStrength, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsOwnershipStrength.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsOwnershipStrength.__init__.__doc__ is None
+
+    def test_get_set_ownership_strength(self):
+        """
+        Test getOwnershipStrength and setOwnershipStrength round-trip and None no-op.
+        """
+        obj = self._create_ownership_strength()
+
+        value = PositiveInteger().setValue("5")
+        result = obj.setOwnershipStrength(value)
+        assert result is obj  # method chaining
+        assert obj.getOwnershipStrength() is value
+        assert obj.getOwnershipStrength().getValue() == 5
+
+        result = obj.setOwnershipStrength(None)
+        assert result is obj  # method chaining with None
+        assert obj.getOwnershipStrength() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsOwnershipStrength.getOwnershipStrength.__doc__) == self.OWNERSHIP_STRENGTH_NOTE
+        assert inspect.cleandoc(DdsOwnershipStrength.setOwnershipStrength.__doc__) == (
+            self.OWNERSHIP_STRENGTH_NOTE + "\n\nA None value is a no-op and does not overwrite an existing ownershipStrength."
+        )

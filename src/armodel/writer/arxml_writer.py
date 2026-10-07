@@ -564,6 +564,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityService,
     DdsLatencyBudget,
     DdsOwnership,
+    DdsOwnershipStrength,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -15710,7 +15711,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getOwnership() is not None:
             self.writeDdsOwnership(child_element, profile.getOwnership())
         if profile.getOwnershipStrength() is not None:
-            ET.SubElement(child_element, "OWNERSHIP-STRENGTH")
+            self.writeDdsOwnershipStrength(child_element, profile.getOwnershipStrength())
         if profile.getReliability() is not None:
             ET.SubElement(child_element, "RELIABILITY")
         if profile.getResourceLimits() is not None:
@@ -15730,6 +15731,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsOwnershipStrength(self, element: ET.Element, ownership_strength: DdsOwnershipStrength):
+        child_element = ET.SubElement(element, "OWNERSHIP-STRENGTH")
+        self.writeARObject(child_element, ownership_strength)
+        self.setChildElementOptionalPositiveInteger(child_element, "OWNERSHIP-STRENGTH", ownership_strength.getOwnershipStrength())
 
     def writeDdsOwnership(self, element: ET.Element, ownership: DdsOwnership):
         child_element = ET.SubElement(element, "OWNERSHIP")
