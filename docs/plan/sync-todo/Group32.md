@@ -655,15 +655,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `PduActivationRoutingGroup` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.161, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced 2026-10-08 (sync commit 5cb5ddacc; this row-flip is the follow-up — the class commit
+    omitted the todo-file flip). Entry audit FAIL (legacy 5-col checklist + stale `# Spec verified:`) drove
+    the full re-sync: stale marker removed, block rewritten 6-column; old rows carried reader AND writer
+    `[x]` on both get/set — corrected to the mutator/getter split. VP-capable per XSD (l.88622) — mixin
+    kept. Writer test upgraded from camelCase ARLiteral values to EventGroupControlTypeEnum XSD facets.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EventGroupControlTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.162, p.489
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
