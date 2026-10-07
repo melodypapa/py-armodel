@@ -386,15 +386,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DoIpEntityRoleEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.151, p.471
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: verification pass — literals/values already matched Table 6.151 and the XSD `DO-IP-ENTITY-ROLE-ENUM--SIMPLE` facets exactly (`EDGE-NODE`, `GATEWAY`, `NODE`, indexes 0-2), so Steps 2/3 pinned existing behavior (extended tests: member/value pins + instantiability setValue round-trip + class-docstring pin; Table 6.151 `Note` "DoIP role a network-node has." already verbatim in the docstring). Legacy `(no methods)` block carried a stale `# Spec verified: R23-11` (Rule 0023 drift) — marker removed, block rewritten to the 6-column form with the `__init__` row, no stamp (9b deferred to batch confirmation). No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.152, p.472
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py

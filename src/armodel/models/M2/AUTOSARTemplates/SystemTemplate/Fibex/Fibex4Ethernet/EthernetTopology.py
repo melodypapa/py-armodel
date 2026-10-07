@@ -4843,8 +4843,9 @@ class DoIpEntityRoleEnum(AREnum):
 
     # DoIpEntityRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.151, p.471
-    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
     EDGE_NODE = "EDGE-NODE"
