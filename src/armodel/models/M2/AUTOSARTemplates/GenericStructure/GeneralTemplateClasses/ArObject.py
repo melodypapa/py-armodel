@@ -2318,10 +2318,6 @@ class BusMirrorLinPidToCanIdMapping(ARObject):
     pass
 
 
-class ContainerIPdu(ARObject):
-    pass
-
-
 class CouplingElement(ARObject):
     pass
 

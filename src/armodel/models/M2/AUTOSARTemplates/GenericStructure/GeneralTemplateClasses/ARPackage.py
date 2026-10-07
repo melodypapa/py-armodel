@@ -2373,6 +2373,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SecuredIPdu, self.getReferrableElement(short_name, SecuredIPdu))
 
+    def createContainerIPdu(self, short_name: str) -> ContainerIPdu:
+
+        if not self.IsReferrableElementExists(short_name, ContainerIPdu):
+            element = ContainerIPdu(self, short_name)
+            self.addReferrableElement(element)
+        return cast(ContainerIPdu, self.getReferrableElement(short_name, ContainerIPdu))
+
     def createNmConfig(self, short_name: str) -> NmConfig:
 
         if not self.IsReferrableElementExists(short_name, NmConfig):
@@ -4687,6 +4694,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.short_name))
 
+    def getContainerIPdus(self) -> List[ContainerIPdu]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ContainerIPdu)), key=lambda a: a.short_name))
+
     def getNmConfigs(self) -> List[NmConfig]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.short_name))
@@ -4980,6 +4991,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     NmPdu,
     PdurIPduGroup,
+    ContainerIPdu,
     SecureCommunicationPropsSet,
     SecuredIPdu,
     SystemSignal,

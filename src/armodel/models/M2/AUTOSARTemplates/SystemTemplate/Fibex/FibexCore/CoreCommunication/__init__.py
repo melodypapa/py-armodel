@@ -2020,6 +2020,220 @@ class PduTriggering(Identifiable, VariationPointCapable):
         return self
 
 
+class ContainerIPdu(IPdu):
+    """
+    Allows to collect several IPdus in one ContainerIPdu based on the headerType. Tags: atp.recommendedPackage=Pdus
+    """
+
+    # ContainerIPdu method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.35, p.354 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addContainedIPduTriggeringProps   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainedIPduTriggeringProps   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContainedPduTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainedPduTriggeringRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getContainerTimeout               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContainerTimeout               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContainerTrigger               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContainerTrigger               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHeaderType                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHeaderType                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumRxContainerQueueSize    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumRxContainerQueueSize    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMinimumTxContainerQueueSize    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumTxContainerQueueSize    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRxAcceptContainedIPdu          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRxAcceptContainedIPdu          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThresholdSize                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThresholdSize                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnusedBitPattern               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnusedBitPattern               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines properties for an IPdu that is part of the ContainerIPdu.
+        self.containedIPduTriggeringProps: List[ContainedIPduProps] = []
+
+        # This PduTriggering shall be collected inside the Container IPdu.
+        self.containedPduTriggeringRefs: List[RefType] = []
+
+        # When this timeout expires the ContainerIPdu is sent out. The respective timer is started when the first Ipdu is put into the ContainerIPdu. This attribute is ignored on receiver side.
+        self.containerTimeout: Optional[TimeValue] = None
+
+        # Defines if the transmission of the ContainerIPdu shall be requested right after the first ContainedIPdu was put into it. This attribute shall be ignored on receiver side.
+        self.containerTrigger: Optional[ContainerIPduTriggerEnum] = None
+
+        # Defines whether and which header type is used (header id and length).
+        self.headerType: Optional[ContainerIPduHeaderTypeEnum] = None
+
+        # This attribute defines the minimum queue size for received containers.
+        self.minimumRxContainerQueueSize: Optional[PositiveInteger] = None
+
+        # This attribute defines the minimum queue size for transmitted containers.
+        self.minimumTxContainerQueueSize: Optional[PositiveInteger] = None
+
+        # Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception.
+        self.rxAcceptContainedIPdu: Optional[RxAcceptContainedIPduEnum] = None
+
+        # Defines the size threshold which, when exceeded, triggers the sending of the ContainerIPdu although the maximum Pdu size has not been reached yet. Unit: byte.
+        self.thresholdSize: Optional[PositiveInteger] = None
+
+        # IPduM fills not updated areas of the ContainerPdu with this byte-pattern.
+        self.unusedBitPattern: Optional[PositiveInteger] = None
+
+    def addContainedIPduTriggeringProps(self, value: Optional[ContainedIPduProps]) -> ContainerIPdu:
+        """
+        Defines properties for an IPdu that is part of the ContainerIPdu.
+        A None value is a no-op and does not add to containedIPduTriggeringProps.
+        """
+        if value is not None:
+            self.containedIPduTriggeringProps.append(value)
+        return self
+
+    def getContainedIPduTriggeringProps(self) -> List[ContainedIPduProps]:
+        """
+        Defines properties for an IPdu that is part of the ContainerIPdu.
+        """
+        return self.containedIPduTriggeringProps
+
+    def addContainedPduTriggeringRef(self, value: Optional[RefType]) -> ContainerIPdu:
+        """
+        This PduTriggering shall be collected inside the Container IPdu.
+        A None value is a no-op and does not add to containedPduTriggeringRefs.
+        """
+        if value is not None:
+            self.containedPduTriggeringRefs.append(value)
+        return self
+
+    def getContainedPduTriggeringRefs(self) -> List[RefType]:
+        """
+        This PduTriggering shall be collected inside the Container IPdu.
+        """
+        return self.containedPduTriggeringRefs
+
+    def getContainerTimeout(self) -> Optional[TimeValue]:
+        """
+        When this timeout expires the ContainerIPdu is sent out. The respective timer is started when the first Ipdu is put into the ContainerIPdu. This attribute is ignored on receiver side.
+        """
+        return self.containerTimeout
+
+    def setContainerTimeout(self, value: Optional[TimeValue]) -> ContainerIPdu:
+        """
+        When this timeout expires the ContainerIPdu is sent out. The respective timer is started when the first Ipdu is put into the ContainerIPdu. This attribute is ignored on receiver side.
+        A None value is a no-op and does not overwrite an existing containerTimeout.
+        """
+        if value is not None:
+            self.containerTimeout = value
+        return self
+
+    def getContainerTrigger(self) -> Optional[ContainerIPduTriggerEnum]:
+        """
+        Defines if the transmission of the ContainerIPdu shall be requested right after the first ContainedIPdu was put into it. This attribute shall be ignored on receiver side.
+        """
+        return self.containerTrigger
+
+    def setContainerTrigger(self, value: Optional[ContainerIPduTriggerEnum]) -> ContainerIPdu:
+        """
+        Defines if the transmission of the ContainerIPdu shall be requested right after the first ContainedIPdu was put into it. This attribute shall be ignored on receiver side.
+        A None value is a no-op and does not overwrite an existing containerTrigger.
+        """
+        if value is not None:
+            self.containerTrigger = value
+        return self
+
+    def getHeaderType(self) -> Optional[ContainerIPduHeaderTypeEnum]:
+        """
+        Defines whether and which header type is used (header id and length).
+        """
+        return self.headerType
+
+    def setHeaderType(self, value: Optional[ContainerIPduHeaderTypeEnum]) -> ContainerIPdu:
+        """
+        Defines whether and which header type is used (header id and length).
+        A None value is a no-op and does not overwrite an existing headerType.
+        """
+        if value is not None:
+            self.headerType = value
+        return self
+
+    def getMinimumRxContainerQueueSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the minimum queue size for received containers.
+        """
+        return self.minimumRxContainerQueueSize
+
+    def setMinimumRxContainerQueueSize(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
+        """
+        This attribute defines the minimum queue size for received containers.
+        A None value is a no-op and does not overwrite an existing minimumRxContainerQueueSize.
+        """
+        if value is not None:
+            self.minimumRxContainerQueueSize = value
+        return self
+
+    def getMinimumTxContainerQueueSize(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the minimum queue size for transmitted containers.
+        """
+        return self.minimumTxContainerQueueSize
+
+    def setMinimumTxContainerQueueSize(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
+        """
+        This attribute defines the minimum queue size for transmitted containers.
+        A None value is a no-op and does not overwrite an existing minimumTxContainerQueueSize.
+        """
+        if value is not None:
+            self.minimumTxContainerQueueSize = value
+        return self
+
+    def getRxAcceptContainedIPdu(self) -> Optional[RxAcceptContainedIPduEnum]:
+        """
+        Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception.
+        """
+        return self.rxAcceptContainedIPdu
+
+    def setRxAcceptContainedIPdu(self, value: Optional[RxAcceptContainedIPduEnum]) -> ContainerIPdu:
+        """
+        Defines whether this ContainerIPdu has a fixed set of containedIPdus assigned for reception.
+        A None value is a no-op and does not overwrite an existing rxAcceptContainedIPdu.
+        """
+        if value is not None:
+            self.rxAcceptContainedIPdu = value
+        return self
+
+    def getThresholdSize(self) -> Optional[PositiveInteger]:
+        """
+        Defines the size threshold which, when exceeded, triggers the sending of the ContainerIPdu although the maximum Pdu size has not been reached yet. Unit: byte.
+        """
+        return self.thresholdSize
+
+    def setThresholdSize(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
+        """
+        Defines the size threshold which, when exceeded, triggers the sending of the ContainerIPdu although the maximum Pdu size has not been reached yet. Unit: byte.
+        A None value is a no-op and does not overwrite an existing thresholdSize.
+        """
+        if value is not None:
+            self.thresholdSize = value
+        return self
+
+    def getUnusedBitPattern(self) -> Optional[PositiveInteger]:
+        """
+        IPduM fills not updated areas of the ContainerPdu with this byte-pattern.
+        """
+        return self.unusedBitPattern
+
+    def setUnusedBitPattern(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
+        """
+        IPduM fills not updated areas of the ContainerPdu with this byte-pattern.
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
+        if value is not None:
+            self.unusedBitPattern = value
+        return self
+
+
 class PdurIPduGroup(FibexElement):
     """
     The AUTOSAR PduR will enable and disable the sending of configurable groups of IPdus during runtime according to the AUTOSAR PduR specification. Tags: atp.recommendedPackage=PdurIPduGroups

@@ -1320,6 +1320,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     CommConnectorPort,
     ContainedIPduCollectionSemanticsEnum,
     ContainedIPduProps,
+    ContainerIPdu,
+    ContainerIPduHeaderTypeEnum,
+    ContainerIPduTriggerEnum,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -1356,6 +1359,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     SecuredIPdu,
     SecuredPduHeaderEnum,
     SegmentPosition,
+    RxAcceptContainedIPduEnum,
     StaticPart,
     SystemSignal,
     SystemSignalGroup,
@@ -12936,21 +12940,40 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         child_element = self.find(element, "CONTAINED-I-PDU-PROPS")
         if child_element is not None:
-            props = ContainedIPduProps()
-            props.setCollectionSemantics(cast(Optional[ContainedIPduCollectionSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS")))
-            props.setContainedPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF"))
-            props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
-            props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
-            props.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
-            props.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
-            props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
-            props.setTrigger(cast(Optional[PduCollectionTriggerEnum], self.getChildElementOptionalLiteral(child_element, "TRIGGER")))
-            props.setUpdateIndicationBitPosition(self.getChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+            props = self.readContainedIPduPropsValues(child_element, ContainedIPduProps())
+        return props
+
+    def readContainedIPduPropsValues(self, child_element: ET.Element, props: ContainedIPduProps) -> ContainedIPduProps:
+        props.setCollectionSemantics(cast(Optional[ContainedIPduCollectionSemanticsEnum], self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS")))
+        props.setContainedPduTriggeringRef(self.getChildElementOptionalRefType(child_element, "CONTAINED-PDU-TRIGGERING-REF"))
+        props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
+        props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
+        props.setOffset(self.getChildElementOptionalPositiveInteger(child_element, "OFFSET"))
+        props.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
+        props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
+        props.setTrigger(cast(Optional[PduCollectionTriggerEnum], self.getChildElementOptionalLiteral(child_element, "TRIGGER")))
+        props.setUpdateIndicationBitPosition(self.getChildElementOptionalPositiveInteger(child_element, "UPDATE-INDICATION-BIT-POSITION"))
         return props
 
     def readIPdu(self, element: ET.Element, pdu: IPdu):
         self.readPdu(element, pdu)
         pdu.setContainedIPduProps(self.readContainedIPduProps(element))
+
+    def readContainerIPdu(self, element: ET.Element, i_pdu: ContainerIPdu):
+        self.logger.debug("Read ContainerIPdu <%s>" % i_pdu.getShortName())
+        self.readIPdu(element, i_pdu)
+        for child_element in self.findall(element, "CONTAINED-I-PDU-TRIGGERING-PROPSS/CONTAINED-I-PDU-PROPS"):
+            i_pdu.addContainedIPduTriggeringProps(self.readContainedIPduPropsValues(child_element, ContainedIPduProps()))
+        for ref in self.getChildElementRefTypeList(element, "CONTAINED-PDU-TRIGGERING-REFS/CONTAINED-PDU-TRIGGERING-REF"):
+            i_pdu.addContainedPduTriggeringRef(ref)
+        i_pdu.setContainerTimeout(self.getChildElementOptionalTimeValue(element, "CONTAINER-TIMEOUT"))
+        i_pdu.setContainerTrigger(cast(Optional[ContainerIPduTriggerEnum], self.getChildElementOptionalLiteral(element, "CONTAINER-TRIGGER")))
+        i_pdu.setHeaderType(cast(Optional[ContainerIPduHeaderTypeEnum], self.getChildElementOptionalLiteral(element, "HEADER-TYPE")))
+        i_pdu.setMinimumRxContainerQueueSize(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-RX-CONTAINER-QUEUE-SIZE"))
+        i_pdu.setMinimumTxContainerQueueSize(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-TX-CONTAINER-QUEUE-SIZE"))
+        i_pdu.setRxAcceptContainedIPdu(cast(Optional[RxAcceptContainedIPduEnum], self.getChildElementOptionalLiteral(element, "RX-ACCEPT-CONTAINED-I-PDU")))
+        i_pdu.setThresholdSize(self.getChildElementOptionalPositiveInteger(element, "THRESHOLD-SIZE"))
+        i_pdu.setUnusedBitPattern(self.getChildElementOptionalPositiveInteger(element, "UNUSED-BIT-PATTERN"))
 
     def readNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Read NPdu <%s>" % pdu.getShortName())
@@ -17415,6 +17438,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readDcmIPdu(child_element, i_pdu)
             elif tag_name == "SECURED-I-PDU":
                 self.readSecuredIPdu(child_element, parent.createSecuredIPdu(self.getShortName(child_element)))
+            elif tag_name == "CONTAINER-I-PDU":
+                self.readContainerIPdu(child_element, parent.createContainerIPdu(self.getShortName(child_element)))
             elif tag_name == "NM-CONFIG":
                 config = parent.createNmConfig(self.getShortName(child_element))
                 self.readNmConfig(child_element, config)

@@ -1089,6 +1089,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     CommConnectorPort,
     ContainedIPduProps,
+    ContainerIPdu,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -9967,6 +9968,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "USE-AS-CRYPTOGRAPHIC-I-PDU", i_pdu.getUseAsCryptographicIPdu())
         self.setChildElementOptionalLiteral(child_element, "USE-SECURED-PDU-HEADER", i_pdu.getUseSecuredPduHeader())
 
+    def writeContainerIPdu(self, element: ET.Element, i_pdu: ContainerIPdu):
+        self.logger.debug("Write ContainerIPdu <%s>" % i_pdu.getShortName())
+        child_element = ET.SubElement(element, "CONTAINER-I-PDU")
+        self.writeIPdu(child_element, i_pdu)
+        props = i_pdu.getContainedIPduTriggeringProps()
+        if len(props) > 0:
+            props_tag = ET.SubElement(child_element, "CONTAINED-I-PDU-TRIGGERING-PROPSS")
+            for contained_props in props:
+                if isinstance(contained_props, ContainedIPduProps):
+                    self.writeContainedIPduProps(props_tag, contained_props)
+                else:
+                    self.notImplemented("Unsupported ContainedIPduProps <%s>" % type(contained_props))
+        refs = i_pdu.getContainedPduTriggeringRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTAINED-PDU-TRIGGERING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTAINED-PDU-TRIGGERING-REF", ref)
+        self.setChildElementOptionalTimeValue(child_element, "CONTAINER-TIMEOUT", i_pdu.getContainerTimeout())
+        self.setChildElementOptionalLiteral(child_element, "CONTAINER-TRIGGER", i_pdu.getContainerTrigger())
+        self.setChildElementOptionalLiteral(child_element, "HEADER-TYPE", i_pdu.getHeaderType())
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-RX-CONTAINER-QUEUE-SIZE", cast(Integer, i_pdu.getMinimumRxContainerQueueSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-TX-CONTAINER-QUEUE-SIZE", cast(Integer, i_pdu.getMinimumTxContainerQueueSize()))
+        self.setChildElementOptionalLiteral(child_element, "RX-ACCEPT-CONTAINED-I-PDU", i_pdu.getRxAcceptContainedIPdu())
+        self.setChildElementOptionalPositiveInteger(child_element, "THRESHOLD-SIZE", cast(Integer, i_pdu.getThresholdSize()))
+        self.setChildElementOptionalPositiveInteger(child_element, "UNUSED-BIT-PATTERN", cast(Integer, i_pdu.getUnusedBitPattern()))
+
     def writeTpConfig(self, element: ET.Element, config: TpConfig):
         self.writeIdentifiable(element, config)
         self.setChildElementOptionalRefType(element, "COMMUNICATION-CLUSTER-REF", config.getCommunicationClusterRef())
@@ -17693,6 +17720,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDcmIPdu(element, ar_element)
         elif isinstance(ar_element, SecuredIPdu):
             self.writeSecuredIPdu(element, ar_element)
+        elif isinstance(ar_element, ContainerIPdu):
+            self.writeContainerIPdu(element, ar_element)
         elif isinstance(ar_element, CanTpConfig):
             self.writeCanTpConfig(element, ar_element)
         elif isinstance(ar_element, LinTpConfig):
