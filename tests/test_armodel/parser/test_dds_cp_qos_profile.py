@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
+    DdsReliability,
     DdsTopicData,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
@@ -67,7 +68,19 @@ class TestReadDdsCpQosProfile:
         )
         assert profile.getDestinationOrder() is not None
         assert isinstance(profile.getHistory(), DdsHistory)
-        assert profile.getReliability() is None
+        assert profile.getTransportPriority() is None
+
+    def test_read_sets_reliability_with_values(self, parser):
+        """Test that the synced DdsReliability child is read with its field values."""
+        profile = self._read(
+            parser,
+            "<RELIABILITY><RELIABILITY-KIND>RELIABLE</RELIABILITY-KIND><RELIABILITY-MAX-BLOCKING-TIME>0.5</RELIABILITY-MAX-BLOCKING-TIME></RELIABILITY>",
+        )
+        assert isinstance(profile.getReliability(), DdsReliability)
+        assert profile.getReliability().getReliabilityKind() is not None
+        assert profile.getReliability().getReliabilityKind().getValue() == "RELIABLE"
+        assert profile.getReliability().getReliabilityMaxBlockingTime() is not None
+        assert profile.getReliability().getReliabilityMaxBlockingTime().getValue() == 0.5
 
     def test_read_sets_durability_with_values(self, parser):
         """Test that the synced DdsDurability child is read with its field values."""

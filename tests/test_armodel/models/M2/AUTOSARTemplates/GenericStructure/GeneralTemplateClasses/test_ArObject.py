@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
+    DdsReliability,
     DdsTopicData,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
@@ -55,6 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,
@@ -3933,3 +3935,87 @@ class TestDdsLiveliness:
         assert inspect.cleandoc(DdsLiveliness.setLivelinessLeaseDuration.__doc__) == (self.LIVELINESS_LEASE_DURATION_NOTE + none_no_op % "livelinessLeaseDuration")
         assert inspect.cleandoc(DdsLiveliness.getLivenessKind.__doc__) == self.LIVENESS_KIND_NOTE
         assert inspect.cleandoc(DdsLiveliness.setLivenessKind.__doc__) == (self.LIVENESS_KIND_NOTE + none_no_op % "livenessKind")
+
+
+class TestDdsReliability:
+    """
+    Test class for DdsReliability functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.192, p.535
+    """
+
+    CLASS_NOTE = "Describes the DDS RELIABILITY QoS policy. Tags: atp.Status=candidate"
+    RELIABILITY_KIND_NOTE = 'See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate'
+    RELIABILITY_MAX_BLOCKING_TIME_NOTE = 'See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_reliability(self) -> DdsReliability:
+        return DdsReliability()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsReliability initializes all attributes to their defaults.
+        """
+        obj = self._create_reliability()
+
+        assert obj.getReliabilityKind() is None
+        assert obj.getReliabilityMaxBlockingTime() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsReliability derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsReliability, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsReliability.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsReliability.__init__.__doc__ is None
+
+    def test_get_set_reliability_kind(self):
+        """
+        Test getReliabilityKind and setReliabilityKind round-trip and None no-op.
+        """
+        obj = self._create_reliability()
+
+        value = DdsReliabilityKindEnum().setValue(DdsReliabilityKindEnum.RELIABLE)
+        result = obj.setReliabilityKind(value)
+        assert result is obj  # method chaining
+        assert obj.getReliabilityKind() is value
+        assert obj.getReliabilityKind().getValue() == DdsReliabilityKindEnum.RELIABLE
+
+        result = obj.setReliabilityKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReliabilityKind() is value  # None is a no-op
+
+    def test_get_set_reliability_max_blocking_time(self):
+        """
+        Test getReliabilityMaxBlockingTime and setReliabilityMaxBlockingTime round-trip and None no-op.
+        """
+        obj = self._create_reliability()
+
+        value = Float().setValue("0.5")
+        result = obj.setReliabilityMaxBlockingTime(value)
+        assert result is obj  # method chaining
+        assert obj.getReliabilityMaxBlockingTime() is value
+        assert obj.getReliabilityMaxBlockingTime().getValue() == 0.5
+
+        result = obj.setReliabilityMaxBlockingTime(None)
+        assert result is obj  # method chaining with None
+        assert obj.getReliabilityMaxBlockingTime() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsReliability.getReliabilityKind.__doc__) == self.RELIABILITY_KIND_NOTE
+        assert inspect.cleandoc(DdsReliability.setReliabilityKind.__doc__) == (self.RELIABILITY_KIND_NOTE + none_no_op % "reliabilityKind")
+        assert inspect.cleandoc(DdsReliability.getReliabilityMaxBlockingTime.__doc__) == self.RELIABILITY_MAX_BLOCKING_TIME_NOTE
+        assert inspect.cleandoc(DdsReliability.setReliabilityMaxBlockingTime.__doc__) == (self.RELIABILITY_MAX_BLOCKING_TIME_NOTE + none_no_op % "reliabilityMaxBlockingTime")

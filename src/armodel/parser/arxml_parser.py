@@ -777,6 +777,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticClearEventAllowedBehaviorEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
@@ -1662,6 +1663,13 @@ DDS_LIVENESS_KIND_XML_MAP = {
 DDS_OWNERSHIP_KIND_XML_MAP = {
     "EXCLUSIVE": "EXCLUSIVE",
     "SHARED": "SHARED",
+}
+
+#: Mapping between DdsReliabilityKindEnum literal values and their XML element text
+#: (AR:DDS-RELIABILITY-KIND-ENUM--SIMPLE).
+DDS_RELIABILITY_KIND_XML_MAP = {
+    "BEST-EFFORT": "BEST-EFFORT",
+    "RELIABLE": "RELIABLE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -11975,8 +11983,11 @@ class ARXMLParser(AbstractARXMLParser):
             ownership_strength = DdsOwnershipStrength()
             self.readDdsOwnershipStrength(ownership_strength_element, ownership_strength)
             profile.setOwnershipStrength(ownership_strength)
-        if self.find(element, "RELIABILITY") is not None:
-            profile.setReliability(DdsReliability())
+        reliability_element = self.find(element, "RELIABILITY")
+        if reliability_element is not None:
+            reliability = DdsReliability()
+            self.readDdsReliability(reliability_element, reliability)
+            profile.setReliability(reliability)
         if self.find(element, "RESOURCE-LIMITS") is not None:
             profile.setResourceLimits(DdsResourceLimits())
         topic_data_element = self.find(element, "TOPIC-DATA")
@@ -12040,6 +12051,12 @@ class ARXMLParser(AbstractARXMLParser):
         durability_service.setDurabilityServiceMaxInstances(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-INSTANCES"))
         durability_service.setDurabilityServiceMaxSamples(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES"))
         durability_service.setDurabilityServiceMaxSamplesPerInstance(self.getChildElementOptionalPositiveInteger(element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE"))
+
+    def readDdsReliability(self, element: ET.Element, reliability: DdsReliability):
+        self.logger.debug("Read DdsReliability")
+        self.readARObject(element, reliability)
+        reliability.setReliabilityKind(self._readEnumToken(element, "RELIABILITY-KIND", DdsReliabilityKindEnum, DDS_RELIABILITY_KIND_XML_MAP))
+        reliability.setReliabilityMaxBlockingTime(self.getChildElementOptionalFloatValue(element, "RELIABILITY-MAX-BLOCKING-TIME"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

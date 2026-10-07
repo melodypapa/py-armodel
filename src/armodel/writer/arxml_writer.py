@@ -566,6 +566,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
+    DdsReliability,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -1386,6 +1387,13 @@ DDS_LIVENESS_KIND_XML_MAP = {
 DDS_OWNERSHIP_KIND_XML_MAP = {
     "EXCLUSIVE": "EXCLUSIVE",
     "SHARED": "SHARED",
+}
+
+#: Mapping between DdsReliabilityKindEnum literal values and their XML element text
+#: (AR:DDS-RELIABILITY-KIND-ENUM--SIMPLE).
+DDS_RELIABILITY_KIND_XML_MAP = {
+    "BEST-EFFORT": "BEST-EFFORT",
+    "RELIABLE": "RELIABLE",
 }
 
 #: Mapping between AclScopeEnum literal values and their XML element text
@@ -15728,8 +15736,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         ownership_strength = profile.getOwnershipStrength()
         if ownership_strength is not None:
             self.writeDdsOwnershipStrength(child_element, ownership_strength)
-        if profile.getReliability() is not None:
-            ET.SubElement(child_element, "RELIABILITY")
+        reliability = profile.getReliability()
+        if reliability is not None:
+            self.writeDdsReliability(child_element, reliability)
         if profile.getResourceLimits() is not None:
             ET.SubElement(child_element, "RESOURCE-LIMITS")
         topic_data = profile.getTopicData()
@@ -15789,6 +15798,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-INSTANCES", durability_service.getDurabilityServiceMaxInstances())
         self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES", durability_service.getDurabilityServiceMaxSamples())
         self.setChildElementOptionalPositiveInteger(child_element, "DURABILITY-SERVICE-MAX-SAMPLES-PER-INSTANCE", durability_service.getDurabilityServiceMaxSamplesPerInstance())
+
+    def writeDdsReliability(self, element: ET.Element, reliability: DdsReliability):
+        child_element = ET.SubElement(element, "RELIABILITY")
+        self.writeARObject(child_element, reliability)
+        self._writeEnumToken(child_element, "RELIABILITY-KIND", reliability.getReliabilityKind(), DDS_RELIABILITY_KIND_XML_MAP)
+        self.setChildElementOptionalFloatValue(child_element, "RELIABILITY-MAX-BLOCKING-TIME", reliability.getReliabilityMaxBlockingTime())
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

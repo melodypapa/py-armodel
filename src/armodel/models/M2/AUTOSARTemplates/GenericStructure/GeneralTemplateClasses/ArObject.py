@@ -2989,7 +2989,59 @@ class DdsOwnershipStrength(ARObject):
 
 
 class DdsReliability(ARObject):
-    pass
+    """
+    Describes the DDS RELIABILITY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsReliability method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.192, p.535
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReliabilityKind            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliabilityKind            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReliabilityMaxBlockingTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReliabilityMaxBlockingTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+        self.reliabilityKind: Optional[DdsReliabilityKindEnum] = None
+
+        # See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.reliabilityMaxBlockingTime: Optional[Float] = None
+
+    def getReliabilityKind(self) -> Optional[DdsReliabilityKindEnum]:
+        """
+        See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.reliabilityKind
+
+    def setReliabilityKind(self, value: Optional[DdsReliabilityKindEnum]) -> DdsReliability:
+        """
+        See "RELIABILITY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing reliabilityKind.
+        """
+        if value is not None:
+            self.reliabilityKind = value
+        return self
+
+    def getReliabilityMaxBlockingTime(self) -> Optional[Float]:
+        """
+        See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.reliabilityMaxBlockingTime
+
+    def setReliabilityMaxBlockingTime(self, value: Optional[Float]) -> DdsReliability:
+        """
+        See "RELIABILITY" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing reliabilityMaxBlockingTime.
+        """
+        if value is not None:
+            self.reliabilityMaxBlockingTime = value
+        return self
 
 
 class DdsResourceLimits(ARObject):
@@ -3306,6 +3358,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     DiagnosticClearDtcLimitationEnum,
     DiagnosticConnectedIndicatorBehaviorEnum,
     DiagnosticEventCombinationBehaviorEnum,

@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsLiveliness,
     DdsOwnership,
     DdsOwnershipStrength,
+    DdsReliability,
     DdsTopicData,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
@@ -33,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityServiceHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
+    DdsReliabilityKindEnum,
     Float,
     PositiveInteger,
     String,
@@ -69,6 +71,10 @@ def _new_profile() -> DdsCpQosProfile:
     liveliness.setLivelinessLeaseDuration(Float().setValue("10.0"))
     liveliness.setLivenessKind(DdsLivenessKindEnum().setValue(DdsLivenessKindEnum.MANUAL_BY_TOPIC))
     profile.setLiveliness(liveliness)
+    reliability = DdsReliability()
+    reliability.setReliabilityKind(DdsReliabilityKindEnum().setValue(DdsReliabilityKindEnum.RELIABLE))
+    reliability.setReliabilityMaxBlockingTime(Float().setValue("0.5"))
+    profile.setReliability(reliability)
     durability = DdsDurability()
     durability.setDurabilityKind(DdsDurabilityKindEnum().setValue(DdsDurabilityKindEnum.TRANSIENT_LOCAL))
     profile.setDurability(durability)
@@ -122,6 +128,16 @@ class TestWriteDdsCpQosProfile:
         assert liveliness_node is not None
         assert liveliness_node.find("LIVELINESS-LEASE-DURATION").text == "10.0"
         assert liveliness_node.find("LIVENESS-KIND").text == "MANUAL-BY-TOPIC"
+
+    def test_write_emits_reliability_fully(self):
+        """Test that the synced DdsReliability child serializes with its values."""
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        reliability_node = node.find("RELIABILITY")
+        assert reliability_node is not None
+        assert reliability_node.find("RELIABILITY-KIND").text == "RELIABLE"
+        assert reliability_node.find("RELIABILITY-MAX-BLOCKING-TIME").text == "0.5"
 
     def test_write_emits_ownership_strength_fully(self):
         """Test that the synced DdsOwnershipStrength child serializes with its values."""
@@ -216,5 +232,8 @@ class TestWriteDdsCpQosProfile:
         assert isinstance(reloaded.getLiveliness(), DdsLiveliness)
         assert reloaded.getLiveliness().getLivelinessLeaseDuration().getValue() == 10.0
         assert reloaded.getLiveliness().getLivenessKind().getValue() == "MANUAL-BY-TOPIC"
+        assert isinstance(reloaded.getReliability(), DdsReliability)
+        assert reloaded.getReliability().getReliabilityKind().getValue() == "RELIABLE"
+        assert reloaded.getReliability().getReliabilityMaxBlockingTime().getValue() == 0.5
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"
