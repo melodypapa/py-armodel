@@ -199,30 +199,34 @@ class VfbTiming(TimingExtension):
 
 class SwcTiming(TimingExtension):
     """
-    The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior.
+    The SwcTiming is used to describe the timing of an atomic software component. TimingDescriptions aggregated by SwcTiming are restricted to event chains referring to events which are derived from the classes TDEventVfb and TDEventSwcInternalBehavior. Tags: atp.recommendedPackage=TimingExtensions
     """
 
     # SwcTiming method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBehaviorRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBehaviorRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehaviorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBehaviorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
-        # Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
         self.behaviorRef: Optional[RefType] = None
 
     def getBehaviorRef(self) -> Optional[RefType]:
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility."""
+        """
+        This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+        """
         return self.behaviorRef
 
     def setBehaviorRef(self, value: Optional[RefType]) -> "SwcTiming":
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility. A None value is a no-op and does not overwrite an existing behaviorRef."""
+        """
+        This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
+
+        A None value is a no-op and does not overwrite an existing behaviorRef.
+        """
         if value is not None:
             self.behaviorRef = value
         return self

@@ -50,15 +50,20 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `SwcTiming` — ARElement — R23-11 CP_TPS_TimingExtensions Table 3.2, p.25
   - module: M2/AUTOSARTemplates/CommonStructure/Timing/TimingExtensions.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Rule-0023 re-sync — legacy 5-column checklist carried a stale `# Spec verified: R23-11` marker; marker
+    removed, block re-written 6-column without stamp. The class docstring had dropped the
+    `Tags: atp.recommendedPackage=TimingExtensions` tail — restored verbatim; accessor docstrings re-written
+    verbatim incl. the "Note! The reason for the cardinality of 0..1 ..." sentence. Reader/writer coverage
+    (readIdentifiable + readTimingExtension + BEHAVIOR-REF) pre-existed and was verified against the XSD group.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SystemTiming` — ARObject — R23-11 CP_TPS_TimingExtensions Table 3.3, p.27
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
