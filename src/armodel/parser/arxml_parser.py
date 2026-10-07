@@ -578,7 +578,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticParameterSupportInfo,
     DiagnosticPeriodicRate,
     DiagnosticSupportInfoByte,
-    Ipv6FragmentationProps,
     Ipv6NdpProps,
     PhysicalDimensionMapping,
 )
@@ -1177,6 +1176,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6FragmentationProps,
     Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
@@ -11060,10 +11060,22 @@ class ARXMLParser(AbstractARXMLParser):
             props.setDhcpProps(Dhcpv6Props())
         child_element = self.find(element, "FRAGMENTATION-PROPS")
         if child_element is not None:
-            props.setFragmentationProps(Ipv6FragmentationProps())
+            fragmentation_props = Ipv6FragmentationProps()
+            self.readIpv6FragmentationProps(child_element, fragmentation_props)
+            props.setFragmentationProps(fragmentation_props)
         child_element = self.find(element, "NDP-PROPS")
         if child_element is not None:
             props.setNdpProps(Ipv6NdpProps())
+
+    def readIpv6FragmentationProps(self, element: ET.Element, props: Ipv6FragmentationProps):
+        """Read an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpIpReassemblyBufferCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-BUFFER-COUNT"))
+        props.setTcpIpIpReassemblyBufferSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-BUFFER-SIZE"))
+        props.setTcpIpIpReassemblySegmentCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT"))
+        props.setTcpIpIpReassemblyTimeout(self.getChildElementOptionalTimeValue(element, "TCP-IP-IP-REASSEMBLY-TIMEOUT"))
+        props.setTcpIpIpTxFragmentBufferCount(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT"))
+        props.setTcpIpIpTxFragmentBufferSize(self.getChildElementOptionalPositiveInteger(element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE"))
 
     def readIpv4ArpProps(self, element: ET.Element, props: Ipv4ArpProps):
         """Read an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""

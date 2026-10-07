@@ -835,15 +835,34 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4FragmentationProps, spec table order); stub-guard tuple + consumer
+    imports (parser, writer, Ipv6Props/EthIpProps model/parser/writer tests) updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 6 Attribute
+    rows in displayed order (tcpIpIpReassemblyBufferCount, tcpIpIpReassemblyBufferSize,
+    tcpIpIpReassemblySegmentCount — all PositiveInteger `0..1` attr; tcpIpIpReassemblyTimeout
+    TimeValue `0..1` attr; tcpIpIpTxFragmentBufferCount, tcpIpIpTxFragmentBufferSize — both
+    PositiveInteger `0..1` attr; the markdown cells wrap the attribute names across lines,
+    canonical names confirmed by the XSD appinfo `mmt.qualifiedName`); the class Note and the
+    attribute-row Notes are verbatim. XML child order per XSD group IPV-6-FRAGMENTATION-PROPS
+    (TCP-IP-IP-REASSEMBLY-BUFFER-COUNT, TCP-IP-IP-REASSEMBLY-BUFFER-SIZE,
+    TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT, TCP-IP-IP-REASSEMBLY-TIMEOUT,
+    TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT, TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE; the instance
+    element tag under IPV-6-PROPS is FRAGMENTATION-PROPS — the type name is the XSD
+    group/complexType name only). Ipv6Props' FRAGMENTATION-PROPS dispatch upgraded from
+    presence-only to the full readIpv6FragmentationProps/writeIpv6FragmentationProps level;
+    Dhcpv6Props and Ipv6NdpProps remain queued stubs and round-trip presence-only. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20842 passed / 0 failed); 9b deferred to batch stamp (user instruction)
 
 - [ ] `Dhcpv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.107, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Dhcpv6Props, Ipv6FragmentationProps, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Dhcpv6Props, Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5682,9 +5682,9 @@ class EthIpProps(ARElement):
     #
     # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
     # Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
-    # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its
-    # children Ipv6FragmentationProps/Dhcpv6Props/Ipv6NdpProps are queued stubs and
-    # round-trip presence-only until their syncs land.
+    # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
+    # Dhcpv6Props/Ipv6NdpProps are still queued stubs and round-trip presence-only until
+    # their syncs land; Ipv6FragmentationProps fully round-trips since its sync (Table 3.106).
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -6010,6 +6010,132 @@ class Ipv4FragmentationProps(ARObject):
         return self
 
 
+class Ipv6FragmentationProps(ARObject):
+    """This meta-class specifies the configuration options for IPv6 packet fragmentation/reassembly."""
+
+    # Ipv6FragmentationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.106, p.148
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyBufferCount  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyBufferCount  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyBufferSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyBufferSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblySegmentCount [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblySegmentCount [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyTimeout      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyTimeout      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpTxFragmentBufferCount  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpTxFragmentBufferCount  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpTxFragmentBufferSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpTxFragmentBufferSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly.
+        self.tcpIpIpReassemblyBufferCount: Optional[PositiveInteger] = None
+
+        # Size of each fragment tx buffer in bytes.
+        self.tcpIpIpReassemblyBufferSize: Optional[PositiveInteger] = None
+
+        # Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1.
+        self.tcpIpIpReassemblySegmentCount: Optional[PositiveInteger] = None
+
+        # Specifies the timeout in seconds after which an incomplete datagram gets discarded.
+        self.tcpIpIpReassemblyTimeout: Optional[TimeValue] = None
+
+        # These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation.
+        self.tcpIpIpTxFragmentBufferCount: Optional[PositiveInteger] = None
+
+        # Size of each fragment tx buffer in bytes.
+        self.tcpIpIpTxFragmentBufferSize: Optional[PositiveInteger] = None
+
+    def getTcpIpIpReassemblyBufferCount(self) -> Optional[PositiveInteger]:
+        """Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly."""
+        return self.tcpIpIpReassemblyBufferCount
+
+    def setTcpIpIpReassemblyBufferCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyBufferCount.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyBufferCount = value
+        return self
+
+    def getTcpIpIpReassemblyBufferSize(self) -> Optional[PositiveInteger]:
+        """Size of each fragment tx buffer in bytes."""
+        return self.tcpIpIpReassemblyBufferSize
+
+    def setTcpIpIpReassemblyBufferSize(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Size of each fragment tx buffer in bytes.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyBufferSize.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyBufferSize = value
+        return self
+
+    def getTcpIpIpReassemblySegmentCount(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1."""
+        return self.tcpIpIpReassemblySegmentCount
+
+    def setTcpIpIpReassemblySegmentCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblySegmentCount.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblySegmentCount = value
+        return self
+
+    def getTcpIpIpReassemblyTimeout(self) -> Optional[TimeValue]:
+        """Specifies the timeout in seconds after which an incomplete datagram gets discarded."""
+        return self.tcpIpIpReassemblyTimeout
+
+    def setTcpIpIpReassemblyTimeout(self, value: Optional[TimeValue]) -> Ipv6FragmentationProps:
+        """
+        Specifies the timeout in seconds after which an incomplete datagram gets discarded.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyTimeout.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyTimeout = value
+        return self
+
+    def getTcpIpIpTxFragmentBufferCount(self) -> Optional[PositiveInteger]:
+        """These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation."""
+        return self.tcpIpIpTxFragmentBufferCount
+
+    def setTcpIpIpTxFragmentBufferCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpTxFragmentBufferCount.
+        """
+        if value is not None:
+            self.tcpIpIpTxFragmentBufferCount = value
+        return self
+
+    def getTcpIpIpTxFragmentBufferSize(self) -> Optional[PositiveInteger]:
+        """Size of each fragment tx buffer in bytes."""
+        return self.tcpIpIpTxFragmentBufferSize
+
+    def setTcpIpIpTxFragmentBufferSize(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Size of each fragment tx buffer in bytes.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpTxFragmentBufferSize.
+        """
+        if value is not None:
+            self.tcpIpIpTxFragmentBufferSize = value
+        return self
+
+
 class Ipv6Props(ARObject):
     """This meta-class specifies the configuration options for IPv6."""
 
@@ -6024,10 +6150,10 @@ class Ipv6Props(ARObject):
     # [x] getNdpProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setNdpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
-    # The three children are queued stubs — Ipv6FragmentationProps (Table 3.106),
-    # Dhcpv6Props (Table 3.107), Ipv6NdpProps (Table 3.108) — so until their syncs
-    # land the DHCP-PROPS, FRAGMENTATION-PROPS and NDP-PROPS children round-trip
-    # presence-only via readIpv6Props/writeIpv6Props.
+    # The FRAGMENTATION-PROPS child fully round-trips via the readIpv6FragmentationProps/
+    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106);
+    # Dhcpv6Props (Table 3.107) and Ipv6NdpProps (Table 3.108) are still queued stubs, so
+    # the DHCP-PROPS and NDP-PROPS children round-trip presence-only until their syncs land.
 
     def __init__(self):
         super().__init__()

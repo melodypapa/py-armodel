@@ -4,9 +4,9 @@ Writer/reader round-trip tests for EthIpProps (Table 3.100, p.146).
 XML element order per XSD ETH-IP-PROPS group: IPV-4-PROPS, IPV-6-PROPS.
 The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since
 the Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
-readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its
-children Ipv6FragmentationProps/Dhcpv6Props/Ipv6NdpProps are queued stubs and
-round-trip presence-only until their syncs land.
+readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
+Dhcpv6Props/Ipv6NdpProps are still queued stubs and round-trip presence-only until
+their syncs land; Ipv6FragmentationProps fully round-trips since its sync (Table 3.106).
 writeEthIpProps calls writeIdentifiable on the ETH-IP-PROPS element exactly once.
 """
 
@@ -15,8 +15,16 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Dhcpv6Props, Ipv6FragmentationProps, Ipv6NdpProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthIpProps, Ipv4ArpProps, Ipv4AutoIpProps, Ipv4FragmentationProps, Ipv4Props, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import Dhcpv6Props, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthIpProps,
+    Ipv4ArpProps,
+    Ipv4AutoIpProps,
+    Ipv4FragmentationProps,
+    Ipv4Props,
+    Ipv6FragmentationProps,
+    Ipv6Props,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

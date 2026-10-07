@@ -2474,10 +2474,6 @@ class IdsmTrafficLimitation(ARObject):
     pass
 
 
-class Ipv6FragmentationProps(ARObject):
-    pass
-
-
 class Ipv6NdpProps(ARObject):
     pass
 

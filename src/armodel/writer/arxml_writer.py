@@ -978,6 +978,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4FragmentationProps,
     Ipv4Props,
     Ipv6DhcpServerConfiguration,
+    Ipv6FragmentationProps,
     Ipv6Props,
     MacMulticastGroup,
     SdClientConfig,
@@ -11329,10 +11330,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, props)
             if props.getDhcpProps() is not None:
                 ET.SubElement(child_element, "DHCP-PROPS")
-            if props.getFragmentationProps() is not None:
-                ET.SubElement(child_element, "FRAGMENTATION-PROPS")
+            fragmentationProps_value = props.getFragmentationProps()
+            if fragmentationProps_value is not None:
+                self.writeIpv6FragmentationProps(child_element, fragmentationProps_value)
             if props.getNdpProps() is not None:
                 ET.SubElement(child_element, "NDP-PROPS")
+
+    def writeIpv6FragmentationProps(self, element: ET.Element, props: Optional[Ipv6FragmentationProps]):
+        """Write an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "FRAGMENTATION-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-BUFFER-COUNT", props.getTcpIpIpReassemblyBufferCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-BUFFER-SIZE", props.getTcpIpIpReassemblyBufferSize())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT", props.getTcpIpIpReassemblySegmentCount())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-IP-REASSEMBLY-TIMEOUT", props.getTcpIpIpReassemblyTimeout())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT", props.getTcpIpIpTxFragmentBufferCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE", props.getTcpIpIpTxFragmentBufferSize())
 
     def writeIpv4ArpProps(self, element: ET.Element, props: Optional[Ipv4ArpProps]):
         """Write an R23-11 <ARP-PROPS> element (Table 3.102, p.146): 4 optional attributes in XSD order."""
