@@ -331,7 +331,8 @@ class SdgReference(SdgAttribute):
         Returns:
             self for method chaining
         """
-        self.destSdgRef = value
+        if value is not None:
+            self.destSdgRef = value
         return self
 
 
