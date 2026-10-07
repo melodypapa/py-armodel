@@ -226,24 +226,29 @@ class TimingCondition(Identifiable, VariationPointCapable):
 
     # TimingCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.7, p.35
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimingConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimingConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
-    def __init__(self, parent, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # This is the expression describing the dependency on a specific condition.
         self.timingConditionFormula: Optional[TimingConditionFormula] = None
 
     def getTimingConditionFormula(self) -> Optional[TimingConditionFormula]:
-        """This is the expression describing the dependency on a specific condition."""
+        """
+        This is the expression describing the dependency on a specific condition.
+        """
         return self.timingConditionFormula
 
     def setTimingConditionFormula(self, value: Optional[TimingConditionFormula]) -> TimingCondition:
-        """This is the expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing formula."""
+        """
+        This is the expression describing the dependency on a specific condition.
+
+        A None value is a no-op and does not overwrite an existing timingConditionFormula.
+        """
         if value is not None:
             self.timingConditionFormula = value
         return self
