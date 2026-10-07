@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
+    DdsHistory,
     DdsLatencyBudget,
     DdsLifespan,
     DdsLiveliness,
@@ -64,12 +65,17 @@ class TestReadDdsCpQosProfile:
 
     def test_read_sets_stub_children_identity_only(self, parser):
         """Test that unsynced Dds* QoS policy children are constructed identity-only (presence round-trips)."""
-        profile = self._read(
-            parser,
-            "<LIFESPAN><LIFESPAN-DURATION>10.0</LIFESPAN-DURATION></LIFESPAN>",
-        )
-        assert isinstance(profile.getLifespan(), DdsLifespan)
-        assert profile.getResourceLimits() is None
+        profile = self._read(parser, "<RESOURCE-LIMITS/>")
+        assert profile.getResourceLimits() is not None
+
+    def test_read_sets_history_with_values(self, parser):
+        """Test that the synced DdsHistory child is read with its field values."""
+        profile = self._read(parser, "<HISTORY><HISTORY-KIND>KEEP-LAST</HISTORY-KIND><HISTORY-ORDER-DEPTH>4</HISTORY-ORDER-DEPTH></HISTORY>")
+        assert isinstance(profile.getHistory(), DdsHistory)
+        assert profile.getHistory().getHistoryKind() is not None
+        assert profile.getHistory().getHistoryKind().getValue() == "KEEP-LAST"
+        assert profile.getHistory().getHistoryOrderDepth() is not None
+        assert profile.getHistory().getHistoryOrderDepth().getValue() == 4
 
     def test_read_sets_destination_order_with_values(self, parser):
         """Test that the synced DdsDestinationOrder child is read with its field values."""

@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsOwnership,
     DdsOwnershipStrength,
     DdsReliability,
+    DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
 )
@@ -36,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -96,7 +98,10 @@ def _new_profile() -> DdsCpQosProfile:
     durability_service.setDurabilityServiceHistoryKind(DdsDurabilityServiceHistoryKindEnum().setValue(DdsDurabilityServiceHistoryKindEnum.KEEP_LAST))
     durability_service.setDurabilityServiceMaxSamples(PositiveInteger().setValue("16"))
     profile.setDurabilityService(durability_service)
-    profile.setHistory(DdsHistory())
+    history = DdsHistory()
+    history.setHistoryKind(DdsHistoryKindEnum().setValue(DdsHistoryKindEnum.KEEP_LAST))
+    history.setHistoryOrderDepth(PositiveInteger().setValue("4"))
+    profile.setHistory(history)
     topic_data = DdsTopicData()
     topic_data.setTopicData(String().setValue("raw payload"))
     profile.setTopicData(topic_data)
@@ -116,12 +121,24 @@ class TestWriteDdsCpQosProfile:
 
     def test_write_emits_stub_child_identity_only(self):
         """Test that an unsynced child serializes as an empty element (identity-only debt)."""
+        profile = _new_profile()
+        profile.setResourceLimits(DdsResourceLimits())
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeDdsCpQosProfile(parent, profile)
+        node = parent.find("DDS-CP-QOS-PROFILE")
+        resource_limits_node = node.find("RESOURCE-LIMITS")
+        assert resource_limits_node is not None
+        assert len(list(resource_limits_node)) == 0
+
+    def test_write_emits_history_fully(self):
+        """Test that the synced DdsHistory child serializes with its values."""
         parent = ET.Element("PARENT")
         ARXMLWriter().writeDdsCpQosProfile(parent, _new_profile())
         node = parent.find("DDS-CP-QOS-PROFILE")
         history_node = node.find("HISTORY")
         assert history_node is not None
-        assert len(list(history_node)) == 0
+        assert history_node.find("HISTORY-KIND").text == "KEEP-LAST"
+        assert history_node.find("HISTORY-ORDER-DEPTH").text == "4"
 
     def test_write_emits_deadline_fully(self):
         """Test that the synced DdsDeadline child serializes with its values."""
@@ -281,5 +298,8 @@ class TestWriteDdsCpQosProfile:
         assert reloaded.getLifespan().getLifespanDuration().getValue() == 10.0
         assert isinstance(reloaded.getDestinationOrder(), DdsDestinationOrder)
         assert reloaded.getDestinationOrder().getDestinationOrderKind().getValue() == "BY-SOURCE-TIMESTAMP"
+        assert isinstance(reloaded.getHistory(), DdsHistory)
+        assert reloaded.getHistory().getHistoryKind().getValue() == "KEEP-LAST"
+        assert reloaded.getHistory().getHistoryOrderDepth().getValue() == 4
         assert reloaded.getTopicData() is not None
         assert reloaded.getTopicData().getTopicData().getValue() == "raw payload"

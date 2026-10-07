@@ -563,6 +563,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
+    DdsHistory,
     DdsLatencyBudget,
     DdsLifespan,
     DdsLiveliness,
@@ -1380,6 +1381,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
 #: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
 #: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-HISTORY-KIND-ENUM--SIMPLE).
+DDS_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
 }
@@ -15731,8 +15739,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         durability_service = profile.getDurabilityService()
         if durability_service is not None:
             self.writeDdsDurabilityService(child_element, durability_service)
-        if profile.getHistory() is not None:
-            ET.SubElement(child_element, "HISTORY")
+        history = profile.getHistory()
+        if history is not None:
+            self.writeDdsHistory(child_element, history)
         latency_budget = profile.getLatencyBudget()
         if latency_budget is not None:
             self.writeDdsLatencyBudget(child_element, latency_budget)
@@ -15832,6 +15841,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DESTINATION-ORDER")
         self.writeARObject(child_element, destination_order)
         self._writeEnumToken(child_element, "DESTINATION-ORDER-KIND", destination_order.getDestinationOrderKind(), DDS_DESTINATION_ORDER_KIND_XML_MAP)
+
+    def writeDdsHistory(self, element: ET.Element, history: DdsHistory):
+        child_element = ET.SubElement(element, "HISTORY")
+        self.writeARObject(child_element, history)
+        self._writeEnumToken(child_element, "HISTORY-KIND", history.getHistoryKind(), DDS_HISTORY_KIND_XML_MAP)
+        self.setChildElementOptionalPositiveInteger(child_element, "HISTORY-ORDER-DEPTH", history.getHistoryOrderDepth())
 
     def writeDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         child_element = ET.SubElement(element, "DDS-CP-PROVIDED-SERVICE-INSTANCE")

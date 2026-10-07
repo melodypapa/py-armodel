@@ -776,6 +776,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
     DdsDestinationOrderKindEnum,
+    DdsHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -1654,6 +1655,13 @@ DDS_DURABILITY_KIND_XML_MAP = {
 #: Mapping between DdsDurabilityServiceHistoryKindEnum literal values and their XML element text
 #: (AR:DDS-DURABILITY-SERVICE-HISTORY-KIND-ENUM--SIMPLE).
 DDS_DURABILITY_SERVICE_HISTORY_KIND_XML_MAP = {
+    "KEEP-ALL": "KEEP-ALL",
+    "KEEP-LAST": "KEEP-LAST",
+}
+
+#: Mapping between DdsHistoryKindEnum literal values and their XML element text
+#: (AR:DDS-HISTORY-KIND-ENUM--SIMPLE).
+DDS_HISTORY_KIND_XML_MAP = {
     "KEEP-ALL": "KEEP-ALL",
     "KEEP-LAST": "KEEP-LAST",
 }
@@ -11970,8 +11978,11 @@ class ARXMLParser(AbstractARXMLParser):
             durability_service = DdsDurabilityService()
             self.readDdsDurabilityService(durability_service_element, durability_service)
             profile.setDurabilityService(durability_service)
-        if self.find(element, "HISTORY") is not None:
-            profile.setHistory(DdsHistory())
+        history_element = self.find(element, "HISTORY")
+        if history_element is not None:
+            history = DdsHistory()
+            self.readDdsHistory(history_element, history)
+            profile.setHistory(history)
         latency_budget_element = self.find(element, "LATENCY-BUDGET")
         if latency_budget_element is not None:
             latency_budget = DdsLatencyBudget()
@@ -12089,6 +12100,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsDestinationOrder")
         self.readARObject(element, destination_order)
         destination_order.setDestinationOrderKind(self._readEnumToken(element, "DESTINATION-ORDER-KIND", DdsDestinationOrderKindEnum, DDS_DESTINATION_ORDER_KIND_XML_MAP))
+
+    def readDdsHistory(self, element: ET.Element, history: DdsHistory):
+        self.logger.debug("Read DdsHistory")
+        self.readARObject(element, history)
+        history.setHistoryKind(self._readEnumToken(element, "HISTORY-KIND", DdsHistoryKindEnum, DDS_HISTORY_KIND_XML_MAP))
+        history.setHistoryOrderDepth(self.getChildElementOptionalPositiveInteger(element, "HISTORY-ORDER-DEPTH"))
 
     def readDdsCpProvidedServiceInstance(self, element: ET.Element, instance: DdsCpProvidedServiceInstance):
         self.logger.debug("Read DdsCpProvidedServiceInstance")

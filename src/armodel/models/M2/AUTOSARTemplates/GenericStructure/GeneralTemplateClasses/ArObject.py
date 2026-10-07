@@ -2851,7 +2851,59 @@ class DdsDurabilityService(ARObject):
 
 
 class DdsHistory(ARObject):
-    pass
+    """
+    Describes the DDS HISTORY QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsHistory method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.198, p.537
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHistoryKind            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHistoryKind            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHistoryOrderDepth      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHistoryOrderDepth      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        self.historyKind: Optional[DdsHistoryKindEnum] = None
+
+        # See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        self.historyOrderDepth: Optional[PositiveInteger] = None
+
+    def getHistoryKind(self) -> Optional[DdsHistoryKindEnum]:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.historyKind
+
+    def setHistoryKind(self, value: Optional[DdsHistoryKindEnum]) -> DdsHistory:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing historyKind.
+        """
+        if value is not None:
+            self.historyKind = value
+        return self
+
+    def getHistoryOrderDepth(self) -> Optional[PositiveInteger]:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+        """
+        return self.historyOrderDepth
+
+    def setHistoryOrderDepth(self, value: Optional[PositiveInteger]) -> DdsHistory:
+        """
+        See "HISTORY" chapter of DDS. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing historyOrderDepth.
+        """
+        if value is not None:
+            self.historyOrderDepth = value
+        return self
 
 
 class DdsLatencyBudget(ARObject):
@@ -3450,6 +3502,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,

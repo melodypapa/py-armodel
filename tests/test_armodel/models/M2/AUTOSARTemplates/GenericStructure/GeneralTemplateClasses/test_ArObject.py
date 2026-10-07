@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrder,
     DdsDurability,
     DdsDurabilityService,
+    DdsHistory,
     DdsLatencyBudget,
     DdsLifespan,
     DdsLiveliness,
@@ -58,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDestinationOrderKindEnum,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
+    DdsHistoryKindEnum,
     DdsLivenessKindEnum,
     DdsOwnershipKindEnum,
     DdsReliabilityKindEnum,
@@ -4215,3 +4217,87 @@ class TestDdsDestinationOrder:
         none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
         assert inspect.cleandoc(DdsDestinationOrder.getDestinationOrderKind.__doc__) == self.DESTINATION_ORDER_KIND_NOTE
         assert inspect.cleandoc(DdsDestinationOrder.setDestinationOrderKind.__doc__) == (self.DESTINATION_ORDER_KIND_NOTE + none_no_op % "destinationOrderKind")
+
+
+class TestDdsHistory:
+    """
+    Test class for DdsHistory functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.198, p.537
+    """
+
+    CLASS_NOTE = "Describes the DDS HISTORY QoS policy. Tags: atp.Status=candidate"
+    HISTORY_KIND_NOTE = 'See "HISTORY" chapter of DDS. Tags: atp.Status=candidate'
+    HISTORY_ORDER_DEPTH_NOTE = 'See "HISTORY" chapter of DDS. Tags: atp.Status=candidate'
+
+    def _create_history(self) -> DdsHistory:
+        return DdsHistory()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsHistory initializes all attributes to their defaults.
+        """
+        obj = self._create_history()
+
+        assert obj.getHistoryKind() is None
+        assert obj.getHistoryOrderDepth() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsHistory derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsHistory, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsHistory.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsHistory.__init__.__doc__ is None
+
+    def test_get_set_history_kind(self):
+        """
+        Test getHistoryKind and setHistoryKind round-trip and None no-op.
+        """
+        obj = self._create_history()
+
+        value = DdsHistoryKindEnum().setValue(DdsHistoryKindEnum.KEEP_LAST)
+        result = obj.setHistoryKind(value)
+        assert result is obj  # method chaining
+        assert obj.getHistoryKind() is value
+        assert obj.getHistoryKind().getValue() == DdsHistoryKindEnum.KEEP_LAST
+
+        result = obj.setHistoryKind(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHistoryKind() is value  # None is a no-op
+
+    def test_get_set_history_order_depth(self):
+        """
+        Test getHistoryOrderDepth and setHistoryOrderDepth round-trip and None no-op.
+        """
+        obj = self._create_history()
+
+        value = PositiveInteger().setValue("4")
+        result = obj.setHistoryOrderDepth(value)
+        assert result is obj  # method chaining
+        assert obj.getHistoryOrderDepth() is value
+        assert obj.getHistoryOrderDepth().getValue() == 4
+
+        result = obj.setHistoryOrderDepth(None)
+        assert result is obj  # method chaining with None
+        assert obj.getHistoryOrderDepth() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        none_no_op = "\n\nA None value is a no-op and does not overwrite an existing %s."
+        assert inspect.cleandoc(DdsHistory.getHistoryKind.__doc__) == self.HISTORY_KIND_NOTE
+        assert inspect.cleandoc(DdsHistory.setHistoryKind.__doc__) == (self.HISTORY_KIND_NOTE + none_no_op % "historyKind")
+        assert inspect.cleandoc(DdsHistory.getHistoryOrderDepth.__doc__) == self.HISTORY_ORDER_DEPTH_NOTE
+        assert inspect.cleandoc(DdsHistory.setHistoryOrderDepth.__doc__) == (self.HISTORY_ORDER_DEPTH_NOTE + none_no_op % "historyOrderDepth")
