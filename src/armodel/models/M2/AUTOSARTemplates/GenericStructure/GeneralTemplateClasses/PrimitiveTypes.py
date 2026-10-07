@@ -2963,7 +2963,37 @@ class GlobalTimeIcvSupportEnum(AREnum):
 
 
 class GlobalTimeIcvVerificationEnum(AREnum):
-    pass
+    """
+    This enumeration is used to define how an Integrity Check Value (ICV) shall be handled at the receiver. Tags: atp.Status=candidate
+
+    # GlobalTimeIcvVerificationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.28, p.881
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods; serialized as an enumeration literal on the consuming attribute icvVerification)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    """
+
+    # If the ICV is present, then it is ignored Tags: atp.EnumerationLiteralIndex=2
+    ICV_IGNORED = "ICV-IGNORED"
+
+    # The ICV is not supposed to be present. If the ICV is present, then the message is ignored. Tags: atp.EnumerationLiteralIndex=1
+    ICV_NOT_VERIFIED = "ICV-NOT-VERIFIED"
+
+    # If the ICV is present, then it will be verified. If the ICV is not present, then this is also a valid reception (no verification required). Tags: atp.EnumerationLiteralIndex=3
+    ICV_OPTIONAL = "ICV-OPTIONAL"
+
+    # The ICV is required and will be verified. Tags: atp.EnumerationLiteralIndex=0
+    ICV_VERIFIED = "ICV-VERIFIED"
+
+    def __init__(self):
+        super().__init__(
+            [
+                GlobalTimeIcvVerificationEnum.ICV_IGNORED,
+                GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED,
+                GlobalTimeIcvVerificationEnum.ICV_OPTIONAL,
+                GlobalTimeIcvVerificationEnum.ICV_VERIFIED,
+            ]
+        )
 
 
 class GlobalTimePortRoleEnum(AREnum):

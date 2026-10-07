@@ -70,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     GlobalTimeCrcSupportEnum,
     GlobalTimeCrcValidationEnum,
     GlobalTimeIcvSupportEnum,
+    GlobalTimeIcvVerificationEnum,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -3768,3 +3769,52 @@ class TestGlobalTimeIcvSupportEnum:
         enum.setValue(GlobalTimeIcvSupportEnum.ICV_SUPPORTED)
 
         assert enum.getValue() == GlobalTimeIcvSupportEnum.ICV_SUPPORTED
+
+
+class TestGlobalTimeIcvVerificationEnum:
+    """
+    Test class for GlobalTimeIcvVerificationEnum functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.28, p.881
+    """
+
+    def test_initialization(self):
+        """
+        Test GlobalTimeIcvVerificationEnum initialization with the spec literals in XSD facet order.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+
+        assert enum is not None
+        assert isinstance(enum, AREnum)
+        assert enum.getEnumValues() == [
+            GlobalTimeIcvVerificationEnum.ICV_IGNORED,
+            GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED,
+            GlobalTimeIcvVerificationEnum.ICV_OPTIONAL,
+            GlobalTimeIcvVerificationEnum.ICV_VERIFIED,
+        ]
+
+    def test_enum_values(self):
+        """
+        Test GlobalTimeIcvVerificationEnum member values.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+
+        assert GlobalTimeIcvVerificationEnum.ICV_IGNORED == "ICV-IGNORED"
+        assert GlobalTimeIcvVerificationEnum.ICV_NOT_VERIFIED == "ICV-NOT-VERIFIED"
+        assert GlobalTimeIcvVerificationEnum.ICV_OPTIONAL == "ICV-OPTIONAL"
+        assert GlobalTimeIcvVerificationEnum.ICV_VERIFIED == "ICV-VERIFIED"
+
+        assert enum.validateEnumValue("ICV-IGNORED") is True
+        assert enum.validateEnumValue("ICV-NOT-VERIFIED") is True
+        assert enum.validateEnumValue("ICV-OPTIONAL") is True
+        assert enum.validateEnumValue("ICV-VERIFIED") is True
+        assert enum.validateEnumValue("invalid") is False
+
+    def test_get_value(self):
+        """
+        Test GlobalTimeIcvVerificationEnum instantiability and getValue.
+        """
+        enum = GlobalTimeIcvVerificationEnum()
+        enum.setValue(GlobalTimeIcvVerificationEnum.ICV_VERIFIED)
+
+        assert enum.getValue() == GlobalTimeIcvVerificationEnum.ICV_VERIFIED
