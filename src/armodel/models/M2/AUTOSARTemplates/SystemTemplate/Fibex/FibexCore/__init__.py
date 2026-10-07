@@ -50,10 +50,6 @@ class FlexrayArTpConfig(FibexElement):
     pass
 
 
-class FlexrayTpConfig(FibexElement):
-    pass
-
-
 class ServiceInstanceCollectionSet(FibexElement):
     pass
 

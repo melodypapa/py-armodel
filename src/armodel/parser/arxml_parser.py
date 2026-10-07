@@ -1557,6 +1557,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -14217,6 +14223,87 @@ class ARXMLParser(AbstractARXMLParser):
         self.readLinTpConfigTpConnections(element, config)
         self.readLinTpConfigTpNodes(element, config)
 
+    def readFlexrayTpPduPool(self, element: ET.Element, pool: FlexrayTpPduPool):
+        self.readIdentifiable(element, pool)
+
+    def readFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "PDU-POOLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-PDU-POOL":
+                pool = config.createFlexrayTpPduPool(self.getShortName(child_element))
+                self.readFlexrayTpPduPool(child_element, pool)
+            else:
+                self.notImplemented("Unsupported TpPduPool <%s>" % tag_name)
+
+    def readFlexrayTpConfigTpAddresses(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ADDRESSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TP-ADDRESS":
+                address = config.createTpAddress(self.getShortName(child_element))
+                self.readTpAddress(child_element, address)
+            else:
+                self.notImplemented("Unsupported TpAddress <%s>" % tag_name)
+
+    def readFlexrayTpConnection(self, element: ET.Element, connection: FlexrayTpConnection):
+        self.readTpConnection(element, connection)
+
+    def readFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION":
+                connection = FlexrayTpConnection()
+                self.readFlexrayTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readFlexrayTpConnectionControl(self, element: ET.Element, control: FlexrayTpConnectionControl):
+        self.readIdentifiable(element, control)
+
+    def readFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTION-CONTROLS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-CONNECTION-CONTROL":
+                control = config.createFlexrayTpConnectionControl(self.getShortName(child_element))
+                self.readFlexrayTpConnectionControl(child_element, control)
+            else:
+                self.notImplemented("Unsupported TpConnectionControl <%s>" % tag_name)
+
+    def readFlexrayTpEcu(self, element: ET.Element, tp_ecu: FlexrayTpEcu):
+        self.readARObject(element, tp_ecu)
+
+    def readFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-ECUS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-ECU":
+                tp_ecu = FlexrayTpEcu()
+                self.readFlexrayTpEcu(child_element, tp_ecu)
+                config.addTpEcu(tp_ecu)
+            else:
+                self.notImplemented("Unsupported TpEcu <%s>" % tag_name)
+
+    def readFlexrayTpNode(self, element: ET.Element, tp_node: FlexrayTpNode):
+        self.readIdentifiable(element, tp_node)
+
+    def readFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
+        for child_element in self.findall(element, "TP-NODES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "FLEXRAY-TP-NODE":
+                tp_node = config.createFlexrayTpNode(self.getShortName(child_element))
+                self.readFlexrayTpNode(child_element, tp_node)
+            else:
+                self.notImplemented("Unsupported TpNode <%s>" % tag_name)
+
+    def readFlexrayTpConfig(self, element: ET.Element, config: FlexrayTpConfig):
+        self.logger.debug("Read FlexrayTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readFlexrayTpConfigPduPools(element, config)
+        self.readFlexrayTpConfigTpAddresses(element, config)
+        self.readFlexrayTpConfigTpConnections(element, config)
+        self.readFlexrayTpConfigTpConnectionControls(element, config)
+        self.readFlexrayTpConfigTpEcus(element, config)
+        self.readFlexrayTpConfigTpNodes(element, config)
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18355,6 +18442,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readCanTpConfig(child_element, parent.createCanTpConfig(self.getShortName(child_element)))
             elif tag_name == "LIN-TP-CONFIG":
                 self.readLinTpConfig(child_element, parent.createLinTpConfig(self.getShortName(child_element)))
+            elif tag_name == "FLEXRAY-TP-CONFIG":
+                self.readFlexrayTpConfig(child_element, parent.createFlexrayTpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

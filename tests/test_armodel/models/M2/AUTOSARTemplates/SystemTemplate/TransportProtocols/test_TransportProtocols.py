@@ -12,6 +12,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -695,3 +701,49 @@ class TestTransportProtocols:
         config.addTpConnection(connection)
         assert connection in config.getTpConnections()
         assert config == config.addTpConnection(connection)
+
+    def test_flexray_tp_config(self):
+        """
+        Test FlexrayTpConfig class functionality (R23-11, Table 6.239, p.592).
+        """
+        parent = MockParent()
+        config = FlexrayTpConfig(parent, "test_flexray_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getPduPools() == []
+        assert config.getTpAddresses() == []
+        assert config.getTpConnections() == []
+        assert config.getTpConnectionControls() == []
+        assert config.getTpEcus() == []
+        assert config.getTpNodes() == []
+
+        # Test create methods
+        pool = config.createFlexrayTpPduPool("pool_name")
+        assert isinstance(pool, FlexrayTpPduPool)
+        assert pool in config.getPduPools()
+
+        address = config.createTpAddress("address_name")
+        assert isinstance(address, TpAddress)
+        assert address in config.getTpAddresses()
+
+        control = config.createFlexrayTpConnectionControl("control_name")
+        assert isinstance(control, FlexrayTpConnectionControl)
+        assert control in config.getTpConnectionControls()
+
+        node = config.createFlexrayTpNode("node_name")
+        assert isinstance(node, FlexrayTpNode)
+        assert node in config.getTpNodes()
+
+        # Test add methods
+        connection = FlexrayTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)
+
+        ecu = FlexrayTpEcu()
+        config.addTpEcu(ecu)
+        assert ecu in config.getTpEcus()
+        assert config == config.addTpEcu(ecu)

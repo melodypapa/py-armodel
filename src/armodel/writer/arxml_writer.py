@@ -1300,6 +1300,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpLogicAddress,
     DoIpTpConfig,
     DoIpTpConnection,
+    FlexrayTpConfig,
+    FlexrayTpConnection,
+    FlexrayTpConnectionControl,
+    FlexrayTpEcu,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
@@ -10415,6 +10421,102 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeLinTpConfigTpConnections(child_element, config)
         self.writeLinTpConfigTpNodes(child_element, config)
 
+    def writeFlexrayTpPduPool(self, element: ET.Element, pool: FlexrayTpPduPool):
+        if pool is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-TP-PDU-POOL")
+            self.writeIdentifiable(child_element, pool)
+
+    def writeFlexrayTpConfigPduPools(self, element: ET.Element, config: FlexrayTpConfig):
+        pools = config.getPduPools()
+        if len(pools) > 0:
+            child_element = ET.SubElement(element, "PDU-POOLS")
+            for pool in pools:
+                if isinstance(pool, FlexrayTpPduPool):
+                    self.writeFlexrayTpPduPool(child_element, pool)
+                else:
+                    self.notImplemented("Unsupported TpPduPool <%s>" % type(pool))
+
+    def writeFlexrayTpConfigTpAddresses(self, element: ET.Element, config: FlexrayTpConfig):
+        addresses = config.getTpAddresses()
+        if len(addresses) > 0:
+            child_element = ET.SubElement(element, "TP-ADDRESSS")
+            for address in addresses:
+                if isinstance(address, TpAddress):
+                    self.writeTpAddress(child_element, address)
+                else:
+                    self.notImplemented("Unsupported TpAddress <%s>" % type(address))
+
+    def writeFlexrayTpConnection(self, element: ET.Element, connection: FlexrayTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-TP-CONNECTION")
+            self.writeTpConnection(child_element, connection)
+
+    def writeFlexrayTpConfigTpConnections(self, element: ET.Element, config: FlexrayTpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, FlexrayTpConnection):
+                    self.writeFlexrayTpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeFlexrayTpConnectionControl(self, element: ET.Element, control: FlexrayTpConnectionControl):
+        if control is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-TP-CONNECTION-CONTROL")
+            self.writeIdentifiable(child_element, control)
+
+    def writeFlexrayTpConfigTpConnectionControls(self, element: ET.Element, config: FlexrayTpConfig):
+        controls = config.getTpConnectionControls()
+        if len(controls) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTION-CONTROLS")
+            for control in controls:
+                if isinstance(control, FlexrayTpConnectionControl):
+                    self.writeFlexrayTpConnectionControl(child_element, control)
+                else:
+                    self.notImplemented("Unsupported TpConnectionControl <%s>" % type(control))
+
+    def writeFlexrayTpEcu(self, element: ET.Element, tp_ecu: FlexrayTpEcu):
+        if tp_ecu is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-TP-ECU")
+            self.writeARObject(child_element, tp_ecu)
+
+    def writeFlexrayTpConfigTpEcus(self, element: ET.Element, config: FlexrayTpConfig):
+        tp_ecus = config.getTpEcus()
+        if len(tp_ecus) > 0:
+            child_element = ET.SubElement(element, "TP-ECUS")
+            for tp_ecu in tp_ecus:
+                if isinstance(tp_ecu, FlexrayTpEcu):
+                    self.writeFlexrayTpEcu(child_element, tp_ecu)
+                else:
+                    self.notImplemented("Unsupported TpEcu <%s>" % type(tp_ecu))
+
+    def writeFlexrayTpNode(self, element: ET.Element, tp_node: FlexrayTpNode):
+        if tp_node is not None:
+            child_element = ET.SubElement(element, "FLEXRAY-TP-NODE")
+            self.writeIdentifiable(child_element, tp_node)
+
+    def writeFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
+        tp_nodes = config.getTpNodes()
+        if len(tp_nodes) > 0:
+            child_element = ET.SubElement(element, "TP-NODES")
+            for tp_node in tp_nodes:
+                if isinstance(tp_node, FlexrayTpNode):
+                    self.writeFlexrayTpNode(child_element, tp_node)
+                else:
+                    self.notImplemented("Unsupported TpNode <%s>" % type(tp_node))
+
+    def writeFlexrayTpConfig(self, element: ET.Element, config: FlexrayTpConfig):
+        self.logger.debug("Write FlexrayTpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "FLEXRAY-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeFlexrayTpConfigPduPools(child_element, config)
+        self.writeFlexrayTpConfigTpAddresses(child_element, config)
+        self.writeFlexrayTpConfigTpConnections(child_element, config)
+        self.writeFlexrayTpConfigTpConnectionControls(child_element, config)
+        self.writeFlexrayTpConfigTpEcus(child_element, config)
+        self.writeFlexrayTpConfigTpNodes(child_element, config)
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -18711,6 +18813,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCanTpConfig(element, ar_element)
         elif isinstance(ar_element, LinTpConfig):
             self.writeLinTpConfig(element, ar_element)
+        elif isinstance(ar_element, FlexrayTpConfig):
+            self.writeFlexrayTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

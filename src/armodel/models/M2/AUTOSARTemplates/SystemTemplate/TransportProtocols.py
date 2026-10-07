@@ -7,12 +7,12 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from typing import List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import FlexrayTpConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FlexrayTpConnectionControl, FlexrayTpNode, FlexrayTpPduPool, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayTpEcu
 
 
 class TpConfig(FibexElement, ABC):
@@ -1410,3 +1410,146 @@ class LinTpConfig(TpConfig):
             self.addReferrableElement(address)
             self.tpNodes.append(address)
         return cast(LinTpNode, self.getReferrableElement(short_name, LinTpNode))
+
+
+class FlexrayTpConfig(TpConfig):
+    """
+    This element defines exactly one FlexRay ISO TP Configuration. One FlexrayTpConfig element shall be created for each FlexRay Network in the System that uses Flex Ray Iso Tp. Tags: atp.recommendedPackage=TpConfigs
+
+    [constr_9228] Existence of FlexrayTpConfig.pduPool: For each FlexrayTpConfig, the aggregation of FlexrayTpPduPool in the role pduPool shall exist at least once at the time when the System Description is complete.
+    [constr_9229] Existence of FlexrayTpConfig.tpAddress: For each FlexrayTpConfig, the aggregation of TpAddress in the role tpAddress shall exist at least once at the time when the System Description is complete.
+    [constr_9230] Existence of FlexrayTpConfig.tpEcu: For each FlexrayTpConfig, the aggregation of FlexrayTpEcu in the role tpEcu shall exist at least once at the time when the System Description is complete.
+    """
+
+    # FlexrayTpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.239, p.592
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPduPools                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createFlexrayTpPduPool            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpAddresses                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTpAddress                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnectionControls           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createFlexrayTpConnectionControl  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpEcus                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpEcu                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createFlexrayTpNode               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Configuration of FlexRay TP Pdu Pools. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduPool.shortName, pduPool.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.pduPools: List[FlexrayTpPduPool] = []
+
+        # Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpAddresses: List[TpAddress] = []
+
+        # Configuration of FlexRay TP Connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpConnections: List[FlexrayTpConnection] = []
+
+        # Configuration of FlexRay TP Connection Controls. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnectionControl.shortName, tp ConnectionControl.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.tpConnectionControls: List[FlexrayTpConnectionControl] = []
+
+        # Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.tpEcus: List[FlexrayTpEcu] = []
+
+        # Senders and receivers of FlexRay TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.tpNodes: List[FlexrayTpNode] = []
+
+    def getPduPools(self) -> List[FlexrayTpPduPool]:
+        """
+        Configuration of FlexRay TP Pdu Pools. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduPool.shortName, pduPool.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduPools
+
+    def createFlexrayTpPduPool(self, short_name: str) -> FlexrayTpPduPool:
+        """
+        Configuration of FlexRay TP Pdu Pools. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduPool.shortName, pduPool.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, FlexrayTpPduPool):
+            pool = FlexrayTpPduPool(self, short_name)
+            self.addReferrableElement(pool)
+            self.pduPools.append(pool)
+        return cast(FlexrayTpPduPool, self.getReferrableElement(short_name, FlexrayTpPduPool))
+
+    def getTpAddresses(self) -> List[TpAddress]:
+        """
+        Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpAddresses
+
+    def createTpAddress(self, short_name: str) -> TpAddress:
+        """
+        Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, TpAddress):
+            address = TpAddress(self, short_name)
+            self.addReferrableElement(address)
+            self.tpAddresses.append(address)
+        return cast(TpAddress, self.getReferrableElement(short_name, TpAddress))
+
+    def getTpConnections(self) -> List[FlexrayTpConnection]:
+        """
+        Configuration of FlexRay TP Connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpConnections
+
+    def addTpConnection(self, value: Optional[FlexrayTpConnection]) -> FlexrayTpConfig:
+        """
+        Configuration of FlexRay TP Connections. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self
+
+    def getTpConnectionControls(self) -> List[FlexrayTpConnectionControl]:
+        """
+        Configuration of FlexRay TP Connection Controls. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnectionControl.shortName, tp ConnectionControl.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpConnectionControls
+
+    def createFlexrayTpConnectionControl(self, short_name: str) -> FlexrayTpConnectionControl:
+        """
+        Configuration of FlexRay TP Connection Controls. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnectionControl.shortName, tp ConnectionControl.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, FlexrayTpConnectionControl):
+            control = FlexrayTpConnectionControl(self, short_name)
+            self.addReferrableElement(control)
+            self.tpConnectionControls.append(control)
+        return cast(FlexrayTpConnectionControl, self.getReferrableElement(short_name, FlexrayTpConnectionControl))
+
+    def getTpEcus(self) -> List[FlexrayTpEcu]:
+        """
+        Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpEcus
+
+    def addTpEcu(self, value: Optional[FlexrayTpEcu]) -> FlexrayTpConfig:
+        """
+        Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and is not appended to tpEcus.
+        """
+        if value is not None:
+            self.tpEcus.append(value)
+        return self
+
+    def getTpNodes(self) -> List[FlexrayTpNode]:
+        """
+        Senders and receivers of FlexRay TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.tpNodes
+
+    def createFlexrayTpNode(self, short_name: str) -> FlexrayTpNode:
+        """
+        Senders and receivers of FlexRay TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
+        if not self.IsReferrableElementExists(short_name, FlexrayTpNode):
+            node = FlexrayTpNode(self, short_name)
+            self.addReferrableElement(node)
+            self.tpNodes.append(node)
+        return cast(FlexrayTpNode, self.getReferrableElement(short_name, FlexrayTpNode))
