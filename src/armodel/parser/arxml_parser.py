@@ -595,6 +595,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsResourceLimits,
     DdsTopicData,
     DdsTransportPriority,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -15593,6 +15594,11 @@ class ARXMLParser(AbstractARXMLParser):
         # (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
         self.readARObject(element, props)
         self.readVariationPointCapable(element, props)
+        return props
+
+    def readNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification) -> NetworkSegmentIdentification:
+        self.readARObject(element, props)
+        props.setNetworkSegmentId(self.getChildElementOptionalPositiveInteger(element, "NETWORK-SEGMENT-ID"))
         return props
 
     def getGlobalTimeProps(self, element: ET.Element, key: str) -> Optional[GlobalTimeCouplingPortProps]:

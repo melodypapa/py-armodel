@@ -573,6 +573,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsReliability,
     DdsTopicData,
     DdsTransportPriority,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import LifeCycleStateDefinitionGroup
@@ -13134,6 +13135,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         # group (AUTOSAR_00052.xsd l.379) and precedes the concrete subclass' own elements.
         self.writeARObject(element, props)
         self.writeVariationPointCapable(element, props)
+
+    def writeNetworkSegmentIdentification(self, element: ET.Element, props: NetworkSegmentIdentification):
+        child_element = ET.SubElement(element, "NETWORK-SEGMENT-ID")
+        self.writeARObject(child_element, props)
+        self.setChildElementOptionalPositiveInteger(child_element, "NETWORK-SEGMENT-ID", cast(Integer, props.getNetworkSegmentId()))
 
     def setGlobalTimeProps(self, element: ET.Element, key: str, props: Optional[GlobalTimeCouplingPortProps]):
         if props is not None:

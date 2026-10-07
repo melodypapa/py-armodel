@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticTroubleCodeProps,
     DiagnosticTroubleCodeUds,
     EventObdReadinessGroup,
+    NetworkSegmentIdentification,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticDebounceAlgorithmProps, DiagnosticFunctionInhibitSource, DiagnosticParameterElement
@@ -4597,3 +4598,92 @@ class TestAbstractGlobalTimeDomainProps:
 
         obj.setVariationPoint(None)
         assert obj.getVariationPoint() is variation_point  # None is a no-op
+
+
+class TestNetworkSegmentIdentification:
+    """
+    Test class for NetworkSegmentIdentification functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.3, p.859
+    """
+
+    CLASS_NOTE = "This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. " "One possible application of this approach is the Time Validation."
+    NETWORK_SEGMENT_ID_NOTE = "This attribute represents the numerical identifier of a PhysicalChannel on system level scope."
+
+    def _create_object(self) -> NetworkSegmentIdentification:
+        return NetworkSegmentIdentification()
+
+    def test_initialization(self):
+        """
+        Test that a new NetworkSegmentIdentification initializes all attributes to their defaults.
+        """
+        obj = self._create_object()
+
+        assert obj.getChecksum() is None
+        assert obj.getTimestamp() is None
+        assert obj.getNetworkSegmentId() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that NetworkSegmentIdentification derives from ARObject per the Table 9.3 Base row.
+        """
+        assert issubclass(NetworkSegmentIdentification, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(NetworkSegmentIdentification.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert NetworkSegmentIdentification.__init__.__doc__ is None
+
+    def test_member_order_follows_spec_rows(self):
+        """
+        Test that the accessors follow the Table 9.3 displayed row order (getter first per attribute).
+        """
+        methods = [name for name, value in NetworkSegmentIdentification.__dict__.items() if callable(value) and not name.startswith("_")]
+        assert methods == [
+            "getNetworkSegmentId",
+            "setNetworkSegmentId",
+        ]
+
+    def test_annotations_are_optional_typed(self):
+        """
+        Test that the accessors carry the spec PositiveInteger hint (0..1 row).
+        """
+        getter_hints = typing.get_type_hints(NetworkSegmentIdentification.getNetworkSegmentId)
+        assert getter_hints.get("return") == typing.Optional[PositiveInteger]
+
+        setter_hints = typing.get_type_hints(NetworkSegmentIdentification.setNetworkSegmentId)
+        assert setter_hints.get("value") == typing.Optional[PositiveInteger]
+        assert setter_hints.get("return") is NetworkSegmentIdentification
+
+    def test_get_set_network_segment_id(self):
+        """
+        Test getNetworkSegmentId and setNetworkSegmentId round-trip and None no-op.
+        """
+        obj = self._create_object()
+
+        value = PositiveInteger()
+        value.setValue("7")
+        result = obj.setNetworkSegmentId(value)
+        assert result is obj  # method chaining
+        assert obj.getNetworkSegmentId() is value
+        assert obj.getNetworkSegmentId().getValue() == 7
+
+        result = obj.setNetworkSegmentId(None)
+        assert result is obj  # method chaining with None
+        assert obj.getNetworkSegmentId() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(NetworkSegmentIdentification.getNetworkSegmentId.__doc__) == self.NETWORK_SEGMENT_ID_NOTE
+        assert inspect.cleandoc(NetworkSegmentIdentification.setNetworkSegmentId.__doc__) == (
+            self.NETWORK_SEGMENT_ID_NOTE + "\n\nA None value is a no-op and does not overwrite an existing networkSegmentId."
+        )

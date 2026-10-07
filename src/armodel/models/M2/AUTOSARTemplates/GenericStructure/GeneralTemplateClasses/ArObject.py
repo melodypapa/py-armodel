@@ -3474,7 +3474,42 @@ class MappingConstraint(ARObject, ABC):
 
 
 class NetworkSegmentIdentification(ARObject):
-    pass
+    """
+    This meta-class represents the ability to identify the PhysicalChannel on a system scope in a numerical way. One possible application of this approach is the Time Validation.
+    """
+
+    # NetworkSegmentIdentification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.3, p.859
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNetworkSegmentId       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkSegmentId       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Aggregator dispatch (GlobalTimeDomain.networkSegmentId) is pending — GlobalTimeDomain
+    # is a later-wave class; the reusable readNetworkSegmentIdentification /
+    # writeNetworkSegmentIdentification helpers own the NETWORK-SEGMENT-ID element.
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+        self.networkSegmentId: Optional[PositiveInteger] = None
+
+    def getNetworkSegmentId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+        """
+        return self.networkSegmentId
+
+    def setNetworkSegmentId(self, value: Optional[PositiveInteger]) -> NetworkSegmentIdentification:
+        """
+        This attribute represents the numerical identifier of a PhysicalChannel on system level scope.
+
+        A None value is a no-op and does not overwrite an existing networkSegmentId.
+        """
+        if value is not None:
+            self.networkSegmentId = value
+        return self
 
 
 class SecurityEventAggregationFilter(ARObject):
