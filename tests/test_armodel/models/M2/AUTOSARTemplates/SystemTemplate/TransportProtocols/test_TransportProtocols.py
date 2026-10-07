@@ -26,6 +26,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
     TpAddress,
     TpConfig,
 )
@@ -798,6 +801,31 @@ class TestTransportProtocols:
 
         # Test addTpConnection
         connection = EthTpConnection()
+        config.addTpConnection(connection)
+        assert connection in config.getTpConnections()
+        assert config == config.addTpConnection(connection)
+
+    def test_someip_tp_config(self):
+        """
+        Test SomeipTpConfig class functionality (R23-11, Table 6.264, p.619).
+        """
+        parent = MockParent()
+        config = SomeipTpConfig(parent, "test_someip_tp_config")
+
+        # Test constructor
+        assert config is not None
+
+        # Test default values
+        assert config.getTpChannels() == []
+        assert config.getTpConnections() == []
+
+        # Test createSomeipTpChannel
+        channel = config.createSomeipTpChannel("channel_name")
+        assert isinstance(channel, SomeipTpChannel)
+        assert channel in config.getTpChannels()
+
+        # Test addTpConnection
+        connection = SomeipTpConnection()
         config.addTpConnection(connection)
         assert connection in config.getTpConnections()
         assert config == config.addTpConnection(connection)

@@ -2442,6 +2442,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(EthTpConfig, self.getReferrableElement(short_name, EthTpConfig))
 
+    def createSomeipTpConfig(self, short_name: str) -> SomeipTpConfig:
+
+        if not self.IsReferrableElementExists(short_name, SomeipTpConfig):
+            element = SomeipTpConfig(self, short_name)
+            self.addReferrableElement(element)
+        return cast(SomeipTpConfig, self.getReferrableElement(short_name, SomeipTpConfig))
+
     def createCanFrame(self, short_name: str) -> CanFrame:
         """
         Creates a new CAN Frame with the given short name,
@@ -5095,6 +5102,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     DoIpTpConfig,
     LinTpConfig,
     EthTpConfig,
+    SomeipTpConfig,
     FlexrayArTpConfig,
     FlexrayTpConfig,
 )

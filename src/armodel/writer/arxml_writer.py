@@ -1314,6 +1314,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
     TpAddress,
     TpConfig,
 )
@@ -10591,6 +10594,43 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTpConfig(child_element, config)
         self.writeEthTpConfigTpConnections(child_element, config)
 
+    def writeSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
+        if channel is not None:
+            child_element = ET.SubElement(element, "SOMEIP-TP-CHANNEL")
+            self.writeIdentifiable(child_element, channel)
+
+    def writeSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
+        channels = config.getTpChannels()
+        if len(channels) > 0:
+            child_element = ET.SubElement(element, "TP-CHANNELS")
+            for channel in channels:
+                if isinstance(channel, SomeipTpChannel):
+                    self.writeSomeipTpChannel(child_element, channel)
+                else:
+                    self.notImplemented("Unsupported TpChannel <%s>" % type(channel))
+
+    def writeSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "SOMEIP-TP-CONNECTION")
+            self.writeARObject(child_element, connection)
+
+    def writeSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
+        connections = config.getTpConnections()
+        if len(connections) > 0:
+            child_element = ET.SubElement(element, "TP-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, SomeipTpConnection):
+                    self.writeSomeipTpConnection(child_element, connection)
+                else:
+                    self.notImplemented("Unsupported TpConnection <%s>" % type(connection))
+
+    def writeSomeipTpConfig(self, element: ET.Element, config: SomeipTpConfig):
+        self.logger.debug("Write SomeipTpConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "SOMEIP-TP-CONFIG")
+        self.writeTpConfig(child_element, config)
+        self.writeSomeipTpConfigTpChannels(child_element, config)
+        self.writeSomeipTpConfigTpConnections(child_element, config)
+
     def writeFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.writeIdentifiable(element, triggering)
         ref_list = triggering.getFramePortRefs()
@@ -18893,6 +18933,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFlexrayArTpConfig(element, ar_element)
         elif isinstance(ar_element, EthTpConfig):
             self.writeEthTpConfig(element, ar_element)
+        elif isinstance(ar_element, SomeipTpConfig):
+            self.writeSomeipTpConfig(element, ar_element)
         elif isinstance(ar_element, LinCluster):
             self.writeLinCluster(element, ar_element)
         elif isinstance(ar_element, CanCluster):

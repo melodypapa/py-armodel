@@ -3147,7 +3147,6 @@ STUBS = [
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable",
         "Identifiable",
     ),
-    ("armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "SomeipTpConfig", "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__", "FibexElement"),
     (
         "armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject",
         "SomeipTpConnection",

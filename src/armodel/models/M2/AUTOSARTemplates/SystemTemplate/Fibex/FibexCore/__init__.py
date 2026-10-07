@@ -44,7 +44,3 @@ class EthernetWakeupSleepOnDatalineConfigSet(FibexElement):
 
 class ServiceInstanceCollectionSet(FibexElement):
     pass
-
-
-class SomeipTpConfig(FibexElement):
-    pass

@@ -1572,6 +1572,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConnection,
     LinTpNode,
     NetworkTargetAddressType,
+    SomeipTpChannel,
+    SomeipTpConfig,
+    SomeipTpConnection,
     TpAddress,
     TpConfig,
 )
@@ -14368,6 +14371,37 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTpConfig(element, config)
         self.readEthTpConfigTpConnections(element, config)
 
+    def readSomeipTpChannel(self, element: ET.Element, channel: SomeipTpChannel):
+        self.readIdentifiable(element, channel)
+
+    def readSomeipTpConfigTpChannels(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CHANNELS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CHANNEL":
+                channel = config.createSomeipTpChannel(self.getShortName(child_element))
+                self.readSomeipTpChannel(child_element, channel)
+            else:
+                self.notImplemented("Unsupported TpChannel <%s>" % tag_name)
+
+    def readSomeipTpConnection(self, element: ET.Element, connection: SomeipTpConnection):
+        self.readARObject(element, connection)
+
+    def readSomeipTpConfigTpConnections(self, element: ET.Element, config: SomeipTpConfig):
+        for child_element in self.findall(element, "TP-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOMEIP-TP-CONNECTION":
+                connection = SomeipTpConnection()
+                self.readSomeipTpConnection(child_element, connection)
+                config.addTpConnection(connection)
+            else:
+                self.notImplemented("Unsupported TpConnection <%s>" % tag_name)
+
+    def readSomeipTpConfig(self, element: ET.Element, config: SomeipTpConfig):
+        self.logger.debug("Read SomeipTpConfig <%s>" % config.getShortName())
+        self.readTpConfig(element, config)
+        self.readSomeipTpConfigTpChannels(element, config)
+        self.readSomeipTpConfigTpConnections(element, config)
+
     def readCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Read CanFrame <%s>" % frame.getShortName())
         self.readFrame(element, frame)
@@ -18512,6 +18546,8 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readFlexrayArTpConfig(child_element, parent.createFlexrayArTpConfig(self.getShortName(child_element)))
             elif tag_name == "ETH-TP-CONFIG":
                 self.readEthTpConfig(child_element, parent.createEthTpConfig(self.getShortName(child_element)))
+            elif tag_name == "SOMEIP-TP-CONFIG":
+                self.readSomeipTpConfig(child_element, parent.createSomeipTpConfig(self.getShortName(child_element)))
             elif tag_name == "CLIENT-ID-DEFINITION-SET":
                 id_definition_set = parent.createClientIdDefinitionSet(self.getShortName(child_element))
                 self.readClientIdDefinitionSet(child_element, id_definition_set)

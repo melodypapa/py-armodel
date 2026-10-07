@@ -9,10 +9,17 @@ from typing import List, Optional, cast
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import EthTpConnection, FlexrayTpConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import FlexrayArTpNode, FlexrayTpConnectionControl, FlexrayTpNode, FlexrayTpPduPool, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    FlexrayArTpNode,
+    FlexrayTpConnectionControl,
+    FlexrayTpNode,
+    FlexrayTpPduPool,
+    Identifiable,
+    SomeipTpChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, FlexrayTpEcu
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, FlexrayArTpChannel, FlexrayTpEcu, SomeipTpConnection
 
 
 class TpConfig(FibexElement, ABC):
@@ -1658,6 +1665,62 @@ class EthTpConfig(TpConfig):
         return self.tpConnections
 
     def addTpConnection(self, value: Optional[EthTpConnection]) -> EthTpConfig:
+        """
+        Senders and receivers of SOME/IP TP messages.
+        A None value is a no-op and is not appended to tpConnections.
+        """
+        if value is not None:
+            self.tpConnections.append(value)
+        return self
+
+
+class SomeipTpConfig(TpConfig):
+    """
+    This element defines exactly one SOME/IP TP Configuration. Tags: atp.recommendedPackage=TpConfigs
+    """
+
+    # SomeipTpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.264, p.619
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpChannels          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSomeipTpChannel  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of SomeipTpChannels that are collecting configuration properties that are valid for a collection of SomeipTpConnections.
+        self.tpChannels: List[SomeipTpChannel] = []
+
+        # Senders and receivers of SOME/IP TP messages.
+        self.tpConnections: List[SomeipTpConnection] = []
+
+    def getTpChannels(self) -> List[SomeipTpChannel]:
+        """
+        Definition of SomeipTpChannels that are collecting configuration properties that are valid for a collection of SomeipTpConnections.
+        """
+        return self.tpChannels
+
+    def createSomeipTpChannel(self, short_name: str) -> SomeipTpChannel:
+        """
+        Definition of SomeipTpChannels that are collecting configuration properties that are valid for a collection of SomeipTpConnections.
+        """
+        if not self.IsReferrableElementExists(short_name, SomeipTpChannel):
+            channel = SomeipTpChannel(self, short_name)
+            self.addReferrableElement(channel)
+            self.tpChannels.append(channel)
+        return cast(SomeipTpChannel, self.getReferrableElement(short_name, SomeipTpChannel))
+
+    def getTpConnections(self) -> List[SomeipTpConnection]:
+        """
+        Senders and receivers of SOME/IP TP messages.
+        """
+        return self.tpConnections
+
+    def addTpConnection(self, value: Optional[SomeipTpConnection]) -> SomeipTpConfig:
         """
         Senders and receivers of SOME/IP TP messages.
         A None value is a no-op and is not appended to tpConnections.
