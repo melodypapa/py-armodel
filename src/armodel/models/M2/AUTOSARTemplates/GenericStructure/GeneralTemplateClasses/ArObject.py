@@ -2410,10 +2410,6 @@ class DdsTransportPriority(ARObject):
     pass
 
 
-class Dhcpv6Props(ARObject):
-    pass
-
-
 class EcuResourceEstimation(ARObject):
     pass
 

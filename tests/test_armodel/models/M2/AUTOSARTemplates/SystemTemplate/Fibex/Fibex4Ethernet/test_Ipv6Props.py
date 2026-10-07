@@ -8,8 +8,8 @@ and the verbatim class-level spec Note of the Ipv6Props model class.
 import inspect
 import typing
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Dhcpv6Props, Ipv6NdpProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv6FragmentationProps, Ipv6Props
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Dhcpv6Props, Ipv6FragmentationProps, Ipv6Props
 
 CLASS_NOTE = "This meta-class specifies the configuration options for IPv6."
 

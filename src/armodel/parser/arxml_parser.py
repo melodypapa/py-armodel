@@ -563,7 +563,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     CalibrationParameterValue,
-    Dhcpv6Props,
     RoleBasedResourceDependency,
     DiagnosticAbstractParameter,
     DiagnosticCommonProps,
@@ -1170,6 +1169,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     FlowMeteringColorModeEnum,
     GenericTp,
     GlobalTimeCouplingPortProps,
+    Dhcpv6Props,
     Ipv4ArpProps,
     Ipv4AutoIpProps,
     Ipv4DhcpServerConfiguration,
@@ -11057,7 +11057,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, props)
         child_element = self.find(element, "DHCP-PROPS")
         if child_element is not None:
-            props.setDhcpProps(Dhcpv6Props())
+            dhcp_props = Dhcpv6Props()
+            self.readDhcpv6Props(child_element, dhcp_props)
+            props.setDhcpProps(dhcp_props)
         child_element = self.find(element, "FRAGMENTATION-PROPS")
         if child_element is not None:
             fragmentation_props = Ipv6FragmentationProps()
@@ -11066,6 +11068,16 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "NDP-PROPS")
         if child_element is not None:
             props.setNdpProps(Ipv6NdpProps())
+
+    def readDhcpv6Props(self, element: ET.Element, props: Dhcpv6Props):
+        """Read an R23-11 <DHCP-PROPS> element (Table 3.107, p.149): 6 optional attributes in XSD order."""
+        self.readARObject(element, props)
+        props.setTcpIpDhcpV6CnfDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-CNF-DELAY-MAX"))
+        props.setTcpIpDhcpV6CnfDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-CNF-DELAY-MIN"))
+        props.setTcpIpDhcpV6InfDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-INF-DELAY-MAX"))
+        props.setTcpIpDhcpV6InfDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-INF-DELAY-MIN"))
+        props.setTcpIpDhcpV6SolDelayMax(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-SOL-DELAY-MAX"))
+        props.setTcpIpDhcpV6SolDelayMin(self.getChildElementOptionalTimeValue(element, "TCP-IP-DHCP-V-6-SOL-DELAY-MIN"))
 
     def readIpv6FragmentationProps(self, element: ET.Element, props: Ipv6FragmentationProps):
         """Read an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""

@@ -967,6 +967,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortTrafficClassAssignment,
     EthernetCluster,
     GlobalTimeCouplingPortProps,
+    Dhcpv6Props,
     PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
@@ -11328,13 +11329,26 @@ class ARXMLWriter(AbstractARXMLWriter):
         if props is not None:
             child_element = ET.SubElement(element, "IPV-6-PROPS")
             self.writeARObject(child_element, props)
-            if props.getDhcpProps() is not None:
-                ET.SubElement(child_element, "DHCP-PROPS")
+            dhcpProps_value = props.getDhcpProps()
+            if dhcpProps_value is not None:
+                self.writeDhcpv6Props(child_element, dhcpProps_value)
             fragmentationProps_value = props.getFragmentationProps()
             if fragmentationProps_value is not None:
                 self.writeIpv6FragmentationProps(child_element, fragmentationProps_value)
             if props.getNdpProps() is not None:
                 ET.SubElement(child_element, "NDP-PROPS")
+
+    def writeDhcpv6Props(self, element: ET.Element, props: Optional[Dhcpv6Props]):
+        """Write an R23-11 <DHCP-PROPS> element (Table 3.107, p.149): 6 optional attributes in XSD order."""
+        if props is not None:
+            child_element = ET.SubElement(element, "DHCP-PROPS")
+            self.writeARObject(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-CNF-DELAY-MAX", props.getTcpIpDhcpV6CnfDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-CNF-DELAY-MIN", props.getTcpIpDhcpV6CnfDelayMin())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-INF-DELAY-MAX", props.getTcpIpDhcpV6InfDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-INF-DELAY-MIN", props.getTcpIpDhcpV6InfDelayMin())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-SOL-DELAY-MAX", props.getTcpIpDhcpV6SolDelayMax())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-IP-DHCP-V-6-SOL-DELAY-MIN", props.getTcpIpDhcpV6SolDelayMin())
 
     def writeIpv6FragmentationProps(self, element: ET.Element, props: Optional[Ipv6FragmentationProps]):
         """Write an R23-11 <FRAGMENTATION-PROPS> element (Table 3.106, p.148): 6 optional attributes in XSD order."""

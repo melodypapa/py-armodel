@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Dhcpv6Props, Ipv6NdpProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject, Ipv6NdpProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
@@ -5683,8 +5683,9 @@ class EthIpProps(ARElement):
     # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
     # Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
     # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
-    # Dhcpv6Props/Ipv6NdpProps are still queued stubs and round-trip presence-only until
-    # their syncs land; Ipv6FragmentationProps fully round-trips since its sync (Table 3.106).
+    # Dhcpv6Props (Table 3.107) and Ipv6FragmentationProps (Table 3.106) fully round-trip
+    # since their syncs; Ipv6NdpProps is still a queued stub and round-trips presence-only
+    # until its sync lands.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -6010,6 +6011,132 @@ class Ipv4FragmentationProps(ARObject):
         return self
 
 
+class Dhcpv6Props(ARObject):
+    """This meta-class specifies the configuration options for DHCPv6."""
+
+    # Dhcpv6Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.107, p.149
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6CnfDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6CnfDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6CnfDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6CnfDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6InfDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6InfDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6InfDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6InfDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6SolDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6SolDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6SolDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6SolDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6CnfDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay in seconds before the first Confirm message will be sent.
+        self.tcpIpDhcpV6CnfDelayMin: Optional[TimeValue] = None
+
+        # Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6InfDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay (s) before the first Information Request message will be sent.
+        self.tcpIpDhcpV6InfDelayMin: Optional[TimeValue] = None
+
+        # Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6SolDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay (s) before the first Solicit message will be sent.
+        self.tcpIpDhcpV6SolDelayMin: Optional[TimeValue] = None
+
+    def getTcpIpDhcpV6CnfDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6CnfDelayMax
+
+    def setTcpIpDhcpV6CnfDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6CnfDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6CnfDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6CnfDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay in seconds before the first Confirm message will be sent."""
+        return self.tcpIpDhcpV6CnfDelayMin
+
+    def setTcpIpDhcpV6CnfDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay in seconds before the first Confirm message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6CnfDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6CnfDelayMin = value
+        return self
+
+    def getTcpIpDhcpV6InfDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6InfDelayMax
+
+    def setTcpIpDhcpV6InfDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6InfDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6InfDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6InfDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay (s) before the first Information Request message will be sent."""
+        return self.tcpIpDhcpV6InfDelayMin
+
+    def setTcpIpDhcpV6InfDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay (s) before the first Information Request message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6InfDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6InfDelayMin = value
+        return self
+
+    def getTcpIpDhcpV6SolDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6SolDelayMax
+
+    def setTcpIpDhcpV6SolDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6SolDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6SolDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6SolDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay (s) before the first Solicit message will be sent."""
+        return self.tcpIpDhcpV6SolDelayMin
+
+    def setTcpIpDhcpV6SolDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay (s) before the first Solicit message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6SolDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6SolDelayMin = value
+        return self
+
+
 class Ipv6FragmentationProps(ARObject):
     """This meta-class specifies the configuration options for IPv6 packet fragmentation/reassembly."""
 
@@ -6151,9 +6278,10 @@ class Ipv6Props(ARObject):
     # [x] setNdpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # The FRAGMENTATION-PROPS child fully round-trips via the readIpv6FragmentationProps/
-    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106);
-    # Dhcpv6Props (Table 3.107) and Ipv6NdpProps (Table 3.108) are still queued stubs, so
-    # the DHCP-PROPS and NDP-PROPS children round-trip presence-only until their syncs land.
+    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106)
+    # and the DHCP-PROPS child via the readDhcpv6Props/writeDhcpv6Props level since the
+    # Dhcpv6Props sync (Table 3.107); Ipv6NdpProps (Table 3.108) is still a queued stub, so
+    # the NDP-PROPS child round-trips presence-only until its sync lands.
 
     def __init__(self):
         super().__init__()
