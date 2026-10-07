@@ -231,20 +231,19 @@ class SignalServiceTranslationProps(Identifiable):
     This element allows to define the properties which are applicable for the signal/service translation service.
 
     # SignalServiceTranslationProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.340, p.730
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addControlConsumedEventGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlConsumedEventGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addControlPncRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlPncRefs                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addControlProvidedEventGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getControlProvidedEventGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getServiceControl                           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setServiceControl                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createSignalServiceTranslationEventProps    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSignalServiceTranslationEventProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.340, p.731
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addControlConsumedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlConsumedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addControlPncRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlPncRefs                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addControlProvidedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getControlProvidedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getServiceControl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceControl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSignalServiceTranslationEventProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSignalServiceTranslationEventProps    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     """
 
     def __init__(self, parent: Identifiable, short_name: str):
@@ -253,7 +252,7 @@ class SignalServiceTranslationProps(Identifiable):
         # Reference to the EventGroup which encapsulates the signal-based payload.
         self.controlConsumedEventGroupRefs: List[RefType] = []
 
-        # Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        # Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         self.controlPncRefs: List[RefType] = []
 
         # Reference to the provided event group (aka Event Handler) which is automatically available when service Control equals translationStart.
@@ -282,7 +281,7 @@ class SignalServiceTranslationProps(Identifiable):
 
     def addControlPncRef(self, value: RefType):
         """
-        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         A None value is a no-op and does not overwrite an existing reference.
         """
         if value is not None:
@@ -291,7 +290,7 @@ class SignalServiceTranslationProps(Identifiable):
 
     def getControlPncRefs(self) -> List[RefType]:
         """
-        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance.
+        Reference to the PNCs which control the offer/subscribe behavior of the translated service instance. Stereotypes: atpSplitable Tags: atp.Splitkey=controlPnc
         """
         return self.controlPncRefs
 
