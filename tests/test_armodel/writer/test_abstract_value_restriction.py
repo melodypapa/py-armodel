@@ -10,9 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AbstractValueRestriction,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     Limit,
     PositiveInteger,
     RegularExpression,
+    String,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -51,3 +53,15 @@ class TestWriteAbstractValueRestriction:
         writer.writeAbstractValueRestriction(element, restriction)
 
         assert len(list(element)) == 0
+
+    def test_write_s_and_t(self):
+        """writeARObject must run so the inherited S/T state is emitted (Rule 0025)."""
+        restriction = _Derived()
+        restriction.setChecksum(String().setValue("cs-1"))
+        restriction.setTimestamp(DateTime().setValue("2023-01-01T00:00:00Z"))
+
+        element = ET.Element("RESTRICTION")
+        ARXMLWriter().writeAbstractValueRestriction(element, restriction)
+
+        assert element.attrib["S"] == "cs-1"
+        assert element.attrib["T"] == "2023-01-01T00:00:00Z"

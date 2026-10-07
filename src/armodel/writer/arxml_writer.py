@@ -15423,6 +15423,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 time_element.text = time.getValue()
 
     def writeAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        self.writeARObject(element, restriction)
         self.setChildLimitElement(element, "MAX", restriction.getMax())
         self.setChildElementOptionalPositiveInteger(element, "MAX-LENGTH", cast(Integer, restriction.getMaxLength()))
         self.setChildLimitElement(element, "MIN", restriction.getMin())

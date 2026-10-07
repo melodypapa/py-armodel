@@ -61,7 +61,6 @@ class AbstractValueRestriction(ARObject, ABC):
     # AbstractValueRestriction method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.37, p.103
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getMax           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setMax           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getMaxLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11

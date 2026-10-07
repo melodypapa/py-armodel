@@ -15070,6 +15070,7 @@ class ARXMLParser(AbstractARXMLParser):
                 restriction.addValidBindingTime(time)
 
     def readAbstractValueRestriction(self, element: ET.Element, restriction: AbstractValueRestriction):
+        self.readARObject(element, restriction)
         restriction.setMax(self.getChildLimitElement(element, "MAX"))
         restriction.setMaxLength(self.getChildElementOptionalPositiveInteger(element, "MAX-LENGTH"))
         restriction.setMin(self.getChildLimitElement(element, "MIN"))
