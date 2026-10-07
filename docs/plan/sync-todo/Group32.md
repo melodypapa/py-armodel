@@ -686,16 +686,32 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdServerServiceInstanceConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.169, p.514
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    ArObject.py stub (Rule 0007; stub removed, stub-guard tuple dropped from
+    test_group21_36_stub_classes.py). spec `Base` row chain = ARElement, CollectableElement,
+    Identifiable, ..., UploadableDesignElement, UploadablePackageElement → most-derived AVAILABLE
+    base = ARElement (row label "ARObject" was the stub's old base; Uploadable*/CollectableElement
+    have no model classes). Not VP-capable itself (no VARIATION-POINT in XSD group
+    SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG, l.110751). Markdown priority-note mid-token wraps
+    ("ProvidedSomeip ServiceInstances", "SomeipSd ServerServiceInstanceConfig", "StopOffer Service")
+    reconciled against the XSD doc. Member order = displayed table order (initialOfferBehavior,
+    offerCyclicDelay, priority | requestResponseDelay, serviceOfferTimeToLive across the page
+    split). ARPackage.element aggregation wired: createSomeipSdServerServiceInstanceConfig +
+    reader SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG branch + writer isinstance branch +
+    dispatch tests. Identity debt (Rule 0001.7): ProvidedServiceInstance.sdServerTimerConfigRef
+    round-trip test upgraded to serialize the referenced config element and assert its field
+    values; EventHandler's remaining identity debt targets Tables 6.172/6.173 (not this class,
+    per its own row note) — no EventHandler change needed.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SomeipSdServerEventGroupTimingConfig` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.172, p.517
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

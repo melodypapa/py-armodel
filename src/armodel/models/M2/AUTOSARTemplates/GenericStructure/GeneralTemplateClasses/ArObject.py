@@ -3312,10 +3312,6 @@ class SecurityEventStateFilter(ARObject):
     pass
 
 
-class SomeipSdServerServiceInstanceConfig(ARObject):
-    pass
-
-
 class SomeipTpConnection(ARObject):
     pass
 

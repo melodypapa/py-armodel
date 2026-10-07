@@ -930,6 +930,108 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         return self
 
 
+class SomeipSdServerServiceInstanceConfig(ARElement):
+    """Server specific settings that are relevant for the configuration of SOME/IP Service-Discovery. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
+
+    # SomeipSdServerServiceInstanceConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.169, p.514
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitialOfferBehavior        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitialOfferBehavior        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOfferCyclicDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOfferCyclicDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequestResponseDelay        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequestResponseDelay        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceOfferTimeToLive      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceOfferTimeToLive      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Controls offer behavior of the server.
+        self.initialOfferBehavior: Optional[InitialSdDelayConfig] = None
+
+        # Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds) and greater then 0.
+        self.offerCyclicDelay: Optional[TimeValue] = None
+
+        # This attribute defines the VLAN frame priority for Service Discovery messages that result from ProvidedSomeipServiceInstances that are referencing the SomeipSdServerServiceInstanceConfig (OfferService, StopOfferService, SubscribeEventGroupAck). Values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Maximum/Minimum allowable response delay to entries received by multicast in seconds. The Service Discovery shall delay answers to entries that were transported in a multicast SOME/IP-SD message (e.g. FindService).
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
+
+        # Defines the time in seconds the service offer is valid.
+        self.serviceOfferTimeToLive: Optional[PositiveInteger] = None
+
+    def getInitialOfferBehavior(self) -> Optional[InitialSdDelayConfig]:
+        """Controls offer behavior of the server."""
+        return self.initialOfferBehavior
+
+    def setInitialOfferBehavior(self, value: Optional[InitialSdDelayConfig]) -> SomeipSdServerServiceInstanceConfig:
+        """
+        Controls offer behavior of the server.
+        A None value is a no-op and does not overwrite an existing initialOfferBehavior.
+        """
+        if value is not None:
+            self.initialOfferBehavior = value
+        return self
+
+    def getOfferCyclicDelay(self) -> Optional[TimeValue]:
+        """Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds) and greater then 0."""
+        return self.offerCyclicDelay
+
+    def setOfferCyclicDelay(self, value: Optional[TimeValue]) -> SomeipSdServerServiceInstanceConfig:
+        """
+        Optional attribute to define cyclic offers. Cyclic offer is active, if the delay is set (in seconds) and greater then 0.
+        A None value is a no-op and does not overwrite an existing offerCyclicDelay.
+        """
+        if value is not None:
+            self.offerCyclicDelay = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """This attribute defines the VLAN frame priority for Service Discovery messages that result from ProvidedSomeipServiceInstances that are referencing the SomeipSdServerServiceInstanceConfig (OfferService, StopOfferService, SubscribeEventGroupAck). Values from 0 (best effort) to 7 (highest) are allowed."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> SomeipSdServerServiceInstanceConfig:
+        """
+        This attribute defines the VLAN frame priority for Service Discovery messages that result from ProvidedSomeipServiceInstances that are referencing the SomeipSdServerServiceInstanceConfig (OfferService, StopOfferService, SubscribeEventGroupAck). Values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
+        """Maximum/Minimum allowable response delay to entries received by multicast in seconds. The Service Discovery shall delay answers to entries that were transported in a multicast SOME/IP-SD message (e.g. FindService)."""
+        return self.requestResponseDelay
+
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> SomeipSdServerServiceInstanceConfig:
+        """
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds. The Service Discovery shall delay answers to entries that were transported in a multicast SOME/IP-SD message (e.g. FindService).
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
+        """
+        if value is not None:
+            self.requestResponseDelay = value
+        return self
+
+    def getServiceOfferTimeToLive(self) -> Optional[PositiveInteger]:
+        """Defines the time in seconds the service offer is valid."""
+        return self.serviceOfferTimeToLive
+
+    def setServiceOfferTimeToLive(self, value: Optional[PositiveInteger]) -> SomeipSdServerServiceInstanceConfig:
+        """
+        Defines the time in seconds the service offer is valid.
+        A None value is a no-op and does not overwrite an existing serviceOfferTimeToLive.
+        """
+        if value is not None:
+            self.serviceOfferTimeToLive = value
+        return self
+
+
 class SomeipServiceVersion(ARObject):
     """This meta-class represents the ability to describe a version of a SOME/IP Service."""
 

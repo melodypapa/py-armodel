@@ -1123,6 +1123,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipSdServerServiceInstanceConfig,
     SomeipServiceVersion,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
@@ -11352,6 +11353,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, config)
         self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
 
+    def writeSomeipSdServerServiceInstanceConfig(self, element: ET.Element, config: SomeipSdServerServiceInstanceConfig):
+        self.logger.debug("Write SomeipSdServerServiceInstanceConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG")
+        self.writeIdentifiable(child_element, config)
+        self.setInitialSdDelayConfig(child_element, "INITIAL-OFFER-BEHAVIOR", config.getInitialOfferBehavior())
+        self.setChildElementOptionalTimeValue(child_element, "OFFER-CYCLIC-DELAY", config.getOfferCyclicDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", cast(Integer, config.getPriority()))
+        self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-OFFER-TIME-TO-LIVE", cast(Integer, config.getServiceOfferTimeToLive()))
+
     def writeEventHandler(self, element: ET.Element, handler: EventHandler):
         if handler is not None:
             child_element = ET.SubElement(element, "EVENT-HANDLER")
@@ -19066,6 +19077,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, CanXlProps):
             self.writeCanXlProps(element, ar_element)
+        elif isinstance(ar_element, SomeipSdServerServiceInstanceConfig):
+            self.writeSomeipSdServerServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):
             self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientEventGroupTimingConfig):

@@ -1355,6 +1355,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipSdServerServiceInstanceConfig,
     SomeipServiceVersion,
     StaticSocketConnection,
     TcpRoleEnum,
@@ -11102,6 +11103,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, config)
         config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
 
+    def readSomeipSdServerServiceInstanceConfig(self, element: ET.Element, config: SomeipSdServerServiceInstanceConfig):
+        self.logger.debug("Read SomeipSdServerServiceInstanceConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setInitialOfferBehavior(self.getInitialSdDelayConfig(element, "INITIAL-OFFER-BEHAVIOR"))
+        config.setOfferCyclicDelay(self.getChildElementOptionalTimeValue(element, "OFFER-CYCLIC-DELAY"))
+        config.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+        config.setServiceOfferTimeToLive(self.getChildElementOptionalPositiveInteger(element, "SERVICE-OFFER-TIME-TO-LIVE"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> Optional[SdServerConfig]:
         config = None
         child_element = self.find(element, key)
@@ -18863,6 +18873,9 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSomeipSdClientEventGroupTimingConfig(child_element, parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element)))
         elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
             self.readSomeipSdServerEventGroupTimingConfig(child_element, parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element)))
+        elif tag_name == "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
+            server_config = parent.createSomeipSdServerServiceInstanceConfig(self.getShortName(child_element))
+            self.readSomeipSdServerServiceInstanceConfig(child_element, server_config)
         elif tag_name == "DO-IP-TP-CONFIG":
             self.readDoIpTpConfig(child_element, parent.createDoIpTpConfig(self.getShortName(child_element)))
         elif tag_name == "HW-ELEMENT":
