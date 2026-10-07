@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection impo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     FlexrayArTpNode,
-    FlexrayTpNode,
     Identifiable,
     SomeipTpChannel,
 )
@@ -1474,6 +1473,61 @@ class FlexrayTpPduPool(Identifiable, VariationPointCapable):
         Reference to NPdus that are part of the PduPool.
         """
         return self.nPduRefs
+
+
+class FlexrayTpNode(Identifiable, VariationPointCapable):
+    """
+    TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
+    """
+
+    # FlexrayTpNode method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.243, p.596
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addConnectorRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConnectorRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTpAddressRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTpAddressRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Association  to one or more physical connectors (max number of connectors for FlexRay: 2).
+        self.connectorRefs: List[RefType] = []
+
+        # Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        self.tpAddressRef: Optional[RefType] = None
+
+    def addConnectorRef(self, value: Optional[RefType]) -> FlexrayTpNode:
+        """
+        Association  to one or more physical connectors (max number of connectors for FlexRay: 2).
+        A None value is a no-op and is not appended to connectorRefs.
+        """
+        if value is not None:
+            self.connectorRefs.append(value)
+        return self
+
+    def getConnectorRefs(self) -> List[RefType]:
+        """
+        Association  to one or more physical connectors (max number of connectors for FlexRay: 2).
+        """
+        return self.connectorRefs
+
+    def getTpAddressRef(self) -> Optional[RefType]:
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        """
+        return self.tpAddressRef
+
+    def setTpAddressRef(self, value: Optional[RefType]) -> FlexrayTpNode:
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        A None value is a no-op and does not overwrite an existing tpAddressRef.
+        """
+        if value is not None:
+            self.tpAddressRef = value
+        return self
 
 
 class FlexrayTpConfig(TpConfig):

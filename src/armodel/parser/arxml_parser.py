@@ -751,6 +751,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    FlexrayArTpNode,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1562,7 +1563,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayArTpChannel,
     FlexrayArTpConfig,
     FlexrayArTpConnection,
-    FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
     FlexrayTpConnectionControl,
@@ -14324,6 +14324,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFlexrayTpNode(self, element: ET.Element, tp_node: FlexrayTpNode):
         self.readIdentifiable(element, tp_node)
+        for ref in self.getChildElementRefTypeList(element, "CONNECTOR-REFS/CONNECTOR-REF"):
+            tp_node.addConnectorRef(ref)
+        tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
+        self.readVariationPointCapable(element, tp_node)
 
     def readFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
         for child_element in self.findall(element, "TP-NODES/*"):

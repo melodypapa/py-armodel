@@ -594,6 +594,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticRoutineSubfunction,
     DiagnosticStartRoutine,
     DiagnosticStopRoutine,
+    FlexrayArTpNode,
     Identifiable,
     MultilanguageReferrable,
     Referrable,
@@ -1305,7 +1306,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     FlexrayArTpChannel,
     FlexrayArTpConfig,
     FlexrayArTpConnection,
-    FlexrayArTpNode,
     FlexrayTpConfig,
     FlexrayTpConnection,
     FlexrayTpConnectionControl,
@@ -10536,6 +10536,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         if tp_node is not None:
             child_element = ET.SubElement(element, "FLEXRAY-TP-NODE")
             self.writeIdentifiable(child_element, tp_node)
+            refs = tp_node.getConnectorRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "CONNECTOR-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "CONNECTOR-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "TP-ADDRESS-REF", tp_node.getTpAddressRef())
+            self.writeVariationPointCapable(child_element, tp_node)
 
     def writeFlexrayTpConfigTpNodes(self, element: ET.Element, config: FlexrayTpConfig):
         tp_nodes = config.getTpNodes()
