@@ -534,15 +534,22 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `TpConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.272, p.633
   - module: M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: drift re-sync — legacy 5-column checklist upgraded to 6-column; stale
+    `# Spec verified: R23-11` marker from an earlier pass removed, stamping deferred to
+    batch 9b. Field↔spec verified both directions: single attr `ident` (TpConnectionIdent,
+    0..1 aggr) matches; Base ARObject confirmed (XSD TP-CONNECTION group has no
+    VARIATION-POINT → no mixin); docstrings already verbatim. Model/reader/writer were
+    spec-conformant — no code change; mirrored TestTpConnection added to
+    test_DiagnosticConnection.py pinning docstring/type-hints/factory shape.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `IEEE1722TpConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.274, p.637
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
