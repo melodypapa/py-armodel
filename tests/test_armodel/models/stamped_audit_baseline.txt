@@ -72,7 +72,6 @@ CanNmEcu
 CanTpAddress
 CanTpAddressingFormatType
 CanTpChannel
-CanTpConfig
 CanTpConnection
 CanTpEcu
 CanTpNode

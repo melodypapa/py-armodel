@@ -679,49 +679,61 @@ class CanTpNode(Identifiable, VariationPointCapable):
 
 class CanTpConfig(TpConfig):
     """
-    This element defines exactly one CAN TP Configuration. One CanTpConfig element shall be created for each CAN Network in the System.
+    This element defines exactly one CAN TP Configuration.
+
+    One CanTpConfig element shall be created for each CAN Network in the System.
+
+    [constr_9247] Existence of CanTpConfig.tpAddress: For each CanTpConfig, the aggregation of CanTpAddress in the role tpAddress shall exist at least once at the time when the System Description is complete.
+    [constr_9248] Existence of CanTpConfig.tpChannel: For each CanTpConfig, the aggregation of CanTpChannel in the role tpChannel shall exist at least once at the time when the System Description is complete.
+    [constr_9249] Existence of CanTpConfig.tpConnection: For each CanTpConfig, the aggregation of CanTpConnection in the role tpConnection shall exist at least once at the time when the System Description is complete.
+    [constr_9250] Existence of CanTpConfig.tpEcu: For each CanTpConfig, the aggregation of CanTpEcu in the role tpEcu shall exist at least once at the time when the System Description is complete.
+    [constr_9251] Existence of CanTpConfig.tpNode: For each CanTpConfig, the aggregation of CanTpNode in the role tpNode shall exist at least once at the time when the System Description is complete.
     """
 
     # CanTpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.251, p.607
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTpAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCanTpAddress      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpChannels           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCanTpChannel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpConnections        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTpConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpEcus               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTpEcu                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTpNodes              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCanTpNode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Note: class Note taken from XSD CAN-TP-CONFIG complexType documentation (PDF table has no Note row)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTpAddresses       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanTpAddress   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpChannels        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanTpChannel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpConnection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpEcus            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTpEcu             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTpNodes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCanTpNode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Collection of TP Addresses.
+        # Collection of TP Addresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpAddresses: List[CanTpAddress] = []
 
-        # Configuration of CAN TP channels.
+        # Configuration of CAN TP channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel.shortName, tpChannel.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpChannels: List[CanTpChannel] = []
 
-        # Senders and receivers of CAN TP messages.
+        # Senders and receivers of CAN TP messages. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpConnections: List[CanTpConnection] = []
 
-        # Collection of TP Ecus
+        # Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.tpEcus: List[CanTpEcu] = []
 
-        # Senders and receivers of Can TP messages.
+        # Senders and receivers of Can TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
         self.tpNodes: List[CanTpNode] = []
 
     def getTpAddresses(self) -> List[CanTpAddress]:
-        """Collection of TP Addresses."""
+        """
+        Collection of TP Addresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpAddresses
 
     def createCanTpAddress(self, short_name: str) -> CanTpAddress:
-        """Collection of TP Addresses."""
+        """
+        Collection of TP Addresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, CanTpAddress):
             address = CanTpAddress(self, short_name)
             self.addReferrableElement(address)
@@ -729,11 +741,15 @@ class CanTpConfig(TpConfig):
         return cast(CanTpAddress, self.getReferrableElement(short_name, CanTpAddress))
 
     def getTpChannels(self) -> List[CanTpChannel]:
-        """Configuration of CAN TP channels."""
+        """
+        Configuration of CAN TP channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel.shortName, tpChannel.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpChannels
 
     def createCanTpChannel(self, short_name: str) -> CanTpChannel:
-        """Configuration of CAN TP channels."""
+        """
+        Configuration of CAN TP channels. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpChannel.shortName, tpChannel.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, CanTpChannel):
             channel = CanTpChannel(self, short_name)
             self.addReferrableElement(channel)
@@ -741,12 +757,14 @@ class CanTpConfig(TpConfig):
         return cast(CanTpChannel, self.getReferrableElement(short_name, CanTpChannel))
 
     def getTpConnections(self) -> List[CanTpConnection]:
-        """Senders and receivers of CAN TP messages."""
+        """
+        Senders and receivers of CAN TP messages. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpConnections
 
     def addTpConnection(self, value: Optional[CanTpConnection]) -> CanTpConfig:
         """
-        Senders and receivers of CAN TP messages.
+        Senders and receivers of CAN TP messages. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variation Point.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and is not appended to tpConnections.
         """
         if value is not None:
@@ -754,12 +772,14 @@ class CanTpConfig(TpConfig):
         return self
 
     def getTpEcus(self) -> List[CanTpEcu]:
-        """Collection of TP Ecus"""
+        """
+        Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpEcus
 
     def addTpEcu(self, value: Optional[CanTpEcu]) -> CanTpConfig:
         """
-        Collection of TP Ecus
+        Collection of TP Ecus atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpEcu, tpEcu.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and is not appended to tpEcus.
         """
         if value is not None:
@@ -767,11 +787,15 @@ class CanTpConfig(TpConfig):
         return self
 
     def getTpNodes(self) -> List[CanTpNode]:
-        """Senders and receivers of Can TP messages."""
+        """
+        Senders and receivers of Can TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.tpNodes
 
     def createCanTpNode(self, short_name: str) -> CanTpNode:
-        """Senders and receivers of Can TP messages."""
+        """
+        Senders and receivers of Can TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variation Point.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsReferrableElementExists(short_name, CanTpNode):
             node = CanTpNode(self, short_name)
             self.addReferrableElement(node)
