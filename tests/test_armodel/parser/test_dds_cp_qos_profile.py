@@ -10,9 +10,9 @@ DURABILITY-SERVICE, HISTORY, LATENCY-BUDGET, LIFESPAN, LIVELINESS, OWNERSHIP,
 OWNERSHIP-STRENGTH, RELIABILITY, RESOURCE-LIMITS, TOPIC-DATA, TRANSPORT-PRIORITY).
 
 The Dds* QoS policy child classes (except DdsTopicData, synced Table 6.180, DdsDurability,
-synced Table 6.181, DdsDurabilityService, synced Table 6.183, and DdsDeadline, synced
-Table 6.185) are still unsynced stubs — the reader serializes them identity-only
-(Rule 0001.7 debt).
+synced Table 6.181, DdsDurabilityService, synced Table 6.183, DdsDeadline, synced
+Table 6.185, and DdsLatencyBudget, synced Table 6.186) are still unsynced stubs — the reader
+serializes them identity-only (Rule 0001.7 debt).
 
 Round-trip counterpart: tests/test_armodel/writer/test_writer_dds_cp_qos_profile.py
 """
@@ -22,7 +22,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDeadline, DdsDurability, DdsDurabilityService, DdsHistory, DdsTopicData
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import DdsDeadline, DdsDurability, DdsDurabilityService, DdsHistory, DdsLatencyBudget, DdsTopicData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DdsCpQosProfile
 
 NS = "http://autosar.org/schema/r4.0"
@@ -71,6 +71,13 @@ class TestReadDdsCpQosProfile:
         assert isinstance(profile.getDeadline(), DdsDeadline)
         assert profile.getDeadline().getDeadlinePeriod() is not None
         assert profile.getDeadline().getDeadlinePeriod().getValue() == 0.5
+
+    def test_read_sets_latency_budget_with_values(self, parser):
+        """Test that the synced DdsLatencyBudget child is read with its field values."""
+        profile = self._read(parser, "<LATENCY-BUDGET><LATENCY-BUDGET-DURATION>0.1</LATENCY-BUDGET-DURATION></LATENCY-BUDGET>")
+        assert isinstance(profile.getLatencyBudget(), DdsLatencyBudget)
+        assert profile.getLatencyBudget().getLatencyBudgetDuration() is not None
+        assert profile.getLatencyBudget().getLatencyBudgetDuration().getValue() == 0.1
 
     def test_read_sets_durability_service_with_values(self, parser):
         """Test that the synced DdsDurabilityService child is read with its field values."""

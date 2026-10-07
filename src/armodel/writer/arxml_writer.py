@@ -562,6 +562,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDeadline,
     DdsDurability,
     DdsDurabilityService,
+    DdsLatencyBudget,
     DdsTopicData,
     PhysicalDimensionMapping,
 )
@@ -15693,7 +15694,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if profile.getHistory() is not None:
             ET.SubElement(child_element, "HISTORY")
         if profile.getLatencyBudget() is not None:
-            ET.SubElement(child_element, "LATENCY-BUDGET")
+            self.writeDdsLatencyBudget(child_element, profile.getLatencyBudget())
         if profile.getLifespan() is not None:
             ET.SubElement(child_element, "LIFESPAN")
         if profile.getLiveliness() is not None:
@@ -15721,6 +15722,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-DATA")
         self.writeARObject(child_element, topic_data)
         self.setChildElementOptionalString(child_element, "TOPIC-DATA", topic_data.getTopicData())
+
+    def writeDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
+        child_element = ET.SubElement(element, "LATENCY-BUDGET")
+        self.writeARObject(child_element, latency_budget)
+        self.setChildElementOptionalFloatValue(child_element, "LATENCY-BUDGET-DURATION", latency_budget.getLatencyBudgetDuration())
 
     def writeDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
         child_element = ET.SubElement(element, "DEADLINE")

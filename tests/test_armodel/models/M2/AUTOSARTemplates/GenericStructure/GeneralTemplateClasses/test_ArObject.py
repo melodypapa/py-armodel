@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DdsDeadline,
     DdsDurability,
     DdsDurabilityService,
+    DdsLatencyBudget,
     DdsTopicData,
     DiagnosticAbstractParameter,
     DiagnosticComControlSpecificChannel,
@@ -3650,3 +3651,68 @@ class TestDdsDeadline:
         """
         assert inspect.cleandoc(DdsDeadline.getDeadlinePeriod.__doc__) == self.DEADLINE_PERIOD_NOTE
         assert inspect.cleandoc(DdsDeadline.setDeadlinePeriod.__doc__) == (self.DEADLINE_PERIOD_NOTE + "\n\nA None value is a no-op and does not overwrite an existing deadlinePeriod.")
+
+
+class TestDdsLatencyBudget:
+    """
+    Test class for DdsLatencyBudget functionality.
+
+    Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.186, p.532
+    """
+
+    CLASS_NOTE = "Describes the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate"
+    LATENCY_BUDGET_DURATION_NOTE = 'See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate'
+
+    def _create_latency_budget(self) -> DdsLatencyBudget:
+        return DdsLatencyBudget()
+
+    def test_initialization(self):
+        """
+        Test that a new DdsLatencyBudget initializes all attributes to their defaults.
+        """
+        obj = self._create_latency_budget()
+
+        assert obj.getLatencyBudgetDuration() is None
+
+    def test_is_ar_object_subclass(self):
+        """
+        Test that DdsLatencyBudget derives from ARObject (confirmed queue row; Base column = ARObject only).
+        """
+        assert issubclass(DdsLatencyBudget, ARObject)
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        """
+        Test that the class docstring is the spec Note verbatim.
+        """
+        assert inspect.cleandoc(DdsLatencyBudget.__doc__) == self.CLASS_NOTE
+
+    def test_init_has_no_docstring(self):
+        """
+        Test that __init__ carries no docstring.
+        """
+        assert DdsLatencyBudget.__init__.__doc__ is None
+
+    def test_get_set_latency_budget_duration(self):
+        """
+        Test getLatencyBudgetDuration and setLatencyBudgetDuration round-trip and None no-op.
+        """
+        obj = self._create_latency_budget()
+
+        value = Float().setValue("0.1")
+        result = obj.setLatencyBudgetDuration(value)
+        assert result is obj  # method chaining
+        assert obj.getLatencyBudgetDuration() is value
+        assert obj.getLatencyBudgetDuration().getValue() == 0.1
+
+        result = obj.setLatencyBudgetDuration(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLatencyBudgetDuration() is value  # None is a no-op
+
+    def test_accessor_docstrings_are_spec_notes_verbatim(self):
+        """
+        Getter and setter docstrings carry the spec Note verbatim (setter + None-no-op sentence).
+        """
+        assert inspect.cleandoc(DdsLatencyBudget.getLatencyBudgetDuration.__doc__) == self.LATENCY_BUDGET_DURATION_NOTE
+        assert inspect.cleandoc(DdsLatencyBudget.setLatencyBudgetDuration.__doc__) == (
+            self.LATENCY_BUDGET_DURATION_NOTE + "\n\nA None value is a no-op and does not overwrite an existing latencyBudgetDuration."
+        )

@@ -2824,7 +2824,38 @@ class DdsHistory(ARObject):
 
 
 class DdsLatencyBudget(ARObject):
-    pass
+    """
+    Describes the DDS LATENCY_BUDGET QoS policy. Tags: atp.Status=candidate
+    """
+
+    # DdsLatencyBudget method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.186, p.532
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLatencyBudgetDuration   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLatencyBudgetDuration   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        self.latencyBudgetDuration: Optional[Float] = None
+
+    def getLatencyBudgetDuration(self) -> Optional[Float]:
+        """
+        See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+        """
+        return self.latencyBudgetDuration
+
+    def setLatencyBudgetDuration(self, value: Optional[Float]) -> DdsLatencyBudget:
+        """
+        See "LATENCY_BUDGET" chapter of DDS. Time given in seconds. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing latencyBudgetDuration.
+        """
+        if value is not None:
+            self.latencyBudgetDuration = value
+        return self
 
 
 class DdsLifespan(ARObject):

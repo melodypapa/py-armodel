@@ -11938,6 +11938,11 @@ class ARXMLParser(AbstractARXMLParser):
             profile.setHistory(DdsHistory())
         if self.find(element, "LATENCY-BUDGET") is not None:
             profile.setLatencyBudget(DdsLatencyBudget())
+        latency_budget_element = self.find(element, "LATENCY-BUDGET")
+        if latency_budget_element is not None:
+            latency_budget = DdsLatencyBudget()
+            self.readDdsLatencyBudget(latency_budget_element, latency_budget)
+            profile.setLatencyBudget(latency_budget)
         if self.find(element, "LIFESPAN") is not None:
             profile.setLifespan(DdsLifespan())
         if self.find(element, "LIVELINESS") is not None:
@@ -11968,6 +11973,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read DdsTopicData")
         self.readARObject(element, topic_data)
         topic_data.setTopicData(self.getChildElementOptionalString(element, "TOPIC-DATA"))
+
+    def readDdsLatencyBudget(self, element: ET.Element, latency_budget: DdsLatencyBudget):
+        self.logger.debug("Read DdsLatencyBudget")
+        self.readARObject(element, latency_budget)
+        latency_budget.setLatencyBudgetDuration(self.getChildElementOptionalFloatValue(element, "LATENCY-BUDGET-DURATION"))
 
     def readDdsDeadline(self, element: ET.Element, deadline: DdsDeadline):
         self.logger.debug("Read DdsDeadline")
