@@ -1723,7 +1723,7 @@ class TestBswBehaviorOrchestratorHandlers:
         element = _snip(
             "<SHORT-NAME>ib</SHORT-NAME>"
             "<EXCLUSIVE-AREA-POLICYS>"
-            "<SWC-EXCLUSIVE-AREA-POLICY>"
+            '<SWC-EXCLUSIVE-AREA-POLICY S="1234" T="2024-01-01T00:00:00Z">'
             "<API-PRINCIPLE>PER-EXECUTABLE</API-PRINCIPLE>"
             '<EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/ea1</EXCLUSIVE-AREA-REF>'
             "</SWC-EXCLUSIVE-AREA-POLICY>"
@@ -1735,6 +1735,8 @@ class TestBswBehaviorOrchestratorHandlers:
         assert len(policies) == 1
         assert policies[0].getApiPrinciple().getValue() == "PER-EXECUTABLE"
         assert policies[0].getExclusiveAreaRef().getValue() == "/ea1"
+        assert policies[0].getChecksum().getValue() == "1234"
+        assert policies[0].getTimestamp().getValue() == "2024-01-01T00:00:00Z"
 
     def test_readSwcInternalBehavior_with_optional_literals(self, warning_parser):
         from armodel.models import ApplicationSwComponentType

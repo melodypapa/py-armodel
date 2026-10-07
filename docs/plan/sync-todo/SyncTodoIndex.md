@@ -1510,166 +1510,166 @@ Status: **0/75** completed
 
 ## Group29
 
-Status: **0/74** completed
+Status: **20/74** completed
 
-| Class Name                                     | Status          | Commit ID  |
-| ---------------------------------------------- | --------------- | ---------- |
-| `SwcExclusiveAreaPolicy`                       | [ ] Implemented | N/A        |
-| `RteApiReturnValueProvisionEnum`               | [ ] Implemented | N/A        |
-| `ExternalTriggeringPoint`                      | [ ] Implemented | N/A        |
-| `IncludedDataTypeSet`                          | [ ] Implemented | N/A        |
-| `SwcServiceDependency`                         | [ ] Implemented | N/A        |
-| `SymbolicNameProps`                            | [ ] Implemented | N/A        |
-| `VariationPointProxy`                          | [ ] Implemented | N/A        |
-| `SwcModeManagerErrorEvent`                     | [ ] Created     | N/A        |
-| `SensorActuatorSwComponentType`                | [ ] Implemented | N/A        |
-| `EcuAbstractionSwComponentType`                | [ ] Implemented | N/A        |
-| `ComplexDeviceDriverSwComponentType`           | [ ] Implemented | N/A        |
-| `ServiceSwComponentType`                       | [ ] Implemented | N/A        |
-| `NvBlockSwComponentType`                       | [ ] Implemented | N/A        |
-| `SwComponentDocumentation`                     | [ ] Implemented | N/A        |
-| `AdditionalBindingTimeEnum`                    | [ ] Created     | N/A        |
-| `FunctionInhibitionAvailabilityNeeds`          | [ ] Implemented | N/A        |
-| `DiagnosticOperationCycleNeeds`                | [ ] Implemented | N/A        |
-| `OperationCycleTypeEnum`                       | [ ] Implemented | N/A        |
-| `DiagnosticEnableConditionNeeds`               | [ ] Implemented | N/A        |
-| `EventAcceptanceStatusEnum`                    | [ ] Implemented | N/A        |
-| `DiagnosticStorageConditionNeeds`              | [ ] Implemented | N/A        |
-| `StorageConditionStatusEnum`                   | [ ] Implemented | N/A        |
-| `IndicatorStatusNeeds`                         | [ ] Implemented | N/A        |
-| `DiagnosticIndicatorTypeEnum`                  | [ ] Implemented | N/A        |
-| `ObdRatioServiceNeeds`                         | [ ] Pending*    | 86d72d7d2c |
-| `ObdControlServiceNeeds`                       | [ ] Implemented | N/A        |
-| `ObdRatioConnectionKindEnum`                   | [ ] Implemented | N/A        |
-| `ObdPidServiceNeeds`                           | [ ] Implemented | N/A        |
-| `ObdInfoServiceNeeds`                          | [ ] Implemented | N/A        |
-| `ObdMonitorServiceNeeds`                       | [ ] Implemented | N/A        |
-| `DiagnosticMonitorUpdateKindEnum`              | [ ] Implemented | N/A        |
-| `ObdRatioDenominatorNeeds`                     | [ ] Pending*    | c4b99a4cf3 |
-| `DiagnosticDenominatorConditionEnum`           | [ ] Implemented | N/A        |
-| `DiagnosticTestResult`                         | [ ] Created     | N/A        |
-| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending*    | ee01eb9e60 |
-| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending*    | ca6b7d152b |
-| `SecureOnBoardCommunicationNeeds`              | [ ] Pending*    | 294106f57d |
-| `VerificationStatusIndicationModeEnum`         | [ ] Implemented | N/A        |
-| `IdsMgrNeeds`                                  | [ ] Implemented | N/A        |
-| `RapidPrototypingScenario`                     | [ ] Created     | N/A        |
-| `RptContainer`                                 | [ ] Created     | N/A        |
-| `RptHook`                                      | [ ] Created     | N/A        |
-| `RptProfile`                                   | [ ] Created     | N/A        |
-| `CommunicationConnector`                       | [ ] Pending*    | 7b29ffc2ba |
-| `PhysicalChannel`                              | [ ] Pending*    | 13ae27c195 |
-| `AbstractCanCluster`                           | [ ] Pending*    | b9599507f4 |
-| `CanCluster`                                   | [ ] Pending*    | ec69750f14 |
-| `CanCommunicationController`                   | [ ] Pending*    | 250fded7cd |
-| `AbstractCanCommunicationController`           | [ ] Pending*    | b115cca55e |
-| `AbstractCanCommunicationControllerAttributes` | [ ] Pending*    | a7b009e6e7 |
-| `CanControllerFdConfiguration`                 | [ ] Pending*    | 3cd3adcdc4 |
-| `CanControllerXlConfiguration`                 | [ ] Pending*    | 55877d3a96 |
-| `CanControllerXlConfigurationRequirements`     | [ ] Pending*    | 4e35a9d3b4 |
-| `AbstractCanPhysicalChannel`                   | [ ] Pending*    | d5b7c507aa |
-| `CanPhysicalChannel`                           | [ ] Pending*    | 10e6b6aab3 |
-| `AbstractCanCommunicationConnector`            | [ ] Pending*    | b6aaf97f5d |
-| `TtcanCluster`                                 | [ ] Pending*    | 4c24b5ae37 |
-| `TtcanCommunicationController`                 | [ ] Pending*    | 20da1fc7f6 |
-| `TtcanPhysicalChannel`                         | [ ] Pending*    | d6edfeef67 |
-| `TtcanCommunicationConnector`                  | [ ] Pending*    | 20db1869a0 |
-| `FlexrayCluster`                               | [ ] Pending*    | 00edf04e32 |
-| `FlexrayFifoConfiguration`                     | [ ] Pending*    | d4975bcfb7 |
-| `FlexrayFifoRange`                             | [ ] Pending*    | a2965515fb |
-| `LinCluster`                                   | [ ] Pending*    | d8a563e1f0 |
-| `LinCommunicationController`                   | [ ] Pending*    | f19185283e |
-| `LinMaster`                                    | [ ] Pending*    | 35db48e9b0 |
-| `LinSlaveConfig`                               | [ ] Pending*    | 81ac1ac2a0 |
-| `LinSlaveConfigIdent`                          | [ ] Pending*    | 5e4ae9f277 |
-| `LinSlave`                                     | [ ] Pending*    | c8f1e00c47 |
-| `LinErrorResponse`                             | [ ] Pending*    | 6439b6cbd5 |
-| `LinConfigurableFrame`                         | [ ] Pending*    | eb075693c2 |
-| `LinOrderedConfigurableFrame`                  | [ ] Pending*    | 15a63a22ae |
-| `LinPhysicalChannel`                           | [ ] Pending*    | a60d5418a2 |
-| `EthernetCluster`                              | [ ] Pending*    | 4b9d113878 |
+| Class Name                                     | Status       | Commit ID  |
+| ---------------------------------------------- | ------------ | ---------- |
+| `SwcExclusiveAreaPolicy`                       | [x] Done     | N/A        |
+| `RteApiReturnValueProvisionEnum`               | [x] Done     | N/A        |
+| `ExternalTriggeringPoint`                      | [ ] Pending* | 49038a9617 |
+| `IncludedDataTypeSet`                          | [ ] Pending* | 7ddafb5f11 |
+| `SwcServiceDependency`                         | [ ] Pending* | 38630f7a82 |
+| `SymbolicNameProps`                            | [x] Done     | N/A        |
+| `VariationPointProxy`                          | [ ] Pending* | 128ce8e538 |
+| `SwcModeManagerErrorEvent`                     | [ ] Pending* | 545278ad92 |
+| `SensorActuatorSwComponentType`                | [ ] Pending* | 5395714191 |
+| `EcuAbstractionSwComponentType`                | [ ] Pending* | 7d89ea80c0 |
+| `ComplexDeviceDriverSwComponentType`           | [ ] Pending* | fa1d819e9d |
+| `ServiceSwComponentType`                       | [ ] Pending* | f5ecdcb0a4 |
+| `NvBlockSwComponentType`                       | [ ] Pending* | d70be3bb2d |
+| `SwComponentDocumentation`                     | [ ] Pending* | 35074e8030 |
+| `AdditionalBindingTimeEnum`                    | [ ] Pending* | b72807df62 |
+| `FunctionInhibitionAvailabilityNeeds`          | [x] Done     | N/A        |
+| `DiagnosticOperationCycleNeeds`                | [x] Done     | N/A        |
+| `OperationCycleTypeEnum`                       | [x] Done     | N/A        |
+| `DiagnosticEnableConditionNeeds`               | [x] Done     | N/A        |
+| `EventAcceptanceStatusEnum`                    | [x] Done     | N/A        |
+| `DiagnosticStorageConditionNeeds`              | [x] Done     | N/A        |
+| `StorageConditionStatusEnum`                   | [x] Done     | N/A        |
+| `IndicatorStatusNeeds`                         | [x] Done     | N/A        |
+| `DiagnosticIndicatorTypeEnum`                  | [x] Done     | N/A        |
+| `ObdRatioServiceNeeds`                         | [ ] Pending* | 86d72d7d2c |
+| `ObdControlServiceNeeds`                       | [x] Done     | N/A        |
+| `ObdRatioConnectionKindEnum`                   | [x] Done     | N/A        |
+| `ObdPidServiceNeeds`                           | [x] Done     | N/A        |
+| `ObdInfoServiceNeeds`                          | [x] Done     | N/A        |
+| `ObdMonitorServiceNeeds`                       | [x] Done     | N/A        |
+| `DiagnosticMonitorUpdateKindEnum`              | [x] Done     | N/A        |
+| `ObdRatioDenominatorNeeds`                     | [ ] Pending* | c4b99a4cf3 |
+| `DiagnosticDenominatorConditionEnum`           | [x] Done     | N/A        |
+| `DiagnosticTestResult`                         | [ ] Pending* | 30d1bea627 |
+| `DoIpRoutingActivationAuthenticationNeeds`     | [ ] Pending* | ee01eb9e60 |
+| `DoIpRoutingActivationConfirmationNeeds`       | [ ] Pending* | ca6b7d152b |
+| `SecureOnBoardCommunicationNeeds`              | [ ] Pending* | 294106f57d |
+| `VerificationStatusIndicationModeEnum`         | [x] Done     | N/A        |
+| `IdsMgrNeeds`                                  | [ ] Pending* | 4c1801ebf6 |
+| `RapidPrototypingScenario`                     | [ ] Pending* | dcf4255cac |
+| `RptContainer`                                 | [ ] Pending* | 8c7d753249 |
+| `RptHook`                                      | [ ] Pending* | 81bd63ac93 |
+| `RptProfile`                                   | [ ] Pending* | 917a9b7dfa |
+| `CommunicationConnector`                       | [ ] Pending* | 7b29ffc2ba |
+| `PhysicalChannel`                              | [ ] Pending* | 13ae27c195 |
+| `AbstractCanCluster`                           | [ ] Pending* | b9599507f4 |
+| `CanCluster`                                   | [ ] Pending* | ec69750f14 |
+| `CanCommunicationController`                   | [ ] Pending* | 250fded7cd |
+| `AbstractCanCommunicationController`           | [ ] Pending* | b115cca55e |
+| `AbstractCanCommunicationControllerAttributes` | [ ] Pending* | a7b009e6e7 |
+| `CanControllerFdConfiguration`                 | [ ] Pending* | 3cd3adcdc4 |
+| `CanControllerXlConfiguration`                 | [ ] Pending* | 55877d3a96 |
+| `CanControllerXlConfigurationRequirements`     | [ ] Pending* | 4e35a9d3b4 |
+| `AbstractCanPhysicalChannel`                   | [ ] Pending* | d5b7c507aa |
+| `CanPhysicalChannel`                           | [ ] Pending* | 10e6b6aab3 |
+| `AbstractCanCommunicationConnector`            | [ ] Pending* | b6aaf97f5d |
+| `TtcanCluster`                                 | [ ] Pending* | 4c24b5ae37 |
+| `TtcanCommunicationController`                 | [ ] Pending* | 20da1fc7f6 |
+| `TtcanPhysicalChannel`                         | [ ] Pending* | d6edfeef67 |
+| `TtcanCommunicationConnector`                  | [ ] Pending* | 20db1869a0 |
+| `FlexrayCluster`                               | [ ] Pending* | 00edf04e32 |
+| `FlexrayFifoConfiguration`                     | [ ] Pending* | d4975bcfb7 |
+| `FlexrayFifoRange`                             | [ ] Pending* | a2965515fb |
+| `LinCluster`                                   | [ ] Pending* | d8a563e1f0 |
+| `LinCommunicationController`                   | [ ] Pending* | f19185283e |
+| `LinMaster`                                    | [ ] Pending* | 35db48e9b0 |
+| `LinSlaveConfig`                               | [ ] Pending* | 81ac1ac2a0 |
+| `LinSlaveConfigIdent`                          | [ ] Pending* | 5e4ae9f277 |
+| `LinSlave`                                     | [ ] Pending* | c8f1e00c47 |
+| `LinErrorResponse`                             | [ ] Pending* | 6439b6cbd5 |
+| `LinConfigurableFrame`                         | [ ] Pending* | eb075693c2 |
+| `LinOrderedConfigurableFrame`                  | [ ] Pending* | 15a63a22ae |
+| `LinPhysicalChannel`                           | [ ] Pending* | a60d5418a2 |
+| `EthernetCluster`                              | [ ] Pending* | 4b9d113878 |
 
 ## Group30
 
 Status: **0/75** completed
 
-| Class Name                                       | Status          | Commit ID |
-| ------------------------------------------------ | --------------- | --------- |
-| `CouplingElement`                                | [ ] Created     | N/A       |
-| `CouplingElementEnum`                            | [ ] Created     | N/A       |
-| `CouplingPort`                                   | [ ] Implemented | N/A       |
-| `EthernetConnectionNegotiationEnum`              | [ ] Implemented | N/A       |
-| `EthernetMacLayerTypeEnum`                       | [ ] Implemented | N/A       |
-| `EthernetPhysicalLayerTypeEnum`                  | [ ] Implemented | N/A       |
-| `EthernetSwitchVlanIngressTagEnum`               | [ ] Implemented | N/A       |
-| `CouplingPortConnection`                         | [ ] Implemented | N/A       |
-| `EthernetCommunicationController`                | [ ] Implemented | N/A       |
-| `EthernetCommunicationConnector`                 | [ ] Implemented | N/A       |
-| `CouplingPortDetails`                            | [ ] Implemented | N/A       |
-| `EthernetCouplingPortSchedulerEnum`              | [ ] Implemented | N/A       |
-| `CouplingPortShaper`                             | [ ] Created     | N/A       |
-| `CouplingPortFifo`                               | [ ] Implemented | N/A       |
-| `CouplingPortRatePolicy`                         | [ ] Implemented | N/A       |
-| `CouplingPortRatePolicyActionEnum`               | [ ] Implemented | N/A       |
-| `CouplingPortTrafficClassAssignment`             | [ ] Implemented | N/A       |
-| `EthernetSwitchVlanEgressTaggingEnum`            | [ ] Implemented | N/A       |
-| `DhcpServerConfiguration`                        | [ ] Implemented | N/A       |
-| `Ipv4DhcpServerConfiguration`                    | [ ] Implemented | N/A       |
-| `Ipv6DhcpServerConfiguration`                    | [ ] Implemented | N/A       |
-| `CouplingElementAbstractDetails`                 | [ ] Created     | N/A       |
-| `CouplingElementSwitchDetails`                   | [ ] Created     | N/A       |
-| `SwitchStreamIdentification`                     | [ ] Created     | N/A       |
-| `SwitchStreamFilterRule`                         | [ ] Created     | N/A       |
-| `StreamFilterRuleDataLinkLayer`                  | [ ] Created     | N/A       |
-| `StreamFilterMACAddress`                         | [ ] Created     | N/A       |
-| `StreamFilterRuleIpTp`                           | [ ] Created     | N/A       |
-| `StreamFilterIpv4Address`                        | [ ] Created     | N/A       |
-| `StreamFilterIpv6Address`                        | [ ] Created     | N/A       |
-| `StreamFilterPortRange`                          | [ ] Created     | N/A       |
-| `StreamFilterIEEE1722Tp`                         | [ ] Created     | N/A       |
-| `SwitchStreamFilterActionDestPortModification`   | [ ] Created     | N/A       |
-| `SwitchStreamFilterActionPortModificationEnum`   | [ ] Created     | N/A       |
-| `SwitchStreamFilterEntry`                        | [ ] Created     | N/A       |
-| `SwitchAsynchronousTrafficShaperGroupEntry`      | [ ] Created     | N/A       |
-| `SwitchStreamGateEntry`                          | [ ] Created     | N/A       |
-| `SwitchFlowMeteringEntry`                        | [ ] Created     | N/A       |
-| `FlowMeteringColorModeEnum`                      | [ ] Created     | N/A       |
-| `EthIpProps`                                     | [ ] Created     | N/A       |
-| `Ipv4Props`                                      | [ ] Created     | N/A       |
-| `Ipv4ArpProps`                                   | [ ] Created     | N/A       |
-| `Ipv4AutoIpProps`                                | [ ] Created     | N/A       |
-| `Ipv4FragmentationProps`                         | [ ] Created     | N/A       |
-| `Ipv6Props`                                      | [ ] Created     | N/A       |
-| `Ipv6FragmentationProps`                         | [ ] Created     | N/A       |
-| `Dhcpv6Props`                                    | [ ] Created     | N/A       |
-| `Ipv6NdpProps`                                   | [ ] Created     | N/A       |
-| `EthernetWakeupSleepOnDatalineConfig`            | [ ] Created     | N/A       |
-| `EthernetWakeupSleepOnDatalineConfigSet`         | [ ] Created     | N/A       |
-| `PlcaProps`                                      | [ ] Implemented | N/A       |
-| `MacSecProps`                                    | [ ] Implemented | N/A       |
-| `MacSecLocalKayProps`                            | [ ] Implemented | N/A       |
-| `MacSecGlobalKayProps`                           | [ ] Implemented | N/A       |
-| `MacSecParticipantSet`                           | [ ] Created     | N/A       |
-| `MacSecKayParticipant`                           | [ ] Implemented | N/A       |
-| `MacSecCryptoAlgoConfig`                         | [ ] Implemented | N/A       |
-| `MacSecCipherSuiteConfig`                        | [ ] Implemented | N/A       |
-| `MacSecConfidentialityOffsetEnum`                | [ ] Implemented | N/A       |
-| `MacSecCapabilityEnum`                           | [ ] Implemented | N/A       |
-| `MacSecRoleEnum`                                 | [ ] Implemented | N/A       |
-| `MacSecFailPermissiveModeEnum`                   | [ ] Implemented | N/A       |
-| `UserDefinedCluster`                             | [ ] Created     | N/A       |
-| `UserDefinedPhysicalChannel`                     | [ ] Created     | N/A       |
-| `UserDefinedCommunicationConnector`              | [ ] Created     | N/A       |
-| `UserDefinedCommunicationController`             | [ ] Created     | N/A       |
-| `SystemMapping`                                  | [ ] Implemented | N/A       |
-| `SwcToApplicationPartitionMapping`               | [ ] Created     | N/A       |
-| `ApplicationPartition`                           | [ ] Created     | N/A       |
-| `MappingConstraint`                              | [ ] Created     | N/A       |
-| `ComponentClustering`                            | [ ] Created     | N/A       |
-| `MappingScopeEnum`                               | [ ] Created     | N/A       |
-| `ComponentSeparation`                            | [ ] Created     | N/A       |
-| `J1939ControllerApplicationToJ1939NmNodeMapping` | [ ] Created     | N/A       |
-| `J1939ControllerApplication`                     | [ ] Created     | N/A       |
+| Class Name                                       | Status          | Commit ID  |
+| ------------------------------------------------ | --------------- | ---------- |
+| `CouplingElement`                                | [ ] Pending*    | dccd25955a |
+| `CouplingElementEnum`                            | [ ] Pending*    | cc75a503b1 |
+| `CouplingPort`                                   | [ ] Pending*    | 51836c9a37 |
+| `EthernetConnectionNegotiationEnum`              | [ ] Pending*    | bc3d3386a2 |
+| `EthernetMacLayerTypeEnum`                       | [ ] Pending*    | d526c8ebcf |
+| `EthernetPhysicalLayerTypeEnum`                  | [ ] Pending*    | 5eba7c6ad9 |
+| `EthernetSwitchVlanIngressTagEnum`               | [ ] Pending*    | 0d682b9798 |
+| `CouplingPortConnection`                         | [ ] Pending*    | 7543596588 |
+| `EthernetCommunicationController`                | [ ] Pending*    | 01e4db429e |
+| `EthernetCommunicationConnector`                 | [ ] Pending*    | d22193a7d7 |
+| `CouplingPortDetails`                            | [ ] Pending*    | 7a56601b37 |
+| `EthernetCouplingPortSchedulerEnum`              | [ ] Pending*    | 909eb0ddcc |
+| `CouplingPortShaper`                             | [ ] Pending*    | 5d3549490d |
+| `CouplingPortFifo`                               | [ ] Pending*    | 365e7aec38 |
+| `CouplingPortRatePolicy`                         | [ ] Pending*    | 9fafd3ebc2 |
+| `CouplingPortRatePolicyActionEnum`               | [ ] Pending*    | 3f2c27ef2d |
+| `CouplingPortTrafficClassAssignment`             | [ ] Pending*    | aacc9860e9 |
+| `EthernetSwitchVlanEgressTaggingEnum`            | [ ] Pending*    | 41795ad4b3 |
+| `DhcpServerConfiguration`                        | [ ] Pending*    | 64d337c40c |
+| `Ipv4DhcpServerConfiguration`                    | [ ] Pending*    | 920dc732db |
+| `Ipv6DhcpServerConfiguration`                    | [ ] Pending*    | 49ad95dd43 |
+| `CouplingElementAbstractDetails`                 | [ ] Pending*    | 9c78940aa9 |
+| `CouplingElementSwitchDetails`                   | [ ] Pending*    | d20dc66668 |
+| `SwitchStreamIdentification`                     | [ ] Pending*    | aa06ec8a24 |
+| `SwitchStreamFilterRule`                         | [ ] Pending*    | 4f467314cf |
+| `StreamFilterRuleDataLinkLayer`                  | [ ] Pending*    | 65ab0bd89a |
+| `StreamFilterMACAddress`                         | [ ] Pending*    | c74b8e553a |
+| `StreamFilterRuleIpTp`                           | [ ] Pending*    | 8989307d08 |
+| `StreamFilterIpv4Address`                        | [ ] Pending*    | da459aa3b7 |
+| `StreamFilterIpv6Address`                        | [ ] Pending*    | ac34699c4a |
+| `StreamFilterPortRange`                          | [ ] Pending*    | c97f9dd4ee |
+| `StreamFilterIEEE1722Tp`                         | [ ] Pending*    | cc74587e4b |
+| `SwitchStreamFilterActionDestPortModification`   | [ ] Pending*    | cbe98badf5 |
+| `SwitchStreamFilterActionPortModificationEnum`   | [ ] Pending*    | 8ca63a75f0 |
+| `SwitchStreamFilterEntry`                        | [ ] Pending*    | 8bc4f911fe |
+| `SwitchAsynchronousTrafficShaperGroupEntry`      | [ ] Pending*    | dc9e5d6ce4 |
+| `SwitchStreamGateEntry`                          | [ ] Pending*    | ac22e340e2 |
+| `SwitchFlowMeteringEntry`                        | [ ] Pending*    | 29385d65d2 |
+| `FlowMeteringColorModeEnum`                      | [ ] Pending*    | c140322c44 |
+| `EthIpProps`                                     | [ ] Pending*    | 324da359ae |
+| `Ipv4Props`                                      | [ ] Pending*    | 614927b0c4 |
+| `Ipv4ArpProps`                                   | [ ] Pending*    | fbb86c3fcf |
+| `Ipv4AutoIpProps`                                | [ ] Pending*    | 926b146bca |
+| `Ipv4FragmentationProps`                         | [ ] Pending*    | e16eb379e5 |
+| `Ipv6Props`                                      | [ ] Pending*    | 05891c9038 |
+| `Ipv6FragmentationProps`                         | [ ] Pending*    | 772f5b9b2b |
+| `Dhcpv6Props`                                    | [ ] Pending*    | 58cbdb9815 |
+| `Ipv6NdpProps`                                   | [ ] Pending*    | f3c622bd64 |
+| `EthernetWakeupSleepOnDatalineConfig`            | [ ] Pending*    | e795dd3dc6 |
+| `EthernetWakeupSleepOnDatalineConfigSet`         | [ ] Created     | N/A        |
+| `PlcaProps`                                      | [ ] Implemented | N/A        |
+| `MacSecProps`                                    | [ ] Implemented | N/A        |
+| `MacSecLocalKayProps`                            | [ ] Implemented | N/A        |
+| `MacSecGlobalKayProps`                           | [ ] Implemented | N/A        |
+| `MacSecParticipantSet`                           | [ ] Created     | N/A        |
+| `MacSecKayParticipant`                           | [ ] Implemented | N/A        |
+| `MacSecCryptoAlgoConfig`                         | [ ] Implemented | N/A        |
+| `MacSecCipherSuiteConfig`                        | [ ] Implemented | N/A        |
+| `MacSecConfidentialityOffsetEnum`                | [ ] Implemented | N/A        |
+| `MacSecCapabilityEnum`                           | [ ] Implemented | N/A        |
+| `MacSecRoleEnum`                                 | [ ] Implemented | N/A        |
+| `MacSecFailPermissiveModeEnum`                   | [ ] Implemented | N/A        |
+| `UserDefinedCluster`                             | [ ] Created     | N/A        |
+| `UserDefinedPhysicalChannel`                     | [ ] Created     | N/A        |
+| `UserDefinedCommunicationConnector`              | [ ] Created     | N/A        |
+| `UserDefinedCommunicationController`             | [ ] Created     | N/A        |
+| `SystemMapping`                                  | [ ] Implemented | N/A        |
+| `SwcToApplicationPartitionMapping`               | [ ] Created     | N/A        |
+| `ApplicationPartition`                           | [ ] Created     | N/A        |
+| `MappingConstraint`                              | [ ] Created     | N/A        |
+| `ComponentClustering`                            | [ ] Created     | N/A        |
+| `MappingScopeEnum`                               | [ ] Created     | N/A        |
+| `ComponentSeparation`                            | [ ] Created     | N/A        |
+| `J1939ControllerApplicationToJ1939NmNodeMapping` | [ ] Created     | N/A        |
+| `J1939ControllerApplication`                     | [ ] Created     | N/A        |
 
 ## Group31
 
@@ -1677,30 +1677,30 @@ Status: **0/75** completed
 
 | Class Name                                               | Status          | Commit ID |
 | -------------------------------------------------------- | --------------- | --------- |
-| `RteEventInCompositionToOsTaskProxyMapping`              | [ ] Created     | N/A       |
-| `RteEventInCompositionSeparation`                        | [ ] Created     | N/A       |
-| `RteEventInSystemToOsTaskProxyMapping`                   | [ ] Created     | N/A       |
-| `RteEventInSystemSeparation`                             | [ ] Created     | N/A       |
-| `SenderRecArrayElementMapping`                           | [ ] Implemented | N/A       |
-| `ClientServerToSignalMapping`                            | [ ] Created     | N/A       |
-| `SenderReceiverCompositeElementToSignalMapping`          | [ ] Created     | N/A       |
-| `TriggerToSignalMapping`                                 | [ ] Created     | N/A       |
-| `CommonSignalPath`                                       | [ ] Created     | N/A       |
-| `SwcToSwcSignal`                                         | [ ] Created     | N/A       |
-| `SwcToSwcOperationArguments`                             | [ ] Created     | N/A       |
-| `SwcToSwcOperationArgumentsDirectionEnum`                | [ ] Created     | N/A       |
-| `ForbiddenSignalPath`                                    | [ ] Created     | N/A       |
-| `PermissibleSignalPath`                                  | [ ] Created     | N/A       |
-| `SeparateSignalPath`                                     | [ ] Created     | N/A       |
-| `EcuResourceEstimation`                                  | [ ] Created     | N/A       |
-| `PncMapping`                                             | [ ] Created     | N/A       |
-| `CpSoftwareClusterToEcuInstanceMapping`                  | [ ] Created     | N/A       |
-| `CpSoftwareClusterResourceToApplicationPartitionMapping` | [ ] Created     | N/A       |
-| `CpSoftwareClusterMappingSet`                            | [ ] Created     | N/A       |
-| `CpSoftwareClusterToApplicationPartitionMapping`         | [ ] Created     | N/A       |
-| `SystemSignalToCommunicationResourceMapping`             | [ ] Created     | N/A       |
-| `SystemSignalGroupToCommunicationResourceMapping`        | [ ] Created     | N/A       |
-| `DdsCpISignalToDdsTopicMapping`                          | [ ] Created     | N/A       |
+| `RteEventInCompositionToOsTaskProxyMapping`              | [ ] Pending*    | N/A       |
+| `RteEventInCompositionSeparation`                        | [ ] Pending*    | N/A       |
+| `RteEventInSystemToOsTaskProxyMapping`                   | [ ] Pending*    | N/A       |
+| `RteEventInSystemSeparation`                             | [ ] Pending*    | N/A       |
+| `SenderRecArrayElementMapping`                           | [ ] Pending*    | N/A       |
+| `ClientServerToSignalMapping`                            | [ ] Pending*    | N/A       |
+| `SenderReceiverCompositeElementToSignalMapping`          | [ ] Pending*    | N/A       |
+| `TriggerToSignalMapping`                                 | [ ] Pending*    | N/A       |
+| `CommonSignalPath`                                       | [ ] Pending*    | N/A       |
+| `SwcToSwcSignal`                                         | [ ] Pending*    | N/A       |
+| `SwcToSwcOperationArguments`                             | [ ] Pending*    | N/A       |
+| `SwcToSwcOperationArgumentsDirectionEnum`                | [ ] Pending*    | N/A       |
+| `ForbiddenSignalPath`                                    | [ ] Pending*    | N/A       |
+| `PermissibleSignalPath`                                  | [ ] Pending*    | N/A       |
+| `SeparateSignalPath`                                     | [ ] Pending*    | N/A       |
+| `EcuResourceEstimation`                                  | [ ] Pending*    | N/A       |
+| `PncMapping`                                             | [ ] Pending*    | N/A       |
+| `CpSoftwareClusterToEcuInstanceMapping`                  | [ ] Pending*    | N/A       |
+| `CpSoftwareClusterResourceToApplicationPartitionMapping` | [ ] Pending*    | N/A       |
+| `CpSoftwareClusterMappingSet`                            | [ ] Pending*    | N/A       |
+| `CpSoftwareClusterToApplicationPartitionMapping`         | [ ] Pending*    | N/A       |
+| `SystemSignalToCommunicationResourceMapping`             | [ ] Pending*    | N/A       |
+| `SystemSignalGroupToCommunicationResourceMapping`        | [ ] Pending*    | N/A       |
+| `DdsCpISignalToDdsTopicMapping`                          | [ ] Pending*    | N/A       |
 | `CommConnectorPort`                                      | [ ] Implemented | N/A       |
 | `IPduPort`                                               | [ ] Implemented | N/A       |
 | `IPduSignalProcessingEnum`                               | [ ] Implemented | N/A       |
@@ -1723,10 +1723,10 @@ Status: **0/75** completed
 | `PduToFrameMapping`                                      | [ ] Implemented | N/A       |
 | `IPduTiming`                                             | [ ] Implemented | N/A       |
 | `PduTriggering`                                          | [ ] Implemented | N/A       |
-| `ContainerIPdu`                                          | [ ] Created     | N/A       |
-| `ContainerIPduTriggerEnum`                               | [ ] Created     | N/A       |
-| `ContainerIPduHeaderTypeEnum`                            | [ ] Created     | N/A       |
-| `RxAcceptContainedIPduEnum`                              | [ ] Created     | N/A       |
+| `ContainerIPdu`                                          | [ ] Pending*    | N/A       |
+| `ContainerIPduTriggerEnum`                               | [ ] Pending*    | N/A       |
+| `ContainerIPduHeaderTypeEnum`                            | [ ] Pending*    | N/A       |
+| `RxAcceptContainedIPduEnum`                              | [ ] Pending*    | N/A       |
 | `SecureCommunicationProps`                               | [ ] Implemented | N/A       |
 | `SecureCommunicationPropsSet`                            | [ ] Implemented | N/A       |
 | `SecureCommunicationFreshnessProps`                      | [ ] Implemented | N/A       |
@@ -1785,10 +1785,10 @@ Status: **0/75** completed
 | `TimeSyncTechnologyEnum`               | [ ] Implemented | N/A       |
 | `DoIpEntityRoleEnum`                   | [ ] Implemented | N/A       |
 | `DdsCpServiceInstance`                 | [ ] Created     | N/A       |
-| `DdsCpProvidedServiceInstance`         | [ ] Created     | N/A       |
+| `DdsCpProvidedServiceInstance`         | [ ] Pending*    | N/A       |
 | `DdsCpConsumedServiceInstance`         | [ ] Created     | N/A       |
-| `DdsCpServiceInstanceEvent`            | [ ] Created     | N/A       |
-| `DdsCpServiceInstanceOperation`        | [ ] Created     | N/A       |
+| `DdsCpServiceInstanceEvent`            | [ ] Pending*    | N/A       |
+| `DdsCpServiceInstanceOperation`        | [ ] Pending*    | N/A       |
 | `ServiceInstanceCollectionSet`         | [ ] Created     | N/A       |
 | `AbstractServiceInstance`              | [ ] Implemented | N/A       |
 | `ProvidedServiceInstance`              | [ ] Implemented | N/A       |
@@ -1804,29 +1804,29 @@ Status: **0/75** completed
 | `SomeipSdClientEventGroupTimingConfig` | [ ] Implemented | N/A       |
 | `DdsCpConfig`                          | [ ] Created     | N/A       |
 | `DdsCpDomain`                          | [ ] Created     | N/A       |
-| `DdsCpTopic`                           | [ ] Created     | N/A       |
+| `DdsCpTopic`                           | [ ] Pending*    | N/A       |
 | `DdsCpPartition`                       | [ ] Created     | N/A       |
-| `DdsCpQosProfile`                      | [ ] Created     | N/A       |
-| `DdsTopicData`                         | [ ] Created     | N/A       |
-| `DdsDurability`                        | [ ] Created     | N/A       |
-| `DdsDurabilityKindEnum`                | [ ] Created     | N/A       |
-| `DdsDurabilityService`                 | [ ] Created     | N/A       |
-| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Created     | N/A       |
-| `DdsDeadline`                          | [ ] Created     | N/A       |
-| `DdsLatencyBudget`                     | [ ] Created     | N/A       |
-| `DdsOwnership`                         | [ ] Created     | N/A       |
-| `DdsOwnershipKindEnum`                 | [ ] Created     | N/A       |
-| `DdsOwnershipStrength`                 | [ ] Created     | N/A       |
-| `DdsLiveliness`                        | [ ] Created     | N/A       |
-| `DdsLivenessKindEnum`                  | [ ] Created     | N/A       |
-| `DdsReliability`                       | [ ] Created     | N/A       |
-| `DdsReliabilityKindEnum`               | [ ] Created     | N/A       |
-| `DdsTransportPriority`                 | [ ] Created     | N/A       |
-| `DdsLifespan`                          | [ ] Created     | N/A       |
-| `DdsDestinationOrder`                  | [ ] Created     | N/A       |
-| `DdsDestinationOrderKindEnum`          | [ ] Created     | N/A       |
-| `DdsHistory`                           | [ ] Created     | N/A       |
-| `DdsHistoryKindEnum`                   | [ ] Created     | N/A       |
+| `DdsCpQosProfile`                      | [ ] Pending*    | N/A       |
+| `DdsTopicData`                         | [ ] Pending*    | N/A       |
+| `DdsDurability`                        | [ ] Pending*    | N/A       |
+| `DdsDurabilityKindEnum`                | [ ] Pending*    | N/A       |
+| `DdsDurabilityService`                 | [ ] Pending*    | N/A       |
+| `DdsDurabilityServiceHistoryKindEnum`  | [ ] Pending*    | N/A       |
+| `DdsDeadline`                          | [ ] Pending*    | N/A       |
+| `DdsLatencyBudget`                     | [ ] Pending*    | N/A       |
+| `DdsOwnership`                         | [ ] Pending*    | N/A       |
+| `DdsOwnershipKindEnum`                 | [ ] Pending*    | N/A       |
+| `DdsOwnershipStrength`                 | [ ] Pending*    | N/A       |
+| `DdsLiveliness`                        | [ ] Pending*    | N/A       |
+| `DdsLivenessKindEnum`                  | [ ] Pending*    | N/A       |
+| `DdsReliability`                       | [ ] Pending*    | N/A       |
+| `DdsReliabilityKindEnum`               | [ ] Pending*    | N/A       |
+| `DdsTransportPriority`                 | [ ] Pending*    | N/A       |
+| `DdsLifespan`                          | [ ] Pending*    | N/A       |
+| `DdsDestinationOrder`                  | [ ] Pending*    | N/A       |
+| `DdsDestinationOrderKindEnum`          | [ ] Pending*    | N/A       |
+| `DdsHistory`                           | [ ] Pending*    | N/A       |
+| `DdsHistoryKindEnum`                   | [ ] Pending*    | N/A       |
 | `DdsResourceLimits`                    | [ ] Created     | N/A       |
 | `StaticSocketConnection`               | [ ] Implemented | N/A       |
 | `IPSecRule`                            | [ ] Pending*    | N/A       |

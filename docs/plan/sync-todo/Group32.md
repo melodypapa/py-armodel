@@ -325,15 +325,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpProvidedServiceInstance` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.153, p.473
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the attribute rows render after the caption while the header (Class/Package/Note/Base)
+    renders before it (image/glyph interruption); rows verified line-by-line against XSD group
+    DDS-CP-PROVIDED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.28861). Note-cell rendering artefacts resolved
+    against the XSD appinfo (DdsDestinationOrderKindEnum precedent): the staticRemoteMulticastAddress cell's
+    tail is split mid-token ("xml.name" + "Plural=STATIC-REMOTE-MULTICAST-ADDRESSES" spilling into the next
+    row's cell) — the multicast Note tail is restored to
+    "xml.namePlural=STATIC-REMOTE-MULTICAST-ADDRESSES" and the same fragment removed from the front of the
+    staticRemoteUnicastAddress Note (XSD appinfo l.28917/l.28932 confirms both namePlural tags). Member
+    order = displayed row order; writer XML order = sequenceOffset (LOCAL-UNICAST-ADDRESSES, MINOR-VERSION,
+    PROVIDED-DDS-OPERATIONS, PROVIDED-DDS-SERVICE-INSTANCE-EVENTS, STATIC-REMOTE-MULTICAST-ADDRESSES,
+    STATIC-REMOTE-UNICAST-ADDRESSES). Base row names AbstractServiceInstance/DdsCpServiceInstance (both
+    unsynced — queued Table 6.158/6.152): kept ARObject as the most-derived reachable base; ref fields
+    RefType-typed so ApplicationEndpoint (stamped, Table 6.124) needs no import. Child aggregations
+    providedDdsOperation/providedDdsServiceInstanceEvent serialize fully — their classes synced earlier in
+    this batch (bc2e14d58/2feb0a347). Nested helper read/writeDdsCpProvidedServiceInstance added;
+    aggregator hook-in (ServiceInstanceCollectionSet.serviceInstance — queued Table 6.157) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpConsumedServiceInstance` — DdsCpServiceInstance — R23-11 CP_TPS_SystemTemplate Table 6.154, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -349,27 +365,44 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `DdsCpServiceInstanceEvent` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.155, p.475
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the three attribute rows render in the pre-caption header block (body after the caption
+    belongs to Table 6.156); row order ddsEvent/ddsEventQosProfile/ddsEventTopic is the displayed order and
+    is kept for Python members, while the writer follows the XSD sequenceOffset (DDS-EVENT-QOS-PROFILE-REF,
+    DDS-EVENT-REF, DDS-EVENT-TOPIC-REF, VARIATION-POINT last — Rule 0001.11 two-order rule). The ddsEvent
+    Note keeps the spec's own "PduTriggerung" spelling verbatim. VP-capable per XSD group
+    DDS-CP-SERVICE-INSTANCE-EVENT (AUTOSAR_00052.xsd l.29166 carries VARIATION-POINT) → inherits
+    VariationPointCapable (Rule 0020). Base most-derived = ARObject (confirmed). Nested helper
+    read/writeDdsCpServiceInstanceEvent added; aggregator hook-ins (DdsCpConsumedServiceInstance.
+    consumedDdsServiceEvent — queued Table 6.154; DdsCpProvidedServiceInstance.
+    providedDdsServiceInstanceEvent — synced later in this batch) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpServiceInstanceOperation` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.156, p.476
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the two attribute rows straddle the table caption (ddsOperationRequestTriggering in the
+    pre-caption header block, ddsOperationResponseTriggering after the image/glyph interruption); both
+    verified against XSD group DDS-CP-SERVICE-INSTANCE-OPERATION (AUTOSAR_00052.xsd l.29237: request ref,
+    response ref, VARIATION-POINT last per xml.sequenceOffset=10000). VP-capable per XSD → inherits
+    VariationPointCapable (Rule 0020). Base most-derived = ARObject (confirmed; XSD complexType carries only
+    the AR-OBJECT group). Nested helper read/writeDdsCpServiceInstanceOperation added; aggregator hook-in
+    (DdsCpConsumedServiceInstance.consumedDdsOperation — queued Table 6.154) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ServiceInstanceCollectionSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 6.157, p.476
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py
@@ -551,17 +584,25 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DdsCpTopic` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DdsCpTopic` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.177, p.527
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2; Identifiable.py hosts the sibling DdsCp* Identifiable stubs DdsCpDomain/DdsCpPartition/DdsCpServiceInstance, and ArObject.py cannot import Identifiable at runtime — cycle via Identifiable.py l.8. Stub-batch test tuple rehoused, VariableAccessScopeEnum precedent 12e743cc9.)
+  - Note: Step 1 — the class Note row reads "Definition of a DDS Partition." — a spec-side copy artifact,
+    present verbatim in BOTH the markdown (l.13798) and the XSD complexType documentation (l.29326); copied
+    verbatim per Rule 0001.4. Attribute rows render after the caption (header block before it); row order
+    ddsPartition/topicName kept for members, XSD group DDS-CP-TOPIC order matches (AUTOSAR_00052.xsd
+    l.29295). ddsPartition ref target DdsCpPartition is still a stub (queued Table 6.178) — field is
+    RefType-typed, gap noted per Rule 0001.10. Base Identifiable → readIdentifiable/writeIdentifiable;
+    not VP-capable (no VARIATION-POINT in group). Nested helper read/writeDdsCpTopic added; aggregator
+    hook-in (DdsCpDomain.ddsTopic — queued Table 6.176) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsCpPartition` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.178, p.527
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
@@ -575,257 +616,314 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DdsCpQosProfile` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DdsCpQosProfile` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.179, p.529
+  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py (FIXED from ArObject.py — spec Base most-derived = Identifiable, Rule 0007/0001.2, same rehousing as DdsCpTopic 0babf1fb0; stub-batch test tuple rehoused.)
+  - Note: synced last in this subagent's batch (after DdsTopicData 614d80ce8 — dependency-first, Rule 0016.5)
+    so the topicData child gets real read/write coverage, not identity-only. 14 aggr children 0..1 in
+    displayed row order (= XSD sequenceOffset order, group DDS-CP-QOS-PROFILE AUTOSAR_00052.xsd l.28963);
+    all non-Identifiable (Base=ARObject) children → set/get shape (Rule 0001.6). Identity-only child
+    serialization debt (Rule 0001.7): deadline, destinationOrder, durability, durabilityService, history,
+    latencyBudget, lifespan, liveliness, ownership, ownershipStrength, reliability, resourceLimits,
+    transportPriority aggregate still-unsynced Dds* QoS policy classes (queued Table 6.181-6.200) — reader
+    constructs the child, writer emits the empty element; those children's own syncs replace the
+    placeholders. Not VP-capable (no VARIATION-POINT in group). Nested helper read/writeDdsCpQosProfile
+    added; aggregator hook-in (DdsCpConfig.ddsQosProfile — queued Table 6.175) still pending.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsTopicData` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.180, p.529
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: synced 5th in this subagent's batch (before its aggregator DdsCpQosProfile — dependency-first,
+    Rule 0016.5) so DdsCpQosProfile.topicData gets real child coverage, not identity-only. The object
+    element is <TOPIC-DATA> (per the DdsCpQosProfile.topicData aggregation, XSD
+    <element name="TOPIC-DATA" type="AR:DDS-TOPIC-DATA">) and carries the String member as a nested
+    same-name <TOPIC-DATA> child (XSD group DDS-TOPIC-DATA, AUTOSAR_00052.xsd l.30675). Base ARObject
+    confirmed; not VP-capable (no VARIATION-POINT in the group).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDurability` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.181, p.530
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDurabilityKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.182, p.530
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDurabilityService` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.183, p.531
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDurabilityServiceHistoryKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.184, p.531
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDeadline` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.185, p.532
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsLatencyBudget` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.186, p.532
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: this class's commit (82b8ea883) left a dead identity-only LATENCY-BUDGET placeholder in
+    readDdsCpQosProfile (the real readDdsLatencyBudget block was inserted after it without removing
+    the placeholder — the second setLatencyBudget call won, so round-trips were correct, but the
+    dead code violated Rule 0001.7). Removed in a follow-up fix commit.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsOwnership` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.187, p.532
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: this class's commit (de5994aa8) left a dead identity-only OWNERSHIP placeholder in
+    readDdsCpQosProfile (the real readDdsOwnership block was inserted after it without removing
+    the placeholder — the second setProfile.setOwnership call won, so round-trips were correct,
+    but the dead code violated Rule 0001.7). Fixed in the DdsLiveliness commit.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsOwnershipKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.188, p.533
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsOwnershipStrength` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.189, p.533
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsLiveliness` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.190, p.534
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsLivenessKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.191, p.534
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — markdown Table 6.191 body renders empty (caption only); the class Note and
+    literal descriptions were recovered verbatim from the XSD `DDS-LIVENESS-KIND-ENUM`
+    documentation/appinfo in `AUTOSAR_00052.xsd`, same shape as the sibling DDS QoS enum tables
+    (facets AUTOMATIC / MANUAL-BY-PARTICIPANT / MANUAL-BY-TOPIC; consumer
+    `DdsLiveliness.livenessKind`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsReliability` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.192, p.535
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the table header (Package/Note/Base rows) renders in a pre-caption block before the
+    "Table 6.192" caption (glyph interruption); body (Aggregated-by + Attribute rows) after it. The
+    reliabilityMaxBlockingTime cell renders as "reliabilityMax BlockingTime" (line-wrap artefact); XSD
+    mmt.qualifiedName confirms reliabilityMaxBlockingTime. Verified against XSD group DDS-RELIABILITY
+    (AUTOSAR_00052.xsd l.29986: RELIABILITY-KIND enum + RELIABILITY-MAX-BLOCKING-TIME FLOAT, AR-OBJECT
+    group, no VARIATION-POINT). Base ARObject confirmed. Reader/writer token map DDS_RELIABILITY_KIND_XML_MAP
+    added (facets BEST-EFFORT/RELIABLE per --SIMPLE); placeholder in read/writeDdsCpQosProfile replaced.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsReliabilityKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.193, p.535
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsTransportPriority` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.194, p.535
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — table complete (header before caption, no interruption); single attr
+    transportPriority (PositiveInteger 0..1). Verified against XSD group DDS-TRANSPORT-PRIORITY
+    (AUTOSAR_00052.xsd l.30704: TRANSPORT-PRIORITY POSITIVE-INTEGER, AR-OBJECT group, no
+    VARIATION-POINT). Base ARObject confirmed. No enum member → no XML token map needed; placeholder
+    in read/writeDdsCpQosProfile replaced.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsLifespan` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.195, p.536
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — table complete; single attr lifespanDuration (Float 0..1). Verified against XSD
+    group DDS-LIFESPAN (AUTOSAR_00052.xsd l.29768: LIFESPAN-DURATION FLOAT, AR-OBJECT group, no
+    VARIATION-POINT). Base ARObject confirmed. No enum member → no XML token map needed; placeholder
+    in read/writeDdsCpQosProfile replaced.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDestinationOrder` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.196, p.536
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the attribute cells render "destination OrderKind" / "DdsDestinationOrder KindEnum"
+    (line-wrap artefacts); XSD mmt.qualifiedName confirms destinationOrderKind / DdsDestinationOrderKindEnum
+    (the enum's own literal rendering artefact is already covered by the DdsDestinationOrderKindEnum row
+    note). Verified against XSD group DDS-DESTINATION-ORDER (AUTOSAR_00052.xsd l.29377:
+    DESTINATION-ORDER-KIND enum, AR-OBJECT group, no VARIATION-POINT). Base ARObject confirmed. Token
+    map DDS_DESTINATION_ORDER_KIND_XML_MAP added (facets BY-RECEPTION-TIMESTAMP/BY-SOURCE-TIMESTAMP);
+    placeholder in read/writeDdsCpQosProfile replaced.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsDestinationOrderKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.197, p.536
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — the markdown renders the literals as "byReception Timestamp" / "bySource
+    Timestamp" with an embedded space (a line-wrap rendering artefact); the XSD
+    `mmt.qualifiedName` confirms the real literals `byReceptionTimestamp` / `bySourceTimestamp`,
+    so the member names are `BY_RECEPTION_TIMESTAMP` / `BY_SOURCE_TIMESTAMP` with facet values
+    `BY-RECEPTION-TIMESTAMP` / `BY-SOURCE-TIMESTAMP` (Rule 0011).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsHistory` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.198, p.537
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsHistoryKindEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 6.199, p.537
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `DdsResourceLimits` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.200, p.538
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

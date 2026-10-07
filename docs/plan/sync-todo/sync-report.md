@@ -10,12 +10,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 
 | Status | Classes | Percent |
 | --- | --- | --- |
-| [x] Done | 854 | 44.9% |
+| [x] Done | 874 | 45.9% |
 | [x] Deferred | 3 | 0.2% |
 | [x] Retired | 0 | 0.0% |
-| [ ] Deferred | 492 | 25.9% |
-| [ ] Implemented | 234 | 12.3% |
-| [ ] Created | 320 | 16.8% |
+| [ ] Deferred | 612 | 32.2% |
+| [ ] Implemented | 184 | 9.7% |
+| [ ] Created | 230 | 12.1% |
 | [ ] Pending | 0 | 0.0% |
 
 | Class Name                                              | Status      | Commit ID                                | Groups           |
@@ -57,7 +57,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `AclPermission`                                         | [ ] Deferred| 29d7cfc19d                               | Group22          |
 | `AclRole`                                               | [ ] Deferred| 8d5c387889                               | Group22          |
 | `AclScopeEnum`                                          | [ ] Deferred| dfa53c4352                               | Group22          |
-| `AdditionalBindingTimeEnum`                             | [ ] Created | N/A                                      | Group29          |
+| `AdditionalBindingTimeEnum`                             | [ ] Deferred| b72807df62                               | Group29          |
 | `AgeConstraint`                                         | [ ] Implemented| N/A                                      | Group35          |
 | `AggregationCondition`                                  | [ ] Created | N/A                                      | Group36          |
 | `AggregationTailoring`                                  | [ ] Created | N/A                                      | Group36          |
@@ -286,7 +286,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ClientServerOperationBlueprintMapping`                 | [ ] Created | N/A                                      | Group36          |
 | `ClientServerOperationComProps`                         | [ ] Created | N/A                                      | Group34          |
 | `ClientServerOperationMapping`                          | [x] Done    | e301de1df9                               | Group11          |
-| `ClientServerToSignalMapping`                           | [ ] Created | N/A                                      | Group31          |
+| `ClientServerToSignalMapping`                           | [ ] Deferred| N/A                                      | Group31          |
 | `Code`                                                  | [x] Done    | 9f470606b5                               | Group1           |
 | `CollectableElement`                                    | [x] Done    | 3b31b7c402                               | Group1           |
 | `Collection`                                            | [x] Done    | 75f4005552                               | Group1           |
@@ -294,7 +294,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ComManagementMapping`                                  | [x] Done    | 19c327cca6                               | Group5           |
 | `ComMgrUserNeeds`                                       | [x] Done    | N/A                                      | Group23          |
 | `CommConnectorPort`                                     | [ ] Implemented| N/A                                      | Group31          |
-| `CommonSignalPath`                                      | [ ] Created | N/A                                      | Group31          |
+| `CommonSignalPath`                                      | [ ] Deferred| N/A                                      | Group31          |
 | `CommunicationBufferLocking`                            | [x] Done    | 7c67628122                               | Group2           |
 | `CommunicationCluster`                                  | [x] Done    | N/A                                      | Group24          |
 | `CommunicationConnector`                                | [ ] Deferred| 7b29ffc2ba                               | Group29          |
@@ -303,7 +303,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `CommunicationCycle`                                    | [x] Done    | 75683a2ede                               | Group5           |
 | `CommunicationDirectionType`                            | [x] Done    | 7aa197e046                               | Group15          |
 | `Compiler`                                              | [x] Done    | 3fce597322                               | Group1           |
-| `ComplexDeviceDriverSwComponentType`                    | [ ] Implemented| N/A                                      | Group29          |
+| `ComplexDeviceDriverSwComponentType`                    | [ ] Deferred| fa1d819e9d                               | Group29          |
 | `ComponentClustering`                                   | [ ] Created | N/A                                      | Group30          |
 | `ComponentInCompositionInstanceRef`                     | [x] Done    | 02e863a567                               | Group7           |
 | `ComponentInSystemInstanceRef`                          | [x] Done    | b511fb85b0                               | Group7           |
@@ -346,37 +346,37 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ConsumedServiceInstance`                               | [ ] Implemented| N/A                                      | Group32          |
 | `ContainedIPduCollectionSemanticsEnum`                  | [x] Done    | 64d125ffae                               | Group5           |
 | `ContainedIPduProps`                                    | [x] Done    | 206cf29517                               | Group5           |
-| `ContainerIPdu`                                         | [ ] Created | N/A                                      | Group31          |
-| `ContainerIPduHeaderTypeEnum`                           | [ ] Created | N/A                                      | Group31          |
-| `ContainerIPduTriggerEnum`                              | [ ] Created | N/A                                      | Group31          |
-| `CouplingElement`                                       | [ ] Created | N/A                                      | Group30          |
-| `CouplingElementAbstractDetails`                        | [ ] Created | N/A                                      | Group30          |
-| `CouplingElementEnum`                                   | [ ] Created | N/A                                      | Group30          |
-| `CouplingElementSwitchDetails`                          | [ ] Created | N/A                                      | Group30          |
-| `CouplingPort`                                          | [ ] Implemented| N/A                                      | Group30          |
+| `ContainerIPdu`                                         | [ ] Deferred| N/A                                      | Group31          |
+| `ContainerIPduHeaderTypeEnum`                           | [ ] Deferred| N/A                                      | Group31          |
+| `ContainerIPduTriggerEnum`                              | [ ] Deferred| N/A                                      | Group31          |
+| `CouplingElement`                                       | [ ] Deferred| dccd25955a                               | Group30          |
+| `CouplingElementAbstractDetails`                        | [ ] Deferred| 9c78940aa9                               | Group30          |
+| `CouplingElementEnum`                                   | [ ] Deferred| cc75a503b1                               | Group30          |
+| `CouplingElementSwitchDetails`                          | [ ] Deferred| d20dc66668                               | Group30          |
+| `CouplingPort`                                          | [ ] Deferred| 51836c9a37                               | Group30          |
 | `CouplingPortAbstractShaper`                            | [x] Done    | f02e111f65                               | Group16          |
 | `CouplingPortAsynchronousTrafficShaper`                 | [x] Done    | 929cee7081                               | Group16          |
-| `CouplingPortConnection`                                | [ ] Implemented| N/A                                      | Group30          |
+| `CouplingPortConnection`                                | [ ] Deferred| 7543596588                               | Group30          |
 | `CouplingPortCreditBasedShaper`                         | [x] Done    | 929cee7081                               | Group16          |
-| `CouplingPortDetails`                                   | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortFifo`                                      | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortRatePolicy`                                | [ ] Implemented| N/A                                      | Group30          |
-| `CouplingPortRatePolicyActionEnum`                      | [ ] Implemented| N/A                                      | Group30          |
+| `CouplingPortDetails`                                   | [ ] Deferred| 7a56601b37                               | Group30          |
+| `CouplingPortFifo`                                      | [ ] Deferred| 365e7aec38                               | Group30          |
+| `CouplingPortRatePolicy`                                | [ ] Deferred| 9fafd3ebc2                               | Group30          |
+| `CouplingPortRatePolicyActionEnum`                      | [ ] Deferred| 3f2c27ef2d                               | Group30          |
 | `CouplingPortScheduler`                                 | [x] Done    | 0f61040c0c                               | Group6           |
-| `CouplingPortShaper`                                    | [ ] Created | N/A                                      | Group30          |
+| `CouplingPortShaper`                                    | [ ] Deferred| 5d3549490d                               | Group30          |
 | `CouplingPortStructuralElement`                         | [x] Done    | 8404bbb94a                               | Group6           |
-| `CouplingPortTrafficClassAssignment`                    | [ ] Implemented| N/A                                      | Group30          |
+| `CouplingPortTrafficClassAssignment`                    | [ ] Deferred| aacc9860e9                               | Group30          |
 | `CpSoftwareCluster`                                     | [x] Done    | 1194e00ca2                               | Group5           |
 | `CpSoftwareClusterBinaryManifestDescriptor`             | [ ] Created | N/A                                      | Group34          |
 | `CpSoftwareClusterCommunicationResource`                | [ ] Created | N/A                                      | Group34          |
 | `CpSoftwareClusterCommunicationResourceProps`           | [ ] Created | N/A                                      | Group34          |
-| `CpSoftwareClusterMappingSet`                           | [ ] Created | N/A                                      | Group31          |
+| `CpSoftwareClusterMappingSet`                           | [ ] Deferred| N/A                                      | Group31          |
 | `CpSoftwareClusterResource`                             | [ ] Deferred| 9c0046237b                               | Group26          |
 | `CpSoftwareClusterResourcePool`                         | [ ] Created | N/A                                      | Group34          |
-| `CpSoftwareClusterResourceToApplicationPartitionMapping` | [ ] Created | N/A                                      | Group31          |
+| `CpSoftwareClusterResourceToApplicationPartitionMapping` | [ ] Deferred| N/A                                      | Group31          |
 | `CpSoftwareClusterServiceResource`                      | [ ] Created | N/A                                      | Group34          |
-| `CpSoftwareClusterToApplicationPartitionMapping`        | [ ] Created | N/A                                      | Group31          |
-| `CpSoftwareClusterToEcuInstanceMapping`                 | [ ] Created | N/A                                      | Group31          |
+| `CpSoftwareClusterToApplicationPartitionMapping`        | [ ] Deferred| N/A                                      | Group31          |
+| `CpSoftwareClusterToEcuInstanceMapping`                 | [ ] Deferred| N/A                                      | Group31          |
 | `CpSoftwareClusterToResourceMapping`                    | [ ] Created | N/A                                      | Group34          |
 | `CpSwClusterResourceToDiagDataElemMapping`              | [ ] Deferred| 9c0046237b                               | Group26          |
 | `CpSwClusterResourceToDiagFunctionIdMapping`            | [ ] Deferred| 9c0046237b                               | Group26          |
@@ -446,35 +446,35 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DdsCpConfig`                                           | [ ] Created | N/A                                      | Group32          |
 | `DdsCpConsumedServiceInstance`                          | [ ] Created | N/A                                      | Group32          |
 | `DdsCpDomain`                                           | [ ] Created | N/A                                      | Group32          |
-| `DdsCpISignalToDdsTopicMapping`                         | [ ] Created | N/A                                      | Group31          |
+| `DdsCpISignalToDdsTopicMapping`                         | [ ] Deferred| N/A                                      | Group31          |
 | `DdsCpPartition`                                        | [ ] Created | N/A                                      | Group32          |
-| `DdsCpProvidedServiceInstance`                          | [ ] Created | N/A                                      | Group32          |
-| `DdsCpQosProfile`                                       | [ ] Created | N/A                                      | Group32          |
+| `DdsCpProvidedServiceInstance`                          | [ ] Deferred| N/A                                      | Group32          |
+| `DdsCpQosProfile`                                       | [ ] Deferred| N/A                                      | Group32          |
 | `DdsCpServiceInstance`                                  | [ ] Created | N/A                                      | Group32          |
-| `DdsCpServiceInstanceEvent`                             | [ ] Created | N/A                                      | Group32          |
-| `DdsCpServiceInstanceOperation`                         | [ ] Created | N/A                                      | Group32          |
-| `DdsCpTopic`                                            | [ ] Created | N/A                                      | Group32          |
-| `DdsDeadline`                                           | [ ] Created | N/A                                      | Group32          |
-| `DdsDestinationOrder`                                   | [ ] Created | N/A                                      | Group32          |
-| `DdsDestinationOrderKindEnum`                           | [ ] Created | N/A                                      | Group32          |
-| `DdsDurability`                                         | [ ] Created | N/A                                      | Group32          |
-| `DdsDurabilityKindEnum`                                 | [ ] Created | N/A                                      | Group32          |
-| `DdsDurabilityService`                                  | [ ] Created | N/A                                      | Group32          |
-| `DdsDurabilityServiceHistoryKindEnum`                   | [ ] Created | N/A                                      | Group32          |
-| `DdsHistory`                                            | [ ] Created | N/A                                      | Group32          |
-| `DdsHistoryKindEnum`                                    | [ ] Created | N/A                                      | Group32          |
-| `DdsLatencyBudget`                                      | [ ] Created | N/A                                      | Group32          |
-| `DdsLifespan`                                           | [ ] Created | N/A                                      | Group32          |
-| `DdsLiveliness`                                         | [ ] Created | N/A                                      | Group32          |
-| `DdsLivenessKindEnum`                                   | [ ] Created | N/A                                      | Group32          |
-| `DdsOwnership`                                          | [ ] Created | N/A                                      | Group32          |
-| `DdsOwnershipKindEnum`                                  | [ ] Created | N/A                                      | Group32          |
-| `DdsOwnershipStrength`                                  | [ ] Created | N/A                                      | Group32          |
-| `DdsReliability`                                        | [ ] Created | N/A                                      | Group32          |
-| `DdsReliabilityKindEnum`                                | [ ] Created | N/A                                      | Group32          |
+| `DdsCpServiceInstanceEvent`                             | [ ] Deferred| N/A                                      | Group32          |
+| `DdsCpServiceInstanceOperation`                         | [ ] Deferred| N/A                                      | Group32          |
+| `DdsCpTopic`                                            | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDeadline`                                           | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDestinationOrder`                                   | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDestinationOrderKindEnum`                           | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDurability`                                         | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDurabilityKindEnum`                                 | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDurabilityService`                                  | [ ] Deferred| N/A                                      | Group32          |
+| `DdsDurabilityServiceHistoryKindEnum`                   | [ ] Deferred| N/A                                      | Group32          |
+| `DdsHistory`                                            | [ ] Deferred| N/A                                      | Group32          |
+| `DdsHistoryKindEnum`                                    | [ ] Deferred| N/A                                      | Group32          |
+| `DdsLatencyBudget`                                      | [ ] Deferred| N/A                                      | Group32          |
+| `DdsLifespan`                                           | [ ] Deferred| N/A                                      | Group32          |
+| `DdsLiveliness`                                         | [ ] Deferred| N/A                                      | Group32          |
+| `DdsLivenessKindEnum`                                   | [ ] Deferred| N/A                                      | Group32          |
+| `DdsOwnership`                                          | [ ] Deferred| N/A                                      | Group32          |
+| `DdsOwnershipKindEnum`                                  | [ ] Deferred| N/A                                      | Group32          |
+| `DdsOwnershipStrength`                                  | [ ] Deferred| N/A                                      | Group32          |
+| `DdsReliability`                                        | [ ] Deferred| N/A                                      | Group32          |
+| `DdsReliabilityKindEnum`                                | [ ] Deferred| N/A                                      | Group32          |
 | `DdsResourceLimits`                                     | [ ] Created | N/A                                      | Group32          |
-| `DdsTopicData`                                          | [ ] Created | N/A                                      | Group32          |
-| `DdsTransportPriority`                                  | [ ] Created | N/A                                      | Group32          |
+| `DdsTopicData`                                          | [ ] Deferred| N/A                                      | Group32          |
+| `DdsTransportPriority`                                  | [ ] Deferred| N/A                                      | Group32          |
 | `DefItem`                                               | [x] Done    | N/A                                      | Group21          |
 | `DefList`                                               | [x] Done    | N/A                                      | Group21          |
 | `DefaultValueApplicationStrategyEnum`                   | [ ] Created | N/A                                      | Group36          |
@@ -484,8 +484,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DependencyOnArtifact`                                  | [x] Done    | 25211e56ca                               | Group1           |
 | `DependencyUsageEnum`                                   | [x] Done    | 9a8c86ae9a                               | Group10          |
 | `DevelopmentError`                                      | [x] Done    | N/A                                      | Group23          |
-| `DhcpServerConfiguration`                               | [ ] Implemented| N/A                                      | Group30          |
-| `Dhcpv6Props`                                           | [ ] Created | N/A                                      | Group30          |
+| `DhcpServerConfiguration`                               | [ ] Deferred| 64d337c40c                               | Group30          |
+| `Dhcpv6Props`                                           | [ ] Deferred| 58cbdb9815                               | Group30          |
 | `DiagEventDebounceAlgorithm`                            | [x] Done    | 4f246ae62d                               | Group4           |
 | `DiagEventDebounceCounterBased`                         | [x] Done    | f41b486233                               | Group14          |
 | `DiagEventDebounceMonitorInternal`                      | [x] Done    | 103cfd4316                               | Group4           |
@@ -545,7 +545,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticDebounceAlgorithmProps`                      | [ ] Deferred| 4a6604c7b5                               | Group25          |
 | `DiagnosticDebounceBehaviorEnum`                        | [ ] Deferred| 165e554f17                               | Group25          |
 | `DiagnosticDemProvidedDataMapping`                      | [ ] Deferred| 531da6dd58                               | Group26          |
-| `DiagnosticDenominatorConditionEnum`                    | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticDenominatorConditionEnum`                    | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticDynamicDataIdentifier`                       | [ ] Deferred| 6127bd9f00                               | Group23          |
 | `DiagnosticDynamicallyDefineDataIdentifier`             | [ ] Deferred| 4988b642d4                               | Group24          |
 | `DiagnosticDynamicallyDefineDataIdentifierClass`        | [ ] Deferred| 32e309baac                               | Group24          |
@@ -555,7 +555,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticEcuResetClass`                               | [ ] Deferred| 092a0c7cf2                               | Group24          |
 | `DiagnosticEnableCondition`                             | [ ] Deferred| 3acb287717                               | Group25          |
 | `DiagnosticEnableConditionGroup`                        | [ ] Deferred| ceea3ebd37                               | Group25          |
-| `DiagnosticEnableConditionNeeds`                        | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticEnableConditionNeeds`                        | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticEnableConditionPortMapping`                  | [ ] Deferred| 266d4f7aa4                               | Group26          |
 | `DiagnosticEnvBswModeElement`                           | [ ] Deferred| 9b90205857                               | Group23          |
 | `DiagnosticEnvCompareCondition`                         | [x] Done    | e2c6fe29bb                               | Group14          |
@@ -600,7 +600,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticHandleDDDIConfigurationEnum`                 | [ ] Deferred| 3cde2dacdd                               | Group24          |
 | `DiagnosticIOControl`                                   | [ ] Deferred| 3e204165ec                               | Group24          |
 | `DiagnosticIndicator`                                   | [ ] Deferred| e603f3f050                               | Group25          |
-| `DiagnosticIndicatorTypeEnum`                           | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticIndicatorTypeEnum`                           | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticInfoType`                                    | [ ] Deferred| 87a45b092d                               | Group25          |
 | `DiagnosticInhibitSourceEventMapping`                   | [ ] Deferred| d488a5e4a8                               | Group26          |
 | `DiagnosticInhibitionMaskEnum`                          | [ ] Deferred| N/A                                      | Group26          |
@@ -630,11 +630,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticMemoryDestinationUserDefined`                | [ ] Deferred| 570c9983ad                               | Group25          |
 | `DiagnosticMemoryEntryStorageTriggerEnum`               | [ ] Deferred| e550cdfbd3                               | Group25          |
 | `DiagnosticMemoryIdentifier`                            | [ ] Deferred| 39631ea784                               | Group24          |
-| `DiagnosticMonitorUpdateKindEnum`                       | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticMonitorUpdateKindEnum`                       | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticObdSupportEnum`                              | [ ] Deferred| bfaab4368c                               | Group25          |
 | `DiagnosticOccurrenceCounterProcessingEnum`             | [ ] Deferred| 5d402fe9da                               | Group23          |
 | `DiagnosticOperationCycle`                              | [ ] Deferred| b5e7e1ec12                               | Group25          |
-| `DiagnosticOperationCycleNeeds`                         | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticOperationCycleNeeds`                         | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticOperationCyclePortMapping`                   | [ ] Deferred| 266d4f7aa4                               | Group26          |
 | `DiagnosticOperationCycleTypeEnum`                      | [ ] Deferred| 03a924f74f                               | Group25          |
 | `DiagnosticParameter`                                   | [ ] Deferred| d1dafe3f06                               | Group23          |
@@ -712,12 +712,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `DiagnosticStopRoutine`                                 | [ ] Deferred| 35e0590e6f                               | Group24          |
 | `DiagnosticStorageCondition`                            | [ ] Deferred| bd5949a41b                               | Group25          |
 | `DiagnosticStorageConditionGroup`                       | [ ] Deferred| 7b05bc91b8                               | Group25          |
-| `DiagnosticStorageConditionNeeds`                       | [ ] Implemented| N/A                                      | Group29          |
+| `DiagnosticStorageConditionNeeds`                       | [x] Done    | N/A                                      | Group29          |
 | `DiagnosticStorageConditionPortMapping`                 | [ ] Deferred| 266d4f7aa4                               | Group26          |
 | `DiagnosticSupportInfoByte`                             | [ ] Deferred| 80af808a62                               | Group25          |
 | `DiagnosticSwMapping`                                   | [ ] Deferred| 80105a7831                               | Group26          |
 | `DiagnosticTestIdentifier`                              | [ ] Deferred| f7cd643add                               | Group25          |
-| `DiagnosticTestResult`                                  | [ ] Created | N/A                                      | Group29          |
+| `DiagnosticTestResult`                                  | [ ] Deferred| 30d1bea627                               | Group29          |
 | `DiagnosticTestResultUpdateEnum`                        | [ ] Deferred| af61dd3966                               | Group25          |
 | `DiagnosticTestRoutineIdentifier`                       | [ ] Deferred| 95790f92b8                               | Group25          |
 | `DiagnosticTransferExit`                                | [ ] Deferred| 1461a0d679                               | Group24          |
@@ -789,10 +789,10 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EOCExecutableEntityRef`                                | [ ] Implemented| N/A                                      | Group35          |
 | `EOCExecutableEntityRefAbstract`                        | [ ] Implemented| N/A                                      | Group35          |
 | `EOCExecutableEntityRefGroup`                           | [ ] Implemented| N/A                                      | Group35          |
-| `EcuAbstractionSwComponentType`                         | [ ] Implemented| N/A                                      | Group29          |
+| `EcuAbstractionSwComponentType`                         | [ ] Deferred| 7d89ea80c0                               | Group29          |
 | `EcuInstance`                                           | [x] Done    | 206e89be41                               | Group5           |
 | `EcuPartition`                                          | [x] Done    | c53a7febdc                               | Group5           |
-| `EcuResourceEstimation`                                 | [ ] Created | N/A                                      | Group31          |
+| `EcuResourceEstimation`                                 | [ ] Deferred| N/A                                      | Group31          |
 | `EcuStateMgrUserNeeds`                                  | [x] Done    | 6b31696dff                               | Group4           |
 | `EcuTiming`                                             | [ ] Created | N/A                                      | Group35          |
 | `EcucAbstractConfigurationClass`                        | [ ] Deferred| 6549a18aee                               | Group26          |
@@ -867,7 +867,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthGlobalTimeDomainProps`                              | [ ] Created | N/A                                      | Group34          |
 | `EthGlobalTimeManagedCouplingPort`                      | [ ] Created | N/A                                      | Group34          |
 | `EthGlobalTimeMessageFormatEnum`                        | [ ] Created | N/A                                      | Group34          |
-| `EthIpProps`                                            | [ ] Created | N/A                                      | Group30          |
+| `EthIpProps`                                            | [ ] Deferred| 324da359ae                               | Group30          |
 | `EthTSynCrcFlags`                                       | [ ] Created | N/A                                      | Group34          |
 | `EthTSynSubTlvConfig`                                   | [ ] Created | N/A                                      | Group34          |
 | `EthTcpIpIcmpProps`                                     | [x] Done    | c53a7febdc                               | Group5           |
@@ -875,21 +875,21 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `EthTpConfig`                                           | [ ] Created | N/A                                      | Group33          |
 | `EthTpConnection`                                       | [ ] Created | N/A                                      | Group33          |
 | `EthernetCluster`                                       | [ ] Deferred| 4b9d113878                               | Group29          |
-| `EthernetCommunicationConnector`                        | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetCommunicationController`                       | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetConnectionNegotiationEnum`                     | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetCouplingPortSchedulerEnum`                     | [ ] Implemented| N/A                                      | Group30          |
+| `EthernetCommunicationConnector`                        | [ ] Deferred| d22193a7d7                               | Group30          |
+| `EthernetCommunicationController`                       | [ ] Deferred| 01e4db429e                               | Group30          |
+| `EthernetConnectionNegotiationEnum`                     | [ ] Deferred| bc3d3386a2                               | Group30          |
+| `EthernetCouplingPortSchedulerEnum`                     | [ ] Deferred| 909eb0ddcc                               | Group30          |
 | `EthernetFrameTriggering`                               | [ ] Created | N/A                                      | Group33          |
-| `EthernetMacLayerTypeEnum`                              | [ ] Implemented| N/A                                      | Group30          |
+| `EthernetMacLayerTypeEnum`                              | [ ] Deferred| d526c8ebcf                               | Group30          |
 | `EthernetPhysicalChannel`                               | [x] Done    | 206cf29517                               | Group5           |
-| `EthernetPhysicalLayerTypeEnum`                         | [ ] Implemented| N/A                                      | Group30          |
+| `EthernetPhysicalLayerTypeEnum`                         | [ ] Deferred| 5eba7c6ad9                               | Group30          |
 | `EthernetPriorityRegeneration`                          | [x] Done    | a513bd3ec3                               | Group16          |
-| `EthernetSwitchVlanEgressTaggingEnum`                   | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetSwitchVlanIngressTagEnum`                      | [ ] Implemented| N/A                                      | Group30          |
-| `EthernetWakeupSleepOnDatalineConfig`                   | [ ] Created | N/A                                      | Group30          |
+| `EthernetSwitchVlanEgressTaggingEnum`                   | [ ] Deferred| 41795ad4b3                               | Group30          |
+| `EthernetSwitchVlanIngressTagEnum`                      | [ ] Deferred| 0d682b9798                               | Group30          |
+| `EthernetWakeupSleepOnDatalineConfig`                   | [ ] Deferred| e795dd3dc6                               | Group30          |
 | `EthernetWakeupSleepOnDatalineConfigSet`                | [ ] Created | N/A                                      | Group30          |
 | `EvaluatedVariantSet`                                   | [ ] Deferred| N/A                                      | Group21          |
-| `EventAcceptanceStatusEnum`                             | [ ] Implemented| N/A                                      | Group29          |
+| `EventAcceptanceStatusEnum`                             | [x] Done    | N/A                                      | Group29          |
 | `EventControlledTiming`                                 | [x] Done    | 1649678501                               | Group15          |
 | `EventGroupControlTypeEnum`                             | [ ] Implemented| N/A                                      | Group32          |
 | `EventHandler`                                          | [ ] Implemented| N/A                                      | Group32          |
@@ -906,7 +906,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ExecutionTimeConstraint`                               | [ ] Implemented| N/A                                      | Group35          |
 | `ExecutionTimeTypeEnum`                                 | [ ] Implemented| N/A                                      | Group35          |
 | `ExternalTriggerOccurredEvent`                          | [ ] Deferred| 84453723ad                               | Group28          |
-| `ExternalTriggeringPoint`                               | [ ] Implemented| N/A                                      | Group29          |
+| `ExternalTriggeringPoint`                               | [ ] Deferred| 49038a9617                               | Group29          |
 | `ExternalTriggeringPointIdent`                          | [x] Done    | c04ca0f5b3                               | Group2           |
 | `FMAttributeDef`                                        | [ ] Created | N/A                                      | Group36          |
 | `FMAttributeValue`                                      | [ ] Created | N/A                                      | Group36          |
@@ -961,8 +961,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FlexrayTpPduPool`                                      | [ ] Created | N/A                                      | Group33          |
 | `FloatEnum`                                             | [x] Done    | 1649678501                               | Group22          |
 | `FloatValueVariationPoint`                              | [x] Done    | d5c96fd954                               | Group8           |
-| `FlowMeteringColorModeEnum`                             | [ ] Created | N/A                                      | Group30          |
-| `ForbiddenSignalPath`                                   | [ ] Created | N/A                                      | Group31          |
+| `FlowMeteringColorModeEnum`                             | [ ] Deferred| c140322c44                               | Group30          |
+| `ForbiddenSignalPath`                                   | [ ] Deferred| N/A                                      | Group31          |
 | `FormulaExpression`                                     | [x] Done    | 88ed82bed3                               | Group8           |
 | `FrArTpAckType`                                         | [ ] Created | N/A                                      | Group33          |
 | `FrGlobalTimeDomainProps`                               | [ ] Created | N/A                                      | Group34          |
@@ -975,7 +975,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `FreeFormat`                                            | [ ] Implemented| N/A                                      | Group32          |
 | `FreeFormatEntry`                                       | [ ] Implemented| N/A                                      | Group31          |
 | `FullBindingTimeEnum`                                   | [ ] Deferred| N/A                                      | Group21          |
-| `FunctionInhibitionAvailabilityNeeds`                   | [ ] Implemented| N/A                                      | Group29          |
+| `FunctionInhibitionAvailabilityNeeds`                   | [x] Done    | N/A                                      | Group29          |
 | `FunctionInhibitionNeeds`                               | [x] Done    | 5c4c0963af                               | Group4           |
 | `FurtherActionByteNeeds`                                | [x] Done    | 30e266fd91                               | Group5           |
 | `Gateway`                                               | [x] Done    | a00d99f993                               | Group17          |
@@ -1084,7 +1084,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Identifier`                                            | [x] Done    | N/A                                      | Group21          |
 | `IdsDesign`                                             | [ ] Created | N/A                                      | Group36          |
 | `IdsMgrCustomTimestampNeeds`                            | [x] Done    | b65fe94222                               | Group5           |
-| `IdsMgrNeeds`                                           | [ ] Implemented| N/A                                      | Group29          |
+| `IdsMgrNeeds`                                           | [ ] Deferred| 4c1801ebf6                               | Group29          |
 | `IdsPlatformInstantiation`                              | [x] Done    | 5d4cc1c454                               | Group7           |
 | `IdsmInstance`                                          | [ ] Created | N/A                                      | Group36          |
 | `IdsmModuleInstantiation`                               | [x] Done    | 5d4cc1c454                               | Group7           |
@@ -1099,12 +1099,12 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ImplementationDataTypeSubElementRef`                   | [ ] Deferred| 048dfdbb1f                               | Group27          |
 | `ImplementationElementInParameterInstanceRef`           | [x] Done    | N/A                                      | Group23          |
 | `ImplementationProps`                                   | [x] Done    | 3166f6e5d0                               | Group10          |
-| `IncludedDataTypeSet`                                   | [ ] Implemented| N/A                                      | Group29          |
+| `IncludedDataTypeSet`                                   | [ ] Deferred| 7ddafb5f11                               | Group29          |
 | `IncludedModeDeclarationGroupSet`                       | [x] Done    | b9ac782d1e                               | Group2           |
 | `IndentSample`                                          | [x] Done    | N/A                                      | Group21          |
 | `IndexEntry`                                            | [x] Done    | N/A                                      | Group21          |
 | `IndexedArrayElement`                                   | [x] Done    | 9eb93f743f                               | Group17          |
-| `IndicatorStatusNeeds`                                  | [ ] Implemented| N/A                                      | Group29          |
+| `IndicatorStatusNeeds`                                  | [x] Done    | N/A                                      | Group29          |
 | `InfrastructureServices`                                | [ ] Implemented| N/A                                      | Group32          |
 | `InitEvent`                                             | [x] Done    | 64ab725d50                               | Group2           |
 | `InitialSdDelayConfig`                                  | [x] Done    | 84dc59b646                               | Group16          |
@@ -1128,19 +1128,19 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Ip6AddressString`                                      | [ ] Deferred| N/A                                      | Group21          |
 | `IpAddressKeepEnum`                                     | [x] Done    | 161a1b8215                               | Group16          |
 | `Ipv4AddressSourceEnum`                                 | [x] Done    | 8c0771cafd                               | Group16          |
-| `Ipv4ArpProps`                                          | [ ] Created | N/A                                      | Group30          |
-| `Ipv4AutoIpProps`                                       | [ ] Created | N/A                                      | Group30          |
+| `Ipv4ArpProps`                                          | [ ] Deferred| fbb86c3fcf                               | Group30          |
+| `Ipv4AutoIpProps`                                       | [ ] Deferred| 926b146bca                               | Group30          |
 | `Ipv4Configuration`                                     | [x] Done    | dcebacccb1                               | Group16          |
-| `Ipv4DhcpServerConfiguration`                           | [ ] Implemented| N/A                                      | Group30          |
-| `Ipv4FragmentationProps`                                | [ ] Created | N/A                                      | Group30          |
-| `Ipv4Props`                                             | [ ] Created | N/A                                      | Group30          |
+| `Ipv4DhcpServerConfiguration`                           | [ ] Deferred| 920dc732db                               | Group30          |
+| `Ipv4FragmentationProps`                                | [ ] Deferred| e16eb379e5                               | Group30          |
+| `Ipv4Props`                                             | [ ] Deferred| 614927b0c4                               | Group30          |
 | `Ipv4Rule`                                              | [x] Done    | 817cf1a5de                               | Group20          |
 | `Ipv6AddressSourceEnum`                                 | [x] Done    | a8fad12113                               | Group16          |
 | `Ipv6Configuration`                                     | [ ] Implemented| N/A                                      | Group32          |
-| `Ipv6DhcpServerConfiguration`                           | [ ] Implemented| N/A                                      | Group30          |
-| `Ipv6FragmentationProps`                                | [ ] Created | N/A                                      | Group30          |
-| `Ipv6NdpProps`                                          | [ ] Created | N/A                                      | Group30          |
-| `Ipv6Props`                                             | [ ] Created | N/A                                      | Group30          |
+| `Ipv6DhcpServerConfiguration`                           | [ ] Deferred| 49ad95dd43                               | Group30          |
+| `Ipv6FragmentationProps`                                | [ ] Deferred| 772f5b9b2b                               | Group30          |
+| `Ipv6NdpProps`                                          | [ ] Deferred| f3c622bd64                               | Group30          |
+| `Ipv6Props`                                             | [ ] Deferred| 05891c9038                               | Group30          |
 | `Ipv6Rule`                                              | [x] Done    | 38bc83357c                               | Group20          |
 | `Item`                                                  | [x] Done    | cf8b43c369                               | Group9           |
 | `ItemLabelPosEnum`                                      | [x] Done    | N/A                                      | Group21          |
@@ -1336,20 +1336,20 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `NvBlockNeeds`                                          | [x] Done    | 72d998faaa                               | Group10          |
 | `NvBlockNeedsReliabilityEnum`                           | [x] Done    | 90b381db32                               | Group10          |
 | `NvBlockNeedsWritingPriorityEnum`                       | [x] Done    | 5a36c87687                               | Group10          |
-| `NvBlockSwComponentType`                                | [ ] Implemented| N/A                                      | Group29          |
+| `NvBlockSwComponentType`                                | [ ] Deferred| d70be3bb2d                               | Group29          |
 | `NvDataInterface`                                       | [x] Done    | 1d666bc11b                               | Group1           |
 | `NvDataPortAnnotation`                                  | [ ] Deferred| b0ec28fdd3                               | Group27          |
 | `NvProvideComSpec`                                      | [x] Done    | a5c437cc82                               | Group10          |
 | `NvRequireComSpec`                                      | [x] Done    | cbdf05b372                               | Group10          |
-| `ObdControlServiceNeeds`                                | [ ] Implemented| N/A                                      | Group29          |
-| `ObdInfoServiceNeeds`                                   | [ ] Implemented| N/A                                      | Group29          |
-| `ObdMonitorServiceNeeds`                                | [ ] Implemented| N/A                                      | Group29          |
-| `ObdPidServiceNeeds`                                    | [ ] Implemented| N/A                                      | Group29          |
-| `ObdRatioConnectionKindEnum`                            | [ ] Implemented| N/A                                      | Group29          |
+| `ObdControlServiceNeeds`                                | [x] Done    | N/A                                      | Group29          |
+| `ObdInfoServiceNeeds`                                   | [x] Done    | N/A                                      | Group29          |
+| `ObdMonitorServiceNeeds`                                | [x] Done    | N/A                                      | Group29          |
+| `ObdPidServiceNeeds`                                    | [x] Done    | N/A                                      | Group29          |
+| `ObdRatioConnectionKindEnum`                            | [x] Done    | N/A                                      | Group29          |
 | `ObdRatioDenominatorNeeds`                              | [ ] Deferred| c4b99a4cf3                               | Group29          |
 | `ObdRatioServiceNeeds`                                  | [ ] Deferred| 86d72d7d2c                               | Group29          |
 | `OffsetTimingConstraint`                                | [x] Done    | e305e80e2a                               | Group8           |
-| `OperationCycleTypeEnum`                                | [ ] Implemented| N/A                                      | Group29          |
+| `OperationCycleTypeEnum`                                | [x] Done    | N/A                                      | Group29          |
 | `OperationInAtomicSwcInstanceRef`                       | [x] Done    | 5d9a9f9600                               | Group11          |
 | `OperationInSystemInstanceRef`                          | [x] Done    | 4e0c3cbe68                               | Group5           |
 | `OperationInvokedEvent`                                 | [x] Done    | e607622c82                               | Group12          |
@@ -1389,7 +1389,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PerInstanceMemory`                                     | [x] Done    | f35aa0cd0a                               | Group2           |
 | `PerInstanceMemorySize`                                 | [x] Done    | df36bbb1fa                               | Group10          |
 | `PeriodicEventTriggering`                               | [ ] Implemented| N/A                                      | Group35          |
-| `PermissibleSignalPath`                                 | [ ] Created | N/A                                      | Group31          |
+| `PermissibleSignalPath`                                 | [ ] Deferred| N/A                                      | Group31          |
 | `PgwideEnum`                                            | [x] Done    | 1649678501                               | Group22          |
 | `PhysConstrs`                                           | [ ] Deferred| cad9e2a340                               | Group28          |
 | `PhysicalChannel`                                       | [ ] Deferred| 13ae27c195                               | Group29          |
@@ -1399,7 +1399,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `PlatformModuleEthernetEndpointConfiguration`           | [x] Done    | 5d4cc1c454                               | Group7           |
 | `PlcaProps`                                             | [ ] Implemented| N/A                                      | Group30          |
 | `PncGatewayTypeEnum`                                    | [x] Done    | f4ffa771cf                               | Group15          |
-| `PncMapping`                                            | [ ] Created | N/A                                      | Group31          |
+| `PncMapping`                                            | [ ] Deferred| N/A                                      | Group31          |
 | `PortAPIOption`                                         | [x] Done    | 7c67628122                               | Group2           |
 | `PortDefinedArgumentValue`                              | [x] Done    | 7fc79e4b73                               | Group2           |
 | `PortElementToCommunicationResourceMapping`             | [ ] Created | N/A                                      | Group34          |
@@ -1447,7 +1447,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RTEEvent`                                              | [x] Done    | f0483d5732                               | Group2           |
 | `RVariableInAtomicSwcInstanceRef`                       | [x] Done    | 2014bb1a51                               | Group11          |
 | `RamBlockStatusControlEnum`                             | [x] Done    | 343d2af672                               | Group10          |
-| `RapidPrototypingScenario`                              | [ ] Created | N/A                                      | Group29          |
+| `RapidPrototypingScenario`                              | [ ] Deferred| dcf4255cac                               | Group29          |
 | `ReceiverAnnotation`                                    | [ ] Deferred| f2020f54b4                               | Group27          |
 | `ReceiverComSpec`                                       | [ ] Deferred| N/A                                      | Group27          |
 | `ReceptionComSpecProps`                                 | [x] Done    | 0ba890ba88                               | Group10          |
@@ -1481,27 +1481,27 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `Row`                                                   | [x] Done    | b43b860105                               | Group3           |
 | `RptAccessEnum`                                         | [x] Done    | N/A                                      | Group23          |
 | `RptComponent`                                          | [x] Done    | N/A                                      | Group23          |
-| `RptContainer`                                          | [ ] Created | N/A                                      | Group29          |
+| `RptContainer`                                          | [ ] Deferred| 8c7d753249                               | Group29          |
 | `RptEnablerImplTypeEnum`                                | [x] Done    | N/A                                      | Group23          |
 | `RptExecutableEntity`                                   | [x] Done    | N/A                                      | Group23          |
 | `RptExecutableEntityEvent`                              | [x] Done    | N/A                                      | Group23          |
 | `RptExecutableEntityProperties`                         | [x] Done    | N/A                                      | Group23          |
 | `RptExecutionContext`                                   | [x] Done    | N/A                                      | Group23          |
 | `RptExecutionControlEnum`                               | [x] Done    | N/A                                      | Group23          |
-| `RptHook`                                               | [ ] Created | N/A                                      | Group29          |
+| `RptHook`                                               | [ ] Deferred| 81bd63ac93                               | Group29          |
 | `RptImplPolicy`                                         | [x] Done    | N/A                                      | Group23          |
 | `RptPreparationEnum`                                    | [x] Done    | N/A                                      | Group23          |
-| `RptProfile`                                            | [ ] Created | N/A                                      | Group29          |
+| `RptProfile`                                            | [ ] Deferred| 917a9b7dfa                               | Group29          |
 | `RptServicePoint`                                       | [x] Done    | N/A                                      | Group23          |
 | `RptServicePointEnum`                                   | [x] Done    | N/A                                      | Group23          |
 | `RptSupportData`                                        | [x] Done    | N/A                                      | Group23          |
 | `RptSwPrototypingAccess`                                | [x] Done    | N/A                                      | Group23          |
-| `RteApiReturnValueProvisionEnum`                        | [ ] Implemented| N/A                                      | Group29          |
-| `RteEventInCompositionSeparation`                       | [ ] Created | N/A                                      | Group31          |
-| `RteEventInCompositionToOsTaskProxyMapping`             | [ ] Created | N/A                                      | Group31          |
+| `RteApiReturnValueProvisionEnum`                        | [x] Done    | N/A                                      | Group29          |
+| `RteEventInCompositionSeparation`                       | [ ] Deferred| N/A                                      | Group31          |
+| `RteEventInCompositionToOsTaskProxyMapping`             | [ ] Deferred| N/A                                      | Group31          |
 | `RteEventInEcuInstanceRef`                              | [x] Done    | dd76ebd8bf                               | Group12          |
-| `RteEventInSystemSeparation`                            | [ ] Created | N/A                                      | Group31          |
-| `RteEventInSystemToOsTaskProxyMapping`                  | [ ] Created | N/A                                      | Group31          |
+| `RteEventInSystemSeparation`                            | [ ] Deferred| N/A                                      | Group31          |
+| `RteEventInSystemToOsTaskProxyMapping`                  | [ ] Deferred| N/A                                      | Group31          |
 | `RtePluginProps`                                        | [x] Done    | ec7fa0b5df                               | Group6           |
 | `RtpTp`                                                 | [ ] Created | N/A                                      | Group32          |
 | `RuleArguments`                                         | [ ] Deferred| 571398195f                               | Group28          |
@@ -1514,7 +1514,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `RunnableEntityGroup`                                   | [ ] Deferred| N/A                                      | Group28          |
 | `RuntimeAddressConfigurationEnum`                       | [x] Done    | f24d8b53ba                               | Group16          |
 | `RuntimeError`                                          | [x] Done    | N/A                                      | Group23          |
-| `RxAcceptContainedIPduEnum`                             | [ ] Created | N/A                                      | Group31          |
+| `RxAcceptContainedIPduEnum`                             | [ ] Deferred| N/A                                      | Group31          |
 | `RxIdentifierRange`                                     | [ ] Implemented| N/A                                      | Group32          |
 | `SOMEIPMessageTypeEnum`                                 | [x] Done    | b163080753                               | Group6           |
 | `SOMEIPTransformationDescription`                       | [ ] Created | N/A                                      | Group34          |
@@ -1566,18 +1566,18 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SendIndicationEnum`                                    | [ ] Created | N/A                                      | Group34          |
 | `SenderAnnotation`                                      | [ ] Deferred| f0a69daa65                               | Group27          |
 | `SenderComSpec`                                         | [ ] Deferred| a598c3519b                               | Group27          |
-| `SenderRecArrayElementMapping`                          | [ ] Implemented| N/A                                      | Group31          |
+| `SenderRecArrayElementMapping`                          | [ ] Deferred| N/A                                      | Group31          |
 | `SenderRecArrayTypeMapping`                             | [x] Done    | 757aea1d17                               | Group6           |
 | `SenderRecCompositeTypeMapping`                         | [x] Done    | 757aea1d17                               | Group6           |
 | `SenderRecRecordElementMapping`                         | [x] Done    | dc019f9575                               | Group17          |
 | `SenderRecRecordTypeMapping`                            | [x] Done    | abbfc40109                               | Group17          |
 | `SenderReceiverAnnotation`                              | [ ] Deferred| 21808a1f74                               | Group27          |
-| `SenderReceiverCompositeElementToSignalMapping`         | [ ] Created | N/A                                      | Group31          |
+| `SenderReceiverCompositeElementToSignalMapping`         | [ ] Deferred| N/A                                      | Group31          |
 | `SenderReceiverInterface`                               | [x] Done    | e4e4770fb7                               | Group1           |
 | `SenderReceiverToSignalGroupMapping`                    | [x] Done    | f921dd6fb4                               | Group17          |
 | `SenderReceiverToSignalMapping`                         | [x] Done    | 44442b8b6a                               | Group17          |
-| `SensorActuatorSwComponentType`                         | [ ] Implemented| N/A                                      | Group29          |
-| `SeparateSignalPath`                                    | [ ] Created | N/A                                      | Group31          |
+| `SensorActuatorSwComponentType`                         | [ ] Deferred| 5395714191                               | Group29          |
+| `SeparateSignalPath`                                    | [ ] Deferred| N/A                                      | Group31          |
 | `ServerArgumentImplPolicyEnum`                          | [ ] Deferred| f045532a3c                               | Group27          |
 | `ServerCallPoint`                                       | [x] Done    | 774620a3b1                               | Group2           |
 | `ServerComSpec`                                         | [ ] Deferred| c0dcb9aff0                               | Group27          |
@@ -1587,7 +1587,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `ServiceNeeds`                                          | [x] Done    | 5fd6271d70                               | Group4           |
 | `ServiceProviderEnum`                                   | [ ] Deferred| 5935adb517                               | Group27          |
 | `ServiceProxySwComponentType`                           | [x] Done    | 74e821ccb8                               | Group11          |
-| `ServiceSwComponentType`                                | [ ] Implemented| N/A                                      | Group29          |
+| `ServiceSwComponentType`                                | [ ] Deferred| f5ecdcb0a4                               | Group29          |
 | `SeverityEnum`                                          | [ ] Created | N/A                                      | Group36          |
 | `ShortNameFragment`                                     | [x] Done    | 519d505393                               | Group8           |
 | `ShowContentEnum`                                       | [x] Done    | e89003bb5b                               | Group3           |
@@ -1638,14 +1638,14 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `StaticPart`                                            | [x] Done    | 206cf29517                               | Group5           |
 | `StaticSocketConnection`                                | [ ] Implemented| N/A                                      | Group32          |
 | `Std`                                                   | [x] Done    | c53a240809                               | Group3           |
-| `StorageConditionStatusEnum`                            | [ ] Implemented| N/A                                      | Group29          |
-| `StreamFilterIEEE1722Tp`                                | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterIpv4Address`                               | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterIpv6Address`                               | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterMACAddress`                                | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterPortRange`                                 | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterRuleDataLinkLayer`                         | [ ] Created | N/A                                      | Group30          |
-| `StreamFilterRuleIpTp`                                  | [ ] Created | N/A                                      | Group30          |
+| `StorageConditionStatusEnum`                            | [x] Done    | N/A                                      | Group29          |
+| `StreamFilterIEEE1722Tp`                                | [ ] Deferred| cc74587e4b                               | Group30          |
+| `StreamFilterIpv4Address`                               | [ ] Deferred| da459aa3b7                               | Group30          |
+| `StreamFilterIpv6Address`                               | [ ] Deferred| ac34699c4a                               | Group30          |
+| `StreamFilterMACAddress`                                | [ ] Deferred| c74b8e553a                               | Group30          |
+| `StreamFilterPortRange`                                 | [ ] Deferred| c97f9dd4ee                               | Group30          |
+| `StreamFilterRuleDataLinkLayer`                         | [ ] Deferred| 65ab0bd89a                               | Group30          |
+| `StreamFilterRuleIpTp`                                  | [ ] Deferred| 8989307d08                               | Group30          |
 | `StructuredReq`                                         | [x] Done    | d311fc7ce0                               | Group1           |
 | `SubElementMapping`                                     | [x] Done    | 5eadca7853                               | Group1           |
 | `SubElementRef`                                         | [x] Done    | 47b3052188                               | Group1           |
@@ -1666,7 +1666,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwCalprmAxisSet`                                       | [x] Done    | 9209b83ea0                               | Group3           |
 | `SwCalprmAxisTypeProps`                                 | [ ] Deferred| N/A                                      | Group28          |
 | `SwCalprmRefProxy`                                      | [ ] Deferred| 3e551e7678                               | Group28          |
-| `SwComponentDocumentation`                              | [ ] Implemented| N/A                                      | Group29          |
+| `SwComponentDocumentation`                              | [ ] Deferred| 35074e8030                               | Group29          |
 | `SwComponentPrototype`                                  | [x] Done    | ff993a74c8                               | Group1           |
 | `SwComponentPrototypeAssignment`                        | [x] Done    | 88070878ea                               | Group5           |
 | `SwComponentType`                                       | [ ] Deferred| 9e3500a78f                               | Group27          |
@@ -1696,31 +1696,31 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SwcBswRunnableMapping`                                 | [x] Done    | 4f1681d55f                               | Group13          |
 | `SwcBswSynchronizedModeGroupPrototype`                  | [x] Done    | d024ea8472                               | Group13          |
 | `SwcBswSynchronizedTrigger`                             | [x] Done    | c7756e2bea                               | Group13          |
-| `SwcExclusiveAreaPolicy`                                | [ ] Implemented| N/A                                      | Group29          |
+| `SwcExclusiveAreaPolicy`                                | [x] Done    | N/A                                      | Group29          |
 | `SwcImplementation`                                     | [x] Done    | 6eae95f556                               | Group10          |
 | `SwcInternalBehavior`                                   | [x] Done    | 4043dc013a                               | Group2           |
-| `SwcModeManagerErrorEvent`                              | [ ] Created | N/A                                      | Group29          |
+| `SwcModeManagerErrorEvent`                              | [ ] Deferred| 545278ad92                               | Group29          |
 | `SwcModeSwitchEvent`                                    | [ ] Deferred| 8ea809a12f                               | Group28          |
-| `SwcServiceDependency`                                  | [ ] Implemented| N/A                                      | Group29          |
+| `SwcServiceDependency`                                  | [ ] Deferred| 38630f7a82                               | Group29          |
 | `SwcSupportedFeature`                                   | [x] Done    | 7c67628122                               | Group2           |
 | `SwcTiming`                                             | [ ] Implemented| N/A                                      | Group35          |
 | `SwcToApplicationPartitionMapping`                      | [ ] Created | N/A                                      | Group30          |
 | `SwcToEcuMapping`                                       | [x] Done    | fc5c1e2c39                               | Group18          |
 | `SwcToImplMapping`                                      | [x] Done    | 7fbdba572b                               | Group18          |
-| `SwcToSwcOperationArguments`                            | [ ] Created | N/A                                      | Group31          |
-| `SwcToSwcOperationArgumentsDirectionEnum`               | [ ] Created | N/A                                      | Group31          |
-| `SwcToSwcSignal`                                        | [ ] Created | N/A                                      | Group31          |
-| `SwitchAsynchronousTrafficShaperGroupEntry`             | [ ] Created | N/A                                      | Group30          |
-| `SwitchFlowMeteringEntry`                               | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamFilterActionDestPortModification`          | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamFilterActionPortModificationEnum`          | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamFilterEntry`                               | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamFilterRule`                                | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamGateEntry`                                 | [ ] Created | N/A                                      | Group30          |
-| `SwitchStreamIdentification`                            | [ ] Created | N/A                                      | Group30          |
+| `SwcToSwcOperationArguments`                            | [ ] Deferred| N/A                                      | Group31          |
+| `SwcToSwcOperationArgumentsDirectionEnum`               | [ ] Deferred| N/A                                      | Group31          |
+| `SwcToSwcSignal`                                        | [ ] Deferred| N/A                                      | Group31          |
+| `SwitchAsynchronousTrafficShaperGroupEntry`             | [ ] Deferred| dc9e5d6ce4                               | Group30          |
+| `SwitchFlowMeteringEntry`                               | [ ] Deferred| 29385d65d2                               | Group30          |
+| `SwitchStreamFilterActionDestPortModification`          | [ ] Deferred| cbe98badf5                               | Group30          |
+| `SwitchStreamFilterActionPortModificationEnum`          | [ ] Deferred| 8ca63a75f0                               | Group30          |
+| `SwitchStreamFilterEntry`                               | [ ] Deferred| 8bc4f911fe                               | Group30          |
+| `SwitchStreamFilterRule`                                | [ ] Deferred| 4f467314cf                               | Group30          |
+| `SwitchStreamGateEntry`                                 | [ ] Deferred| ac22e340e2                               | Group30          |
+| `SwitchStreamIdentification`                            | [ ] Deferred| aa06ec8a24                               | Group30          |
 | `SymbolProps`                                           | [x] Done    | 2d21a9108b                               | Group2           |
 | `SymbolString`                                          | [ ] Deferred| N/A                                      | Group21          |
-| `SymbolicNameProps`                                     | [ ] Implemented| N/A                                      | Group29          |
+| `SymbolicNameProps`                                     | [x] Done    | N/A                                      | Group29          |
 | `SyncTimeBaseMgrUserNeeds`                              | [x] Done    | 609f148a93                               | Group4           |
 | `SynchronizationPointConstraint`                        | [ ] Implemented| N/A                                      | Group35          |
 | `SynchronizationTimingConstraint`                       | [x] Done    | e305e80e2a                               | Group8           |
@@ -1730,8 +1730,8 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `SystemMapping`                                         | [ ] Implemented| N/A                                      | Group30          |
 | `SystemSignal`                                          | [x] Done    | 7828064475                               | Group15          |
 | `SystemSignalGroup`                                     | [ ] Implemented| N/A                                      | Group31          |
-| `SystemSignalGroupToCommunicationResourceMapping`       | [ ] Created | N/A                                      | Group31          |
-| `SystemSignalToCommunicationResourceMapping`            | [ ] Created | N/A                                      | Group31          |
+| `SystemSignalGroupToCommunicationResourceMapping`       | [ ] Deferred| N/A                                      | Group31          |
+| `SystemSignalToCommunicationResourceMapping`            | [ ] Deferred| N/A                                      | Group31          |
 | `SystemTiming`                                          | [ ] Created | N/A                                      | Group35          |
 | `TDCpSoftwareClusterMapping`                            | [ ] Created | N/A                                      | Group35          |
 | `TDCpSoftwareClusterMappingSet`                         | [ ] Created | N/A                                      | Group35          |
@@ -1850,7 +1850,7 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `TriggerMapping`                                        | [x] Done    | 905c48d323                               | Group1           |
 | `TriggerMode`                                           | [x] Done    | 2c2e102933                               | Group15          |
 | `TriggerPortAnnotation`                                 | [ ] Deferred| f2d78fca39                               | Group27          |
-| `TriggerToSignalMapping`                                | [ ] Created | N/A                                      | Group31          |
+| `TriggerToSignalMapping`                                | [ ] Deferred| N/A                                      | Group31          |
 | `Tt`                                                    | [x] Done    | N/A                                      | Group21          |
 | `TtcanAbsolutelyScheduledTiming`                        | [ ] Implemented| N/A                                      | Group32          |
 | `TtcanCluster`                                          | [ ] Deferred| 4c24b5ae37                               | Group29          |
@@ -1902,11 +1902,11 @@ Generated from all Group files in `docs/plan/sync-todo/` — Classes ordered by 
 | `VariableInAtomicSWCTypeInstanceRef`                    | [x] Done    | c8ac9ef7de                               | Group2           |
 | `VariableInAtomicSwcInstanceRef`                        | [x] Done    | 0369005450                               | Group2           |
 | `VariationPoint`                                        | [x] Done    | d4fce975d6                               | Group8           |
-| `VariationPointProxy`                                   | [ ] Implemented| N/A                                      | Group29          |
+| `VariationPointProxy`                                   | [ ] Deferred| 128ce8e538                               | Group29          |
 | `VariationRestrictionWithSeverity`                      | [ ] Created | N/A                                      | Group36          |
 | `VendorSpecificServiceNeeds`                            | [x] Done    | a25f9a7718                               | Group5           |
 | `VerbatimStringPlain`                                   | [ ] Deferred| N/A                                      | Group21          |
-| `VerificationStatusIndicationModeEnum`                  | [ ] Implemented| N/A                                      | Group29          |
+| `VerificationStatusIndicationModeEnum`                  | [x] Done    | N/A                                      | Group29          |
 | `VfbTiming`                                             | [ ] Created | N/A                                      | Group35          |
 | `ViewMap`                                               | [ ] Deferred| b48c08bba2                               | Group22          |
 | `ViewMapSet`                                            | [ ] Deferred| f6dc7bb594                               | Group22          |

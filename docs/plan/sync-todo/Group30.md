@@ -13,591 +13,946 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `CouplingElement` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.52, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.52 is a page-split table — the markdown's first portion carries two
+    more Attribute rows the queue dash omitted (`communicationCluster` 0..1 ref, `couplingElementDetails`
+    0..1 aggr); all six rows synced in displayed order. Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`; Base chain's most-derived
+    model class is `FibexElement` (markdown Base row: ARObject, CollectableElement, FibexElement, …).
+  - Follow-up resolved 2026-10-06: the Rule 0001.10 placeholder noted in the CouplingElement checklist
+    (COUPLING-ELEMENT-DETAILS child round-tripping identity-only until CouplingElementAbstractDetails
+    synced) is cleared — CouplingElementAbstractDetails (Table 3.82) is synced and the dispatcher calls
+    the full `readCouplingElementAbstractDetails`/`writeCouplingElementAbstractDetails` level
+    (identity levels + the abstract-level VARIATION-POINT group child); the placeholder note was
+    removed from the CouplingElement checklist comment.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20358 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit dccd25955
 
 - [ ] `CouplingElementEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.53, p.108
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20338 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cc75a503b
 
 - [ ] `CouplingPort` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.54, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20369 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 51836c9a3
 
 - [ ] `EthernetConnectionNegotiationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.55, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20371 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit bc3d3386a
 
 - [ ] `EthernetMacLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.56, p.110
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20373 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d526c8ebc
 
 - [ ] `EthernetPhysicalLayerTypeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.57, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20375 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5eba7c6ad
 
 - [ ] `EthernetSwitchVlanIngressTagEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.58, p.111
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20377 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 0d682b979
 
 - [ ] `CouplingPortConnection` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.60, p.113
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 754359658
 
 - [ ] `EthernetCommunicationController` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.61, p.116
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 01e4db429
 
 - [ ] `EthernetCommunicationConnector` — CommunicationConnector — R23-11 CP_TPS_SystemTemplate Table 3.62, p.117
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20378 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d22193a7d
 
 - [ ] `CouplingPortDetails` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.63, p.122
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20379 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 7a56601b3
 
 - [ ] `EthernetCouplingPortSchedulerEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.66, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20381 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 909eb0ddc
 
 - [ ] `CouplingPortShaper` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.67, p.123
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20399 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 5d3549490
 
 - [ ] `CouplingPortFifo` — CouplingPortStructuralElement — R23-11 CP_TPS_SystemTemplate Table 3.68, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20401 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 365e7aec3
 
 - [ ] `CouplingPortRatePolicy` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.69, p.124
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20402 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9fafd3ebc
 
 - [ ] `CouplingPortRatePolicyActionEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.70, p.125
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20403 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3f2c27ef2
 
 - [ ] `CouplingPortTrafficClassAssignment` — Referrable — R23-11 CP_TPS_SystemTemplate Table 3.75, p.128
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit aacc9860e
 
 - [ ] `EthernetSwitchVlanEgressTaggingEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.78, p.130
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20404 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 41795ad4b
 
 - [ ] `DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.79, p.131
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20405 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 64d337c40
 
 - [ ] `Ipv4DhcpServerConfiguration` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.80, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20406 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 920dc732d
 
 - [ ] `Ipv6DhcpServerConfiguration` — Describable — R23-11 CP_TPS_SystemTemplate Table 3.81, p.132
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20407 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 49ad95dd4
 
 - [ ] `CouplingElementAbstractDetails` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.82, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.82 defines no Attribute rows (abstract class; attribute row renders as
+    `-`). Placement per Rule 0007 (spec Package row `…Fibex4Ethernet::EthernetTopology`): class moved
+    from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`; the queued
+    CouplingElementSwitchDetails stub moved with it (its Base is this class — keeping it in
+    Identifiable.py would need a GenericStructure→SystemTemplate import edge that deadlocks against
+    EthernetTopology's own import of Identifiable). Base chain's most-derived model class is
+    `Identifiable`; the XSD group COUPLING-ELEMENT-ABSTRACT-DETAILS carries only VARIATION-POINT
+    (atpVariation, sequenceOffset=10000) → `VariationPointCapable` mixin, per vp_anchors.txt.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20421 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 9c78940aa
 
 - [ ] `CouplingElementSwitchDetails` — CouplingElementAbstractDetails — R23-11 CP_TPS_SystemTemplate Table 3.83, p.133
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20442 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit d20dc6666
+  - Follow-up resolved 2026-10-06: the identity-only placeholder for the SWITCH-STREAM-IDENTIFICATIONS
+    children (SwitchStreamIdentification was still a stub) is cleared — SwitchStreamIdentification
+    (Table 3.84) is synced and the reader dispatches `readSwitchStreamIdentification`, the writer
+    `writeSwitchStreamIdentification` (full population, XSD order), replacing the
+    readIdentifiable/writeIdentifiable placeholder.
 
 - [ ] `SwitchStreamIdentification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.84, p.135
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (sibling of its
+    `Aggregated by` parent CouplingElementSwitchDetails); stub-guard tuple + consumer imports
+    updated accordingly. Base chain's most-derived model class is `Identifiable`. Table has 7
+    Attribute rows in displayed order (egressPort `*` ref, filterActionBlockSource `0..1` attr,
+    filterActionDestPortModification `0..1` aggr, filterActionDropFrame `0..1` attr,
+    filterActionVlanModification `0..1` attr, ingressPort `*` ref, streamFilterRule `0..1` aggr);
+    XML child order per XSD group SWITCH-STREAM-IDENTIFICATION.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20463 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit aa06ec8a2
 
 - [ ] `SwitchStreamFilterRule` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.85, p.136
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its aggregator SwitchStreamIdentification, spec table order); stub-guard tuple + consumer
+    imports updated. Base chain's most-derived model class is `Identifiable`. Table has 3
+    Attribute rows in displayed order (dataLinkLayerRule `0..1` aggr StreamFilterRuleDataLinkLayer,
+    ieee1722TpRule `0..1` aggr StreamFilterIEEE1722Tp, ipTpRule `0..1` aggr StreamFilterRuleIpTp);
+    XML child order per XSD group SWITCH-STREAM-FILTER-RULE (DATA-LINK-LAYER-RULE,
+    IEEE-1722-TP-RULE, IP-TP-RULE — unwrapped, emitted in live documents as the STREAM-FILTER-RULE
+    child of SWITCH-STREAM-IDENTIFICATION). Reader/writer dispatch all three leaves
+    (read/writeStreamFilterRuleDataLinkLayer, read/writeStreamFilterIEEE1722Tp,
+    read/writeStreamFilterRuleIpTp); the previously identity-only STREAM-FILTER-RULE wiring inside
+    read/writeSwitchStreamIdentification (invoked from read/writeCouplingElementSwitchDetails) now
+    dispatches to the full reader/writer. Note: CouplingElementSwitchDetails.streamFilters /
+    createStreamFilter aggregates SwitchStreamFilterEntry (no SwitchStreamFilterRule child per XSD
+    group SWITCH-STREAM-FILTER-ENTRY) — the SwitchStreamFilterRule aggregation path is
+    switchStreamIdentification(s) → streamFilterRule.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20599 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 4f467314c
 
 - [ ] `StreamFilterRuleDataLinkLayer` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.86, p.137
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its StreamFilterMACAddress member type); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 5 Attribute rows
+    in displayed order (destinationMacAddress `0..1` aggr StreamFilterMACAddress, etherType
+    `0..1` attr PositiveInteger, sourceMacAddress `0..1` aggr StreamFilterMACAddress, vlanId
+    `0..1` attr PositiveInteger, vlanPriority `0..1` attr PositiveInteger); XML child order per
+    XSD group STREAM-FILTER-RULE-DATA-LINK-LAYER (DESTINATION-MAC-ADDRESS, ETHER-TYPE,
+    SOURCE-MAC-ADDRESS, VLAN-ID, VLAN-PRIORITY) — reader/writer dispatch the nested
+    DESTINATION-MAC-ADDRESS / SOURCE-MAC-ADDRESS children through readStreamFilterMACAddress /
+    writeStreamFilterMACAddress (the aggregator SwitchStreamFilterRule is still a stub; nothing
+    to wire there yet).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20498 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 65ab0bd89
 
 - [ ] `StreamFilterMACAddress` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.87, p.137
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (sibling of its
+    SwitchStream family neighbors); stub-guard tuple + consumer imports updated accordingly. Base
+    chain's most-derived model class is `ARObject`. Table has 2 Attribute rows in displayed order
+    (macAddress `0..1` attr, macAddressMask `0..1` attr, both MacAddressString); XML child order
+    per XSD group STREAM-FILTER-MAC-ADDRESS (MAC-ADDRESS, MAC-ADDRESS-MASK) — emitted in live
+    documents as the DESTINATION-MAC-ADDRESS / SOURCE-MAC-ADDRESS children of the
+    SWITCH-STREAM-FILTER-RULE data-link-layer rule (aggregators SwitchStreamFilterRule /
+    StreamFilterRuleDataLinkLayer are still stubs; readStreamFilterMACAddress /
+    writeStreamFilterMACAddress call the ARObject-level base helpers directly and are ready for
+    the aggregator dispatch).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20479 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c74b8e553
 
 - [ ] `StreamFilterRuleIpTp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.88, p.138
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its sibling StreamFilterRuleDataLinkLayer); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 6 Attribute rows
+    in displayed order (destinationIpv4Address `0..1` aggr StreamFilterIpv4Address,
+    destinationIpv6Address `0..1` aggr StreamFilterIpv6Address, destinationPort `*` aggr
+    StreamFilterPortRange, sourceIpv4Address `0..1` aggr StreamFilterIpv4Address,
+    sourceIpv6Address `0..1` aggr StreamFilterIpv6Address, sourcePort `*` aggr
+    StreamFilterPortRange); XML child order per XSD group STREAM-FILTER-RULE-IP-TP
+    (DESTINATION-IPV-4-ADDRESS, DESTINATION-IPV-6-ADDRESS, DESTINATION-PORTS,
+    SOURCE-IPV-4-ADDRESS, SOURCE-IPV-6-ADDRESS, SOURCE-PORTS). The member types
+    StreamFilterIpv4Address/StreamFilterIpv6Address/StreamFilterPortRange are still ArObject.py
+    stubs (queued Tables 3.89/3.90/…), so fields are typed with the stub classes and the
+    reader/writer dispatch their children through readARObject/writeARObject directly — ready to
+    upgrade to the dedicated readers/writers when those classes sync (the aggregator
+    SwitchStreamFilterRule is also still a stub; nothing to wire there yet).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20518 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8989307d0
 
 - [ ] `StreamFilterIpv4Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.89, p.138
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    its aggregator StreamFilterRuleIpTp); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 2 Attribute rows
+    in displayed order (ipv4Address `0..1` attr Ip4AddressString, ipv4AddressMask `0..1` attr
+    Ip4AddressString — the markdown cell "ipv4Address Mask" is a page-split artifact; the
+    canonical name `ipv4AddressMask` is confirmed by the XSD appinfo
+    `mmt.qualifiedName="StreamFilterIpv4Address.ipv4AddressMask"`); XML child order per XSD group
+    STREAM-FILTER-IPV-4-ADDRESS (IPV-4-ADDRESS, IPV-4-ADDRESS-MASK). Aggregator
+    StreamFilterRuleIpTp's reader/writer dispatch for the DESTINATION-IPV-4-ADDRESS /
+    SOURCE-IPV-4-ADDRESS children upgraded from identity-only readARObject/writeARObject to the
+    dedicated readStreamFilterIpv4Address/writeStreamFilterIpv4Address. StreamFilterIpv6Address /
+    StreamFilterPortRange children remain identity-only (still ArObject.py stubs, queued Tables
+    3.90/3.91).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20534 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit da459aa3b
 
 - [ ] `StreamFilterIpv6Address` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.90, p.138
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    Table 3.89 sibling StreamFilterIpv4Address); stub-guard tuple + consumer imports updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 2 Attribute rows
+    in displayed order (ipv6Address `0..1` attr Ip6AddressString, ipv6AddressMask `0..1` attr
+    Ip6AddressString — the markdown cell "ipv6Address Mask" is a page-split artifact; the
+    canonical name `ipv6AddressMask` is confirmed by the XSD appinfo
+    `mmt.qualifiedName="StreamFilterIpv6Address.ipv6AddressMask"`); XML child order per XSD group
+    STREAM-FILTER-IPV-6-ADDRESS (IPV-6-ADDRESS, IPV-6-ADDRESS-MASK). Aggregator
+    StreamFilterRuleIpTp's reader/writer dispatch for the DESTINATION-IPV-6-ADDRESS /
+    SOURCE-IPV-6-ADDRESS children upgraded from identity-only readARObject/writeARObject to the
+    dedicated readStreamFilterIpv6Address/writeStreamFilterIpv6Address. StreamFilterPortRange
+    children remain identity-only (still an ArObject.py stub, queued Table 3.91).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20550 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac34699c4
 
 - [ ] `StreamFilterPortRange` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.91, p.139
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Placement moved per Rule 0007 (spec Package row tail `…::Fibex4Ethernet::EthernetTopology`):
+    the class left the ArObject.py stub file for EthernetTopology.py beside its StreamFilter
+    siblings (after StreamFilterIpv6Address, spec table order); stub-guard tuple updated in
+    tests/test_armodel/models/test_group21_36_stub_classes.py + consumer imports. Members synced:
+    max `0..1` attr PositiveInteger, min `0..1` attr PositiveInteger (markdown displayed order);
+    XML child order per XSD group STREAM-FILTER-PORT-RANGE (MAX, MIN). Aggregator
+    StreamFilterRuleIpTp's DESTINATION-PORTS / SOURCE-PORTS STREAM-FILTER-PORT-RANGE children
+    upgraded from identity-only readARObject/writeARObject to the dedicated
+    readStreamFilterPortRange/writeStreamFilterPortRange; its tests now assert the children's
+    MAX/MIN field values.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20566 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c97f9dd4e
 
 - [ ] `StreamFilterIEEE1722Tp` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.92, p.139
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Placement moved per Rule 0007 (spec Package row tail `…::Fibex4Ethernet::EthernetTopology`):
+    the class left the ArObject.py stub file for EthernetTopology.py beside its StreamFilter
+    siblings (after StreamFilterPortRange, spec table order); stub-guard tuple updated in
+    tests/test_armodel/models/test_group21_36_stub_classes.py. Members synced:
+    streamId `0..1` attr PositiveUnlimitedInteger (markdown displayed order);
+    XML child order per XSD group STREAM-FILTER-IEEE-1722-TP (STREAM-ID; emitted in live
+    documents as the IEEE-1722-TP-RULE child of SWITCH-STREAM-FILTER-RULE). Aggregator
+    SwitchStreamFilterRule is still a stub — its DATA-LINK-LAYER-RULE / IEEE-1722-TP-RULE /
+    IP-TP-RULE child dispatch upgrade lands with the SwitchStreamFilterRule sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20579 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cc74587e4
 
 - [ ] `SwitchStreamFilterActionDestPortModification` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.93, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20623 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit cbe98badf
 
 - [ ] `SwitchStreamFilterActionPortModificationEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.94, p.140
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20602 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8ca63a75f
 
 - [ ] `SwitchStreamFilterEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.95, p.142
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    SwitchStreamFilterActionDestPortModification, with the SwitchStream family); stub-guard tuple +
+    consumer imports updated. Base chain's most-derived model class is `Identifiable`. Table has 7
+    Attribute rows in displayed order (asynchronousTrafficShaper `0..1` ref, filterPriority `0..1`
+    attr PositiveInteger, flowMetering `0..1` ref, maxSduSize `0..1` attr PositiveInteger,
+    streamGate `0..1` ref, streamIdentificationHandle `*` ref, streamIdentificationWildcard `0..1`
+    attr Boolean; no aggr rows — ref rows map to RefType fields with the Ref/Refs suffix per Rule
+    1.5); XML child order per XSD group SWITCH-STREAM-FILTER-ENTRY (ASYNCHRONOUS-TRAFFIC-SHAPER-REF,
+    FILTER-PRIORITY, FLOW-METERING-REF, MAX-SDU-SIZE, STREAM-GATE-REF,
+    STREAM-IDENTIFICATION-HANDLE-REFS/STREAM-IDENTIFICATION-HANDLE-REF, STREAM-IDENTIFICATION-WILDCARD
+    — no SwitchStreamFilterRule child). Reader/writer dispatch upgrades the previously
+    identity-only STREAM-FILTERS wiring inside read/writeCouplingElementSwitchDetails to the full
+    read/writeSwitchStreamFilterEntry level.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20644 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 8bc4f911f
 
 - [ ] `SwitchAsynchronousTrafficShaperGroupEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.96, p.142
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    CouplingElementSwitchDetails, before the SwitchStream family); stub-guard tuple + consumer
+    imports updated. Base chain's most-derived model class is `Identifiable`. Table has 1
+    Attribute row (maximumResidenceTime `0..1` attr PositiveInteger); XML child order per XSD
+    group SWITCH-ASYNCHRONOUS-TRAFFIC-SHAPER-GROUP-ENTRY (MAXIMUM-RESIDENCE-TIME only).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20659 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit dc9e5d6ce
 
 - [ ] `SwitchStreamGateEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.97, p.143
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    SwitchAsynchronousTrafficShaperGroupEntry, with the SwitchStream family); stub-guard tuple +
+    consumer imports updated. Base chain's most-derived model class is `Identifiable`. Table has 1
+    Attribute row (internalPriorityValue `0..1` attr PositiveInteger); XML child order per XSD group
+    SWITCH-STREAM-GATE-ENTRY (INTERNAL-PRIORITY-VALUE). Reader/writer dispatch upgrades the
+    previously identity-only STREAM-GATES wiring inside read/writeCouplingElementSwitchDetails to
+    the full read/writeSwitchStreamGateEntry level.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20674 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit ac22e340e
 
 - [ ] `SwitchFlowMeteringEntry` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.98, p.143
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the Identifiable.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly after
+    SwitchStreamGateEntry, with the SwitchStream family); stub-guard tuple + consumer imports updated.
+    Base chain's most-derived model class is `Identifiable`. Table has 6 Attribute rows (colorMode
+    `0..1` attr FlowMeteringColorModeEnum — the enum stub is queued AFTER this class as Table 3.99,
+    so the field is typed with the stub class name and the enum's own sync upgrades the wiring;
+    committedBurstSize / committedInformationRate / excessBurstSize / excessInformationRate `0..1`
+    attr PositiveInteger; couplingFlag `0..1` attr Boolean); XML child order per XSD group
+    SWITCH-FLOW-METERING-ENTRY (COLOR-MODE, COMMITTED-BURST-SIZE, COMMITTED-INFORMATION-RATE,
+    COUPLING-FLAG, EXCESS-BURST-SIZE, EXCESS-INFORMATION-RATE). Reader/writer dispatch upgrades the
+    previously identity-only FLOW-METERINGS wiring inside read/writeCouplingElementSwitchDetails to
+    the full read/writeSwitchFlowMeteringEntry level.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20694 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 29385d65d
 
 - [ ] `FlowMeteringColorModeEnum` — AREnum — R23-11 CP_TPS_SystemTemplate Table 3.99, p.144
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the PrimitiveTypes.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly before
+    its aggregator SwitchFlowMeteringEntry); stub-guard tuple + consumer imports (parser, writer
+    round-trip tests) updated. 2 literals in XSD facet order (COLOR-AWARE
+    `atp.EnumerationLiteralIndex=1`, COLOR-BLIND `atp.EnumerationLiteralIndex=0`, both
+    `atp.Status=candidate`; no `atp.Status=removed` facets). SwitchFlowMeteringEntry tests upgraded
+    from the local `_ColorModeTestDouble` to the enum constants per its wiring note.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20697 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit c140322c4
 
 - [ ] `EthIpProps` — ARElement — R23-11 CP_TPS_SystemTemplate Table 3.100, p.146
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ARPackage.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly before
+    its spec-section sibling EthTcpIpProps). 2 aggr members (ipv4Props/ipv6Props, 0..1) typed with
+    the real leaf classes Ipv4Props/Ipv6Props, which are queued separately in this group (Tables
+    3.101/3.105) — until their sync lands the IPV-4-PROPS/IPV-6-PROPS children round-trip
+    presence-only (empty ARObject-level elements; XSD sequence IPV-4-PROPS, IPV-6-PROPS).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20717 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 324da359a
 
 - [ ] `Ipv4Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.101, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its aggregator EthIpProps, spec table order); stub-guard tuple + consumer imports
+    (parser, EthIpProps model/parser/writer tests) updated accordingly. Base chain's
+    most-derived model class is `ARObject`. Table has 3 Attribute rows in displayed order
+    (arpProps `0..1` aggr Ipv4ArpProps, autoIpProps `0..1` aggr Ipv4AutoIpProps,
+    fragmentationProps `0..1` aggr Ipv4FragmentationProps — the markdown cell
+    "fragmentation Props" is a page-split artifact; the canonical name is confirmed by the
+    XSD appinfo `mmt.qualifiedName="Ipv4Props.fragmentationProps"`); the markdown attribute
+    rows carry no Note column, so member docstrings are the XSD IPV-4-PROPS group element
+    documentations (same shape as the already-synced aggregator table 3.100); XML child
+    order per XSD group IPV-4-PROPS (ARP-PROPS, AUTO-IP-PROPS, FRAGMENTATION-PROPS).
+    EthIpProps' IPV-4-PROPS dispatch upgraded from presence-only to the full
+    readIpv4Props/writeIpv4Props level. Member types Ipv4ArpProps/Ipv4AutoIpProps/
+    Ipv4FragmentationProps are still ArObject.py stubs (queued Tables 3.102/3.103/3.104),
+    so their children round-trip identity-only via readARObject/writeARObject — ready to
+    upgrade at their own syncs.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20738 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 614927b0c
 
 - [ ] `Ipv4ArpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.102, p.146
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its aggregator Ipv4Props, spec table order); stub-guard tuple + consumer imports
+    (parser, writer, Ipv4Props/EthIpProps model/parser/writer tests) updated accordingly.
+    Base chain's most-derived model class is `ARObject`. Table has 4 Attribute rows in
+    displayed order (tcpIpArpNumGratuitousArpOnStartup PositiveInteger, tcpIpArpPacketQueueEnabled
+    Boolean, tcpIpArpRequestTimeout TimeValue, tcpIpArpTableEntryTimeout TimeValue — all
+    `0..1` attr; the markdown cells wrap the names across lines, canonical names confirmed
+    by the XSD appinfo `mmt.qualifiedName`); the markdown attribute rows carry a Note
+    column, so docstrings are verbatim from it. XML child order per XSD group
+    IPV-4-ARP-PROPS (TCP-IP-ARP-NUM-GRATUITOUS-ARP-ON-STARTUP, TCP-IP-ARP-PACKET-QUEUE-ENABLED,
+    TCP-IP-ARP-REQUEST-TIMEOUT, TCP-IP-ARP-TABLE-ENTRY-TIMEOUT). Ipv4Props' ARP-PROPS
+    dispatch upgraded from identity-only to the full readIpv4ArpProps/writeIpv4ArpProps
+    level (autoIp/fragmentation remain identity-only, queued Tables 3.103/3.104).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20759 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit fbb86c3fc
 
 - [ ] `Ipv4AutoIpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.103, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4ArpProps, spec table order); stub-guard tuple + consumer imports
+    (parser, writer, Ipv4Props/EthIpProps model/parser/writer tests) updated accordingly.
+    Base chain's most-derived model class is `ARObject`. Table has 1 Attribute row
+    (tcpIpAutoIpInitTimeout TimeValue `0..1` attr; the markdown cell wraps the name across
+    lines, canonical name confirmed by the XSD appinfo `mmt.qualifiedName`); the markdown
+    attribute row carries a Note column, so docstrings are verbatim from it. XML child
+    order per XSD group IPV-4-AUTO-IP-PROPS (TCP-IP-AUTO-IP-INIT-TIMEOUT). Ipv4Props'
+    AUTO-IP-PROPS dispatch upgraded from identity-only to the full
+    readIpv4AutoIpProps/writeIpv4AutoIpProps level (fragmentation remains identity-only,
+    queued Table 3.104). No deviations; no referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20777 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 926b146bc
 
 - [ ] `Ipv4FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.104, p.147
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4AutoIpProps, spec table order); stub-guard tuple + consumer imports
+    (parser, writer, Ipv4Props/EthIpProps model/parser/writer tests) updated accordingly.
+    Base chain's most-derived model class is `ARObject`. Table has 4 Attribute rows in
+    displayed order (tcpIpIpFragmentationRxEnabled Boolean, tcpIpIpNumFragments PositiveInteger,
+    tcpIpIpNumReassDgrams PositiveInteger, tcpIpIpReassTimeout TimeValue — all `0..1` attr;
+    the markdown cells wrap the names across lines, canonical names confirmed by the XSD
+    appinfo `mmt.qualifiedName`); the markdown attribute rows carry a Note column, so
+    docstrings are verbatim from it. XML child order per XSD group IPV-4-FRAGMENTATION-PROPS
+    (TCP-IP-IP-FRAGMENTATION-RX-ENABLED, TCP-IP-IP-NUM-FRAGMENTS, TCP-IP-IP-NUM-REASS-DGRAMS,
+    TCP-IP-IP-REASS-TIMEOUT); the writer emits the child element under the aggregator as
+    FRAGMENTATION-PROPS (the only instance element name; XSD type AR:IPV-4-FRAGMENTATION-PROPS).
+    Ipv4Props' FRAGMENTATION-PROPS dispatch upgraded from identity-only to the full
+    readIpv4FragmentationProps/writeIpv4FragmentationProps level — all three Ipv4Props
+    children now fully wired. No deviations; no referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20798 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e16eb379e
 
 - [ ] `Ipv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.105, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`, PDF p.147 header block — the markdown render
+    page-splits Table 3.105 and drops the Package/Note/Base/Aggregated rows): class moved
+    from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4FragmentationProps, spec table order); stub-guard tuple + consumer
+    imports (parser, writer, Ipv6Props/EthIpProps model/parser/writer tests) updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 3 Attribute
+    rows in displayed order (dhcpProps Dhcpv6Props, fragmentationProps Ipv6FragmentationProps,
+    ndpProps Ipv6NdpProps — all `0..1` aggr; the markdown cells wrap `fragmentationProps`
+    across lines, canonical name confirmed by the XSD appinfo `mmt.qualifiedName`); the
+    class Note and the attribute-row Notes are verbatim (class Note read from the PDF
+    p.147 header block). XML child order per XSD group IPV-6-PROPS (DHCP-PROPS,
+    FRAGMENTATION-PROPS, NDP-PROPS; instance element tag is IPV-6-PROPS). EthIpProps'
+    IPV-6-PROPS dispatch upgraded from presence-only to the full
+    readIpv6Props/writeIpv6Props level; the three children are queued stubs
+    (Ipv6FragmentationProps Table 3.106, Dhcpv6Props Table 3.107, Ipv6NdpProps Table 3.108)
+    and round-trip presence-only until their syncs land. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20819 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 05891c903
 
 - [ ] `Ipv6FragmentationProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.106, p.148
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    after its sibling Ipv4FragmentationProps, spec table order); stub-guard tuple + consumer
+    imports (parser, writer, Ipv6Props/EthIpProps model/parser/writer tests) updated
+    accordingly. Base chain's most-derived model class is `ARObject`. Table has 6 Attribute
+    rows in displayed order (tcpIpIpReassemblyBufferCount, tcpIpIpReassemblyBufferSize,
+    tcpIpIpReassemblySegmentCount — all PositiveInteger `0..1` attr; tcpIpIpReassemblyTimeout
+    TimeValue `0..1` attr; tcpIpIpTxFragmentBufferCount, tcpIpIpTxFragmentBufferSize — both
+    PositiveInteger `0..1` attr; the markdown cells wrap the attribute names across lines,
+    canonical names confirmed by the XSD appinfo `mmt.qualifiedName`); the class Note and the
+    attribute-row Notes are verbatim. XML child order per XSD group IPV-6-FRAGMENTATION-PROPS
+    (TCP-IP-IP-REASSEMBLY-BUFFER-COUNT, TCP-IP-IP-REASSEMBLY-BUFFER-SIZE,
+    TCP-IP-IP-REASSEMBLY-SEGMENT-COUNT, TCP-IP-IP-REASSEMBLY-TIMEOUT,
+    TCP-IP-IP-TX-FRAGMENT-BUFFER-COUNT, TCP-IP-IP-TX-FRAGMENT-BUFFER-SIZE; the instance
+    element tag under IPV-6-PROPS is FRAGMENTATION-PROPS — the type name is the XSD
+    group/complexType name only). Ipv6Props' FRAGMENTATION-PROPS dispatch upgraded from
+    presence-only to the full readIpv6FragmentationProps/writeIpv6FragmentationProps level;
+    Dhcpv6Props and Ipv6NdpProps remain queued stubs and round-trip presence-only. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20842 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 772f5b9b2
 
 - [ ] `Dhcpv6Props` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.107, p.149
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly
+    before its sibling Ipv6FragmentationProps); stub-guard tuple + consumer imports (parser,
+    writer, Ipv6Props/EthIpProps model/parser/writer tests) updated accordingly. Base chain's
+    most-derived model class is `ARObject`. Table has 6 Attribute rows in displayed order
+    (tcpIpDhcpV6CnfDelayMax, tcpIpDhcpV6CnfDelayMin, tcpIpDhcpV6InfDelayMax,
+    tcpIpDhcpV6InfDelayMin, tcpIpDhcpV6SolDelayMax, tcpIpDhcpV6SolDelayMin — all TimeValue
+    `0..1` attr; the markdown cells wrap the attribute names across lines, canonical names
+    confirmed by the XSD appinfo `mmt.qualifiedName` and the table's own constraint text);
+    the class Note and the attribute-row Notes are verbatim. XML child order per XSD group
+    DHCPV-6-PROPS (TCP-IP-DHCP-V-6-CNF-DELAY-MAX, TCP-IP-DHCP-V-6-CNF-DELAY-MIN,
+    TCP-IP-DHCP-V-6-INF-DELAY-MAX, TCP-IP-DHCP-V-6-INF-DELAY-MIN,
+    TCP-IP-DHCP-V-6-SOL-DELAY-MAX, TCP-IP-DHCP-V-6-SOL-DELAY-MIN; the instance element tag
+    under IPV-6-PROPS is DHCP-PROPS — the type name DHCPV-6-PROPS is the XSD
+    group/complexType name only). Ipv6Props' DHCP-PROPS dispatch upgraded from presence-only
+    to the full readDhcpv6Props/writeDhcpv6Props level; Ipv6NdpProps remains a queued stub
+    and round-trips presence-only. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20865 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 58cbdb981
 
 - [ ] `Ipv6NdpProps` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.108, p.151
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.108 is a page-split table (p.150 header + first 12 attribute rows,
+    p.151 remaining 14 rows + caption; pdf_page.py cites p.151) — 26 `0..1` attr rows synced in
+    displayed order, all TimeValue/PositiveInteger/Boolean per the PDF. Placement per Rule 0007
+    (spec Package row `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub
+    to `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (between
+    Ipv6FragmentationProps and Ipv6Props; stub-guard tuple removed from
+    tests/test_armodel/models/test_group21_36_stub_classes.py). The XSD IPV-6-NDP-PROPS group
+    carries one extra element, `TCP-IP-NDP-DELAY-FIRST-PROBE-TIME`, marked
+    `atp.Status="removed"` and absent from the PDF table — deprecated (atp.Status=removed),
+    not implemented (the modeled `tcpIpNdpDelayFirstProbeTimeValue` is the PDF row). Instance
+    element tag under IPV-6-PROPS verified as `NDP-PROPS` (XSD type AR:IPV-6-NDP-PROPS).
+    Ipv6Props' NDP-PROPS dispatch upgraded from identity-only to the full
+    readIpv6NdpProps/writeIpv6NdpProps level — all three Ipv6Props children now fully wired.
+    No referenced-but-missing classes.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-06 (20906 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit f3c622bd6
 
 - [ ] `EthernetWakeupSleepOnDatalineConfig` — ARObject — R23-11 CP_TPS_SystemTemplate Table 3.115, p.159
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Table 3.115 is a page-split table (8 attribute rows on p.158, the remaining
+    3 rows + caption on p.159; pdf_page.py cites p.159) — 11 `0..1` attr rows synced in displayed
+    order (5 TimeValue: sleepModeExecutionDelay, sleepRepetitionDelayOfSleepRequest,
+    wakeupLocalDetectionTime, wakeupLocalDurationTime, wakeupRepetitionDelayOfWakeupRequest;
+    4 Boolean: wakeupForwardLocalEnabled, wakeupForwardRemoteEnabled, wakeupLocalEnabled,
+    wakeupRemoteEnabled; 2 PositiveInteger: sleepRepetitionsOfSleepRequest,
+    wakeupRepetitionsOfWakeupRequest). Placement per Rule 0007 (spec Package row
+    `…Fibex4Ethernet::EthernetTopology`): class moved from the ArObject.py stub to
+    `M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py` (directly before
+    Table 3.117 sibling PlcaProps, spec table order); stub-guard tuple re-added pointing at the new
+    defining module. Base chain's most-derived model class is `Identifiable` (markdown Base row:
+    ARObject, Identifiable, MultilanguageReferrable, Referrable — the queue dash's ARObject is the
+    chain root). XML child order per XSD group ETHERNET-WAKEUP-SLEEP-ON-DATALINE-CONFIG (11 elements,
+    = displayed order). Member Note text verbatim; member docstrings append the bare `(see constr_XXXX).`
+    ids of the per-attribute constraints (3602-3608 plus the 3606/3609/3610 pairs — wording kept in
+    the class docstring's constr_3601 block and the spec constraint section; no multi-constraint
+    wording-append precedent in the batch); the Step 2 red test's setter noop-join was fixed
+    `\n` → `\n\n` to match the batch convention. Reader calls `readIdentifiable` (not readARObject)
+    and the writer `writeIdentifiable`, matching the Identifiable Base row (Switch* family precedent);
+    the aggregator EthernetWakeupSleepOnDatalineConfigSet (Table 3.116) is still a stub, so no
+    dispatcher wires read/writeEthernetWakeupSleepOnDatalineConfig yet — ready for the Set's sync.
+    CouplingPort's WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF is a separate reference and was untouched.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (20922 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit e795dd3dc
 
 - [ ] `EthernetWakeupSleepOnDatalineConfigSet` — FibexElement — R23-11 CP_TPS_SystemTemplate Table 3.116, p.159
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/__init__.py

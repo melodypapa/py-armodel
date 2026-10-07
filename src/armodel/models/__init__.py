@@ -86,6 +86,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef i
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SignalPaths import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import *  # noqa: F403
@@ -100,6 +101,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Dds import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import *  # noqa: F403

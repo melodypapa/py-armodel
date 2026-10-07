@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, MacAddressString, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, MacAddressString, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     EthernetCommunicationController,
@@ -75,6 +75,12 @@ def _bool(value):
     return b
 
 
+def _time(value):
+    t = TimeValue()
+    t.setValue(value)
+    return t
+
+
 def _full_controller():
     controller = EthernetCommunicationController(MockParent(), "ECC1")
     controller.setCanXlConfigRef(_ref("/CanXL/AbstractCanCommController/CAN1"))
@@ -85,6 +91,7 @@ def _full_controller():
     controller.setMaximumReceiveBufferLength(_int(1500))
     controller.setMaximumTransmitBufferLength(_int(1500))
     controller.setSlaveActAsPassiveCommunicationSlave(_bool("true"))
+    controller.setSlaveQualifiedUnexpectedLinkDownTime(_time("1.5"))
     return controller
 
 
@@ -102,6 +109,7 @@ class TestWriteEthernetCommunicationController:
         assert cond.find("MAXIMUM-RECEIVE-BUFFER-LENGTH").text == "1500"
         assert cond.find("MAXIMUM-TRANSMIT-BUFFER-LENGTH").text == "1500"
         assert cond.find("SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE").text == "true"
+        assert cond.find("SLAVE-QUALIFIED-UNEXPECTED-LINK-DOWN-TIME").text == "1.5"
 
 
 class TestEthernetCommunicationControllerRoundTrip:
@@ -130,6 +138,8 @@ class TestEthernetCommunicationControllerRoundTrip:
         assert recovered.getMaximumReceiveBufferLength().getValue() == 1500
         assert recovered.getMaximumTransmitBufferLength().getValue() == 1500
         assert recovered.getSlaveActAsPassiveCommunicationSlave().getValue() is True
+        assert isinstance(recovered.getSlaveQualifiedUnexpectedLinkDownTime(), TimeValue)
+        assert recovered.getSlaveQualifiedUnexpectedLinkDownTime().getValue() == 1.5
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<ETHERNET-COMMUNICATION-CONTROLLER xmlns='%s'><SHORT-NAME>Empty</SHORT-NAME></ETHERNET-COMMUNICATION-CONTROLLER>" % NS)
@@ -142,3 +152,4 @@ class TestEthernetCommunicationControllerRoundTrip:
         assert recovered.getMacUnicastAddress() is None
         assert recovered.getMaximumReceiveBufferLength() is None
         assert recovered.getMaximumTransmitBufferLength() is None
+        assert recovered.getSlaveQualifiedUnexpectedLinkDownTime() is None

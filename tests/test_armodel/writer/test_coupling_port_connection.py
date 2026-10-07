@@ -6,7 +6,12 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
+    PositiveInteger,
+    RefType,
+    String,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPortConnection,
 )
@@ -119,6 +124,30 @@ class TestCouplingPortConnectionRoundTrip:
         assert recovered.getPlcaLocalNodeCount() is None
         assert recovered.getPlcaTransmitOpportunityTimer() is None
         assert recovered.getSecondPortRef() is None
+
+    def test_round_trip_preserves_arobject_st_attributes(self, writer, parser, tmp_path):
+        connection = CouplingPortConnection()
+        connection.setFirstPortRef(_ref("/Ether/CouplingPort/CP1"))
+        connection.setChecksum(String().setValue("12345"))
+        connection.setTimestamp(DateTime().setValue("2023-11-15T12:00:00+01:00"))
+
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPortConnection(parent, connection)
+        node = parent.find("COUPLING-PORT-CONNECTION")
+        assert node.attrib["S"] == "12345"
+        assert node.attrib["T"] == "2023-11-15T12:00:00+01:00"
+
+        out_file = str(tmp_path / "coupling_port_connection_st.arxml")
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(ET.tostring(_wrap(parent), encoding="unicode"))
+
+        tree = ET.parse(out_file)
+        recovered = CouplingPortConnection()
+        parser.readCouplingPortConnection(tree.getroot()[0][0], recovered)
+
+        assert recovered.getChecksum().getValue() == "12345"
+        assert recovered.getTimestamp().getValue() == "2023-11-15T12:00:00+01:00"
+        assert recovered.getFirstPortRef().getValue() == "/Ether/CouplingPort/CP1"
 
 
 def _wrap(element: ET.Element) -> ET.Element:

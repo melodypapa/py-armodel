@@ -3,18 +3,27 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import DiagnosticParameterElement, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
     DiagnosticParameterIdent,
     ExternalTriggeringPointIdent,
     IdentCaption,
     ModeAccessPointIdent,
+    RapidPrototypingScenario,
+    RptContainer,
     RptExecutableEntityProperties,
+    RptHook,
     RptImplPolicy,
+    RptProfile,
     RptServicePointEnum,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
 class TestIdentCaption:
@@ -246,3 +255,536 @@ class TestDiagnosticParameterIdent:
         factory_hints = typing.get_type_hints(DiagnosticParameterIdent.createSubElement)
         assert factory_hints.get("short_name") is str
         assert factory_hints.get("return") is DiagnosticParameterElement
+
+
+class TestRptHook:
+    """Test class for RptHook class (Table 14.3, p.848)."""
+
+    SPEC_NOTE = (
+        "This meta-class provide the ability to describe a rapid prototyping hook. This can either be described by an other AUTOSAR system with the category RPT_SYSTEM or as a non AUTOSAR software."
+    )
+
+    def test_rpt_hook_concrete(self):
+        """RptHook is concrete (Table 14.3 header) — instantiable without parent/short_name (Base = ARObject)."""
+        hook = RptHook()
+
+        assert isinstance(hook, RptHook)
+
+    def test_rpt_hook_heritage(self):
+        """Most-derived base is ARObject (Table 14.3 Base); VP capability via the VariationPointCapable mixin (Rule 0020)."""
+        hook = RptHook()
+
+        assert type(hook).__bases__ == (ARObject, VariationPointCapable)
+        for ancestor in (ARObject, VariationPointCapable):
+            assert isinstance(hook, ancestor)
+
+    def test_rpt_hook_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.3)."""
+        assert RptHook.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptHook initialization defaults (all Table 14.3 attributes unset)."""
+        hook = RptHook()
+
+        assert hook is not None
+        assert hook.getCodeLabel() is None
+        assert hook.getMcdIdentifier() is None
+        assert hook.getRptArHookIRef() is None
+        assert hook.getSdgs() == []
+
+    def test_get_set_code_label(self):
+        """Test codeLabel setter and getter (CIdentifier, 0..1)."""
+        hook = RptHook()
+        test_value = CIdentifier().setValue("RptHookFunc")
+        result = hook.setCodeLabel(test_value)
+
+        assert result is hook
+        assert hook.getCodeLabel() == test_value
+
+        hook.setCodeLabel(None)
+        assert hook.getCodeLabel() == test_value
+
+    def test_get_set_mcd_identifier(self):
+        """Test mcdIdentifier setter and getter (NameToken, 0..1)."""
+        hook = RptHook()
+        test_value = NameToken().setValue("McdHook")
+        result = hook.setMcdIdentifier(test_value)
+
+        assert result is hook
+        assert hook.getMcdIdentifier() == test_value
+
+        hook.setMcdIdentifier(None)
+        assert hook.getMcdIdentifier() == test_value
+
+    def test_get_set_rpt_ar_hook_iref(self):
+        """Test rptArHook iref setter and getter (AnyInstanceRef, 0..1, Rule 0001.5 IRef suffix)."""
+        hook = RptHook()
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/RptAlgorithm"))
+        result = hook.setRptArHookIRef(iref)
+
+        assert result is hook
+        assert hook.getRptArHookIRef() == iref
+
+        hook.setRptArHookIRef(None)
+        assert hook.getRptArHookIRef() == iref
+
+    def test_add_get_sdgs(self):
+        """Test sdg aggregation (Sdg, *, Base = ARObject → add, not create)."""
+        hook = RptHook()
+        sdg = Sdg()
+        sdg.setGID(NameToken().setValue("toolData"))
+        result = hook.addSdg(sdg)
+
+        assert result is hook
+        assert hook.getSdgs() == [sdg]
+
+        hook.addSdg(None)
+        assert hook.getSdgs() == [sdg]
+
+        second = Sdg()
+        hook.addSdg(second)
+        assert hook.getSdgs() == [sdg, second]
+
+    def test_get_set_variation_point(self):
+        """VP capability inherited from VariationPointCapable (Rule 0020)."""
+        hook = RptHook()
+        vp = VariationPoint()
+
+        assert hook == hook.setVariationPoint(vp)
+        assert hook.getVariationPoint() == vp
+
+        assert hook == hook.setVariationPoint(None)
+        assert hook.getVariationPoint() == vp
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptHook.getCodeLabel).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptHook.setCodeLabel).get("value") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptHook.setCodeLabel).get("return") is RptHook
+
+        assert typing.get_type_hints(RptHook.getMcdIdentifier).get("return") == typing.Optional[NameToken]
+        assert typing.get_type_hints(RptHook.setMcdIdentifier).get("value") == typing.Optional[NameToken]
+
+        assert typing.get_type_hints(RptHook.getRptArHookIRef).get("return") == typing.Optional[AnyInstanceRef]
+        assert typing.get_type_hints(RptHook.setRptArHookIRef).get("value") == typing.Optional[AnyInstanceRef]
+
+        assert typing.get_type_hints(RptHook.getSdgs).get("return") == typing.List[Sdg]
+        assert typing.get_type_hints(RptHook.addSdg).get("sdg") == typing.Optional[Sdg]
+        assert typing.get_type_hints(RptHook.addSdg).get("return") is RptHook
+
+
+class TestRptProfile:
+    """Test class for RptProfile class (Table 14.7, p.854)."""
+
+    SPEC_NOTE = "The RptProfile describes the common properties of a Rapid Prototyping method."
+
+    def test_rpt_profile_concrete(self):
+        """RptProfile is concrete (Table 14.7 header, XSD RPT-PROFILE abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert isinstance(profile, RptProfile)
+        assert profile.getShortName() == "RptProfile1"
+
+    def test_rpt_profile_heritage(self):
+        """Most-derived base is Identifiable (Table 14.7 Base: ARObject, Identifiable, MultilanguageReferrable, Referrable — Rule 0001.2)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert type(profile).__bases__ == (Identifiable,)
+        for ancestor in (ARObject, Identifiable):
+            assert isinstance(profile, ancestor)
+
+    def test_rpt_profile_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.7)."""
+        assert RptProfile.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptProfile initialization defaults (all Table 14.7 attributes unset)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+
+        assert profile is not None
+        assert profile.getMaxServicePointId() is None
+        assert profile.getMinServicePointId() is None
+        assert profile.getServicePointSymbolPost() is None
+        assert profile.getServicePointSymbolPre() is None
+        assert profile.getStimEnabler() is None
+
+    def test_get_set_max_service_point_id(self):
+        """Test maxServicePointId setter and getter (PositiveInteger, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = PositiveInteger().setValue("4")
+        result = profile.setMaxServicePointId(test_value)
+
+        assert result is profile
+        assert profile.getMaxServicePointId() == test_value
+
+        profile.setMaxServicePointId(None)
+        assert profile.getMaxServicePointId() == test_value
+
+    def test_get_set_min_service_point_id(self):
+        """Test minServicePointId setter and getter (PositiveInteger, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = PositiveInteger().setValue("2")
+        result = profile.setMinServicePointId(test_value)
+
+        assert result is profile
+        assert profile.getMinServicePointId() == test_value
+
+        profile.setMinServicePointId(None)
+        assert profile.getMinServicePointId() == test_value
+
+    def test_get_set_service_point_symbol_post(self):
+        """Test servicePointSymbolPost setter and getter (CIdentifier, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = CIdentifier().setValue("Rpt_PostServicePoint")
+        result = profile.setServicePointSymbolPost(test_value)
+
+        assert result is profile
+        assert profile.getServicePointSymbolPost() == test_value
+
+        profile.setServicePointSymbolPost(None)
+        assert profile.getServicePointSymbolPost() == test_value
+
+    def test_get_set_service_point_symbol_pre(self):
+        """Test servicePointSymbolPre setter and getter (CIdentifier, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = CIdentifier().setValue("Rpt_PreServicePoint")
+        result = profile.setServicePointSymbolPre(test_value)
+
+        assert result is profile
+        assert profile.getServicePointSymbolPre() == test_value
+
+        profile.setServicePointSymbolPre(None)
+        assert profile.getServicePointSymbolPre() == test_value
+
+    def test_get_set_stim_enabler(self):
+        """Test stimEnabler setter and getter (RptEnablerImplTypeEnum, 0..1)."""
+        profile = RptProfile(AUTOSAR.getInstance(), "RptProfile1")
+        test_value = RptEnablerImplTypeEnum().setValue(RptEnablerImplTypeEnum.RPT_ENABLER_RAM)
+        result = profile.setStimEnabler(test_value)
+
+        assert result is profile
+        assert profile.getStimEnabler() == test_value
+
+        profile.setStimEnabler(None)
+        assert profile.getStimEnabler() == test_value
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptProfile.getMaxServicePointId).get("return") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMaxServicePointId).get("value") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMaxServicePointId).get("return") is RptProfile
+
+        assert typing.get_type_hints(RptProfile.getMinServicePointId).get("return") == typing.Optional[PositiveInteger]
+        assert typing.get_type_hints(RptProfile.setMinServicePointId).get("value") == typing.Optional[PositiveInteger]
+
+        assert typing.get_type_hints(RptProfile.getServicePointSymbolPost).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptProfile.setServicePointSymbolPost).get("value") == typing.Optional[CIdentifier]
+
+        assert typing.get_type_hints(RptProfile.getServicePointSymbolPre).get("return") == typing.Optional[CIdentifier]
+        assert typing.get_type_hints(RptProfile.setServicePointSymbolPre).get("value") == typing.Optional[CIdentifier]
+
+        assert typing.get_type_hints(RptProfile.getStimEnabler).get("return") == typing.Optional[RptEnablerImplTypeEnum]
+        assert typing.get_type_hints(RptProfile.setStimEnabler).get("value") == typing.Optional[RptEnablerImplTypeEnum]
+
+
+class TestRptContainer:
+    """Test class for RptContainer class (Table 14.2, p.847)."""
+
+    SPEC_NOTE = (
+        "This meta-class defines a byPassPoint and the relation to a rptHook. Additionally it may contain further rptContainers if the byPassPoint is not atomic. "
+        "For example a byPass Point referencing to a RunnableEntity may contain rptContainers referring to the data access points of the RunnableEntity. "
+        "The RptContainer structure on M1 shall follow the M1 structure of the Software Component Descriptions. "
+        "The category attribute denotes which level of the Software Component Description is annotated."
+    )
+
+    def test_rpt_container_concrete(self):
+        """RptContainer is concrete (Table 14.2 header, XSD RPT-CONTAINER abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert isinstance(container, RptContainer)
+        assert container.getShortName() == "RptContainer1"
+
+    def test_rpt_container_heritage(self):
+        """Most-derived base is Identifiable (Table 14.2 Base: ARObject, Identifiable, MultilanguageReferrable, Referrable — Rule 0001.2); VP capability via the VariationPointCapable mixin (Rule 0020)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert type(container).__bases__ == (Identifiable, VariationPointCapable)
+        for ancestor in (ARObject, Identifiable, VariationPointCapable):
+            assert isinstance(container, ancestor)
+
+    def test_rpt_container_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.2)."""
+        assert RptContainer.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RptContainer initialization defaults (all Table 14.2 attributes unset)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        assert container is not None
+        assert container.getByPassPointIRefs() == []
+        assert container.getExplicitRptProfileSelectionRefs() == []
+        assert container.getRptContainers() == []
+        assert container.getRptExecutableEntityProperties() is None
+        assert container.getRptHook() is None
+        assert container.getRptImplPolicy() is None
+        assert container.getRptSwPrototypingAccess() is None
+
+    def test_add_get_by_pass_point_irefs(self):
+        """Test byPassPoint iref aggregation (AnyInstanceRef, *, Rule 0001.5 IRef suffix + plural)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        iref = AnyInstanceRef()
+        iref.setTargetRef(RefType().setValue("/comp/Swc1/Data1"))
+        result = container.addByPassPointIRef(iref)
+
+        assert result is container
+        assert container.getByPassPointIRefs() == [iref]
+
+        container.addByPassPointIRef(None)
+        assert container.getByPassPointIRefs() == [iref]
+
+        second = AnyInstanceRef()
+        second.setTargetRef(RefType().setValue("/comp/Swc1/Data2"))
+        container.addByPassPointIRef(second)
+        assert container.getByPassPointIRefs() == [iref, second]
+
+    def test_add_get_explicit_rpt_profile_selection_refs(self):
+        """Test explicitRptProfileSelection ref aggregation (RefType, *)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        ref = RefType().setValue("/RptScenario/RptProfile1")
+        result = container.addExplicitRptProfileSelectionRef(ref)
+
+        assert result is container
+        assert container.getExplicitRptProfileSelectionRefs() == [ref]
+
+        container.addExplicitRptProfileSelectionRef(None)
+        assert container.getExplicitRptProfileSelectionRefs() == [ref]
+
+        second = RefType().setValue("/RptScenario/RptProfile2")
+        container.addExplicitRptProfileSelectionRef(second)
+        assert container.getExplicitRptProfileSelectionRefs() == [ref, second]
+
+    def test_create_get_rpt_containers(self):
+        """Test rptContainer recursive aggregation (RptContainer, *, Identifiable child -> create)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+
+        sub_container = container.createRptContainer("SubContainer")
+        assert sub_container is not None
+        assert sub_container.getShortName() == "SubContainer"
+        assert sub_container.getParent() is container
+        assert isinstance(sub_container, RptContainer)
+        assert container.getRptContainers() == [sub_container]
+
+        duplicate = container.createRptContainer("SubContainer")
+        assert duplicate is sub_container  # duplicate short name returns the existing element
+        assert len(container.getRptContainers()) == 1
+
+        second = container.createRptContainer("SubContainer2")
+        assert container.getRptContainers() == [sub_container, second]
+
+    def test_get_set_rpt_hook(self):
+        """Test rptHook aggregation (RptHook, 0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        hook = RptHook()
+        result = container.setRptHook(hook)
+
+        assert result is container
+        assert container.getRptHook() == hook
+
+        container.setRptHook(None)
+        assert container.getRptHook() == hook
+
+    def test_get_set_rpt_executable_entity_properties(self):
+        """Test rptExecutableEntityProperties aggregation (0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        properties = RptExecutableEntityProperties()
+        result = container.setRptExecutableEntityProperties(properties)
+
+        assert result is container
+        assert container.getRptExecutableEntityProperties() == properties
+
+        container.setRptExecutableEntityProperties(None)
+        assert container.getRptExecutableEntityProperties() == properties
+
+    def test_get_set_rpt_impl_policy(self):
+        """Test rptImplPolicy aggregation (0..1, ARObject child -> set)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        policy = RptImplPolicy()
+        result = container.setRptImplPolicy(policy)
+
+        assert result is container
+        assert container.getRptImplPolicy() == policy
+
+        container.setRptImplPolicy(None)
+        assert container.getRptImplPolicy() == policy
+
+    def test_get_set_rpt_sw_prototyping_access(self):
+        """Test rptSwPrototypingAccess aggregation (0..1, ARObject child -> set)."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess
+
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        access = RptSwPrototypingAccess()
+        result = container.setRptSwPrototypingAccess(access)
+
+        assert result is container
+        assert container.getRptSwPrototypingAccess() == access
+
+        container.setRptSwPrototypingAccess(None)
+        assert container.getRptSwPrototypingAccess() == access
+
+    def test_get_set_variation_point(self):
+        """VP capability inherited from VariationPointCapable (Rule 0020)."""
+        container = RptContainer(AUTOSAR.getInstance(), "RptContainer1")
+        vp = VariationPoint()
+
+        assert container == container.setVariationPoint(vp)
+        assert container.getVariationPoint() == vp
+
+        assert container == container.setVariationPoint(None)
+        assert container.getVariationPoint() == vp
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RptContainer.getByPassPointIRefs).get("return") == typing.List[AnyInstanceRef]
+        assert typing.get_type_hints(RptContainer.addByPassPointIRef).get("iref") == typing.Optional[AnyInstanceRef]
+        assert typing.get_type_hints(RptContainer.addByPassPointIRef).get("return") is RptContainer
+
+        assert typing.get_type_hints(RptContainer.getExplicitRptProfileSelectionRefs).get("return") == typing.List[RefType]
+        assert typing.get_type_hints(RptContainer.addExplicitRptProfileSelectionRef).get("ref") == typing.Optional[RefType]
+
+        assert typing.get_type_hints(RptContainer.getRptContainers).get("return") == typing.List[RptContainer]
+        assert typing.get_type_hints(RptContainer.createRptContainer).get("short_name") is str
+        assert typing.get_type_hints(RptContainer.createRptContainer).get("return") is RptContainer
+
+        assert typing.get_type_hints(RptContainer.getRptExecutableEntityProperties).get("return") == typing.Optional[RptExecutableEntityProperties]
+        assert typing.get_type_hints(RptContainer.setRptExecutableEntityProperties).get("value") == typing.Optional[RptExecutableEntityProperties]
+
+        assert typing.get_type_hints(RptContainer.getRptHook).get("return") == typing.Optional[RptHook]
+        assert typing.get_type_hints(RptContainer.setRptHook).get("value") == typing.Optional[RptHook]
+
+        assert typing.get_type_hints(RptContainer.getRptImplPolicy).get("return") == typing.Optional[RptImplPolicy]
+        assert typing.get_type_hints(RptContainer.setRptImplPolicy).get("value") == typing.Optional[RptImplPolicy]
+
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess
+
+        assert typing.get_type_hints(RptContainer.getRptSwPrototypingAccess).get("return") == typing.Optional[RptSwPrototypingAccess]
+        assert typing.get_type_hints(RptContainer.setRptSwPrototypingAccess).get("value") == typing.Optional[RptSwPrototypingAccess]
+
+
+class TestRapidPrototypingScenario:
+    """Test class for RapidPrototypingScenario class (Table 14.1, p.846)."""
+
+    SPEC_NOTE = "This meta-class provides the ability to describe a Rapid Prototyping Scenario. Such a Rapid Prototyping Scenario consist out of two main aspects, the description of the byPassPoints and the relation to an rpt Hook. Tags: atp.recommendedPackage=RapidPrototypingScenarios"
+
+    def test_rapid_prototyping_scenario_concrete(self):
+        """RapidPrototypingScenario is concrete (Table 14.1 header, XSD RAPID-PROTOTYPING-SCENARIO abstract="false") — instantiable with parent/short_name (Base chain reaches Identifiable)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert isinstance(scenario, RapidPrototypingScenario)
+        assert scenario.getShortName() == "RapidPrototypingScenario1"
+
+    def test_rapid_prototyping_scenario_heritage(self):
+        """Most-derived base is ARElement (Table 14.1 Base: ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable — Rule 0001.2)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert type(scenario).__bases__ == (ARElement,)
+        for ancestor in (ARElement, Identifiable, Referrable, ARObject):
+            assert isinstance(scenario, ancestor)
+
+    def test_rapid_prototyping_scenario_not_vp_capable(self):
+        """RapidPrototypingScenario declares NO own variationPoint rows (Rule 0020: XSD group RAPID-PROTOTYPING-SCENARIO declares no VARIATION-POINT — the anchor lives on RptContainer; the mixin accessors arrive via the PackageableElement base chain like every ARElement)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert "getVariationPoint" not in RapidPrototypingScenario.__dict__
+        assert "setVariationPoint" not in RapidPrototypingScenario.__dict__
+        assert scenario.getVariationPoint() is None
+
+    def test_rapid_prototyping_scenario_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.1)."""
+        assert RapidPrototypingScenario.__doc__.strip() == self.SPEC_NOTE
+
+    def test_initialization(self):
+        """Test RapidPrototypingScenario initialization defaults (all Table 14.1 attributes unset)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        assert scenario is not None
+        assert scenario.getHostSystemRef() is None
+        assert scenario.getRptContainers() == []
+        assert scenario.getRptProfiles() == []
+        assert scenario.getRptSystemRef() is None
+
+    def test_get_set_host_system_ref(self):
+        """Test hostSystemRef setter and getter (System ref, 0..1, HOST-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+        test_value = RefType().setValue("/System/HostSystem").setDest("SYSTEM")
+        result = scenario.setHostSystemRef(test_value)
+
+        assert result is scenario
+        assert scenario.getHostSystemRef() == test_value
+
+        scenario.setHostSystemRef(None)
+        assert scenario.getHostSystemRef() == test_value
+
+    def test_get_set_rpt_system_ref(self):
+        """Test rptSystemRef setter and getter (System ref, 0..1, RPT-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+        test_value = RefType().setValue("/System/RptSystem").setDest("SYSTEM")
+        result = scenario.setRptSystemRef(test_value)
+
+        assert result is scenario
+        assert scenario.getRptSystemRef() == test_value
+
+        scenario.setRptSystemRef(None)
+        assert scenario.getRptSystemRef() == test_value
+
+    def test_create_rpt_container(self):
+        """Test createRptContainer appends and returns the existing element on duplicate short name (Identifiable child, Rule 0004)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        container = scenario.createRptContainer("ByPass")
+        assert isinstance(container, RptContainer)
+        assert container.getShortName() == "ByPass"
+        assert scenario.getRptContainers() == [container]
+
+        duplicate = scenario.createRptContainer("ByPass")
+        assert duplicate is container
+        assert scenario.getRptContainers() == [container]
+
+    def test_create_rpt_profile(self):
+        """Test createRptProfile appends and returns the existing element on duplicate short name (Identifiable child, Rule 0004)."""
+        scenario = RapidPrototypingScenario(AUTOSAR.getInstance(), "RapidPrototypingScenario1")
+
+        profile = scenario.createRptProfile("RptProfile1")
+        assert isinstance(profile, RptProfile)
+        assert profile.getShortName() == "RptProfile1"
+        assert scenario.getRptProfiles() == [profile]
+
+        duplicate = scenario.createRptProfile("RptProfile1")
+        assert duplicate is profile
+        assert scenario.getRptProfiles() == [profile]
+
+    def test_type_hints(self):
+        """Pin the member annotations to the spec types (Rule 0003)."""
+        import typing
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getHostSystemRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setHostSystemRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setHostSystemRef).get("return") is RapidPrototypingScenario
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptContainers).get("return") == typing.List[RptContainer]
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptContainer).get("short_name") is str
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptContainer).get("return") is RptContainer
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptProfiles).get("return") == typing.List[RptProfile]
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptProfile).get("short_name") is str
+        assert typing.get_type_hints(RapidPrototypingScenario.createRptProfile).get("return") is RptProfile
+
+        assert typing.get_type_hints(RapidPrototypingScenario.getRptSystemRef).get("return") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setRptSystemRef).get("value") == typing.Optional[RefType]
+        assert typing.get_type_hints(RapidPrototypingScenario.setRptSystemRef).get("return") is RapidPrototypingScenario

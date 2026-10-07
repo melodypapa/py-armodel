@@ -11,293 +11,351 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 ## Queue (page order per document segment)
 
-- [ ] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
+- [x] `SwcExclusiveAreaPolicy` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.28, p.556
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `95119649a`); audit_class.py initially FAILed on Rule 0025 — the SWC-EXCLUSIVE-AREA-POLICY reader/writer skipped readARObject/writeARObject (XSD complexType line 117026 chains the AR-OBJECT groups), so inherited S/T were silently dropped; both added + S/T round-trip pinned by new parser/writer tests; audit now PASS; queue row flipped citing the existing stamp; repair commit `8c2c65f8d`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `RteApiReturnValueProvisionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.32, p.562
+- [x] `RteApiReturnValueProvisionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.32, p.562
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `e3d1262da`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ExternalTriggeringPoint` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.39, p.584
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/Trigger.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Re-sync (Rule 0023/0012.3, 2026-10-07): the stale `# Spec verified: R23-11` marker sat on a legacy 5-column checklist (no release column, paraphrase docstrings with Returns: blocks, bare `ident` member annotation) — marker removed (re-stamp deferred to batch 9b per user instruction; row intentionally left `[ ]`), checklist rebuilt 6-column. Table 7.39 (p.584) Note + 2 attrs verbatim after wipe/rewrite — markdown wrap artifacts kept per Rule 0015/0001.4 (ident Note "ExternalTriggering Point", trigger Note "PTriggerInAtomicSwc TypeInstanceRef"); ident 0..1 → `Optional[ExternalTriggeringPointIdent]` PEP 526 (getter was bare-T, Rule 0001.4); member order = markdown row order.
+  - Step 6 (2026-10-07): XSD complexType EXTERNAL-TRIGGERING-POINT (AUTOSAR_00052.xsd line 58485) = AR-OBJECT group + own group + AR-OBJECT attributeGroup; group EXTERNAL-TRIGGERING-POINT (line 58447) = IDENT (sequenceOffset -100) → TRIGGER-IREF wrapper → VARIATION-POINT (10000, atpVariation present — VariationPointCapable kept per Rule 0020). Reader entry readRunnableEntityExternalTriggeringPoints gained readARObject + readReferrable on the IDENT (LinSlaveConfig precedent) + readVariationPointCapable; writer gained writeARObject + writeVariationPointCapable (VARIATION-POINT emitted last per XSD order) — inherited S/T, ident SHORT-NAME-FRAGMENTS and VP were all silently dropped before; new parser/writer tests pin S/T, fragments and the IDENT → TRIGGER-IREF → VARIATION-POINT element order; audit BASE now clean both directions.
+  - Step 8 (2026-10-07): no spec deviations. Member type ExternalTriggeringPointIdent is stamped R23-11 against its own Table 14.6, p.852 (RPTScenario-package caption class, RPTScenario.py home is per-spec). ident 0..1 aggr keeps the createIdent/getIdent shape (Referrable-derived child, Rule 0001.6).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-07 (full battery 20503/0 incl. new S/T + VP round-trip tests); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `49038a961`
 
 - [ ] `IncludedDataTypeSet` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.50, p.600
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table confirmed = CP_SWC TPS Table 7.50, p.600 (pdf_page.py). Concrete Class; Base = ARObject (most-derived, no Referrable/Identifiable) → `__init__(self)` — current base and leaf-package file shape `IncludedDataTypes.py` correct (Rule 0007). 2 own attrs in displayed order: dataType (AutosarDataType, *, ref → `dataTypeRefs: List[RefType]` + addDataTypeRef/getDataTypeRefs — shape correct), literalPrefix (Identifier, 0..1, attr — source typed `Optional[ARLiteral]` = Rule 0001.3 type drift; `Identifier` exists in PrimitiveTypes → retype in Step 3). CODE-NOCHECKLIST state confirmed: stale `# Spec verified: R23-11` + release-column-less checklist removed at session start (Rule 0023); 6-col checklist rebuilt at Step 7. Reader gap: `readSwcInternalBehavior` never reads INCLUDED-DATA-TYPE-SETS (only the Bsw path does) — fix in Step 6; both writer paths emit LITERAL-PREFIX before the DATA-TYPE-REFS wrapper while XSD group INCLUDED-DATA-TYPE-SET (AUTOSAR_00052.xsd line 72057) sequences DATA-TYPE-REFS first — order drift to fix in Step 6. Verbatim quirks to preserve: class Note "upper Limit" (spaced), literalPrefix Note "AutosarData Types" (spaced), dataType Note without trailing period.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — stale `missing` tracker row for `literalPrefix` (implemented, now spec-typed `Optional[Identifier]`, Rule 0001.3 upgrade from `Optional[ARLiteral]`) replaced with the "No deviations" re-sync summary in docs/examples/method_deviation_by_class.md. Prior-state drift fixed in the same pass: `readSwcInternalBehavior` never read INCLUDED-DATA-TYPE-SETS (only the Bsw path did) → added `readSwcInternalBehaviorIncludedDataTypeSets` in XSD sequence position; both writer paths emitted LITERAL-PREFIX before the DATA-TYPE-REFS wrapper against XSD group order (Red round-trip failed schema validation) → reordered to DATA-TYPE-REFS, LITERAL-PREFIX; stale `# Spec verified: R23-11` marker + release-column-less checklist removed per Rule 0023 (marker stays withheld pending batch 9b, user instruction). Report-only: XSD group INCLUDED-DATA-TYPE-SET (line 72057) holds no member beyond the PDF table (Rule 0015) and no `atp.Status="removed"` members; no Rule 0001.10 missing member types (dataType `*` ref → RefType; literalPrefix → Identifier, stamped).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11473 + 8692 + 3 passed / 0 failed: models full tree, parser+writer regression, member-annotation gate); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `7ddafb5f1`
 
 - [ ] `SwcServiceDependency` — AtpStructureElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.56, p.609; also CP_TPS_DiagnosticExtractTemplate Table 5.2, p.225
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 7.56, p.609 (body at markdown lines 17237-17256; DEXT Table 5.2 is a reproduction). Concrete Class; Base row = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable, ServiceDependency — two parallel chains (the modeled AtpStructureElement closure + ServiceDependency whose spec Base is ARObject only, Table 7.57, carrying assignedDataType/diagnosticRelevance/symbolicNameProps the reader/writer round-trip via read/writeServiceDependency) → Python base arbitrated to `(AtpStructureElement, ServiceDependency)`, and `VariationPointCapable` DROPPED per Rule 0020: the XSD complexType SWC-SERVICE-DEPENDENCY (AUTOSAR_00052.xsd line 117598) and every ancestor group it refs (ATP-CLASSIFIER/ATP-FEATURE/ATP-STRUCTURE-ELEMENT/SERVICE-DEPENDENCY) carry NO VARIATION-POINT element — the atpVariation stereotype sits on the assignedData/assignedPort aggr rows, whose Type classes RoleBasedDataAssignment/RoleBasedPortAssignment already carry `(ARObject, VariationPointCapable)`. 4 own attrs in displayed order: assignedData (RoleBasedDataAssignment, *, aggr), assignedPort (RoleBasedPortAssignment, *, aggr), representedPortGroup (PortGroup, 0..1, ref → representedPortGroupRef Optional[RefType]), serviceNeeds (ServiceNeeds, 0..1, aggr — abstract type; concrete-subtype createXxx factories per Rule 0001.6 over the single Optional[ServiceNeeds] field). XSD group SWC-SERVICE-DEPENDENCY (line 117470) sequenceOffset = ASSIGNED-DATAS, ASSIGNED-PORTS, REPRESENTED-PORT-GROUP-REF, SERVICE-NEEDS — current reader/writer emit SERVICE-NEEDS before REPRESENTED-PORT-GROUP-REF (order drift to fix in Step 6); getServiceNeeds() currently returns a registry-filtered List (type spec-one-vs-py-list, to-fix to Optional[ServiceNeeds]).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — stale 4-row tracker entry (DEXT-cited naming/missing/type rows, all fixed in earlier passes) replaced with "No deviations" plus the re-sync summary in docs/examples/method_deviation_by_class.md. Report-only observations: (1) the ~55 concrete-subtype `createXxx` factories and 17 per-type getters are not Table 7.56 rows — they are the Rule 0001.6 polymorphic shape for the abstract 0..1 `serviceNeeds` aggr; their docstrings carry the owning row's Note ("The associated ServiceNeeds.") per the `SwcInternalBehavior.createSwcServiceDependency` precedent; (2) prior tests pinning the old list-shaped `getServiceNeeds()` / multi-child SERVICE-NEEDS emission (parser orchestrator branch tests, nv_block dispatch test, writer swc_behavior dispatch test) re-pointed to the spec-correct single-slot semantics — the old writer emitted ALL registry needs under one SERVICE-NEEDS wrapper, which the XSD choice (maxOccurs=1) forbids; (3) XSD group SWC-SERVICE-DEPENDENCY holds no member beyond the PDF table (Rule 0015 nothing to drop) and no `atp.Status="removed"` members; (4) no Rule 0001.10 missing member types (RoleBasedDataAssignment/RoleBasedPortAssignment/ServiceNeeds all exist; representedPortGroup is a ref → RefType).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11472 + 8688 + 13 passed / 0 failed: models full tree, parser+writer regression, integration round-trip); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `38630f7a8`
 
-- [ ] `SymbolicNameProps` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.59, p.610
+- [x] `SymbolicNameProps` — ImplementationProps — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.59, p.610
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `16ed72ebe`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `VariationPointProxy` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 7.61, p.613
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/VariantHandling.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 7.61, p.613 (markdown lines 17373-17386; pdf_page.py confirms p.613). Concrete Class; Base row = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived modeled = `Identifiable`, current Python base confirmed (Rule 0001.2, no change). Package row = `...SwcInternalBehavior::VariantHandling` → placement in VariantHandling.py correct. 5 own attrs in displayed order, ALL pre-implemented spec-named: conditionAccess (ConditionByFormula, 0..1, aggr → set shape), implementationDataType (AbstractImplementationDataType, 0..1, ref → `implementationDataTypeRef` Optional[RefType]), postBuildValueAccess (PostBuildVariantCriterion, 0..1, ref → `postBuildValueAccessRef` Optional[RefType]), postBuildVariantCondition (PostBuildVariantCondition, *, aggr → `postBuildVariantConditions` + add/get), valueAccess (AttributeValueVariationPoint, 0..1, aggr — abstract, non-Referrable → setValueAccess over the abstract type; parser dispatches the concrete wire tags). Rule 0023/0012.3 re-sync findings: legacy 5-column checklist + stale `# Spec verified: R23-11` (marker removed at session start; stays absent until batch 9b); Rule 0001.11 defect — `getPostBuildVariantConditions` listed before `addPostBuildVariantCondition` (list pair must be mutator-first); Rule 0003 defect — quoted `-> "VariationPointProxy"` return annotations, module lacks `from __future__ import annotations`. Reader/writer pre-exist and call readIdentifiable/writeIdentifiable exactly once each; element order matches XSD group VARIATION-POINT-PROXY (line 130095: CONDITION-ACCESS, IMPLEMENTATION-DATA-TYPE-REF, POST-BUILD-VALUE-ACCESS-REF, POST-BUILD-VARIANT-CONDITIONS wrapper, VALUE-ACCESS polymorphic choice). No Tags:/Stereotypes: tails; spec typos kept verbatim ("PostBuoldVariant", "aVariationPointProxy"). Duplicate weaker test class in test_VariantHandling.py to consolidate into test_VariationPointProxy.py.
+  - Step 8 (2026-10-06): no spec deviations — all 5 Table 7.61 attributes pre-implemented spec-named/shaped; tracker entry updated with the batch re-sync note in docs/examples/method_deviation_by_class.md (stale 2026-08-08/09-24 placeholder-era prose superseded). Genuine Reds fixed: Rule 0001.11 list pair getter-first → mutator-first (source-order pin failed before fix); Rule 0003 quoted `-> "VariationPointProxy"` returns + missing `from __future__ import annotations` → added + unquoted. Step 2 model Red vacuous on behavior (fields pre-existed); Step 5 reader/writer Red vacuous (reader/writer already correct + XSD-ordered, base helpers called once each) — tests added as regression pins (XSD element-order assert, empty-POST-BUILD-VARIANT-CONDITIONS-wrapper round trip). Duplicate weaker class-named test file test_VariationPointProxy.py consolidated into module-named test_VariantHandling.py. Spec typos kept verbatim ("PostBuoldVariant", "aVariationPointProxy"); no Tags:/Stereotypes: tails in this table; XSD group holds nothing beyond the PDF table (Rule 0015) and no atp.Status="removed" members; no Rule 0001.10 missing member types. Checklist rows [x] with release R23-11; `# Spec verified:` marker stays absent per batch instruction (rewritten only at batch 9b).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11469 + 8690 + 13 + 3 passed / 0 failed: models full tree, parser+writer regression, integration round-trip, member-annotation gate); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `128ce8e53`
 
 - [ ] `SwcModeManagerErrorEvent` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 9.8, p.638
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): placement arbitrated — spec Package row is
+    `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents` and the
+    most-derived modeled base is `RTEEvent` (XSD group chain AR-OBJECT→…→RTE-EVENT→SWC-MODE-MANAGER-ERROR-EVENT);
+    the ArObject.py `ARObject` stub is a generated-stub misplacement → RELOCATED to
+    `SWComponentTemplate/SwcInternalBehavior/RTEEvents.py` per Rule 0007 + TtcanCommunicationController
+    precedent (20da1fc7f); mirrors sibling `SwcModeSwitchEvent` (8ea809a12); stub-guard test entry
+    updated to the new module/base per its documented contract. One attribute: `modeGroup`
+    (ModeDeclarationGroupPrototype, 0..1, iref) → `modeGroupIRef: Optional[PModeGroupInAtomicSwcInstanceRef]`;
+    XSD element `SWC-MODE-MANAGER-ERROR-EVENT`/`MODE-GROUP-IREF` (flat, fixed-concrete).
+  - Step 8 (2026-10-06): no deviations — relocation + re-base recorded in the tracker
+    (`docs/examples/method_deviation_by_class.md`, new `SwcModeManagerErrorEvent` entry):
+    stub relocated ArObject.py → RTEEvents.py, re-based ARObject → `RTEEvent`, stub-guard
+    entry removed per contract, top-level export re-verified; five-place dispatch wired
+    (factory/getter on SwcInternalBehavior with checklist rows, reader/writer helpers calling
+    readRTEEvent/writeRTEEvent exactly once, EVENTS dispatch both sides). Member type
+    `PModeGroupInAtomicSwcInstanceRef` already stamped R23-11 (Table D.12, p.949) — no
+    Rule 0001.10 missing classes. Docstring normalization recorded (sibling precedent):
+    markdown wrap-spaces inside class-name tokens joined — "ModeDeclarationGroup Prototype" →
+    "ModeDeclarationGroupPrototype", "PModeGroupInAtomic SwcInstanceRef" →
+    "PModeGroupInAtomicSwcInstanceRef" (XSD complexType doc confirms joined forms).
+    Report-only: XSD group SWC-MODE-MANAGER-ERROR-EVENT (AUTOSAR_00052.xsd L117378) holds no
+    member beyond the PDF table (Rule 0015); no `atp.Status="removed"` members. No stamp
+    (batch 9b deferred, user instruction).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (73 + 8695 + 1183 + 11476 passed / 0 failed: models mirrored test_RTEEvents, parser+writer regression, member-annotations+stub-guard, models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `545278ad9`
 
 - [ ] `SensorActuatorSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 10.1, p.646
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly one attribute — `sensorActuator` (ref, 0..1, HwDescriptionEntity; XSD SENSOR-ACTUATOR-REF DEST=HW-DESCRIPTION-ENTITY--SUBTYPES-ENUM, AUTOSAR_00052.xsd L104880) → `sensorActuatorRef: Optional[RefType]` already matches (naming per Rule 0001.5); most-derived base AtomicSwComponentType correct; ARPackage create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). XSD group holds ONLY SENSOR-ACTUATOR-REF — no SENSOR-ACTUATOR-HW-COMPOSITION element exists, no `atp.Status="removed"` members (Rule 0015 report-only). Stale `# Spec verified: R23-11` marker present (Rule 0023 legacy state) → removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): stale deviation row `missing sensorActuatorRef` removed (member implemented since the pre-survey state — Rule 0014); no remaining deviations, stamp withheld pending batch 9b. Report-only: XSD group SENSOR-ACTUATOR-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L104873) holds no member beyond the PDF table (Rule 0015), no `atp.Status="removed"` members, no Rule 0001.10 missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (197 + 8697 + 3 + 2152 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `539571419`
 
 - [ ] `EcuAbstractionSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 10.2, p.647
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly one attribute — `hardwareElement` (ref, `*`, HwDescriptionEntity; markdown renders "hardware Element" — PDF line-break artifact, XSD appinfo mmt.qualifiedName confirms; XSD HARDWARE-ELEMENT-REFS wrapper + unbounded HARDWARE-ELEMENT-REF DEST=HW-DESCRIPTION-ENTITY--SUBTYPES-ENUM, AUTOSAR_00052.xsd L50197) → `hardwareElementRefs: List[RefType]` already matches (Rule 0001.4 `*`→List, Rule 0001.5 Refs suffix); most-derived base AtomicSwComponentType correct; ARPackage create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Rule 0001.11 defect found: source has getHardwareElementRefs BEFORE addHardwareElementRef — list shape requires mutator first (Step 3 fix). Class docstring Note: markdown renders "EcuAbstractionSw ComponentType" (line-break artifact) — rewritten from the XSD complexType doc, verbatim-identical otherwise, `Tags: atp.recommendedPackage=SwComponentTypes` tail kept (Rule 0012.2.5.3). Stale `# Spec verified: R23-11` marker + Rule 0023 legacy 4-column checklist present → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — stale deviation rows none; sole attribute `hardwareElement` (ref, `*`, HwDescriptionEntity) matches `hardwareElementRefs: List[RefType]` both directions. Fixed in-pass: Rule 0001.11 accessor order (getHardwareElementRefs was before addHardwareElementRef → mutator first), Rule 0023 legacy checklist → 6-column, Rule 0001.4 paraphrased accessor docstrings → Note verbatim. Wrap-space in class Note joined ("EcuAbstractionSw ComponentType" → "EcuAbstractionSwComponentType"; XSD doc confirms, SwcModeManagerErrorEvent precedent). Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: XSD group ECU-ABSTRACTION-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L50197) holds no member beyond the PDF table (Rule 0015), no `atp.Status="removed"` members, no Rule 0001.10 missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (198 + 8699 + 3 + 2153 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `7d89ea80c`
 
 - [ ] `ComplexDeviceDriverSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 10.3, p.648
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly one attribute — `hardwareElement` (ref, `*`, HwDescriptionEntity; markdown renders "hardware Element" — PDF line-break artifact, XSD appinfo mmt.qualifiedName confirms; XSD HARDWARE-ELEMENT-REFS wrapper + unbounded HARDWARE-ELEMENT-REF DEST=HW-DESCRIPTION-ENTITY--SUBTYPES-ENUM, AUTOSAR_00052.xsd L20554) → `hardwareElementRefs: List[RefType]` already matches (Rule 0001.4 `*`→List, Rule 0001.5 Refs suffix); most-derived base AtomicSwComponentType correct; ARPackage create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Rule 0001.11 defect found: source has getHardwareElementRefs BEFORE addHardwareElementRef — list shape requires mutator first (Step 3 fix). Attribute Note wrap-space joined ("ComplexDeviceDriverSwComponent Type" → "ComplexDeviceDriverSwComponentType"; XSD doc confirms, EcuAbstraction precedent). Class docstring missing the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3 fix). Stale `# Spec verified: R23-11` marker + Rule 0023 legacy 4-column checklist present → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) (no changes needed — ARPackage dispatch and readComplexDeviceDriverSwComponentType/writeComplexDeviceDriverSwComponentType pre-wired with base helpers called exactly once each direction)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — stale deviation rows none; sole attribute `hardwareElement` (ref, `*`, HwDescriptionEntity) matches `hardwareElementRefs: List[RefType]` both directions. Fixed in-pass: Rule 0001.11 accessor order (getHardwareElementRefs was before addHardwareElementRef → mutator first), Rule 0023 legacy checklist → 6-column, Rule 0001.4 paraphrased accessor docstrings → Note verbatim, missing class-docstring `Tags:` tail added (Rule 0012.2.5.3). Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: XSD group COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L20554) holds no member beyond the PDF table (Rule 0015), no `atp.Status="removed"` members, no Rule 0001.10 missing member types.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (199 + 8701 + 3 + 2154 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `fa1d819e9`
 
 - [ ] `ServiceSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 11.2, p.659
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has ZERO attribute rows — attribute-less concrete class; XSD group SERVICE-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L106527) is `<xsd:sequence/>` (empty), complexType refs only the base groups (AR-OBJECT…ATOMIC-SW-COMPONENT-TYPE), no `atp.Status="removed"` members (Rule 0015 cross-check). Base chain most-derived = AtomicSwComponentType — current base correct. Aggregated by ARPackage.element; create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Class docstring missing the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3 fix). Stale `# Spec verified: R23-11` marker + Rule 0023 legacy checklist (no header/Columns/release columns) present → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) (no changes needed — ARPackage dispatch and readServiceSwComponentType/writeServiceSwComponentType pre-wired with base helpers called exactly once each direction)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — attribute-less concrete class (Table 11.2 zero Attribute rows; XSD group `<xsd:sequence/>` empty), field-to-spec cross-check trivially clean both directions (pinned by test_no_own_spec_attributes). Fixed in-pass: Rule 0012.2.5.3 missing class-docstring `Tags: atp.recommendedPackage=SwComponentTypes` tail added, Rule 0023 legacy checklist → 6-column, stale `# Spec verified: R23-11` marker removed (rewritten only at batch 9b). Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: no `atp.Status="removed"` members, no Rule 0001.10 missing member types (no own members).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (205 + 8703 + 3 + 2160 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models SWComponentTemplate+ARPackage sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `f5ecdcb0a`
 
 - [ ] `NvBlockSwComponentType` — AtomicSwComponentType — R23-11 CP_TPS_SoftwareComponentTemplate Table 11.4, p.664
   - module: M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly 2 attribute rows, both `*` aggr, displayed order bulkNvDataDescriptor (BulkNvDataDescriptor) then nvBlockDescriptor (NvBlockDescriptor) — matches `bulkNvDataDescriptors`/`nvBlockDescriptors` List fields both directions (field-to-spec cross-check clean; children Referrable-derived → createXxx shape, Rule 0001.6). Base chain most-derived = AtomicSwComponentType — current base correct; concrete (XSD abstract="false"), NOT VP-capable itself (no VARIATION-POINT element in group NV-BLOCK-SW-COMPONENT-TYPE, AUTOSAR_00052.xsd L86198 — the rows' atpVariation Tags are the child descriptors' split key; both PartClasses already carry VariationPointCapable). XSD group sequence = BULK-NV-DATA-DESCRIPTORS, NV-BLOCK-DESCRIPTORS (wrapper lists) — reader/writer XML order matches; no `atp.Status="removed"` members (Rule 0015). Aggregated by ARPackage.element; create/read/write dispatch pre-wired, base helpers readAtomicSwComponentType/writeAtomicSwComponentType called exactly once each direction (Rule 0025 verified). Markdown wrap artifacts joined per XSD mmt.qualifiedName/documentation ("bulkNvData Descriptor"→bulkNvDataDescriptor, "Sw ComponentPrototypes"→SwComponentPrototypes). Defects to fix: class docstring missing the `Tags: atp.recommendedPackage=SwComponentTypes` tail (Rule 0012.2.5.3); accessor order — getBulkNvDataDescriptors/getNvBlockDescriptors precede their createXxx mutators (Rule 0001.11 list shape → mutator first); accessor docstrings paraphrased with Args/Returns blocks (Rule 0001.4); stale `# Spec verified: R23-11` marker + Rule 0023 legacy checklist (no header/Columns/release columns) → marker removed, rewritten only at batch 9b.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) (NvBlockSwComponentType dispatch pre-wired with base helpers once each direction; Step 5's schema-validated round-trip caught a BULK-NV-BLOCK serialization defect on the aggregation path — writer emitted a nested VARIABLE-DATA-PROTOTYPE under BULK-NV-BLOCK and the reader expected it, but XSD types BULK-NV-BLOCK itself as AR:VARIABLE-DATA-PROTOTYPE (AUTOSAR_00052.xsd L13528, flat typed-element shape) → writeBulkNvDataDescriptor now writes the prototype contents via writeAutosarDataPrototype + INIT-VALUE, readBulkNvDataDescriptor reads the BULK-NV-BLOCK element itself via readAutosarDataPrototype + getInitValue (Rule 0013.2 matched pair); 4 unit-test assertions pinning the legacy nested shape updated in the same pass)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no deviations — both table attributes match the model in both directions (bulkNvDataDescriptor → bulkNvDataDescriptors + create/get, nvBlockDescriptor → nvBlockDescriptors + create/get; children Referrable-derived → createXxx shape; field base names verbatim, plural list per Rule 0001.5). Fixed in-pass: Rule 0023 legacy checklist → 6-column + stale `# Spec verified: R23-11` marker removed (rewritten only at batch 9b); Rule 0012.2.5.3 missing class-docstring `Tags: atp.recommendedPackage=SwComponentTypes` tail added; Rule 0001.11 accessor order (getBulkNvDataDescriptors/getNvBlockDescriptors preceded their createXxx mutators → mutator first); Rule 0001.4 paraphrased accessor docstrings with Args/Returns blocks → table Notes verbatim incl. `Stereotypes: atpSplitable; atpVariation Tags: …` tails; BULK-NV-BLOCK serialization defect on the aggregation path (writer emitted + reader expected a nested VARIABLE-DATA-PROTOTYPE, but the XSD types BULK-NV-BLOCK itself as AR:VARIABLE-DATA-PROTOTYPE — AUTOSAR_00052.xsd L13528) fixed as a Rule 0013.2 matched pair with the 4 unit assertions pinning the legacy shape updated; no integration fixture carries BULK-NV-BLOCK. Stamp withheld pending batch 9b (user instruction). Tracker: new "No deviations" entry in method_deviation_by_class.md. Report-only: XSD group NV-BLOCK-SW-COMPONENT-TYPE (AUTOSAR_00052.xsd L86198) holds no member beyond the PDF table (Rule 0015), no `atp.Status="removed"` members, no Rule 0001.10 missing member types (BulkNvDataDescriptor/NvBlockDescriptor both stamped `# Spec verified: R23-11`); class itself NOT VP-capable (no VARIATION-POINT in its XSD group — the rows' atpVariation Tags are the child descriptors' split key; both PartClasses already carry VariationPointCapable).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (216 + 8705 + 3 + 11496 passed / 0 failed: models Components pkg, parser+writer regression, member-annotations gate, models full-tree sweep); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `d70be3bb2`
 
 - [ ] `SwComponentDocumentation` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 12.1, p.698
   - module: M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table has exactly 8 attribute rows, all `aggr` Chapter-typed, displayed order chapter (`*` → `chapters` List) then swCalibrationNotes/swCarbDoc/swDiagnosticsNotes/swFeatureDef/swFeatureDesc/swMaintenanceNotes/swTestDesc (0..1 each) — current field order matches the markdown both directions; child type Chapter is Identifiable-derived and stamped R23-11 → `createXxx(short_name)` shape correct over plain-ARObject field lists (Rule 0001.6). Placement arbitrated CORRECT per Rule 0007: spec Package tail = `M2::...SWComponentTemplate::SoftwareComponentDocumentation` → leaf-package file SoftwareComponentDocumentation.py (XSD comment: `class ...SWComponentTemplate::SoftwareComponentDocumentation::SwComponentDocumentation`) — no relocation. Base arbitration (Rule 0001.2/0020): markdown Base row = ARObject (single chain — no parallel-chain case) → ARObject primary; XSD group SW-COMPONENT-DOCUMENTATION (AUTOSAR_00052.xsd L114911) DOES carry VARIATION-POINT (offset 10000, "Applicable for: SwComponentType.swComponentDocumentation / BswModuleDescription.bswModuleDocumentation") → `VariationPointCapable` KEPT — the opposite of the SwcServiceDependency row, whose group chain carried none. XSD sequence = SW-FEATURE-DEF(20), SW-FEATURE-DESC(30), SW-TEST-DESC(50), SW-CALIBRATION-NOTES(60), SW-MAINTENANCE-NOTES(70), SW-DIAGNOSTICS-NOTES(75), SW-CARB-DOC(80), CHAPTER(100), VARIATION-POINT(10000) — reader/writer cover the 8 chapter slots in exact XSD order but DROP VARIATION-POINT and never call the ARObject base helper (audit BASE fails both directions; complexType refs AR:AR-OBJECT group + attributeGroup S/T — Rule 0025). Defects to fix: stale `# Spec verified: R23-11` marker + release-column-less checklist (Rule 0023 → marker removed at session start, 6-column rewrite at Step 7); accessor docstrings paraphrase ("Creates a new Chapter...", Args/Returns blocks) → Note-verbatim rewrite (Rule 0001.4); `chapter` row Note carries `Stereotypes: atpSplitable; atpVariation Tags: ...` tail to keep verbatim (0012.2.5.3; markdown wrap "variation Point" joined per XSD `atp.Splitkey="chapter.shortName, chapter.variationPoint.shortLabel"`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — both directions of the field-to-spec cross-check clean (8/8 Table 12.1 rows ↔ 8 model field+accessor groups; no fabricated fields, no missing rows, field base names verbatim, plural list only for the `*` row). Fixed in-pass: Rule 0023 legacy checklist (rows ended at the writer column, no release column; stale `# Spec verified: R23-11` marker) → marker removed at session start, 6-column block written at Step 7, stamp withheld pending batch 9b (user instruction); Rule 0001.4 accessor docstrings ("Creates a new Chapter...", Args/Returns blocks) → table Notes verbatim incl. the `chapter` row's `Stereotypes: atpSplitable; atpVariation Tags: ...` tail (markdown wrap "variation Point" joined per XSD `atp.Splitkey`); reader/writer drops fixed: VARIATION-POINT (class IS VP-capable per XSD group, Rule 0020) round-trips via `readVariationPointCapable`/`writeVariationPointCapable` and inherited AR:AR-OBJECT `S`/`T` via `readARObject`/`writeARObject` — writer pair placed in both emitting aggregators (`writeSwComponentTypeSwComponentDocumentation`, `writeBswModuleDescriptionBswModuleDocumentation`), reader pair in the shared `readSwComponentDocumentationElement`, exactly once per path (Rule 0013.1; audit BASE PASS both directions). Honest Red note: the rewritten spec-bar model test ran GREEN against the unmodified source — the accessor surface was already spec-shaped (Step 1 finding); the genuine Red of this re-sync surfaced at Step 5 (3 failing assertions: S/T read, S/T write, VARIATION-POINT emission). Tracker: stale "stamped" prose entry replaced with the "No deviations" re-sync summary in docs/examples/method_deviation_by_class.md. Report-only: XSD group SW-COMPONENT-DOCUMENTATION (AUTOSAR_00052.xsd L114911) holds no member beyond the PDF table's 8 rows + VARIATION-POINT (Rule 0015); no `atp.Status="removed"` members (the 7 predefined rows' XSD note "variation point shall not exist in models", constr_2638 `vh.variationPointApplicable=false`, is per-row documentation, not a member removal); no Rule 0001.10 missing member types (Chapter stamped `# Spec verified: R23-11`); no integration fixture carries SW-COMPONENT-DOCUMENTATION/BSW-MODULE-DOCUMENTATIONS.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (10105 passed / 0 failed: models SWComponentTemplate pkg 1392, parser+writer regression 8710, member-annotations gate 3); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `35074e803`
 
 - [ ] `AdditionalBindingTimeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 12.4, p.700
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): Enumeration table confirms 2 literals in XSD facet order — `blueprintDerivationTime` (markdown renders "blueprintDerivation Time" with a wrap space; XSD `mmt.qualifiedName` confirms the camelCase join) → `BLUEPRINT_DERIVATION_TIME = "BLUEPRINT-DERIVATION-TIME"`, `postBuild` → `POST_BUILD = "POST-BUILD"` (AUTOSAR_00052.xsd simpleType `ADDITIONAL-BINDING-TIME-ENUM--SIMPLE`, line 131303). Spec Package row says `M2::…GenericStructure::VariantHandling`; placement stays in the queue's `GeneralTemplateClasses/PrimitiveTypes.py` — the repo home of shared `AREnum` subclasses (Rule 0010) where the stub already sits next to synced sibling `AclScopeEnum`. No in-repo consumer references the enum yet (`vh.latestBindingTime` exists only as a Tags-level property), so it round-trips through consuming classes once they sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum — no own XML element; serialized as an attribute value on a consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum — no parser/writer changes; parser/writer untouched, regression run skipped)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11465 passed / 0 failed: models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `b72807df6`
+  - Step 8 (2026-10-06): no deviations — literals 1:1 with Table 12.4 (2 rows, XSD facet order), member values are the exact `ADDITIONAL-BINDING-TIME-ENUM--SIMPLE` facets, docstrings verbatim incl. the `atp.EnumerationLiteralIndex` Tags tails; no deviation-tracker entry needed.
 
-- [ ] `FunctionInhibitionAvailabilityNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.13, p.751
+- [x] `FunctionInhibitionAvailabilityNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.13, p.751
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticOperationCycleNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.24, p.761
+- [x] `DiagnosticOperationCycleNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.24, p.761
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `OperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.25, p.761
+- [x] `OperationCycleTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.25, p.761
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticEnableConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.26, p.762
+- [x] `DiagnosticEnableConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.26, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `EventAcceptanceStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.27, p.762
+- [x] `EventAcceptanceStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.27, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticStorageConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.28, p.762
+- [x] `DiagnosticStorageConditionNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.28, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `StorageConditionStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.29, p.762
+- [x] `StorageConditionStatusEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.29, p.762
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R4.3.1` in src (checklist provenance `89407b6f0`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `IndicatorStatusNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.30, p.766
+- [x] `IndicatorStatusNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.30, p.766
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R4.3.1` in src (checklist provenance `28746ce3c`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticIndicatorTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.31, p.766; also CP_TPS_DiagnosticExtractTemplate Table 4.200, p.203
+- [x] `DiagnosticIndicatorTypeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.31, p.766; also CP_TPS_DiagnosticExtractTemplate Table 4.200, p.203
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `b41f6ecac`); audit_class.py initially FAILed on a Rule 0012.2.4 `__init__` docstring — removed in this pass; audit now PASS; queue row flipped citing the existing stamp; repair commit `9b2a75147`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ObdRatioServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.44, p.795
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -311,77 +369,83 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1897 + 8190 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `86d72d7d2`
 
-- [ ] `ObdControlServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.45, p.796; also CP_TPS_DiagnosticExtractTemplate Table 5.11, p.233
+- [x] `ObdControlServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.45, p.796; also CP_TPS_DiagnosticExtractTemplate Table 5.11, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `7df83dbc9`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdRatioConnectionKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.46, p.796
+- [x] `ObdRatioConnectionKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.46, p.796
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdPidServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.47, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.10, p.233
+- [x] `ObdPidServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.47, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.10, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdInfoServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.48, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.9, p.233
+- [x] `ObdInfoServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.48, p.797; also CP_TPS_DiagnosticExtractTemplate Table 5.9, p.233
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `ObdMonitorServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.49, p.798
+- [x] `ObdMonitorServiceNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.49, p.798
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
+- [x] `DiagnosticMonitorUpdateKindEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.50, p.798
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `4a01b231f`); audit_class.py initially FAILed on a Rule 0012.2.4 `__init__` docstring — removed in this pass; audit now PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp; repair commit `9bfa6326d`.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `ObdRatioDenominatorNeeds` — DiagnosticCapabilityElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.51, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -395,29 +459,68 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-05 (1898 + 8194 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `c4b99a4cf`
 
-- [ ] `DiagnosticDenominatorConditionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.52, p.803
+- [x] `DiagnosticDenominatorConditionEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.52, p.803
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `DiagnosticTestResult` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.53, p.804; also CP_TPS_DiagnosticExtractTemplate Table 4.201, p.204
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): defining table = CP_TPS_DiagnosticExtractTemplate Table 4.201, p.204 (pdf_page.py) — the row's SWC Table 13.53
+    is a reproduction (class spec Package `DiagnosticExtract::Dem::DiagnosticTestResult`; SWC §13.8.5 cross-references "the TPS Diagnostic
+    Extract"; DEXT §4.4.12 carries the class-level constraints constr_1850/1851; sibling family citations all DEXT); both renderings verified
+    row-identical. Concrete Class; Base chain = ARElement , ARObject , CollectableElement , DiagnosticCommonElement , Identifiable ,
+    MultilanguageReferrable , PackageableElement , Referrable ⇒ most-derived base ARElement per Rule 0001.2 (XSD complexType
+    DIAGNOSTIC-TEST-RESULT l.46004: … → AR-ELEMENT → DIAGNOSTIC-COMMON-ELEMENT (empty group l.32814) → own group; DiagnosticCommonElement
+    is stamped but adds no members — sibling DiagnosticMeasurementIdentifier with the identical chain inherits ARElement directly) — stub
+    base already correct, no relocation. Note (md Table 4.201): "This meta-class represents the ability to define diagnostic test results.
+    Tags: atp.recommendedPackage=DiagnosticTestResults" + class-level constr_1850 (testIdentifier aggregation existence) / constr_1851
+    (monitoredIdentifier reference existence) appended to the class docstring. 4 attrs in displayed order (cell-wraps healed per XSD):
+    1. diagnosticEvent (DiagnosticEvent, 0..1, ref; Stereotypes: atpSplitable; atpVariation) → XSD DIAGNOSTIC-EVENTS wrapper (l.45949,
+       unbounded DIAGNOSTIC-EVENT-REF-CONDITIONAL choice, pureMM.maxOccurs="-1") but PDF Mult 0..1 wins (Rule 0001.4/0015 shape rule;
+       EventHandler.eventMulticastAddressRef — identical stereotype row — modeled single, stamped) → `diagnosticEventRef: Optional[RefType]`
+       + set/get; reader deep path DIAGNOSTIC-EVENTS/DIAGNOSTIC-EVENT-REF-CONDITIONAL/DIAGNOSTIC-EVENT-REF, writer wrapper-only-when-set
+       (sdClientTimerConfig single-shape precedent); Tags cell-wrap healed "diagnostic Event.variationPoint.shortLabel" →
+       diagnosticEvent.variationPoint.shortLabel (XSD l.45957).
+    2. monitoredIdentifier (DiagnosticMeasurementIdentifier, 0..1, ref) → MONITORED-IDENTIFIER-REF (DEST
+       DIAGNOSTIC-MEASUREMENT-IDENTIFIER--SUBTYPES-ENUM) → `monitoredIdentifierRef: Optional[RefType]`.
+    3. testIdentifier (DiagnosticTestIdentifier, 0..1, aggr) → TEST-IDENTIFIER (l.45989) → `testIdentifier: Optional[DiagnosticTestIdentifier]`
+       (child Base ARObject ⇒ set/get shape, Rule 0001.6; the child's checklist deferred its reader/writer to "the future consumer" = this
+       class — wired in Steps 5/6).
+    4. updateKind (DiagnosticTestResultUpdateEnum, 0..1, attr) → UPDATE-KIND → `updateKind: Optional[DiagnosticTestResultUpdateEnum]`
+       (transparent atpMixedString variation-point wrapper; ObdMonitorServiceNeeds.updateKind precedent: get/setChildElementOptionalLiteral
+       + cast).
+    XSD element order (Rule 0001.11 writer/reader order): DIAGNOSTIC-EVENTS, MONITORED-IDENTIFIER-REF, TEST-IDENTIFIER, UPDATE-KIND; XSD
+    EVENT-REF (l.45969, mmt DiagnosticTestResult.event) carries atp.Status="removed" → not modeled (Rule 0015). Aggregated by
+    ARPackage.element ⇒ ARPackage factory createDiagnosticTestResult + readDiagnosticPackageElement/writeDiagnosticElement dispatch branches
+    (both MISSING — added in Step 6). All 4 member types exist and are stamped — no Rule 0001.10 missing classes. Not VP-capable (Rule 0020):
+    the class's own XSD group DIAGNOSTIC-TEST-RESULT holds no VARIATION-POINT element (the rows' atpVariation Tags are split keys).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): no spec deviations — tracker gains a "No deviations" entry (docs/examples/method_deviation_by_class.md).
+    All 4 Table 4.201 rows modeled 1:1 in displayed order with spec types/names/shapes. Report-only: XSD EVENT-REF (l.45969, mmt
+    DiagnosticTestResult.event) carries atp.Status="removed" → not modeled (Rule 0015/0001.3); diagnosticEvent PDF Mult 0..1 wins over the
+    XSD unbounded splitable wrapper (pureMM.maxOccurs="-1") → Optional[RefType] single — EventHandler.eventMulticastAddressRef (identical
+    stereotype row) is the stamped single-shape precedent, ConsumedEventGroup.eventMulticastAddressRefs List = prior sibling deviation to
+    reconcile (Rule 0001.6), sdClientTimerConfig single-shape reader/writer precedent followed; defining-table re-cite SWC 13.53 (reproduction)
+    → DEXT 4.201 (primary), single `# Spec:` line, both renderings row-identical; the DiagnosticTestIdentifier child's reader/writer
+    ("the future consumer wires it") wired here via the matched getDiagnosticTestIdentifier/setDiagnosticTestIdentifier pair (Rule 0013.2);
+    not VP-capable (Rule 0020); no integration fixture carries DIAGNOSTIC-TEST-RESULT; no Rule 0001.10 missing member types (all 4 stamped).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1457 + 8717 passed / 0 failed: models GeneralTemplateClasses, parser+writer regression; member annotations + stub guard 1183 passed); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `30d1bea62`
 
 - [ ] `DoIpRoutingActivationAuthenticationNeeds` — DoIpServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.58, p.806
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
@@ -457,77 +560,88 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (1901 + 8206 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `294106f57`
 
-- [ ] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
+- [x] `VerificationStatusIndicationModeEnum` — AREnum — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.69, p.824
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Audit-only flip (Rule 0023/0026, 2026-10-07): class already carries `# Spec verified: R23-11` in src (checklist provenance `ed19e28c5`); audit_class.py PASS (BLOCK/ROWS/BASE/DOC/SPECLINE/STAMP); queue row flipped citing the existing stamp — no re-sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] `IdsMgrNeeds` — ServiceNeeds — R23-11 CP_TPS_SoftwareComponentTemplate Table 13.81, p.842
   - module: M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 13.81, p.842; concrete Class; Base most-derived = `ServiceNeeds` (src base already correct). NOT attribute-less: one Attribute row `useSmartSensorApi` (Boolean, 0..1, attr) — field + accessors already present and spec-typed (`Optional[Boolean]`); XSD group `IDS-MGR-NEEDS` (AUTOSAR_00052.xsd line 69517) carries exactly `USE-SMART-SENSOR-API` 0..1, no `atp.Status="removed"` members, sequenceOffset = own element after SERVICE-NEEDS group (reader/writer already call readServiceNeeds/writeServiceNeeds once + leaf helper). Rule 0023 legacy checklist: stale `# Spec verified: R23-11` removed at session start; full re-sync from Step 1.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - Step 8 (2026-10-06): No deviations — single Attribute row `useSmartSensorApi` (Boolean, 0..1, attr) fully modeled (field + typed accessors, reader+writer); XSD group `IDS-MGR-NEEDS` holds no attribute beyond the PDF table (Rule 0015 nothing to drop) and no `atp.Status="removed"` members; no Rule 0001.10 referenced classes (only member type is the existing `Boolean` primitive). Rule 0023 re-sync observations: legacy 4-column block rebuilt in 6-column format; stale `# Spec verified: R23-11` removed (marker rewrite deferred to batch 9b per user instruction); reader/writer source needed NO edit — `readIdsMgrNeeds`/`writeIdsMgrNeeds` already call `readServiceNeeds`/`writeServiceNeeds` exactly once + the `USE-SMART-SENSOR-API` leaf, and both BSW/SWC dispatch branches exist (audit BASE clean); new model SWC-attribute round-trip + parser/writer dispatch tests (incl. empty-wrapper variants) passed on first run because the implementation pre-dated this pass — tests were written before any source change in this session.
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (274 + 8683 passed / 0 failed: models CommonStructure, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `4c1801ebf`
 
 - [ ] `RapidPrototypingScenario` — ARElement — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.1, p.846
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 14.1, p.846 (pdf_page.py); concrete Class (XSD complexType RAPID-PROTOTYPING-SCENARIO abstract="false", AUTOSAR_00052.xsd l.95612; group l.95550); Base most-derived = `ARElement` (Base chain `ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable`; XSD complexType refs AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE/COLLECTABLE-ELEMENT/PACKAGEABLE-ELEMENT/AR-ELEMENT groups) → `__init__(self, parent, short_name)`. PLACEMENT ARBITRATION (Rule 0007 + RptHook 81bd63ac9 / RptProfile 917a9b7df / RptContainer precedents): spec Package tail = `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario` (markdown Table 14.1 Package row + XSD comment "complex type for class AUTOSAR Templates::SWComponentTemplate::RPTScenario::RapidPrototypingScenario") → RELOCATED from the `GeneralTemplateClasses/ARPackage.py` stub to `SWComponentTemplate/RPTScenario.py`; stub + ARPackage `__all__` entry + STUBS entry removed, `armodel.RapidPrototypingScenario` re-resolves via the existing RPTScenario wildcard export (models/__init__.py l.66). Aggregated by `ARPackage.element` (Table 14.1 row + XSD element l.5416) → ARPackage remains the aggregator: `createRapidPrototypingScenario`/`getRapidPrototypingScenarios` factory per the ViewMapSet sibling ARElement pattern + parser/writer ELEMENTS dispatch branches (none exist today — parser/writer have zero RapidPrototypingScenario references). NOT VP-capable (Rule 0020): the rptContainer aggr row carries `Stereotypes: atpSplitable; atpVariation` (Tags `rptContainer.variationPoint.shortLabel vh.latestBindingTime=preCompileTime`) but the XSD group RAPID-PROTOTYPING-SCENARIO declares NO VARIATION-POINT (authoritative per Rule 0020) — the VP anchor for this aggregation landed on the PartClass RptContainer (group RPT-CONTAINER l.99633, "Applicable for: RapidPrototypingScenario.rptContainer / RptContainer.rptContainer"), not on RapidPrototypingScenario → no VariationPointCapable mixin, no variationPoint rows. Attributes (displayed order): hostSystem (System, 0..1, ref → `hostSystemRef: Optional[RefType]` + get/set; XSD HOST-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM; attribute-level constr_1987 appended per Rule 0012.2.5.2), rptContainer (RptContainer, *, aggr, Identifiable child → `rptContainers: List[RptContainer]` + createRptContainer(short_name)/getRptContainers; XSD wrapper RPT-CONTAINERS, items RPT-CONTAINER; wires sibling readRptContainer/writeRptContainer), rptProfile (RptProfile, *, aggr, Identifiable child → `rptProfiles: List[RptProfile]` + createRptProfile(short_name)/getRptProfiles; XSD wrapper RPT-PROFILES, items RPT-PROFILE; wires sibling readRptProfile/writeRptProfile), rptSystem (System, 0..1, ref → `rptSystemRef: Optional[RefType]` + get/set; XSD RPT-SYSTEM-REF DEST SYSTEM--SUBTYPES-ENUM). XSD XML order: HOST-SYSTEM-REF, RPT-CONTAINERS, RPT-PROFILES, RPT-SYSTEM-REF (no VARIATION-POINT). Class Note carries `Tags: atp.recommendedPackage=RapidPrototypingScenarios`; rptContainer/rptProfile/rptSystem Notes carry Stereotypes:/Tags: tails — all kept verbatim per 0012.2.5.3. All member types exist and are synced on this branch (Rule 0001.10 clean).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - Step 8 (2026-10-06): No deviations — all four Table 14.1 attributes modeled (field + typed accessor pair + reader/writer coverage each); XSD group RAPID-PROTOTYPING-SCENARIO (l.95550) holds no attribute beyond the PDF table (Rule 0015: nothing to drop) and no `atp.Status="removed"` members; no Rule 0001.10 placeholders (member types RptContainer/RptProfile freshly synced on this branch, refs target RefType). Observations: (1) placement relocated ARPackage.py → SWComponentTemplate/RPTScenario.py per Rule 0007 + RptHook 81bd63ac9 / RptProfile 917a9b7df / RptContainer precedents (stub + ARPackage `__all__` entry + STUBS entry removed; `armodel.RapidPrototypingScenario` re-resolves via the existing RPTScenario wildcard export, models/__init__.py l.66); (2) `Aggregated by: ARPackage.element` — ARPackage stays the aggregator: added `createRapidPrototypingScenario`/`getRapidPrototypingScenarios` (ViewMapSet sibling ARElement factory pattern, bottom-of-module cycle-breaker import like ViewMapSet) + parser `readARPackageElementsRest` RAPID-PROTOTYPING-SCENARIO branch + writer `writeARPackageElement` isinstance branch (five-place dispatch, Rule 0001.7; parser/writer previously had zero RapidPrototypingScenario references); (3) NOT VP-capable per Rule 0020 (XSD group declares no VARIATION-POINT — the anchor for RapidPrototypingScenario.rptContainer landed on RptContainer's RPT-CONTAINER group); no own variationPoint rows; the mixin accessors still resolve via the PackageableElement base chain (repo architecture — every ARElement inherits VariationPointCapable), the field stays None and the writer emits nothing (isinstance-guarded readVariationPointCapable warns on the parser side, per the shared helper); (4) `hostSystem`/`rptSystem` (System, 0..1, ref) modeled `Optional[RefType]` with the Ref suffix (Rule 0001.5) — XSD DEST attribute type SYSTEM--SUBTYPES-ENUM has the single facet "SYSTEM", so tests pin DEST="SYSTEM" (writer output validates against the R23-11 XSD); (5) `rptContainer`/`rptProfile` are Identifiable children (Rule 0001.6/0004) → `createXxx(short_name)` factories + dedicated typed lists (`rptContainers`/`rptProfiles`, IsReferrableElementExists duplicate check + addReferrableElement, RptContainer.createRptContainer pattern); consumer dispatch wired to the sibling helpers readRptContainer/writeRptContainer and readRptProfile/writeRptProfile — each entry point calls its base helper exactly once (readIdentifiable/writeIdentifiable, audit BASE clean, Rule 0025); (6) constr_1987 appended to the hostSystem member comment + getter/setter docstrings per Rule 0012.2.5.2 (markdown constraint body is split by a formula image — "the instance reference to <image> ModeDeclaration in the role hostSystem shall exist at the time when the RTE is generated" — readable text used); (7) class Note `Tags: atp.recommendedPackage=RapidPrototypingScenarios` and rptContainer/rptProfile/rptSystem Stereotypes:/Tags: tails kept verbatim per 0012.2.5.3; (8) `# Spec verified: R23-11` marker deferred to batch 9b stamp (user instruction) — audit STAMP INFO expected pre-9b; (9) pre-existing, outside this row (flagged by RptHook/RptContainer Step 8, still outstanding for batch 9b): stamped ARObject-level RPT siblings RptImplPolicy, RptExecutableEntityProperties, RptSwPrototypingAccess FAIL audit BASE.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (68 + 8761 passed / 0 failed: models SWComponentTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `dcf4255ca`
 
 - [ ] `RptContainer` — Identifiable — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.2, p.847
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 14.2, p.847 (pdf_page.py); concrete Class (XSD complexType RPT-CONTAINER abstract="false", AUTOSAR_00052.xsd l.99731); Base most-derived = `Identifiable` (Base chain `ARObject, Identifiable, MultilanguageReferrable, Referrable`; XSD complexType refs AR-OBJECT/REFERRABLE/MULTILANGUAGE-REFERRABLE/IDENTIFIABLE groups) → `__init__(self, parent, short_name)`. PLACEMENT ARBITRATION (Rule 0007 + RptHook 81bd63ac9 / RptProfile 917a9b7df precedents): spec Package tail = `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario` (markdown Table 14.2 + XSD comment "complex type for class …SWComponentTemplate::RPTScenario::RptContainer") → RELOCATED from the `GeneralTemplateClasses/Identifiable.py` stub to `SWComponentTemplate/RPTScenario.py`; stub + STUBS entry removed, `armodel.RptContainer` re-resolves via the existing RPTScenario wildcard export (models/__init__.py l.66). VP-capable per Rule 0020: rptContainer aggr row carries `Stereotypes: atpSplitable; atpVariation` (Tags `rptContainer.variationPoint.shortLabel vh.latestBindingTime=preCompileTime`) and XSD group RPT-CONTAINER (l.99633) declares VARIATION-POINT directly ("Applicable for: RapidPrototypingScenario.rptContainer / RptContainer.rptContainer", sequenceOffset 10000 = last) → inherits `VariationPointCapable`. Attributes (displayed order): byPassPoint (AtpFeature, *, iref, "InstanceRef implemented by: AnyInstanceRef" → `byPassPointIRefs: List[AnyInstanceRef]` + add/get, Rule 0001.5 IRef suffix), explicitRptProfileSelection (RptProfile, *, ref → `explicitRptProfileSelectionRefs: List[RefType]` + add/get; XSD wrapper EXPLICIT-RPT-PROFILE-SELECTION-REFS, items EXPLICIT-RPT-PROFILE-SELECTION-REF DEST RPT-PROFILE--SUBTYPES-ENUM), rptContainer (RptContainer, *, aggr recursive → `rptContainers` + createRptContainer(short_name)/getRptContainers, Identifiable child), rptExecutableEntityProperties (0..1, aggr, ARObject child → get/set), rptHook (RptHook, 0..1, aggr, ARObject child → get/set; wires the sibling readRptHook/writeRptHook helpers), rptImplPolicy (0..1, aggr → get/set), rptSwPrototypingAccess (0..1, aggr → get/set). XSD XML order: BY-PASS-POINT-IREFS, EXPLICIT-RPT-PROFILE-SELECTION-REFS, RPT-CONTAINERS, RPT-EXECUTABLE-ENTITY-PROPERTIES, RPT-HOOKS, RPT-IMPL-POLICY, RPT-SW-PROTOTYPING-ACCESS, VARIATION-POINT last. No constr_* rows directly under Table 14.2 (constr_2054/2055/2056 are section-14.x prose constraints, not attribute rows); Tags:/Stereotypes: tails kept verbatim on byPassPoint/explicitRptProfileSelection/rptContainer/rptHook Notes per 0012.2.5.3. All member types exist (Rule 0001.10 clean).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (58 + 8806 + 1177 + 20453 passed / 0 failed: models test_RPTScenario, parser+writer regression, member-annotations+stub-guard, models full tree); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `8c7d75324`
+  - Step 8 (2026-10-06): No deviations — all seven Table 14.2 attributes modeled (field + typed accessor pair + reader/writer coverage each); XSD group RPT-CONTAINER (l.99633) holds no attribute beyond the PDF table (Rule 0015: nothing to drop) and no `atp.Status="removed"` members; Tags:/Stereotypes: tails kept verbatim on byPassPoint/explicitRptProfileSelection/rptContainer/rptHook Notes per 0012.2.5.3; no Rule 0001.10 placeholders. Observations: (1) placement relocated Identifiable.py → SWComponentTemplate/RPTScenario.py per Rule 0007 + RptHook 81bd63ac9 / RptProfile 917a9b7df precedents (stub + STUBS entry removed; `armodel.RptContainer` re-resolves via the existing RPTScenario wildcard export, models/__init__.py l.66); (2) `byPassPoint` (Kind=iref, PDF Type AtpFeature, Note tail "InstanceRef implemented by: AnyInstanceRef") modeled `List[AnyInstanceRef]` with IRef suffix + plural (`byPassPointIRefs`, add/getByPassPointIRefs) — Rule 0001.5/0001.4; (3) `explicitRptProfileSelection` (Kind=ref, Type RptProfile) modeled `List[RefType]` (`explicitRptProfileSelectionRefs`) — ref kind → RefType with DEST, XSD wrapper EXPLICIT-RPT-PROFILE-SELECTION-REFS with EXPLICIT-RPT-PROFILE-SELECTION-REF items (DEST RPT-PROFILE--SUBTYPES-ENUM); (4) `rptContainer` recursive aggr (Identifiable child) → `createRptContainer(short_name)` + `getRptContainers()` (Rule 0001.6/0004, dedicated typed list + elements-registry duplicate check); the RPT-CONTAINERS wrapper dispatch is recursive inside readRptContainer/writeRptContainer; (5) `rptHook` keeps PDF Mult 0..1 as `Optional[RptHook]` (Rule 0015/0001.4) even though the XSD renders RPT-HOOKS as an unbounded wrapper ("upper multiplicity increased to * due to resolving an atpVariation stereotype; previous value was 1") — wrapper emitted only when set and holds exactly one RPT-HOOK item (pinned by test); (6) `rptExecutableEntityProperties`/`rptImplPolicy`/`rptSwPrototypingAccess` are ARObject-based children (Rule 0001.6) → get/set pairs; their existing group-content helpers are reused and the aggregator creates the named element (consumer precedent in readMcDataInstance/writeMcDataInstance); (7) consumer dispatch wired for the freshly-synced members: RPT-HOOKS wrapper → sibling readRptHook/writeRptHook (base helpers exactly once inside each, Rule 0025); RapidPrototypingScenario.rptContainer (RPT-CONTAINERS at the scenario level) is a separate queued row — its dispatch is that class's own sync; cross-references recorded: Table 14.1 constr_1987 and section-14.2 prose constr_2054/2055/2056 are not Table 14.2 attribute rows and are not appended (constr_2055 targets byPassPoint/rptHook reference validity by category — prose semantics, no per-attribute Note text); (8) VARIATION-POINT dispatch symmetry: readIdentifiable already owns the VP read, so readRptContainer does not re-call readVariationPointCapable (Rule 0013.1), and writeRptContainer calls writeIdentifiable(write_variation_point=False) then emits VARIATION-POINT last (sequenceOffset 10000) via writeVariationPointCapable — established precedent (StructuredReq, MemorySection); (9) pre-existing, outside this row (flagged by RptHook Step 8, still outstanding for batch 9b): stamped ARObject-level RPT siblings RptImplPolicy, RptExecutableEntityProperties, RptSwPrototypingAccess FAIL audit BASE (no readARObject/writeARObject call in readRptImplPolicy/readRptExecutableEntityProperties/readRptSwPrototypingAccess and writer counterparts); (10) `# Spec verified: R23-11` marker deferred to batch 9b stamp (user instruction) — audit STAMP INFO expected pre-9b.
 
 - [ ] `RptHook` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.3, p.848
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 14.3, p.848; concrete Class (not abstract, no TypeError guard); Base most-derived = `ARObject` (`__init__(self)`, no parent/short_name). PLACEMENT ARBITRATION (Rule 0007 + TtcanCommunicationController precedent 20da1fc7f): spec Package tail = `RPTScenario` → RELOCATED from the `GeneralTemplateClasses/ArObject.py` stub to `SWComponentTemplate/RPTScenario.py` (existing module of the RPT family: RptImplPolicy, RptExecutableEntityProperties); stub removed from ArObject.py, STUBS entry removed from test_group21_36_stub_classes.py, `armodel.RptHook` re-resolves at top level via the existing RPTScenario export chain. VP-capable per Rule 0020: RptContainer.rptHook aggr row (Table 14.2) carries `Stereotypes: atpVariation` and XSD group RPT-HOOK (AUTOSAR_00052.xsd l.100040) declares VARIATION-POINT directly ("Applicable for: RptContainer.rptHook", sequenceOffset 10000 = last) → inherits `VariationPointCapable`. Attributes (displayed order): codeLabel (CIdentifier, 0..1, attr), mcdIdentifier (NameToken, 0..1, attr), rptArHook (iref 0..1, `InstanceRef implemented by: AnyInstanceRef` → `IRef` suffix per FlatMap precedent), sdg (Sdg, *, aggr → `List[Sdg]` + add/getSdgs; Sdg Base = ARObject → add, not create). XSD sequenceOffset XML order: CODE-LABEL, MCD-IDENTIFIER, RPT-AR-HOOK-IREF, SDGS wrapper (unbounded SDG), VARIATION-POINT last; no `atp.Status="removed"` members; no Tags:/Stereotypes: tails in any Note. All member types exist and are stamped (Rule 0001.10 clean). No synced consumer yet — RptContainer (aggregator) and RapidPrototypingScenario are separate queued stubs, so `readRptHook`/`writeRptHook` land as standalone reusable helpers; the RPT-HOOKS wrapper dispatch belongs to the RptContainer sync.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): No deviations — all four Table 14.3 attributes modeled (field + typed accessor pair + reader/writer coverage each); XSD group RPT-HOOK holds no attribute beyond the PDF table (Rule 0015: nothing to drop) and no `atp.Status="removed"` members; no Tags:/Stereotypes: tails in any Table 14.3 Note (nothing to keep/drop per 0012.2.5.3); no Rule 0001.10 placeholders — CIdentifier, NameToken, AnyInstanceRef, Sdg all exist and are stamped. Observations: (1) placement relocated ArObject.py → SWComponentTemplate/RPTScenario.py per Rule 0007 + TtcanCommunicationController precedent 20da1fc7f (stub + STUBS entry removed; `armodel.RptHook` re-resolves via the existing RPTScenario wildcard export, models/__init__.py l.66); (2) `rptArHook` (Kind=iref, PDF Type AtpFeature, Note "InstanceRef implemented by: AnyInstanceRef") modeled `Optional[AnyInstanceRef]` with the IRef suffix — Rule 0001.5, FlatMap `ecuExtractReferenceIRef` precedent, not a deviation; (3) VP capability per Rule 0020 via the VariationPointCapable mixin (no own variationPoint rows; XSD VARIATION-POINT sequenceOffset 10000 = last element); (4) `readRptHook`/`writeRptHook` are standalone reusable helpers — aggregator RptContainer (RPT-HOOKS wrapper) and RapidPrototypingScenario are separate queued stubs, so no consumer dispatch exists yet (Rule 0001.7 aggregator-sequenced-after-child; the dispatch wires up in the RptContainer sync); (5) pre-existing, outside this row: stamped ARObject-level RPT siblings (RptImplPolicy, RptExecutableEntityProperties, RptSwPrototypingAccess) currently FAIL audit BASE (no readARObject/writeARObject call) — flagged for batch 9b; (6) `# Spec verified: R23-11` marker deferred to batch 9b stamp (user instruction) — audit STAMP INFO expected pre-9b.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (2583 + 8727 passed / 0 failed: models SWComponentTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `81bd63ac9`
 
 - [ ] `RptProfile` — ARObject — R23-11 CP_TPS_SoftwareComponentTemplate Table 14.7, p.854
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
+  - Step 1 finding (2026-10-06): own table = CP_SWC TPS Table 14.7, p.854 (page-split: rows maxServicePointId..servicePointSymbolPre in the first page group, stimEnabler after the caption; displayed order = concatenation, Rule 0001.11); concrete Class (XSD complexType RPT-PROFILE abstract="false"). BASE ARBITRATION — queue-row dash summary says "ARObject" but the spec Base column decides (Rule 0001.2): Base = `ARObject, Identifiable, MultilanguageReferrable, Referrable` → most-derived = **Identifiable** → `__init__(self, parent, short_name)`; XSD confirms (RPT-PROFILE complexType refs groups AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE). PLACEMENT ARBITRATION (Rule 0007 + RptHook precedent 81bd63ac9): spec Package tail = `RPTScenario` → RELOCATED from the `GeneralTemplateClasses/ArObject.py` stub to `SWComponentTemplate/RPTScenario.py`; stub removed from ArObject.py, STUBS entry removed from test_group21_36_stub_classes.py, `armodel.RptProfile` re-resolves at top level via the existing RPTScenario export chain. Attributes (displayed order): maxServicePointId (PositiveInteger, 0..1, attr), minServicePointId (PositiveInteger, 0..1, attr), servicePointSymbolPost (CIdentifier, 0..1, attr), servicePointSymbolPre (CIdentifier, 0..1, attr), stimEnabler (RptEnablerImplTypeEnum, 0..1, attr) — all scalar 0..1 → Optional[T], getter-first pairs. XSD sequenceOffset XML order = the same five: MAX-SERVICE-POINT-ID, MIN-SERVICE-POINT-ID, SERVICE-POINT-SYMBOL-POST, SERVICE-POINT-SYMBOL-PRE, STIM-ENABLER. NOT VP-capable (Rule 0020): the RapidPrototypingScenario.rptProfile aggr row carries `atpSplitable` + `atp.Splitkey=rptProfile.shortName` only (no variationPoint.shortLabel) and XSD group RPT-PROFILE declares no VARIATION-POINT. Table Note and all five attribute Notes carry no Tags:/Stereotypes: tails. Attribute-level constraints constr_1988..1992 (existence at RTE-generation time) appended per attribute per Rule 0012.2.5.2 (RptImplPolicy sibling dropped its constr_1993/1994 — prior shape, not a template, Rule 0001.6; noted for Step 8). All member types exist and are stamped (PositiveInteger, CIdentifier, RptEnablerImplTypeEnum — Rule 0001.10 clean). No synced consumer yet — RapidPrototypingScenario (RPT-PROFILES wrapper) and RptContainer (EXPLICIT-RPT-PROFILE-SELECTION-REFS wrapper) are separate queued stubs, so `readRptProfile`/`writeRptProfile` land as standalone reusable helpers (Identifiable level: readIdentifiable/writeIdentifiable once each, Rule 0025).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8 (2026-10-06): No deviations — all five Table 14.7 attributes modeled (field + typed accessor pair + reader/writer coverage each); XSD group RPT-PROFILE holds no attribute beyond the PDF table (Rule 0015: nothing to drop) and no `atp.Status="removed"` members; no Tags:/Stereotypes: tails in any Table 14.7 Note (nothing to keep/drop per 0012.2.5.3); no Rule 0001.10 placeholders — PositiveInteger, CIdentifier, RptEnablerImplTypeEnum all exist and are stamped. Observations: (1) BASE ARBITRATION: the queue-row dash summary said "ARObject" but the spec Base column (`ARObject, Identifiable, MultilanguageReferrable, Referrable`) decides per Rule 0001.2 → most-derived **Identifiable**, `__init__(self, parent, short_name)`; XSD RPT-PROFILE complexType confirms (refs AR-OBJECT, REFERRABLE, MULTILANGUAGE-REFERRABLE, IDENTIFIABLE groups) — differs from RptHook (whose Base is ARObject-only); (2) placement relocated ArObject.py → SWComponentTemplate/RPTScenario.py per Rule 0007 + RptHook precedent 81bd63ac9 (stub + STUBS entry removed; `armodel.RptProfile` re-resolves via the existing RPTScenario wildcard export); (3) NOT VP-capable (Rule 0020): RapidPrototypingScenario.rptProfile aggr row carries `atpSplitable` + `atp.Splitkey=rptProfile.shortName` only (no variationPoint.shortLabel) and XSD group RPT-PROFILE declares no VARIATION-POINT — no VariationPointCapable mixin; (4) attribute-level constraints constr_1988..1992 appended to the affected member comments/docstrings per Rule 0012.2.5.2 — sibling RptImplPolicy (stamped, same PDF p.854) dropped its constr_1993/1994, a prior shape and not a template (Rule 0001.6); flagged for later reconciliation, not a deviation of this class; (5) `readRptProfile`/`writeRptProfile` are standalone reusable helpers (readIdentifiable/writeIdentifiable exactly once each, Rule 0025) — aggregator RapidPrototypingScenario (RPT-PROFILES wrapper) and referrer RptContainer (EXPLICIT-RPT-PROFILE-SELECTION-REFS wrapper) are separate queued stubs, so no consumer dispatch exists yet (Rule 0001.7 aggregator-sequenced-after-child; the dispatches wire up in their own syncs); (6) `# Spec verified: R23-11` marker deferred to batch 9b stamp (user instruction) — audit STAMP INFO expected pre-9b.
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-10-06 (11523 + 8737 passed / 0 failed: models full tree incl. mirrored SWComponentTemplate, parser+writer regression); ruff + mypy + black(24.8.0) clean; 9b deferred to batch stamp (user instruction); sync commit `917a9b7df`
 
 - [ ] `CommunicationConnector` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 3.4, p.54
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py

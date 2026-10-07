@@ -34,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticMemoryDestination,
     DiagnosticParameter,
     DiagnosticSupportInfoByte,
+    DiagnosticTestIdentifier,
     PhysicalDimensionMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -116,7 +117,6 @@ __all__ = [
     "SecurityEventContextMappingBswModule",
     "SecurityEventContextMappingApplication",
     "SdgDef",
-    "RapidPrototypingScenario",
     "PostBuildVariantCriterionValueSet",
     "PhysicalDimensionMappingSet",
     "LifeCycleStateDefinitionGroup",
@@ -277,6 +277,7 @@ __all__ = [
     "ConsistencyNeeds",
     "ConstantSpecification",
     "ConstantSpecificationMappingSet",
+    "CouplingElement",
     "CryptoEllipticCurveProps",
     "CryptoServiceCertificate",
     "CryptoServicePrimitive",
@@ -428,6 +429,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DiagnosticOperationCycleTypeEnum,
     DiagnosticRecordTriggerEnum,
     DiagnosticResponseOnEventActionEnum,
+    DiagnosticTestResultUpdateEnum,
     DiagnosticTroubleCodeJ1939DtcKindEnum,
     DiagnosticTypeOfDtcSupportedEnum,
     Identifier,
@@ -782,6 +784,24 @@ class ARPackage(CollectableElement, VariationPointCapable):
             request_control_of_on_board_device_class = DiagnosticRequestControlOfOnBoardDeviceClass(self, short_name)
             self.addReferrableElement(request_control_of_on_board_device_class)
         return cast(DiagnosticRequestControlOfOnBoardDeviceClass, self.getReferrableElement(short_name, DiagnosticRequestControlOfOnBoardDeviceClass))
+
+    def createDiagnosticTestResult(self, short_name: str) -> DiagnosticTestResult:
+        """
+        Creates a new DiagnosticTestResult with the given short name, or
+        returns an existing one if it already exists in this package.
+
+        DiagnosticTestResult represents the ability to define diagnostic test results.
+
+        Args:
+            short_name: The short name for the new DiagnosticTestResult
+
+        Returns:
+            The newly created or existing DiagnosticTestResult instance
+        """
+        if not self.IsReferrableElementExists(short_name, DiagnosticTestResult):
+            test_result = DiagnosticTestResult(self, short_name)
+            self.addReferrableElement(test_result)
+        return cast(DiagnosticTestResult, self.getReferrableElement(short_name, DiagnosticTestResult))
 
     def createDiagnosticTestRoutineIdentifier(self, short_name: str) -> DiagnosticTestRoutineIdentifier:
         """
@@ -2373,6 +2393,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(SecuredIPdu, self.getReferrableElement(short_name, SecuredIPdu))
 
+    def createContainerIPdu(self, short_name: str) -> ContainerIPdu:
+
+        if not self.IsReferrableElementExists(short_name, ContainerIPdu):
+            element = ContainerIPdu(self, short_name)
+            self.addReferrableElement(element)
+        return cast(ContainerIPdu, self.getReferrableElement(short_name, ContainerIPdu))
+
     def createNmConfig(self, short_name: str) -> NmConfig:
 
         if not self.IsReferrableElementExists(short_name, NmConfig):
@@ -2518,6 +2545,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             element = EcucValueCollection(self, short_name)
             self.addReferrableElement(element)
         return cast(EcucValueCollection, self.getReferrableElement(short_name, EcucValueCollection))
+
+    def createEthIpProps(self, short_name: str) -> EthIpProps:
+
+        if not self.IsReferrableElementExists(short_name, EthIpProps):
+            props = EthIpProps(self, short_name)
+            self.addReferrableElement(props)
+        return cast(EthIpProps, self.getReferrableElement(short_name, EthIpProps))
 
     def createEthTcpIpProps(self, short_name: str) -> EthTcpIpProps:
 
@@ -2680,6 +2714,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(element)
         return cast(CpSoftwareCluster, self.getReferrableElement(short_name, CpSoftwareCluster))
 
+    def createCpSoftwareClusterMappingSet(self, short_name: str) -> CpSoftwareClusterMappingSet:
+
+        if not self.IsReferrableElementExists(short_name, CpSoftwareClusterMappingSet):
+            element = CpSoftwareClusterMappingSet(self, short_name)
+            self.addReferrableElement(element)
+        return cast(CpSoftwareClusterMappingSet, self.getReferrableElement(short_name, CpSoftwareClusterMappingSet))
+
     def createSystem(self, short_name: str) -> System:
 
         if not self.IsReferrableElementExists(short_name, System):
@@ -2713,6 +2754,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             cluster = EthernetCluster(self, short_name)
             self.addReferrableElement(cluster)
         return cast(EthernetCluster, self.getReferrableElement(short_name, EthernetCluster))
+
+    def createCouplingElement(self, short_name: str) -> CouplingElement:
+
+        if not self.IsReferrableElementExists(short_name, CouplingElement):
+            coupling_element = CouplingElement(self, short_name)
+            self.addReferrableElement(coupling_element)
+        return cast(CouplingElement, self.getReferrableElement(short_name, CouplingElement))
 
     def createDiagnosticAging(self, short_name: str) -> DiagnosticAging:
         """
@@ -4503,6 +4551,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(view_map_set)
         return cast(ViewMapSet, self.getReferrableElement(short_name, ViewMapSet))
 
+    def createRapidPrototypingScenario(self, short_name: str) -> RapidPrototypingScenario:
+
+        if not self.IsReferrableElementExists(short_name, RapidPrototypingScenario):
+            scenario = RapidPrototypingScenario(self, short_name)
+            self.addReferrableElement(scenario)
+        return cast(RapidPrototypingScenario, self.getReferrableElement(short_name, RapidPrototypingScenario))
+
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ApplicationPrimitiveDataType)), key=lambda o: o.short_name))
@@ -4687,6 +4742,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, SecuredIPdu)), key=lambda a: a.short_name))
 
+    def getContainerIPdus(self) -> List[ContainerIPdu]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, ContainerIPdu)), key=lambda a: a.short_name))
+
     def getNmConfigs(self) -> List[NmConfig]:
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, NmConfig)), key=lambda a: a.short_name))
@@ -4834,6 +4893,10 @@ class ARPackage(CollectableElement, VariationPointCapable):
 
         return list(sorted((a for a in self.referrableElements if isinstance(a, ViewMapSet)), key=lambda a: a.short_name))
 
+    def getRapidPrototypingScenarios(self) -> List[RapidPrototypingScenario]:
+
+        return list(sorted((a for a in self.referrableElements if isinstance(a, RapidPrototypingScenario)), key=lambda a: a.short_name))
+
     def getReferenceBases(self) -> List[ReferenceBase]:
         """
         This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
@@ -4948,13 +5011,13 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm import DiagnosticA
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.EnvironmentalCondition import DiagnosticEnvironmentalCondition  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.MeasurementAndCalibration.InterpolationRoutineMappingSet import InterpolationRoutineMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, System  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ClientIdDefinitionSet, CpSoftwareCluster, CpSoftwareClusterMappingSet, System  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import OsTaskProxy  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps, J1939Cluster  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame  # noqa: E402
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingElement, EthIpProps, EthTcpIpIcmpProps, EthernetCluster, EthTcpIpProps  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E402
     ConsumedProvidedServiceInstanceGroup,
@@ -4980,6 +5043,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     NPdu,
     NmPdu,
     PdurIPduGroup,
+    ContainerIPdu,
     SecureCommunicationPropsSet,
     SecuredIPdu,
     SystemSignal,
@@ -5049,6 +5113,7 @@ AclOperation.__bases__ = (ARElement,)
 AclPermission.__bases__ = (ARElement,)
 AclRole.__bases__ = (ARElement,)
 ViewMapSet.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RapidPrototypingScenario  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import LifeCycleState  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonService import DiagnosticClearDiagnosticInformationClass  # noqa: E402
@@ -10693,7 +10758,105 @@ class DiagnosticStorageConditionPortMapping(DiagnosticSwMapping):
 
 
 class DiagnosticTestResult(ARElement):
-    pass
+    """
+    This meta-class represents the ability to define diagnostic test results. Tags: atp.recommendedPackage=DiagnosticTestResults
+
+    [constr_1850] Existence of aggregation DiagnosticTestResult.testIdentifier: For each DiagnosticTestResult, the aggregation of meta-class DiagnosticTestIdentifier in the role testIdentifier shall exist at the time when the DEXT is complete.
+
+    [constr_1851] Existence of reference DiagnosticTestResult.monitoredIdentifier: For each DiagnosticTestResult, the reference to meta-class DiagnosticTestIdentifier in the role monitoredIdentifier shall exist at the time when the DEXT is complete.
+    """
+
+    # DiagnosticTestResult method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 4.201, p.204
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDiagnosticEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDiagnosticEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMonitoredIdentifierRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMonitoredIdentifierRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestIdentifier            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTestIdentifier            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpdateKind                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpdateKind                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.diagnosticEventRef: Optional[RefType] = None
+
+        # This attribute represents the related diagnostic monitored identifier.
+        self.monitoredIdentifierRef: Optional[RefType] = None
+
+        # This attribute represents the applicable test identifier.
+        self.testIdentifier: Optional[DiagnosticTestIdentifier] = None
+
+        # This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.updateKind: Optional[DiagnosticTestResultUpdateEnum] = None
+
+    def getDiagnosticEventRef(self) -> Optional[RefType]:
+        """
+        This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return self.diagnosticEventRef
+
+    def setDiagnosticEventRef(self, value: Optional[RefType]) -> DiagnosticTestResult:
+        """
+        This attribute represents the diagnostic event that is related to the diagnostic test result. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=diagnosticEvent.diagnosticEvent, diagnosticEvent.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing diagnosticEventRef.
+        """
+        if value is not None:
+            self.diagnosticEventRef = value
+        return self
+
+    def getMonitoredIdentifierRef(self) -> Optional[RefType]:
+        """
+        This attribute represents the related diagnostic monitored identifier.
+        """
+        return self.monitoredIdentifierRef
+
+    def setMonitoredIdentifierRef(self, value: Optional[RefType]) -> DiagnosticTestResult:
+        """
+        This attribute represents the related diagnostic monitored identifier.
+
+        A None value is a no-op and does not overwrite an existing monitoredIdentifierRef.
+        """
+        if value is not None:
+            self.monitoredIdentifierRef = value
+        return self
+
+    def getTestIdentifier(self) -> Optional[DiagnosticTestIdentifier]:
+        """
+        This attribute represents the applicable test identifier.
+        """
+        return self.testIdentifier
+
+    def setTestIdentifier(self, value: Optional[DiagnosticTestIdentifier]) -> DiagnosticTestResult:
+        """
+        This attribute represents the applicable test identifier.
+
+        A None value is a no-op and does not overwrite an existing testIdentifier.
+        """
+        if value is not None:
+            self.testIdentifier = value
+        return self
+
+    def getUpdateKind(self) -> Optional[DiagnosticTestResultUpdateEnum]:
+        """
+        This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        """
+        return self.updateKind
+
+    def setUpdateKind(self, value: Optional[DiagnosticTestResultUpdateEnum]) -> DiagnosticTestResult:
+        """
+        This attribute controls the update behavior of the enclosing DiagnosticTestResult. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+
+        A None value is a no-op and does not overwrite an existing updateKind.
+        """
+        if value is not None:
+            self.updateKind = value
+        return self
 
 
 class DiagnosticTestRoutineIdentifier(ARElement):
@@ -11259,10 +11422,6 @@ class PostBuildVariantCriterionValueSet(ARElement):
     pass
 
 
-class RapidPrototypingScenario(ARElement):
-    pass
-
-
 class SecurityEventContextMappingApplication(ARElement):
     pass
 
@@ -11295,10 +11454,6 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
     pass
 
 
-class CpSoftwareClusterMappingSet(ARElement):
-    pass
-
-
 class CpSoftwareClusterResourcePool(ARElement):
     pass
 
@@ -11316,10 +11471,6 @@ class DdsCpConfig(ARElement):
 
 
 class EcuTiming(ARElement):
-    pass
-
-
-class EthIpProps(ARElement):
     pass
 
 

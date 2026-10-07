@@ -4,7 +4,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional, cast
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    Referrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -15,11 +19,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     MacAddressString,
     PositiveInteger,
+    PositiveUnlimitedInteger,
     RefType,
     String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import IPSecConfig, MacSecProps
@@ -160,6 +166,1523 @@ class EthernetCluster(CommunicationCluster):
         MacMulticastGroup that is defined for the Subnet (EthernetCluster).
         """
         return self.macMulticastGroups
+
+
+class CouplingElement(FibexElement):
+    """
+    A CouplingElement is used to connect EcuInstances to the VLAN of an EthernetCluster. Coupling Elements can reach from a simple hub to a complex managed switch or even devices with functionalities in higher layers. A CouplingElement that is not related to an EcuInstance occurs as a dedicated single device. Tags: atp.recommendedPackage=CouplingElements
+    """
+
+    # CouplingElement method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.52, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCommunicationClusterRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommunicationClusterRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCouplingElementSwitchDetails  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingElementDetails           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCouplingPort                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPorts                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCouplingType                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingType                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcuInstanceRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This relationship defines to which cluster the Coupling Element belongs.
+        self.communicationClusterRef: Optional[RefType] = None
+
+        # Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        self.couplingElementDetails: Optional[CouplingElementAbstractDetails] = None
+
+        # Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.couplingPorts: List[CouplingPort] = []
+
+        # Describes the coupling type of this CouplingElement.
+        self.couplingType: Optional[CouplingElementEnum] = None
+
+        # Optional reference to the ECU where the Coupling Element is located.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+        self.firewallRuleRefs: List[RefType] = []
+
+    def getCommunicationClusterRef(self) -> Optional[RefType]:
+        """
+        This relationship defines to which cluster the Coupling Element belongs.
+        """
+        return self.communicationClusterRef
+
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        This relationship defines to which cluster the Coupling Element belongs.
+
+        A None value is a no-op and does not overwrite an existing communicationClusterRef.
+        """
+        if value is not None:
+            self.communicationClusterRef = value
+        return self
+
+    def createCouplingElementSwitchDetails(self, short_name: str) -> CouplingElementSwitchDetails:
+        """
+        Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.couplingElementDetails is None or self.couplingElementDetails.getShortName() != short_name:
+            self.couplingElementDetails = CouplingElementSwitchDetails(self, short_name)
+        return cast(CouplingElementSwitchDetails, self.couplingElementDetails)
+
+    def getCouplingElementDetails(self) -> Optional[CouplingElementAbstractDetails]:
+        """
+        Definition of details for this specific CouplingElement. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingElementDetails.shortName, couplingElementDetails.variationPoint.shortLabel atp.Status=candidate vh.latestBindingTime=postBuild xml.namePlural=COUPLING-ELEMENT-DETAILS
+        """
+        return self.couplingElementDetails
+
+    def createCouplingPort(self, short_name: str) -> CouplingPort:
+        """
+        Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if not self.IsReferrableElementExists(short_name, CouplingPort):
+            port = CouplingPort(self, short_name)
+            self.addReferrableElement(port)
+            self.couplingPorts.append(port)
+        return cast(CouplingPort, self.getReferrableElement(short_name, CouplingPort))
+
+    def getCouplingPorts(self) -> List[CouplingPort]:
+        """
+        Hardware Port of the CouplingElement that is used to connect this CouplingPort to EcuInstances or other CouplingElements. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=couplingPort.shortName, coupling Port.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.couplingPorts
+
+    def getCouplingType(self) -> Optional[CouplingElementEnum]:
+        """
+        Describes the coupling type of this CouplingElement.
+        """
+        return self.couplingType
+
+    def setCouplingType(self, value: Optional[CouplingElementEnum]) -> CouplingElement:
+        """
+        Describes the coupling type of this CouplingElement.
+
+        A None value is a no-op and does not overwrite an existing couplingType.
+        """
+        if value is not None:
+            self.couplingType = value
+        return self
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Optional reference to the ECU where the Coupling Element is located.
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        Optional reference to the ECU where the Coupling Element is located.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def addFirewallRuleRef(self, value: Optional[RefType]) -> CouplingElement:
+        """
+        Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a firewallRuleRef.
+        """
+        if value is not None:
+            self.firewallRuleRefs.append(value)
+        return self
+
+    def getFirewallRuleRefs(self) -> List[RefType]:
+        """
+        Firewall rules defined in the context of a Coupling Element. Tags: atp.Status=candidate
+        """
+        return self.firewallRuleRefs
+
+
+class CouplingElementAbstractDetails(Identifiable, VariationPointCapable):
+    """
+    Collection of specific details for the CouplingElement.
+    """
+
+    # CouplingElementAbstractDetails method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.82, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (the spec table defines no Attribute rows; Base = ARObject, Identifiable, MultilanguageReferrable,
+    #  Referrable → Identifiable is the most-derived model class. The XSD models the class as the
+    #  xsd:group COUPLING-ELEMENT-ABSTRACT-DETAILS (AUTOSAR_00052.xsd l.23155, atp.Status="candidate")
+    #  whose only child is VARIATION-POINT (atpVariation, xml.sequenceOffset=10000) — carried by the
+    #  VariationPointCapable mixin (getVariationPoint/setVariationPoint have no spec rows,
+    #  stereotype-inherent) and round-tripped through the shared readIdentifiable/writeIdentifiable
+    #  helpers via the named readCouplingElementAbstractDetails/writeCouplingElementAbstractDetails
+    #  dispatch level the concrete subclass calls)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is CouplingElementAbstractDetails:
+            raise TypeError("CouplingElementAbstractDetails is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class CouplingElementSwitchDetails(CouplingElementAbstractDetails):
+    """
+    Collection of specific details for the CouplingElement of couplingType switch. Tags: atp.Status=candidate atp.recommendedPackage=SwitchStreamIdentificationTables
+    """
+
+    # CouplingElementSwitchDetails method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.83, p.133
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFlowMetering                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowMeterings                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamFilter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamFilters                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamGate                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamGates                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSwitchStreamIdentification     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwitchStreamIdentifications       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTrafficShaperGroup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTrafficShaperGroups               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        self.flowMeterings: List[SwitchFlowMeteringEntry] = []
+
+        # Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        self.streamFilters: List[SwitchStreamFilterEntry] = []
+
+        # Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        self.streamGates: List[SwitchStreamGateEntry] = []
+
+        # Collection of switch stream identification entries. Tags: atp.Status=candidate
+        self.switchStreamIdentifications: List[SwitchStreamIdentification] = []
+
+        # Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        self.trafficShaperGroups: List[SwitchAsynchronousTrafficShaperGroupEntry] = []
+
+    def createFlowMetering(self, short_name: str) -> SwitchFlowMeteringEntry:
+        """
+        Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.flowMeterings:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchFlowMeteringEntry(self, short_name)
+        self.flowMeterings.append(entry)
+        return entry
+
+    def getFlowMeterings(self) -> List[SwitchFlowMeteringEntry]:
+        """
+        Collection of Flow Metering Entries. Tags: atp.Status=candidate
+        """
+        return self.flowMeterings
+
+    def createStreamFilter(self, short_name: str) -> SwitchStreamFilterEntry:
+        """
+        Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.streamFilters:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamFilterEntry(self, short_name)
+        self.streamFilters.append(entry)
+        return entry
+
+    def getStreamFilters(self) -> List[SwitchStreamFilterEntry]:
+        """
+        Collection of Stream Filter Entries. Tags: atp.Status=candidate
+        """
+        return self.streamFilters
+
+    def createStreamGate(self, short_name: str) -> SwitchStreamGateEntry:
+        """
+        Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.streamGates:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamGateEntry(self, short_name)
+        self.streamGates.append(entry)
+        return entry
+
+    def getStreamGates(self) -> List[SwitchStreamGateEntry]:
+        """
+        Collection of Stream Gate Entries. Tags: atp.Status=candidate
+        """
+        return self.streamGates
+
+    def createSwitchStreamIdentification(self, short_name: str) -> SwitchStreamIdentification:
+        """
+        Collection of switch stream identification entries. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.switchStreamIdentifications:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchStreamIdentification(self, short_name)
+        self.switchStreamIdentifications.append(entry)
+        return entry
+
+    def getSwitchStreamIdentifications(self) -> List[SwitchStreamIdentification]:
+        """
+        Collection of switch stream identification entries. Tags: atp.Status=candidate
+        """
+        return self.switchStreamIdentifications
+
+    def createTrafficShaperGroup(self, short_name: str) -> SwitchAsynchronousTrafficShaperGroupEntry:
+        """
+        Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        for entry in self.trafficShaperGroups:
+            if entry.getShortName() == short_name:
+                return entry
+        entry = SwitchAsynchronousTrafficShaperGroupEntry(self, short_name)
+        self.trafficShaperGroups.append(entry)
+        return entry
+
+    def getTrafficShaperGroups(self) -> List[SwitchAsynchronousTrafficShaperGroupEntry]:
+        """
+        Collection of Traffic Shaper Groups. Tags: atp.Status=candidate
+        """
+        return self.trafficShaperGroups
+
+
+class SwitchAsynchronousTrafficShaperGroupEntry(Identifiable):
+    """
+    Defines an Asynchronous Traffic Shapter (ATS) Group for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchAsynchronousTrafficShaperGroupEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.96, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMaximumResidenceTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumResidenceTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+        self.maximumResidenceTime: Optional[PositiveInteger] = None
+
+    def getMaximumResidenceTime(self) -> Optional[PositiveInteger]:
+        """
+        Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+        """
+        return self.maximumResidenceTime
+
+    def setMaximumResidenceTime(self, value: Optional[PositiveInteger]) -> SwitchAsynchronousTrafficShaperGroupEntry:
+        """
+        Defines the maximum duration limit for which frames can reside in a switch (in seconds). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maximumResidenceTime.
+        """
+        if value is not None:
+            self.maximumResidenceTime = value
+        return self
+
+
+class SwitchStreamGateEntry(Identifiable):
+    """
+    Defines a Asynchronous Traffic Shapter (ATS) Group for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamGateEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.97, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInternalPriorityValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInternalPriorityValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+        self.internalPriorityValue: Optional[PositiveInteger] = None
+
+    def getInternalPriorityValue(self) -> Optional[PositiveInteger]:
+        """
+        Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+        """
+        return self.internalPriorityValue
+
+    def setInternalPriorityValue(self, value: Optional[PositiveInteger]) -> SwitchStreamGateEntry:
+        """
+        Internal Priority Value (IPV), a priority value that determines the assigned traffic class. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing internalPriorityValue.
+        """
+        if value is not None:
+            self.internalPriorityValue = value
+        return self
+
+
+class FlowMeteringColorModeEnum(AREnum):
+    """
+    Defines whether Flow Metering color-aware or color-blind mode is used. Tags: atp.Status=candidate
+    """
+
+    # FlowMeteringColorModeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.99, p.144
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwitchFlowMeteringEntry.colorMode
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Flow Metering color aware mode. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    COLOR_AWARE = "COLOR-AWARE"
+
+    # Flow Metering color blind mode. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    COLOR_BLIND = "COLOR-BLIND"
+
+    def __init__(self):
+        super().__init__([FlowMeteringColorModeEnum.COLOR_AWARE, FlowMeteringColorModeEnum.COLOR_BLIND])
+
+
+class SwitchFlowMeteringEntry(Identifiable):
+    """
+    Defines a Flow Metering Entry for a switch. Tags: atp.Status=candidate
+    """
+
+    # SwitchFlowMeteringEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.98, p.143
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getColorMode                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColorMode                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommittedBurstSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedBurstSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCommittedInformationRate  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCommittedInformationRate  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingFlag              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingFlag              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExcessBurstSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExcessBurstSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExcessInformationRate     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExcessInformationRate     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+        self.colorMode: Optional[FlowMeteringColorModeEnum] = None
+
+        # Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+        self.committedBurstSize: Optional[PositiveInteger] = None
+
+        # Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+        self.committedInformationRate: Optional[PositiveInteger] = None
+
+        # Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+        self.couplingFlag: Optional[Boolean] = None
+
+        # Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+        self.excessBurstSize: Optional[PositiveInteger] = None
+
+        # Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+        self.excessInformationRate: Optional[PositiveInteger] = None
+
+    def getColorMode(self) -> Optional[FlowMeteringColorModeEnum]:
+        """
+        Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+        """
+        return self.colorMode
+
+    def setColorMode(self, value: Optional[FlowMeteringColorModeEnum]) -> SwitchFlowMeteringEntry:
+        """
+        Defines whether color-aware or color-blind mode shall be used. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing colorMode.
+        """
+        if value is not None:
+            self.colorMode = value
+        return self
+
+    def getCommittedBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+        """
+        return self.committedBurstSize
+
+    def setCommittedBurstSize(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Committed Burst Size (CBS) (accepted burst size in green token bucket). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing committedBurstSize.
+        """
+        if value is not None:
+            self.committedBurstSize = value
+        return self
+
+    def getCommittedInformationRate(self) -> Optional[PositiveInteger]:
+        """
+        Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+        """
+        return self.committedInformationRate
+
+    def setCommittedInformationRate(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Committed Information Rate (CIR) (accepted rate in green token bucket) in bits per second. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing committedInformationRate.
+        """
+        if value is not None:
+            self.committedInformationRate = value
+        return self
+
+    def getCouplingFlag(self) -> Optional[Boolean]:
+        """
+        Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+        """
+        return self.couplingFlag
+
+    def setCouplingFlag(self, value: Optional[Boolean]) -> SwitchFlowMeteringEntry:
+        """
+        Coupling Flag that defines if unused "green" tokens in the first bucket are transferred to the second bucket as "yellow" tokens. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing couplingFlag.
+        """
+        if value is not None:
+            self.couplingFlag = value
+        return self
+
+    def getExcessBurstSize(self) -> Optional[PositiveInteger]:
+        """
+        Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+        """
+        return self.excessBurstSize
+
+    def setExcessBurstSize(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Excess burst size (EBS) (accepted burst size in yellow token bucket). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing excessBurstSize.
+        """
+        if value is not None:
+            self.excessBurstSize = value
+        return self
+
+    def getExcessInformationRate(self) -> Optional[PositiveInteger]:
+        """
+        Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+        """
+        return self.excessInformationRate
+
+    def setExcessInformationRate(self, value: Optional[PositiveInteger]) -> SwitchFlowMeteringEntry:
+        """
+        Excess Information Rate (EIR) (accepted rate in yellow token bucket) in bits per second. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing excessInformationRate.
+        """
+        if value is not None:
+            self.excessInformationRate = value
+        return self
+
+
+class SwitchStreamIdentification(Identifiable):
+    """
+    SwitchStreamIdentification Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamIdentification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.84, p.135
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEgressPortRef                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEgressPortRefs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFilterActionBlockSource              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionBlockSource              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createFilterActionDestPortModification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterActionDestPortModification     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFilterActionDropFrame                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionDropFrame                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterActionVlanModification         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterActionVlanModification         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addIngressPortRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIngressPortRefs                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createStreamFilterRule                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamFilterRule                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.egressPortRefs: List[RefType] = []
+
+        # Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+        self.filterActionBlockSource: Optional[Boolean] = None
+
+        # Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        self.filterActionDestPortModification: Optional[SwitchStreamFilterActionDestPortModification] = None
+
+        # Enables Drop Frame action. Tags: atp.Status=candidate
+        self.filterActionDropFrame: Optional[Boolean] = None
+
+        # Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+        self.filterActionVlanModification: Optional[PositiveInteger] = None
+
+        # Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.ingressPortRefs: List[RefType] = []
+
+        # Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        self.streamFilterRule: Optional[SwitchStreamFilterRule] = None
+
+    def addEgressPortRef(self, value: Optional[RefType]) -> SwitchStreamIdentification:
+        """
+        Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a egressPortRef.
+        """
+        if value is not None:
+            self.egressPortRefs.append(value)
+        return self
+
+    def getEgressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the CouplingPort to be taken into account as the egress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.egressPortRefs
+
+    def getFilterActionBlockSource(self) -> Optional[Boolean]:
+        """
+        Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+        """
+        return self.filterActionBlockSource
+
+    def setFilterActionBlockSource(self, value: Optional[Boolean]) -> SwitchStreamIdentification:
+        """
+        Enables Blocking all frames from the MAC address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionBlockSource.
+        """
+        if value is not None:
+            self.filterActionBlockSource = value
+        return self
+
+    def createFilterActionDestPortModification(self, short_name: str) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.filterActionDestPortModification is None or self.filterActionDestPortModification.getShortName() != short_name:
+            self.filterActionDestPortModification = SwitchStreamFilterActionDestPortModification(self, short_name)
+        return self.filterActionDestPortModification
+
+    def getFilterActionDestPortModification(self) -> Optional[SwitchStreamFilterActionDestPortModification]:
+        """
+        Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.filterActionDestPortModification
+
+    def getFilterActionDropFrame(self) -> Optional[Boolean]:
+        """
+        Enables Drop Frame action. Tags: atp.Status=candidate
+        """
+        return self.filterActionDropFrame
+
+    def setFilterActionDropFrame(self, value: Optional[Boolean]) -> SwitchStreamIdentification:
+        """
+        Enables Drop Frame action. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionDropFrame.
+        """
+        if value is not None:
+            self.filterActionDropFrame = value
+        return self
+
+    def getFilterActionVlanModification(self) -> Optional[PositiveInteger]:
+        """
+        Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.filterActionVlanModification
+
+    def setFilterActionVlanModification(self, value: Optional[PositiveInteger]) -> SwitchStreamIdentification:
+        """
+        Defines the action to modify the VLAN-ID within a VLAN tag of an Ethernet frame. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterActionVlanModification.
+        """
+        if value is not None:
+            self.filterActionVlanModification = value
+        return self
+
+    def addIngressPortRef(self, value: Optional[RefType]) -> SwitchStreamIdentification:
+        """
+        Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a ingressPortRef.
+        """
+        if value is not None:
+            self.ingressPortRefs.append(value)
+        return self
+
+    def getIngressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the CouplingPort to be taken into account as the ingress role for this SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.ingressPortRefs
+
+    def createStreamFilterRule(self, short_name: str) -> SwitchStreamFilterRule:
+        """
+        Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        The existing element is returned when the short name already exists (no duplicate creation).
+        """
+        if self.streamFilterRule is None or self.streamFilterRule.getShortName() != short_name:
+            self.streamFilterRule = SwitchStreamFilterRule(self, short_name)
+        return self.streamFilterRule
+
+    def getStreamFilterRule(self) -> Optional[SwitchStreamFilterRule]:
+        """
+        Definition of a stream filter rule for this SwitchStream Identification. Tags: atp.Status=candidate
+        """
+        return self.streamFilterRule
+
+
+class SwitchStreamFilterRule(Identifiable):
+    """
+    SwitchStreamIdentification Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterRule method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.85, p.136
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLinkLayerRule  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLinkLayerRule  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIeee1722TpRule     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIeee1722TpRule     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpTpRule           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpTpRule           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+        self.dataLinkLayerRule: Optional[StreamFilterRuleDataLinkLayer] = None
+
+        # Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+        self.ieee1722TpRule: Optional[StreamFilterIEEE1722Tp] = None
+
+        # Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+        self.ipTpRule: Optional[StreamFilterRuleIpTp] = None
+
+    def getDataLinkLayerRule(self) -> Optional[StreamFilterRuleDataLinkLayer]:
+        """
+        Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+        """
+        return self.dataLinkLayerRule
+
+    def setDataLinkLayerRule(self, value: Optional[StreamFilterRuleDataLinkLayer]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule on the data link layer. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing dataLinkLayerRule.
+        """
+        if value is not None:
+            self.dataLinkLayerRule = value
+        return self
+
+    def getIeee1722TpRule(self) -> Optional[StreamFilterIEEE1722Tp]:
+        """
+        Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+        """
+        return self.ieee1722TpRule
+
+    def setIeee1722TpRule(self, value: Optional[StreamFilterIEEE1722Tp]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule for IEEE1722Tp. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ieee1722TpRule.
+        """
+        if value is not None:
+            self.ieee1722TpRule = value
+        return self
+
+    def getIpTpRule(self) -> Optional[StreamFilterRuleIpTp]:
+        """
+        Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+        """
+        return self.ipTpRule
+
+    def setIpTpRule(self, value: Optional[StreamFilterRuleIpTp]) -> SwitchStreamFilterRule:
+        """
+        Definition of a filter rule IP and TP. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipTpRule.
+        """
+        if value is not None:
+            self.ipTpRule = value
+        return self
+
+
+class SwitchStreamFilterActionPortModificationEnum(AREnum):
+    """
+    Definition how the SwitchStreamFilterActionPortModification is applied. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterActionPortModificationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.94, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SwitchStreamFilterActionDestPortModification.modification (queued next; no token map — XSD facets EXTEND/OVERWRITE are the serialized form)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Extend the egress destination of an Ethernet frame. Tags: atp.EnumerationLiteralIndex=0 atp.Status=candidate
+    EXTEND = "EXTEND"
+
+    # Overwrite the egress destination of an Ethernet frame. Tags: atp.EnumerationLiteralIndex=1 atp.Status=candidate
+    OVERWRITE = "OVERWRITE"
+
+    def __init__(self):
+        super().__init__([SwitchStreamFilterActionPortModificationEnum.EXTEND, SwitchStreamFilterActionPortModificationEnum.OVERWRITE])
+
+
+class SwitchStreamFilterActionDestPortModification(Identifiable):
+    """
+    Defines the action to modify the destination port(s) determined by the frame forwarding process for an particular Ethernet frame. Either the egress destination of an Ethernet frame is extended or overwritten. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterActionDestPortModification method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.93, p.140
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEgressPortRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEgressPortRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getModification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+        self.egressPortRefs: List[RefType] = []
+
+        # Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+        self.modification: Optional[SwitchStreamFilterActionPortModificationEnum] = None
+
+    def addEgressPortRef(self, value: Optional[RefType]) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a egressPortRef.
+        """
+        if value is not None:
+            self.egressPortRefs.append(value)
+        return self
+
+    def getEgressPortRefs(self) -> List[RefType]:
+        """
+        Reference to the egress ports used as the target of the filter action to modify the egress port. Tags: atp.Status=candidate
+        """
+        return self.egressPortRefs
+
+    def getModification(self) -> Optional[SwitchStreamFilterActionPortModificationEnum]:
+        """
+        Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+        """
+        return self.modification
+
+    def setModification(self, value: Optional[SwitchStreamFilterActionPortModificationEnum]) -> SwitchStreamFilterActionDestPortModification:
+        """
+        Defines the method to modify the egress destination. Either overwrite or extend the egress destination. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing modification.
+        """
+        if value is not None:
+            self.modification = value
+        return self
+
+
+class SwitchStreamFilterEntry(Identifiable):
+    """
+    Defines a Stream Filter Entry. Tags: atp.Status=candidate
+    """
+
+    # SwitchStreamFilterEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.95, p.142
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addStreamIdentificationHandleRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAsynchronousTrafficShaperRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAsynchronousTrafficShaperRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFilterPriority                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFilterPriority                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlowMeteringRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlowMeteringRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaxSduSize                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSduSize                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamGateRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamGateRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStreamIdentificationHandleRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getStreamIdentificationWildcard   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamIdentificationWildcard   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+        self.asynchronousTrafficShaperRef: Optional[RefType] = None
+
+        # Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+        self.filterPriority: Optional[PositiveInteger] = None
+
+        # Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+        self.flowMeteringRef: Optional[RefType] = None
+
+        # Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+        self.maxSduSize: Optional[PositiveInteger] = None
+
+        # Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+        self.streamGateRef: Optional[RefType] = None
+
+        # Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+        self.streamIdentificationHandleRefs: List[RefType] = []
+
+        # Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+        self.streamIdentificationWildcard: Optional[Boolean] = None
+
+    def addStreamIdentificationHandleRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not append a streamIdentificationHandleRef.
+        """
+        if value is not None:
+            self.streamIdentificationHandleRefs.append(value)
+        return self
+
+    def getAsynchronousTrafficShaperRef(self) -> Optional[RefType]:
+        """
+        Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+        """
+        return self.asynchronousTrafficShaperRef
+
+    def setAsynchronousTrafficShaperRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to the Asynchronous Traffic Shaper (ATS). Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing asynchronousTrafficShaperRef.
+        """
+        if value is not None:
+            self.asynchronousTrafficShaperRef = value
+        return self
+
+    def getFilterPriority(self) -> Optional[PositiveInteger]:
+        """
+        Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+        """
+        return self.filterPriority
+
+    def setFilterPriority(self, value: Optional[PositiveInteger]) -> SwitchStreamFilterEntry:
+        """
+        Defines the Priority of this Stream Filter Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing filterPriority.
+        """
+        if value is not None:
+            self.filterPriority = value
+        return self
+
+    def getFlowMeteringRef(self) -> Optional[RefType]:
+        """
+        Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+        """
+        return self.flowMeteringRef
+
+    def setFlowMeteringRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to a Flow Metering Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing flowMeteringRef.
+        """
+        if value is not None:
+            self.flowMeteringRef = value
+        return self
+
+    def getMaxSduSize(self) -> Optional[PositiveInteger]:
+        """
+        Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+        """
+        return self.maxSduSize
+
+    def setMaxSduSize(self, value: Optional[PositiveInteger]) -> SwitchStreamFilterEntry:
+        """
+        Defines the maximum SDU size (size of an Ethernet package) which is acceptable to be processed by the Ethernet switch. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing maxSduSize.
+        """
+        if value is not None:
+            self.maxSduSize = value
+        return self
+
+    def getStreamGateRef(self) -> Optional[RefType]:
+        """
+        Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+        """
+        return self.streamGateRef
+
+    def setStreamGateRef(self, value: Optional[RefType]) -> SwitchStreamFilterEntry:
+        """
+        Reference to a Stream Gate Entry. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamGateRef.
+        """
+        if value is not None:
+            self.streamGateRef = value
+        return self
+
+    def getStreamIdentificationHandleRefs(self) -> List[RefType]:
+        """
+        Reference to the SwitchStreamIdentifications this Stream FilterEntry applies to. Tags: atp.Status=candidate
+        """
+        return self.streamIdentificationHandleRefs
+
+    def getStreamIdentificationWildcard(self) -> Optional[Boolean]:
+        """
+        Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+        """
+        return self.streamIdentificationWildcard
+
+    def setStreamIdentificationWildcard(self, value: Optional[Boolean]) -> SwitchStreamFilterEntry:
+        """
+        Defines whether this Stream Filter Entry includes the wildcard for SwitchStreamIdentification. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamIdentificationWildcard.
+        """
+        if value is not None:
+            self.streamIdentificationWildcard = value
+        return self
+
+
+class StreamFilterMACAddress(ARObject):
+    """
+    Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
+    """
+
+    # StreamFilterMACAddress method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.87, p.137
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMacAddress        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacAddress        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacAddressMask    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacAddressMask    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the MAC address. Tags: atp.Status=candidate
+        self.macAddress: Optional[MacAddressString] = None
+
+        # Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+        self.macAddressMask: Optional[MacAddressString] = None
+
+    def getMacAddress(self) -> Optional[MacAddressString]:
+        """
+        Filter to match packets with the MAC address. Tags: atp.Status=candidate
+        """
+        return self.macAddress
+
+    def setMacAddress(self, value: Optional[MacAddressString]) -> StreamFilterMACAddress:
+        """
+        Filter to match packets with the MAC address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing macAddress.
+        """
+        if value is not None:
+            self.macAddress = value
+        return self
+
+    def getMacAddressMask(self) -> Optional[MacAddressString]:
+        """
+        Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+        """
+        return self.macAddressMask
+
+    def setMacAddressMask(self, value: Optional[MacAddressString]) -> StreamFilterMACAddress:
+        """
+        Filter to match packets with the MAC address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing macAddressMask.
+        """
+        if value is not None:
+            self.macAddressMask = value
+        return self
+
+
+class StreamFilterRuleDataLinkLayer(ARObject):
+    """
+    Configuration of filter rules on the DataLink layer Tags: atp.Status=candidate
+    """
+
+    # StreamFilterRuleDataLinkLayer method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.86, p.137
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationMacAddress [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationMacAddress [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEtherType             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEtherType             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceMacAddress      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceMacAddress      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanPriority          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanPriority          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+        self.destinationMacAddress: Optional[StreamFilterMACAddress] = None
+
+        # Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+        self.etherType: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+        self.sourceMacAddress: Optional[StreamFilterMACAddress] = None
+
+        # Filter of packets with a VlanId. Tags: atp.Status=candidate
+        self.vlanId: Optional[PositiveInteger] = None
+
+        # Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+        self.vlanPriority: Optional[PositiveInteger] = None
+
+    def getDestinationMacAddress(self) -> Optional[StreamFilterMACAddress]:
+        """
+        Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+        """
+        return self.destinationMacAddress
+
+    def setDestinationMacAddress(self, value: Optional[StreamFilterMACAddress]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets with the destination MAC address/ mask. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationMacAddress.
+        """
+        if value is not None:
+            self.destinationMacAddress = value
+        return self
+
+    def getEtherType(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+        """
+        return self.etherType
+
+    def setEtherType(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets based on the EtherType field in the Ethernet frame. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing etherType.
+        """
+        if value is not None:
+            self.etherType = value
+        return self
+
+    def getSourceMacAddress(self) -> Optional[StreamFilterMACAddress]:
+        """
+        Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+        """
+        return self.sourceMacAddress
+
+    def setSourceMacAddress(self, value: Optional[StreamFilterMACAddress]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter to match packets with the source MAC address/ mask. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceMacAddress.
+        """
+        if value is not None:
+            self.sourceMacAddress = value
+        return self
+
+    def getVlanId(self) -> Optional[PositiveInteger]:
+        """
+        Filter of packets with a VlanId. Tags: atp.Status=candidate
+        """
+        return self.vlanId
+
+    def setVlanId(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter of packets with a VlanId. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing vlanId.
+        """
+        if value is not None:
+            self.vlanId = value
+        return self
+
+    def getVlanPriority(self) -> Optional[PositiveInteger]:
+        """
+        Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+        """
+        return self.vlanPriority
+
+    def setVlanPriority(self, value: Optional[PositiveInteger]) -> StreamFilterRuleDataLinkLayer:
+        """
+        Filter of packets with a Vlan priority. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing vlanPriority.
+        """
+        if value is not None:
+            self.vlanPriority = value
+        return self
+
+
+class StreamFilterRuleIpTp(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterRuleIpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.88, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestinationIpv4Address  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpv4Address  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationIpv6Address  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDestinationIpv6Address  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDestinationPort         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDestinationPorts        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSourceIpv4Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpv4Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourceIpv6Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSourceIpv6Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSourcePort              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSourcePorts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+        self.destinationIpv4Address: Optional[StreamFilterIpv4Address] = None
+
+        # Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+        self.destinationIpv6Address: Optional[StreamFilterIpv6Address] = None
+
+        # Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+        self.destinationPorts: List[StreamFilterPortRange] = []
+
+        # Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+        self.sourceIpv4Address: Optional[StreamFilterIpv4Address] = None
+
+        # Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+        self.sourceIpv6Address: Optional[StreamFilterIpv6Address] = None
+
+        # Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+        self.sourcePorts: List[StreamFilterPortRange] = []
+
+    def getDestinationIpv4Address(self) -> Optional[StreamFilterIpv4Address]:
+        """
+        Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.destinationIpv4Address
+
+    def setDestinationIpv4Address(self, value: Optional[StreamFilterIpv4Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the destination IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationIpv4Address.
+        """
+        if value is not None:
+            self.destinationIpv4Address = value
+        return self
+
+    def getDestinationIpv6Address(self) -> Optional[StreamFilterIpv6Address]:
+        """
+        Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.destinationIpv6Address
+
+    def setDestinationIpv6Address(self, value: Optional[StreamFilterIpv6Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the destination IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing destinationIpv6Address.
+        """
+        if value is not None:
+            self.destinationIpv6Address = value
+        return self
+
+    def addDestinationPort(self, value: Optional[StreamFilterPortRange]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not add to destinationPorts.
+        """
+        if value is not None:
+            self.destinationPorts.append(value)
+        return self
+
+    def getDestinationPorts(self) -> List[StreamFilterPortRange]:
+        """
+        Filter to match packets with the set of destination UDP/TCP port ranges. Tags: atp.Status=candidate
+        """
+        return self.destinationPorts
+
+    def getSourceIpv4Address(self) -> Optional[StreamFilterIpv4Address]:
+        """
+        Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.sourceIpv4Address
+
+    def setSourceIpv4Address(self, value: Optional[StreamFilterIpv4Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the source IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceIpv4Address.
+        """
+        if value is not None:
+            self.sourceIpv4Address = value
+        return self
+
+    def getSourceIpv6Address(self) -> Optional[StreamFilterIpv6Address]:
+        """
+        Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.sourceIpv6Address
+
+    def setSourceIpv6Address(self, value: Optional[StreamFilterIpv6Address]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the source IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing sourceIpv6Address.
+        """
+        if value is not None:
+            self.sourceIpv6Address = value
+        return self
+
+    def addSourcePort(self, value: Optional[StreamFilterPortRange]) -> StreamFilterRuleIpTp:
+        """
+        Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not add to sourcePorts.
+        """
+        if value is not None:
+            self.sourcePorts.append(value)
+        return self
+
+    def getSourcePorts(self) -> List[StreamFilterPortRange]:
+        """
+        Filter to match packets with the set of source UDP/TCP port ranges. Tags: atp.Status=candidate
+        """
+        return self.sourcePorts
+
+
+class StreamFilterIpv4Address(ARObject):
+    """
+    IPv4 address range definition. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIpv4Address method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.89, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv4Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv4AddressMask   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4AddressMask   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+        self.ipv4Address: Optional[Ip4AddressString] = None
+
+        # Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+        self.ipv4AddressMask: Optional[Ip4AddressString] = None
+
+    def getIpv4Address(self) -> Optional[Ip4AddressString]:
+        """
+        Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+        """
+        return self.ipv4Address
+
+    def setIpv4Address(self, value: Optional[Ip4AddressString]) -> StreamFilterIpv4Address:
+        """
+        Filter to match packets with the IPv4 address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv4Address.
+        """
+        if value is not None:
+            self.ipv4Address = value
+        return self
+
+    def getIpv4AddressMask(self) -> Optional[Ip4AddressString]:
+        """
+        Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+        """
+        return self.ipv4AddressMask
+
+    def setIpv4AddressMask(self, value: Optional[Ip4AddressString]) -> StreamFilterIpv4Address:
+        """
+        Filter to match packets with the IPv4 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv4AddressMask.
+        """
+        if value is not None:
+            self.ipv4AddressMask = value
+        return self
+
+
+class StreamFilterIpv6Address(ARObject):
+    """
+    IPv6 address range definition. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIpv6Address method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.90, p.138
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv6Address       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Address       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6AddressMask   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6AddressMask   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+        self.ipv6Address: Optional[Ip6AddressString] = None
+
+        # Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+        self.ipv6AddressMask: Optional[Ip6AddressString] = None
+
+    def getIpv6Address(self) -> Optional[Ip6AddressString]:
+        """
+        Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+        """
+        return self.ipv6Address
+
+    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> StreamFilterIpv6Address:
+        """
+        Filter to match packets with the IPv6 address. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv6Address.
+        """
+        if value is not None:
+            self.ipv6Address = value
+        return self
+
+    def getIpv6AddressMask(self) -> Optional[Ip6AddressString]:
+        """
+        Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+        """
+        return self.ipv6AddressMask
+
+    def setIpv6AddressMask(self, value: Optional[Ip6AddressString]) -> StreamFilterIpv6Address:
+        """
+        Filter to match packets with the IPv6 address range. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing ipv6AddressMask.
+        """
+        if value is not None:
+            self.ipv6AddressMask = value
+        return self
+
+
+class StreamFilterPortRange(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterPortRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.91, p.139
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMax      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMax      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMin      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMin      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+        self.max: Optional[PositiveInteger] = None
+
+        # Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+        self.min: Optional[PositiveInteger] = None
+
+    def getMax(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+        """
+        return self.max
+
+    def setMax(self, value: Optional[PositiveInteger]) -> StreamFilterPortRange:
+        """
+        Filter to match packets with the maximum UDP/TCP port number. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing max.
+        """
+        if value is not None:
+            self.max = value
+        return self
+
+    def getMin(self) -> Optional[PositiveInteger]:
+        """
+        Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+        """
+        return self.min
+
+    def setMin(self, value: Optional[PositiveInteger]) -> StreamFilterPortRange:
+        """
+        Filter to match packets with the minimum UDP/TCP port number. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing min.
+        """
+        if value is not None:
+            self.min = value
+        return self
+
+
+class StreamFilterIEEE1722Tp(ARObject):
+    """
+    Configuration of filter rules for IP and TP. Tags: atp.Status=candidate
+    """
+
+    # StreamFilterIEEE1722Tp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.92, p.139
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getStreamId  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStreamId  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+        self.streamId: Optional[PositiveUnlimitedInteger] = None
+
+    def getStreamId(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+        """
+        return self.streamId
+
+    def setStreamId(self, value: Optional[PositiveUnlimitedInteger]) -> StreamFilterIEEE1722Tp:
+        """
+        Filter to match IEEE1722Tp packets with the stream Id number. Defined as 64bit stream id. Tags: atp.Status=candidate
+
+        A None value is a no-op and does not overwrite an existing streamId.
+        """
+        if value is not None:
+            self.streamId = value
+        return self
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):
@@ -365,15 +1888,14 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
     # CouplingPortFifo method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.68, p.124
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -384,7 +1906,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         # FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
         self.minimumFifoLength: Optional[PositiveInteger] = None
 
-        # Definition of the shaper to be used for the processing of this FIFO.
+        # Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
         self.shaper: Optional[CouplingPortAbstractShaper] = None
 
     def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
@@ -397,11 +1919,15 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         return self
 
     def getAssignedTrafficClasses(self) -> List[PositiveInteger]:
-        """Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7"""
+        """
+        Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7
+        """
         return self.assignedTrafficClasses
 
     def getMinimumFifoLength(self) -> Optional[PositiveInteger]:
-        """FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."""
+        """
+        FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
+        """
         return self.minimumFifoLength
 
     def setMinimumFifoLength(self, value: Optional[PositiveInteger]) -> CouplingPortFifo:
@@ -414,12 +1940,14 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         return self
 
     def getShaper(self) -> Optional[CouplingPortAbstractShaper]:
-        """Definition of the shaper to be used for the processing of this FIFO."""
+        """
+        Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
+        """
         return self.shaper
 
     def setShaper(self, value: Optional[CouplingPortAbstractShaper]) -> CouplingPortFifo:
         """
-        Definition of the shaper to be used for the processing of this FIFO.
+        Definition of the shaper to be used for the processing of this FIFO. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing shaper.
         """
         if value is not None:
@@ -479,6 +2007,60 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         """
         if value is not None:
             self.predecessorRefs.append(value)
+        return self
+
+
+class CouplingPortShaper(CouplingPortStructuralElement):
+    """
+    Defines a shaper for the CouplingPort egress structure. Tags: atp.Status=obsolete
+    """
+
+    # CouplingPortShaper method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.67, p.123
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIdleSlope           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdleSlope           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPredecessorFifoRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPredecessorFifoRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        self.idleSlope: Optional[PositiveInteger] = None
+
+        # Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        self.predecessorFifoRef: Optional[RefType] = None
+
+    def getIdleSlope(self) -> Optional[PositiveInteger]:
+        """
+        Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        """
+        return self.idleSlope
+
+    def setIdleSlope(self, value: Optional[PositiveInteger]) -> CouplingPortShaper:
+        """
+        Defines the increase of credit in bits per second for the AVB shaper. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing idleSlope.
+        """
+        if value is not None:
+            self.idleSlope = value
+        return self
+
+    def getPredecessorFifoRef(self) -> Optional[RefType]:
+        """
+        Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        """
+        return self.predecessorFifoRef
+
+    def setPredecessorFifoRef(self, value: Optional[RefType]) -> CouplingPortShaper:
+        """
+        Defines the CouplingPortFifo which provides the input to this shaper. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing predecessorFifoRef.
+        """
+        if value is not None:
+            self.predecessorFifoRef = value
         return self
 
 
@@ -544,22 +2126,22 @@ class CouplingPortDetails(ARObject):
 
     # CouplingPortDetails method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.63, p.122
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCouplingPortStructuralElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCouplingPortFifo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createCouplingPortScheduler         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createEthernetPriorityRegeneration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEthernetPriorityRegenerations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addEthernetTrafficClassAssignment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEthernetTrafficClassAssignments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRatePolicy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRatePolicies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCouplingPortStructuralElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCouplingPortFifo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCouplingPortScheduler         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createCouplingPortShaper            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createEthernetPriorityRegeneration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEthernetPriorityRegenerations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addEthernetTrafficClassAssignment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEthernetTrafficClassAssignments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRatePolicy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRatePolicies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -597,6 +2179,12 @@ class CouplingPortDetails(ARObject):
         scheduler = CouplingPortScheduler(self, short_name)
         self.couplingPortStructuralElements.append(scheduler)
         return scheduler
+
+    def createCouplingPortShaper(self, short_name: str) -> CouplingPortShaper:
+        """Collects all the structural parts at which a CouplingPort may be configurable."""
+        shaper = CouplingPortShaper(self, short_name)
+        self.couplingPortStructuralElements.append(shaper)
+        return shaper
 
     def createEthernetPriorityRegeneration(self, short_name: str) -> EthernetPriorityRegeneration:
         """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
@@ -763,37 +2351,36 @@ class CouplingPort(Identifiable, VariationPointCapable):
 
     # CouplingPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.54, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortDetails               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortDetails               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPortRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCouplingPortRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacLayerType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacLayerType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMacMulticastAddressRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacMulticastAddressRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMacSecProps                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacSecProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaProps                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaProps                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addPncMappingRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPncMappingRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getReceiveActivity                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setReceiveActivity                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVlanMembership                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVlanMemberships                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getVlanModifierRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVlanModifierRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortDetails               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortDetails               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPortRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCouplingPortRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacLayerType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacLayerType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMacMulticastAddressRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacMulticastAddressRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMacSecProps                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacSecProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaProps                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaProps                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPncMappingRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPncMappingRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getReceiveActivity                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReceiveActivity                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVlanMembership                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanMemberships                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getVlanModifierRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVlanModifierRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -807,7 +2394,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         # Defines the role this CouplingPort takes in the context of the CouplingElement.
         self.couplingPortRole: Optional[CouplingPortRoleEnum] = None
 
-        # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity).
         self.defaultVlanRef: Optional[RefType] = None
 
         # Specifies the mac layer type of the CouplingPort.
@@ -825,7 +2412,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         # Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
         self.plcaProps: Optional[PlcaProps] = None
 
-        # Reference to the partial networks this CouplingPort participates in.
+        # Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping
         self.pncMappingRefs: List[RefType] = []
 
         # Defines the handling of frames at the ingress port.
@@ -880,12 +2467,12 @@ class CouplingPort(Identifiable, VariationPointCapable):
         return self
 
     def getDefaultVlanRef(self) -> Optional[RefType]:
-        """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan"""
+        """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity)."""
         return self.defaultVlanRef
 
     def setDefaultVlanRef(self, value: Optional[RefType]) -> CouplingPort:
         """
-        The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the VlanMembership.sendActivity).
         A None value is a no-op and does not overwrite an existing defaultVlanRef.
         """
         if value is not None:
@@ -959,7 +2546,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
 
     def addPncMappingRef(self, ref: Optional[RefType]) -> CouplingPort:
         """
-        Reference to the partial networks this CouplingPort participates in.
+        Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping
         A None value is a no-op and does not append to pncMappingRefs.
         """
         if ref is not None:
@@ -967,7 +2554,7 @@ class CouplingPort(Identifiable, VariationPointCapable):
         return self
 
     def getPncMappingRefs(self) -> List[RefType]:
-        """Reference to the partial networks this CouplingPort participates in."""
+        """Reference to the partial networks this CouplingPort participates in. Stereotypes: atpSplitable Tags: atp.Splitkey=pncMapping"""
         return self.pncMappingRefs
 
     def getReceiveActivity(self) -> Optional[EthernetSwitchVlanIngressTagEnum]:
@@ -1030,25 +2617,24 @@ class EthernetCommunicationController(CommunicationController):
 
     # EthernetCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.61, p.116
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCouplingPorts                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCouplingPort                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacLayerType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacLayerType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCouplingPorts                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCouplingPort                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacLayerType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacLayerType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1188,19 +2774,18 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
     # EthernetCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.62, p.117
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEthIpPropsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEthIpPropsRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNeighborCacheSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNeighborCacheSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPathMtuEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPathMtuEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPathMtuTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPathMtuTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEthIpPropsRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEthIpPropsRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMaximumTransmissionUnit  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaximumTransmissionUnit  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNeighborCacheSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNeighborCacheSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPathMtuEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPathMtuEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPathMtuTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPathMtuTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1571,21 +3156,20 @@ class Ipv4DhcpServerConfiguration(Describable):
 
     # Ipv4DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.80, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1602,7 +3186,7 @@ class Ipv4DhcpServerConfiguration(Describable):
         # Amount of time in seconds that a client may keep the IP address.
         self.defaultLeaseTime: Optional[TimeValue] = None
 
-        # IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        # IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip4AddressString] = []
 
         # Default network mask to be used by DHCP clients. Notation 255.255.255.255
@@ -1660,18 +3244,18 @@ class Ipv4DhcpServerConfiguration(Describable):
             self.defaultLeaseTime = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
-        """IP addresses of preconfigured DNS servers. Notation 255.255.255.255"""
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> Ipv4DhcpServerConfiguration:
         """
-        IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and does not append to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """IP addresses of preconfigured DNS servers. Notation 255.255.255.255 Tags: xml.namePlural=DNS-SERVER-ADDRESSES"""
+        return self.dnsServerAddresses
 
     def getNetworkMask(self) -> Optional[Ip4AddressString]:
         """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
@@ -1694,21 +3278,20 @@ class Ipv6DhcpServerConfiguration(Describable):
 
     # Ipv6DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.81, p.132
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1725,7 +3308,7 @@ class Ipv6DhcpServerConfiguration(Describable):
         # Amount of time in seconds that a client may keep the IP address.
         self.defaultLeaseTime: Optional[TimeValue] = None
 
-        # IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF.
+        # IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         self.dnsServerAddresses: List[Ip6AddressString] = []
 
         # Default network mask to be used by DHCP clients. Notation 255.255.255.255
@@ -1783,18 +3366,18 @@ class Ipv6DhcpServerConfiguration(Describable):
             self.defaultLeaseTime = value
         return self
 
-    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
-        """IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF."""
-        return self.dnsServerAddresses
-
     def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> Ipv6DhcpServerConfiguration:
         """
-        IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF.
+        IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF. Tags: xml.namePlural=DNS-SERVER-ADDRESSES
         A None value is a no-op and does not append to dnsServerAddresses.
         """
         if value is not None:
             self.dnsServerAddresses.append(value)
         return self
+
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF. Tags: xml.namePlural=DNS-SERVER-ADDRESSES"""
+        return self.dnsServerAddresses
 
     def getNetworkMask(self) -> Optional[Ip6AddressString]:
         """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
@@ -1817,13 +3400,12 @@ class DhcpServerConfiguration(ARObject):
 
     # DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.79, p.131
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -1868,13 +3450,12 @@ class CouplingPortTrafficClassAssignment(Referrable):
 
     # CouplingPortTrafficClassAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.75, p.128
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriorities             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTrafficClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTrafficClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriorities             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getTrafficClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTrafficClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -2340,6 +3921,36 @@ class Ipv6AddressSourceEnum(AREnum):
         )
 
 
+class CouplingElementEnum(AREnum):
+    """
+    Identifies the Coupling type.
+    """
+
+    # CouplingElementEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.53, p.108
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingElement.couplingType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # A device that is used to connect segments of a LAN. In Hubs frames are "broadcasted" to every one of its ports. Tags: atp.EnumerationLiteralIndex=0
+    HUB = "HUB"
+
+    # A device that routes frames between different networks. Tags: atp.EnumerationLiteralIndex=1
+    ROUTER = "ROUTER"
+
+    # A device that filters and forwards frames between different LAN segments. Tags: atp.EnumerationLiteralIndex=2
+    SWITCH = "SWITCH"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CouplingElementEnum.HUB,
+                CouplingElementEnum.ROUTER,
+                CouplingElementEnum.SWITCH,
+            ]
+        )
+
+
 class EthernetConnectionNegotiationEnum(AREnum):
     """
     Specifies connection negotiation types of Ethernet transceiver links.
@@ -2347,9 +3958,9 @@ class EthernetConnectionNegotiationEnum(AREnum):
 
     # EthernetConnectionNegotiationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.55, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.connectionNegotiationBehavior
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Automatic Negotiation Tags: atp.EnumerationLiteralIndex=0
     AUTO = "AUTO"
@@ -2407,9 +4018,9 @@ class EthernetMacLayerTypeEnum(AREnum):
 
     # EthernetMacLayerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.56, p.110
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.macLayerType, EthernetCommunicationController.macLayerType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII) Tags: atp.EnumerationLiteralIndex=0 xml.name=X-MII
     XMII = "X-MII"
@@ -2437,9 +4048,9 @@ class EthernetCouplingPortSchedulerEnum(AREnum):
 
     # EthernetCouplingPortSchedulerEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.66, p.123
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPortScheduler.portScheduler
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Schedule algorithm "deficit round robin" Tags: atp.EnumerationLiteralIndex=0
     DEFICIT_ROUND_ROBIN = "DEFICIT-ROUND-ROBIN"
@@ -2467,9 +4078,9 @@ class EthernetSwitchVlanEgressTaggingEnum(AREnum):
 
     # EthernetSwitchVlanEgressTaggingEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.78, p.130
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on VlanMembership.sendActivity
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # will not be sent Tags: atp.EnumerationLiteralIndex=0
     NOT_SENT = "NOT-SENT"
@@ -3130,9 +4741,9 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
 
     # EthernetPhysicalLayerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.57, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.physicalLayerType
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Ethernet Standard (IEEE 802.3ab) to support 1Gbit/s over 4 twisted pairs. Tags: atp.EnumerationLiteralIndex=6 xml.name=1000BASE-T
     _1000BASE_T = "1000BASE-T"
@@ -3150,7 +4761,7 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
     _10BASE_T1S = "10BASE-T1S"
 
     # Ethernet Standard (IEEE 802.11p) to support wireless communication in vehicular environments. Tags: atp.EnumerationLiteralIndex=9 xml.name=IEEE802-11P
-    I_EEE802_11P = "IEEE802-11P"
+    IEEE802_11P = "IEEE802-11P"
 
     def __init__(self):
         super().__init__(
@@ -3160,7 +4771,7 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
                 EthernetPhysicalLayerTypeEnum._100BASE_T1,
                 EthernetPhysicalLayerTypeEnum._100BASE_TX,
                 EthernetPhysicalLayerTypeEnum._10BASE_T1S,
-                EthernetPhysicalLayerTypeEnum.I_EEE802_11P,
+                EthernetPhysicalLayerTypeEnum.IEEE802_11P,
             ]
         )
 
@@ -3172,21 +4783,21 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
     # EthernetSwitchVlanIngressTagEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.58, p.111
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.receiveActivity
-
-    # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
-    FORWARD_AS_IS = "FORWARD-AS-IS"
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Drop if untagged. Tags: atp.EnumerationLiteralIndex=1
     DROP_UNTAGGED = "DROP-UNTAGGED"
 
+    # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
+    FORWARD_AS_IS = "FORWARD-AS-IS"
+
     def __init__(self):
         super().__init__(
             [
-                EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
                 EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
+                EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
             ]
         )
 
@@ -3251,6 +4862,255 @@ class DoIpEntityRoleEnum(AREnum):
                 DoIpEntityRoleEnum.NODE,
             ]
         )
+
+
+class EthernetWakeupSleepOnDatalineConfig(Identifiable):
+    """
+    EthernetWakeupSleepOnDatalineConfigSet is the main element that aggregates different config set regarding the wakeup and sleep on data line. An EthernetWakeupSleepOnDatalineConfigSet could aggregate multiple different configurations regarding the wakeup and sleep on dataline (EthernetWakeupSleepOnDatalineConfig).
+
+    [constr_3601] Mandatory attributes of EthernetWakeupSleepOnDatalineConfig: The following attributes of EthernetWakeupSleepOnDatalineConfig shall be defined at the time when the Ecu Extract is complete:
+    - wakeupLocalEnabled
+    - wakeupRemoteEnabled
+    """
+
+    # EthernetWakeupSleepOnDatalineConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.115, p.159
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSleepModeExecutionDelay                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepModeExecutionDelay                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSleepRepetitionDelayOfSleepRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepRepetitionDelayOfSleepRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSleepRepetitionsOfSleepRequest          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSleepRepetitionsOfSleepRequest          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupForwardLocalEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupForwardLocalEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupForwardRemoteEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupForwardRemoteEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalDetectionTime                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalDetectionTime                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalDurationTime                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalDurationTime                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupLocalEnabled                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupLocalEnabled                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRemoteEnabled                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRemoteEnabled                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRepetitionDelayOfWakeupRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRepetitionDelayOfWakeupRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getWakeupRepetitionsOfWakeupRequest        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setWakeupRepetitionsOfWakeupRequest        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+        self.sleepModeExecutionDelay: Optional[TimeValue] = None
+
+        # Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+        self.sleepRepetitionDelayOfSleepRequest: Optional[TimeValue] = None
+
+        # Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+        self.sleepRepetitionsOfSleepRequest: Optional[PositiveInteger] = None
+
+        # If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+        self.wakeupForwardLocalEnabled: Optional[Boolean] = None
+
+        # If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+        self.wakeupForwardRemoteEnabled: Optional[Boolean] = None
+
+        # Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+        self.wakeupLocalDetectionTime: Optional[TimeValue] = None
+
+        # Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+        self.wakeupLocalDurationTime: Optional[TimeValue] = None
+
+        # If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+        self.wakeupLocalEnabled: Optional[Boolean] = None
+
+        # If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+        self.wakeupRemoteEnabled: Optional[Boolean] = None
+
+        # Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+        self.wakeupRepetitionDelayOfWakeupRequest: Optional[TimeValue] = None
+
+        # Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+        self.wakeupRepetitionsOfWakeupRequest: Optional[PositiveInteger] = None
+
+    def getSleepModeExecutionDelay(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+        """
+        return self.sleepModeExecutionDelay
+
+    def setSleepModeExecutionDelay(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds to perform a sleep request if the Ethernet hardware (PHY) detect a pending wake-up. This is used to avoid the race condition, if a sleep was requested while a wake-up of a neighboring PHY was received via a local wake-up connection (e.g. I/O pin).
+
+        A None value is a no-op and does not overwrite an existing sleepModeExecutionDelay.
+        """
+        if value is not None:
+            self.sleepModeExecutionDelay = value
+        return self
+
+    def getSleepRepetitionDelayOfSleepRequest(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+        """
+        return self.sleepRepetitionDelayOfSleepRequest
+
+    def setSleepRepetitionDelayOfSleepRequest(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds for a repetition of a sleep request. This is used to retry a synchronized shutdown of the connected Ethernet hardware (PHY) of the link partner. (see constr_3607).
+
+        A None value is a no-op and does not overwrite an existing sleepRepetitionDelayOfSleepRequest.
+        """
+        if value is not None:
+            self.sleepRepetitionDelayOfSleepRequest = value
+        return self
+
+    def getSleepRepetitionsOfSleepRequest(self) -> Optional[PositiveInteger]:
+        """
+        Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+        """
+        return self.sleepRepetitionsOfSleepRequest
+
+    def setSleepRepetitionsOfSleepRequest(self, value: Optional[PositiveInteger]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Count of repetitions for a sleep on dataline. If a sleep is rejected by the linked communication partner, the sleep is repeated until the count of repetitions exceed. If count of repetitions exceed, the Ethernet hardware (PHY) transit to sleep without acknowledgement of the connected link partner.
+
+        A None value is a no-op and does not overwrite an existing sleepRepetitionsOfSleepRequest.
+        """
+        if value is not None:
+            self.sleepRepetitionsOfSleepRequest = value
+        return self
+
+    def getWakeupForwardLocalEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+        """
+        return self.wakeupForwardLocalEnabled
+
+    def setWakeupForwardLocalEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a remote wake-up received on the physical dataline (e.g. 100BASE-T1) is forwarded as local wake-up (e.g. via an I/O pin). If disabled, then a remote wake-up is not forwarded as local wake-up. (see constr_3602).
+
+        A None value is a no-op and does not overwrite an existing wakeupForwardLocalEnabled.
+        """
+        if value is not None:
+            self.wakeupForwardLocalEnabled = value
+        return self
+
+    def getWakeupForwardRemoteEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+        """
+        return self.wakeupForwardRemoteEnabled
+
+    def setWakeupForwardRemoteEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a local wake-up is forwarded to the physical dataline (e.g. 100BASE-T1). If disabled, then a local wake-up is not forwarded to the physical dataline. (see constr_3604).
+
+        A None value is a no-op and does not overwrite an existing wakeupForwardRemoteEnabled.
+        """
+        if value is not None:
+            self.wakeupForwardRemoteEnabled = value
+        return self
+
+    def getWakeupLocalDetectionTime(self) -> Optional[TimeValue]:
+        """
+        Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+        """
+        return self.wakeupLocalDetectionTime
+
+    def setWakeupLocalDetectionTime(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Specify the detection time if a local wake-up in seconds is present on the local wake-up connection (e.g. I/O pin). A local wake-up has to be present at least for wakeupLocalDetectionTime to be detected a valid local wake-up. (see constr_3605, constr_3606, constr_3610).
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalDetectionTime.
+        """
+        if value is not None:
+            self.wakeupLocalDetectionTime = value
+        return self
+
+    def getWakeupLocalDurationTime(self) -> Optional[TimeValue]:
+        """
+        Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+        """
+        return self.wakeupLocalDurationTime
+
+    def setWakeupLocalDurationTime(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Specify the duration of a local wake-up in seconds to be present on the local wake-up connection (e.g. I/O pin). (see constr_3603, constr_3606, constr_3609).
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalDurationTime.
+        """
+        if value is not None:
+            self.wakeupLocalDurationTime = value
+        return self
+
+    def getWakeupLocalEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+        """
+        return self.wakeupLocalEnabled
+
+    def setWakeupLocalEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a local wake-up received via a local connection (e.g. I/O pin) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reacting on a local wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupLocalEnabled.
+        """
+        if value is not None:
+            self.wakeupLocalEnabled = value
+        return self
+
+    def getWakeupRemoteEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+        """
+        return self.wakeupRemoteEnabled
+
+    def setWakeupRemoteEnabled(self, value: Optional[Boolean]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        If enabled, then a remote wake-up received via the physical dataline (e.g. 100BASE-T1) shall be detected by the Ethernet hardware (PHY). If disabled, Ethernet hardware is not reaction on a remote wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupRemoteEnabled.
+        """
+        if value is not None:
+            self.wakeupRemoteEnabled = value
+        return self
+
+    def getWakeupRepetitionDelayOfWakeupRequest(self) -> Optional[TimeValue]:
+        """
+        Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+        """
+        return self.wakeupRepetitionDelayOfWakeupRequest
+
+    def setWakeupRepetitionDelayOfWakeupRequest(self, value: Optional[TimeValue]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Delay in seconds for a repetition of a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up. (see constr_3608).
+
+        A None value is a no-op and does not overwrite an existing wakeupRepetitionDelayOfWakeupRequest.
+        """
+        if value is not None:
+            self.wakeupRepetitionDelayOfWakeupRequest = value
+        return self
+
+    def getWakeupRepetitionsOfWakeupRequest(self) -> Optional[PositiveInteger]:
+        """
+        Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+        """
+        return self.wakeupRepetitionsOfWakeupRequest
+
+    def setWakeupRepetitionsOfWakeupRequest(self, value: Optional[PositiveInteger]) -> EthernetWakeupSleepOnDatalineConfig:
+        """
+        Count of repetitions for a wake-up. This is used to increase the reliability in the network, such that an ECU which initiates the wake-up does repeat the wake-up and increase the probability that affected ECUs receive the wake-up.
+
+        A None value is a no-op and does not overwrite an existing wakeupRepetitionsOfWakeupRequest.
+        """
+        if value is not None:
+            self.wakeupRepetitionsOfWakeupRequest = value
+        return self
 
 
 class PlcaProps(ARObject):
@@ -3329,19 +5189,18 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
 
     # CouplingPortConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.60, p.113
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getPlcaLocalNodeCount             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaLocalNodeCount             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPlcaTransmitOpportunityTimer   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPlcaTransmitOpportunityTimer   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -3374,10 +5233,6 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
             self.firstPortRef = value
         return self
 
-    def getNodePortRefs(self) -> List[RefType]:
-        """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        return self.nodePortRefs
-
     def addNodePortRef(self, value: Optional[RefType]) -> CouplingPortConnection:
         """
         Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
@@ -3386,6 +5241,10 @@ class CouplingPortConnection(ARObject, VariationPointCapable):
         if value is not None:
             self.nodePortRefs.append(value)
         return self
+
+    def getNodePortRefs(self) -> List[RefType]:
+        """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        return self.nodePortRefs
 
     def getPlcaLocalNodeCount(self) -> Optional[PositiveInteger]:
         """Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used."""
@@ -3467,9 +5326,9 @@ class CouplingPortRatePolicyActionEnum(AREnum):
 
     # CouplingPortRatePolicyActionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.70, p.125
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPortRatePolicy.policyAction
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # If the rate policy is violated the frame shall be dropped. Tags: atp.EnumerationLiteralIndex=0
     DROP_FRAME = "DROP-FRAME"
@@ -3493,19 +5352,18 @@ class CouplingPortRatePolicy(ARObject):
 
     # CouplingPortRatePolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.69, p.124
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
@@ -4057,6 +5915,1187 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getVlan(self) -> Optional[VlanConfig]:
         """VLAN Configuration."""
         return self.vlan
+
+
+class EthIpProps(ARElement):
+    """This meta-class is used to configure the EcuInstance specific IP attributes. Tags: atp.recommendedPackage=EthIpProps"""
+
+    # EthIpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.100, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIpv4Props    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv4Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIpv6Props    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIpv6Props    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The IPV-4-PROPS child fully round-trips via readIpv4Props/writeIpv4Props since the
+    # Ipv4Props sync (Table 3.101); the IPV-6-PROPS child fully round-trips via
+    # readIpv6Props/writeIpv6Props since the Ipv6Props sync (Table 3.105) — its children
+    # Dhcpv6Props (Table 3.107), Ipv6FragmentationProps (Table 3.106) and Ipv6NdpProps
+    # (Table 3.108) fully round-trip since their syncs.
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Configuration options for IPv4.
+        self.ipv4Props: Optional[Ipv4Props] = None
+
+        # Configuration options for IPv6.
+        self.ipv6Props: Optional[Ipv6Props] = None
+
+    def getIpv4Props(self) -> Optional[Ipv4Props]:
+        """
+        Configuration options for IPv4.
+        """
+        return self.ipv4Props
+
+    def setIpv4Props(self, value: Optional[Ipv4Props]) -> EthIpProps:
+        """
+        Configuration options for IPv4.
+
+        A None value is a no-op and does not overwrite an existing ipv4Props.
+        """
+        if value is not None:
+            self.ipv4Props = value
+        return self
+
+    def getIpv6Props(self) -> Optional[Ipv6Props]:
+        """
+        Configuration options for IPv6.
+        """
+        return self.ipv6Props
+
+    def setIpv6Props(self, value: Optional[Ipv6Props]) -> EthIpProps:
+        """
+        Configuration options for IPv6.
+
+        A None value is a no-op and does not overwrite an existing ipv6Props.
+        """
+        if value is not None:
+            self.ipv6Props = value
+        return self
+
+
+class Ipv4Props(ARObject):
+    """This meta-class specifies the configuration options for IPv4."""
+
+    # Ipv4Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.101, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArpProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAutoIpProps        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutoIpProps        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # All three children fully round-trip via readIpv4ArpProps/writeIpv4ArpProps,
+    # readIpv4AutoIpProps/writeIpv4AutoIpProps and
+    # readIpv4FragmentationProps/writeIpv4FragmentationProps since the Ipv4ArpProps
+    # (Table 3.102), Ipv4AutoIpProps (Table 3.103) and Ipv4FragmentationProps
+    # (Table 3.104) syncs.
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration properties for the ARP (Address Resolution Protocol).
+        self.arpProps: Optional[Ipv4ArpProps] = None
+
+        # Configuration options for Auto-IP (automatic private IP addressing).
+        self.autoIpProps: Optional[Ipv4AutoIpProps] = None
+
+        # Configuration options for IPv4 packet fragmentation/reassembly.
+        self.fragmentationProps: Optional[Ipv4FragmentationProps] = None
+
+    def getArpProps(self) -> Optional[Ipv4ArpProps]:
+        """Configuration properties for the ARP (Address Resolution Protocol)."""
+        return self.arpProps
+
+    def setArpProps(self, value: Optional[Ipv4ArpProps]) -> Ipv4Props:
+        """
+        Configuration properties for the ARP (Address Resolution Protocol).
+
+        A None value is a no-op and does not overwrite an existing arpProps.
+        """
+        if value is not None:
+            self.arpProps = value
+        return self
+
+    def getAutoIpProps(self) -> Optional[Ipv4AutoIpProps]:
+        """Configuration options for Auto-IP (automatic private IP addressing)."""
+        return self.autoIpProps
+
+    def setAutoIpProps(self, value: Optional[Ipv4AutoIpProps]) -> Ipv4Props:
+        """
+        Configuration options for Auto-IP (automatic private IP addressing).
+
+        A None value is a no-op and does not overwrite an existing autoIpProps.
+        """
+        if value is not None:
+            self.autoIpProps = value
+        return self
+
+    def getFragmentationProps(self) -> Optional[Ipv4FragmentationProps]:
+        """Configuration options for IPv4 packet fragmentation/reassembly."""
+        return self.fragmentationProps
+
+    def setFragmentationProps(self, value: Optional[Ipv4FragmentationProps]) -> Ipv4Props:
+        """
+        Configuration options for IPv4 packet fragmentation/reassembly.
+
+        A None value is a no-op and does not overwrite an existing fragmentationProps.
+        """
+        if value is not None:
+            self.fragmentationProps = value
+        return self
+
+
+class Ipv4ArpProps(ARObject):
+    """Specifies the configuration options for the ARP (Address Resolution Protocol)."""
+
+    # Ipv4ArpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.102, p.146
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpArpNumGratuitousArpOnStartup  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpNumGratuitousArpOnStartup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpPacketQueueEnabled         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpPacketQueueEnabled         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpRequestTimeout             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpRequestTimeout             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpArpTableEntryTimeout          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpArpTableEntryTimeout          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address.
+        self.tcpIpArpNumGratuitousArpOnStartup: Optional[PositiveInteger] = None
+
+        # This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2.
+        self.tcpIpArpPacketQueueEnabled: Optional[Boolean] = None
+
+        # This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1).
+        self.tcpIpArpRequestTimeout: Optional[TimeValue] = None
+
+        # This attribute specifies the timeout in seconds after which an unused ARP entry is removed.
+        self.tcpIpArpTableEntryTimeout: Optional[TimeValue] = None
+
+    def getTcpIpArpNumGratuitousArpOnStartup(self) -> Optional[PositiveInteger]:
+        """This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address."""
+        return self.tcpIpArpNumGratuitousArpOnStartup
+
+    def setTcpIpArpNumGratuitousArpOnStartup(self, value: Optional[PositiveInteger]) -> Ipv4ArpProps:
+        """
+        This attribute specifies the number of gratuitous ARP replies which shall be sent on assignment of a new IP address.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpNumGratuitousArpOnStartup.
+        """
+        if value is not None:
+            self.tcpIpArpNumGratuitousArpOnStartup = value
+        return self
+
+    def getTcpIpArpPacketQueueEnabled(self) -> Optional[Boolean]:
+        """This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2."""
+        return self.tcpIpArpPacketQueueEnabled
+
+    def setTcpIpArpPacketQueueEnabled(self, value: Optional[Boolean]) -> Ipv4ArpProps:
+        """
+        This attribute enables (TRUE) or disables (FALSE) support of the ARP Packet Queue according to IETF RFC 1122, section 2.3.2.2.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpPacketQueueEnabled.
+        """
+        if value is not None:
+            self.tcpIpArpPacketQueueEnabled = value
+        return self
+
+    def getTcpIpArpRequestTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1)."""
+        return self.tcpIpArpRequestTimeout
+
+    def setTcpIpArpRequestTimeout(self, value: Optional[TimeValue]) -> Ipv4ArpProps:
+        """
+        This attribute specifies a timeout in seconds for the validity of ARP requests. After the transmission of an ARP request the TcpIp shall skip the transmission of any further ARP requests to the same destination within a duration of tcpIpArpRequestTimeout seconds. (IETF RFC 1122, section 2.3.2.1).
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpRequestTimeout.
+        """
+        if value is not None:
+            self.tcpIpArpRequestTimeout = value
+        return self
+
+    def getTcpIpArpTableEntryTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies the timeout in seconds after which an unused ARP entry is removed."""
+        return self.tcpIpArpTableEntryTimeout
+
+    def setTcpIpArpTableEntryTimeout(self, value: Optional[TimeValue]) -> Ipv4ArpProps:
+        """
+        This attribute specifies the timeout in seconds after which an unused ARP entry is removed.
+
+        A None value is a no-op and does not overwrite an existing tcpIpArpTableEntryTimeout.
+        """
+        if value is not None:
+            self.tcpIpArpTableEntryTimeout = value
+        return self
+
+
+class Ipv4AutoIpProps(ARObject):
+    """Specifies the configuration options for Auto-IP (automatic private IP addressing)."""
+
+    # Ipv4AutoIpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.103, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpAutoIpInitTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpAutoIpInitTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present.
+        self.tcpIpAutoIpInitTimeout: Optional[TimeValue] = None
+
+    def getTcpIpAutoIpInitTimeout(self) -> Optional[TimeValue]:
+        """This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present."""
+        return self.tcpIpAutoIpInitTimeout
+
+    def setTcpIpAutoIpInitTimeout(self, value: Optional[TimeValue]) -> Ipv4AutoIpProps:
+        """
+        This attribute specifies the time in seconds Auto-IP waits at startup, before beginning with ARP probing. This delay is used to give DHCP time to acquire a lease in case a DHCP server is present.
+
+        A None value is a no-op and does not overwrite an existing tcpIpAutoIpInitTimeout.
+        """
+        if value is not None:
+            self.tcpIpAutoIpInitTimeout = value
+        return self
+
+
+class Ipv4FragmentationProps(ARObject):
+    """Specifies the configuration options for IPv4 packet fragmentation/reassembly."""
+
+    # Ipv4FragmentationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.104, p.147
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIpFragmentationRxEnabled [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpFragmentationRxEnabled [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpNumFragments           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpNumFragments           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpNumReassDgrams         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpNumReassDgrams         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassTimeout           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassTimeout           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms).
+        self.tcpIpIpFragmentationRxEnabled: Optional[Boolean] = None
+
+        # Specifies the maximum number of IP fragments per datagram.
+        self.tcpIpIpNumFragments: Optional[PositiveInteger] = None
+
+        # Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel.
+        self.tcpIpIpNumReassDgrams: Optional[PositiveInteger] = None
+
+        # Specifies the timeout in [s] after which an incomplete datagram gets discarded.
+        self.tcpIpIpReassTimeout: Optional[TimeValue] = None
+
+    def getTcpIpIpFragmentationRxEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms)."""
+        return self.tcpIpIpFragmentationRxEnabled
+
+    def setTcpIpIpFragmentationRxEnabled(self, value: Optional[Boolean]) -> Ipv4FragmentationProps:
+        """
+        Enables (TRUE) or disables (FALSE) support for reassembling of incoming datagrams that are fragmented according to IETF RFC 815 (IP Datagram Reassembly Algorithms).
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpFragmentationRxEnabled.
+        """
+        if value is not None:
+            self.tcpIpIpFragmentationRxEnabled = value
+        return self
+
+    def getTcpIpIpNumFragments(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of IP fragments per datagram."""
+        return self.tcpIpIpNumFragments
+
+    def setTcpIpIpNumFragments(self, value: Optional[PositiveInteger]) -> Ipv4FragmentationProps:
+        """
+        Specifies the maximum number of IP fragments per datagram.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpNumFragments.
+        """
+        if value is not None:
+            self.tcpIpIpNumFragments = value
+        return self
+
+    def getTcpIpIpNumReassDgrams(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel."""
+        return self.tcpIpIpNumReassDgrams
+
+    def setTcpIpIpNumReassDgrams(self, value: Optional[PositiveInteger]) -> Ipv4FragmentationProps:
+        """
+        Specifies the maximum number of fragmented IP datagrams that can be reassembled in parallel.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpNumReassDgrams.
+        """
+        if value is not None:
+            self.tcpIpIpNumReassDgrams = value
+        return self
+
+    def getTcpIpIpReassTimeout(self) -> Optional[TimeValue]:
+        """Specifies the timeout in [s] after which an incomplete datagram gets discarded."""
+        return self.tcpIpIpReassTimeout
+
+    def setTcpIpIpReassTimeout(self, value: Optional[TimeValue]) -> Ipv4FragmentationProps:
+        """
+        Specifies the timeout in [s] after which an incomplete datagram gets discarded.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassTimeout.
+        """
+        if value is not None:
+            self.tcpIpIpReassTimeout = value
+        return self
+
+
+class Dhcpv6Props(ARObject):
+    """This meta-class specifies the configuration options for DHCPv6."""
+
+    # Dhcpv6Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.107, p.149
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6CnfDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6CnfDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6CnfDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6CnfDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6InfDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6InfDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6InfDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6InfDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6SolDelayMax   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6SolDelayMax   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpDhcpV6SolDelayMin   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpDhcpV6SolDelayMin   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6CnfDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay in seconds before the first Confirm message will be sent.
+        self.tcpIpDhcpV6CnfDelayMin: Optional[TimeValue] = None
+
+        # Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6InfDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay (s) before the first Information Request message will be sent.
+        self.tcpIpDhcpV6InfDelayMin: Optional[TimeValue] = None
+
+        # Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+        self.tcpIpDhcpV6SolDelayMax: Optional[TimeValue] = None
+
+        # Minimum delay (s) before the first Solicit message will be sent.
+        self.tcpIpDhcpV6SolDelayMin: Optional[TimeValue] = None
+
+    def getTcpIpDhcpV6CnfDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6CnfDelayMax
+
+    def setTcpIpDhcpV6CnfDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Confirm message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6CnfDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6CnfDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6CnfDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay in seconds before the first Confirm message will be sent."""
+        return self.tcpIpDhcpV6CnfDelayMin
+
+    def setTcpIpDhcpV6CnfDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay in seconds before the first Confirm message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6CnfDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6CnfDelayMin = value
+        return self
+
+    def getTcpIpDhcpV6InfDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6InfDelayMax
+
+    def setTcpIpDhcpV6InfDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Information Request message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6InfDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6InfDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6InfDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay (s) before the first Information Request message will be sent."""
+        return self.tcpIpDhcpV6InfDelayMin
+
+    def setTcpIpDhcpV6InfDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay (s) before the first Information Request message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6InfDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6InfDelayMin = value
+        return self
+
+    def getTcpIpDhcpV6SolDelayMax(self) -> Optional[TimeValue]:
+        """Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval."""
+        return self.tcpIpDhcpV6SolDelayMax
+
+    def setTcpIpDhcpV6SolDelayMax(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Maximum delay in seconds before sending the first Solicit message. If this value is bigger than the previous minimum delay value a random delay will be chosen from the interval.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6SolDelayMax.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6SolDelayMax = value
+        return self
+
+    def getTcpIpDhcpV6SolDelayMin(self) -> Optional[TimeValue]:
+        """Minimum delay (s) before the first Solicit message will be sent."""
+        return self.tcpIpDhcpV6SolDelayMin
+
+    def setTcpIpDhcpV6SolDelayMin(self, value: Optional[TimeValue]) -> Dhcpv6Props:
+        """
+        Minimum delay (s) before the first Solicit message will be sent.
+
+        A None value is a no-op and does not overwrite an existing tcpIpDhcpV6SolDelayMin.
+        """
+        if value is not None:
+            self.tcpIpDhcpV6SolDelayMin = value
+        return self
+
+
+class Ipv6FragmentationProps(ARObject):
+    """This meta-class specifies the configuration options for IPv6 packet fragmentation/reassembly."""
+
+    # Ipv6FragmentationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.106, p.148
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyBufferCount  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyBufferCount  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyBufferSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyBufferSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblySegmentCount [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblySegmentCount [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpReassemblyTimeout      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpReassemblyTimeout      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpTxFragmentBufferCount  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpTxFragmentBufferCount  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpIpTxFragmentBufferSize   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpIpTxFragmentBufferSize   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly.
+        self.tcpIpIpReassemblyBufferCount: Optional[PositiveInteger] = None
+
+        # Size of each fragment tx buffer in bytes.
+        self.tcpIpIpReassemblyBufferSize: Optional[PositiveInteger] = None
+
+        # Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1.
+        self.tcpIpIpReassemblySegmentCount: Optional[PositiveInteger] = None
+
+        # Specifies the timeout in seconds after which an incomplete datagram gets discarded.
+        self.tcpIpIpReassemblyTimeout: Optional[TimeValue] = None
+
+        # These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation.
+        self.tcpIpIpTxFragmentBufferCount: Optional[PositiveInteger] = None
+
+        # Size of each fragment tx buffer in bytes.
+        self.tcpIpIpTxFragmentBufferSize: Optional[PositiveInteger] = None
+
+    def getTcpIpIpReassemblyBufferCount(self) -> Optional[PositiveInteger]:
+        """Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly."""
+        return self.tcpIpIpReassemblyBufferCount
+
+    def setTcpIpIpReassemblyBufferCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Number of buffers that can be used for fragment reassembly. In case of a reassembly error or if not all fragments are received in time this buffer will be blocked until the specified "Fragment Reassembly Timeout" has been exceeded. A value of 0 disables fragment reassembly.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyBufferCount.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyBufferCount = value
+        return self
+
+    def getTcpIpIpReassemblyBufferSize(self) -> Optional[PositiveInteger]:
+        """Size of each fragment tx buffer in bytes."""
+        return self.tcpIpIpReassemblyBufferSize
+
+    def setTcpIpIpReassemblyBufferSize(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Size of each fragment tx buffer in bytes.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyBufferSize.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyBufferSize = value
+        return self
+
+    def getTcpIpIpReassemblySegmentCount(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1."""
+        return self.tcpIpIpReassemblySegmentCount
+
+    def setTcpIpIpReassemblySegmentCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Specifies the maximum number of consecutive data segments that can be managed in each reassembly buffer. If all fragments are received in order, only one segment will be needed. To deal with fragments received out of order this value should be configured bigger than 1.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblySegmentCount.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblySegmentCount = value
+        return self
+
+    def getTcpIpIpReassemblyTimeout(self) -> Optional[TimeValue]:
+        """Specifies the timeout in seconds after which an incomplete datagram gets discarded."""
+        return self.tcpIpIpReassemblyTimeout
+
+    def setTcpIpIpReassemblyTimeout(self, value: Optional[TimeValue]) -> Ipv6FragmentationProps:
+        """
+        Specifies the timeout in seconds after which an incomplete datagram gets discarded.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpReassemblyTimeout.
+        """
+        if value is not None:
+            self.tcpIpIpReassemblyTimeout = value
+        return self
+
+    def getTcpIpIpTxFragmentBufferCount(self) -> Optional[PositiveInteger]:
+        """These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation."""
+        return self.tcpIpIpTxFragmentBufferCount
+
+    def setTcpIpIpTxFragmentBufferCount(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        These buffers will be used if the IpV6 receives packets from the upper layer that do not fit into the MTU and thus must be fragmented. A value of 0 disables tx fragmentation.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpTxFragmentBufferCount.
+        """
+        if value is not None:
+            self.tcpIpIpTxFragmentBufferCount = value
+        return self
+
+    def getTcpIpIpTxFragmentBufferSize(self) -> Optional[PositiveInteger]:
+        """Size of each fragment tx buffer in bytes."""
+        return self.tcpIpIpTxFragmentBufferSize
+
+    def setTcpIpIpTxFragmentBufferSize(self, value: Optional[PositiveInteger]) -> Ipv6FragmentationProps:
+        """
+        Size of each fragment tx buffer in bytes.
+
+        A None value is a no-op and does not overwrite an existing tcpIpIpTxFragmentBufferSize.
+        """
+        if value is not None:
+            self.tcpIpIpTxFragmentBufferSize = value
+        return self
+
+
+class Ipv6NdpProps(ARObject):
+    """This meta-class specifies the configuration options for the Neighbor Discovery Protocol for IPv6."""
+
+    # Ipv6NdpProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.108, p.151
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultReachableTime                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultReachableTime                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultRetransTimer                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultRetransTimer                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefaultRouterListSize                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefaultRouterListSize                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDefensiveProcessing                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDefensiveProcessing                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDelayFirstProbeTimeValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDelayFirstProbeTimeValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDestinationCacheSize                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDestinationCacheSize                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicHopLimitEnabled                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicHopLimitEnabled                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicMtuEnabled                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicMtuEnabled                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicReachableTimeEnabled             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicReachableTimeEnabled             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpDynamicRetransTimeEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpDynamicRetransTimeEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRandomFactor                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRandomFactor                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRtrSolicitationDelay                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRtrSolicitationDelay                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMaxRtrSolicitations                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMaxRtrSolicitations                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpMinRandomFactor                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpMinRandomFactor                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNeighborUnreachabilityDetectionEnabled  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNeighborUnreachabilityDetectionEnabled  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNumMulticastSolicitations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNumMulticastSolicitations               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpNumUnicastSolicitations                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpNumUnicastSolicitations                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpPacketQueueEnabled                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpPacketQueueEnabled                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpPrefixListSize                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpPrefixListSize                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRandomReachableTimeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRandomReachableTimeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRndRtrSolicitationDelayEnabled          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRndRtrSolicitationDelayEnabled          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpRtrSolicitationInterval                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpRtrSolicitationInterval                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDadNumberOfTransmissions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDadNumberOfTransmissions           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDadRetransmissionDelay             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDadRetransmissionDelay             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacDelayEnabled                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacDelayEnabled                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpIpNdpSlaacOptimisticDadEnabled               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpIpNdpSlaacOptimisticDadEnabled               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables].
+        self.tcpIpNdpDefaultReachableTime: Optional[TimeValue] = None
+
+        # Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables].
+        self.tcpIpNdpDefaultRetransTimer: Optional[TimeValue] = None
+
+        # Maximum number of default router entries.
+        self.tcpIpNdpDefaultRouterListSize: Optional[PositiveInteger] = None
+
+        # If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+        self.tcpIpNdpDefensiveProcessing: Optional[Boolean] = None
+
+        # Delay before sending the first NUD probe in (s).
+        self.tcpIpNdpDelayFirstProbeTimeValue: Optional[TimeValue] = None
+
+        # Maximum number of entries in the destination cache.
+        self.tcpIpNdpDestinationCacheSize: Optional[PositiveInteger] = None
+
+        # If enabled the default hop limit may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicHopLimitEnabled: Optional[Boolean] = None
+
+        # Allow dynamic reconfiguration of link MTU via Router Advertisements.
+        self.tcpIpNdpDynamicMtuEnabled: Optional[Boolean] = None
+
+        # If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicReachableTimeEnabled: Optional[Boolean] = None
+
+        # If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements.
+        self.tcpIpNdpDynamicRetransTimeEnabled: Optional[Boolean] = None
+
+        # Maximum random factor used for randomization
+        self.tcpIpNdpMaxRandomFactor: Optional[PositiveInteger] = None
+
+        # Maximum delay before the first Router Solicitation will be sent after interface initialization in (s).
+        self.tcpIpNdpMaxRtrSolicitationDelay: Optional[TimeValue] = None
+
+        # Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received.
+        self.tcpIpNdpMaxRtrSolicitations: Optional[PositiveInteger] = None
+
+        # Minimum random factor used for randomization
+        self.tcpIpNdpMinRandomFactor: Optional[PositiveInteger] = None
+
+        # Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on.
+        self.tcpIpNdpNeighborUnreachabilityDetectionEnabled: Optional[Boolean] = None
+
+        # Maximum number of multicast solicitations that will be sent when performing address resolution.
+        self.tcpIpNdpNumMulticastSolicitations: Optional[PositiveInteger] = None
+
+        # Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection.
+        self.tcpIpNdpNumUnicastSolicitations: Optional[PositiveInteger] = None
+
+        # Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2.
+        self.tcpIpNdpPacketQueueEnabled: Optional[Boolean] = None
+
+        # Maximum number of entries in the on-link prefix list.
+        self.tcpIpNdpPrefixListSize: Optional[PositiveInteger] = None
+
+        # If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+        self.tcpIpNdpRandomReachableTimeEnabled: Optional[Boolean] = None
+
+        # If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+        self.tcpIpNdpRndRtrSolicitationDelayEnabled: Optional[Boolean] = None
+
+        # Interval between consecutive Router Solicitations in (s).
+        self.tcpIpNdpRtrSolicitationInterval: Optional[TimeValue] = None
+
+        # Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state.
+        self.tcpIpNdpSlaacDadNumberOfTransmissions: Optional[PositiveInteger] = None
+
+        # Sets the maximum value for the address configuration delay (s).
+        self.tcpIpNdpSlaacDadRetransmissionDelay: Optional[TimeValue] = None
+
+        # If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY].
+        self.tcpIpNdpSlaacDelayEnabled: Optional[Boolean] = None
+
+        # Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429.
+        self.tcpIpNdpSlaacOptimisticDadEnabled: Optional[Boolean] = None
+
+    def getTcpIpNdpDefaultReachableTime(self) -> Optional[TimeValue]:
+        """Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables]."""
+        return self.tcpIpNdpDefaultReachableTime
+
+    def setTcpIpNdpDefaultReachableTime(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Configuration of the ReachableTime (s) specified in [RFC4861 6.3.2. Host Variables].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultReachableTime.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultReachableTime = value
+        return self
+
+    def getTcpIpNdpDefaultRetransTimer(self) -> Optional[TimeValue]:
+        """Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables]."""
+        return self.tcpIpNdpDefaultRetransTimer
+
+    def setTcpIpNdpDefaultRetransTimer(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Configures the default value (s) for the RetransTimer variable specified in [RFC4861 6.3.2. Host Variables].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultRetransTimer.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultRetransTimer = value
+        return self
+
+    def getTcpIpNdpDefaultRouterListSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of default router entries."""
+        return self.tcpIpNdpDefaultRouterListSize
+
+    def setTcpIpNdpDefaultRouterListSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of default router entries.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefaultRouterListSize.
+        """
+        if value is not None:
+            self.tcpIpNdpDefaultRouterListSize = value
+        return self
+
+    def getTcpIpNdpDefensiveProcessing(self) -> Optional[Boolean]:
+        """
+        If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+        """
+        return self.tcpIpNdpDefensiveProcessing
+
+    def setTcpIpNdpDefensiveProcessing(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the NDP shall only process Neighbor Advertisements which are received in reaction to a previously transmitted Neighbor Solicitation as well as skipping updates to the Neighbor Cache based on received Neighbor Solicitations. If disabled all Neighbor Advertisements and Solicitations shall be processed as specified in RFC4861.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDefensiveProcessing.
+        """
+        if value is not None:
+            self.tcpIpNdpDefensiveProcessing = value
+        return self
+
+    def getTcpIpNdpDelayFirstProbeTimeValue(self) -> Optional[TimeValue]:
+        """Delay before sending the first NUD probe in (s)."""
+        return self.tcpIpNdpDelayFirstProbeTimeValue
+
+    def setTcpIpNdpDelayFirstProbeTimeValue(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Delay before sending the first NUD probe in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDelayFirstProbeTimeValue.
+        """
+        if value is not None:
+            self.tcpIpNdpDelayFirstProbeTimeValue = value
+        return self
+
+    def getTcpIpNdpDestinationCacheSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of entries in the destination cache."""
+        return self.tcpIpNdpDestinationCacheSize
+
+    def setTcpIpNdpDestinationCacheSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of entries in the destination cache.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDestinationCacheSize.
+        """
+        if value is not None:
+            self.tcpIpNdpDestinationCacheSize = value
+        return self
+
+    def getTcpIpNdpDynamicHopLimitEnabled(self) -> Optional[Boolean]:
+        """If enabled the default hop limit may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicHopLimitEnabled
+
+    def setTcpIpNdpDynamicHopLimitEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default hop limit may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicHopLimitEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicHopLimitEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicMtuEnabled(self) -> Optional[Boolean]:
+        """Allow dynamic reconfiguration of link MTU via Router Advertisements."""
+        return self.tcpIpNdpDynamicMtuEnabled
+
+    def setTcpIpNdpDynamicMtuEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Allow dynamic reconfiguration of link MTU via Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicMtuEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicMtuEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicReachableTimeEnabled(self) -> Optional[Boolean]:
+        """If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicReachableTimeEnabled
+
+    def setTcpIpNdpDynamicReachableTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default Reachable Time value may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicReachableTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicReachableTimeEnabled = value
+        return self
+
+    def getTcpIpNdpDynamicRetransTimeEnabled(self) -> Optional[Boolean]:
+        """If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements."""
+        return self.tcpIpNdpDynamicRetransTimeEnabled
+
+    def setTcpIpNdpDynamicRetransTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the default Retransmit Timer value may be reconfigured based on received Router Advertisements.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpDynamicRetransTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpDynamicRetransTimeEnabled = value
+        return self
+
+    def getTcpIpNdpMaxRandomFactor(self) -> Optional[PositiveInteger]:
+        """Maximum random factor used for randomization"""
+        return self.tcpIpNdpMaxRandomFactor
+
+    def setTcpIpNdpMaxRandomFactor(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum random factor used for randomization
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRandomFactor.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRandomFactor = value
+        return self
+
+    def getTcpIpNdpMaxRtrSolicitationDelay(self) -> Optional[TimeValue]:
+        """Maximum delay before the first Router Solicitation will be sent after interface initialization in (s)."""
+        return self.tcpIpNdpMaxRtrSolicitationDelay
+
+    def setTcpIpNdpMaxRtrSolicitationDelay(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Maximum delay before the first Router Solicitation will be sent after interface initialization in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRtrSolicitationDelay.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRtrSolicitationDelay = value
+        return self
+
+    def getTcpIpNdpMaxRtrSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received."""
+        return self.tcpIpNdpMaxRtrSolicitations
+
+    def setTcpIpNdpMaxRtrSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of Router Solicitations that will be sent before the first Router Advertisement has been received.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMaxRtrSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpMaxRtrSolicitations = value
+        return self
+
+    def getTcpIpNdpMinRandomFactor(self) -> Optional[PositiveInteger]:
+        """Minimum random factor used for randomization"""
+        return self.tcpIpNdpMinRandomFactor
+
+    def setTcpIpNdpMinRandomFactor(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Minimum random factor used for randomization
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpMinRandomFactor.
+        """
+        if value is not None:
+            self.tcpIpNdpMinRandomFactor = value
+        return self
+
+    def getTcpIpNdpNeighborUnreachabilityDetectionEnabled(self) -> Optional[Boolean]:
+        """Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on."""
+        return self.tcpIpNdpNeighborUnreachabilityDetectionEnabled
+
+    def setTcpIpNdpNeighborUnreachabilityDetectionEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Neighbor Unreachability Detection is used to remove unused entries from the neighbor cache. This feature is a basic feature of NDP and should be turned on.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNeighborUnreachabilityDetectionEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpNeighborUnreachabilityDetectionEnabled = value
+        return self
+
+    def getTcpIpNdpNumMulticastSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of multicast solicitations that will be sent when performing address resolution."""
+        return self.tcpIpNdpNumMulticastSolicitations
+
+    def setTcpIpNdpNumMulticastSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of multicast solicitations that will be sent when performing address resolution.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNumMulticastSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpNumMulticastSolicitations = value
+        return self
+
+    def getTcpIpNdpNumUnicastSolicitations(self) -> Optional[PositiveInteger]:
+        """Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection."""
+        return self.tcpIpNdpNumUnicastSolicitations
+
+    def setTcpIpNdpNumUnicastSolicitations(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of unicast solicitations that will be sent when performig Neighbor Unreachability Detection.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpNumUnicastSolicitations.
+        """
+        if value is not None:
+            self.tcpIpNdpNumUnicastSolicitations = value
+        return self
+
+    def getTcpIpNdpPacketQueueEnabled(self) -> Optional[Boolean]:
+        """Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2."""
+        return self.tcpIpNdpPacketQueueEnabled
+
+    def setTcpIpNdpPacketQueueEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Enables (TRUE) or disables (FALSE) support of a NDP Packet Queue according to IETF RFC 4861, section 7.2.2.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpPacketQueueEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpPacketQueueEnabled = value
+        return self
+
+    def getTcpIpNdpPrefixListSize(self) -> Optional[PositiveInteger]:
+        """Maximum number of entries in the on-link prefix list."""
+        return self.tcpIpNdpPrefixListSize
+
+    def setTcpIpNdpPrefixListSize(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Maximum number of entries in the on-link prefix list.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpPrefixListSize.
+        """
+        if value is not None:
+            self.tcpIpNdpPrefixListSize = value
+        return self
+
+    def getTcpIpNdpRandomReachableTimeEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+        """
+        return self.tcpIpNdpRandomReachableTimeEnabled
+
+    def setTcpIpNdpRandomReachableTimeEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the value of ReachableTime will be multiplied with a random value between MIN_RANDOM_FACTOR and MAX_RANDOM_FACTOR in order to prevent multiple nodes from transmitting at exactly the same time.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRandomReachableTimeEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpRandomReachableTimeEnabled = value
+        return self
+
+    def getTcpIpNdpRndRtrSolicitationDelayEnabled(self) -> Optional[Boolean]:
+        """
+        If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+        """
+        return self.tcpIpNdpRndRtrSolicitationDelayEnabled
+
+    def setTcpIpNdpRndRtrSolicitationDelayEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled the first router solicitation will be delayed randomly from [0...MAX_RTR_SOLICITATION_DELAY]. Otherwise the first router solicitation will be sent after exactly MAX_RTR_SOLICITATION_DELAY milliseconds.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRndRtrSolicitationDelayEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpRndRtrSolicitationDelayEnabled = value
+        return self
+
+    def getTcpIpNdpRtrSolicitationInterval(self) -> Optional[TimeValue]:
+        """Interval between consecutive Router Solicitations in (s)."""
+        return self.tcpIpNdpRtrSolicitationInterval
+
+    def setTcpIpNdpRtrSolicitationInterval(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Interval between consecutive Router Solicitations in (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpRtrSolicitationInterval.
+        """
+        if value is not None:
+            self.tcpIpNdpRtrSolicitationInterval = value
+        return self
+
+    def getTcpIpNdpSlaacDadNumberOfTransmissions(self) -> Optional[PositiveInteger]:
+        """Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state."""
+        return self.tcpIpNdpSlaacDadNumberOfTransmissions
+
+    def setTcpIpNdpSlaacDadNumberOfTransmissions(self, value: Optional[PositiveInteger]) -> Ipv6NdpProps:
+        """
+        Number of Neighbor Solicitations that have to be unanswered in order to set an autoconfigurated address to PREFERRED (usable) state.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDadNumberOfTransmissions.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDadNumberOfTransmissions = value
+        return self
+
+    def getTcpIpNdpSlaacDadRetransmissionDelay(self) -> Optional[TimeValue]:
+        """Sets the maximum value for the address configuration delay (s)."""
+        return self.tcpIpNdpSlaacDadRetransmissionDelay
+
+    def setTcpIpNdpSlaacDadRetransmissionDelay(self, value: Optional[TimeValue]) -> Ipv6NdpProps:
+        """
+        Sets the maximum value for the address configuration delay (s).
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDadRetransmissionDelay.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDadRetransmissionDelay = value
+        return self
+
+    def getTcpIpNdpSlaacDelayEnabled(self) -> Optional[Boolean]:
+        """If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY]."""
+        return self.tcpIpNdpSlaacDelayEnabled
+
+    def setTcpIpNdpSlaacDelayEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        If enabled transmission of the first DAD Neighbor Solicitation will be delayed by a random value from [0...MAX_DAD_DELAY].
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacDelayEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacDelayEnabled = value
+        return self
+
+    def getTcpIpNdpSlaacOptimisticDadEnabled(self) -> Optional[Boolean]:
+        """Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429."""
+        return self.tcpIpNdpSlaacOptimisticDadEnabled
+
+    def setTcpIpNdpSlaacOptimisticDadEnabled(self, value: Optional[Boolean]) -> Ipv6NdpProps:
+        """
+        Enable Optimistic Duplicate Address Detection (DAD) according to RFC4429.
+
+        A None value is a no-op and does not overwrite an existing tcpIpNdpSlaacOptimisticDadEnabled.
+        """
+        if value is not None:
+            self.tcpIpNdpSlaacOptimisticDadEnabled = value
+        return self
+
+
+class Ipv6Props(ARObject):
+    """This meta-class specifies the configuration options for IPv6."""
+
+    # Ipv6Props method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.105, p.148
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDhcpProps          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDhcpProps          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFragmentationProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFragmentationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNdpProps           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNdpProps           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # The FRAGMENTATION-PROPS child fully round-trips via the readIpv6FragmentationProps/
+    # writeIpv6FragmentationProps level since the Ipv6FragmentationProps sync (Table 3.106),
+    # the DHCP-PROPS child via the readDhcpv6Props/writeDhcpv6Props level since the
+    # Dhcpv6Props sync (Table 3.107) and the NDP-PROPS child via the
+    # readIpv6NdpProps/writeIpv6NdpProps level since the Ipv6NdpProps sync (Table 3.108).
+
+    def __init__(self):
+        super().__init__()
+
+        # Configuration properties for DHCPv6.
+        self.dhcpProps: Optional[Dhcpv6Props] = None
+
+        # Configuration properties for IPv6 packet fragmentation/reassembly.
+        self.fragmentationProps: Optional[Ipv6FragmentationProps] = None
+
+        # Configuration properties for the Neighbor Discovery Protocol for IPv6.
+        self.ndpProps: Optional[Ipv6NdpProps] = None
+
+    def getDhcpProps(self) -> Optional[Dhcpv6Props]:
+        """Configuration properties for DHCPv6."""
+        return self.dhcpProps
+
+    def setDhcpProps(self, value: Optional[Dhcpv6Props]) -> Ipv6Props:
+        """
+        Configuration properties for DHCPv6.
+
+        A None value is a no-op and does not overwrite an existing dhcpProps.
+        """
+        if value is not None:
+            self.dhcpProps = value
+        return self
+
+    def getFragmentationProps(self) -> Optional[Ipv6FragmentationProps]:
+        """Configuration properties for IPv6 packet fragmentation/reassembly."""
+        return self.fragmentationProps
+
+    def setFragmentationProps(self, value: Optional[Ipv6FragmentationProps]) -> Ipv6Props:
+        """
+        Configuration properties for IPv6 packet fragmentation/reassembly.
+
+        A None value is a no-op and does not overwrite an existing fragmentationProps.
+        """
+        if value is not None:
+            self.fragmentationProps = value
+        return self
+
+    def getNdpProps(self) -> Optional[Ipv6NdpProps]:
+        """Configuration properties for the Neighbor Discovery Protocol for IPv6."""
+        return self.ndpProps
+
+    def setNdpProps(self, value: Optional[Ipv6NdpProps]) -> Ipv6Props:
+        """
+        Configuration properties for the Neighbor Discovery Protocol for IPv6.
+
+        A None value is a no-op and does not overwrite an existing ndpProps.
+        """
+        if value is not None:
+            self.ndpProps = value
+        return self
 
 
 class EthTcpIpProps(ARElement):
@@ -4669,10 +7708,6 @@ class EthTcpIpIcmpProps(ARElement):
         if value is not None:
             self.icmpV6Props = value
         return self
-
-
-class CouplingPortShaper(CouplingPortStructuralElement):
-    pass
 
 
 class HttpTp(TransportProtocolConfiguration):

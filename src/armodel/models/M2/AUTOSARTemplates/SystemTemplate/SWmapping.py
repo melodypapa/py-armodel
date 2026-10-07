@@ -6,7 +6,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class SwcToImplMapping(Identifiable, VariationPointCapable):
@@ -262,3 +264,118 @@ class EcuPartition(Identifiable):
         if value is not None:
             self.execInUserMode = value
         return self
+
+
+class EcuResourceEstimation(ARObject):
+    """
+    Resource estimations for RTE and BSW of a single ECU instance.
+    """
+
+    # EcuResourceEstimation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.43, p.260
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswResourceEstimation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswResourceEstimation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEcuInstanceRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuInstanceRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntroduction               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRteResourceEstimation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteResourceEstimation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwCompToEcuMappingRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCompToEcuMappingRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Estimation for the resource consumption of the basic software.
+        self.bswResourceEstimation: Optional[ResourceConsumption] = None
+
+        # Reference to the ECU this estimation is done for.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+        # This represents introductory documentation about the ecu resource estimation Tags: xml.sequenceOffset=-10
+        self.introduction: Optional[DocumentationBlock] = None
+
+        # Estimation for the resource consumption of the run time environment.
+        self.rteResourceEstimation: Optional[ResourceConsumption] = None
+
+        # References to SwcToEcuMappings that have been taken into account for the resource estimations. This way it is possible to define dfferent EcuResourceEstimations with diifferent mappings, e.g. before and after mapping an additional SW component.
+        self.swCompToEcuMappingRefs: List[RefType] = []
+
+    def createBswResourceEstimation(self, short_name: str) -> ResourceConsumption:
+        """
+        Estimation for the resource consumption of the basic software.
+        """
+        if self.bswResourceEstimation is None:
+            self.bswResourceEstimation = ResourceConsumption(self, short_name)
+        return self.bswResourceEstimation
+
+    def getBswResourceEstimation(self) -> Optional[ResourceConsumption]:
+        """
+        Estimation for the resource consumption of the basic software.
+        """
+        return self.bswResourceEstimation
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """
+        Reference to the ECU this estimation is done for.
+        """
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "EcuResourceEstimation":
+        """
+        Reference to the ECU this estimation is done for.
+
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents introductory documentation about the ecu resource estimation Tags: xml.sequenceOffset=-10
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "EcuResourceEstimation":
+        """
+        This represents introductory documentation about the ecu resource estimation Tags: xml.sequenceOffset=-10
+
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
+        return self
+
+    def createRteResourceEstimation(self, short_name: str) -> ResourceConsumption:
+        """
+        Estimation for the resource consumption of the run time environment.
+        """
+        if self.rteResourceEstimation is None:
+            self.rteResourceEstimation = ResourceConsumption(self, short_name)
+        return self.rteResourceEstimation
+
+    def getRteResourceEstimation(self) -> Optional[ResourceConsumption]:
+        """
+        Estimation for the resource consumption of the run time environment.
+        """
+        return self.rteResourceEstimation
+
+    def addSwCompToEcuMappingRef(self, value: Optional[RefType]) -> "EcuResourceEstimation":
+        """
+        References to SwcToEcuMappings that have been taken into account for the resource estimations. This way it is possible to define dfferent EcuResourceEstimations with diifferent mappings, e.g. before and after mapping an additional SW component.
+
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.swCompToEcuMappingRefs.append(value)
+        return self
+
+    def getSwCompToEcuMappingRefs(self) -> List[RefType]:
+        """
+        References to SwcToEcuMappings that have been taken into account for the resource estimations. This way it is possible to define dfferent EcuResourceEstimations with diifferent mappings, e.g. before and after mapping an additional SW component.
+        """
+        return self.swCompToEcuMappingRefs

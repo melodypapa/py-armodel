@@ -74,9 +74,25 @@ class TestWriteCouplingPortTrafficClassAssignment:
         assert len(items) == 1
         item = items[0]
         assert item.find("SHORT-NAME").text == "TA1"
-        priorities = item.findall("PRIORITY")
+        priorities_wrapper = item.find("PRIORITYS")
+        assert priorities_wrapper is not None
+        priorities = priorities_wrapper.findall("PRIORITY")
         assert [int(p.text) for p in priorities] == [1, 2]
         assert item.find("TRAFFIC-CLASS").text == "3"
+
+    def test_write_omits_prioritys_wrapper_when_empty(self, writer):
+        details = CouplingPortDetails()
+        assignment = CouplingPortTrafficClassAssignment(details, "TA2")
+        tc = PositiveInteger()
+        tc.setValue("5")
+        assignment.setTrafficClass(tc)
+        details.addEthernetTrafficClassAssignment(assignment)
+        parent = ET.Element("PARENT")
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
+        item = parent.find("COUPLING-PORT-DETAILS/ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
+        assert item is not None
+        assert item.find("PRIORITYS") is None
+        assert item.find("TRAFFIC-CLASS").text == "5"
 
     def test_write_empty_omits_wrapper(self, writer):
         details = CouplingPortDetails()
