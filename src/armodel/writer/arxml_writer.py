@@ -13122,14 +13122,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
             self.setChildElementOptionalMacAddressString(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
 
-    def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
+    def setMacSecProps(self, element: ET.Element, key: str, props: Optional[MacSecProps]):
         if props is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalBooleanValue(child_element, "AUTO-START", props.getAutoStart())
-            self.setMacSecLocalKayProps(child_element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
-            self.setChildElementOptionalLiteral(child_element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
-            self.setChildElementOptionalTimeValue(child_element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
-            self.setChildElementOptionalTimeValue(child_element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
+            self.writeMacSecProps(child_element, props)
+
+    def writeMacSecProps(self, element: ET.Element, props: Optional[MacSecProps]):
+        if props is not None:
+            self.writeARObject(element, props)
+            self.setChildElementOptionalBooleanValue(element, "AUTO-START", props.getAutoStart())
+            self.setMacSecLocalKayProps(element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
+            self.setChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
+            self.setChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
+            self.setChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
 
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: Optional[CouplingPortDetails]):
         if details is not None:

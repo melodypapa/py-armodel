@@ -289,7 +289,7 @@ class Test_MacSecLocalKayProps:
 
 
 class Test_MacSecProps:
-    def test_defaults(self):
+    def test_initialization_defaults(self):
         props = MacSecProps()
         assert props.getAutoStart() is None
         assert props.getMacSecKayConfig() is None
@@ -297,31 +297,95 @@ class Test_MacSecProps:
         assert props.getOnFailPermissiveModeTimeout() is None
         assert props.getSakRekeyTimeSpan() is None
 
-    def test_setters_and_getters(self):
+    def test_get_set_auto_start(self):
         props = MacSecProps()
-        props.setAutoStart(_bool("true"))
+        result = props.setAutoStart(_bool("true"))
+
+        assert result is props
+        assert props.getAutoStart().getValue() is True
+
+        props.setAutoStart(_bool("false"))
+        assert props.getAutoStart().getValue() is False
+
+    def test_get_set_mac_sec_kay_config(self):
+        props = MacSecProps()
         kay = MacSecLocalKayProps()
         kay.setKeyServerPriority(_pos_int("16"))
-        props.setMacSecKayConfig(kay)
-        fail_mode = MacSecFailPermissiveModeEnum()
-        fail_mode.setValue("TIMEOUT")
-        props.setOnFailPermissiveMode(fail_mode)
-        props.setOnFailPermissiveModeTimeout(_time("30.0"))
-        props.setSakRekeyTimeSpan(_time("3600.0"))
 
-        assert props.getAutoStart().getValue() is True
+        result = props.setMacSecKayConfig(kay)
+
+        assert result is props
         assert isinstance(props.getMacSecKayConfig(), MacSecLocalKayProps)
         assert props.getMacSecKayConfig().getKeyServerPriority().getValue() == 16
-        assert props.getOnFailPermissiveMode().getValue() == "TIMEOUT"
+
+    def test_get_set_on_fail_permissive_mode(self):
+        props = MacSecProps()
+        fail_mode = MacSecFailPermissiveModeEnum()
+        fail_mode.setValue(MacSecFailPermissiveModeEnum.TIMEOUT)
+
+        result = props.setOnFailPermissiveMode(fail_mode)
+
+        assert result is props
+        assert props.getOnFailPermissiveMode().getValue() == MacSecFailPermissiveModeEnum.TIMEOUT
+
+        never = MacSecFailPermissiveModeEnum()
+        never.setValue(MacSecFailPermissiveModeEnum.NEVER)
+        props.setOnFailPermissiveMode(never)
+        assert props.getOnFailPermissiveMode().getValue() == MacSecFailPermissiveModeEnum.NEVER
+
+    def test_get_set_on_fail_permissive_mode_timeout(self):
+        props = MacSecProps()
+        result = props.setOnFailPermissiveModeTimeout(_time("30.0"))
+
+        assert result is props
         assert props.getOnFailPermissiveModeTimeout().getValue() == 30.0
+
+    def test_get_set_sak_rekey_time_span(self):
+        props = MacSecProps()
+        result = props.setSakRekeyTimeSpan(_time("3600.0"))
+
+        assert result is props
         assert props.getSakRekeyTimeSpan().getValue() == 3600.0
 
     def test_none_is_noop(self):
         props = MacSecProps()
+        auto_start = _bool("true")
+        kay = MacSecLocalKayProps()
+        fail_mode = MacSecFailPermissiveModeEnum()
+        fail_mode.setValue(MacSecFailPermissiveModeEnum.NEVER)
+        timeout = _time("30.0")
+        rekey = _time("3600.0")
+        props.setAutoStart(auto_start)
+        props.setMacSecKayConfig(kay)
+        props.setOnFailPermissiveMode(fail_mode)
+        props.setOnFailPermissiveModeTimeout(timeout)
+        props.setSakRekeyTimeSpan(rekey)
+
         props.setAutoStart(None)
+        props.setMacSecKayConfig(None)
         props.setOnFailPermissiveMode(None)
+        props.setOnFailPermissiveModeTimeout(None)
+        props.setSakRekeyTimeSpan(None)
+
+        assert props.getAutoStart() is auto_start
+        assert props.getMacSecKayConfig() is kay
+        assert props.getOnFailPermissiveMode() is fail_mode
+        assert props.getOnFailPermissiveModeTimeout() is timeout
+        assert props.getSakRekeyTimeSpan() is rekey
+
+    def test_none_noop_on_fresh_instance(self):
+        props = MacSecProps()
+        props.setAutoStart(None)
+        props.setMacSecKayConfig(None)
+        props.setOnFailPermissiveMode(None)
+        props.setOnFailPermissiveModeTimeout(None)
+        props.setSakRekeyTimeSpan(None)
+
         assert props.getAutoStart() is None
+        assert props.getMacSecKayConfig() is None
         assert props.getOnFailPermissiveMode() is None
+        assert props.getOnFailPermissiveModeTimeout() is None
+        assert props.getSakRekeyTimeSpan() is None
 
 
 class Test_MacSecGlobalKayProps:

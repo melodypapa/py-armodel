@@ -2144,50 +2144,49 @@ class MacSecKayParticipant(Identifiable):
 
 class MacSecProps(ARObject):
     """
-    This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
+    This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY). Tags: atp.Status=candidate
     """
 
     # MacSecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.118, p.173
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getAutoStart                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutoStart                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMacSecKayConfig               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMacSecKayConfig               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnFailPermissiveMode          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnFailPermissiveMode          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOnFailPermissiveModeTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOnFailPermissiveModeTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSakRekeyTimeSpan              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSakRekeyTimeSpan              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAutoStart                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutoStart                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMacSecKayConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMacSecKayConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnFailPermissiveMode         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnFailPermissiveMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnFailPermissiveModeTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnFailPermissiveModeTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSakRekeyTimeSpan             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSakRekeyTimeSpan             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start
+        # This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate
         self.autoStart: Optional[Boolean] = None
 
-        # Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE).
+        # Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate
         self.macSecKayConfig: Optional[MacSecLocalKayProps] = None
 
-        # This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed.
+        # This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
         self.onFailPermissiveMode: Optional[MacSecFailPermissiveModeEnum] = None
 
-        # Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout.
+        # Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate
         self.onFailPermissiveModeTimeout: Optional[TimeValue] = None
 
-        # Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span.
+        # Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate
         self.sakRekeyTimeSpan: Optional[TimeValue] = None
 
     def getAutoStart(self) -> Optional[Boolean]:
-        """This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start"""
+        """This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate"""
         return self.autoStart
 
     def setAutoStart(self, value: Optional[Boolean]) -> MacSecProps:
         """
-        This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start
+        This attribute defines how the Port Access Entity (PAE) is started: • true := Autostart • false := Manual Start Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing autoStart.
         """
         if value is not None:
@@ -2195,12 +2194,12 @@ class MacSecProps(ARObject):
         return self
 
     def getMacSecKayConfig(self) -> Optional[MacSecLocalKayProps]:
-        """Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE)."""
+        """Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate"""
         return self.macSecKayConfig
 
     def setMacSecKayConfig(self, value: Optional[MacSecLocalKayProps]) -> MacSecProps:
         """
-        Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE).
+        Properties to configure the MKA instance (KaY) for a controlled CouplingPort (PaE). Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing macSecKayConfig.
         """
         if value is not None:
@@ -2208,12 +2207,12 @@ class MacSecProps(ARObject):
         return self
 
     def getOnFailPermissiveMode(self) -> Optional[MacSecFailPermissiveModeEnum]:
-        """This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed."""
+        """This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate"""
         return self.onFailPermissiveMode
 
     def setOnFailPermissiveMode(self, value: Optional[MacSecFailPermissiveModeEnum]) -> MacSecProps:
         """
-        This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed.
+        This attribute sets the behavior of the Port Access Entity in case MACsec does not succeed. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing onFailPermissiveMode.
         """
         if value is not None:
@@ -2221,12 +2220,12 @@ class MacSecProps(ARObject):
         return self
 
     def getOnFailPermissiveModeTimeout(self) -> Optional[TimeValue]:
-        """Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout."""
+        """Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate"""
         return self.onFailPermissiveModeTimeout
 
     def setOnFailPermissiveModeTimeout(self, value: Optional[TimeValue]) -> MacSecProps:
         """
-        Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout.
+        Timeout in seconds to enable the controlled port in case onFailPermissiveMode is set to Timeout. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing onFailPermissiveModeTimeout.
         """
         if value is not None:
@@ -2234,12 +2233,12 @@ class MacSecProps(ARObject):
         return self
 
     def getSakRekeyTimeSpan(self) -> Optional[TimeValue]:
-        """Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span."""
+        """Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate"""
         return self.sakRekeyTimeSpan
 
     def setSakRekeyTimeSpan(self, value: Optional[TimeValue]) -> MacSecProps:
         """
-        Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span.
+        Time in seconds to trigger the rekey of an in use SAK (Static Secure Association key). If set to 0, the rekey will not be triggered after a time span. Tags: atp.Status=candidate
         A None value is a no-op and does not overwrite an existing sakRekeyTimeSpan.
         """
         if value is not None:

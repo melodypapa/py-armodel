@@ -221,7 +221,6 @@ MacSecFailPermissiveModeEnum
 MacSecGlobalKayProps
 MacSecKayParticipant
 MacSecLocalKayProps
-MacSecProps
 MacSecRoleEnum
 MaxCommModeEnum
 McDataAccessDetails

@@ -15582,16 +15582,20 @@ class ARXMLParser(AbstractARXMLParser):
         props = None
         if element is not None:
             props = MacSecProps()
-            props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
-            props.setMacSecKayConfig(self.getMacSecLocalKayProps(cast(ET.Element, self.find(element, "MAC-SEC-KAY-CONFIG"))))
-            on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
-            if on_fail_permissive_mode is not None:
-                e = MacSecFailPermissiveModeEnum()
-                e.setValue(on_fail_permissive_mode.getValue())
-                props.setOnFailPermissiveMode(e)
-            props.setOnFailPermissiveModeTimeout(self.getChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT"))
-            props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
+            self.readMacSecProps(element, props)
         return props
+
+    def readMacSecProps(self, element: ET.Element, props: MacSecProps):
+        self.readARObject(element, props)
+        props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
+        props.setMacSecKayConfig(self.getMacSecLocalKayProps(cast(ET.Element, self.find(element, "MAC-SEC-KAY-CONFIG"))))
+        on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
+        if on_fail_permissive_mode is not None:
+            e = MacSecFailPermissiveModeEnum()
+            e.setValue(on_fail_permissive_mode.getValue())
+            props.setOnFailPermissiveMode(e)
+        props.setOnFailPermissiveModeTimeout(self.getChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT"))
+        props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
 
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> Optional[CouplingPortDetails]:
         details = None
