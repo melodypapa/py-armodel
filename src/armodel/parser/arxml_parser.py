@@ -771,7 +771,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     ByteOrderEnum,
     CIdentifier,
-    CategoryString,
     DateTime,
     DdsDurabilityKindEnum,
     DdsDurabilityServiceHistoryKindEnum,
@@ -2443,7 +2442,7 @@ class ARXMLParser(AbstractARXMLParser):
         for annotation in self.getAnnotations(element):
             identifiable.addAnnotation(annotation)
 
-        identifiable.setCategory(cast(Union[CategoryString, str], self.getChildElementOptionalLiteral(element, "CATEGORY")))
+        identifiable.setCategory(self.getChildElementOptionalCategoryString(element, "CATEGORY"))
         identifiable.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
         identifiable.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
 
@@ -14363,7 +14362,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObject(element, desc)
 
         desc.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
-        desc.setCategory(cast(Optional[CategoryString], self.getChildElementOptionalLiteral(element, "CATEGORY")))
+        desc.setCategory(self.getChildElementOptionalCategoryString(element, "CATEGORY"))
         desc.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         desc.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
 

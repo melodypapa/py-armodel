@@ -2523,7 +2523,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.attrib["UUID"] = cast(str, uuid_value.getValue())
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
-        self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
+        self.setChildElementOptionalCategoryString(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
         if write_variation_point and isinstance(identifiable, VariationPointCapable):
@@ -18468,7 +18468,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDescribable(self, element: ET.Element, desc: Describable):
         self.writeARObject(element, desc)
         self.setMultiLanguageOverviewParagraph(element, "DESC", desc.getDesc())
-        self.setChildElementOptionalLiteral(element, "CATEGORY", desc.getCategory())
+        self.setChildElementOptionalCategoryString(element, "CATEGORY", desc.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", desc.getIntroduction())
         self.setAdminData(element, desc.getAdminData())
 

@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARType,
     Boolean,
+    CategoryString,
     CIdentifier,
     CseCodeType,
     DateTime,
@@ -244,6 +245,15 @@ class AbstractARXMLParser(ABC):
             else:
                 identifier.setValue(child_element.text)
         return identifier
+
+    def getChildElementOptionalCategoryString(self, element: ET.Element, key: str) -> Optional[CategoryString]:
+        child_element = self.find(element, key)
+        category = None
+        if child_element is not None:
+            category = CategoryString()
+            self.readARType(child_element, category)
+            category.setValue("" if child_element.text is None else child_element.text)
+        return category
 
     def getChildElementOptionalNameToken(self, element: ET.Element, key: str) -> Optional[NameToken]:
         child_element = self.find(element, key)

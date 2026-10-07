@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARType,
     Boolean,
+    CategoryString,
     CIdentifier,
     CseCodeType,
     DateTime,
@@ -161,6 +162,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalCIdentifier(self, element: ET.Element, key: str, literal: Optional[CIdentifier]):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalCategoryString(self, element: ET.Element, key: str, literal: Optional[CategoryString]):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalString(self, element: ET.Element, key: str, value: Optional[String]):
