@@ -1124,6 +1124,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipSdServerServiceInstanceConfig,
+    SocketConnectionIpduIdentifierSet,
     SomeipServiceVersion,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
@@ -13233,6 +13234,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
 
+    def writeSocketConnectionIpduIdentifierSet(self, element: ET.Element, identifier_set: SocketConnectionIpduIdentifierSet):
+        self.logger.debug("Write SocketConnectionIpduIdentifierSet <%s>" % identifier_set.getShortName())
+        child_element = ET.SubElement(element, "SOCKET-CONNECTION-IPDU-IDENTIFIER-SET")
+        self.writeIdentifiable(child_element, identifier_set)
+        identifiers = identifier_set.getIPduIdentifiers()
+        if len(identifiers) > 0:
+            wrapper = ET.SubElement(child_element, "I-PDU-IDENTIFIERS")
+            for identifier in identifiers:
+                self.writeSoConIPduIdentifier(wrapper, identifier)
+
     def writeSoConIPduIdentifier(self, element: ET.Element, identifier: SoConIPduIdentifier):
         if identifier is not None:
             child_element = ET.SubElement(element, "SO-CON-I-PDU-IDENTIFIER")
@@ -19071,6 +19082,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCanXlProps(element, ar_element)
         elif isinstance(ar_element, SomeipSdServerServiceInstanceConfig):
             self.writeSomeipSdServerServiceInstanceConfig(element, ar_element)
+        elif isinstance(ar_element, SocketConnectionIpduIdentifierSet):
+            self.writeSocketConnectionIpduIdentifierSet(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):
             self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientEventGroupTimingConfig):

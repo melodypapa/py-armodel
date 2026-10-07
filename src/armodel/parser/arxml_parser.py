@@ -1356,6 +1356,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipSdServerServiceInstanceConfig,
+    SocketConnectionIpduIdentifierSet,
     SomeipServiceVersion,
     StaticSocketConnection,
     TcpRoleEnum,
@@ -15744,6 +15745,13 @@ class ARXMLParser(AbstractARXMLParser):
             identifier.setPduCollectionTrigger(trigger)
         identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
 
+    def readSocketConnectionIpduIdentifierSet(self, element: ET.Element, identifier_set: SocketConnectionIpduIdentifierSet):
+        self.logger.debug("Read SocketConnectionIpduIdentifierSet <%s>" % identifier_set.getShortName())
+        self.readIdentifiable(element, identifier_set)
+        for child_element in self.findall(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER"):
+            identifier = identifier_set.createIPduIdentifier(self.getShortName(child_element))
+            self.readSoConIPduIdentifier(child_element, identifier)
+
     def readStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
         if element is not None:
             self.readIdentifiable(element, connection)
@@ -18870,6 +18878,9 @@ class ARXMLParser(AbstractARXMLParser):
         elif tag_name == "SOME-IP-SD-SERVER-SERVICE-INSTANCE-CONFIG":
             server_config = parent.createSomeipSdServerServiceInstanceConfig(self.getShortName(child_element))
             self.readSomeipSdServerServiceInstanceConfig(child_element, server_config)
+        elif tag_name == "SOCKET-CONNECTION-IPDU-IDENTIFIER-SET":
+            identifier_set = parent.createSocketConnectionIpduIdentifierSet(self.getShortName(child_element))
+            self.readSocketConnectionIpduIdentifierSet(child_element, identifier_set)
         elif tag_name == "DO-IP-TP-CONFIG":
             self.readDoIpTpConfig(child_element, parent.createDoIpTpConfig(self.getShortName(child_element)))
         elif tag_name == "HW-ELEMENT":

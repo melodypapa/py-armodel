@@ -615,16 +615,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SocketConnectionIpduIdentifierSet` — ARElement — R23-11 CP_TPS_SystemTemplate Table 6.164, p.490
-  - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
+  - Note: Step 1 — spec `Package` row = Fibex4Ethernet::ServiceInstances → REHOUSED from the
+    ARPackage.py stub (Rule 0007; stub removed, stub-guard tuple dropped from
+    test_group21_36_stub_classes.py). spec `Base` row chain = ARElement, CollectableElement,
+    FibexElement, Identifiable, ..., UploadableDesignElement, UploadablePackageElement →
+    most-derived AVAILABLE base = FibexElement (ServiceInstanceCollectionSet precedent; the
+    FIBEX-ELEMENT XSD group has an empty sequence so readIdentifiable/writeIdentifiable is the
+    nearest ancestor helper — audit BASE green, Rule 0025). Single attribute iPduIdentifier
+    (SoConIPduIdentifier, *, aggr; `Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier
+    .shortName` tail verbatim from the post-caption body at l.13038) → createIPduIdentifier
+    (Referrable child, Rule 0001.6) + getIPduIdentifiers backed by a dedicated typed list
+    (Rule 0004). ARPackage.element polymorphic dispatch wired: createSocketConnectionIpduIdentifierSet
+    + reader SOCKET-CONNECTION-IPDU-IDENTIFIER-SET branch + writer isinstance branch + dispatch
+    tests (IPv6ExtHeaderFilterSet precedent 281718563); XSD order = I-PDU-IDENTIFIERS wrapper →
+    SO-CON-I-PDU-IDENTIFIER children. SoConIPduIdentifier (synced 70d2ac28c) round-tripped with
+    real child field values (headerId, pduCollection*, pduTriggeringRef).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `EventHandler` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.166, p.492
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

@@ -2186,6 +2186,35 @@ class SoConIPduIdentifier(Referrable):
         return self
 
 
+class SocketConnectionIpduIdentifierSet(FibexElement):
+    """Collection of PduIdentifiers used for transmission over a Socket Connection with the header option. Tags: atp.recommendedPackage=SocketConnectionIpduIdentiferSets"""
+
+    # SocketConnectionIpduIdentifierSet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.164, p.490
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createIPduIdentifier      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIPduIdentifiers        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of IPduIdentifiers that are transmitted over Socket Connections. Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier.shortName
+        self.iPduIdentifiers: List[SoConIPduIdentifier] = []
+
+    def createIPduIdentifier(self, short_name: str) -> SoConIPduIdentifier:
+        """Collection of IPduIdentifiers that are transmitted over Socket Connections. Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier.shortName"""
+        if not self.IsReferrableElementExists(short_name, SoConIPduIdentifier):
+            identifier = SoConIPduIdentifier(self, short_name)
+            self.addReferrableElement(identifier)
+            self.iPduIdentifiers.append(identifier)
+        return cast(SoConIPduIdentifier, self.getReferrableElement(short_name, SoConIPduIdentifier))
+
+    def getIPduIdentifiers(self) -> List[SoConIPduIdentifier]:
+        """Collection of IPduIdentifiers that are transmitted over Socket Connections. Stereotypes: atpSplitable Tags: atp.Splitkey=iPduIdentifier.shortName"""
+        return self.iPduIdentifiers
+
+
 # Runtime import breaking the ServiceInstances <-> EthernetTopology cycle: it sits below InitialSdDelayConfig and
 # RequestResponseDelay so that EthernetTopology's bottom-of-module import of those names resolves in either import
 # order (Rule 0003/0005). SdServerConfig is imported back for this module's own annotations

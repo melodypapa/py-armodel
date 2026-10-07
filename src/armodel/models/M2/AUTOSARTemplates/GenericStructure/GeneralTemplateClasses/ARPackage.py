@@ -363,6 +363,7 @@ __all__ = [
     "SomeipSdClientServiceInstanceConfig",
     "SomeipSdServerEventGroupTimingConfig",
     "SomeipSdServerServiceInstanceConfig",
+    "SocketConnectionIpduIdentifierSet",
     "SwAddrMethod",
     "SwBaseType",
     "SwComponentType",
@@ -4388,6 +4389,13 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addReferrableElement(config)
         return cast(SomeipSdClientServiceInstanceConfig, self.getReferrableElement(short_name, SomeipSdClientServiceInstanceConfig))
 
+    def createSocketConnectionIpduIdentifierSet(self, short_name: str) -> SocketConnectionIpduIdentifierSet:
+
+        if not self.IsReferrableElementExists(short_name, SocketConnectionIpduIdentifierSet):
+            identifier_set = SocketConnectionIpduIdentifierSet(self, short_name)
+            self.addReferrableElement(identifier_set)
+        return cast(SocketConnectionIpduIdentifierSet, self.getReferrableElement(short_name, SocketConnectionIpduIdentifierSet))
+
     def createSomeipSdServerServiceInstanceConfig(self, short_name: str) -> SomeipSdServerServiceInstanceConfig:
 
         if not self.IsReferrableElementExists(short_name, SomeipSdServerServiceInstanceConfig):
@@ -5040,6 +5048,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipSdServerServiceInstanceConfig,
+    SocketConnectionIpduIdentifierSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import IPv6ExtHeaderFilterSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet  # noqa: E402
@@ -11512,10 +11521,6 @@ class LogAndTraceMessageCollectionSet(ARElement):
 
 
 class MacSecParticipantSet(ARElement):
-    pass
-
-
-class SocketConnectionIpduIdentifierSet(ARElement):
     pass
 
 
