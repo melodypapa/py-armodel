@@ -74,15 +74,17 @@ def test_write_data_prototype_transformation_props_all_fields(writer):
     dp_tp = parent.find("DATA-PROTOTYPE-TRANSFORMATION-PROPS")
     assert dp_tp is not None
 
-    # dataPrototypeInPortInterfaceRef aggregation
+    # dataPrototypeInPortInterfaceRef aggregation (outer attribute element + inner choice element)
     dp_ref = dp_tp.find("DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
     assert dp_ref is not None
-    assert dp_ref.find("TAG-ID").text == "5"
-    cs_ref = dp_ref.find("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
+    inner_ref = dp_ref.find("DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+    assert inner_ref is not None
+    assert inner_ref.find("TAG-ID").text == "5"
+    cs_ref = inner_ref.find("DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-IREF")
     assert cs_ref is not None
-    assert cs_ref.find("BASE").text == "/Cs"
-    assert cs_ref.find("ROOT-DATA-PROTOTYPE-IN-CS").text == "/Cs/Root"
-    assert cs_ref.find("TARGET-DATA-PROTOTYPE-IN-CS").text == "/Cs/MyArg"
+    assert cs_ref.find("BASE") is None
+    assert cs_ref.find("ROOT-DATA-PROTOTYPE-IN-CS-REF").text == "/Cs/Root"
+    assert cs_ref.find("TARGET-DATA-PROTOTYPE-IN-CS-REF").text == "/Cs/MyArg"
 
     # networkRepresentationProps aggregation
     net = dp_tp.find("NETWORK-REPRESENTATION-PROPS/SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL")

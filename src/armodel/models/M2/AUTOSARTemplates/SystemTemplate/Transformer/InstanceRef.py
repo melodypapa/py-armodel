@@ -194,15 +194,14 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
 
     # ImplementationDataTypeElementInPortInterfaceRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.22, p.789
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootDataPrototypeRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootDataPrototypeRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootDataPrototypeRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootDataPrototypeRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
