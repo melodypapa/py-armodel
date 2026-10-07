@@ -53,6 +53,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Set, Tuple
 
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 MODELS_DIR = Path("src/armodel/models")
 PARSER = Path("src/armodel/parser/arxml_parser.py")
 WRITER = Path("src/armodel/writer/arxml_writer.py")
@@ -315,6 +316,161 @@ def check_rows(rep: Report, cls: str, node: ast.ClassDef, blk_lines: Sequence[st
             rep.fail("ROWS", "%d method(s) vs %d checklist row(s) — %s" % (len(methods), len(rows), "; ".join(detail)))
     else:
         rep.ok("ROWS", "checklist == methods, %d rows in source order" % len(rows))
+
+
+def check_spacing(rep: Report, lines: Sequence[str], start: int, end: int) -> None:
+    """Rule 0008: every `__init__` attribute block must be separated by a blank line.
+
+    Black and ruff cap the *maximum* blank lines, never a *minimum*, so glued-together
+    fields pass every other check in this file. That is why this reads the raw text:
+    the AST cannot see blank lines at all.
+    """
+    init = init_line(lines, start, end)
+    if init == -1:
+        return
+    stop = init + 1
+    while stop < end and not re.match(r"^\s{4}def\s", lines[stop]):
+        stop += 1
+    attr = re.compile(r"^\s+self\.\w+\s*[:=]")
+    offenders: List[str] = []
+    prev: Optional[int] = None
+    for i in range(init + 1, stop):
+        if not attr.match(lines[i]):
+            continue
+        if prev is not None and not any(not lines[j].strip() for j in range(prev + 1, i)):
+            offenders.append(lines[prev].strip())
+        prev = i
+    if offenders:
+        rep.fail("SPACING", "Rule 0008: `__init__` attribute blocks must be separated by a blank line; %d glued pair(s), first: %s" % (len(offenders), offenders[0]))
+    else:
+        rep.ok("SPACING", "`__init__` attribute blocks are blank-line separated")
+
+
+def _docstring_of(node: ast.ClassDef, name: str) -> Optional[str]:
+    for fn in node.body:
+        if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)) and fn.name == name:
+            return ast.get_docstring(fn)
+    return None
+
+
+def check_doc_tail(rep: Report, node: ast.ClassDef, lines: Sequence[str], start: int, end: int) -> None:
+    """Rule 0012.2.5.3: a `Tags:`/`Stereotypes:` tail belongs at *every* level.
+
+    The spec `Note` is copied verbatim, tail included, onto the `__init__` comment, the
+    getter and the setter. A tail that reaches the comment but not the accessors is
+    still a verbatim-fidelity defect, and one no existing check can see.
+    """
+    tail = re.compile(r"\b(?:Tags|Stereotypes):(.*)$")
+    init = init_line(lines, start, end)
+    if init == -1:
+        return
+    stop = init + 1
+    while stop < end and not re.match(r"^\s{4}def\s", lines[stop]):
+        stop += 1
+    semantic: List[str] = []
+    schema: List[str] = []
+    for i in range(init + 1, stop):
+        m = re.match(r"^\s+self\.(\w+)\s*[:=]", lines[i])
+        if not m:
+            continue
+        comment = ""
+        j = i - 1
+        while j > init and lines[j].strip().startswith("#"):
+            comment = lines[j].strip() + " " + comment
+            j -= 1
+        tm = tail.search(comment)
+        if not tm:
+            continue
+        member = m.group(1)
+        acc = member[0].upper() + member[1:]
+        names = [n for n in ("get" + acc, "set" + acc, "add" + acc) if any(isinstance(f, (ast.FunctionDef, ast.AsyncFunctionDef)) and f.name == n for f in node.body)]
+        for n in names:
+            doc = _docstring_of(node, n) or ""
+            if tail.search(doc):
+                continue
+            # atp.* / Stereotypes: carry meaning (enum indexes, stereotypes, split
+            # keys) and are part of the verbatim Note, so dropping them is a real
+            # fidelity defect. xml.* is schema plumbing — the accessor's job is the
+            # value, not the sequence offset — so that one only warns.
+            bucket = semantic if ("atp." in tm.group(1) or "Stereotypes" in comment) else schema
+            bucket.append("%s.%s" % (node.name, n))
+    if semantic:
+        rep.fail("DOCTAIL", "Rule 0012.2.5.3: the `atp.`/`Stereotypes:` tail is part of the verbatim Note and is kept on the `__init__` comment but missing from %d accessor docstring(s): %s" % (len(semantic), ", ".join(semantic[:4])))
+    if schema:
+        rep.warn("DOCTAIL", "%d accessor docstring(s) omit the `xml.*` schema tags carried by their `__init__` comment (cosmetic, not spec fidelity): %s" % (len(schema), ", ".join(schema[:4])))
+    if not semantic and not schema:
+        rep.ok("DOCTAIL", "`Tags:`/`Stereotypes:` tails reach every accessor docstring")
+
+
+@lru_cache(maxsize=None)
+def _spec_tables() -> Dict[str, Dict[str, List[str]]]:
+    """{corpus: {document: {table id: [captions]}}} built from the markdown corpus.
+
+    Table ids are only unique *within* a document — E.38 is `EnumerationMappingTable`
+    in GenericStructureTemplate and `Referrable` in SoftwareComponentTemplate — so a
+    citation can only be validated as a (document, table id) pair.
+    """
+    out: Dict[str, Dict[str, List[str]]] = {}
+    for corpus in ("R23-11", "R4.3.1"):
+        base = _REPO_ROOT / "autosar" / corpus / "markdown"
+        docs: Dict[str, List[str]] = {}
+        if not base.is_dir():
+            out[corpus] = {}
+            continue
+        for path in sorted(base.glob("*.md")):
+            found: Dict[str, List[str]] = {}
+            for m in re.finditer(r"^Table\s+([0-9A-Z]+\.[0-9]+):\s*(.+)$", path.read_text(encoding="utf-8", errors="replace"), re.M):
+                found.setdefault(m.group(1), []).append(m.group(2).strip())
+            docs[path.stem] = found
+        out[corpus] = docs
+    return out
+
+
+_CITATION_RE = re.compile(r"AUTOSAR_(?:(CP|FO|AP)_TPS_)?(\w+)\.pdf.*?Table\s+([0-9A-Z]+\.[0-9]+)")
+
+
+def check_citation(rep: Report, cls: str, blk_lines: Sequence[str]) -> None:
+    """Rule 0002: the `# Spec:` citation must name a table that really defines this class.
+
+    A citation is the only pointer from code back to the spec, so a dangling one makes
+    the whole class unverifiable. Aliases and cross-document reproductions are reported
+    as warnings rather than failures — they are legitimate, just not the defining table.
+    """
+    specs = [x for x in blk_lines if x.startswith("# Spec:")]
+    if not specs:
+        return
+    line = specs[0]
+    if "xsd" in line:  # XSD-only class: no PDF table by definition
+        rep.ok("CITATION", "XSD-only class — provenance is the schema, not a PDF table")
+        return
+    m = _CITATION_RE.search(line)
+    if not m:
+        rep.info("CITATION", "`# Spec:` line not in the `<pdf>, Table N.M` form — confirm the citation by hand")
+        return
+    platform, template, table_id = m.group(1), m.group(2), m.group(3)
+    corpus = "R4.3.1" if platform is None else "R23-11"
+    doc = f"AUTOSAR_{platform}_TPS_{template}" if platform else f"AUTOSAR_TPS_{template}"
+    docs = _spec_tables().get(corpus) or {}
+    if doc not in docs:
+        rep.info("CITATION", "cited document %s is not in the %s corpus — verify the citation by hand" % (doc, corpus))
+        return
+    if table_id not in docs[doc]:
+        rep.fail("CITATION", "`# Spec:` cites %s, Table %s, but that document has no such table — the citation cannot be verified" % (doc, table_id))
+        return
+    captions = docs[doc][table_id]
+    # A src name that is the spec caption plus a disambiguating prefix is a recorded
+    # rename (ARList for `List`), not a mis-citation.
+    if any(cls.lower() in c.lower() or cls.lower().endswith(c.lower()) for c in captions):
+        rep.ok("CITATION", "Table %s of %s defines %s" % (table_id, doc, cls))
+        return
+    # The caption is a different class. Either this class is documented elsewhere (a
+    # reproduction or a recorded rename) or the citation is simply wrong.
+    for other, tables in docs.items():
+        for tid, caps in tables.items():
+            if any(cls.lower() == c.lower() for c in caps):
+                rep.warn("CITATION", "Table %s of %s is captioned %s, not %s — %s is defined in %s Table %s (recorded rename or cross-document reproduction; prefer the defining table)" % (table_id, doc, "/".join(captions), cls, cls, other, tid))
+                return
+    rep.fail("CITATION", "`# Spec:` cites %s, Table %s, captioned %s — that table does not define %s and no other table in the corpus does either" % (doc, table_id, "/".join(captions), cls))
 
 
 def check_stamp(rep: Report, blk_lines: Sequence[str]) -> None:
@@ -666,7 +822,10 @@ def audit_one(cls: str, path: Path) -> Report:
     check_rows(rep, cls, node, blk_lines)
     check_stamp(rep, blk_lines)
     check_specline(rep, cls, blk_lines)
+    check_citation(rep, cls, blk_lines)
     check_docs(rep, node, blk_lines, enum)
+    check_spacing(rep, lines, start, end)
+    check_doc_tail(rep, node, lines, start, end)
     check_base(rep, cls, node, enum)
     return rep
 

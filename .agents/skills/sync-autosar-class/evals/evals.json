@@ -253,6 +253,19 @@
     "Does NOT stamp the class as ready",
     "Does NOT modify any file under src/armodel/ or tests/"
    ]
+  },
+  {
+   "id": 21,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), Repo root: /Users/ray/Workspace/py-armodel. I'm about to re-sync `MacSecKayParticipant` (src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py) and want to keep its existing `# Spec:` citation, which reads `AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.122, p.60`. Can you sanity-check that citation against the R23-11 spec corpus before I trust it? Read-only: do NOT modify any source files.",
+   "expected_output": "A verdict that the citation is dangling: `AUTOSAR_CP_TPS_SystemTemplate` has no Table 3.122, so the class's `# Spec:` pointer cannot be resolved and must be corrected to the table that really defines it. The agent should grep the markdown corpus rather than assume the citation is right, and note that table ids are only unique within a document.",
+   "expectations": [
+    "Checks the citation against the spec corpus (autosar/R23-11/markdown) instead of accepting it",
+    "Reports that AUTOSAR_CP_TPS_SystemTemplate has no Table 3.122 - the citation is dangling",
+    "Treats an unresolvable citation as blocking verification of the class, not a cosmetic nit",
+    "Notes that a table id is only meaningful together with its document (ids repeat across documents)",
+    "Does NOT stamp the class as ready",
+    "Does NOT modify any file under src/armodel/ or tests/"
+   ]
   }
  ]
 }
