@@ -116,6 +116,8 @@ DataPrototypeInSenderReceiverInterfaceInstanceRef
 DataPrototypeReference
 DataPrototypeTransformationProps
 DataTypePolicyEnum
+DefItem
+DefList
 Describable
 DiagEventDebounceAlgorithm
 DiagEventDebounceCounterBased
@@ -133,11 +135,14 @@ DoIpServiceNeeds
 DoIpTpConfig
 DocRevision
 Documentation
+DocumentationBlock
+DocumentationContext
 DynamicPartAlternative
 EOCEventRef
 EOCExecutableEntityRef
 EOCExecutableEntityRefAbstract
 EOCExecutableEntityRefGroup
+EmphasisText
 EndToEndProfileBehaviorEnum
 EndToEndTransformationDescription
 EngineeringObject
@@ -186,8 +191,11 @@ ISignalToIPduMapping
 ISignalTriggering
 ISignalTypeEnum
 Identifiable
+Identifier
 ImplementationDataTypeElementInPortInterfaceRef
 ImplementationElementInParameterInstanceRef
+IndentSample
+IndexEntry
 InfrastructureServices
 InnerDataPrototypeGroupInCompositionInstanceRef
 InnerRunnableEntityGroupInCompositionInstanceRef
@@ -198,8 +206,12 @@ InterpolationRoutine
 InterpolationRoutineMapping
 Ipv4Configuration
 Ipv6Configuration
+ItemLabelPosEnum
 J1939NmEcu
 LEnum
+LLongName
+LabeledItem
+LabeledList
 LanguageSpecific
 LatencyConstraintTypeEnum
 LatencyTimingConstraint
@@ -237,6 +249,8 @@ MemoryAllocationKeywordPolicyType
 MemorySectionLocation
 MemorySectionType
 MetaDataItemSet
+MixedContentForLongName
+MlFormula
 ModeDeclaration
 ModeDeclarationGroup
 ModeDrivenTransmissionModeCondition
@@ -252,6 +266,7 @@ MsrQueryProps
 MsrQueryTopic1
 MultiLanguageOverviewParagraph
 MultiLanguagePlainText
+MultiLanguageVerbatim
 MultidimensionalTime
 NPdu
 NativeDeclarationString
@@ -260,6 +275,8 @@ NmCluster
 NmCoordinatorRoleEnum
 NmNode
 NmPdu
+Note
+NoteTypeEnum
 Numerical
 OperationArgumentInComponentInstanceRef
 OrderedMaster
@@ -279,6 +296,7 @@ PortPrototype
 PositiveInteger
 PostBuildVariantCondition
 PredefinedChapter
+PredefinedVariant
 PrimitiveIdentifier
 PrivacyLevel
 PrmCharAbsTol
@@ -288,6 +306,7 @@ RModeInAtomicSwcInstanceRef
 RVariableInAtomicSwcInstanceRef
 RecordLayoutIteratorPoint
 Ref
+Referrable
 ResourceConsumption
 RoleBasedDataTypeAssignment
 RptComponent
@@ -339,6 +358,7 @@ StringValue
 StructuredReq
 SubElementMapping
 SubElementRef
+Superscript
 SupervisedEntityNeeds
 SwAddrMethod
 SwPointerTargetProps
@@ -421,11 +441,13 @@ TopicOrMsrQuery
 TpConfig
 TpConnection
 TpConnectionIdent
+Traceable
 TraceableTable
 TraceableText
 TracedFailure
 TransientFault
 TriggerMapping
+Tt
 TtcanAbsolutelyScheduledTiming
 TtcanTriggerType
 UdpChecksumCalculationEnum

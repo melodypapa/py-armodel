@@ -43,6 +43,21 @@ def _baseline() -> set:
     return {ln.strip() for ln in BASELINE.read_text(encoding="utf-8").splitlines() if ln.strip() and not ln.startswith("#")}
 
 
+def _blocks(audit, text):
+    """(class name, collect_block result) for every class carrying a checklist block."""
+    import ast as _ast
+
+    try:
+        tree = _ast.parse(text)
+    except SyntaxError:
+        return
+    for node in tree.body:
+        if isinstance(node, _ast.ClassDef):
+            blk = audit.collect_block(text.splitlines(), node.name)
+            if blk:
+                yield node.name, blk
+
+
 @pytest.fixture(scope="module")
 def failures():
     """{class: [failing messages]} for every stamped class that fails the audit."""
@@ -60,14 +75,29 @@ class TestStampedClassAuditGate:
     def test_gate_selects_stamped_classes_only(self, targets):
         """The gate must key off the provenance marker, nothing else.
 
-        `ARList` is stamped and clean; `Referrable` deliberately has no marker (its
-        stamp was removed pending a fresh 9b), so it must not be gated.
+        Derived rather than hard-coded: which classes are unstamped changes as sync
+        work lands (a class loses its marker when it is re-opened for drift), so
+        naming one here would make this test fail on a branch that has not had
+        that sync applied yet.
         """
         names = {cls for cls, _path, _marker in targets}
-        assert "ARList" in names
-        assert "Referrable" not in names
+        assert "ARList" in names, "a known stamped class must be selected"
         for _cls, _path, marker in targets:
             assert marker.startswith(("# Spec verified:", "# XSD verified:"))
+
+        gate = _load_gate()
+        audit = gate.load_audit_class()
+        unstamped = None
+        for path in sorted(gate.MODELS_DIR.rglob("*.py")):
+            text = audit.read(path)
+            for block_cls, blk in _blocks(audit, text):
+                if not any(ln.startswith(("# Spec verified:", "# XSD verified:")) for ln in blk[2]):
+                    unstamped = block_cls
+                    break
+            if unstamped:
+                break
+        assert unstamped is not None, "expected at least one checklist without a marker in the tree"
+        assert unstamped not in names, f"{unstamped} carries no marker and must not be gated"
 
     def test_no_new_stamped_class_violations(self, failures):
         """A stamped class that fails the audit is a defect — unless it is known debt."""
