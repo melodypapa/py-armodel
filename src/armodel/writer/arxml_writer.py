@@ -14248,6 +14248,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setComponentInSystemInstanceRef(irefs_tag, "CLUSTERED-COMPONENT-IREF", iref)
         self.setChildElementOptionalLiteral(element, "MAPPING-SCOPE", clustering.getMappingScope())
 
+    def writeComponentSeparation(self, element: ET.Element, separation: ComponentSeparation):
+        self.writeMappingConstraint(element, separation)
+        self.setChildElementOptionalLiteral(element, "MAPPING-SCOPE", separation.getMappingScope())
+        irefs = separation.getSeparatedComponentIRefs()
+        if len(irefs) > 0:
+            irefs_tag = ET.SubElement(element, "SEPARATED-COMPONENT-IREFS")
+            for iref in irefs:
+                self.setComponentInSystemInstanceRef(irefs_tag, "SEPARATED-COMPONENT-IREF", iref)
+
     def writeSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         constraints = mapping.getMappingConstraints()
         if len(constraints) > 0:
@@ -14258,7 +14267,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeComponentClustering(child_element, constraint)
                 elif isinstance(constraint, ComponentSeparation):
                     child_element = ET.SubElement(mappings_tag, "COMPONENT-SEPARATION")
-                    self.writeMappingConstraint(child_element, constraint)
+                    self.writeComponentSeparation(child_element, constraint)
                 else:
                     self.notImplemented("Unsupported MappingConstraint %s" % type(constraint))
 

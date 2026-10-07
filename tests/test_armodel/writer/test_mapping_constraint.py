@@ -1,4 +1,4 @@
-"""Writer round-trip tests for MappingConstraint (Table 5.8, p.202) and ComponentClustering (Table 5.9, p.203).
+"""Writer round-trip tests for MappingConstraint (Table 5.8, p.202), ComponentClustering (Table 5.9, p.203) and ComponentSeparation (Table 5.11, p.205).
 
 Serialized through the MAPPING-CONSTRAINTS wrapper of SystemMapping; child
 element order = XSD group MAPPING-CONSTRAINT sequence (AUTOSAR_00052.xsd
@@ -6,6 +6,10 @@ l.79829): INTRODUCTION, VARIATION-POINT (last, sequenceOffset=10000).
 ComponentClustering own children follow the XSD group COMPONENT-CLUSTERING
 sequence (AUTOSAR_00052.xsd l.20609): CLUSTERED-COMPONENT-IREFS,
 MAPPING-SCOPE — emitted after the abstract MAPPING-CONSTRAINT group.
+ComponentSeparation own children follow the XSD group COMPONENT-SEPARATION
+sequence (AUTOSAR_00052.xsd l.20759): MAPPING-SCOPE, SEPARATED-COMPONENT-IREFS
+(the reverse of the ComponentClustering order) — emitted after the abstract
+MAPPING-CONSTRAINT group.
 """
 
 import xml.etree.ElementTree as ET
@@ -212,4 +216,80 @@ class TestWriteComponentClustering:
         round_tripped = reloaded.getMappingConstraints()[0]
         assert isinstance(round_tripped, ComponentClustering)
         assert round_tripped.getClusteredComponentIRefs() == []
+        assert round_tripped.getMappingScope().getValue() == "MAPPING-SCOPE-PARTITION"
+
+
+class TestWriteComponentSeparation:
+    def _separated_component_iref(self, context: str, target: str) -> ComponentInSystemInstanceRef:
+        iref = ComponentInSystemInstanceRef()
+        if context is not None:
+            iref.setContextCompositionRef(_ref(context, "ROOT-SW-COMPOSITION-PROTOTYPE"))
+        iref.setTargetComponentRef(_ref(target, "SW-COMPONENT-PROTOTYPE"))
+        return iref
+
+    def test_round_trip_full_element_order(self):
+        """Test write -> re-parse round trip with field values and the XSD element order INTRODUCTION, MAPPING-SCOPE, SEPARATED-COMPONENT-IREFS"""
+        mapping = SystemMapping(AUTOSAR.getInstance(), "SystemMapping")
+        separation = ComponentSeparation()
+        separation.setIntroduction(_introduction("The separation introduction."))
+        separation.setMappingScope(_mapping_scope(MappingScopeEnum.MAPPING_SCOPE_CORE))
+        separation.addSeparatedComponentIRef(self._separated_component_iref("/CanSystem/TopLevelComposition", "/DemoApplication/SWC_ModifyEcho"))
+        separation.addSeparatedComponentIRef(self._separated_component_iref(None, "/DemoApplication/SWC_CyclicCounter"))
+        mapping.addMappingConstraint(separation)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeSystemMapping(parent, mapping)
+
+        separation_node = parent.find("SYSTEM-MAPPING/MAPPING-CONSTRAINTS/COMPONENT-SEPARATION")
+        assert separation_node is not None
+        assert [child.tag for child in separation_node] == ["INTRODUCTION", "MAPPING-SCOPE", "SEPARATED-COMPONENT-IREFS"]
+        assert separation_node.find("INTRODUCTION/P/L-1").text == "The separation introduction."
+        assert separation_node.find("MAPPING-SCOPE").text == "MAPPING-SCOPE-CORE"
+        iref_nodes = separation_node.findall("SEPARATED-COMPONENT-IREFS/SEPARATED-COMPONENT-IREF")
+        assert len(iref_nodes) == 2
+        assert iref_nodes[0].find("CONTEXT-COMPOSITION-REF").text == "/CanSystem/TopLevelComposition"
+        assert iref_nodes[0].find("CONTEXT-COMPOSITION-REF").get("DEST") == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        assert iref_nodes[0].find("TARGET-COMPONENT-REF").text == "/DemoApplication/SWC_ModifyEcho"
+        assert iref_nodes[1].find("TARGET-COMPONENT-REF").text == "/DemoApplication/SWC_CyclicCounter"
+        assert iref_nodes[1].find("CONTEXT-COMPOSITION-REF") is None
+
+        reloaded = SystemMapping(AUTOSAR.getInstance(), "SystemMapping")
+        ARXMLParser().readSystemMapping(_with_ns(parent)[0], reloaded)
+
+        constraints = reloaded.getMappingConstraints()
+        assert len(constraints) == 1
+        round_tripped = constraints[0]
+        assert isinstance(round_tripped, ComponentSeparation)
+        assert round_tripped.getIntroduction().getPs()[0].getL1s()[0].getValue() == "The separation introduction."
+        assert round_tripped.getMappingScope() is not None
+        assert round_tripped.getMappingScope().getValue() == "MAPPING-SCOPE-CORE"
+        irefs = round_tripped.getSeparatedComponentIRefs()
+        assert len(irefs) == 2
+        assert irefs[0].getContextCompositionRef().getValue() == "/CanSystem/TopLevelComposition"
+        assert irefs[0].getContextCompositionRef().getDest() == "ROOT-SW-COMPOSITION-PROTOTYPE"
+        assert irefs[0].getTargetComponentRef().getValue() == "/DemoApplication/SWC_ModifyEcho"
+        assert irefs[1].getTargetComponentRef().getValue() == "/DemoApplication/SWC_CyclicCounter"
+        assert irefs[1].getContextCompositionRef() is None
+
+    def test_empty_separated_component_irefs_wrapper_not_emitted(self):
+        """Test that an empty iref list emits no SEPARATED-COMPONENT-IREFS wrapper while the mappingScope survives the round trip"""
+        mapping = SystemMapping(AUTOSAR.getInstance(), "SystemMapping")
+        separation = ComponentSeparation()
+        separation.setMappingScope(_mapping_scope(MappingScopeEnum.MAPPING_SCOPE_PARTITION))
+        mapping.addMappingConstraint(separation)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeSystemMapping(parent, mapping)
+
+        separation_node = parent.find("SYSTEM-MAPPING/MAPPING-CONSTRAINTS/COMPONENT-SEPARATION")
+        assert separation_node is not None
+        assert separation_node.find("SEPARATED-COMPONENT-IREFS") is None
+        assert separation_node.find("MAPPING-SCOPE").text == "MAPPING-SCOPE-PARTITION"
+
+        reloaded = SystemMapping(AUTOSAR.getInstance(), "SystemMapping")
+        ARXMLParser().readSystemMapping(_with_ns(parent)[0], reloaded)
+
+        round_tripped = reloaded.getMappingConstraints()[0]
+        assert isinstance(round_tripped, ComponentSeparation)
+        assert round_tripped.getSeparatedComponentIRefs() == []
         assert round_tripped.getMappingScope().getValue() == "MAPPING-SCOPE-PARTITION"

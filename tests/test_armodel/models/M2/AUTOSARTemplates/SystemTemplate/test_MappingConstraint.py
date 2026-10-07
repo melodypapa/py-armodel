@@ -6,12 +6,12 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, MappingConstraint, MappingScopeEnum
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import ComponentClustering, ComponentSeparation, MappingConstraint, MappingScopeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class _ConcreteMappingConstraint(MappingConstraint):
-    """Minimal concrete test double: the real subclass ComponentSeparation (Table 5.11) is still queued for its own sync pass."""
+    """Minimal concrete test double: the remaining choice member SwcToEcuMappingConstraint (XSD MAPPING-CONSTRAINTS third branch) is not yet modeled."""
 
     pass
 
@@ -163,6 +163,108 @@ class TestComponentClustering:
         hints = typing.get_type_hints(ComponentClustering.setMappingScope)
         assert hints.get("value") == typing.Optional[MappingScopeEnum]
         assert hints.get("return") is ComponentClustering
+
+
+class TestComponentSeparation:
+    """Test cases for ComponentSeparation (Table 5.11, p.205) and the abstract-base accessors through this concrete subclass."""
+
+    MEMBERS = [
+        "mappingScope",
+        "separatedComponentIRefs",
+    ]
+
+    def _mapping_scope(self, value: str = MappingScopeEnum.MAPPING_SCOPE_CORE) -> MappingScopeEnum:
+        scope = MappingScopeEnum()
+        scope.setValue(value)
+        return scope
+
+    def test_inheritance(self):
+        assert issubclass(ComponentSeparation, MappingConstraint)
+        assert issubclass(ComponentSeparation, ARObject)
+        assert issubclass(ComponentSeparation, VariationPointCapable)
+
+    def test_concrete(self):
+        separation = ComponentSeparation()
+        assert isinstance(separation, MappingConstraint)
+
+    def test_class_docstring_note(self):
+        expected = (
+            "Constraint that forces the two referenced SW components (called A and B in the following) not to be mapped to the same ECU, "
+            "Core, Partition depending on the defined mappingScope attribute. If mapping Scope is not specified then mappingScopeEcu shall be assumed. "
+            "If a SW component (e.g. A) is a composition, none of the atomic SW components making up the A composition shall be mapped together with "
+            "any of the atomic SW components making up the B composition. Furthermore, A and B shall be disjoint."
+        )
+        assert inspect.cleandoc(ComponentSeparation.__doc__) == expected
+
+    def test_init_has_no_docstring(self):
+        assert ComponentSeparation.__init__.__doc__ is None
+
+    def test_initialization_defaults(self):
+        separation = ComponentSeparation()
+        assert separation.getSeparatedComponentIRefs() == []
+        assert separation.getMappingScope() is None
+        assert separation.getIntroduction() is None
+
+    def test_member_order(self):
+        separation = ComponentSeparation()
+        members = [k for k in vars(separation) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_add_separated_component_i_ref(self):
+        separation = ComponentSeparation()
+        iref = ComponentInSystemInstanceRef()
+        result = separation.addSeparatedComponentIRef(iref)
+        assert result is separation
+        assert separation.getSeparatedComponentIRefs() == [iref]
+        iref2 = ComponentInSystemInstanceRef()
+        separation.addSeparatedComponentIRef(iref2)
+        assert separation.getSeparatedComponentIRefs() == [iref, iref2]
+
+    def test_add_separated_component_i_ref_none_no_op(self):
+        separation = ComponentSeparation()
+        separation.addSeparatedComponentIRef(None)
+        assert separation.getSeparatedComponentIRefs() == []
+
+    def test_get_set_mapping_scope(self):
+        separation = ComponentSeparation()
+        scope = self._mapping_scope(MappingScopeEnum.MAPPING_SCOPE_ECU)
+        result = separation.setMappingScope(scope)
+        assert result is separation
+        assert separation.getMappingScope() is scope
+        assert separation.getMappingScope().getValue() == MappingScopeEnum.MAPPING_SCOPE_ECU
+
+    def test_set_mapping_scope_none_no_op(self):
+        separation = ComponentSeparation()
+        scope = self._mapping_scope(MappingScopeEnum.MAPPING_SCOPE_PARTITION)
+        separation.setMappingScope(scope)
+        separation.setMappingScope(None)
+        assert separation.getMappingScope() is scope
+
+    def test_base_accessors_via_concrete_subclass(self):
+        separation = ComponentSeparation()
+        assert separation.getIntroduction() is None
+        block = DocumentationBlock()
+        result = separation.setIntroduction(block)
+        assert result is separation
+        assert separation.getIntroduction() is block
+        separation.setIntroduction(None)
+        assert separation.getIntroduction() is block
+
+    def test_base_variation_point_accessor_via_concrete_subclass(self):
+        separation = ComponentSeparation()
+        assert separation.getVariationPoint() is None
+
+    def test_type_hints(self):
+        hints = typing.get_type_hints(ComponentSeparation.addSeparatedComponentIRef)
+        assert hints.get("value") == typing.Optional[ComponentInSystemInstanceRef]
+        assert hints.get("return") is ComponentSeparation
+        hints = typing.get_type_hints(ComponentSeparation.getSeparatedComponentIRefs)
+        assert hints.get("return") == typing.List[ComponentInSystemInstanceRef]
+        hints = typing.get_type_hints(ComponentSeparation.getMappingScope)
+        assert hints.get("return") == typing.Optional[MappingScopeEnum]
+        hints = typing.get_type_hints(ComponentSeparation.setMappingScope)
+        assert hints.get("value") == typing.Optional[MappingScopeEnum]
+        assert hints.get("return") is ComponentSeparation
 
 
 class TestMappingScopeEnum:

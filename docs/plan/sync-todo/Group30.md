@@ -2175,15 +2175,64 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ComponentSeparation` — MappingConstraint — R23-11 CP_TPS_SystemTemplate Table 5.11, p.205
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Step 1 finding: Class table confirmed (not Enumeration): `Class |
+    ComponentSeparation` (concrete — XSD complexType abstract="false"). Package row
+    `M2::AUTOSARTemplates::SystemTemplate::SWmapping` → the stub already lives in the
+    leaf module `SystemTemplate/SWmapping.py` (moved there by the MappingConstraint
+    sync, commit a678eca67), subclassing MappingConstraint in spec-table order after
+    ComponentClustering. Base row `ARObject , MappingConstraint` → direct Python base
+    MappingConstraint (most-derived modeled ancestor). Table 5.11 carries exactly TWO
+    attribute rows (no page split; caption md l.5444, body l.5446-5454), displayed
+    order: mappingScope (MappingScopeEnum, 0..1, attr) then separatedComponent
+    (SwComponentPrototype, 0..2, iref — "InstanceRef implemented by:
+    ComponentInSystemInstanceRef"; XSD wrapper SEPARATED-COMPONENT-IREFS, item
+    SEPARATED-COMPONENT-IREF type COMPONENT-IN-SYSTEM-INSTANCE-REF,
+    pureMM.maxOccurs="2" → bounded many → List field). Both Notes carry no
+    Tags:/Stereotypes: tail; markdown wrap artifacts kept verbatim per the 6ddfdbb3f
+    precedent (class Note "If mapping Scope is not specified", mappingScope Note
+    "Component Separation mapping constraint"), the "InstanceRef implemented by:
+    ComponentInSystem InstanceRef" tail joined to the real class name
+    (ComponentInSystemInstanceRef). XSD element order (reader/writer): complexType
+    COMPONENT-SEPARATION sequence (AUTOSAR_00052.xsd l.20788) = AR-OBJECT group,
+    MAPPING-CONSTRAINT group (INTRODUCTION, VARIATION-POINT — via the abstract
+    read/writeMappingConstraint level), then own group COMPONENT-SEPARATION (l.20759):
+    MAPPING-SCOPE, SEPARATED-COMPONENT-IREFS — own-child order is the REVERSE of
+    ComponentClustering's (CLUSTERED-COMPONENT-IREFS, MAPPING-SCOPE): here MAPPING-SCOPE
+    comes first.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - Step 8: No accepted deviations from Table 5.11 — both attributes modeled exactly
+    (mappingScope as Optional[MappingScopeEnum]; separatedComponentIRefs as dedicated
+    List[ComponentInSystemInstanceRef] field + addSeparatedComponentIRef/
+    getSeparatedComponentIRefs — 0..2 bounded many → List, Rule 0001.4; verbatim Notes,
+    PEP 526 annotated assignments, blank-line separated blocks), full reader+writer
+    coverage through the new concrete readComponentSeparation/writeComponentSeparation
+    levels that call the abstract read/writeMappingConstraint level exactly once per
+    side (6ddfdbb3f precedent) with own children in XSD group order MAPPING-SCOPE,
+    SEPARATED-COMPONENT-IREFS (the reverse of ComponentClustering's own-child order).
+    Wiring upgrade: the SystemMapping MAPPING-CONSTRAINTS dispatcher
+    (readSystemMappingMappingConstraints/writeSystemMappingMappingConstraints) now
+    routes the COMPONENT-SEPARATION choice member through the concrete level instead of
+    the abstract read/writeMappingConstraint level. No stale legacy marker existed
+    (bare `pass` stub — Rule 0023 removal a no-op); fresh 6-column checklist, no marker
+    (batch 9b stamps). Referenced classes: ComponentInSystemInstanceRef — fully
+    synced/stamped; MappingScopeEnum — synced earlier in this batch (commit 4e3e9b2a2);
+    no referenced-but-missing classes (the MAPPING-CONSTRAINTS third choice member
+    SwcToEcuMappingConstraint remains unmodeled and is tracked by the MappingConstraint
+    row's Step 8 note — not this class's member). Docstring verbatim notes: markdown
+    wrap artifacts kept exactly as rendered per the 6ddfdbb3f precedent (class Note
+    "If mapping Scope is not specified", mappingScope Note "Component Separation
+    mapping constraint"); the "InstanceRef implemented by: ComponentInSystem
+    InstanceRef" tail joined to the real class name (ComponentInSystemInstanceRef).
+    The `# Spec verified:` marker is deferred to the batch 9b stamp per user
+    instruction (audit STAMP INFO as expected).
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — 9a passed 2026-10-07 (22180 passed / 0 failed); 9b deferred to batch stamp (user instruction) sync commit 3e98eb7de
 
 - [ ] `J1939ControllerApplicationToJ1939NmNodeMapping` — ARObject — R23-11 CP_TPS_SystemTemplate Table 5.12, p.207
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py

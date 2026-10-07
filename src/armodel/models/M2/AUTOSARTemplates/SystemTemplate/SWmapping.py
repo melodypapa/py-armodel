@@ -579,4 +579,56 @@ class ComponentClustering(MappingConstraint):
 
 
 class ComponentSeparation(MappingConstraint):
-    pass
+    """
+    Constraint that forces the two referenced SW components (called A and B in the following) not to be mapped to the same ECU, Core, Partition depending on the defined mappingScope attribute. If mapping Scope is not specified then mappingScopeEcu shall be assumed. If a SW component (e.g. A) is a composition, none of the atomic SW components making up the A composition shall be mapped together with any of the atomic SW components making up the B composition. Furthermore, A and B shall be disjoint.
+    """
+
+    # ComponentSeparation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 5.11, p.205
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMappingScope             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingScope             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSeparatedComponentIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSeparatedComponentIRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+        self.mappingScope: Optional[MappingScopeEnum] = None
+
+        # The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+        self.separatedComponentIRefs: List[ComponentInSystemInstanceRef] = []
+
+    def getMappingScope(self) -> Optional[MappingScopeEnum]:
+        """
+        This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+        """
+        return self.mappingScope
+
+    def setMappingScope(self, value: Optional[MappingScopeEnum]) -> "ComponentSeparation":
+        """
+        This attribute indicates whether the Component Separation mapping constraint applies to different ECUs, partitions or cores. If this attribute is not specified then mappingScopeEcu shall be assumed.
+
+        A None value is a no-op and does not overwrite an existing mappingScope.
+        """
+        if value is not None:
+            self.mappingScope = value
+        return self
+
+    def addSeparatedComponentIRef(self, value: Optional[ComponentInSystemInstanceRef]) -> "ComponentSeparation":
+        """
+        The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+
+        A None value is a no-op and does not add to separatedComponentIRefs.
+        """
+        if value is not None:
+            self.separatedComponentIRefs.append(value)
+        return self
+
+    def getSeparatedComponentIRefs(self) -> List[ComponentInSystemInstanceRef]:
+        """
+        The two components that have to be mapped to different ECUs InstanceRef implemented by: ComponentInSystemInstanceRef
+        """
+        return self.separatedComponentIRefs

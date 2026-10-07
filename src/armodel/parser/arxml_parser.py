@@ -17538,6 +17538,16 @@ class ARXMLParser(AbstractARXMLParser):
             e.setValue(mapping_scope.getValue())
             clustering.setMappingScope(cast(Optional[MappingScopeEnum], e))
 
+    def readComponentSeparation(self, element: ET.Element, separation: ComponentSeparation):
+        self.readMappingConstraint(element, separation)
+        mapping_scope = self.getChildElementOptionalLiteral(element, "MAPPING-SCOPE")
+        if mapping_scope is not None:
+            e: ARLiteral = MappingScopeEnum()
+            e.setValue(mapping_scope.getValue())
+            separation.setMappingScope(cast(Optional[MappingScopeEnum], e))
+        for child_element in self.findall(element, "SEPARATED-COMPONENT-IREFS/SEPARATED-COMPONENT-IREF"):
+            separation.addSeparatedComponentIRef(self.getComponentInSystemInstanceRef(child_element))
+
     def readSystemMappingMappingConstraints(self, element: ET.Element, mapping: SystemMapping):
         for child_element in self.findall(element, "MAPPING-CONSTRAINTS/*"):
             tag_name = self.getTagName(child_element)
@@ -17547,7 +17557,7 @@ class ARXMLParser(AbstractARXMLParser):
                 mapping.addMappingConstraint(clustering)
             elif tag_name == "COMPONENT-SEPARATION":
                 separation = ComponentSeparation()
-                self.readMappingConstraint(child_element, separation)
+                self.readComponentSeparation(child_element, separation)
                 mapping.addMappingConstraint(separation)
             else:
                 self.notImplemented("Unsupported MappingConstraint %s" % tag_name)
