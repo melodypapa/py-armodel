@@ -777,6 +777,7 @@ class PayloadBytePatternRule(ARObject):
 
     # PayloadBytePatternRule method parity checklist:
     # Spec: AUTOSAR_AP_TPS_PlatformModuleDeployment (AdaptivePlatform), class PayloadBytePatternRule, AUTOSAR_00052.xsd line 88473 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addPayloadBytePatternRulePart  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
