@@ -204,8 +204,8 @@ class DataIdModeEnum(AREnum):
 
     # DataIdModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.24, p.807
-    # Spec verified: R23-11
-    # (no methods)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # Two bytes are included in the CRC (double ID configuration). Tags: atp.EnumerationLiteralIndex=0
     ALL_16_BIT = "ALL-16-BIT"
