@@ -2,10 +2,10 @@ import inspect
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ContainedIPduProps,
     ContainerIPdu,
     ContainerIPduHeaderTypeEnum,
     ContainerIPduTriggerEnum,
-    ContainedIPduProps,
     RxAcceptContainedIPduEnum,
 )
 
