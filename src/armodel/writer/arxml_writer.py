@@ -19730,8 +19730,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             if len(acl_object_classes) > 0:
                 classes_tag = ET.SubElement(child_element, "ACL-OBJECT-CLASSS")
                 for acl_object_class in acl_object_classes:
-                    class_tag = ET.SubElement(classes_tag, "ACL-OBJECT-CLASS")
-                    class_tag.text = acl_object_class.getValue()
+                    self.setChildElementOptionalLiteral(classes_tag, "ACL-OBJECT-CLASS", acl_object_class)
             acl_scope = acl_object_set.getAclScope()
             if acl_scope is not None:
                 token = ACL_SCOPE_XML_MAP.get(cast(str, acl_scope.getValue()))

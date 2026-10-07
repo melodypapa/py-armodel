@@ -19662,7 +19662,8 @@ class ARXMLParser(AbstractARXMLParser):
                 base.addGlobalInPackageRef(global_in_package_ref)
             for global_element in self.findall(child_element, "GLOBAL-ELEMENTS/GLOBAL-ELEMENT"):
                 literal = ReferrableSubtypesEnum()
-                literal.setValue(global_element.text)
+                self.readARType(global_element, literal)
+                literal.setValue("" if global_element.text is None else global_element.text)
                 base.addGlobalElement(literal)
             base.setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
             parent.addReferenceBase(base)
@@ -19695,9 +19696,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read AclObjectSet <%s>" % acl_object_set.getShortName())
         self.readIdentifiable(element, acl_object_set)
         for child_element in self.findall(element, "ACL-OBJECT-CLASSS/ACL-OBJECT-CLASS"):
-            literal: ARLiteral = ReferrableSubtypesEnum()
-            literal.setValue(child_element.text)
-            acl_object_set.addAclObjectClass(cast(Optional[ReferrableSubtypesEnum], literal))
+            literal = ReferrableSubtypesEnum()
+            self.readARType(child_element, literal)
+            literal.setValue("" if child_element.text is None else child_element.text)
+            acl_object_set.addAclObjectClass(literal)
         acl_scope = self.find(element, "ACL-SCOPE")
         if acl_scope is not None:
             acl_literal: Optional[str] = None

@@ -150,3 +150,27 @@ class TestReadReferenceBases:
         assert global_in_package_refs[0].getValue() == "/AUTOSAR/TestPackage"
         assert global_in_package_refs[0].getDest() == "AR-PACKAGE"
         assert global_in_package_refs[1].getValue() == "/AUTOSAR/Other"
+
+
+class TestReferenceBaseGlobalElementState:
+    def test_global_element_is_typed_and_keeps_t(self, parser):
+        """GLOBAL-ELEMENT must be a ReferrableSubtypesEnum carrying its T timestamp (Rule 0013.2)."""
+        package = _make_package()
+        element = ET.fromstring(
+            f"""<AR-PACKAGE xmlns='{NS}'>
+                <REFERENCE-BASES>
+                    <REFERENCE-BASE>
+                        <GLOBAL-ELEMENTS>
+                            <GLOBAL-ELEMENT T="2023-09-09T00:00:00Z">TRACEABLE</GLOBAL-ELEMENT>
+                        </GLOBAL-ELEMENTS>
+                    </REFERENCE-BASE>
+                </REFERENCE-BASES>
+            </AR-PACKAGE>"""
+        )
+
+        parser.readReferenceBases(element, package)
+
+        global_element = package.getReferenceBases()[0].getGlobalElements()[0]
+        assert type(global_element).__name__ == "ReferrableSubtypesEnum"
+        assert global_element.getValue() == "TRACEABLE"
+        assert global_element.timestamp == "2023-09-09T00:00:00Z"
