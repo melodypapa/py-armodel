@@ -526,10 +526,10 @@ class EvaluatedVariantSet(ARElement):
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApprovalStatus           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setApprovalStatus           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getEvaluatedElementRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addEvaluatedElementRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getEvaluatedVariantRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEvaluatedElementRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addEvaluatedVariantRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEvaluatedVariantRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -566,15 +566,6 @@ class EvaluatedVariantSet(ARElement):
             self.approvalStatus = value
         return self
 
-    def getEvaluatedElementRefs(self) -> List[RefType]:
-        """
-        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
-
-        Returns:
-            The list of evaluated element references
-        """
-        return self.evaluatedElementRefs
-
     def addEvaluatedElementRef(self, value: RefType):
         """
         This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
@@ -589,14 +580,14 @@ class EvaluatedVariantSet(ARElement):
             self.evaluatedElementRefs.append(value)
         return self
 
-    def getEvaluatedVariantRefs(self) -> List[RefType]:
+    def getEvaluatedElementRefs(self) -> List[RefType]:
         """
-        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
+        This represents a particular element which is evaluated in context of the EvaluatedVariants. The approvalStatus applies to this element (and all of its descendants). In other words, the referenced elements are those that were considered when the predefined variant was evaluated.
 
         Returns:
-            The list of evaluated variant references
+            The list of evaluated element references
         """
-        return self.evaluatedVariantRefs
+        return self.evaluatedElementRefs
 
     def addEvaluatedVariantRef(self, value: RefType):
         """
@@ -611,3 +602,12 @@ class EvaluatedVariantSet(ARElement):
         if value is not None:
             self.evaluatedVariantRefs.append(value)
         return self
+
+    def getEvaluatedVariantRefs(self) -> List[RefType]:
+        """
+        This metaclass represents one particular variant which was evaluated. LowerMultiplicity is set to 0 to support a stepwise approach.
+
+        Returns:
+            The list of evaluated variant references
+        """
+        return self.evaluatedVariantRefs
