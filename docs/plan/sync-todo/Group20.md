@@ -125,6 +125,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - note (Step 8): no deviation, no tracker section for this enum — member
     values are the XSD wire strings by design for XSD-only enums (no PDF
     Literal column); nothing to record in method_deviation_by_class.md.
+  - note (batch-9b fix pass 2026-10-07): audit ROWS — the `# (no methods)` line but the class declares `__init__`; added the `[x] __init__ ... R23-11` row (majority convention, 158 enums carry it; EcucScopeEnum precedent). Commit d6358fb5b.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12454 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CryptoObjectTypeEnum` — AREnum — source TBC (locate table at Step 1)
@@ -163,6 +164,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     wire strings by design for XSD-only enums; the stale `CryptoKeySlot`
     tracker `missing` rows referencing this enum were removed instead (Rule
     0014).
+  - note (batch-9b fix pass 2026-10-07): audit ROWS — the `# (no methods)` line but the class declares `__init__`; added the `[x] __init__ ... R23-11` row (majority convention, 158 enums carry it; EcucScopeEnum precedent). Commit d6358fb5b.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12456 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `CryptoKeySlotAllowedModification` — ARObject — source TBC (locate table at Step 1)
@@ -635,6 +637,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): method_deviation_by_class.md SectionNamePrefix section rewritten —
     6-column member table (implementedInRef ok per Rule 0001.5); no open deviations.
+  - note (batch-9b fix pass 2026-10-07): Rule 0002 — normalized the single-corpus `# Spec:` line (dropped the Rule-0019 corpus prefix + bare `(R23-11)` suffix). Commit 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12579 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `HardwareConfiguration` — ARObject — source TBC (locate table at Step 1)
@@ -683,6 +686,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     now uses the joined XSD spelling "HardwareConfiguration" (was the markdown
     line-wrap artifact "Hardware Configuration") in the __init__ comment, getter and
     setter docstrings + the test Note constant.
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — writer helper `setHardwareConfiguration` -> `writeHardwareConfiguration` (was a read/set cross pair); Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12589 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoftwareContext` — ARObject — source TBC (locate table at Step 1)
@@ -727,6 +731,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
     calls; (2) Rule 0012 verbatim — the state Note now uses the joined XSD spelling
     "ExecutionTime" (was the markdown line-wrap artifact "Execution Time") in the
     __init__ comment, getter and setter docstrings + the test Note constant.
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — writer helper `setSoftwareContext` -> `writeSoftwareContext` (was a read/set cross pair); Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12600 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `SoAdRoutingGroup` — FibexElement — source TBC (locate table at Step 1)
@@ -835,6 +840,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations — the Rule 0005 import fix and the VP position fix
     are conformance, not deviations; tracker section refreshed (member table, all ok).
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — base writer helper `setStackUsage` -> `writeStackUsage`; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12633 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `MeasuredStackUsage` — StackUsage — source TBC (locate table at Step 1)
@@ -881,6 +887,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations — the docstring/Note drift fixes are conformance;
     tracker section refreshed (member table, all ok).
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — `setMeasuredStackUsage` -> `writeMeasuredStackUsage`, so the audit BASE reader/writer pair is symmetric and green again; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12642 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `RoughEstimateStackUsage` — StackUsage — source TBC (locate table at Step 1)
@@ -920,6 +927,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations — the docstring drift fixes are conformance; tracker
     section refreshed (member table, all ok).
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — `setRoughEstimateStackUsage` -> `writeRoughEstimateStackUsage`, so the audit BASE reader/writer pair is symmetric and green again; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12648 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [ ] `WorstCaseStackUsage` — StackUsage — source TBC (locate table at Step 1)
@@ -961,6 +969,7 @@ Input: full-repo orphan audit 2026-09-23 (unstamped ∧ untracked, M2 only) · Q
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations — the docstring drift fixes are conformance; tracker
     section refreshed (member table, all ok).
+  - note (batch-9b fix pass 2026-10-07): Rule 0013.2 — `setWorstCaseStackUsage` -> `writeWorstCaseStackUsage`, so the audit BASE reader/writer pair is symmetric and green again; Rule 0002 — normalized the `# Spec:` line. Commits e21a366e2 + 41c970a87.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12654 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 ## Queue addendum — missing referenced classes (queued 2026-09-27, post-batch)
@@ -1013,6 +1022,7 @@ tracker rows they motivated (`networkLayerRule | Ipv4Rule | missing`,
   - [x] Step 8 — Deviations
   - note (Step 8): no open deviations — the Table 4.53 Note line-wrap fix is conformance;
     checklist replaced with the 6-column format (no stamp line — batch 9b pending).
+  - note (Steps 5/6 re-run 2026-10-07, batch-9b fix pass): Rule 0025 reader gap — the nine MacAddressString reader sites copied only the literal value (`getChildElementOptionalLiteral` -> `setValue`) and never called `readARType`, so an element's `T` attribute was dropped while the writer kept emitting it (asymmetric round-trip). Added the typed leaf helpers `getChildElementOptionalMacAddressString` / `setChildElementOptionalMacAddressString` and routed every reader/writer MAC site through them; parser `test_read_mac_address_timestamp` + writer `test_write_and_reparse_preserves_mac_address_timestamp` pin the round-trip. Also patched `audit_class.py` BASE to accept the ARType typed leaf-helper pattern (it false-FAILed every ARLiteral) — commit 29d3b0be5. Class fix commit 6a001e1ab.
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a passed 2026-09-27 (12663 passed / 0 failed, lint clean, black-check clean); 9b deferred to batch confirmation (user instruction)
 
 - [x] `PayloadBytePatternRulePart` — ARObject — XSD-only (00052 complexType L88508)
