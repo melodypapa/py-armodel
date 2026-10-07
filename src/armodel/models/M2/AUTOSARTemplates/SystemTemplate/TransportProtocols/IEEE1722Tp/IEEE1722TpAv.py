@@ -42,3 +42,45 @@ class IEEE1722TpCrfTypeEnum(AREnum):
                 IEEE1722TpCrfTypeEnum.ENUM_VIDEO_LINE,
             ]
         )
+
+
+class IEEE1722TpCrfPullEnum(AREnum):
+    """
+    Definition of the CRF stream pull value. Tags: atp.Status=candidate
+    """
+
+    # IEEE1722TpCrfPullEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.279, p.641
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — serialized as value form on IEEE1722TpCrfConnection.crfPull
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Multiply base_frequency field by 1.0 Tags: atp.EnumerationLiteralIndex=0 xml.name=1-0
+    ENUM_1_0 = "1-0"
+
+    # Multiply base_frequency field by 1.001 Tags: atp.EnumerationLiteralIndex=2 xml.name=1-001
+    ENUM_1_001 = "1-001"
+
+    # Multiply base_frequency field by 1/1.001 Tags: atp.EnumerationLiteralIndex=1 xml.name=1-1-001
+    ENUM_1_1_001 = "1-1-001"
+
+    # Multiply base_frequency field by 1/8 Tags: atp.EnumerationLiteralIndex=5 xml.name=1-8
+    ENUM_1_8 = "1-8"
+
+    # Multiply base_frequency field by 24/25 Tags: atp.EnumerationLiteralIndex=3 xml.name=24-25
+    ENUM_24_25 = "24-25"
+
+    # Multiply base_frequency field by 25/24 Tags: atp.EnumerationLiteralIndex=4 xml.name=25-24
+    ENUM_25_24 = "25-24"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IEEE1722TpCrfPullEnum.ENUM_1_0,
+                IEEE1722TpCrfPullEnum.ENUM_1_001,
+                IEEE1722TpCrfPullEnum.ENUM_1_1_001,
+                IEEE1722TpCrfPullEnum.ENUM_1_8,
+                IEEE1722TpCrfPullEnum.ENUM_24_25,
+                IEEE1722TpCrfPullEnum.ENUM_25_24,
+            ]
+        )
