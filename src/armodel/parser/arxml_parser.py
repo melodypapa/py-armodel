@@ -11162,9 +11162,6 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setSdServerTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")
         )
-        for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-CONSUMERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
-            instance.addAllowedServiceConsumerRef(ref)
-        instance.setAutoAvailable(self.getChildElementOptionalBooleanValue(element, "AUTO-AVAILABLE"))
         instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
 
     def readSocketAddressApplicationEndpointProvidedServiceInstance(self, element: ET.Element, end_point: ApplicationEndpoint):

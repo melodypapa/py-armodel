@@ -11431,18 +11431,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
             self.setSdServerConfig(child_element, "SD-SERVER-CONFIG", instance.getSdServerConfig())
-            ref = instance.getSdServerTimerConfigRef()
-            if ref is not None:
+            timer_config_ref = instance.getSdServerTimerConfigRef()
+            if timer_config_ref is not None:
                 wrapper = ET.SubElement(child_element, "SD-SERVER-TIMER-CONFIGS")
                 cond_tag = ET.SubElement(wrapper, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL")
-                self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF", ref)
-            refs = instance.getAllowedServiceConsumerRefs()
-            if len(refs) > 0:
-                wrapper = ET.SubElement(child_element, "ALLOWED-SERVICE-CONSUMERS")
-                for ref in refs:
-                    cond_tag = ET.SubElement(wrapper, "NETWORK-ENDPOINT-REF-CONDITIONAL")
-                    self.setChildElementOptionalRefType(cond_tag, "NETWORK-ENDPOINT-REF", ref)
-            self.setChildElementOptionalBooleanValue(child_element, "AUTO-AVAILABLE", instance.getAutoAvailable())
+                self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF", timer_config_ref)
             self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-IDENTIFIER", instance.getServiceIdentifier())
 
     def writeSocketAddressApplicationEndpointProvidedServiceInstance(self, element: ET.Element, end_point: ApplicationEndpoint):

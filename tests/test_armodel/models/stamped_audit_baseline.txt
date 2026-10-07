@@ -4,7 +4,6 @@ AbstractAccessPoint
 AbstractEnumerationValueVariationPoint
 AbstractProvidedPortPrototype
 AbstractRequiredPortPrototype
-AbstractServiceInstance
 AccessCountSet
 AdminData
 AgeConstraint
@@ -133,8 +132,6 @@ EndToEndProfileBehaviorEnum
 EndToEndTransformationDescription
 EngineeringObject
 ErrorTracerNeeds
-EventGroupControlTypeEnum
-EventHandler
 EventOccurrenceKindEnum
 EventTriggeringConstraint
 ExclusiveArea
@@ -271,7 +268,6 @@ PrimitiveIdentifier
 PrivacyLevel
 PrmCharAbsTol
 PrmCharMinTypMax
-ProvidedServiceInstance
 RModeInAtomicSwcInstanceRef
 RVariableInAtomicSwcInstanceRef
 RecordLayoutIteratorPoint

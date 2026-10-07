@@ -1261,53 +1261,38 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     """
 
     # ProvidedServiceInstance method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.37, p.1002
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAllowedServiceConsumerRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addAllowedServiceConsumerRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setAllowedServiceConsumerRefs              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAutoAvailable                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutoAvailable                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEventHandlers                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createEventHandler                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInstanceIdentifier                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInstanceIdentifier                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLoadBalancingPriority                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLoadBalancingPriority                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLoadBalancingWeight                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLoadBalancingWeight                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLocalUnicastAddressRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLocalUnicastAddressRefs                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addLocalUnicastAddressRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinorVersion                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinorVersion                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPriority                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPriority                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemoteMulticastSubscriptionAddressRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRemoteMulticastSubscriptionAddressRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRemoteMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemoteUnicastAddressRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRemoteUnicastAddressRefs                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRemoteUnicastAddressRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSdServerConfig                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdServerConfig                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSdServerTimerConfigRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdServerTimerConfigRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceIdentifier                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceIdentifier                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.160, p.486
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createEventHandler                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEventHandlers                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getInstanceIdentifier                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInstanceIdentifier                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLoadBalancingPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLoadBalancingPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLoadBalancingWeight                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLoadBalancingWeight                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLocalUnicastAddressRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalUnicastAddressRefs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMinorVersion                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinorVersion                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPriority                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPriority                                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRemoteMulticastSubscriptionAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteMulticastSubscriptionAddressRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRemoteUnicastAddressRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteUnicastAddressRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSdServerConfig                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdServerConfig                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdServerTimerConfigRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdServerTimerConfigRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceIdentifier                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceIdentifier                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
-        self.allowedServiceConsumerRefs: List[RefType] = []
-
-        # Defines that this ProvidedServiceInstance shall be offered by the service discovery at ECU start.
-        self.autoAvailable: Optional[Boolean] = None
-
-        # Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, event Handler.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, eventHandler.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.eventHandlers: List[EventHandler] = []
 
         # Instance identifier. Can be used for e.g. service discovery to identify the instance of the service.
@@ -1328,7 +1313,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         self.priority: Optional[PositiveInteger] = None
 
-        # This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscription Address.applicationEndpoint, remoteMulticast SubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscriptionAddress.applicationEndpoint, remoteMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.remoteMulticastSubscriptionAddressRefs: List[RefType] = []
 
         # This reference defines the remote addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
@@ -1337,237 +1322,162 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         # Service Discovery Server configuration. Tags: atp.Status=obsolete
         self.sdServerConfig: Optional[SdServerConfig] = None
 
-        # Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServer ServiceInstanceConfig, sdServerTimer Config.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServerServiceInstanceConfig, sdServerTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.sdServerTimerConfigRef: Optional[RefType] = None
 
-        # This attribute represents the ability to describe the SOME/ IP service ID that is offered.
+        # This attribute represents the ability to describe the SOME/IP service ID that is offered.
         self.serviceIdentifier: Optional[PositiveInteger] = None
 
-    def getAllowedServiceConsumerRefs(self):
-        """
-        NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
-        """
-        return self.allowedServiceConsumerRefs
-
-    def addAllowedServiceConsumerRef(self, allowed_service_consumer_ref: RefType) -> ProvidedServiceInstance:
-        """
-        NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
-        """
-        if allowed_service_consumer_ref is not None:
-            self.allowedServiceConsumerRefs.append(allowed_service_consumer_ref)
-        return self
-
-    def setAllowedServiceConsumerRefs(self, allowed_service_consumer_refs: List[RefType]) -> ProvidedServiceInstance:
-        """
-        NetworkEndpoints on which the ConsumedService Instances that are communicating with this Provided ServiceInstance are allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceConsumer.networkEndpoint, allowedServiceConsumer.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
-        """
-        if allowed_service_consumer_refs is not None:
-            self.allowedServiceConsumerRefs = allowed_service_consumer_refs
-        return self
-
-    def getAutoAvailable(self):
-        """
-        Defines that this ProvidedServiceInstance shall be offered by the service discovery at ECU start.
-        """
-        return self.autoAvailable
-
-    def setAutoAvailable(self, value):
-        """
-        Defines that this ProvidedServiceInstance shall be offered by the service discovery at ECU start.
-        """
-        if value is not None:
-            self.autoAvailable = value
-        return self
-
-    def getEventHandlers(self):
-        """
-        Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, event Handler.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.eventHandlers
-
     def createEventHandler(self, short_name: str) -> EventHandler:
-        """
-        Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, event Handler.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
+        """Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, eventHandler.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, EventHandler):
             instance = EventHandler(self, short_name)
             self.addReferrableElement(instance)
             self.eventHandlers.append(instance)
         return cast(EventHandler, self.getReferrableElement(short_name, EventHandler))
 
-    def getInstanceIdentifier(self):
-        """
-        Instance identifier. Can be used for e.g. service discovery to identify the instance of the service.
-        """
+    def getEventHandlers(self) -> List[EventHandler]:
+        """Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, eventHandler.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        return self.eventHandlers
+
+    def getInstanceIdentifier(self) -> Optional[PositiveInteger]:
+        """Instance identifier. Can be used for e.g. service discovery to identify the instance of the service."""
         return self.instanceIdentifier
 
-    def setInstanceIdentifier(self, value):
+    def setInstanceIdentifier(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Instance identifier. Can be used for e.g. service discovery to identify the instance of the service.
+        A None value is a no-op and does not overwrite an existing instanceIdentifier.
         """
         if value is not None:
             self.instanceIdentifier = value
         return self
 
-    def getLoadBalancingPriority(self):
-        """
-        Defines the value to be used for load balancing priority in the service offer. Lower value means higher priority.
-        """
+    def getLoadBalancingPriority(self) -> Optional[PositiveInteger]:
+        """Defines the value to be used for load balancing priority in the service offer. Lower value means higher priority."""
         return self.loadBalancingPriority
 
-    def setLoadBalancingPriority(self, value):
+    def setLoadBalancingPriority(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Defines the value to be used for load balancing priority in the service offer. Lower value means higher priority.
+        A None value is a no-op and does not overwrite an existing loadBalancingPriority.
         """
         if value is not None:
             self.loadBalancingPriority = value
         return self
 
-    def getLoadBalancingWeight(self):
-        """
-        Defines the value to be used for load balancing weight in the service offer. Higher value means higher probability to be chosen.
-        """
+    def getLoadBalancingWeight(self) -> Optional[PositiveInteger]:
+        """Defines the value to be used for load balancing weight in the service offer. Higher value means higher probability to be chosen."""
         return self.loadBalancingWeight
 
-    def setLoadBalancingWeight(self, value):
+    def setLoadBalancingWeight(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Defines the value to be used for load balancing weight in the service offer. Higher value means higher probability to be chosen.
+        A None value is a no-op and does not overwrite an existing loadBalancingWeight.
         """
         if value is not None:
             self.loadBalancingWeight = value
         return self
 
-    def getLocalUnicastAddressRefs(self):
+    def addLocalUnicastAddressRef(self, value: Optional[RefType]) -> ProvidedServiceInstance:
         """
         The local address over which the PSI is provided (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.localUnicastAddressRefs
-
-    def setLocalUnicastAddressRefs(self, value):
-        """
-        The local address over which the PSI is provided (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        if value is not None:
-            self.localUnicastAddressRefs = value
-        return self
-
-    def addLocalUnicastAddressRef(self, value):
-        """
-        The local address over which the PSI is provided (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not append to localUnicastAddressRefs.
         """
         if value is not None:
             self.localUnicastAddressRefs.append(value)
         return self
 
-    def getMinorVersion(self):
-        """
-        Minor Version of the Service that is provided by this ProvidedServiceInstance.
-        """
+    def getLocalUnicastAddressRefs(self) -> List[RefType]:
+        """The local address over which the PSI is provided (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        return self.localUnicastAddressRefs
+
+    def getMinorVersion(self) -> Optional[PositiveInteger]:
+        """Minor Version of the Service that is provided by this ProvidedServiceInstance."""
         return self.minorVersion
 
-    def setMinorVersion(self, value):
+    def setMinorVersion(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Minor Version of the Service that is provided by this ProvidedServiceInstance.
+        A None value is a no-op and does not overwrite an existing minorVersion.
         """
         if value is not None:
             self.minorVersion = value
         return self
 
-    def getPriority(self):
-        """
-        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
-        """
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value):
+    def setPriority(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
         """
         if value is not None:
             self.priority = value
         return self
 
-    def getRemoteMulticastSubscriptionAddressRefs(self):
+    def addRemoteMulticastSubscriptionAddressRef(self, value: Optional[RefType]) -> ProvidedServiceInstance:
         """
-        This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscription Address.applicationEndpoint, remoteMulticast SubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.remoteMulticastSubscriptionAddressRefs
-
-    def setRemoteMulticastSubscriptionAddressRefs(self, value):
-        """
-        This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscription Address.applicationEndpoint, remoteMulticast SubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        if value is not None:
-            self.remoteMulticastSubscriptionAddressRefs = value
-        return self
-
-    def addRemoteMulticastSubscriptionAddressRef(self, value):
-        """
-        This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscription Address.applicationEndpoint, remoteMulticast SubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscriptionAddress.applicationEndpoint, remoteMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not append to remoteMulticastSubscriptionAddressRefs.
         """
         if value is not None:
             self.remoteMulticastSubscriptionAddressRefs.append(value)
         return self
 
-    def getRemoteUnicastAddressRefs(self):
-        """
-        This reference defines the remote addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.remoteUnicastAddressRefs
+    def getRemoteMulticastSubscriptionAddressRefs(self) -> List[RefType]:
+        """This reference defines the remote multicast subscribed addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscriptionAddress.applicationEndpoint, remoteMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        return self.remoteMulticastSubscriptionAddressRefs
 
-    def setRemoteUnicastAddressRefs(self, value):
+    def addRemoteUnicastAddressRef(self, value: Optional[RefType]) -> ProvidedServiceInstance:
         """
         This reference defines the remote addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        if value is not None:
-            self.remoteUnicastAddressRefs = value
-        return self
-
-    def addRemoteUnicastAddressRef(self, value):
-        """
-        This reference defines the remote addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not append to remoteUnicastAddressRefs.
         """
         if value is not None:
             self.remoteUnicastAddressRefs.append(value)
         return self
 
-    def getSdServerConfig(self):
-        """
-        Service Discovery Server configuration. Tags: atp.Status=obsolete
-        """
+    def getRemoteUnicastAddressRefs(self) -> List[RefType]:
+        """This reference defines the remote addresses of service consumers. This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
+        return self.remoteUnicastAddressRefs
+
+    def getSdServerConfig(self) -> Optional[SdServerConfig]:
+        """Service Discovery Server configuration. Tags: atp.Status=obsolete"""
         return self.sdServerConfig
 
-    def setSdServerConfig(self, value):
+    def setSdServerConfig(self, value: Optional[SdServerConfig]) -> ProvidedServiceInstance:
         """
         Service Discovery Server configuration. Tags: atp.Status=obsolete
+        A None value is a no-op and does not overwrite an existing sdServerConfig.
         """
         if value is not None:
             self.sdServerConfig = value
         return self
 
-    def getSdServerTimerConfigRef(self):
-        """
-        Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServer ServiceInstanceConfig, sdServerTimer Config.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
+    def getSdServerTimerConfigRef(self) -> Optional[RefType]:
+        """Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServerServiceInstanceConfig, sdServerTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.sdServerTimerConfigRef
 
-    def setSdServerTimerConfigRef(self, value):
+    def setSdServerTimerConfigRef(self, value: Optional[RefType]) -> ProvidedServiceInstance:
         """
-        Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServer ServiceInstanceConfig, sdServerTimer Config.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        Server specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServerServiceInstanceConfig, sdServerTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not overwrite an existing sdServerTimerConfigRef.
         """
         if value is not None:
             self.sdServerTimerConfigRef = value
         return self
 
-    def getServiceIdentifier(self):
-        """
-        This attribute represents the ability to describe the SOME/ IP service ID that is offered.
-        """
+    def getServiceIdentifier(self) -> Optional[PositiveInteger]:
+        """This attribute represents the ability to describe the SOME/IP service ID that is offered."""
         return self.serviceIdentifier
 
-    def setServiceIdentifier(self, value):
+    def setServiceIdentifier(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
-        This attribute represents the ability to describe the SOME/ IP service ID that is offered.
+        This attribute represents the ability to describe the SOME/IP service ID that is offered.
+        A None value is a no-op and does not overwrite an existing serviceIdentifier.
         """
         if value is not None:
             self.serviceIdentifier = value

@@ -92,8 +92,6 @@ class TestWriteProvidedServiceInstance:
         instance.addRemoteMulticastSubscriptionAddressRef(_ref("APPLICATION-ENDPOINT", "/ep2"))
         instance.addRemoteUnicastAddressRef(_ref("APPLICATION-ENDPOINT", "/ep3"))
         instance.setSdServerTimerConfigRef(_ref("SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG", "/sd1"))
-        instance.addAllowedServiceConsumerRef(_ref("NETWORK-ENDPOINT", "/nep1"))
-        instance.setAutoAvailable(_bool("true"))
         instance.setServiceIdentifier(_pos_int("25"))
 
         parent = _parent()
@@ -119,10 +117,8 @@ class TestWriteProvidedServiceInstance:
         sstc = psi.find("SD-SERVER-TIMER-CONFIGS")
         assert sstc is not None
         assert sstc.find("SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF").text == "/sd1"
-        asc = psi.find("ALLOWED-SERVICE-CONSUMERS")
-        assert asc is not None
-        assert asc.find("NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF").text == "/nep1"
-        assert psi.find("AUTO-AVAILABLE").text == "true"
+        assert psi.find("ALLOWED-SERVICE-CONSUMERS") is None
+        assert psi.find("AUTO-AVAILABLE") is None
 
     def test_write_provided_service_instance_empty_ref_lists(self, writer):
         config = SoAdConfig()
@@ -138,6 +134,10 @@ class TestWriteProvidedServiceInstance:
         assert psi.find("SD-SERVER-TIMER-CONFIGS") is None
         assert psi.find("ALLOWED-SERVICE-CONSUMERS") is None
         assert psi.find("AUTO-AVAILABLE") is None
+        assert psi.find("MAJOR-VERSION") is None
+        assert psi.find("METHOD-ACTIVATION-ROUTING-GROUPS") is None
+        assert psi.find("ROUTING-GROUP-REFS") is None
+        assert psi.find("CAPABILITY-RECORDS") is None
 
     def test_round_trip_provided_service_instance(self, writer, parser):
         config = SoAdConfig()
@@ -153,8 +153,6 @@ class TestWriteProvidedServiceInstance:
         instance.addRemoteMulticastSubscriptionAddressRef(_ref("APPLICATION-ENDPOINT", "/ep2"))
         instance.addRemoteUnicastAddressRef(_ref("APPLICATION-ENDPOINT", "/ep3"))
         instance.setSdServerTimerConfigRef(_ref("SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG", "/sd1"))
-        instance.addAllowedServiceConsumerRef(_ref("NETWORK-ENDPOINT", "/nep1"))
-        instance.setAutoAvailable(_bool("true"))
         instance.setServiceIdentifier(_pos_int("25"))
 
         parent = _parent()
@@ -172,8 +170,6 @@ class TestWriteProvidedServiceInstance:
         assert [r.getValue() for r in recovered.getRemoteMulticastSubscriptionAddressRefs()] == ["/ep2"]
         assert [r.getValue() for r in recovered.getRemoteUnicastAddressRefs()] == ["/ep3"]
         assert recovered.getSdServerTimerConfigRef().getValue() == "/sd1"
-        assert [r.getValue() for r in recovered.getAllowedServiceConsumerRefs()] == ["/nep1"]
-        assert recovered.getAutoAvailable().getValue() is True
         assert recovered.getServiceIdentifier().getValue() == 25
 
 

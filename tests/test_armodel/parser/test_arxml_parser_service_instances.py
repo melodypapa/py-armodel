@@ -68,12 +68,6 @@ class TestReadProvidedServiceInstance:
             "<SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF DEST='SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG'>/sd1</SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF>"
             "</SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL>"
             "</SD-SERVER-TIMER-CONFIGS>"
-            "<ALLOWED-SERVICE-CONSUMERS>"
-            "<NETWORK-ENDPOINT-REF-CONDITIONAL>"
-            "<NETWORK-ENDPOINT-REF DEST='NETWORK-ENDPOINT'>/nep1</NETWORK-ENDPOINT-REF>"
-            "</NETWORK-ENDPOINT-REF-CONDITIONAL>"
-            "</ALLOWED-SERVICE-CONSUMERS>"
-            "<AUTO-AVAILABLE>true</AUTO-AVAILABLE>"
             "<SERVICE-IDENTIFIER>25</SERVICE-IDENTIFIER>"
         )
         parser.readProvidedServiceInstance(element, instance)
@@ -89,9 +83,6 @@ class TestReadProvidedServiceInstance:
         assert len(instance.getRemoteUnicastAddressRefs()) == 1
         assert instance.getRemoteUnicastAddressRefs()[0].getValue() == "/ep3"
         assert instance.getSdServerTimerConfigRef().getValue() == "/sd1"
-        assert len(instance.getAllowedServiceConsumerRefs()) == 1
-        assert instance.getAllowedServiceConsumerRefs()[0].getValue() == "/nep1"
-        assert instance.getAutoAvailable().getValue() is True
         assert instance.getServiceIdentifier().getValue() == 25
 
     def test_read_provided_service_instance_empty_ref_lists(self, parser):
@@ -104,8 +95,6 @@ class TestReadProvidedServiceInstance:
         assert instance.getLocalUnicastAddressRefs() == []
         assert instance.getRemoteMulticastSubscriptionAddressRefs() == []
         assert instance.getRemoteUnicastAddressRefs() == []
-        assert instance.getAllowedServiceConsumerRefs() == []
-        assert instance.getAutoAvailable() is None
         assert instance.getSdServerTimerConfigRef() is None
 
 

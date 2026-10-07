@@ -470,17 +470,6 @@ class Test_Fibex4EthernetServiceInstances:
         assert "local_unicast_ref1" in instance.getLocalUnicastAddressRefs()
         assert instance == instance.addLocalUnicastAddressRef("local_unicast_ref1")  # Test method chaining
 
-        instance.addAllowedServiceConsumerRef("network_endpoint_ref1")
-        assert "network_endpoint_ref1" in instance.getAllowedServiceConsumerRefs()
-        assert instance == instance.addAllowedServiceConsumerRef("network_endpoint_ref1")  # Test method chaining
-        assert instance == instance.setAllowedServiceConsumerRefs(["network_endpoint_ref2"])
-        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
-        assert instance == instance.setAllowedServiceConsumerRefs(None)  # None no-op
-        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
-
-        instance.setLocalUnicastAddressRefs(["local_unicast_ref2"])
-        assert "local_unicast_ref2" in instance.getLocalUnicastAddressRefs()
-
         instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")
         assert "remote_multicast_ref1" in instance.getRemoteMulticastSubscriptionAddressRefs()
         assert instance == instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")  # Test method chaining
@@ -493,13 +482,6 @@ class Test_Fibex4EthernetServiceInstances:
         event_handler = instance.createEventHandler("test_event_handler")
         assert isinstance(event_handler, EventHandler)
         assert len(instance.getEventHandlers()) == 1
-
-        # Test autoAvailable attribute (Boolean, 0..1)
-        assert instance == instance.setAutoAvailable(None)  # None no-op
-        assert instance.getAutoAvailable() is None
-        instance.setAutoAvailable(True)
-        assert instance.getAutoAvailable() is True
-        assert instance == instance.setAutoAvailable(True)  # Test method chaining
 
     def test_ApplicationEndpoint(self):
         """Test ApplicationEndpoint class functionality."""
@@ -2002,6 +1984,102 @@ class Test_ConsumedProvidedServiceInstanceGroup:
 
         group.addProvidedServiceInstanceRef(None)
         assert group.getProvidedServiceInstanceRefs() == [ref]
+
+
+class TestProvidedServiceInstanceSpec:
+    """
+    Spec-sync tests for ProvidedServiceInstance (R23-11 CP_TPS_SystemTemplate, Table 6.160, p.489).
+    """
+
+    MEMBERS = [
+        "eventHandlers",
+        "instanceIdentifier",
+        "loadBalancingPriority",
+        "loadBalancingWeight",
+        "localUnicastAddressRefs",
+        "minorVersion",
+        "priority",
+        "remoteMulticastSubscriptionAddressRefs",
+        "remoteUnicastAddressRefs",
+        "sdServerConfig",
+        "sdServerTimerConfigRef",
+        "serviceIdentifier",
+    ]
+
+    def _instance(self):
+        return ProvidedServiceInstance(MockParent(), "psi")
+
+    def test_rule_0015_removals(self):
+        """
+        allowedServiceConsumer and autoAvailable exist only in the XSD group
+        (atp.Status=draft) and are absent from Table 6.160 — not modeled (Rule 0015).
+        """
+        instance = self._instance()
+        assert not hasattr(instance, "allowedServiceConsumerRefs")
+        assert not hasattr(instance, "autoAvailable")
+        assert not hasattr(instance, "getAllowedServiceConsumerRefs")
+        assert not hasattr(instance, "getAutoAvailable")
+        assert not hasattr(instance, "setLocalUnicastAddressRefs")
+        assert not hasattr(instance, "setRemoteMulticastSubscriptionAddressRefs")
+        assert not hasattr(instance, "setRemoteUnicastAddressRefs")
+
+    def test_class_docstring_note(self):
+        expected = "Service instances that are provided by the ECU that is connected via the ApplicationEndpoint " "to a CommunicationConnector."
+        assert inspect.cleandoc(ProvidedServiceInstance.__doc__) == expected
+
+    def test_member_order(self):
+        instance = self._instance()
+        assert [k for k in vars(instance) if k in set(self.MEMBERS)] == self.MEMBERS
+
+    def test_accessors_are_typed(self):
+        optional_hints = {
+            "getInstanceIdentifier": PositiveInteger,
+            "getLoadBalancingPriority": PositiveInteger,
+            "getLoadBalancingWeight": PositiveInteger,
+            "getMinorVersion": PositiveInteger,
+            "getPriority": PositiveInteger,
+            "getSdServerTimerConfigRef": RefType,
+            "getServiceIdentifier": PositiveInteger,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ProvidedServiceInstance, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ProvidedServiceInstance.getEventHandlers)["return"] == typing.List[EventHandler]
+
+    def test_event_handler_note_verbatim(self):
+        expected = (
+            "Collection of event groups provided by the Provided ServiceInstance "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, "
+            "eventHandler.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getEventHandlers.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.createEventHandler.__doc__) == expected
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_sd_server_config_note_verbatim(self):
+        expected = "Service Discovery Server configuration. Tags: atp.Status=obsolete"
+        assert inspect.cleandoc(ProvidedServiceInstance.getSdServerConfig.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.setSdServerConfig.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerConfig."
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_sd_server_timer_config_note_verbatim(self):
+        expected = (
+            "Server specific configuration settings relevant for the SOME/IP service discovery. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdServerTimerConfig.someipSdServerServiceInstanceConfig, "
+            "sdServerTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getSdServerTimerConfigRef.__doc__) == expected
+        assert inspect.cleandoc(ProvidedServiceInstance.setSdServerTimerConfigRef.__doc__) == expected + "\nA None value is a no-op and does not overwrite an existing sdServerTimerConfigRef."
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
+
+    def test_remote_multicast_subscription_address_note_verbatim(self):
+        expected = (
+            "This reference defines the remote multicast subscribed addresses of service consumers. "
+            "This reference shall ONLY be used if the remote address of the clients is determined from the configuration and not at runtime. "
+            "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteMulticastSubscriptionAddress.applicationEndpoint, "
+            "remoteMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+        )
+        assert inspect.cleandoc(ProvidedServiceInstance.getRemoteMulticastSubscriptionAddressRefs.__doc__) == expected
+        assert expected in inspect.getsource(ProvidedServiceInstance.__init__)
 
 
 class TestSoConIPduIdentifier:
