@@ -18,10 +18,9 @@ class NoteTypeEnum(AREnum):
 
     # NoteTypeEnum method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.28, p.311
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Note.noteType
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     # This indicates that the note is an alert which shall be considered carefully. Tags: atp.EnumerationLiteralIndex=0
     CAUTION = "CAUTION"
