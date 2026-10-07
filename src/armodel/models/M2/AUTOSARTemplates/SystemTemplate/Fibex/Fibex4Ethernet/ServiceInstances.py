@@ -604,86 +604,85 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     # ConsumedServiceInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.167, p.501
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAllowedServiceProviderRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAllowedServiceProviderRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getAutoRequire                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutoRequire                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addBlocklistedVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBlocklistedVersions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createConsumedEventGroup                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConsumedEventGroups                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addLocalUnicastAddressRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLocalUnicastAddressRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMinorVersion                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinorVersion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addRemoteUnicastAddressRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemoteUnicastAddressRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getSdClientConfig                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdClientConfig                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getServiceIdentifier                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setServiceIdentifier                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAllowedServiceProviderRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAllowedServiceProviderRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getAutoRequire                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAutoRequire                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addBlocklistedVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlocklistedVersions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createConsumedEventGroup                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConsumedEventGroups                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addLocalUnicastAddressRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLocalUnicastAddressRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMinorVersion                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMinorVersion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addRemoteUnicastAddressRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemoteUnicastAddressRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getSdClientConfig                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdClientConfig                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceIdentifier                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceIdentifier                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established.
+        # NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedServiceInstance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceProvider.networkEndpoint, allowedServiceProvider.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
         self.allowedServiceProviderRefs: List[RefType] = []
 
         # Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start.
         self.autoRequire: Optional[Boolean] = None
 
-        # Collection of blocklisted versions
+        # Collection of blocklisted versions Tags: atp.Status=draft
         self.blocklistedVersions: List[SomeipServiceVersion] = []
 
-        # Selection of event-groups the consumer wants to subscribe for.
+        # Selection of event-groups the consumer wants to subscribe for. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedEventGroup.shortName, consumedEventGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.consumedEventGroups: List[ConsumedEventGroup] = []
 
-        # Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature.
+        # Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastSubscriptionAddress.applicationEndpoint, eventMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.eventMulticastSubscriptionAddressRef: Optional[RefType] = None
 
         # This attribute represents the ability to describe the required service instance ID.
         self.instanceIdentifier: Optional[AnyServiceInstanceId] = None
 
-        # The local address over which the CSI is consumed (udp, tcp or both).
+        # The local address over which the CSI is consumed (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.localUnicastAddressRefs: List[RefType] = []
 
         # Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
         self.minorVersion: Optional[AnyVersionString] = None
 
-        # Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
+        # Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedServiceInstance. Tags: atp.Status=obsolete
         self.providedServiceInstanceRef: Optional[RefType] = None
 
-        # This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery.
+        # This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.remoteUnicastAddressRefs: List[RefType] = []
 
-        # Service Discovery Client configuration.
+        # Service Discovery Client configuration. Tags: atp.Status=obsolete
         self.sdClientConfig: Optional[SdClientConfig] = None
 
-        # Client specific configuration settings relevant for the SOME/IP service discovery.
+        # Client specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientServiceInstanceConfig, sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.sdClientTimerConfigRef: Optional[RefType] = None
 
-        # This attribute represents the ability to describe the SOME/ IP service ID that is searched.
+        # This attribute represents the ability to describe the SOME/IP service ID that is searched.
         self.serviceIdentifier: Optional[PositiveInteger] = None
 
-        # Defines the service discovery find behavior.
+        # Defines the service discovery find behavior. Tags: atp.Status=draft
         self.versionDrivenFindBehavior: Optional[ServiceVersionAcceptanceKindEnum] = None
 
     def addAllowedServiceProviderRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established.
+        NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedServiceInstance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceProvider.networkEndpoint, allowedServiceProvider.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to allowedServiceProviderRefs.
         """
         if value is not None:
@@ -691,7 +690,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getAllowedServiceProviderRefs(self) -> List[RefType]:
-        """NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established."""
+        """NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedServiceInstance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceProvider.networkEndpoint, allowedServiceProvider.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild"""
         return self.allowedServiceProviderRefs
 
     def getAutoRequire(self) -> Optional[Boolean]:
@@ -709,7 +708,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     def addBlocklistedVersion(self, value: Optional[SomeipServiceVersion]) -> ConsumedServiceInstance:
         """
-        Collection of blocklisted versions
+        Collection of blocklisted versions Tags: atp.Status=draft
         A None value is a no-op and does not append to blocklistedVersions.
         """
         if value is not None:
@@ -717,11 +716,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getBlocklistedVersions(self) -> List[SomeipServiceVersion]:
-        """Collection of blocklisted versions"""
+        """Collection of blocklisted versions Tags: atp.Status=draft"""
         return self.blocklistedVersions
 
     def createConsumedEventGroup(self, short_name: str) -> ConsumedEventGroup:
-        """Selection of event-groups the consumer wants to subscribe for."""
+        """Selection of event-groups the consumer wants to subscribe for. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedEventGroup.shortName, consumedEventGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         if not self.IsReferrableElementExists(short_name, ConsumedEventGroup):
             group = ConsumedEventGroup(self, short_name)
             self.addReferrableElement(group)
@@ -729,16 +728,16 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return cast(ConsumedEventGroup, self.getReferrableElement(short_name, ConsumedEventGroup))
 
     def getConsumedEventGroups(self) -> List[ConsumedEventGroup]:
-        """Selection of event-groups the consumer wants to subscribe for."""
+        """Selection of event-groups the consumer wants to subscribe for. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedEventGroup.shortName, consumedEventGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.consumedEventGroups
 
     def getEventMulticastSubscriptionAddressRef(self) -> Optional[RefType]:
-        """Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature."""
+        """Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastSubscriptionAddress.applicationEndpoint, eventMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.eventMulticastSubscriptionAddressRef
 
     def setEventMulticastSubscriptionAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature.
+        Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastSubscriptionAddress.applicationEndpoint, eventMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing eventMulticastSubscriptionAddressRef.
         """
         if value is not None:
@@ -760,7 +759,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     def addLocalUnicastAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        The local address over which the CSI is consumed (udp, tcp or both).
+        The local address over which the CSI is consumed (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to localUnicastAddressRefs.
         """
         if value is not None:
@@ -768,7 +767,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getLocalUnicastAddressRefs(self) -> List[RefType]:
-        """The local address over which the CSI is consumed (udp, tcp or both)."""
+        """The local address over which the CSI is consumed (udp, tcp or both). Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.localUnicastAddressRefs
 
     def getMinorVersion(self) -> Optional[AnyVersionString]:
@@ -785,12 +784,12 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getProvidedServiceInstanceRef(self) -> Optional[RefType]:
-        """Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance."""
+        """Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedServiceInstance. Tags: atp.Status=obsolete"""
         return self.providedServiceInstanceRef
 
     def setProvidedServiceInstanceRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
+        Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedServiceInstance. Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing providedServiceInstanceRef.
         """
         if value is not None:
@@ -799,7 +798,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     def addRemoteUnicastAddressRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery.
+        This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not append to remoteUnicastAddressRefs.
         """
         if value is not None:
@@ -807,16 +806,16 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getRemoteUnicastAddressRefs(self) -> List[RefType]:
-        """This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery."""
+        """This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.remoteUnicastAddressRefs
 
     def getSdClientConfig(self) -> Optional[SdClientConfig]:
-        """Service Discovery Client configuration."""
+        """Service Discovery Client configuration. Tags: atp.Status=obsolete"""
         return self.sdClientConfig
 
     def setSdClientConfig(self, value: Optional[SdClientConfig]) -> ConsumedServiceInstance:
         """
-        Service Discovery Client configuration.
+        Service Discovery Client configuration. Tags: atp.Status=obsolete
         A None value is a no-op and does not overwrite an existing sdClientConfig.
         """
         if value is not None:
@@ -824,12 +823,12 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getSdClientTimerConfigRef(self) -> Optional[RefType]:
-        """Client specific configuration settings relevant for the SOME/IP service discovery."""
+        """Client specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientServiceInstanceConfig, sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
         return self.sdClientTimerConfigRef
 
     def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> ConsumedServiceInstance:
         """
-        Client specific configuration settings relevant for the SOME/IP service discovery.
+        Client specific configuration settings relevant for the SOME/IP service discovery. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientServiceInstanceConfig, sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild
         A None value is a no-op and does not overwrite an existing sdClientTimerConfigRef.
         """
         if value is not None:
@@ -837,12 +836,12 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getServiceIdentifier(self) -> Optional[PositiveInteger]:
-        """This attribute represents the ability to describe the SOME/ IP service ID that is searched."""
+        """This attribute represents the ability to describe the SOME/IP service ID that is searched."""
         return self.serviceIdentifier
 
     def setServiceIdentifier(self, value: Optional[PositiveInteger]) -> ConsumedServiceInstance:
         """
-        This attribute represents the ability to describe the SOME/ IP service ID that is searched.
+        This attribute represents the ability to describe the SOME/IP service ID that is searched.
         A None value is a no-op and does not overwrite an existing serviceIdentifier.
         """
         if value is not None:
@@ -850,12 +849,12 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self
 
     def getVersionDrivenFindBehavior(self) -> Optional[ServiceVersionAcceptanceKindEnum]:
-        """Defines the service discovery find behavior."""
+        """Defines the service discovery find behavior. Tags: atp.Status=draft"""
         return self.versionDrivenFindBehavior
 
     def setVersionDrivenFindBehavior(self, value: Optional[ServiceVersionAcceptanceKindEnum]) -> ConsumedServiceInstance:
         """
-        Defines the service discovery find behavior.
+        Defines the service discovery find behavior. Tags: atp.Status=draft
         A None value is a no-op and does not overwrite an existing versionDrivenFindBehavior.
         """
         if value is not None:

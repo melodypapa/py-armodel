@@ -652,15 +652,31 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `ConsumedServiceInstance` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 6.167, p.501
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 — spec `Base` row = ARObject, AbstractServiceInstance, Identifiable, ... →
+    most-derived base AbstractServiceInstance (synced f89169aa6; row label "Identifiable" was the
+    chain head only). Rule 0023 drift: stale `# Spec verified:` marker removed, legacy 5-column
+    block rewritten 6-column in source order. Docstrings wiped and rewritten with the
+    `Tags:`/`Stereotypes:` tails verbatim (Rule 0012.2.5.3); markdown mid-token wraps reconciled
+    against XSD group CONSUMED-SERVICE-INSTANCE (AUTOSAR_00052.xsd l.22624): "ConsumedService
+    Instance"→ConsumedServiceInstance, "ProvidedService Instance."→ProvidedServiceInstance.,
+    "SOME/ IP"→SOME/IP, "eventMulticastSubscription Address."/"sdClientTimerConfig.someipSdClient
+    Service InstanceConfig"/"variationPoint.short Label" unwrapped. Rule 0015 pins: XSD-only
+    blacklistedVersion is atp.Status=removed (table keeps only draft blocklistedVersion) — pinned
+    by test; no integration fixture carries either wrapper. Reader delegates to
+    readAbstractServiceInstance (base, exactly once — Rule 0025) and writer to
+    writeAbstractServiceInstance; XSD group order ABSTRACT-SERVICE-INSTANCE (CAPABILITY-RECORDS →
+    MAJOR-VERSION → METHOD-ACTIVATION-ROUTING-GROUPS → ROUTING-GROUP-REFS) before the
+    CONSUMED-SERVICE-INSTANCE group, pinned by a new order+base-fields round-trip test
+    (consumedEventGroups→ConsumedEventGroup child real coverage via its synced reader/writer).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `ConsumedEventGroup` — ARObject — R23-11 CP_TPS_SystemTemplate Table 6.168, p.505
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py

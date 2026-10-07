@@ -10996,15 +10996,12 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addProvidedServiceInstanceRef(ref)
 
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
-        self.readIdentifiable(element, instance)
+        self.readAbstractServiceInstance(element, instance)
         for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-PROVIDERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
             instance.addAllowedServiceProviderRef(ref)
         instance.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
         for version in self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"):
             instance.addBlocklistedVersion(version)
-        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
-            instance.addCapabilityRecord(tag)
-        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
         instance.setEventMulticastSubscriptionAddressRef(
             self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
@@ -11016,7 +11013,6 @@ class ARXMLParser(AbstractARXMLParser):
             instance.setInstanceIdentifier(instance_id)
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
-        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
         minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
         if minor_version_literal is not None:
             minor_version = AnyVersionString()
@@ -11025,8 +11021,6 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
-        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
-            instance.addRoutingGroupRef(ref)
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
         instance.setSdClientTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")

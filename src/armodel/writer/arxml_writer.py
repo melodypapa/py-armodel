@@ -11238,7 +11238,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         if instance is not None:
             child_element = ET.SubElement(element, "CONSUMED-SERVICE-INSTANCE")
-            self.writeIdentifiable(child_element, instance)
+            self.writeAbstractServiceInstance(child_element, instance)
             refs = instance.getAllowedServiceProviderRefs()
             if len(refs) > 0:
                 wrapper = ET.SubElement(child_element, "ALLOWED-SERVICE-PROVIDERS")
@@ -11247,7 +11247,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalRefType(cond_tag, "NETWORK-ENDPOINT-REF", ref)
             self.setChildElementOptionalBooleanValue(child_element, "AUTO-REQUIRE", instance.getAutoRequire())
             self.setSomeipServiceVersions(child_element, "BLOCKLISTED-VERSIONS", instance.getBlocklistedVersions())
-            self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", instance.getCapabilityRecords())
             self.writeConsumedServiceInstanceConsumedEventGroups(child_element, instance)
             event_multicast_subscription_address_ref = instance.getEventMulticastSubscriptionAddressRef()
             if event_multicast_subscription_address_ref is not None:
@@ -11261,8 +11260,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", cast(Integer, instance.getMajorVersion()))
-            self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalLiteral(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
             refs = instance.getRemoteUnicastAddressRefs()
@@ -11271,11 +11268,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            refs = instance.getRoutingGroupRefs()
-            if len(refs) > 0:
-                routing_groups_element = ET.SubElement(child_element, "ROUTING-GROUP-REFS")
-                for ref in refs:
-                    self.setChildElementOptionalRefType(routing_groups_element, "ROUTING-GROUP-REF", ref)
             self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", instance.getSdClientConfig())
             sd_client_timer_config_ref = instance.getSdClientTimerConfigRef()
             if sd_client_timer_config_ref is not None:

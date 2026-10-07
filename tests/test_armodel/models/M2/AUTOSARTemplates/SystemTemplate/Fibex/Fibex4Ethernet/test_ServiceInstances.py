@@ -5,7 +5,16 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyServiceInstanceId,
+    AnyVersionString,
+    ARLiteral,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
@@ -1011,15 +1020,110 @@ class TestConsumedEventGroup:
 
 
 class TestConsumedServiceInstance:
+    """Spec-sync tests for ConsumedServiceInstance (R23-11 CP_TPS_SystemTemplate, Table 6.167, p.501)."""
+
+    MEMBERS = [
+        "allowedServiceProviderRefs",
+        "autoRequire",
+        "blocklistedVersions",
+        "consumedEventGroups",
+        "eventMulticastSubscriptionAddressRef",
+        "instanceIdentifier",
+        "localUnicastAddressRefs",
+        "minorVersion",
+        "providedServiceInstanceRef",
+        "remoteUnicastAddressRefs",
+        "sdClientConfig",
+        "sdClientTimerConfigRef",
+        "serviceIdentifier",
+        "versionDrivenFindBehavior",
+    ]
+
+    ALLOWED_SERVICE_PROVIDER_NOTE = (
+        "NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedServiceInstance is allowed to be located "
+        "so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=allowedServiceProvider.networkEndpoint, "
+        "allowedServiceProvider.variationPoint.shortLabel atp.Status=draft vh.latestBindingTime=postBuild"
+    )
+    AUTO_REQUIRE_NOTE = "Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start."
+    BLOCKLISTED_VERSION_NOTE = "Collection of blocklisted versions Tags: atp.Status=draft"
+    CONSUMED_EVENT_GROUP_NOTE = (
+        "Selection of event-groups the consumer wants to subscribe for. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=consumedEventGroup.shortName, "
+        "consumedEventGroup.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    EVENT_MULTICAST_SUBSCRIPTION_ADDRESS_NOTE = (
+        "Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventMulticastSubscriptionAddress.applicationEndpoint, "
+        "eventMulticastSubscriptionAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    INSTANCE_IDENTIFIER_NOTE = "This attribute represents the ability to describe the required service instance ID."
+    LOCAL_UNICAST_ADDRESS_NOTE = (
+        "The local address over which the CSI is consumed (udp, tcp or both). "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=localUnicastAddress.applicationEndpoint, "
+        "localUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    MINOR_VERSION_NOTE = "Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."
+    PROVIDED_SERVICE_INSTANCE_NOTE = "Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedServiceInstance. Tags: atp.Status=obsolete"
+    REMOTE_UNICAST_ADDRESS_NOTE = (
+        "This reference defines the remote address where the service provider is located. "
+        "This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=remoteUnicastAddress.applicationEndpoint, "
+        "remoteUnicastAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    SD_CLIENT_CONFIG_NOTE = "Service Discovery Client configuration. Tags: atp.Status=obsolete"
+    SD_CLIENT_TIMER_CONFIG_NOTE = (
+        "Client specific configuration settings relevant for the SOME/IP service discovery. "
+        "Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sdClientTimerConfig.someipSdClientServiceInstanceConfig, "
+        "sdClientTimerConfig.variationPoint.shortLabel vh.latestBindingTime=postBuild"
+    )
+    SERVICE_IDENTIFIER_NOTE = "This attribute represents the ability to describe the SOME/IP service ID that is searched."
+    VERSION_DRIVEN_FIND_BEHAVIOR_NOTE = "Defines the service discovery find behavior. Tags: atp.Status=draft"
+
     def _instance(self):
         return ConsumedServiceInstance(MockParent(), "csi")
 
-    def test_initialization(self):
-        """Test __init__ defaults for all fields (Table 6.167)."""
+    def test_inheritance(self):
         instance = self._instance()
 
         assert isinstance(instance, AbstractServiceInstance)
-        assert instance.getShortName() == "csi"
+
+    def test_rule_0015_removed_blacklisted_version(self):
+        """blacklistedVersion is atp.Status=removed in the XSD and absent from Table 6.167 - only blocklistedVersion is modeled (Rule 0015)."""
+        instance = self._instance()
+
+        assert not hasattr(instance, "blacklistedVersions")
+        assert not hasattr(instance, "addBlacklistedVersion")
+
+    def test_init_parameter_annotations(self):
+        annotations = typing.get_type_hints(ConsumedServiceInstance.__init__)
+
+        assert annotations["parent"] is ARObject
+        assert annotations["short_name"] is str
+
+    def test_member_annotations_match_getter_returns(self):
+        optional_hints = {
+            "getAutoRequire": Boolean,
+            "getEventMulticastSubscriptionAddressRef": RefType,
+            "getInstanceIdentifier": AnyServiceInstanceId,
+            "getMinorVersion": AnyVersionString,
+            "getProvidedServiceInstanceRef": RefType,
+            "getSdClientConfig": SdClientConfig,
+            "getSdClientTimerConfigRef": RefType,
+            "getServiceIdentifier": PositiveInteger,
+            "getVersionDrivenFindBehavior": ServiceVersionAcceptanceKindEnum,
+        }
+        for getter, expected in optional_hints.items():
+            assert typing.get_type_hints(getattr(ConsumedServiceInstance, getter))["return"] == typing.Optional[expected]
+        assert typing.get_type_hints(ConsumedServiceInstance.getAllowedServiceProviderRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedServiceInstance.getBlocklistedVersions)["return"] == typing.List[SomeipServiceVersion]
+        assert typing.get_type_hints(ConsumedServiceInstance.getConsumedEventGroups)["return"] == typing.List[ConsumedEventGroup]
+        assert typing.get_type_hints(ConsumedServiceInstance.getLocalUnicastAddressRefs)["return"] == typing.List[RefType]
+        assert typing.get_type_hints(ConsumedServiceInstance.getRemoteUnicastAddressRefs)["return"] == typing.List[RefType]
+
+    def test_initialization_defaults(self):
+        instance = self._instance()
+
         assert instance.getAllowedServiceProviderRefs() == []
         assert instance.getAutoRequire() is None
         assert instance.getBlocklistedVersions() == []
@@ -1035,11 +1139,28 @@ class TestConsumedServiceInstance:
         assert instance.getServiceIdentifier() is None
         assert instance.getVersionDrivenFindBehavior() is None
 
-    def test_add_get_allowedServiceProviderRefs(self):
-        """Test add/get allowedServiceProviderRefs append order and None no-op."""
+    def test_member_order(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/NetworkEndpoint/NE1")
-        ref2 = _ref("/Ethernet/NetworkEndpoint/NE2")
+
+        members = [k for k in vars(instance) if k in set(self.MEMBERS)]
+        assert members == self.MEMBERS
+
+    def test_create_consumed_event_group(self):
+        instance = self._instance()
+
+        group = instance.createConsumedEventGroup("CEG1")
+        assert isinstance(group, ConsumedEventGroup)
+        assert group.getShortName() == "CEG1"
+        assert instance.getConsumedEventGroups() == [group]
+
+        again = instance.createConsumedEventGroup("CEG1")
+        assert again is group
+        assert len(instance.getConsumedEventGroups()) == 1
+
+    def test_get_set_allowed_service_provider_refs(self):
+        instance = self._instance()
+        ref1 = _ref("/Ether/NetworkEndpoint/NE1")
+        ref2 = _ref("/Ether/NetworkEndpoint/NE2")
 
         assert instance.addAllowedServiceProviderRef(ref1) is instance
         instance.addAllowedServiceProviderRef(ref2)
@@ -1048,49 +1169,30 @@ class TestConsumedServiceInstance:
         instance.addAllowedServiceProviderRef(None)
         assert instance.getAllowedServiceProviderRefs() == [ref1, ref2]
 
-    def test_get_set_autoRequire(self):
-        """Test get/set autoRequire with chaining and None no-op."""
+    def test_get_set_auto_require(self):
         instance = self._instance()
         value = Boolean().setValue("true")
 
         assert instance.setAutoRequire(value) is instance
         assert instance.getAutoRequire() is value
-        assert instance.getAutoRequire().getValue() is True
 
         instance.setAutoRequire(None)
         assert instance.getAutoRequire() is value
 
-    def test_add_get_blocklistedVersions(self):
-        """Test add/get blocklistedVersions append order and None no-op."""
+    def test_add_get_blocklisted_versions(self):
         instance = self._instance()
-        version1 = SomeipServiceVersion()
-        version1.setMajorVersion(PositiveInteger().setValue("1"))
-        version1.setMinorVersion(PositiveInteger().setValue("0"))
-        version2 = SomeipServiceVersion()
-        version2.setMajorVersion(PositiveInteger().setValue("2"))
-        version2.setMinorVersion(PositiveInteger().setValue("5"))
+        version = SomeipServiceVersion()
+        version.setMajorVersion(PositiveInteger().setValue("1"))
 
-        assert instance.addBlocklistedVersion(version1) is instance
-        instance.addBlocklistedVersion(version2)
-        assert instance.getBlocklistedVersions() == [version1, version2]
+        assert instance.addBlocklistedVersion(version) is instance
+        assert instance.getBlocklistedVersions() == [version]
 
         instance.addBlocklistedVersion(None)
-        assert instance.getBlocklistedVersions() == [version1, version2]
+        assert instance.getBlocklistedVersions() == [version]
 
-    def test_create_get_consumedEventGroups(self):
-        """Test create/get consumedEventGroups: appended, duplicate returns existing."""
+    def test_get_set_event_multicast_subscription_address_ref(self):
         instance = self._instance()
-
-        group = instance.createConsumedEventGroup("CEG1")
-        assert isinstance(group, ConsumedEventGroup)
-        assert instance.createConsumedEventGroup("CEG1") is group
-        assert instance.getConsumedEventGroups() == [group]
-        assert len(instance.getConsumedEventGroups()) == 1
-
-    def test_get_set_eventMulticastSubscriptionAddressRef(self):
-        """Test get/set eventMulticastSubscriptionAddressRef with chaining and None no-op."""
-        instance = self._instance()
-        ref = _ref("/Ethernet/ApplicationEndpoint/MC1")
+        ref = _ref("/Ether/ApplicationEndpoint/MC1")
 
         assert instance.setEventMulticastSubscriptionAddressRef(ref) is instance
         assert instance.getEventMulticastSubscriptionAddressRef() is ref
@@ -1098,23 +1200,20 @@ class TestConsumedServiceInstance:
         instance.setEventMulticastSubscriptionAddressRef(None)
         assert instance.getEventMulticastSubscriptionAddressRef() is ref
 
-    def test_get_set_instanceIdentifier(self):
-        """Test get/set instanceIdentifier with chaining and None no-op."""
+    def test_get_set_instance_identifier(self):
         instance = self._instance()
-        value = String().setValue("123")
+        identifier = AnyServiceInstanceId().setValue("123")
 
-        assert instance.setInstanceIdentifier(value) is instance
-        assert instance.getInstanceIdentifier() is value
-        assert instance.getInstanceIdentifier().getValue() == "123"
+        assert instance.setInstanceIdentifier(identifier) is instance
+        assert instance.getInstanceIdentifier() is identifier
 
         instance.setInstanceIdentifier(None)
-        assert instance.getInstanceIdentifier() is value
+        assert instance.getInstanceIdentifier() is identifier
 
-    def test_add_get_localUnicastAddressRefs(self):
-        """Test add/get localUnicastAddressRefs append order and None no-op."""
+    def test_add_get_local_unicast_address_refs(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/ApplicationEndpoint/LU1")
-        ref2 = _ref("/Ethernet/ApplicationEndpoint/LU2")
+        ref1 = _ref("/Ether/ApplicationEndpoint/LU1")
+        ref2 = _ref("/Ether/ApplicationEndpoint/LU2")
 
         assert instance.addLocalUnicastAddressRef(ref1) is instance
         instance.addLocalUnicastAddressRef(ref2)
@@ -1123,20 +1222,17 @@ class TestConsumedServiceInstance:
         instance.addLocalUnicastAddressRef(None)
         assert instance.getLocalUnicastAddressRefs() == [ref1, ref2]
 
-    def test_get_set_minorVersion(self):
-        """Test get/set minorVersion with chaining and None no-op."""
+    def test_get_set_minor_version(self):
         instance = self._instance()
-        value = String().setValue("ANY")
+        version = AnyVersionString().setValue("ANY")
 
-        assert instance.setMinorVersion(value) is instance
-        assert instance.getMinorVersion() is value
-        assert instance.getMinorVersion().getValue() == "ANY"
+        assert instance.setMinorVersion(version) is instance
+        assert instance.getMinorVersion() is version
 
         instance.setMinorVersion(None)
-        assert instance.getMinorVersion() is value
+        assert instance.getMinorVersion() is version
 
-    def test_get_set_providedServiceInstanceRef(self):
-        """Test get/set providedServiceInstanceRef with chaining and None no-op."""
+    def test_get_set_provided_service_instance_ref(self):
         instance = self._instance()
         ref = _ref("/Ether/Provider/PSI1")
 
@@ -1146,11 +1242,10 @@ class TestConsumedServiceInstance:
         instance.setProvidedServiceInstanceRef(None)
         assert instance.getProvidedServiceInstanceRef() is ref
 
-    def test_add_get_remoteUnicastAddressRefs(self):
-        """Test add/get remoteUnicastAddressRefs append order and None no-op."""
+    def test_add_get_remote_unicast_address_refs(self):
         instance = self._instance()
-        ref1 = _ref("/Ethernet/ApplicationEndpoint/RU1")
-        ref2 = _ref("/Ethernet/ApplicationEndpoint/RU2")
+        ref1 = _ref("/Ether/ApplicationEndpoint/RU1")
+        ref2 = _ref("/Ether/ApplicationEndpoint/RU2")
 
         assert instance.addRemoteUnicastAddressRef(ref1) is instance
         instance.addRemoteUnicastAddressRef(ref2)
@@ -1159,8 +1254,7 @@ class TestConsumedServiceInstance:
         instance.addRemoteUnicastAddressRef(None)
         assert instance.getRemoteUnicastAddressRefs() == [ref1, ref2]
 
-    def test_get_set_sdClientConfig(self):
-        """Test get/set sdClientConfig with chaining and None no-op."""
+    def test_get_set_sd_client_config(self):
         instance = self._instance()
         config = SdClientConfig()
 
@@ -1170,8 +1264,7 @@ class TestConsumedServiceInstance:
         instance.setSdClientConfig(None)
         assert instance.getSdClientConfig() is config
 
-    def test_get_set_sdClientTimerConfigRef(self):
-        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+    def test_get_set_sd_client_timer_config_ref(self):
         instance = self._instance()
         ref = _ref("/SomeipSdTimingConfigs/InstanceTiming1")
 
@@ -1181,8 +1274,7 @@ class TestConsumedServiceInstance:
         instance.setSdClientTimerConfigRef(None)
         assert instance.getSdClientTimerConfigRef() is ref
 
-    def test_get_set_serviceIdentifier(self):
-        """Test get/set serviceIdentifier with chaining and None no-op."""
+    def test_get_set_service_identifier(self):
         instance = self._instance()
 
         assert instance.setServiceIdentifier(PositiveInteger().setValue("50")) is instance
@@ -1191,18 +1283,42 @@ class TestConsumedServiceInstance:
         instance.setServiceIdentifier(None)
         assert instance.getServiceIdentifier().getValue() == 50
 
-    def test_get_set_versionDrivenFindBehavior(self):
-        """Test get/set versionDrivenFindBehavior with chaining and None no-op."""
+    def test_get_set_version_driven_find_behavior(self):
         instance = self._instance()
-        value = ARLiteral()
-        value.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
+        behavior = ServiceVersionAcceptanceKindEnum().setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
 
-        assert instance.setVersionDrivenFindBehavior(value) is instance
-        assert instance.getVersionDrivenFindBehavior() is value
+        assert instance.setVersionDrivenFindBehavior(behavior) is instance
+        assert instance.getVersionDrivenFindBehavior() is behavior
         assert instance.getVersionDrivenFindBehavior().getValue() == ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION
 
         instance.setVersionDrivenFindBehavior(None)
-        assert instance.getVersionDrivenFindBehavior() is value
+        assert instance.getVersionDrivenFindBehavior() is behavior
+
+    def test_class_docstring_note(self):
+        expected = "Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector."
+        assert inspect.cleandoc(ConsumedServiceInstance.__doc__) == expected
+
+    def test_notes_verbatim(self):
+        accessors = {
+            self.ALLOWED_SERVICE_PROVIDER_NOTE: ("addAllowedServiceProviderRef", "getAllowedServiceProviderRefs"),
+            self.AUTO_REQUIRE_NOTE: ("getAutoRequire", "setAutoRequire"),
+            self.BLOCKLISTED_VERSION_NOTE: ("addBlocklistedVersion", "getBlocklistedVersions"),
+            self.CONSUMED_EVENT_GROUP_NOTE: ("createConsumedEventGroup", "getConsumedEventGroups"),
+            self.EVENT_MULTICAST_SUBSCRIPTION_ADDRESS_NOTE: ("getEventMulticastSubscriptionAddressRef", "setEventMulticastSubscriptionAddressRef"),
+            self.INSTANCE_IDENTIFIER_NOTE: ("getInstanceIdentifier", "setInstanceIdentifier"),
+            self.LOCAL_UNICAST_ADDRESS_NOTE: ("addLocalUnicastAddressRef", "getLocalUnicastAddressRefs"),
+            self.MINOR_VERSION_NOTE: ("getMinorVersion", "setMinorVersion"),
+            self.PROVIDED_SERVICE_INSTANCE_NOTE: ("getProvidedServiceInstanceRef", "setProvidedServiceInstanceRef"),
+            self.REMOTE_UNICAST_ADDRESS_NOTE: ("addRemoteUnicastAddressRef", "getRemoteUnicastAddressRefs"),
+            self.SD_CLIENT_CONFIG_NOTE: ("getSdClientConfig", "setSdClientConfig"),
+            self.SD_CLIENT_TIMER_CONFIG_NOTE: ("getSdClientTimerConfigRef", "setSdClientTimerConfigRef"),
+            self.SERVICE_IDENTIFIER_NOTE: ("getServiceIdentifier", "setServiceIdentifier"),
+            self.VERSION_DRIVEN_FIND_BEHAVIOR_NOTE: ("getVersionDrivenFindBehavior", "setVersionDrivenFindBehavior"),
+        }
+        for note, (first, second) in accessors.items():
+            assert inspect.cleandoc(getattr(ConsumedServiceInstance, first).__doc__).split("\nA None value")[0] == note
+            assert inspect.cleandoc(getattr(ConsumedServiceInstance, second).__doc__).split("\nA None value")[0] == note
+            assert note in inspect.getsource(ConsumedServiceInstance.__init__)
 
 
 class TestAbstractServiceInstance:
