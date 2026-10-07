@@ -302,15 +302,16 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `RtpTp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.130, p.460
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: full sync from bare `pass` stub. Table 6.130: Base most-derived = `TransportProtocolConfiguration` (synced/stamped, Table 6.125); attrs `ssrc` (PositiveInteger 0..1 attr) + `tcpUdpConfig` (TcpUdpConfig 0..1 aggr — abstract non-Referrable child → `setTcpUdpConfig(value)` + parser/writer isinstance dispatch, no createXxx factory per Rule 0001.6). XSD `RTP-TP` group: `SSRC` then `TCP-UDP-CONFIG` wrapper with choice `TCP-TP`/`UDP-TP` — reader `readRtpTp` dispatches the wrapper's child into `readUdpTp`/`readTcpTp` (base helper `readARObject` called once at the RtpTp level), writer `writeRtpTp` emits the wrapper only when set; both wired into `getTransportProtocolConfiguration`/`writeTransportProtocolConfiguration` dispatch. New model test `test_RtpTp.py` (6 tests), parser tests +3, writer round-trip tests +4 (UDP + TCP variants, empty-wrapper omission, field-value assertions). Stub tuple removed from `test_group21_36_stub_classes.py` in this commit. No deviations.
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `Ieee1722Tp` — TransportProtocolConfiguration — R23-11 CP_TPS_SystemTemplate Table 6.131, p.461
   - module: M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py

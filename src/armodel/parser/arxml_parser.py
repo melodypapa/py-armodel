@@ -1243,6 +1243,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6Props,
     MacMulticastGroup,
     PlcaProps,
+    RtpTp,
     SdClientConfig,
     SdServerConfig,
     StreamFilterIEEE1722Tp,
@@ -1264,6 +1265,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TcpIpIcmpv6Props,
     TcpProps,
     TcpTp,
+    TcpUdpConfig,
     TpPort,
     TransportProtocolConfiguration,
     UdpProps,
@@ -10813,6 +10815,24 @@ class ARXMLParser(AbstractARXMLParser):
         tp.setTpAddress(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-ADDRESS")))
         tp.setTpTechnology(cast(Optional[String], self.getChildElementOptionalLiteral(element, "TP-TECHNOLOGY")))
 
+    def readRtpTp(self, element: ET.Element, tp: RtpTp):
+        self.readARObject(element, tp)
+        tp.setSsrc(self.getChildElementOptionalPositiveInteger(element, "SSRC"))
+        child_element = self.find(element, "TCP-UDP-CONFIG/*")
+        if child_element is not None:
+            tag_name = self.getTagName(child_element)
+            config: Optional[TcpUdpConfig] = None
+            if tag_name == "UDP-TP":
+                config = UdpTp()
+                self.readUdpTp(child_element, config)
+            elif tag_name == "TCP-TP":
+                config = TcpTp()
+                self.readTcpTp(child_element, config)
+            else:
+                self.notImplemented("Unsupported RtpTp tcpUdpConfig <%s>" % tag_name)
+            if config is not None:
+                tp.setTcpUdpConfig(config)
+
     def getTransportProtocolConfiguration(self, element: ET.Element, key: str) -> Optional[TransportProtocolConfiguration]:
         configuration: Optional[TransportProtocolConfiguration] = None
         child_element = self.find(element, "%s/*" % key)
@@ -10827,6 +10847,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "GENERIC-TP":
                 configuration = GenericTp()
                 self.readGenericTp(child_element, configuration)
+            elif tag_name == "RTP-TP":
+                configuration = RtpTp()
+                self.readRtpTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % tag_name)
         return configuration

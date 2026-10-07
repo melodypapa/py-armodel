@@ -1097,6 +1097,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncClientConfiguration,
     TimeSynchronization,
     GenericTp,
+    RtpTp,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -11047,6 +11048,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "TP-ADDRESS", tp.getTpAddress())
         self.setChildElementOptionalLiteral(child_element, "TP-TECHNOLOGY", tp.getTpTechnology())
 
+    def writeRtpTp(self, element: ET.Element, tp: RtpTp):
+        child_element = ET.SubElement(element, "RTP-TP")
+        self.writeARObject(child_element, tp)
+        self.setChildElementOptionalPositiveInteger(child_element, "SSRC", cast(Integer, tp.getSsrc()))
+        config = tp.getTcpUdpConfig()
+        if config is not None:
+            config_element = ET.SubElement(child_element, "TCP-UDP-CONFIG")
+            if isinstance(config, UdpTp):
+                self.writeUdpTp(config_element, config)
+            elif isinstance(config, TcpTp):
+                self.writeTcpTp(config_element, config)
+            else:
+                self.notImplemented("Unsupported RtpTp tcpUdpConfig <%s>" % type(config))
+
     def writeTransportProtocolConfiguration(self, element: ET.Element, configuration: Optional[TransportProtocolConfiguration]):
         if configuration is not None:
             child_element = ET.SubElement(element, "TP-CONFIGURATION")
@@ -11056,6 +11071,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeTcpTp(child_element, configuration)
             elif isinstance(configuration, GenericTp):
                 self.writeGenericTp(child_element, configuration)
+            elif isinstance(configuration, RtpTp):
+                self.writeRtpTp(child_element, configuration)
             else:
                 self.notImplemented("Unsupported TransportProtocolConfiguration <%s>" % type(configuration))
 

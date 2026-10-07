@@ -7724,7 +7724,51 @@ class MacMulticastConfiguration(NetworkEndpointAddress):
 
 
 class RtpTp(TransportProtocolConfiguration):
-    pass
+    """
+    RTP over UDP or over TCP as transport protocol.
+    """
+
+    # RtpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.130, p.460
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSsrc           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSsrc           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTcpUdpConfig   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTcpUdpConfig   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique.
+        self.ssrc: Optional[PositiveInteger] = None
+
+        # Tcp or Udp Configuration.
+        self.tcpUdpConfig: Optional[TcpUdpConfig] = None
+
+    def getSsrc(self) -> Optional[PositiveInteger]:
+        """Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique."""
+        return self.ssrc
+
+    def setSsrc(self, value: Optional[PositiveInteger]) -> RtpTp:
+        """Synchronization source identifier uniquely identifies the source of a stream. The synchronization sources within the same RTP session will be unique.
+        A None value is a no-op and does not overwrite an existing ssrc.
+        """
+        if value is not None:
+            self.ssrc = value
+        return self
+
+    def getTcpUdpConfig(self) -> Optional[TcpUdpConfig]:
+        """Tcp or Udp Configuration."""
+        return self.tcpUdpConfig
+
+    def setTcpUdpConfig(self, value: Optional[TcpUdpConfig]) -> RtpTp:
+        """Tcp or Udp Configuration.
+        A None value is a no-op and does not overwrite an existing tcpUdpConfig.
+        """
+        if value is not None:
+            self.tcpUdpConfig = value
+        return self
 
 
 # Runtime import breaking the EthernetTopology <-> ServiceInstances cycle: InitialSdDelayConfig and RequestResponseDelay
