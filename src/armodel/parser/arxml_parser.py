@@ -739,6 +739,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum, XmlSpaceEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     DdsCpQosProfile,
     DdsCpTopic,
@@ -12470,6 +12471,12 @@ class ARXMLParser(AbstractARXMLParser):
             transport_priority = DdsTransportPriority()
             self.readDdsTransportPriority(transport_priority_element, transport_priority)
             profile.setTransportPriority(transport_priority)
+
+    def readBinaryManifestMetaDataField(self, element: ET.Element, field: BinaryManifestMetaDataField):
+        self.logger.debug("Read BinaryManifestMetaDataField")
+        self.readIdentifiable(element, field)
+        field.setSize(self.getChildElementOptionalPositiveInteger(element, "SIZE"))
+        field.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
 
     def readDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         self.logger.debug("Read DdsCpTopic")

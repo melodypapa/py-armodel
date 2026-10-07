@@ -13,15 +13,23 @@ Input: R23-11 rows of `all_classes.md` (issue #846 / PR #847) minus every class 
 
 - [ ] `BinaryManifestMetaDataField` — Identifiable — R23-11 CP_TPS_SystemTemplate Table 11.28, p.923
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Note: Step 1 found an empty stub. Base per spec = BinaryManifestAddressableObject (most-derived); it was an
+    ARObject stub, rehoused ArObject.py -> Identifiable.py and rebased onto Identifiable in this sync (XSD
+    complexType BINARY-MANIFEST-META-DATA-FIELD sequence puts the IDENTIFIABLE group before the
+    BINARY-MANIFEST-ADDRESSABLE-OBJECT group); its own address/symbol members are NOT modeled here — that
+    class is Group34 row Table 11.24 (sibling queue). Own group members SIZE, VALUE verified against XSD group
+    BINARY-MANIFEST-META-DATA-FIELD (l.8772) in displayed row order; reader/writer call read/writeIdentifiable
+    directly (no base reader exists yet); parser/writer dispatch wiring arrives with the aggregating
+    CpSoftwareClusterBinaryManifestDescriptor (Group34).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green; 9b deferred to batch confirmation (user instruction)
 
 - [ ] `VfbTiming` — ARElement — R23-11 CP_TPS_TimingExtensions Table 3.1, p.24
   - module: M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py

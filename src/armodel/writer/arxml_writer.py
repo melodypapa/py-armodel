@@ -579,6 +579,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.ViewMapSet import ViewM
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    BinaryManifestMetaDataField,
     CpSoftwareClusterResource,
     CpSoftwareClusterToResourceMapping,
     DdsCpQosProfile,
@@ -16737,6 +16738,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         transport_priority = profile.getTransportPriority()
         if transport_priority is not None:
             self.writeDdsTransportPriority(child_element, transport_priority)
+
+    def writeBinaryManifestMetaDataField(self, element: ET.Element, field: Optional[BinaryManifestMetaDataField]):
+        if field is not None:
+            child_element = ET.SubElement(element, "BINARY-MANIFEST-META-DATA-FIELD")
+            self.writeIdentifiable(child_element, field)
+            self.setChildElementOptionalPositiveInteger(child_element, "SIZE", field.getSize())
+            self.setChildElementOptionalVerbatimString(child_element, "VALUE", field.getValue())
 
     def writeDdsCpTopic(self, element: ET.Element, topic: DdsCpTopic):
         child_element = ET.SubElement(element, "DDS-CP-TOPIC")

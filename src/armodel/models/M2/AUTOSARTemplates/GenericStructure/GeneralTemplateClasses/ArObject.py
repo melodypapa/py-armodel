@@ -2270,10 +2270,6 @@ class AbstractGlobalTimeDomainProps(ARObject, ABC):
     pass
 
 
-class BinaryManifestAddressableObject(ARObject, ABC):
-    pass
-
-
 class BinaryManifestItemValue(ARObject, ABC):
     pass
 

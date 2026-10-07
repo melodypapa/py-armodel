@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     String,
+    VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.StereotypeMixins import VariationPointCapable
 from abc import ABC
@@ -1461,8 +1462,64 @@ class BinaryManifestItemDefinition(Identifiable):
     pass
 
 
-class BinaryManifestMetaDataField(Identifiable):
+class BinaryManifestAddressableObject(Identifiable, ABC):
     pass
+
+
+class BinaryManifestMetaDataField(BinaryManifestAddressableObject):
+    """
+    This meta-class provides the ability to define a meta-data field for the binary manifest descriptor.
+    """
+
+    # BinaryManifestMetaDataField method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 11.28, p.923
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSize     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSize     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The value of this attribute represents the size of the meta-data field in bytes.
+        self.size: Optional[PositiveInteger] = None
+
+        # This attribute specifies the value of the meta-data field.
+        self.value: Optional[VerbatimString] = None
+
+    def getSize(self) -> Optional[PositiveInteger]:
+        """
+        The value of this attribute represents the size of the meta-data field in bytes.
+        """
+        return self.size
+
+    def setSize(self, value: Optional[PositiveInteger]) -> BinaryManifestMetaDataField:
+        """
+        The value of this attribute represents the size of the meta-data field in bytes.
+
+        A None value is a no-op and does not overwrite an existing size.
+        """
+        if value is not None:
+            self.size = value
+        return self
+
+    def getValue(self) -> Optional[VerbatimString]:
+        """
+        This attribute specifies the value of the meta-data field.
+        """
+        return self.value
+
+    def setValue(self, value: Optional[VerbatimString]) -> BinaryManifestMetaDataField:
+        """
+        This attribute specifies the value of the meta-data field.
+
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
 
 
 class BinaryManifestProvideResource(Identifiable):
